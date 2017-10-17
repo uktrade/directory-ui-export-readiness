@@ -1,0 +1,5 @@
+---
+applications:
+- name: directory-ui-export-readiness
+  memory: 512M
+  buildpack: python_buildpack
