@@ -5,10 +5,10 @@ from article import views
 
 from django.core.urlresolvers import reverse
 
-from article.templatetags.article_tags import include_markdown
+from article import helpers
 
 
-@pytest.mark.parametrize('view_class,url', (
+article_views_under_test = (
     (
         views.DoResearchFirstView,
         reverse('article-research-market'),
@@ -173,13 +173,47 @@ from article.templatetags.article_tags import include_markdown
         views.InterlectualPropertyProtectionView,
         reverse('ip-protection-in-multiple-countries'),
     ),
-))
+)
+
+
+@pytest.mark.parametrize('view_class,url', article_views_under_test)
 def test_articles_views(view_class, url, client):
     response = client.get(url)
 
     assert response.status_code == 200
     assert response.template_name == [view_class.template_name]
 
-    expected = include_markdown(view_class.markdown_file_path)
+    html = helpers.markdown_to_html(view_class.markdown_file_path)
+    expected = str(BeautifulSoup(html, 'html.parser'))
 
-    assert str(BeautifulSoup(expected)) in str(BeautifulSoup(response.content))
+    assert expected in str(BeautifulSoup(response.content, 'html.parser'))
+
+
+@pytest.mark.parametrize('view_class,url', article_views_under_test)
+def test_articles_share_links(view_class, url, client):
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == [view_class.template_name]
+
+    expected_twitter = helpers.build_twitter_link(
+        request=response._request,
+        markdown_file_path=view_class.markdown_file_path,
+    )
+    expected_facebook = helpers.build_facebook_link(
+        request=response._request,
+        markdown_file_path=view_class.markdown_file_path,
+    )
+    expected_linkedin = helpers.build_linkedin_link(
+        request=response._request,
+        markdown_file_path=view_class.markdown_file_path,
+    )
+    expected_email = helpers.build_email_link(
+        request=response._request,
+        markdown_file_path=view_class.markdown_file_path,
+    )
+
+    expected_twitter in str(response.content)
+    expected_facebook in str(response.content)
+    expected_linkedin in str(response.content)
+    expected_email in str(response.content)
