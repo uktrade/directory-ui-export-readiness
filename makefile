@@ -138,8 +138,8 @@ debug_shell:
 debug: test_requirements debug_test
 
 heroku_deploy_dev:
-	docker build -t registry.heroku.com/directory-ui-export-readiness-dev/web .
-	docker push registry.heroku.com/directory-ui-export-readiness-dev/web
+	docker build -t registry.heroku.com/directory-ui-exp-readiness-dev/web .
+	docker push registry.heroku.com/directory-ui-exp-readiness-dev/web
 
 integration_tests:
 	cd $(mktemp -d) && \
