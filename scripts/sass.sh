@@ -11,6 +11,7 @@ libraries="\
 input_output_map="\
 	./core/static/styles/pages/home.scss:core/static/styles/pages/home.css \
 	./core/static/styles/pages/article.scss:core/static/styles/pages/article.css \
+	./core/static/styles/pages/triage.scss:core/static/styles/pages/triage.css \
 "
 
 prod_command="sass --style compressed"

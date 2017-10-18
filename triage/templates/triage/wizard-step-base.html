@@ -1,0 +1,60 @@
+{% extends "core/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block css %}
+    <link href="{% static 'styles/pages/triage.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+<main id="content" role="main">
+    <section class="questions">
+        <div class="container">
+            <div class="question">
+				<form action="" method="post" enctype="multipart/form-data">
+					<div class="exred-triage-form">
+						{% block form_subtitle %}{% endblock form_subtitle %}
+						{% csrf_token %}
+						<div class="input-field-container">
+							{{ wizard.management_form }}
+							{% if wizard.form.forms %}
+								{{ wizard.form.management_form }}
+								{% for form in wizard.form.forms %}
+									{{ form }}
+								{% endfor %}
+							{% else %}
+								{% for hidden in form.hidden_fields %}
+								    {{ hidden }}
+								{% endfor %}
+								{% for field in form.visible_fields %}
+									<li class="{{ field.css_classes }}">
+										{{ field.errors }}
+										{{ field.label_tag }}
+										{% if field.help_text %}
+											<span class="helptext">{{ field.help_text|safe }}</span>
+										{% endif %}
+										{{ field }}
+									</li>
+								{% endfor %}
+							{% endif %}
+						</div>
+						{% block extra_form_footer %}{% endblock extra_form_footer %}
+						<div>
+							{% if wizard.steps.step1 != wizard.steps.count %}
+								<button type="submit" class="button button">Continue</button>
+							{% else %}
+								<input class="button button-blue" type="submit" value="Create my exporting journey"/>
+							{% endif %}
+							{% if wizard.steps.prev %}
+								<button name="wizard_goto_step" type="submit" class="previous-step" value="{{ wizard.steps.prev }}">Back to previous step</button>
+							{% endif %}
+						</div>
+					</div>
+					<div class="cf"></div>
+				</form>
+                <div class="home-link"><a href="/">Back to home</a></div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

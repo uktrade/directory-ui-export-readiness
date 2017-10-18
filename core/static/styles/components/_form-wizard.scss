@@ -1,0 +1,67 @@
+// Quiz Component
+// ---------------------------
+
+// REQUIRES...
+.answers {
+  margin-bottom: #{$spacing-3 * 3};
+  
+  dt {
+    @include body-s;
+    color: $mid-grey;
+    margin-bottom: 0;
+  }
+  
+  dd {
+    border-bottom: 1px solid $light-grey;
+    margin-bottom: 20px;
+    padding-top: 5px;
+    padding-bottom: $spacing-4;
+    
+    &:last-child {
+      border: none;
+    }
+  }
+}
+
+.next {
+  display: block;
+  margin-top: $spacing-4;
+}
+
+.exred-triage-form { 
+  .input-field-container li {
+    list-style: none;
+    padding-left: 0;
+    label {
+      margin-bottom: 30px;
+    }
+    .radio label {
+      margin-bottom: 0;
+    }
+  }
+
+  .previous-step { 
+    color: #00549f;
+    cursor: pointer;
+    text-decoration: underline;
+    background-color: transparent;
+    border-width: 0;
+    font-size: 18px;
+    display: inline-block;
+    margin-left: 20px;
+  }
+
+  .button {
+    display: inline-block;
+  }
+
+  .radio {
+    &::before {
+      background-color: transparent;
+    }
+    & label {
+      margin-left: 45px;
+    }
+  }
+
+}
