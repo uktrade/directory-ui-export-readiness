@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "compile-sass": "./scripts/sass.sh",
+    "compile-sass": "./scripts/sass.sh"
   },
   "author": "DIT",
   "license": "ISC",
