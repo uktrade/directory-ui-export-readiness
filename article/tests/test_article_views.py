@@ -8,10 +8,6 @@ from django.core.urlresolvers import reverse
 from article.templatetags.article_tags import include_markdown
 
 
-<<<<<<< 1cc7c4154935d8045d47dd1290d8719e52687ac4
-=======
-
->>>>>>> Add articles views
 @pytest.mark.parametrize('view_class,url', (
     (
         views.DoResearchFirstView,
