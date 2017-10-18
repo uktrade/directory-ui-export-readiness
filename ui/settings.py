@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "ui",
     "directory_constants",
     "directory_header_footer",
+    "core",
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -116,7 +117,6 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_HOST = os.environ.get('STATIC_HOST', '')
 STATIC_URL = STATIC_HOST + '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 
 # Logging for development
 if DEBUG:

@@ -1,0 +1,71 @@
+// PAGE: TRIAGE
+// ------------------------------------------------
+
+@import '../base';
+@import '../../components/quiz/_style';
+
+
+input[type='text'],
+select {
+  margin-top: $spacing-3;
+  max-width: 400px;
+}
+
+// question container div
+.question {
+  button {
+    display: block;
+    margin-top: $spacing-2;
+  }
+  select {
+    width: 100%;
+  }
+  .home-link {
+    font-size: 19px;
+    margin-top: $spacing-3;
+    padding-top: $spacing-3;
+    border-top: 1px solid $light-grey;
+  }
+  legend {
+    @include body-s;
+    color: $mid-grey;
+  }
+  .input-container {
+      legend {
+      @include body-m;
+      margin-bottom: $spacing-3;
+      color: $black;
+    }
+  }
+}
+
+// like question div but specific to resultspage
+.resultspage {
+  .next {
+    display: block;
+    margin-bottom: $spacing-3;
+    max-width: 285px;
+  }
+}
+
+
+// DESKTOP
+@media (min-width: 768px) {
+  .questions {
+    background: linear-gradient(to right, #{$white} #{$cols-7}, #{$offwhite} #{$cols-5});
+  }
+  .question {
+    @include columns(7);
+    padding-right: $spacing-3;
+  }
+}
+
+@media (max-width: 767px) {
+  .questions {
+    background: none;
+  }
+  .question {
+    @include columns(12);
+  }
+}
+

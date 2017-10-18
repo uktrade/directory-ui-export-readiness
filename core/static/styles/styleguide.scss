@@ -1,0 +1,172 @@
+@import 'base';
+
+$styleguide-black:  #333333;
+$styleguide-grey-1: #777777;
+$styleguide-grey-2: #EAEAEA;
+
+body {
+  section {
+    h3 {
+      background-color: $styleguide-grey-2;
+      color: $styleguide-black;
+      font-size: 18px;
+      font-weight: 100;
+      margin-bottom: $spacing-4;
+      padding: 5px 10px;
+    }
+    
+    span {
+      color: $styleguide-black;
+      font-size: 13px;
+      font-weight: 100;
+      line-height: 1.4em;
+    }
+  }
+}
+
+// COLOURS
+.colours {
+  @include items(7, 10px);
+
+  p {
+    clear: both;
+    display: block;
+    font-weight: 100;
+  }
+
+  span {
+    color: $styleguide-grey-1;
+    display: block;
+    padding: 0 5px;
+  }
+
+  .colour {
+    margin-bottom: 10px;
+    min-height: 60px;
+    padding-left: 55px;
+    position: relative;
+
+    &:before {
+      border: 1px solid $styleguide-black;
+      border-radius: 25px;
+      content: "";
+      height: 50px;
+      left: 0;
+      position: absolute;
+      top: 5px;
+      width: 50px;
+    }
+  }
+
+  .name {
+    color: inherit;
+    font-weight: 400;
+    margin-bottom: 5px;
+  }
+}
+
+#colour-guide {
+  .flag-red:before     { background-color: $flag-red; }
+  .great-red:before    { background-color: $great-red; }
+  .grey:before         { background-color: $grey; }
+  .light-grey:before   { background-color: $light-grey; }
+  .mid-grey:before     { background-color: $mid-grey; }
+  .offwhite:before     { background-color: $offwhite; }
+  .white:before        { background-color: $white; }
+  .active-blue:before  { background-color: $active-blue; }
+  .dark-blue:before    { background-color: $dark-blue; }
+  .dark-navy:before    { background-color: $dark-navy; }
+  .great-blue:before   { background-color: $great-blue; }
+  .mid-blue:before     { background-color: $mid-blue; }
+  .aqua:before         { background-color: $aqua; }
+  .light-aqua:before   { background-color: $light-aqua; }
+  .black:before        { background-color: $black; }
+  .focus-yellow:before { background-color: $focus-yellow; }
+  .purple:before       { background-color: $purple; }
+  .stone:before        { background-color: $stone; }
+}
+
+
+// FONTS
+.fonts {
+  @include items(2, $spacing-3);
+  
+  span {
+    color: $styleguide-grey-1;
+    display: block;
+  }
+  
+  .font {
+    border: $styleguide-grey-2 solid 1px;
+    padding: $spacing-3;
+  }
+  
+  .name {
+    color: inherit;
+  }
+}
+
+#font-guide {
+  .heading-hero .name { @include heading-hero; }
+  .heading-l .name    { @include heading-l; }
+  .heading-m .name    { @include heading-m; }
+  .heading-s .name    { @include heading-s; }
+  .body-xl .name      { @include body-xl; }
+  .body-l .name       { @include body-l; }
+  .body-m .name       { @include body-m; }
+  .body-s .name       { @include body-s; }
+  .quote .name        { @include quote; }
+}
+
+// FORMS
+.forms {
+  .multiple-choice {
+    margin-left: 5px;
+  }
+}
+
+// Buttons
+.buttons {
+  div {
+    padding: $spacing-4;
+  }
+  
+  p {
+    padding-top: $spacing-4;
+  }
+  
+  .button-1 {
+    .button {
+      @include button($active-blue, $active-blue-alt);
+    }
+  }
+  
+  .button-2 {
+    .button {
+      @include button($great-red, $great-red-alt);
+    }
+  }
+  
+  .button-3 {
+    .button {
+      @include button-ghost($active-blue, $white);
+    }
+  }
+  
+  .button-4 {
+    background-color: $active-blue;
+    color: $white;
+    .button {
+      @include button-ghost($white, $active-blue);
+    }
+  }
+  
+  .button-5 {
+    .button {
+      @include button-icon($active-blue, $active-blue-alt, "search.svg");
+      &:after {
+        @include rotate(-45);
+      }
+    }
+  }
+}

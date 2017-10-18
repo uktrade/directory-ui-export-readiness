@@ -1,0 +1,80 @@
+// Export Status Selector
+// ----------------------
+//
+// REQIURES...
+
+// From_colours.scss
+// $great-red
+// $mid-blue
+// $white
+
+// From _vars.scss
+// $spacing-1
+// $spacing-3
+// $spacing-4
+
+// From _mixins.scss
+// @mixin body-l
+
+.export-status-selector {
+  margin-bottom: $spacing-3;
+  position: relative;
+  
+  img {
+    margin-bottom: -8px;
+    width: 100%;
+  }
+  
+  .link {
+    @include body-l;
+    border: none;
+    color: $white;
+    cursor: pointer;
+    height: 100%;
+    left: 0;
+    padding-right: 33%;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+  
+  .status {
+    background-color: $great-red;
+    line-height: 32px;
+    padding: 0 $spacing-4;
+    position: relative;
+    top: 65%;
+  }
+}
+
+
+// TABLET
+@media (max-width: 900px) {
+  .export-status-selector {
+    .link {
+      padding-right: 15%;
+    }
+    
+    .status {
+      top: 50%;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .export-status-selector {
+    clear: both;
+    float: left;
+    margin-bottom: 0;
+    overflow: hidden;
+    position: relative;
+    
+    img {
+      margin-bottom: $spacing-3;
+    }
+    
+    .link {
+      padding-right: 34%;
+    }
+  }
+}
