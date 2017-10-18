@@ -1,0 +1,62 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="lte-ie8" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="en"><!--<![endif]-->
+    <head>
+        <meta id="utmCookieDomain" value="{{ analytics.UTM_COOKIE_DOMAIN }}" />
+        {% include 'core/google_tag_manager_head.html' %}
+        <meta charset="utf-8" />
+        <title>{% block head_title %}Export Readiness - GREAT.gov.uk{% endblock %}</title>
+
+        <link rel="shortcut icon" href="{% static 'images/icons/favicon.ico' %}" type="image/x-icon" />
+        <link rel="mask-icon" href="{% static 'images/icons/gov.uk_logotype_crown.svg' %}" color="#0b0c0c">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{% static 'images/icons/apple-touch-icon-152x152.png' %}">
+        <link rel="apple-touch-icon-precomposed" sizes="120x120" href="{% static 'images/icons/apple-touch-icon-120x120.png' %}">
+        <link rel="apple-touch-icon-precomposed" sizes="76x76" href="{% static 'images/icons/apple-touch-icon-76x76.png' %}">
+        <link rel="apple-touch-icon-precomposed" href="{% static 'images/icons/apple-touch-icon-60x60.png' %}">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:image" content="{% static 'images/icons/opengraph-image.png' %}">
+        <link href="{% static 'Dit-Pattern-Styling/public/css/main.css' %}" media="all" rel="stylesheet" />
+        <link href="{% static 'Dit-Pattern-Styling/public/css/compatibility.css' %}" media="all" rel="stylesheet" />
+        <script src="{% static 'Dit-Pattern-Styling/public/js/third-party.js' %}"></script>
+        <script src="{% static 'Dit-Pattern-Styling/public/js/script.js' %}"></script>
+
+
+
+        <script src="{% static 'Dit-Pattern-Styling/public/js/jquery.js' %}"></script>
+
+        {% block css %}{% endblock %}
+        <style type="text/css">
+            .js-disabled-only {
+                display: none;
+            }
+        </style>
+        <noscript>
+            <style type="text/css">
+                .navigation-toggle {
+                    display: block;
+                }
+                .js-disabled-only {
+                    display: block;
+                }
+                .js-enabled-only {
+                    display: none;
+                }
+            </style>
+        </noscript>
+    </head>
+
+    <body>
+        {% include 'core/google_tag_manager_body.html' %}
+        <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+
+        {% include 'directory_header_footer/header.html' %}
+        <main id="content" class="{% block css_layout_class %}{% endblock css_layout_class %}" role="main">
+            {% block content %}{% endblock %}
+        </main>
+        {% include 'directory_header_footer/footer.html' %}
+        {% block bodyScripts %}{% endblock bodyScripts %}
+    </body>
+</html>

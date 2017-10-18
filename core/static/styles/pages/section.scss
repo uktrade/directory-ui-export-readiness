@@ -1,0 +1,62 @@
+// PAGE: SECTION
+// ------------------------------------------------
+
+@import '../base';
+@import '../../components/navigation-ribbon/_navigation-ribbon';
+@import '../../components/hero/_hero';
+@import '../../components/breadcrumbs/_breadcrumbs';
+@import '../../components/scope-indicator/_scope-indicator';
+@import '../../components/section-content-list/_section-content-list';
+
+
+.navigation-ribbon {
+  .market-research           { background-image: url(/static/images/sections/market-research.svg); }
+  .customer-insight          { background-image: url(/static/images/sections/customer-insight.svg); }
+  .finance                   { background-image: url(/static/images/sections/finance.svg); }
+  .business-planning         { background-image: url(/static/images/sections/business-planning.svg); }
+  .getting-paid              { background-image: url(/static/images/sections/getting-paid.svg); }
+  .operations-and-compliance { background-image: url(/static/images/sections/operations-and-compliance.svg); }
+}
+
+.scope-indicator {
+  float: right;
+  min-width: 200px;
+  width: $cols-2;
+}
+
+.section-content-list {
+  @include columns(6);
+  margin-left: $cols-2;
+}
+
+#articles .section-intro {
+  @include columns(6);
+  margin-left: $cols-2;
+  
+  .header,
+  .intro {
+    width: auto;
+  }
+}
+
+
+// TABLET
+@media (max-width: 1024px) {
+  #articles .section-intro {
+    margin-left: 0;
+    width: $cols-8;
+  }
+}
+
+@media (max-width: 767px) {
+  .scope-indicator {
+    float: none;
+    width: auto;
+  }
+  
+  .section-content-list,
+  #articles .section-intro {
+    @include columns(12);
+    margin-left: 0;
+  }
+}

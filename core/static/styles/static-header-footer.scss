@@ -1,0 +1,19 @@
+// For generated static Header and Footer only.
+
+@import 'colours';
+@import 'vars';
+@import 'typography';
+@import 'mixins';
+@import 'layout';
+
+.static-header-footer {
+  -webkit-font-smoothing: antialiased;
+
+  @import 'static-reset';
+  @import 'general';
+  @import 'content';
+}
+
+@import '../components/header/_header';
+@import '../components/footer/_footer';
+@import '../components/menu/_menu';

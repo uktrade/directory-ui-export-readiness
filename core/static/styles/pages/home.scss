@@ -1,0 +1,42 @@
+// PAGE: HOME
+// ------------------------------------------------
+
+@import '../base';
+@import '../components/_hero';
+@import '../components/_video';
+@import '../components/_triage';
+@import '../components/_service';
+@import '../components/_export-status-selector';
+@import '../components/_resources';
+@import '../components/_exporter-story';
+
+#personas,
+#services {
+  background-color: $offwhite;
+}
+
+#stories {
+  .Carousel {
+    width: 100%;
+  }
+}
+
+// TABLET
+@media (max-width: 767px) {
+}
+
+
+// MOBILE
+@media (max-width: 480px) {
+  .hero-section {
+    background-image: url('/static/images/hero-background-home-mobile.jpg');
+    background-position: 50% 30%;
+  }
+}
+
+// LARGE SCREENS
+@media (min-width: 1200px) {
+  .hero-section {
+    background-position: 50% 10%;
+  }
+}

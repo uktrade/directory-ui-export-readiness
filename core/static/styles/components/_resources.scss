@@ -1,0 +1,59 @@
+// Resources Component
+// ---------------------------
+
+// REQUIRES...
+// $active-blue
+// $light-grey
+// $mid-blue
+// $mid-grey
+// $white
+//
+// @mixin body-s 
+// @mixin heading-s
+
+.resources-teaser {
+  background-color: $white;
+  border: $light-grey solid 1px;
+  margin-bottom: $spacing-3;
+  padding: 80px $spacing-3 $spacing-3 $spacing-3;
+  position: relative;
+  
+  .count {
+    @include body-s;
+    color: $mid-grey;
+  }
+  
+  .icon {
+    height: 35px;
+    left: $spacing-3;
+    position: absolute;
+    top: $spacing-3;
+  }
+  
+  .more {
+    @include heading-s;
+    background-color: $white;
+    color: $active-blue;
+    left: $spacing-3;
+    margin-right: $spacing-3;
+    overflow: hidden;
+    position: absolute;
+    top: 83px;
+    
+    span {
+      left: -1000px;
+      position: absolute;
+    }
+    
+    &:hover {
+      color: $mid-blue;
+    }
+  }
+  
+  .title {
+    @include heading-s;
+    margin-bottom: 0.2em;
+    position: relative;
+    z-index: -1;
+  }
+}

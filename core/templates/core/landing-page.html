@@ -1,0 +1,158 @@
+{% extends 'core/base.html' %}
+
+{% load static from staticfiles %}
+
+{% block css %}
+    <link href="{% static 'styles/pages/home.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+<main id="content" role="main">
+    <section style="background-image: url({% static 'images/hero-background-home-desktop.jpg' %})" class="hero-section">
+        <div class="container">
+            <div class="hero-teaser">
+                <h1 class="title"><span>Use your</span><br><span>potential</span><br><span>Start</span><br><span>exporting</span><br>
+                </h1>
+                <p>We're the UK government's main destination for exporting and are responsible for helping UK businesses to grow.</p>
+                <img src="{% static 'images/eig-logo-stacked.svg' %}">
+            </div>
+        </div>
+    </section>
+    <section class="triage triage-section">
+        <div class="container">
+            <h2 class="heading">Build your own exporting journey</h2>
+            <img src="{% static 'images/triage-section.png'%}" alt="">
+            <div class="intro">
+                <div class="content">
+                    <p>Answer some simple questions about your sector, experience and business ambitions to get:</p>
+                    <ul>
+                        <li>information that's relevant to your answers with tasks to help you learn</li>
+                        <li>access to worldwide statistics so you can research 	your market</li>
+                    </ul>
+                    <a href="#" class="button button-cta">Get started</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="personas">
+        <div class="container">
+            <h2 class="header">Export readiness</h2>
+            <p class="intro">Whether you’re new to exporting or just want to improve - we can help you.  Start learning how to export successfully, based on your level of experience.</p>
+            <div class="group">
+                <div class="lg-3 md-1">
+                    <div class="export-status-selector"><img src="{% static 'images/promo-home-new.jpg' %}"><a href="#" class="link"><span class="status">I'm new to</span><br><span class="status">exporting</span><br></a></div>
+                </div>
+                <div class="lg-3 md-1">
+                    <div class="export-status-selector"><img src="{% static 'images/promo-home-occasional.jpg' %}"><a href="#' %}" class="link dead"><span class="status">I export</span><br><span class="status">occasionally</span><br></a></div>
+                </div>
+                <div class="lg-3 md-1">
+                    <div class="export-status-selector"><img src="{% static 'images/promo-home-regular.jpg' %}"><a href="#' %}" class="link dead"><span class="status">I’m a regular</span><br><span class="status">exporter</span><br></a></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="resource-guidance">
+        <div class="container">
+            <h2 class="section-header">Guidance</h2>
+            <p class="section-intro">Learn exporting topics in greater detail. Our knowledge comes from subject matter experts, so you’ll be learning accurate information from the best.</p>
+            <div class="group">
+                <div class="lg-3 md-2 sm-1">
+                    <div data-component="resource-teaser" class="resources resources-teaser market-research" style="height: 386.797px;">
+                        <h3 class="title">Market research</h3>
+                        <img src="{% static 'images/sections/market-research-blue.svg' %}" class="icon">
+                        <p class="count">0/5 read
+                        </p>
+                        <p>Research is an essential first step to selling to a new overseas market. Making decisions based on market data will help you maximise profits and avoid costly mistakes.</p>
+                        <a href="#" class="more"><span>Articles:</span>Market research 
+                        </a>
+                    </div>
+                </div>
+                <div class="lg-3 md-2 sm-1">
+                    <div data-component="resource-teaser" class="resources resources-teaser customer-insight" style="height: 386.797px;">
+                        <h3 class="title">Customer insight</h3>
+                        <img src="{% static 'images/sections/customer-insight-blue.svg' %}" class="icon">
+                        <p class="count">0/4 read
+                        </p>
+                        <p>Defining who your customers are is vital. Begin with what you know about your current customers. It’s likely there will be similarities between them and potential customers in a new market.</p>
+                        <a href="#" class="more"><span>Articles:</span>Customer insight 
+                        </a>
+                    </div>
+                </div>
+                <div class="lg-3 md-2 sm-1">
+                    <div data-component="resource-teaser" class="resources resources-teaser finance" style="height: 386.797px;">
+                        <h3 class="title">Finance</h3>
+                        <img src="{% static 'images/sections/finance-blue.svg' %}" class="icon">
+                        <p class="count">0/6 read
+                        </p>
+                        <p>Export finance can provide the working capital you need to be competitive in overseas markets, help you get paid and insure against non-payment.</p>
+                        <a href="#" class="more"><span>Articles:</span>Finance 
+                        </a>
+                    </div>
+                </div>
+                <div class="lg-3 md-2 sm-1">
+                    <div data-component="resource-teaser" class="resources resources-teaser business-planning" style="height: 386.797px;">
+                        <h3 class="title">Business planning</h3>
+                        <img src="{% static 'images/sections/business-planning-blue.svg' %}" class="icon">
+                        <p class="count">0/12 read
+                        </p>
+                        <p>It’s important to use data to make an informed decision on how to enter a market. The way you choose to sell and market your product or service will affect your profits and success in that country.</p>
+                        <a href="#" class="more"><span>Articles:</span>Business planning 
+                        </a>
+                    </div>
+                </div>
+                <div class="lg-3 md-2 sm-1">
+                    <div data-component="resource-teaser" class="resources resources-teaser getting-paid" style="height: 386.797px;">
+                        <h3 class="title">Getting paid</h3>
+                        <img src="{% static 'images/sections/getting-paid-blue.svg' %}" class="icon">
+                        <p class="count">0/5 read
+                        </p>
+                        <p>Getting paid for international sales isn’t always straightforward. You should think about which currency to invoice in, at what point you get paid and how the money will reach you.</p>
+                        <a href="#" class="more"><span>Articles:</span>Getting paid 
+                        </a>
+                    </div>
+                </div>
+                <div class="lg-3 md-2 sm-1">
+                    <div data-component="resource-teaser" class="resources resources-teaser operations-and-compliance" style="height: 386.797px;">
+                        <h3 class="title">Operations and compliance</h3>
+                        <img src="{% static 'images/sections/operations-and-compliance-blue.svg' %}" class="icon">
+                        <p class="count">0/6 read
+                        </p>
+                        <p>To be successful at selling overseas you need to get your products where they need to be and get them there on time. You'll need to decide whether to manage logistics yourself or to use a freight forwarder.</p>
+                        <a href="#" class="more"><span>Articles:</span>Operations and compliance 
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="services">
+        <div class="container">
+            <h2 class="header">Services</h2>
+            <p class="intro">Our exporting tools help to connect UK businesses with international buyers every single day.</p>
+            <div class="group">
+                <div class="lg-3 md-1">
+                    <article data-component="service-teaser" class="service-teaser" style="height: 487.391px;">
+                        <h3 class="title">Find a buyer</h3>
+                        <p class="text">Create your free trade profile and get promoted on an international level to businesses around the world.</p>
+                        <img src="{% static 'images/services/service-fab-teaser.png' %}"><a href="#" class="link">Service: Find a buyer</a>
+                    </article>
+                </div>
+                <div class="lg-3 md-1">
+                    <article data-component="service-teaser" class="service-teaser" style="height: 487.391px;">
+                        <h3 class="title">Find online marketplaces</h3>
+                        <p class="text">Reach over 2 billion consumers online around the world. Get exclusive deals negotiated on behalf of UK businesses.</p>
+                        <img src="{% static 'images/services/service-soo-teaser.png' %}"><a href="#" class="link">Service: Find online marketplaces</a>
+                    </article>
+                </div>
+                <div class="lg-3 md-1">
+                    <article data-component="service-teaser" class="service-teaser" style="height: 487.391px;">
+                        <h3 class="title">Find export opportunities</h3>
+                        <p class="text">Find and apply for overseas opportunities from businesses looking for products or services like yours.</p>
+                        <img src="{% static 'images/services/service-exopps-teaser.png' %}"><a href="#" class="link">Service: Find export opportunities</a>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
