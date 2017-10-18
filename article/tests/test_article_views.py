@@ -1,0 +1,185 @@
+from bs4 import BeautifulSoup
+
+import pytest
+from article import views
+
+from django.core.urlresolvers import reverse
+
+from article.templatetags.article_tags import include_markdown
+
+
+@pytest.mark.parametrize('view_class,url', (
+    (
+        views.DoResearchFirstView,
+        reverse('article-research-market'),
+    ),
+    (
+        views.DefineMarketPotentialView,
+        reverse('define-market-potential'),
+    ),
+    (
+        views.DoFieldResearchView,
+        reverse('do-field-research'),
+    ),
+    (
+        views.AnalyseTheCompetitionView,
+        reverse('analyse-the-competition'),
+    ),
+    (
+        views.VisitTradeShowView,
+        reverse('visit-trade-show'),
+    ),
+    (
+        views.KnowYourCustomerView,
+        reverse('know-your-customer'),
+    ),
+    (
+        views.MeetYourCustomerView,
+        reverse('meet-your-customer'),
+    ),
+    (
+        views.ManageLanguageDifferencesView,
+        reverse('manage-language-differences'),
+    ),
+    (
+        views.UnderstandYourCustomersCultureView,
+        reverse('understand-your-cutomers-culture'),
+    ),
+    (
+        views.GetMoneyToExportView,
+        reverse('get-money'),
+    ),
+    (
+        views.ChooseTheRightFinanceView,
+        reverse('choose-right-finance'),
+    ),
+    (
+        views.GetExportFinanceView,
+        reverse('get-export-finance'),
+    ),
+    (
+        views.RaiseMoneyByBorrowingView,
+        reverse('raise-money-by-borrowing'),
+    ),
+    (
+        views.BorrowAgainstAssetsView,
+        reverse('borrow-against-assets'),
+    ),
+    (
+        views.RaiseMoneyWithInvestmentView,
+        reverse('raise-money-with-investment'),
+    ),
+    (
+        views.GetGovernmentFinanceSupportView,
+        reverse('get-finance-support-from-government'),
+    ),
+    (
+        views.MakeExportingPlanView,
+        reverse('make-an-export-plan'),
+    ),
+    (
+        views.FindARouteToMarketView,
+        reverse('find-a-route-to-market'),
+    ),
+    (
+        views.UseOverseasAgentView,
+        reverse('use-an-overseas-agent'),
+    ),
+    (
+        views.UseDistributorView,
+        reverse('use-a-distributor'),
+    ),
+    (
+        views.ChoosingAgentOrDistributorView,
+        reverse('choosing-an-agent-or-distributor'),
+    ),
+    (
+        views.LicenceAndFranchisingView,
+        reverse('licensing-and-franchising'),
+    ),
+    (
+        views.LicenceYourProductOrServiceView,
+        reverse('license-your-product-or-service'),
+    ),
+    (
+        views.FranchiseYourBusinessView,
+        reverse('franchise-your-business'),
+    ),
+    (
+        views.StartJointVentureView,
+        reverse('start-a-joint-venture'),
+    ),
+    (
+        views.SetupOverseasOperationView,
+        reverse('set-up-an-overseas-operation'),
+    ),
+    (
+        views.ConsiderHowPaidView,
+        reverse('consider-how-youll-get-paid'),
+    ),
+    (
+        views.InvoiceCurrencyAndContentsView,
+        reverse('invoice-currency-and-contents'),
+    ),
+    (
+        views.DecideWhenPaidView,
+        reverse('decide-when-youll-get-paid'),
+    ),
+    (
+        views.PaymentMethodsView,
+        reverse('payment-methods'),
+    ),
+    (
+        views.InsureAgainstNonPaymentView,
+        reverse('insure-against-non-payment'),
+    ),
+    (
+        views.PlanTheLogisticsView,
+        reverse('plan-the-logistics'),
+    ),
+    (
+        views.UseFreightForwarderView,
+        reverse('use-a-freight-forwarder'),
+    ),
+    (
+        views.UseIncotermsInContractsView,
+        reverse('use-incoterms-in-contracts'),
+    ),
+    (
+        views.GetYourExportDocumentsRightView,
+        reverse('get-your-export-documents-right'),
+    ),
+    (
+        views.SetupWesbiteView,
+        reverse('set-up-a-website'),
+    ),
+    (
+        views.MatchYourWebsiteToYourAudienceView,
+        reverse('match-your-website-to-your-audience'),
+    ),
+    (
+        views.WhatInterlectualPropertyIsView,
+        reverse('what-intellectual-property-is'),
+    ),
+    (
+        views.TypesOfInterlectualPropertyView,
+        reverse('types-of-intellectual-property'),
+    ),
+    (
+        views.KnowWhatInterlectualPropertyYouHaveView,
+        reverse('know-what-IP-you-have'),
+    ),
+    (
+        views.InterlectualPropertyProtectionView,
+        reverse('ip-protection-in-multiple-countries'),
+    ),
+))
+def test_articles_views(view_class, url, client):
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == [view_class.template_name]
+
+    expected = include_markdown(view_class.markdown_file_path)
+
+    assert str(BeautifulSoup(expected)) in str(BeautifulSoup(response.content))

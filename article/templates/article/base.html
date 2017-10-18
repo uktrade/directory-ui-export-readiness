@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+
+{% load static from staticfiles %}
+{% load include_markdown from article_tags %}
+
+{% block css %}
+    <link href="{% static 'styles/pages/article.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <article id="top">
+        {% include_markdown article.markdown_file_path %}
+    </article>
+</div>
+{% endblock %}

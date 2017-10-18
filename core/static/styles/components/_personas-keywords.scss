@@ -1,0 +1,19 @@
+// Personas/keywords for articles
+
+// REQUIRES
+//
+// From _typography.scss
+// @mixin body-s
+//
+// From _vars.scss
+// $spacing-2
+
+.keywords {
+  @include body-s;
+}
+.keywords span:after {
+  content: ", ";
+}
+.keywords span:last-child:after {
+  content: "";
+}

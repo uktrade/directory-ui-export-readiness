@@ -44,3 +44,5 @@ six==1.10.0               # via django-extensions, freezegun, python-dateutil, r
 termcolor==1.1.0          # via pytest-sugar
 urllib3==1.16             # via django-revproxy
 whitenoise==3.1
+markdown2==2.3.4
+beautifulsoup4==4.6.0

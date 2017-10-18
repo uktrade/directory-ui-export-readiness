@@ -1,0 +1,79 @@
+// Article Widget Components
+// -------------------------
+
+// REQIURES...
+// $active-blue
+//
+// $spacing-1
+// $spacing-2
+// $spacing-3
+// $spacing-4
+//
+// @mixin body-m
+// @mixin columns()
+
+
+.to-do-list {
+  border-left: 4px solid $active-blue;
+  padding: $spacing-4 0 #{$spacing-4 + 20px} $spacing-3;
+  margin-bottom: $spacing-2;
+  
+  fieldset {
+    margin-bottom: $spacing-4;
+  }
+  
+  legend {
+    @include body-m;
+    font-weight: 800;
+    margin-bottom: $spacing-4;
+  }
+  
+  .register {
+    position: relative;
+    top: 20px;
+  }
+}
+
+.vote-yes-no {
+  border-left: 4px solid $active-blue;
+  padding: $spacing-4 0 $spacing-4 $spacing-3;
+  margin-bottom: $spacing-2;
+  
+  p {
+    font-weight: 800;
+  }
+  
+  .button {
+    margin-right: $spacing-3;
+    padding-left: $spacing-1;
+    padding-right: $spacing-1;
+  }
+}
+
+
+// MOBILE
+@media (max-width: 580px) {
+  .to-do-list {
+    padding-bottom: $spacing-4;
+    
+    .register {
+      margin-bottom: $spacing-4;
+      position: static;
+      
+      & + span:before {
+        content: "";
+        display: block;
+      }
+    }
+  }  
+}
+
+@media (max-width: 480px) {
+  .vote-yes-no {
+    .button {
+      padding: 10px 0;
+      text-align: center;
+      width: calc(#{$cols-6} - #{$spacing-3});
+    }
+  }
+}

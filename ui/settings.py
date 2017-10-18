@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "directory_constants",
     "directory_header_footer",
     "core",
+    "article",
 ]
 
 MIDDLEWARE_CLASSES = [
