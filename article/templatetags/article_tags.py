@@ -1,5 +1,3 @@
-from bs4 import BeautifulSoup
-
 from django import template
 from django.utils.html import mark_safe
 
