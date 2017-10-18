@@ -2,12 +2,12 @@
 // ------------------------------------------------
 
 @import '../base';
-@import '../../components/section-content-list/_section-content-list';
-@import '../../components/breadcrumbs/_breadcrumbs';
-@import '../../components/sharing-links/_sharing-links';
-@import '../../components/personas-keywords/_personas-keywords';
-@import '../../components/article-widgets/_article-widgets';
-@import '../../components/scope-indicator/_scope-indicator';
+@import '../components/_section-content-list';
+@import '../components/_breadcrumbs';
+@import '../components/_sharing-links';
+@import '../components/_personas-keywords';
+@import '../components/_article-widgets';
+@import '../components/_scope-indicator';
 
 article {
   margin-bottom: $spacing-1;

@@ -10,6 +10,7 @@ libraries="\
 # to be exported to e.g., input.scss:output.css
 input_output_map="\
 	./core/static/styles/pages/home.scss:core/static/styles/pages/home.css \
+	./core/static/styles/pages/article.scss:core/static/styles/pages/article.css \
 "
 
 prod_command="sass --style compressed"
