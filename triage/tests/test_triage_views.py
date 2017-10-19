@@ -1,9 +1,12 @@
+from unittest.mock import call, patch
+
 from django.core.urlresolvers import reverse
 
 from triage import views
 
 
-def test_submit_triage_regular_exporter(client):
+@patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
+def test_submit_triage_regular_exporter(mock_persist_answers, client):
     url = reverse('triage-wizard')
     view_class = views.TriageWizardFormView
     view_name = 'triage_wizard_form_view'
@@ -29,12 +32,7 @@ def test_submit_triage_regular_exporter(client):
         view_name + '-current_step': view_class.SUMMARY,
     })
 
-    assert done_response.status_code == 200
-    assert done_response.content == b'success'
-
-    assert summary_response.context_data['persona'] == 'Regular Exporter'
-    assert summary_response.context_data['sector_label'] == 'Choice 1'
-    assert summary_response.context_data['all_cleaned_data'] == {
+    expected_data = {
         'sole_trader': True,
         'company_name': 'Example corp',
         'exported_before': True,
@@ -42,8 +40,17 @@ def test_submit_triage_regular_exporter(client):
         'sector': 'CHOICE_1',
     }
 
+    assert done_response.status_code == 200
+    assert done_response.content == b'success\n'
+    assert summary_response.context_data['persona'] == 'Regular Exporter'
+    assert summary_response.context_data['sector_label'] == 'Choice 1'
+    assert summary_response.context_data['all_cleaned_data'] == expected_data
+    assert mock_persist_answers.call_count == 1
+    assert mock_persist_answers.call_args == call(expected_data)
 
-def test_submit_triage_occasional_exporter(client):
+
+@patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
+def test_submit_triage_occasional_exporter(mock_persist_answers, client):
     url = reverse('triage-wizard')
     view_class = views.TriageWizardFormView
     view_name = 'triage_wizard_form_view'
@@ -72,11 +79,7 @@ def test_submit_triage_occasional_exporter(client):
         view_name + '-current_step': view_class.SUMMARY,
     })
 
-    assert done_response.status_code == 200
-    assert done_response.content == b'success'
-    assert summary_response.context_data['persona'] == 'Occasional Exporter'
-    assert summary_response.context_data['sector_label'] == 'Choice 2'
-    assert summary_response.context_data['all_cleaned_data'] == {
+    expected_data = {
         'sole_trader': True,
         'company_name': 'Example corp',
         'exported_before': True,
@@ -85,8 +88,17 @@ def test_submit_triage_occasional_exporter(client):
         'sector': 'CHOICE_2',
     }
 
+    assert done_response.status_code == 200
+    assert done_response.content == b'success\n'
+    assert summary_response.context_data['persona'] == 'Occasional Exporter'
+    assert summary_response.context_data['sector_label'] == 'Choice 2'
+    assert summary_response.context_data['all_cleaned_data'] == expected_data
+    assert mock_persist_answers.call_count == 1
+    assert mock_persist_answers.call_args == call(expected_data)
 
-def test_submit_triage_new_exporter(client):
+
+@patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
+def test_submit_triage_new_exporter(mock_persist_answers, client):
     url = reverse('triage-wizard')
     view_class = views.TriageWizardFormView
     view_name = 'triage_wizard_form_view'
@@ -107,13 +119,17 @@ def test_submit_triage_new_exporter(client):
         view_name + '-current_step': view_class.SUMMARY,
     })
 
-    assert done_response.status_code == 200
-    assert done_response.content == b'success'
-    assert summary_response.context_data['persona'] == 'New Exporter'
-    assert summary_response.context_data['sector_label'] == 'Choice 2'
-    assert summary_response.context_data['all_cleaned_data'] == {
+    expected_data = {
         'sole_trader': True,
         'company_name': 'Example corp',
         'exported_before': False,
         'sector': 'CHOICE_2',
     }
+
+    assert done_response.status_code == 200
+    assert done_response.content == b'success\n'
+    assert summary_response.context_data['persona'] == 'New Exporter'
+    assert summary_response.context_data['sector_label'] == 'Choice 2'
+    assert summary_response.context_data['all_cleaned_data'] == expected_data
+    assert mock_persist_answers.call_count == 1
+    assert mock_persist_answers.call_args == call(expected_data)

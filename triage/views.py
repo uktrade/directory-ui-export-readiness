@@ -1,8 +1,8 @@
 from formtools.wizard.views import SessionWizardView
 
-from django.http import HttpResponse
+from django.template.response import TemplateResponse
 
-from triage import forms
+from triage import forms, helpers
 
 
 class TriageWizardFormView(SessionWizardView):
@@ -54,4 +54,6 @@ class TriageWizardFormView(SessionWizardView):
         return context
 
     def done(self, *args, **kwargs):
-        return HttpResponse('success')
+        answer_manager = helpers.TriageAnswersManager(self.request)
+        answer_manager.persist_answers(self.get_all_cleaned_data())
+        return TemplateResponse(self.request, 'triage/wizard-step-done.html')
