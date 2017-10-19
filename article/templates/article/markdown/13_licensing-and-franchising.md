@@ -1,5 +1,5 @@
-Title: Licensing and franchising 
-Persona: New to exporting
+# Title: Licensing and franchising
+[comment]: Persona: New to exporting
 
 You can license the right to produce and sell your product, service or intellectual property (IP) to a third party. They will usually pay a licence fee upfront and royalties on each sale.
 
