@@ -229,4 +229,5 @@ urlpatterns = [
         triage.views.TriageWizardFormView.as_view(),
         name='triage-wizard'
     ),
+
 ]

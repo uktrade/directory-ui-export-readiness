@@ -1,6 +1,6 @@
 from formtools.wizard.views import SessionWizardView
 
-from django.views.generic import TemplateView
+from django.http import HttpResponse
 
 from triage import forms
 
@@ -52,3 +52,6 @@ class TriageWizardFormView(SessionWizardView):
             context['sector_label'] = forms.get_sector_label(all_cleaned_data)
             context['persona'] = forms.get_persona(all_cleaned_data)[1]
         return context
+
+    def done(self, *args, **kwargs):
+        return HttpResponse('success')

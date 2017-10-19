@@ -2,13 +2,22 @@ from django import forms
 
 from core.widgets import CheckboxWithInlineLabel, RadioSelect
 
+
 SECTOR_CHOICES = [
     ('CHOICE_1', 'Choice 1'),
     ('CHOICE_2', 'Choice 2'),
 ]
+REGULAR_EXPORTER = ('REGULAR_EXPORTER', 'Regular Exporter')
+OCCASIONAL_EXPORTER = ('OCCASIONAL_EXPORTER', 'Occasional Exporter')
+NEW_EXPORTER = ('NEW_EXPORTER', 'New Exporter')
 
 
-class SectorForm(forms.Form):
+class BaseTriageForm(forms.Form):
+    use_required_attribute = False
+    error_css_class = 'input-field-container has-error'
+
+
+class SectorForm(BaseTriageForm):
     sector = forms.ChoiceField(
         choices=SECTOR_CHOICES,
         label='What is your sector?',
@@ -16,7 +25,7 @@ class SectorForm(forms.Form):
     )
 
 
-class ExportExperienceForm(forms.Form):
+class ExportExperienceForm(BaseTriageForm):
     exported_before = forms.TypedChoiceField(
         label='Have you exported before?',
         label_suffix='',
@@ -26,17 +35,17 @@ class ExportExperienceForm(forms.Form):
     )
 
 
-class RegularExporterForm(forms.Form):
+class RegularExporterForm(BaseTriageForm):
     regular_exporter = forms.TypedChoiceField(
         label='Is exporting a regular part of your business?',
         label_suffix='',
         coerce=lambda x: x == 'True',
         choices=[(True, 'Yes'), (False, 'No')],
-        widget=RadioSelect()
+        widget=RadioSelect(),
     )
 
 
-class OnlineMarketplaceForm(forms.Form):
+class OnlineMarketplaceForm(BaseTriageForm):
     used_online_marketplace = forms.TypedChoiceField(
         label='Do you use online marketplace to sell your products?',
         label_suffix='',
@@ -46,7 +55,7 @@ class OnlineMarketplaceForm(forms.Form):
     )
 
 
-class CompanyForm(forms.Form):
+class CompanyForm(BaseTriageForm):
     company_name = forms.CharField(
         max_length=1000,
         required=False
@@ -60,13 +69,8 @@ class CompanyForm(forms.Form):
     )
 
 
-class SummaryForm(forms.Form):
+class SummaryForm(BaseTriageForm):
     pass
-
-
-REGULAR_EXPORTER = ('REGULAR_EXPORTER', 'Regular Exporter')
-OCCASIONAL_EXPORTER = ('OCCASIONAL_EXPORTER', 'Occasional Exporter')
-NEW_EXPORTER = ('NEW_EXPORTER', 'New Exporter')
 
 
 def get_persona(cleaned_data):

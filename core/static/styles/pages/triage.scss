@@ -55,6 +55,44 @@ select {
   }
 }
 
+.exred-triage-form { 
+  .input-field-container li {
+    list-style: none;
+    padding-left: 0;
+    label {
+      margin-bottom: 30px;
+    }
+    .radio label {
+      margin-bottom: 0;
+    }
+  }
+
+  .previous-step { 
+    color: #00549f;
+    cursor: pointer;
+    text-decoration: underline;
+    background-color: transparent;
+    border-width: 0;
+    font-size: 18px;
+    display: inline-block;
+    margin-left: 20px;
+  }
+
+  .button {
+    display: inline-block;
+  }
+
+  .radio {
+    &::before {
+      background-color: transparent;
+    }
+    & label {
+      margin-left: 45px;
+    }
+  }
+
+}
+
 // DESKTOP
 @media (min-width: 768px) {
   .questions {
