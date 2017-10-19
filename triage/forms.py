@@ -3,6 +3,7 @@ from directory_constants.constants import exred_sector_names
 from django import forms
 
 from core.widgets import CheckboxWithInlineLabel, RadioSelect
+from triage import fields
 
 
 REGULAR_EXPORTER = ('REGULAR_EXPORTER', 'Regular Exporter')
@@ -62,8 +63,10 @@ class CompanyForm(BaseTriageForm):
         required=False,
         widget=forms.TextInput(attrs={'id': 'js-typeahead-company-name'}),
     )
-    company_number = forms.CharField(
-        max_length=1000,
+    company_number = fields.PaddedCharField(
+        label='Company number:',
+        max_length=8,
+        fillchar='0',
         required=False,
         widget=forms.HiddenInput(attrs={'id': 'js-typeahead-company-number'}),
     )
