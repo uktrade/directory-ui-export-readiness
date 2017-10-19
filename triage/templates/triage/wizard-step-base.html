@@ -44,6 +44,9 @@
 							{% else %}
 								<input class="button next" type="submit" value="Create my exporting journey"/>
 							{% endif %}
+							{% if wizard.steps.prev %}
+								<button name="wizard_goto_step" class="previous-step" type="submit" value="{{ wizard.steps.prev }}">Previous step</button>
+							{% endif %}
 							{% block extra_buttons %}{% endblock %}
 						</div>
 					</div>
