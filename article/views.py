@@ -1,14 +1,28 @@
 from django.views.generic import TemplateView
 
+from article import helpers
+
 
 class BaseArticleView(TemplateView):
     template_name = 'article/base.html'
 
     def get_context_data(self, *args, **kwargs):
         article = {
+            'markdown_file_path': self.markdown_file_path,
+        }
+        social_link_kwargs = {
+            'request': self.request,
             'markdown_file_path': self.markdown_file_path
         }
-        return super().get_context_data(*args, **kwargs, article=article)
+        social_links = {
+            'facebook': helpers.build_facebook_link(**social_link_kwargs),
+            'twitter': helpers.build_twitter_link(**social_link_kwargs),
+            'linkedin': helpers.build_linkedin_link(**social_link_kwargs),
+            'email': helpers.build_email_link(**social_link_kwargs),
+        }
+        return super().get_context_data(
+            *args, **kwargs, article=article, social_links=social_links
+        )
 
 
 class DoResearchFirstView(BaseArticleView):
