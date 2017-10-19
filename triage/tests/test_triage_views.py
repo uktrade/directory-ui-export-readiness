@@ -46,6 +46,7 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
         'exported_before': True,
         'regular_exporter': True,
         'sector': 'HS01',
+        'company_number': '',
     }
     assert mock_persist_answers.call_count == 1
     assert mock_persist_answers.call_args == call({
@@ -55,6 +56,8 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
         'exported_before': True,
         'regular_exporter': True,
         'sector': 'HS01',
+        'company_number': '',
+        'company_number': '',
     })
 
 
@@ -99,6 +102,7 @@ def test_submit_triage_occasional_exporter(mock_persist_answers, client):
         'used_online_marketplace': True,
         'regular_exporter': False,
         'sector': 'HS01',
+        'company_number': '',
     }
     assert mock_persist_answers.call_count == 1
     assert mock_persist_answers.call_args == call({
@@ -108,6 +112,7 @@ def test_submit_triage_occasional_exporter(mock_persist_answers, client):
         'used_online_marketplace': True,
         'regular_exporter': False,
         'sector': 'HS01',
+        'company_number': '',
     })
 
 
@@ -138,6 +143,7 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
     assert summary_response.context_data['persona'] == 'New Exporter'
     assert summary_response.context_data['sector_label'] == 'Animals; live'
     assert summary_response.context_data['all_cleaned_data'] == {
+        'company_number': '',
         'sole_trader': True,
         'company_name': 'Example corp',
         'exported_before': False,
@@ -145,6 +151,7 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
     }
     assert mock_persist_answers.call_count == 1
     assert mock_persist_answers.call_args == call({
+        'company_number': '',
         'sole_trader': True,
         'company_name': 'Example corp',
         'exported_before': False,
