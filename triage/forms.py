@@ -73,6 +73,10 @@ class SummaryForm(BaseTriageForm):
     pass
 
 
+class CompaniesHouseSearchForm(forms.Form):
+    term = forms.CharField()
+
+
 def get_persona(cleaned_data):
     is_regular_exporter = cleaned_data.get('regular_exporter') is True
     has_exported_before = cleaned_data.get('exported_before') is True

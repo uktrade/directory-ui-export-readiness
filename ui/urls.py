@@ -229,5 +229,9 @@ urlpatterns = [
         triage.views.TriageWizardFormView.as_view(),
         name='triage-wizard'
     ),
-
+    url(
+        r'^api/internal/companies-house-search/$',
+        triage.views.CompaniesHouseSearchApiView.as_view(),
+        name='api-internal-companies-house-search'
+    ),
 ]

@@ -1,8 +1,24 @@
 from formtools.wizard.views import SessionWizardView
 
+from django.http import JsonResponse
 from django.template.response import TemplateResponse
+from django.views.generic import View
 
 from triage import forms, helpers
+
+
+class CompaniesHouseSearchApiView(View):
+    form_class = forms.CompaniesHouseSearchForm
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(data=request.GET)
+        if not form.is_valid():
+            return JsonResponse(form.errors, status=400)
+        api_response = helpers.CompaniesHouseClient.search(
+            term=form.cleaned_data['term']
+        )
+        api_response.raise_for_status()
+        return JsonResponse(api_response.json()['items'], safe=False)
 
 
 class TriageWizardFormView(SessionWizardView):
