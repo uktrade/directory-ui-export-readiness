@@ -1,12 +1,10 @@
+from directory_constants.constants import exred_sector_names
+
 from django import forms
 
 from core.widgets import CheckboxWithInlineLabel, RadioSelect
 
 
-SECTOR_CHOICES = [
-    ('CHOICE_1', 'Choice 1'),
-    ('CHOICE_2', 'Choice 2'),
-]
 REGULAR_EXPORTER = ('REGULAR_EXPORTER', 'Regular Exporter')
 OCCASIONAL_EXPORTER = ('OCCASIONAL_EXPORTER', 'Occasional Exporter')
 NEW_EXPORTER = ('NEW_EXPORTER', 'New Exporter')
@@ -19,7 +17,7 @@ class BaseTriageForm(forms.Form):
 
 class SectorForm(BaseTriageForm):
     sector = forms.ChoiceField(
-        choices=SECTOR_CHOICES,
+        choices=exred_sector_names.SECTORS_CHOICES,
         label='What is your sector?',
         label_suffix='',
     )
@@ -97,6 +95,17 @@ def get_is_regular_exporter(cleaned_data):
 
 
 def get_sector_label(cleaned_data):
-    for key, label in SECTOR_CHOICES:
+    for key, label in exred_sector_names.SECTORS_CHOICES:
         if key == cleaned_data['sector']:
             return label
+
+
+def serialize_triage_form(data):
+    return {
+        'sector': data['sector'],
+        'exported_before': data['exported_before'],
+        'regular_exporter': data.get('regular_exporter', False),
+        'used_online_marketplace': data.get('used_online_marketplace'),
+        'company_name': data.get('company_name', ''),
+        'sole_trader': data.get('sole_trader', False),
+    }

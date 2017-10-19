@@ -16,7 +16,7 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
     view_name = 'triage_wizard_form_view'
     client.post(url, {
         view_name + '-current_step': view_class.SECTOR,
-        view_class.SECTOR + '-sector': 'CHOICE_1',
+        view_class.SECTOR + '-sector': 'HS01',
     })
     client.post(url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
@@ -36,21 +36,26 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
         view_name + '-current_step': view_class.SUMMARY,
     })
 
-    expected_data = {
+    assert done_response.status_code == 200
+    assert done_response.content == b'success\n'
+    assert summary_response.context_data['persona'] == 'Regular Exporter'
+    assert summary_response.context_data['sector_label'] == 'Animals; live'
+    assert summary_response.context_data['all_cleaned_data'] == {
         'sole_trader': True,
         'company_name': 'Example corp',
         'exported_before': True,
         'regular_exporter': True,
-        'sector': 'CHOICE_1',
+        'sector': 'HS01',
     }
-
-    assert done_response.status_code == 200
-    assert done_response.content == b'success\n'
-    assert summary_response.context_data['persona'] == 'Regular Exporter'
-    assert summary_response.context_data['sector_label'] == 'Choice 1'
-    assert summary_response.context_data['all_cleaned_data'] == expected_data
     assert mock_persist_answers.call_count == 1
-    assert mock_persist_answers.call_args == call(expected_data)
+    assert mock_persist_answers.call_args == call({
+        'sole_trader': True,
+        'company_name': 'Example corp',
+        'used_online_marketplace': None,
+        'exported_before': True,
+        'regular_exporter': True,
+        'sector': 'HS01',
+    })
 
 
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
@@ -60,7 +65,7 @@ def test_submit_triage_occasional_exporter(mock_persist_answers, client):
     view_name = 'triage_wizard_form_view'
     client.post(url, {
         view_name + '-current_step': view_class.SECTOR,
-        view_class.SECTOR + '-sector': 'CHOICE_2',
+        view_class.SECTOR + '-sector': 'HS01',
     })
     client.post(url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
@@ -83,22 +88,27 @@ def test_submit_triage_occasional_exporter(mock_persist_answers, client):
         view_name + '-current_step': view_class.SUMMARY,
     })
 
-    expected_data = {
+    assert done_response.status_code == 200
+    assert done_response.content == b'success\n'
+    assert summary_response.context_data['persona'] == 'Occasional Exporter'
+    assert summary_response.context_data['sector_label'] == 'Animals; live'
+    assert summary_response.context_data['all_cleaned_data'] == {
         'sole_trader': True,
         'company_name': 'Example corp',
         'exported_before': True,
         'used_online_marketplace': True,
         'regular_exporter': False,
-        'sector': 'CHOICE_2',
+        'sector': 'HS01',
     }
-
-    assert done_response.status_code == 200
-    assert done_response.content == b'success\n'
-    assert summary_response.context_data['persona'] == 'Occasional Exporter'
-    assert summary_response.context_data['sector_label'] == 'Choice 2'
-    assert summary_response.context_data['all_cleaned_data'] == expected_data
     assert mock_persist_answers.call_count == 1
-    assert mock_persist_answers.call_args == call(expected_data)
+    assert mock_persist_answers.call_args == call({
+        'sole_trader': True,
+        'company_name': 'Example corp',
+        'exported_before': True,
+        'used_online_marketplace': True,
+        'regular_exporter': False,
+        'sector': 'HS01',
+    })
 
 
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
@@ -108,7 +118,7 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
     view_name = 'triage_wizard_form_view'
     client.post(url, {
         view_name + '-current_step': view_class.SECTOR,
-        view_class.SECTOR + '-sector': 'CHOICE_2',
+        view_class.SECTOR + '-sector': 'HS01',
     })
     client.post(url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
@@ -123,20 +133,25 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
         view_name + '-current_step': view_class.SUMMARY,
     })
 
-    expected_data = {
-        'sole_trader': True,
-        'company_name': 'Example corp',
-        'exported_before': False,
-        'sector': 'CHOICE_2',
-    }
-
     assert done_response.status_code == 200
     assert done_response.content == b'success\n'
     assert summary_response.context_data['persona'] == 'New Exporter'
-    assert summary_response.context_data['sector_label'] == 'Choice 2'
-    assert summary_response.context_data['all_cleaned_data'] == expected_data
+    assert summary_response.context_data['sector_label'] == 'Animals; live'
+    assert summary_response.context_data['all_cleaned_data'] == {
+        'sole_trader': True,
+        'company_name': 'Example corp',
+        'exported_before': False,
+        'sector': 'HS01',
+    }
     assert mock_persist_answers.call_count == 1
-    assert mock_persist_answers.call_args == call(expected_data)
+    assert mock_persist_answers.call_args == call({
+        'sole_trader': True,
+        'company_name': 'Example corp',
+        'exported_before': False,
+        'sector': 'HS01',
+        'used_online_marketplace': None,
+        'regular_exporter': False,
+    })
 
 
 def test_companies_house_search_validation_error(client):

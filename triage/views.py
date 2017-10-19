@@ -70,6 +70,7 @@ class TriageWizardFormView(SessionWizardView):
         return context
 
     def done(self, *args, **kwargs):
+        answers = forms.serialize_triage_form(self.get_all_cleaned_data())
         answer_manager = helpers.TriageAnswersManager(self.request)
-        answer_manager.persist_answers(self.get_all_cleaned_data())
+        answer_manager.persist_answers(answers)
         return TemplateResponse(self.request, 'triage/wizard-step-done.html')
