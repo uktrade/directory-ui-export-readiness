@@ -54,9 +54,18 @@ class OnlineMarketplaceForm(BaseTriageForm):
 
 
 class CompanyForm(BaseTriageForm):
+    MESSAGE_MUTUALLY_EXCLUSIVE = (
+        "You cannot select a company from the list and be a sole trader"
+    )
     company_name = forms.CharField(
         max_length=1000,
-        required=False
+        required=False,
+        widget=forms.TextInput(attrs={'id': 'js-typeahead-company-name'}),
+    )
+    company_number = forms.CharField(
+        max_length=1000,
+        required=False,
+        widget=forms.HiddenInput(attrs={'id': 'js-typeahead-company-number'}),
     )
     sole_trader = forms.BooleanField(
         label='',
@@ -65,6 +74,14 @@ class CompanyForm(BaseTriageForm):
         ),
         required=False,
     )
+
+    def clean(self, *args, **kwargs):
+        cleaned_data = super().clean(*args, **kwargs)
+        if cleaned_data.get('company_number') and cleaned_data.get('sole_trader'):
+            raise forms.ValidationError({
+                'sole_trader': self.MESSAGE_MUTUALLY_EXCLUSIVE
+            })
+        return cleaned_data
 
 
 class SummaryForm(BaseTriageForm):
