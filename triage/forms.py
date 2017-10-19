@@ -2,17 +2,15 @@ from django import forms
 
 from core.widgets import CheckboxWithInlineLabel, RadioSelect
 
-
-class EmptyForm(forms.Form):
-    pass
+SECTOR_CHOICES = [
+    ('CHOICE_1', 'Choice 1'),
+    ('CHOICE_2', 'Choice 2'),
+]
 
 
 class SectorForm(forms.Form):
     sector = forms.ChoiceField(
-        choices=[
-            ('Choice 1', 'Choice 1'),
-            ('Choice 2', 'Choice 2'),
-        ],
+        choices=SECTOR_CHOICES,
         label='What is your sector?',
         label_suffix='',
     )
@@ -39,7 +37,7 @@ class RegularExporterForm(forms.Form):
 
 
 class OnlineMarketplaceForm(forms.Form):
-    online_marketplace_user = forms.TypedChoiceField(
+    used_online_marketplace = forms.TypedChoiceField(
         label='Do you use online marketplace to sell your products?',
         label_suffix='',
         coerce=lambda x: x == 'True',
@@ -53,7 +51,7 @@ class CompanyForm(forms.Form):
         max_length=1000,
         required=False
     )
-    is_sole_trader = forms.BooleanField(
+    sole_trader = forms.BooleanField(
         label='',
         widget=CheckboxWithInlineLabel(
             label='Check here if you are a sole trader'
@@ -65,3 +63,32 @@ class CompanyForm(forms.Form):
 class SummaryForm(forms.Form):
     pass
 
+
+REGULAR_EXPORTER = ('REGULAR_EXPORTER', 'Regular Exporter')
+OCCASIONAL_EXPORTER = ('OCCASIONAL_EXPORTER', 'Occasional Exporter')
+NEW_EXPORTER = ('NEW_EXPORTER', 'New Exporter')
+
+
+def get_persona(cleaned_data):
+    is_regular_exporter = cleaned_data.get('regular_exporter') is True
+    has_exported_before = cleaned_data.get('exported_before') is True
+
+    if is_regular_exporter:
+        return REGULAR_EXPORTER
+    elif not is_regular_exporter and has_exported_before:
+        return OCCASIONAL_EXPORTER
+    return NEW_EXPORTER
+
+
+def get_has_exported_before(cleaned_data):
+    return cleaned_data.get('exported_before') is True
+
+
+def get_is_regular_exporter(cleaned_data):
+    return cleaned_data.get('regular_exporter') is True
+
+
+def get_sector_label(cleaned_data):
+    for key, label in SECTOR_CHOICES:
+        if key == cleaned_data['sector']:
+            return label

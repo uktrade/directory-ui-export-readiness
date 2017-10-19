@@ -8,13 +8,13 @@
 
 {% block content %}
 <main id="content" role="main">
-    <section class="questions">
+    <section class="questions {% block container_class %}{% endblock %}">
         <div class="container">
-            <div class="question">
+            <div class="question ">
 				<form action="" method="post" enctype="multipart/form-data">
 					<div class="exred-triage-form">
-						{% block form_subtitle %}{% endblock form_subtitle %}
 						{% csrf_token %}
+						{% block extra_contents %}{% endblock %}
 						<div class="input-field-container">
 							{{ wizard.management_form }}
 							{% if wizard.form.forms %}
@@ -38,16 +38,13 @@
 								{% endfor %}
 							{% endif %}
 						</div>
-						{% block extra_form_footer %}{% endblock extra_form_footer %}
 						<div>
 							{% if wizard.steps.step1 != wizard.steps.count %}
 								<button type="submit" class="button button">Continue</button>
 							{% else %}
-								<input class="button button-blue" type="submit" value="Create my exporting journey"/>
+								<input class="button next" type="submit" value="Create my exporting journey"/>
 							{% endif %}
-							{% if wizard.steps.prev %}
-								<button name="wizard_goto_step" type="submit" class="previous-step" value="{{ wizard.steps.prev }}">Back to previous step</button>
-							{% endif %}
+							{% block extra_buttons %}{% endblock %}
 						</div>
 					</div>
 					<div class="cf"></div>

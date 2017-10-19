@@ -1,1 +1,27 @@
 {% extends 'triage/wizard-step-base.html' %}
+
+{% block container_class %}resultspage{% endblock %}
+{% block extra_contents %}
+<div class="question">
+	<h2>{{ persona }}</h2>
+	<div class="answers">
+		<h3 class="title">You told us:</h3>
+		<dl>
+			<dt class="answer">What is your sector?</dt>
+			<dd class="answer">{{ sector_label }}</dd>
+			<dt class="answer">Have you exported before?</dt>
+			<dd class="answer">{{ all_cleaned_data.exported_before|yesno:"Yes,No" }}</dd>
+			<dt class="answer">Is exporting a regular part of your business activities?</dt>
+			<dd class="answer">{{ all_cleaned_data.regular_exporter|yesno:"Yes,No" }}</dd>
+			<dt class="answer">Company name</dt>
+			<dd class="answer">{{ all_cleaned_data.company_name }}</dd> 
+		</dl>
+	</div>
+</div> 
+{% endblock %}
+
+{% block extra_buttons %}
+<div id="change-answers-button-container">
+	<button name="wizard_goto_step" type="submit" class="previous-step update" value="{{ wizard.steps.first }}">Change your answers</button>
+</div>
+{% endblock %}
