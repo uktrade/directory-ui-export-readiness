@@ -77,7 +77,10 @@ class CompanyForm(BaseTriageForm):
 
     def clean(self, *args, **kwargs):
         cleaned_data = super().clean(*args, **kwargs)
-        if cleaned_data.get('company_number') and cleaned_data.get('sole_trader'):
+        if (
+            cleaned_data.get('company_number') and
+            cleaned_data.get('sole_trader')
+        ):
             raise forms.ValidationError({
                 'sole_trader': self.MESSAGE_MUTUALLY_EXCLUSIVE
             })
@@ -125,4 +128,5 @@ def serialize_triage_form(data):
         'used_online_marketplace': data.get('used_online_marketplace'),
         'company_name': data.get('company_name', ''),
         'sole_trader': data.get('sole_trader', False),
+        'company_number': data.get('company_number', ''),
     }
