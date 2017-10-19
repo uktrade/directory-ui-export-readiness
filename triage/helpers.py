@@ -12,7 +12,7 @@ class BaseTriageAnswersManager(abc.ABC):
 
 
 class TriageAnswersManager:
-    def __new__(self, request):
+    def __new__(cls, request):
         if request.sso_user is None:
             return SessionTriageAnswersManager(request)
         return DatabaseTriageAnswersManager(request)
@@ -22,7 +22,9 @@ class SessionTriageAnswersManager(BaseTriageAnswersManager):
     SESSION_KEY = 'TRIAGE_ANSWERS'
 
     def persist_answers(self, answers):
-        self.request.session[self.SESSION_KEY] = answers
+        session = self.request.session
+        session[self.SESSION_KEY] = answers
+        session.modified = True
 
     def retrieve_answers(self):
         return self.request.session.get(self.SESSION_KEY, {})
