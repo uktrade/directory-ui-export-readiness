@@ -1,0 +1,57 @@
+{% extends "core/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block css %}
+    <link href="{% static 'styles/pages/triage.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+<main id="content" role="main">
+    <section class="questions {% block container_class %}{% endblock %}">
+        <div class="container">
+            <div class="question ">
+				<form action="" method="post" enctype="multipart/form-data">
+					<div class="exred-triage-form">
+						{% csrf_token %}
+						{% block extra_contents %}{% endblock %}
+						<div class="input-field-container">
+							{{ wizard.management_form }}
+							{% if wizard.form.forms %}
+								{{ wizard.form.management_form }}
+								{% for form in wizard.form.forms %}
+									{{ form }}
+								{% endfor %}
+							{% else %}
+								{% for hidden in form.hidden_fields %}
+								    {{ hidden }}
+								{% endfor %}
+								{% for field in form.visible_fields %}
+									<li class="{{ field.css_classes }}">
+										{{ field.errors }}
+										{{ field.label_tag }}
+										{% if field.help_text %}
+											<span class="helptext">{{ field.help_text|safe }}</span>
+										{% endif %}
+										{{ field }}
+									</li>
+								{% endfor %}
+							{% endif %}
+						</div>
+						<div>
+							{% if wizard.steps.step1 != wizard.steps.count %}
+								<button type="submit" class="button button">Continue</button>
+							{% else %}
+								<input class="button next" type="submit" value="Create my exporting journey"/>
+							{% endif %}
+							{% block extra_buttons %}{% endblock %}
+						</div>
+					</div>
+					<div class="cf"></div>
+				</form>
+                <div class="home-link"><a href="/">Back to home</a></div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

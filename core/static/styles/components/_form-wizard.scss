@@ -1,0 +1,54 @@
+// Quiz Component
+// ---------------------------
+
+// REQUIRES...
+.answers {
+  margin-bottom: #{$spacing-3 * 3};
+  
+  dt {
+    @include body-s;
+    color: $mid-grey;
+    margin-bottom: 0;
+  }
+  
+  dd {
+    border-bottom: 1px solid $light-grey;
+    margin-bottom: 20px;
+    padding-top: 5px;
+    padding-bottom: $spacing-4;
+    
+    &:last-child {
+      border: none;
+    }
+  }
+}
+
+.next {
+  display: block;
+  margin-top: $spacing-4;
+}
+
+#content .input-field-container {
+  .errorlist li::before {
+    background-color: transparent;
+  }
+  &.has-error {
+    padding-left: 30px;
+    border-left: 4px solid #B00D23;
+
+    ul {
+      &.errorlist {
+        border: none;
+        margin: 0 0 10px;
+        padding: 0;
+        li {
+          color: #b10e1e;
+          font-weight: 600;
+        }
+      }
+    }
+    input, select, textarea {
+      border-color: #B00D23;
+    }
+  }
+}

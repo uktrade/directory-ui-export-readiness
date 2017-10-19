@@ -1,8 +1,10 @@
 from django.conf.urls import url
 from django.views.generic import TemplateView
 
-import core.views
 import article.views
+import core.views
+import triage.views
+
 
 urlpatterns = [
     url(
@@ -222,4 +224,10 @@ urlpatterns = [
         article.views.InterlectualPropertyProtectionView.as_view(),
         name='ip-protection-in-multiple-countries',
     ),
+    url(
+        r'^triage$',
+        triage.views.TriageWizardFormView.as_view(),
+        name='triage-wizard'
+    ),
+
 ]
