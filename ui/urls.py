@@ -20,6 +20,36 @@ urlpatterns = [
         name='landing-page',
     ),
     url(
+        r"^market-research$",
+        article.views.MarketReasearchArticleListView.as_view(),
+        name='article-list-market-research',
+    ),
+    url(
+        r"^customer-insight$",
+        article.views.CustomerInsightArticleListView.as_view(),
+        name='article-list-customer-insight',
+    ),
+    url(
+        r"^finance$",
+        article.views.FinanceArticleListView.as_view(),
+        name='article-list-finance',
+    ),
+    url(
+        r"^business-planning$",
+        article.views.BusinessPlanningArticleListView.as_view(),
+        name='article-list-business-planning',
+    ),
+    url(
+        r"^getting-paid$",
+        article.views.GettingPaidArticleListView.as_view(),
+        name='article-list-getting-paid',
+    ),
+    url(
+        r"^operations-and-compliance$",
+        article.views.OperationsAndComplianceArticleListView.as_view(),
+        name='article-list-operations-and-compliance',
+    ),
+    url(
         r"^market-research/research-your-market$",
         article.views.DoResearchFirstView.as_view(),
         name='article-research-market',

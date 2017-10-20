@@ -1,5 +1,3 @@
-[comment]: Personas: New to exporting, Occasional
-
 Having a website is vital to promote and sell your products internationally. Having a website will help buyers to:
 
  - have confidence that you&rsquo;re an established business

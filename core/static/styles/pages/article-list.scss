@@ -2,11 +2,11 @@
 // ------------------------------------------------
 
 @import '../base';
-@import '../../components/navigation-ribbon/_navigation-ribbon';
-@import '../../components/hero/_hero';
-@import '../../components/breadcrumbs/_breadcrumbs';
-@import '../../components/scope-indicator/_scope-indicator';
-@import '../../components/section-content-list/_section-content-list';
+@import '../components/_navigation-ribbon';
+@import '../components/_hero';
+@import '../components/_breadcrumbs';
+@import '../components/_scope-indicator';
+@import '../components/_section-content-list';
 
 
 .navigation-ribbon {

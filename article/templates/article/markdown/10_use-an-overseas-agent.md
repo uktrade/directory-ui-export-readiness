@@ -1,5 +1,3 @@
-[comment]: Personas: New to exporting, Occasional
-
 An agent acts as your local sales person in an overseas market. They find customers for you in return for an agreed commission. The customer then buys the product or service directly from you.  
 
 Agents often want to represent a client exclusively in a geographic region. It&rsquo;s easier to agree a smaller region and make it larger after a trial period than the other way around. Make sure whatever you agreed is clearly defined in a written agreement.

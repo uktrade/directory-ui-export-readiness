@@ -1,5 +1,3 @@
-[comment]: Personas: New to exporting, Occasional
-
 As an exporter you may need money to:
 
 - pay for resources to fulfil an order 

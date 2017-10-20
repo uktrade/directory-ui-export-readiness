@@ -1,5 +1,3 @@
-[comment]: Personas: Occasional, Regular
-
 Start with your own bank. They know you and your business so are better placed to advise on the best finance options for your situation. 
 
 If your bank can&rsquo;t help, shop around for a bank that can. Some banks will be more experienced in export finance than others. 

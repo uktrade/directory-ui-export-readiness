@@ -1,5 +1,3 @@
-[comment]: Personas: Occasional, Regular
-
 There are many financial products available to raise money to export. The right financial product will depend on what it&rsquo;s for and the size and stage of your business. You can either borrow money or get someone to invest in your business.
 
 Options for borrowing include:

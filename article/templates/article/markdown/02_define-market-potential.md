@@ -1,5 +1,3 @@
-[comment]: Personas: Occasional, Regular
-
 To research the size of a market look for:
 
 - the size and age of the population

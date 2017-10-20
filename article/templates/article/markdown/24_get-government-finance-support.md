@@ -1,5 +1,3 @@
-[comment]: Personas: Occasional, Regular
-
 If you&rsquo;re exporting to a high-risk country and your bank or insurer can&rsquo;t help, you may qualify for government-backed finance through UK Export Finance (UKEF).
 
 UKEF is the export credit agency for the UK. It aims to make sure no viable export fails by not being able to get finance or insurance. Its helps exporters by:

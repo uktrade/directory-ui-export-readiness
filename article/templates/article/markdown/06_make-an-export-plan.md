@@ -1,5 +1,3 @@
-[comment]: Personas: New to exporting, Occasional
-
 An export plan is a business plan for selling overseas. It should detail the decisions you&rsquo;ve made based on your market research, your objectives and how you plan to achieve them.
 
 A well structured plan will make sure you&rsquo;ve thought about all the possibilities, chosen a logical path forward and set targets to keep you on track.

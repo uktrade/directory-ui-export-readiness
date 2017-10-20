@@ -1,5 +1,3 @@
-[comment]: Personas: Occasional
-
 With business to consumer sales, the buyer will usually pay at the point of sale. If buying online, there is a risk they won&rsquo;t receive the goods. This is reduced by parcel tracking and  consumer rights.
 
 Business to business sales can be more complex. The buyer may expect credit terms which exposes you to the risk of delivering the goods and not getting paid.

@@ -1,5 +1,3 @@
-[comment]: Personas: Occasional, Regular
-
 Before you fulfil an order, think about what happens if a buyer doesn&rsquo;t pay. You should:
 
 - research the country to see what legal recourse you have
