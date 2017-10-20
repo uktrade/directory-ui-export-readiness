@@ -1,4 +1,3 @@
-[comment]: Personas: New to exporting
 Doing research early will give you the information you need to make informed decisions about: 
 
 - which market to enter and when

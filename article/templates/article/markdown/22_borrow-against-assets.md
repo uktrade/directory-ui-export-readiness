@@ -1,5 +1,3 @@
-[comment]: Personas: Occasional, Regular
-
 The main types of asset lending are:
 
 * invoice factoring

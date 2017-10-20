@@ -1,5 +1,3 @@
-[comment]: Personas: New to exporting, Occasional
-
 To get an idea of who your potential customers are, begin with what you know about your current customers. There are likely to be similarities.
 
 Statistics on your market&rsquo;s population size, age and GDP will help to define:

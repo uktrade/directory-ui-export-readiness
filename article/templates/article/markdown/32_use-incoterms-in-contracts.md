@@ -1,5 +1,3 @@
-[comment]: Personas: Occasional
-
 You need to make sure shipping responsibilities are clearly understood and written down in a language everyone agrees to. Incoterms, or International Commercial Terms, is an internationally accepted system of trading terms for the delivery of goods.
 
 Use incoterms in your contract to define the delivery responsibilities. You&rsquo;ll need to arrange with the buyer:

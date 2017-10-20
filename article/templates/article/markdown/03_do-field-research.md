@@ -1,5 +1,3 @@
-[comment]: Personas: Occasional, Regular
-
 Consider joining a trade mission to your target market or attending in-country exhibitions or events. When it comes to bigger field research projects, you may want to use a market research agency.
 
 Doing field research in-house can keep costs down but may need a dedicated member of staff. There will be costs associated with visiting the country and you may need to pay for a translator. If you&rsquo;re unsure about research techniques and questionnaire design, contact the in-country [Chambers of Commerce](http://exportbritain.org.uk/international-directory/ "Chambers of Commerce") for advice.

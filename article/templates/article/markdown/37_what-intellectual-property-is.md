@@ -1,5 +1,3 @@
-[comment]: Personas: New to exporting, Occasional
-
 Intellectual property can be an idea, creative work, data, an invention or a brand. 
 
 Intellectual property protection is what stops it from being stolen or copied by someone else.

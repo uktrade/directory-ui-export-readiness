@@ -1,5 +1,3 @@
-[comment]: Personas: Regular
-
 Franchising involves licensing a well-developed business model to a third party. Fees and royalties are paid for the right to use the brand name, sell the product or service and use business systems and processes. This can include training and equipment.
 
 You&rsquo;ll need a well-developed business with an established brand and operating model to start a franchise. Returns can be lower than other routes to market but setup costs are relatively low and the model can be expanded quickly into many different markets.

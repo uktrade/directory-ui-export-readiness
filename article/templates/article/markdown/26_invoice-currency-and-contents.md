@@ -1,5 +1,3 @@
-[comment]: Personas: Occasional
-
 Currency exchange rates go up and down. Setting a price in a foreign currency could see the value of your invoice rise or fall depending on the exchange rate on the day it is paid.
 
 If you haven&rsquo;t fixed your exchange rate, you haven&rsquo;t fixed your price.

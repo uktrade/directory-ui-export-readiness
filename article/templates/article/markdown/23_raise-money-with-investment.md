@@ -1,5 +1,3 @@
-[comment]: Personas: Occasional, Regular
-
 Different investors will want to invest for different reasons. All will want a share of the company and most will want some input into how the business is run.
 
 The type of investor you can attract will depend on how big your business is and the stage of growth it&rsquo;s at.

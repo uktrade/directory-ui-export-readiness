@@ -1,5 +1,3 @@
-[comment]: Personas: Occasional, Regular
-
 You can license the right to produce and sell your product or service to a third party. They will usually pay a licence fee upfront and royalties on each sale.
 
 Licensing can be a quick and cost effective way to get your product or service into a new market. The cost of making, marketing and selling the product is paid by the licensee. In return they don&rsquo;t have to spend time and money creating, designing and testing an idea.

@@ -1,5 +1,3 @@
-[comment]: Personas: Occasional
-
 Having the right paperwork is crucial when you&rsquo;re transporting goods across borders. Missing or inaccurate documents can lead to delays and extra costs, or even prevent a deal from being completed.
 
 You need to know which documents you or your freight forwarder will need to complete at each stage. You&rsquo;ll need specific types of documents depending on your transport method.

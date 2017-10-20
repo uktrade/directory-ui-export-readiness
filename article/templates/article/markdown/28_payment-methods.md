@@ -1,5 +1,3 @@
-[comment]: Personas: Occasional
-
 How money reaches you could involve charges or delays. You should avoid taking payment by cheque. Cheques take time to clear, can be cancelled or may bounce. 
 
 There are a number of payment methods that can be used whether you give terms of credit or take payment in advance including:

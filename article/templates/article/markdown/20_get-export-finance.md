@@ -1,5 +1,3 @@
-[comment]: Personas: Occasional, Regular
-
 Export finance can refer to specific financial products that reduce the risks that come with selling internationally. They are usually short-term products that include:
 
 * loans to fulfil orders

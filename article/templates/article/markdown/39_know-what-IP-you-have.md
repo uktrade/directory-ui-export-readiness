@@ -1,5 +1,3 @@
-[comment]: Personas: New to Exporting, Occasional, Regular
-
 If you&rsquo;re not sure what intellectual property you have you can find out by:
 
 - hiring an IP lawyer

@@ -1,5 +1,3 @@
-[comment]: Personas: New to exporting, Occasional
-
 Knowing a few words and phrases in your client&rsquo;s language can help build rapport, even if you need an interpreter for more involved communication.
 
 Think about how to manage language differences including:

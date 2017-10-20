@@ -1,5 +1,3 @@
-[comment]: Personas: New to exporting, Occasional
-
 A distributor buys your products to resell in their market. They buy at a discount and make money by selling at a higher price. 
 
 The contract of sale is between you and the distributor. The stock they buy is their responsibility and they deal with the end customer.

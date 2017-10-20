@@ -182,6 +182,8 @@ def test_articles_views(view_class, url, client):
 
     assert response.status_code == 200
     assert response.template_name == [view_class.template_name]
+    assert response.context_data['article'] == view_class.article
+    assert response.context_data['article_list'] == view_class.article_list
 
     html = helpers.markdown_to_html(view_class.article.markdown_file_path)
     expected = str(BeautifulSoup(html, 'html.parser'))
