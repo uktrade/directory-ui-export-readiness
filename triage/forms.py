@@ -1,12 +1,11 @@
+from directory_constants.constants import exred_sector_names
+
 from django import forms
 
 from core.widgets import CheckboxWithInlineLabel, RadioSelect
+from triage import fields
 
 
-SECTOR_CHOICES = [
-    ('CHOICE_1', 'Choice 1'),
-    ('CHOICE_2', 'Choice 2'),
-]
 REGULAR_EXPORTER = ('REGULAR_EXPORTER', 'Regular Exporter')
 OCCASIONAL_EXPORTER = ('OCCASIONAL_EXPORTER', 'Occasional Exporter')
 NEW_EXPORTER = ('NEW_EXPORTER', 'New Exporter')
@@ -19,7 +18,7 @@ class BaseTriageForm(forms.Form):
 
 class SectorForm(BaseTriageForm):
     sector = forms.ChoiceField(
-        choices=SECTOR_CHOICES,
+        choices=exred_sector_names.SECTORS_CHOICES,
         label='What is your sector?',
         label_suffix='',
     )
@@ -56,9 +55,20 @@ class OnlineMarketplaceForm(BaseTriageForm):
 
 
 class CompanyForm(BaseTriageForm):
+    MESSAGE_MUTUALLY_EXCLUSIVE = (
+        "You cannot select a company from the list and be a sole trader"
+    )
     company_name = forms.CharField(
         max_length=1000,
-        required=False
+        required=False,
+        widget=forms.TextInput(attrs={'id': 'js-typeahead-company-name'}),
+    )
+    company_number = fields.PaddedCharField(
+        label='Company number:',
+        max_length=8,
+        fillchar='0',
+        required=False,
+        widget=forms.HiddenInput(attrs={'id': 'js-typeahead-company-number'}),
     )
     sole_trader = forms.BooleanField(
         label='',
@@ -68,9 +78,24 @@ class CompanyForm(BaseTriageForm):
         required=False,
     )
 
+    def clean(self, *args, **kwargs):
+        cleaned_data = super().clean(*args, **kwargs)
+        if (
+            cleaned_data.get('company_number') and
+            cleaned_data.get('sole_trader')
+        ):
+            raise forms.ValidationError({
+                'sole_trader': self.MESSAGE_MUTUALLY_EXCLUSIVE
+            })
+        return cleaned_data
+
 
 class SummaryForm(BaseTriageForm):
     pass
+
+
+class CompaniesHouseSearchForm(forms.Form):
+    term = forms.CharField()
 
 
 def get_persona(cleaned_data):
@@ -93,6 +118,18 @@ def get_is_regular_exporter(cleaned_data):
 
 
 def get_sector_label(cleaned_data):
-    for key, label in SECTOR_CHOICES:
+    for key, label in exred_sector_names.SECTORS_CHOICES:
         if key == cleaned_data['sector']:
             return label
+
+
+def serialize_triage_form(data):
+    return {
+        'sector': data['sector'],
+        'exported_before': data['exported_before'],
+        'regular_exporter': data.get('regular_exporter', False),
+        'used_online_marketplace': data.get('used_online_marketplace'),
+        'company_name': data.get('company_name', ''),
+        'sole_trader': data.get('sole_trader', False),
+        'company_number': data.get('company_number', ''),
+    }

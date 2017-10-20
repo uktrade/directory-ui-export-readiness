@@ -3,15 +3,9 @@ from unittest.mock import call, patch
 import pytest
 import requests
 
+from core.tests.helpers import create_response
 from sso.utils import SSOUser
 from triage import helpers
-
-
-def create_response(status_code, json_body={}):
-    response = requests.Response()
-    response.status_code = status_code
-    response.json = lambda: json_body
-    return response
 
 
 @pytest.fixture

@@ -1,4 +1,10 @@
 import abc
+import http
+from functools import partial
+from urllib.parse import urljoin
+
+from django.conf import settings
+import requests
 
 from api_client import api_client
 
@@ -45,3 +51,29 @@ class DatabaseTriageAnswersManager(BaseTriageAnswersManager):
         )
         response.raise_for_status()
         return response.json()
+
+
+class CompaniesHouseClient:
+
+    api_key = settings.COMPANIES_HOUSE_API_KEY
+    make_api_url = partial(urljoin, 'https://api.companieshouse.gov.uk')
+    endpoints = {
+        'search': make_api_url('search/companies'),
+    }
+    session = requests.Session()
+
+    @classmethod
+    def get_auth(cls):
+        return requests.auth.HTTPBasicAuth(cls.api_key, '')
+
+    @classmethod
+    def get(cls, url, params={}):
+        response = cls.session.get(url=url, params=params, auth=cls.get_auth())
+        if response.status_code == http.client.UNAUTHORIZED:
+            response.raise_for_status()
+        return response
+
+    @classmethod
+    def search(cls, term):
+        url = cls.endpoints['search']
+        return cls.get(url, params={'q': term})

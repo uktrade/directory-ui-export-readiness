@@ -1,1 +1,10 @@
 {% extends 'triage/wizard-step-base.html' %}
+
+{% load static from staticfiles %}
+
+{% block bodyScripts %}
+    <script src="{% static 'js/company-lookup.js' %}"></script>
+    <script>
+        GOVUK.page.init();
+    </script>
+{% endblock %}
