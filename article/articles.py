@@ -425,6 +425,6 @@ UNDERSTAND_YOUR_CUSTOMERS_CULTURE = Article(
     markdown_file_path=(
         'article/markdown/45_understand-your-customers-culture.md'
     ),
-    url=reverse_lazy('understand-your-cutomers-culture'),
+    url=reverse_lazy('understand-your-customers-culture'),
     parent=GUIDANCE_CUSTOMER_INSIGHT,
 )
