@@ -150,7 +150,7 @@ class GetYourExportDocumentsRightView(BaseArticleView):
 
 
 class SetupWesbiteView(BaseArticleView):
-    article = structure.SETUP_WESBITE
+    article = structure.INTERNATIONALISE_WESBITE
 
 
 class MatchYourWebsiteToYourAudienceView(BaseArticleView):
