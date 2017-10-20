@@ -26,3 +26,18 @@ def authed_client(client):
     stub.start()
     yield client
     stub.stop()
+
+
+@pytest.fixture
+def sso_request(rf, sso_user):
+    request = rf.get('/')
+    request.sso_user = sso_user
+    return request
+
+
+@pytest.fixture
+def anon_request(rf, client):
+    request = rf.get('/')
+    request.sso_user = None
+    request.session = client.session
+    return request
