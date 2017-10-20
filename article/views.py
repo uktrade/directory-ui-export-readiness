@@ -1,4 +1,5 @@
 from django.views.generic import TemplateView
+from django.utils.functional import cached_property
 
 from article import helpers, articles, structure
 
@@ -19,60 +20,75 @@ class BaseArticleDetailView(TemplateView):
         return super().get_context_data(
             *args, **kwargs,
             article=self.article,
+            next_article=self.next_article,
+            article_group=self.article_group,
             social_links=social_links,
+        )
+
+    @property
+    def next_article(self):
+        return structure.get_next_article(
+            article_group=self.article_group,
+            current_article=self.article,
+        )
+
+    @cached_property
+    def article_group(self):
+        return structure.get_article_group(
+            group_key=self.request.GET.get('source', 'all'),
         )
 
 
 class BaseArticleListView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         return super().get_context_data(
-            *args, **kwargs, articles=self.articles
+            *args, **kwargs, article_group=self.article_group
         )
 
 
 class PeronaNewArticleListView(BaseArticleListView):
     template_name = 'article/list-new-persona.html'
-    articles = structure.PERSONA_NEW_ARTICLES
+    article_group = structure.PERSONA_NEW_ARTICLES
 
 
 class PeronaOccasionalArticleListView(BaseArticleListView):
     template_name = 'article/list-occasional-persona.html'
-    articles = structure.PERSONA_OCCASIONAL_ARTICLES
+    article_group = structure.PERSONA_OCCASIONAL_ARTICLES
 
 
 class PeronaRegularArticleListView(BaseArticleListView):
     template_name = 'article/list-regular-persona.html'
-    articles = structure.PERSONA_REGULAR_ARTICLES
+    article_group = structure.PERSONA_REGULAR_ARTICLES
 
 
 class MarketReasearchArticleListView(BaseArticleListView):
     template_name = 'article/list-market-research.html'
-    articles = structure.GUIDANCE_MARKET_RESEARCH_ARTICLES
+    article_group = structure.GUIDANCE_MARKET_RESEARCH_ARTICLES
 
 
 class CustomerInsightArticleListView(BaseArticleListView):
     template_name = 'article/list-customer-insight.html'
-    articles = structure.GUIDANCE_CUSTOMER_INSIGHT_ARTICLES
+    article_group = structure.GUIDANCE_CUSTOMER_INSIGHT_ARTICLES
 
 
 class FinanceArticleListView(BaseArticleListView):
     template_name = 'article/list-finance.html'
-    articles = structure.GUIDANCE_FINANCE_ARTICLES
+    article_group = structure.GUIDANCE_FINANCE_ARTICLES
 
 
 class BusinessPlanningArticleListView(BaseArticleListView):
     template_name = 'article/list-business-planning.html'
-    articles = structure.GUIDANCE_BUSINESS_PLANNING_ARTICLES
+    article_group = structure.GUIDANCE_BUSINESS_PLANNING_ARTICLES
 
 
 class GettingPaidArticleListView(BaseArticleListView):
     template_name = 'article/list-getting-paid.html'
-    articles = structure.GUIDANCE_GETTING_PAID_ARTICLES
+    article_group = structure.GUIDANCE_GETTING_PAID_ARTICLES
 
 
 class OperationsAndComplianceArticleListView(BaseArticleListView):
     template_name = 'article/list-operations-and-compliance.html'
-    articles = structure.GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES
+    article_group = structure.GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES
 
 
 class DoResearchFirstView(BaseArticleDetailView):

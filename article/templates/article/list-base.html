@@ -30,14 +30,13 @@
         </div>
         <div class="section-content-list">
             <ul class="navigation" aria-live="assertive">
-                {% for article in articles %}
+                {% for article in article_group.articles %}
                     <li>
                         <span class="section">{{ article.parent.title }}<span class="verbose">:</span>&nbsp;</span>
-                        <a href="{{ article.url }}" class="article">{{ article.title }}</a>
+                        <a href="{{ article.url }}?source={{article_group.key}}" class="article">{{ article.title }}</a>
                     </li>
                 {% endfor %}
             </ul>
-            <div class="buttons"><a href="#" aria-hidden="true" class="button previous">Previous 5 chapters</a><span class="separator verbose">,</span><a href="#" aria-hidden="true" class="button next">Next 5 chapters</a><span class="separator verbose">,</span><a href="#ListPaginationControl_1508499914813_06139424706495396" aria-hidden="true" class="button more" aria-controls="ListPaginationControl_1508499914813_06139424706495396" style="display: none;">Show more</a></div>
         </div>
     </div>
 </section>
