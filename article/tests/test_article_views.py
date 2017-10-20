@@ -5,7 +5,7 @@ from article import views
 
 from django.core.urlresolvers import reverse
 
-from article import helpers
+from article import helpers, structure
 
 
 persona_lise_views_under_test = (
@@ -225,7 +225,7 @@ def test_persona_views(view_class, url, client):
 
     assert response.status_code == 200
     assert response.template_name == [view_class.template_name]
-    assert response.context_data['articles'] == view_class.articles
+    assert response.context_data['article_group'] == view_class.article_group
 
 
 @pytest.mark.parametrize('view_class,url', guidance_views_under_test)
@@ -234,7 +234,7 @@ def test_guidance_views(view_class, url, client):
 
     assert response.status_code == 200
     assert response.template_name == [view_class.template_name]
-    assert response.context_data['articles'] == view_class.articles
+    assert response.context_data['article_group'] == view_class.article_group
 
 
 @pytest.mark.parametrize('view_class,url', article_views_under_test)
@@ -244,6 +244,7 @@ def test_articles_views(view_class, url, client):
     assert response.status_code == 200
     assert response.template_name == [view_class.template_name]
     assert response.context_data['article'] == view_class.article
+    assert response.context_data['article_group'] == structure.ALL_ARTICLES
 
     html = helpers.markdown_to_html(view_class.article.markdown_file_path)
     expected = str(BeautifulSoup(html, 'html.parser'))
@@ -292,3 +293,48 @@ def test_articles_share_links(view_class, url, client):
     expected_facebook in str(response.content)
     expected_linkedin in str(response.content)
     expected_email in str(response.content)
+
+
+# skip the last group - it does not have a page, it's a list of all articles.
+@pytest.mark.parametrize('group', structure.ALL_GROUPS[:-1])
+def test_article_links_include_next_param(client, group):
+    response = client.get(group.url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    article_links = soup.findAll('a', {'class': 'article'})
+
+    assert len(article_links) == len(group.articles)
+
+    for article, article_link_element in zip(group.articles, article_links):
+        assert article_link_element.attrs['href'] == (
+            str(article.url) + '?source=' + group.key
+        )
+
+
+@pytest.mark.parametrize('group', structure.ALL_GROUPS)
+def test_inferred_next_articles(client, group):
+    for article, next_article in zip(group.articles, group.articles[1:]):
+        response = client.get(article.url + '?source=' + group.key)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        next_article_element = soup.find(id='next-article-link')
+
+        if next_article:
+            assert response.context_data['next_article'] == next_article
+            assert next_article_element.attrs['href'] == (
+                str(next_article.url) + '?source=' + group.key
+            )
+            assert next_article_element.text == next_article.title
+        else:
+            next_article_element is None
+
+
+# skip the last group - it does not have a page, it's a list of all articles.
+@pytest.mark.parametrize('group', structure.ALL_GROUPS[:-1])
+def test_inferred_return_to_article(client, group):
+    for article in group.articles:
+        response = client.get(article.url + '?source=' + group.key)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        category_element = soup.find(id='category-link')
+
+        assert category_element.attrs['href'] == str(group.url)
+        assert category_element.text == group.title

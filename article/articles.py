@@ -8,39 +8,34 @@ Article = namedtuple(
     ['uuid', 'title', 'keywords', 'tasks', 'markdown_file_path', 'url',
      'parent']
 )
-Guidance = namedtuple('Guidance', ['uuid', 'title', 'url'])
+ArticleParent = namedtuple('ArticleParent', ['uuid', 'title'])
 
 
-GUIDANCE_MARKET_RESEARCH = Guidance(
+GUIDANCE_MARKET_RESEARCH = ArticleParent(
     uuid='GUIDANCE_MARKET_RESEARCH',
     title='Market research',
-    url=reverse_lazy('article-list-market-research'),
 )
-GUIDANCE_CUSTOMER_INSIGHT = Guidance(
+GUIDANCE_CUSTOMER_INSIGHT = ArticleParent(
     uuid='GUIDANCE_CUSTOMER_INSIGHT',
     title='Customer insight',
-    url=reverse_lazy('article-list-customer-insight'),
 )
-GUIDANCE_FINANCE = Guidance(
+GUIDANCE_FINANCE = ArticleParent(
     uuid='GUIDANCE_FINANCE',
     title='Finance',
-    url=reverse_lazy('article-list-finance'),
 )
-GUIDANCE_BUSINESS_PLANNING = Guidance(
+GUIDANCE_BUSINESS_PLANNING = ArticleParent(
     uuid='GUIDANCE_BUSINESS_PLANNING',
     title='Business planning',
-    url=reverse_lazy('article-list-business-planning'),
 )
-GUIDANCE_GETTING_PAID = Guidance(
+GUIDANCE_GETTING_PAID = ArticleParent(
     uuid='GUIDANCE_GETTING_PAID',
     title='Getting paid',
-    url=reverse_lazy('article-list-getting-paid')
 )
-GUIDANCE_OPERATIONS_AND_COMPLIANCE = Guidance(
+GUIDANCE_OPERATIONS_AND_COMPLIANCE = ArticleParent(
     uuid='GUIDANCE_OPERATIONS_AND_COMPLIANCE',
     title='Operations and compliance',
-    url=reverse_lazy('article-list-operations-and-compliance'),
 )
+
 DO_RESEARCH_FIRST = Article(
     uuid='DO_RESEARCH_FIRST',
     title='Do research first',
