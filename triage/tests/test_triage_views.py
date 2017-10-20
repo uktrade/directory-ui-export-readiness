@@ -4,6 +4,7 @@ import pytest
 import requests
 
 from django.core.urlresolvers import reverse
+from directory_constants.constants import exred_sector_names
 
 from core.tests.helpers import create_response
 from triage import views
@@ -56,7 +57,6 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
         'exported_before': True,
         'regular_exporter': True,
         'sector': 'HS01',
-        'company_number': '',
         'company_number': '',
     })
 
@@ -192,3 +192,41 @@ def test_companies_house_search_api_success(
 
     assert response.status_code == 200
     assert response.content == b'[{"name": "Smashing corp"}]'
+
+
+@patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers')
+def test_custom_view(mocked_retrieve_answers, authed_client, sso_user):
+    triage_result = {
+        'company_name': 'Acme ltd',
+        'created': '2016-11-23T11:21:10.977518Z',
+        'exported_before': True,
+        'regular_exporter': True,
+        'used_online_marketplace': False,
+        'id': '1',
+        'modified': '2016-11-23T11:21:10.977518Z',
+        'sector': exred_sector_names.SECTORS_CHOICES[0][0],
+        'sector_name': exred_sector_names.SECTORS_CHOICES[0][1],
+        'sole_trader': False,
+        'sso_id': sso_user.id,
+        'company_number': None,
+    }
+    mocked_retrieve_answers.return_value = triage_result
+    url = reverse('custom-page')
+    response = authed_client.get(url)
+    assert response.status_code == 200
+    assert response.template_name == ['triage/custom-page.html']
+    assert response.context_data['persona'] == (
+        'REGULAR_EXPORTER',
+        'Regular Exporter'
+    )
+    assert response.context_data['triage_result'] == triage_result
+
+
+@patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers')
+def test_custom_view_no_triage_result_found(mocked_retrieve_answers,
+                                            authed_client):
+    mocked_retrieve_answers.return_value = {}
+    url = reverse('custom-page')
+    response = authed_client.get(url)
+    assert response.status_code == 302
+    assert response.url == reverse('triage-wizard')
