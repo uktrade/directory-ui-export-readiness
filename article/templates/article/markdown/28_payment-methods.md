@@ -1,4 +1,3 @@
-# Title: Payment methods
 [comment]: Personas: Occasional
 
 How money reaches you could involve charges or delays. You should avoid taking payment by cheque. Cheques take time to clear, can be cancelled or may bounce. 

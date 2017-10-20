@@ -175,7 +175,7 @@ GET_GOVERNMENT_FINANCE_SUPPORT = Article(
 )
 CONSIDER_HOW_PAID = Article(
     uuid='CONSIDER_HOW_PAID',
-    title='Consider how you&rsquo;ll get paid',
+    title="Consider how you'll get paid",
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/25_consider-how-youll-get-paid.md',
@@ -189,7 +189,7 @@ INVOICE_CURRENCY_AND_CONTENTS = Article(
 )
 DECIDE_WHEN_PAID = Article(
     uuid='DECIDE_WHEN_PAID',
-    title='Decide when you&rsquo;ll get paid',
+    title="Decide when you'll get paid",
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/27_decide-when-youll-get-paid.md',
@@ -304,7 +304,7 @@ MANAGE_LANGUAGE_DIFFERENCES = Article(
 )
 UNDERSTAND_YOUR_CUSTOMERS_CULTURE = Article(
     uuid='UNDERSTAND_YOUR_CUSTOMERS_CULTURE',
-    title='Understand your customer&rsquo;s culture',
+    title="Understand your customer's culture",
     keywords=[],
     tasks=[],
     markdown_file_path=(

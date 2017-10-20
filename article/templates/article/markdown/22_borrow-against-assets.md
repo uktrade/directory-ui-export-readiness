@@ -1,4 +1,3 @@
-# Title: Borrow against assets
 [comment]: Personas: Occasional, Regular
 
 The main types of asset lending are:

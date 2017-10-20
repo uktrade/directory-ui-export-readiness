@@ -1,4 +1,3 @@
-# Title: Match your website to your audience
 [comment]: Personas: Occasional
 
 Use your [market research](/market-research/do-research-first "Do research first") to understand the culture of your audience. Thge images, colours and branding you use should be culturally appropriate. For example, images of alcohol and certain foods and animals should be avoided in some markets.

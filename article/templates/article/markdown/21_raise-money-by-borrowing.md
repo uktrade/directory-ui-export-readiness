@@ -1,4 +1,3 @@
-# Title: Raise money by borrowing
 [comment]: Personas: Occasional, Regular
 
 Start with your own bank. They know you and your business so are better placed to advise on the best finance options for your situation. 

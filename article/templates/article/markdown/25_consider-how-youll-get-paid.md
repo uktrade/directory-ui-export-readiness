@@ -1,4 +1,3 @@
-# Title: Consider how you&rsquo;ll get paid
 [comment]: Personas: New to exporting, Occasional
 
 Getting paid for international sales isn&rsquo;t always straightforward. Think about:

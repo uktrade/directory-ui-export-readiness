@@ -1,4 +1,3 @@
-# Title: Understand your customer&rsquo;s culture
 [comment]: Personas: Occasional, Regular
 
 A profitable business relationship needs trust. Taking an interest in the culture of your customer helps build trust and shows you are serious about a long-term relationship.

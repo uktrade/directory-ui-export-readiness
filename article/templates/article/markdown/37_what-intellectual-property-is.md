@@ -1,4 +1,3 @@
-# Title: What intellectual property is
 [comment]: Personas: New to exporting, Occasional
 
 Intellectual property can be an idea, creative work, data, an invention or a brand. 

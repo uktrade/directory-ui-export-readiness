@@ -1,4 +1,3 @@
-# Title: Raise money with investment
 [comment]: Personas: Occasional, Regular
 
 Different investors will want to invest for different reasons. All will want a share of the company and most will want some input into how the business is run.

@@ -1,4 +1,3 @@
-# Analyse the competition
 [comment]: Personas: Occasional, Regular
 
 Competitor analysis will tell you if there&rsquo;s too much competition in a market, if there are opportunities or gaps for you to exploit and how to position your product or service. You&rsquo;ll want to know:

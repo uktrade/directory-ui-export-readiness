@@ -1,4 +1,3 @@
-# Title: Types of intellectual property
 [comment]: Personas: New to exporting, Occasional 
 
 Common types of intellectual property are: 

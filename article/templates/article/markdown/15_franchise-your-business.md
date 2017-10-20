@@ -1,4 +1,3 @@
-# Franchise your business
 [comment]: Personas: Regular
 
 Franchising involves licensing a well-developed business model to a third party. Fees and royalties are paid for the right to use the brand name, sell the product or service and use business systems and processes. This can include training and equipment.
