@@ -1,4 +1,3 @@
-# Choosing an agent or distributor
 [comment]: Personas: Occasional
 
 In some countries it can be difficult to part with an agent or distributor before the end of their contract and they may have a legal right to compensation. 

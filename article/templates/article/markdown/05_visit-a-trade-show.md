@@ -1,4 +1,3 @@
-# Visit a trade show
 [comment]: Persona: New to exporting, Occasional, Regular
 
 Attending an overseas trade show, fair or exhibition is a good way to:

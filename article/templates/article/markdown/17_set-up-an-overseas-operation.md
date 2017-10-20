@@ -1,4 +1,3 @@
-# Title: Set up an overseas operation
 [comment]: Personas: Regular
 
 Once you&rsquo;ve tested a market with an agent, distributor or other selling method, you may decide demand for your product or service is high enough to set up an operation in that country.

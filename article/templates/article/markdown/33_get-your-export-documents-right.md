@@ -1,4 +1,3 @@
-# Title: Get your export documents right
 [comment]: Personas: Occasional
 
 Having the right paperwork is crucial when you&rsquo;re transporting goods across borders. Missing or inaccurate documents can lead to delays and extra costs, or even prevent a deal from being completed.

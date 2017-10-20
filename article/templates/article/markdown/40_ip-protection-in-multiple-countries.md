@@ -1,4 +1,3 @@
-# Title: IP protection in multiple countries
 [comment]: Personas: Occasional, Regular
 
 You only need to make one application for a trade mark or patent within the EU. Outside of the EU, you&rsquo;ll generally have to make one application for every country in which you want protection.

@@ -1,4 +1,3 @@
-# Title: Get money to export 
 [comment]: Personas: New to exporting, Occasional
 
 As an exporter you may need money to:

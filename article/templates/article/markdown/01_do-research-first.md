@@ -1,4 +1,3 @@
-# Do research first
 [comment]: Personas: New to exporting
 Doing research early will give you the information you need to make informed decisions about: 
 

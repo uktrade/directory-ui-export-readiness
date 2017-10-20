@@ -1,4 +1,3 @@
-# Use an overseas agent
 [comment]: Personas: New to exporting, Occasional
 
 An agent acts as your local sales person in an overseas market. They find customers for you in return for an agreed commission. The customer then buys the product or service directly from you.  

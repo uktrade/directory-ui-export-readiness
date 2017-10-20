@@ -1,4 +1,3 @@
-# Title: Start a joint venture 
 [comment]: Personas: Occasional, Regular
 
 A joint venture is when 2 or more companies come together for a project. They remain separate entities but share costs, profits and losses as set out in a joint venture agreement. 

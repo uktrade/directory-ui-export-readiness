@@ -1,4 +1,3 @@
-# Define market potential
 [comment]: Personas: Occasional, Regular
 
 To research the size of a market look for:

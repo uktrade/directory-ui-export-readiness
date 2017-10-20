@@ -175,7 +175,7 @@ GET_GOVERNMENT_FINANCE_SUPPORT = Article(
 )
 CONSIDER_HOW_PAID = Article(
     uuid='CONSIDER_HOW_PAID',
-    title='Consider how you&rsquo;ll get paid',
+    title="Consider how you'll get paid",
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/25_consider-how-youll-get-paid.md',
@@ -189,7 +189,7 @@ INVOICE_CURRENCY_AND_CONTENTS = Article(
 )
 DECIDE_WHEN_PAID = Article(
     uuid='DECIDE_WHEN_PAID',
-    title='Decide when you&rsquo;ll get paid',
+    title="Decide when you'll get paid",
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/27_decide-when-youll-get-paid.md',
@@ -238,12 +238,12 @@ GET_YOUR_EXPORT_DOCUMENTS_RIGHT = Article(
         'article/markdown/33_get-your-export-documents-right.md'
     ),
 )
-SETUP_WESBITE = Article(
-    uuid='SETUP_WESBITE',
+INTERNATIONALISE_WESBITE = Article(
+    uuid='INTERNATIONALISE_WESBITE',
     title='Internationalise your website',
     keywords=[],
     tasks=[],
-    markdown_file_path='article/markdown/35_set-up-a-website.md'
+    markdown_file_path='article/markdown/34_internationalise-your-website.md'
 )
 MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE = Article(
     uuid='MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE',
@@ -304,7 +304,7 @@ MANAGE_LANGUAGE_DIFFERENCES = Article(
 )
 UNDERSTAND_YOUR_CUSTOMERS_CULTURE = Article(
     uuid='UNDERSTAND_YOUR_CUSTOMERS_CULTURE',
-    title='Understand your customer&rsquo;s culture',
+    title="Understand your customer's culture",
     keywords=[],
     tasks=[],
     markdown_file_path=(
@@ -355,19 +355,18 @@ ARTICLE_LIST_GETTING_PAID = [
     PAYMENT_METHODS,
     INSURE_AGAINST_NON_PAYMENT,
 ]
-ARTICLE_LIST_OPERATIONS_AND_COMPLIANS = [
+ARTICLE_LIST_OPERATIONS_AND_COMPLIANCE = [
     PLAN_THE_LOGISTICS,
     USE_FREIGHT_FORWARDER,
     USE_INCOTERMS_IN_CONTRACTS,
     GET_YOUR_EXPORT_DOCUMENTS_RIGHT,
     MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE,
-    SETUP_WESBITE,
+    INTERNATIONALISE_WESBITE,
     WHAT_INTERLECTUAL_PROPERTY_IS,
     TYPES_OF_INTERLECTUAL_PROPERTY,
     KNOW_WHAT_INTERLECTUAL_PROPERTY_YOU_HAVE,
     INTERLECTUAL_PROPERTY_PROTECTION,
 ]
-
 PERSONAS_NEW = [
     DO_RESEARCH_FIRST,
     KNOW_YOUR_CUSTOMER,
@@ -405,7 +404,7 @@ PERSONAS_OCCASIONAL = [
     USE_INCOTERMS_IN_CONTRACTS,
     GET_YOUR_EXPORT_DOCUMENTS_RIGHT,
     MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE,
-    SETUP_WESBITE,
+    INTERNATIONALISE_WESBITE,
     WHAT_INTERLECTUAL_PROPERTY_IS,
     TYPES_OF_INTERLECTUAL_PROPERTY,
     KNOW_WHAT_INTERLECTUAL_PROPERTY_YOU_HAVE,

@@ -1,4 +1,3 @@
-# Use a distributor
 [comment]: Personas: New to exporting, Occasional
 
 A distributor buys your products to resell in their market. They buy at a discount and make money by selling at a higher price. 

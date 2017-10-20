@@ -1,18 +1,14 @@
 from django.views.generic import TemplateView
 
-from article import helpers
+from article import helpers, structure
 
 
 class BaseArticleView(TemplateView):
     template_name = 'article/base.html'
 
     def get_context_data(self, *args, **kwargs):
-        article = {
-            'markdown_file_path': self.markdown_file_path,
-        }
         social_link_kwargs = {
-            'request': self.request,
-            'markdown_file_path': self.markdown_file_path
+            'request': self.request, 'title': self.article.title,
         }
         social_links = {
             'facebook': helpers.build_facebook_link(**social_link_kwargs),
@@ -21,187 +17,169 @@ class BaseArticleView(TemplateView):
             'email': helpers.build_email_link(**social_link_kwargs),
         }
         return super().get_context_data(
-            *args, **kwargs, article=article, social_links=social_links
+            *args, **kwargs, article=self.article, social_links=social_links
         )
 
 
 class DoResearchFirstView(BaseArticleView):
-    markdown_file_path = 'article/markdown/01_do-research-first.md'
+    article = structure.DO_RESEARCH_FIRST
 
 
 class DefineMarketPotentialView(BaseArticleView):
-    markdown_file_path = 'article/markdown/02_define-market-potential.md'
+    article = structure.DEFINE_MARKET_POTENTIAL
 
 
 class DoFieldResearchView(BaseArticleView):
-    markdown_file_path = 'article/markdown/03_do-field-research.md'
+    article = structure.DO_FIELD_RESEARCH
 
 
 class AnalyseTheCompetitionView(BaseArticleView):
-    markdown_file_path = 'article/markdown/04_analyse-the-competition.md'
+    article = structure.ANALYSE_THE_COMPETITION
 
 
 class VisitTradeShowView(BaseArticleView):
-    markdown_file_path = 'article/markdown/05_visit-a-trade-show.md'
+    article = structure.VISIT_TRADE_SHOW
 
 
 class KnowYourCustomerView(BaseArticleView):
-    markdown_file_path = 'article/markdown/05_know-your-customers.md'
+    article = structure.KNOW_YOUR_CUSTOMER
 
 
 class MakeExportingPlanView(BaseArticleView):
-    markdown_file_path = 'article/markdown/06_make-an-export-plan.md'
+    article = structure.MAKE_EXPORTING_PLAN
 
 
 class FindARouteToMarketView(BaseArticleView):
-    markdown_file_path = 'article/markdown/07_find-a-route-to-market.md'
+    article = structure.FIND_A_ROUTE_TO_MARKET
 
 
 class UseOverseasAgentView(BaseArticleView):
-    markdown_file_path = 'article/markdown/10_use-an-overseas-agent.md'
+    article = structure.USE_OVERSEAS_AGENT
 
 
 class UseDistributorView(BaseArticleView):
-    markdown_file_path = 'article/markdown/11_use-a-distributor.md'
+    article = structure.USE_DISTRIBUTOR
 
 
 class ChoosingAgentOrDistributorView(BaseArticleView):
-    markdown_file_path = (
-        'article/markdown/12_choosing-an-agent-or-distributor.md'
-    )
+    article = structure.CHOOSING_AGENT_OR_DISTRIBUTOR
 
 
 class LicenceAndFranchisingView(BaseArticleView):
-    markdown_file_path = 'article/markdown/13_licensing-and-franchising.md'
+    article = structure.LICENCE_AND_FRANCHISING
 
 
 class LicenceYourProductOrServiceView(BaseArticleView):
-    markdown_file_path = (
-        'article/markdown/14_license-your-product-or-service.md'
-    )
+    article = structure.LICENCE_YOUR_PRODUCT_OR_SERVICE
 
 
 class FranchiseYourBusinessView(BaseArticleView):
-    markdown_file_path = 'article/markdown/15_franchise-your-business.md'
+    article = structure.FRANCHISE_YOUR_BUSINESS
 
 
 class StartJointVentureView(BaseArticleView):
-    markdown_file_path = 'article/markdown/16_start-a-joint-venture.md'
+    article = structure.START_JOINT_VENTURE
 
 
 class SetupOverseasOperationView(BaseArticleView):
-    markdown_file_path = 'article/markdown/17_set-up-an-overseas-operation.md'
+    article = structure.SETUP_OVERSEAS_OPERATION
 
 
 class GetMoneyToExportView(BaseArticleView):
-    markdown_file_path = 'article/markdown/18_get-money-to-export.md'
+    article = structure.GET_MONEY_TO_EXPORT
 
 
 class ChooseTheRightFinanceView(BaseArticleView):
-    markdown_file_path = 'article/markdown/19_choose-the-right-finance.md'
+    article = structure.CHOOSE_THE_RIGHT_FINANCE
 
 
 class GetExportFinanceView(BaseArticleView):
-    markdown_file_path = 'article/markdown/20_get-export-finance.md'
+    article = structure.GET_EXPORT_FINANCE
 
 
 class RaiseMoneyByBorrowingView(BaseArticleView):
-    markdown_file_path = 'article/markdown/21_raise-money-by-borrowing.md'
+    article = structure.RAISE_MONEY_BY_BORROWING
 
 
 class BorrowAgainstAssetsView(BaseArticleView):
-    markdown_file_path = 'article/markdown/22_borrow-against-assets.md'
+    article = structure.BORROW_AGAINST_ASSETS
 
 
 class RaiseMoneyWithInvestmentView(BaseArticleView):
-    markdown_file_path = 'article/markdown/23_raise-money-with-investment.md'
+    article = structure.RAISE_MONEY_WITH_INVESTMENT
 
 
 class GetGovernmentFinanceSupportView(BaseArticleView):
-    markdown_file_path = (
-        'article/markdown/24_get-government-finance-support.md'
-    )
+    article = structure.GET_GOVERNMENT_FINANCE_SUPPORT
 
 
 class ConsiderHowPaidView(BaseArticleView):
-    markdown_file_path = 'article/markdown/25_consider-how-youll-get-paid.md'
+    article = structure.CONSIDER_HOW_PAID
 
 
 class InvoiceCurrencyAndContentsView(BaseArticleView):
-    markdown_file_path = 'article/markdown/26_invoice-currency-and-contents.md'
+    article = structure.INVOICE_CURRENCY_AND_CONTENTS
 
 
 class DecideWhenPaidView(BaseArticleView):
-    markdown_file_path = 'article/markdown/27_decide-when-youll-get-paid.md'
+    article = structure.DECIDE_WHEN_PAID
 
 
 class PaymentMethodsView(BaseArticleView):
-    markdown_file_path = 'article/markdown/28_payment-methods.md'
+    article = structure.PAYMENT_METHODS
 
 
 class InsureAgainstNonPaymentView(BaseArticleView):
-    markdown_file_path = 'article/markdown/29_insure-against-non-payment.md'
+    article = structure.INSURE_AGAINST_NON_PAYMENT
 
 
 class PlanTheLogisticsView(BaseArticleView):
-    markdown_file_path = 'article/markdown/30_plan-the-logistics.md'
+    article = structure.PLAN_THE_LOGISTICS
 
 
 class UseFreightForwarderView(BaseArticleView):
-    markdown_file_path = 'article/markdown/31_use-a-freight-forwarder.md'
+    article = structure.USE_FREIGHT_FORWARDER
 
 
 class UseIncotermsInContractsView(BaseArticleView):
-    markdown_file_path = 'article/markdown/32_use-incoterms-in-contracts.md'
+    article = structure.USE_INCOTERMS_IN_CONTRACTS
 
 
 class GetYourExportDocumentsRightView(BaseArticleView):
-    markdown_file_path = (
-        'article/markdown/33_get-your-export-documents-right.md'
-    )
+    article = structure.GET_YOUR_EXPORT_DOCUMENTS_RIGHT
 
 
 class SetupWesbiteView(BaseArticleView):
-    markdown_file_path = 'article/markdown/35_set-up-a-website.md'
+    article = structure.INTERNATIONALISE_WESBITE
 
 
 class MatchYourWebsiteToYourAudienceView(BaseArticleView):
-    markdown_file_path = (
-        'article/markdown/35_match-your-website-to-your-audience.md'
-    )
+    article = structure.MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE
 
 
 class WhatInterlectualPropertyIsView(BaseArticleView):
-    markdown_file_path = (
-        'article/markdown/37_what-intellectual-property-is.md'
-    )
+    article = structure.WHAT_INTERLECTUAL_PROPERTY_IS
 
 
 class TypesOfInterlectualPropertyView(BaseArticleView):
-    markdown_file_path = (
-        'article/markdown/38_types-of-intellectual-property.md'
-    )
+    article = structure.TYPES_OF_INTERLECTUAL_PROPERTY
 
 
 class KnowWhatInterlectualPropertyYouHaveView(BaseArticleView):
-    markdown_file_path = 'article/markdown/39_know-what-IP-you-have.md'
+    article = structure.KNOW_WHAT_INTERLECTUAL_PROPERTY_YOU_HAVE
 
 
 class InterlectualPropertyProtectionView(BaseArticleView):
-    markdown_file_path = (
-        'article/markdown/40_ip-protection-in-multiple-countries.md'
-    )
+    article = structure.INTERLECTUAL_PROPERTY_PROTECTION
 
 
 class MeetYourCustomerView(BaseArticleView):
-    markdown_file_path = 'article/markdown/43_meet-your-customers.md'
+    article = structure.MEET_YOUR_CUSTOMER
 
 
 class ManageLanguageDifferencesView(BaseArticleView):
-    markdown_file_path = 'article/markdown/44_manage-language-differences.md'
+    article = structure.MANAGE_LANGUAGE_DIFFERENCES
 
 
 class UnderstandYourCustomersCultureView(BaseArticleView):
-    markdown_file_path = (
-        'article/markdown/45_understand-your-customers-culture.md'
-    )
+    article = structure.UNDERSTAND_YOUR_CUSTOMERS_CULTURE

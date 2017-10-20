@@ -1,4 +1,3 @@
-# Title: Decide when you&rsquo;ll get paid
 [comment]: Personas: Occasional
 
 With business to consumer sales, the buyer will usually pay at the point of sale. If buying online, there is a risk they won&rsquo;t receive the goods. This is reduced by parcel tracking and  consumer rights.
