@@ -1,3 +1,6 @@
+from django.shortcuts import redirect
+from django.utils.functional import cached_property
+from django.views.generic import TemplateView
 from formtools.wizard.views import SessionWizardView
 
 from django.http import JsonResponse
@@ -74,3 +77,25 @@ class TriageWizardFormView(SessionWizardView):
         answer_manager = helpers.TriageAnswersManager(self.request)
         answer_manager.persist_answers(answers)
         return TemplateResponse(self.request, 'triage/wizard-step-done.html')
+
+
+class CustomPageView(TemplateView):
+    http_method_names = ['get']
+    template_name = 'triage/custom-page.html'
+
+    @cached_property
+    def triage_answers(self):
+        answer_manager = helpers.TriageAnswersManager(self.request)
+        return answer_manager.retrieve_answers()
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.triage_answers:
+            return redirect('triage-wizard')
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        persona = forms.get_persona(self.triage_answers)
+        context['persona'] = persona
+        context['triage_result'] = self.triage_answers
+        return context
