@@ -43,7 +43,7 @@ article_views_under_test = (
     ),
     (
         views.UnderstandYourCustomersCultureView,
-        reverse('understand-your-cutomers-culture'),
+        reverse('understand-your-customers-culture'),
     ),
     (
         views.GetMoneyToExportView,

@@ -49,6 +49,8 @@ class DatabaseTriageAnswersManager(BaseTriageAnswersManager):
         response = api_client.exportreadiness.retrieve_triage_result(
             sso_session_id=self.request.sso_user.session_id
         )
+        if response.status_code == 404:
+            return {}
         response.raise_for_status()
         return response.json()
 
