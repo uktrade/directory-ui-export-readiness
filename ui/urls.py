@@ -20,6 +20,21 @@ urlpatterns = [
         name='landing-page',
     ),
     url(
+        r"^new$",
+        article.views.PeronaNewArticleListView.as_view(),
+        name='article-list-persona-new',
+    ),
+    url(
+        r"^occasional$",
+        article.views.PeronaOccasionalArticleListView.as_view(),
+        name='article-list-persona-occasional',
+    ),
+    url(
+        r"^regular$",
+        article.views.PeronaRegularArticleListView.as_view(),
+        name='article-list-persona-regular',
+    ),
+    url(
         r"^market-research$",
         article.views.MarketReasearchArticleListView.as_view(),
         name='article-list-market-research',

@@ -8,6 +8,49 @@ from django.core.urlresolvers import reverse
 from article import helpers
 
 
+persona_lise_views_under_test = (
+    (
+        views.PeronaNewArticleListView,
+        reverse('article-list-persona-new'),
+    ),
+    (
+        views.PeronaOccasionalArticleListView,
+        reverse('article-list-persona-occasional')
+    ),
+    (
+        views.PeronaRegularArticleListView,
+        reverse('article-list-persona-regular'),
+    ),
+)
+
+guidance_views_under_test = (
+    (
+        views.MarketReasearchArticleListView,
+        reverse('article-list-market-research'),
+    ),
+    (
+        views.CustomerInsightArticleListView,
+        reverse('article-list-customer-insight'),
+    ),
+    (
+        views.FinanceArticleListView,
+        reverse('article-list-finance')
+    ),
+    (
+        views.BusinessPlanningArticleListView,
+        reverse('article-list-business-planning'),
+    ),
+    (
+        views.GettingPaidArticleListView,
+        reverse('article-list-getting-paid')
+    ),
+    (
+        views.OperationsAndComplianceArticleListView,
+        reverse('article-list-operations-and-compliance')
+    )
+)
+
+
 article_views_under_test = (
     (
         views.DoResearchFirstView,
@@ -176,6 +219,24 @@ article_views_under_test = (
 )
 
 
+@pytest.mark.parametrize('view_class,url', persona_lise_views_under_test)
+def test_persona_views(view_class, url, client):
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == [view_class.template_name]
+    assert response.context_data['articles'] == view_class.articles
+
+
+@pytest.mark.parametrize('view_class,url', guidance_views_under_test)
+def test_guidance_views(view_class, url, client):
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == [view_class.template_name]
+    assert response.context_data['articles'] == view_class.articles
+
+
 @pytest.mark.parametrize('view_class,url', article_views_under_test)
 def test_articles_views(view_class, url, client):
     response = client.get(url)
@@ -183,7 +244,6 @@ def test_articles_views(view_class, url, client):
     assert response.status_code == 200
     assert response.template_name == [view_class.template_name]
     assert response.context_data['article'] == view_class.article
-    assert response.context_data['article_list'] == view_class.article_list
 
     html = helpers.markdown_to_html(view_class.article.markdown_file_path)
     expected = str(BeautifulSoup(html, 'html.parser'))
