@@ -102,6 +102,17 @@ def test_database_retrieve_answer_manager_handles_api_error(
         manager.retrieve_answers()
 
 
+@patch('api_client.api_client.exportreadiness.retrieve_triage_result')
+def test_database_retrieve_answer_manager_handles_404(
+    mock_retrieve_answers, sso_request, sso_user
+):
+    mock_retrieve_answers.return_value = create_response(404)
+
+    manager = helpers.DatabaseTriageAnswersManager(sso_request)
+
+    assert manager.retrieve_answers() == {}
+
+
 def test_session_answer_manager_stores_in_session(anon_request):
     data = {'field': 'value'}
     manager = helpers.SessionTriageAnswersManager(anon_request)
