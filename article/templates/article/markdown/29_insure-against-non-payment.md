@@ -1,4 +1,3 @@
-# Title: Insure against non-payment
 [comment]: Personas: Occasional, Regular
 
 Before you fulfil an order, think about what happens if a buyer doesn&rsquo;t pay. You should:

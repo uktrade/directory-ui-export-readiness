@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "directory_header_footer",
     "core",
     "article",
+    "triage",
 ]
 
 MIDDLEWARE_CLASSES = [

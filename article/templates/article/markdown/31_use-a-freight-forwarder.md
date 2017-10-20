@@ -1,4 +1,3 @@
-# Title: Use a freight forwarder
 [comment]: Personas: Occasional
 
 A freight forwarder will save you time and money if you&rsquo;re exporting large volumes or high-value goods. If you&rsquo;re exporting smaller numbers you could use a parcel courier. 

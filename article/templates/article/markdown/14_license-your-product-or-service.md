@@ -1,4 +1,3 @@
-# License your product or service
 [comment]: Personas: Occasional, Regular
 
 You can license the right to produce and sell your product or service to a third party. They will usually pay a licence fee upfront and royalties on each sale.

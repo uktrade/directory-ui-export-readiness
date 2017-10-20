@@ -1,4 +1,3 @@
-# Title: Meet your customers
 [comment]: Personas: New to exporting
 
 Meeting a client in person helps:

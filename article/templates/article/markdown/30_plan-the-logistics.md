@@ -1,4 +1,3 @@
-# Title: Plan the logistics
 [comment]: Personas: New to exporting
 
 You&rsquo;ll need to decide whether to:

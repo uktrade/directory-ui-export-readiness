@@ -1,4 +1,3 @@
-# Do field research
 [comment]: Personas: Occasional, Regular
 
 Consider joining a trade mission to your target market or attending in-country exhibitions or events. When it comes to bigger field research projects, you may want to use a market research agency.

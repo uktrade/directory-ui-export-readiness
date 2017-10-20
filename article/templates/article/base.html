@@ -10,6 +10,7 @@
 {% block content %}
 <div class="container">
     <article id="top">
+        <h1>{{ article.title }}</h1>
         {% include_markdown article.markdown_file_path %}
         <footer>
             <p class="sharing-links" data-component="sharing-links">

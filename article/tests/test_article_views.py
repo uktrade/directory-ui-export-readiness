@@ -43,7 +43,7 @@ article_views_under_test = (
     ),
     (
         views.UnderstandYourCustomersCultureView,
-        reverse('understand-your-cutomers-culture'),
+        reverse('understand-your-customers-culture'),
     ),
     (
         views.GetMoneyToExportView,
@@ -183,7 +183,20 @@ def test_articles_views(view_class, url, client):
     assert response.status_code == 200
     assert response.template_name == [view_class.template_name]
 
-    html = helpers.markdown_to_html(view_class.markdown_file_path)
+    html = helpers.markdown_to_html(view_class.article.markdown_file_path)
+    expected = str(BeautifulSoup(html, 'html.parser'))
+
+    assert expected in str(BeautifulSoup(response.content, 'html.parser'))
+
+
+@pytest.mark.parametrize('view_class,url', article_views_under_test)
+def test_articles_title_views(view_class, url, client):
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == [view_class.template_name]
+
+    html = '<h1>' + view_class.article.title + '</h1>'
     expected = str(BeautifulSoup(html, 'html.parser'))
 
     assert expected in str(BeautifulSoup(response.content, 'html.parser'))
@@ -198,19 +211,19 @@ def test_articles_share_links(view_class, url, client):
 
     expected_twitter = helpers.build_twitter_link(
         request=response._request,
-        markdown_file_path=view_class.markdown_file_path,
+        title=view_class.article.title,
     )
     expected_facebook = helpers.build_facebook_link(
         request=response._request,
-        markdown_file_path=view_class.markdown_file_path,
+        title=view_class.article.title,
     )
     expected_linkedin = helpers.build_linkedin_link(
         request=response._request,
-        markdown_file_path=view_class.markdown_file_path,
+        title=view_class.article.title,
     )
     expected_email = helpers.build_email_link(
         request=response._request,
-        markdown_file_path=view_class.markdown_file_path,
+        title=view_class.article.title,
     )
 
     expected_twitter in str(response.content)

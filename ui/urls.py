@@ -1,8 +1,10 @@
 from django.conf.urls import url
 from django.views.generic import TemplateView
 
-import core.views
 import article.views
+import core.views
+import triage.views
+
 
 urlpatterns = [
     url(
@@ -60,7 +62,7 @@ urlpatterns = [
     url(
         r"^customer-insight/understand-your-customers-culture$",
         article.views.UnderstandYourCustomersCultureView.as_view(),
-        name='understand-your-cutomers-culture',
+        name='understand-your-customers-culture',
     ),
     url(
         r"^finance/get-money-to-export$",
@@ -221,5 +223,20 @@ urlpatterns = [
         r"^operations-and-compliance/ip-protection-in-multiple-countries$",
         article.views.InterlectualPropertyProtectionView.as_view(),
         name='ip-protection-in-multiple-countries',
+    ),
+    url(
+        r'^triage$',
+        triage.views.TriageWizardFormView.as_view(),
+        name='triage-wizard'
+    ),
+    url(
+        r'^custom$',
+        triage.views.CustomPageView.as_view(),
+        name='custom-page'
+    ),
+    url(
+        r'^api/internal/companies-house-search/$',
+        triage.views.CompaniesHouseSearchApiView.as_view(),
+        name='api-internal-companies-house-search'
     ),
 ]
