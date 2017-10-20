@@ -107,7 +107,7 @@ urlpatterns = [
     url(
         r"^customer-insight/understand-your-customers-culture$",
         article.views.UnderstandYourCustomersCultureView.as_view(),
-        name='understand-your-cutomers-culture',
+        name='understand-your-customers-culture',
     ),
     url(
         r"^finance/get-money-to-export$",
@@ -273,6 +273,11 @@ urlpatterns = [
         r'^triage$',
         triage.views.TriageWizardFormView.as_view(),
         name='triage-wizard'
+    ),
+    url(
+        r'^custom$',
+        triage.views.CustomPageView.as_view(),
+        name='custom-page'
     ),
     url(
         r'^api/internal/companies-house-search/$',
