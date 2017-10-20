@@ -5,9 +5,18 @@
 [![codecov-image]][codecov]
 [![gemnasium-image]][gemnasium]
 
-Export Readiness (Exred) - the Department for International Trade (DIT)
+**Export Readiness (Exred) - the Department for International Trade (DIT)**  
 
-## Development 
+---
+### See also:
+| [directory-api](https://github.com/uktrade/directory-api) | [directory-ui-buyer](https://github.com/uktrade/directory-ui-buyer) | [directory-ui-supplier](https://github.com/uktrade/directory-ui-supplier) | [directory-ui-export-readiness](https://github.com/uktrade/directory-ui-export-readiness) |
+| --- | --- | --- | --- |
+| **[directory-sso](https://github.com/uktrade/directory-sso)** | **[directory-sso-proxy](https://github.com/uktrade/directory-sso-proxy)** | **[directory-sso-profile](https://github.com/uktrade/directory-sso-profile)** |  |
+
+For more information on installation please check the [Developers Onboarding Checklist](https://uktrade.atlassian.net/wiki/spaces/ED/pages/32243946/Developers+onboarding+checklist)
+
+
+## Development
 
 
 We aim to follow [GDS service standards](https://www.gov.uk/service-manual/service-standard) and [GDS design principles](https://www.gov.uk/design-principles).
@@ -78,23 +87,30 @@ We add compiled CSS files to version control. This will sometimes result in conf
 
 You should not edit CSS files directly, instead edit their SCSS counterparts.
 
-# Session
+## Session
 
 Signed cookies are used as the session backend to avoid using a database. We therefore must avoid storing non-trivial data in the session, because the browser will be exposed to the data.
 
 
-# SSO
-To make sso work locally add the following to your `/etc/hosts`:
-127.0.0.1 ui.trade.great.dev
-127.0.0.1 sso.trade.great.
-127.0.0.1 api.trade.great.dev
+## SSO
+To make sso work locally add the following to your machine's `/etc/hosts`:
+
+| IP Adress | URL                      |
+| --------  | ------------------------ |
+| 127.0.0.1 | buyer.trade.great.dev    |
+| 127.0.0.1 | supplier.trade.great.dev |
+| 127.0.0.1 | sso.trade.great.dev      |
+| 127.0.0.1 | api.trade.great.dev      |
+| 127.0.0.1 | profile.trade.great.dev  |
+| 127.0.0.1 | exred.trade.great.dev    |
+| 127.0.0.1 | ui.trade.great.dev       |
 
 Then log into `directory-sso` via `sso.trade.great.dev:8001`, and use `directory-ui-export-readiness` on `ui.trade.great.dev:8001`
 
-Note in production, the `directory-sso` session cookie is shared with all subdomains that are on the same parent domain as `directory-sso`. However in development we cannot share cookies between subdomains using `localhost` - that would be like trying to set a cookie for `.com`, which is not supported any any RFC.
+Note in production, the `directory-sso` session cookie is shared with all subdomains that are on the same parent domain as `directory-sso`. However in development we cannot share cookies between subdomains using `localhost` - that would be like trying to set a cookie for `.com`, which is not supported by any RFC.
 
-Therefore to make cookie sharing work in development we need the apps to ne running on subdomains. Some stipulations:
- - `directory-ui-export-readiness` and `directory-sso` must both be running on sibling subdomains (with same parent domain)
+Therefore to make cookie sharing work in development we need the apps to be running on subdomains. Some stipulations:
+ - `directory-ui-supplier` and `directory-sso` must both be running on sibling subdomains (with same parent domain)
  - `directory-sso` must be told to target cookies at the parent domain.
 
 
