@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView
+from django.utils.functional import cached_property
 
-from article import helpers, structure
+from article import helpers, articles, structure
 
 
 class BaseArticleDetailView(TemplateView):
@@ -19,249 +20,236 @@ class BaseArticleDetailView(TemplateView):
         return super().get_context_data(
             *args, **kwargs,
             article=self.article,
-            article_list=self.article_list,
+            next_article=self.next_article,
+            article_group=self.article_group,
             social_links=social_links,
+        )
+
+    @property
+    def next_article(self):
+        return structure.get_next_article(
+            article_group=self.article_group,
+            current_article=self.article,
+        )
+
+    @cached_property
+    def article_group(self):
+        return structure.get_article_group(
+            group_key=self.request.GET.get('source', 'all'),
         )
 
 
 class BaseArticleListView(TemplateView):
-
     def get_context_data(self, *args, **kwargs):
         return super().get_context_data(
-            *args, **kwargs, article_list=self.article_list
+            *args, **kwargs, article_group=self.article_group
         )
 
 
+class PeronaNewArticleListView(BaseArticleListView):
+    template_name = 'article/list-new-persona.html'
+    article_group = structure.PERSONA_NEW_ARTICLES
+
+
+class PeronaOccasionalArticleListView(BaseArticleListView):
+    template_name = 'article/list-occasional-persona.html'
+    article_group = structure.PERSONA_OCCASIONAL_ARTICLES
+
+
+class PeronaRegularArticleListView(BaseArticleListView):
+    template_name = 'article/list-regular-persona.html'
+    article_group = structure.PERSONA_REGULAR_ARTICLES
+
+
 class MarketReasearchArticleListView(BaseArticleListView):
-    article_list = structure.ARTICLE_LIST_MARKET_RESEARCH
-    template_name = 'article/list-market-reasearch.html'
+    template_name = 'article/list-market-research.html'
+    article_group = structure.GUIDANCE_MARKET_RESEARCH_ARTICLES
 
 
 class CustomerInsightArticleListView(BaseArticleListView):
-    article_list = structure.ARTICLE_LIST_CUSTOMER_INSIGHT
     template_name = 'article/list-customer-insight.html'
+    article_group = structure.GUIDANCE_CUSTOMER_INSIGHT_ARTICLES
 
 
 class FinanceArticleListView(BaseArticleListView):
-    article_list = structure.ARTICLE_LIST_FINANCE
     template_name = 'article/list-finance.html'
+    article_group = structure.GUIDANCE_FINANCE_ARTICLES
 
 
 class BusinessPlanningArticleListView(BaseArticleListView):
-    article_list = structure.ARTICLE_LIST_BUSINESS_PLANNING
     template_name = 'article/list-business-planning.html'
+    article_group = structure.GUIDANCE_BUSINESS_PLANNING_ARTICLES
 
 
 class GettingPaidArticleListView(BaseArticleListView):
-    article_list = structure.ARTICLE_LIST_GETTING_PAID
     template_name = 'article/list-getting-paid.html'
+    article_group = structure.GUIDANCE_GETTING_PAID_ARTICLES
 
 
 class OperationsAndComplianceArticleListView(BaseArticleListView):
-    article_list = structure.ARTICLE_LIST_OPERATIONS_AND_COMPLIANCE
     template_name = 'article/list-operations-and-compliance.html'
+    article_group = structure.GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES
 
 
 class DoResearchFirstView(BaseArticleDetailView):
-    article = structure.DO_RESEARCH_FIRST
-    article_list = structure.ARTICLE_LIST_MARKET_RESEARCH
+    article = articles.DO_RESEARCH_FIRST
 
 
 class DefineMarketPotentialView(BaseArticleDetailView):
-    article = structure.DEFINE_MARKET_POTENTIAL
-    article_list = structure.ARTICLE_LIST_MARKET_RESEARCH
+    article = articles.DEFINE_MARKET_POTENTIAL
 
 
 class DoFieldResearchView(BaseArticleDetailView):
-    article = structure.DO_FIELD_RESEARCH
-    article_list = structure.ARTICLE_LIST_MARKET_RESEARCH
+    article = articles.DO_FIELD_RESEARCH
 
 
 class AnalyseTheCompetitionView(BaseArticleDetailView):
-    article = structure.ANALYSE_THE_COMPETITION
-    article_list = structure.ARTICLE_LIST_MARKET_RESEARCH
+    article = articles.ANALYSE_THE_COMPETITION
 
 
 class VisitTradeShowView(BaseArticleDetailView):
-    article = structure.VISIT_TRADE_SHOW
-    article_list = structure.ARTICLE_LIST_MARKET_RESEARCH
+    article = articles.VISIT_TRADE_SHOW
 
 
 class KnowYourCustomerView(BaseArticleDetailView):
-    article = structure.KNOW_YOUR_CUSTOMER
-    article_list = structure.ARTICLE_LIST_CUSTOMER_INSIGHT
+    article = articles.KNOW_YOUR_CUSTOMER
 
 
 class MakeExportingPlanView(BaseArticleDetailView):
-    article = structure.MAKE_EXPORTING_PLAN
-    article_list = structure.ARTICLE_LIST_BUSINESS_PLANNING
+    article = articles.MAKE_EXPORTING_PLAN
 
 
 class FindARouteToMarketView(BaseArticleDetailView):
-    article = structure.FIND_A_ROUTE_TO_MARKET
-    article_list = structure.ARTICLE_LIST_BUSINESS_PLANNING
+    article = articles.FIND_A_ROUTE_TO_MARKET
 
 
 class UseOverseasAgentView(BaseArticleDetailView):
-    article = structure.USE_OVERSEAS_AGENT
-    article_list = structure.ARTICLE_LIST_BUSINESS_PLANNING
+    article = articles.USE_OVERSEAS_AGENT
 
 
 class UseDistributorView(BaseArticleDetailView):
-    article = structure.USE_DISTRIBUTOR
-    article_list = structure.ARTICLE_LIST_BUSINESS_PLANNING
+    article = articles.USE_DISTRIBUTOR
 
 
 class ChoosingAgentOrDistributorView(BaseArticleDetailView):
-    article = structure.CHOOSING_AGENT_OR_DISTRIBUTOR
-    article_list = structure.ARTICLE_LIST_BUSINESS_PLANNING
+    article = articles.CHOOSING_AGENT_OR_DISTRIBUTOR
 
 
 class LicenceAndFranchisingView(BaseArticleDetailView):
-    article = structure.LICENCE_AND_FRANCHISING
-    article_list = structure.ARTICLE_LIST_BUSINESS_PLANNING
+    article = articles.LICENCE_AND_FRANCHISING
 
 
 class LicenceYourProductOrServiceView(BaseArticleDetailView):
-    article = structure.LICENCE_YOUR_PRODUCT_OR_SERVICE
-    article_list = structure.ARTICLE_LIST_BUSINESS_PLANNING
+    article = articles.LICENCE_YOUR_PRODUCT_OR_SERVICE
 
 
 class FranchiseYourBusinessView(BaseArticleDetailView):
-    article = structure.FRANCHISE_YOUR_BUSINESS
-    article_list = structure.ARTICLE_LIST_BUSINESS_PLANNING
+    article = articles.FRANCHISE_YOUR_BUSINESS
 
 
 class StartJointVentureView(BaseArticleDetailView):
-    article = structure.START_JOINT_VENTURE
-    article_list = structure.ARTICLE_LIST_BUSINESS_PLANNING
+    article = articles.START_JOINT_VENTURE
 
 
 class SetupOverseasOperationView(BaseArticleDetailView):
-    article = structure.SETUP_OVERSEAS_OPERATION
-    article_list = structure.ARTICLE_LIST_BUSINESS_PLANNING
+    article = articles.SETUP_OVERSEAS_OPERATION
 
 
 class GetMoneyToExportView(BaseArticleDetailView):
-    article = structure.GET_MONEY_TO_EXPORT
-    article_list = structure.ARTICLE_LIST_FINANCE
+    article = articles.GET_MONEY_TO_EXPORT
 
 
 class ChooseTheRightFinanceView(BaseArticleDetailView):
-    article = structure.CHOOSE_THE_RIGHT_FINANCE
-    article_list = structure.ARTICLE_LIST_FINANCE
+    article = articles.CHOOSE_THE_RIGHT_FINANCE
 
 
 class GetExportFinanceView(BaseArticleDetailView):
-    article = structure.GET_EXPORT_FINANCE
-    article_list = structure.ARTICLE_LIST_FINANCE
+    article = articles.GET_EXPORT_FINANCE
 
 
 class RaiseMoneyByBorrowingView(BaseArticleDetailView):
-    article = structure.RAISE_MONEY_BY_BORROWING
-    article_list = structure.ARTICLE_LIST_FINANCE
+    article = articles.RAISE_MONEY_BY_BORROWING
 
 
 class BorrowAgainstAssetsView(BaseArticleDetailView):
-    article = structure.BORROW_AGAINST_ASSETS
-    article_list = structure.ARTICLE_LIST_FINANCE
+    article = articles.BORROW_AGAINST_ASSETS
 
 
 class RaiseMoneyWithInvestmentView(BaseArticleDetailView):
-    article = structure.RAISE_MONEY_WITH_INVESTMENT
-    article_list = structure.ARTICLE_LIST_FINANCE
+    article = articles.RAISE_MONEY_WITH_INVESTMENT
 
 
 class GetGovernmentFinanceSupportView(BaseArticleDetailView):
-    article = structure.GET_GOVERNMENT_FINANCE_SUPPORT
-    article_list = structure.ARTICLE_LIST_FINANCE
+    article = articles.GET_GOVERNMENT_FINANCE_SUPPORT
 
 
 class ConsiderHowPaidView(BaseArticleDetailView):
-    article = structure.CONSIDER_HOW_PAID
-    article_list = structure.ARTICLE_LIST_GETTING_PAID
+    article = articles.CONSIDER_HOW_PAID
 
 
 class InvoiceCurrencyAndContentsView(BaseArticleDetailView):
-    article = structure.INVOICE_CURRENCY_AND_CONTENTS
-    article_list = structure.ARTICLE_LIST_GETTING_PAID
+    article = articles.INVOICE_CURRENCY_AND_CONTENTS
 
 
 class DecideWhenPaidView(BaseArticleDetailView):
-    article = structure.DECIDE_WHEN_PAID
-    article_list = structure.ARTICLE_LIST_GETTING_PAID
+    article = articles.DECIDE_WHEN_PAID
 
 
 class PaymentMethodsView(BaseArticleDetailView):
-    article = structure.PAYMENT_METHODS
-    article_list = structure.ARTICLE_LIST_GETTING_PAID
+    article = articles.PAYMENT_METHODS
 
 
 class InsureAgainstNonPaymentView(BaseArticleDetailView):
-    article = structure.INSURE_AGAINST_NON_PAYMENT
-    article_list = structure.ARTICLE_LIST_GETTING_PAID
+    article = articles.INSURE_AGAINST_NON_PAYMENT
 
 
 class PlanTheLogisticsView(BaseArticleDetailView):
-    article = structure.PLAN_THE_LOGISTICS
-    article_list = structure.ARTICLE_LIST_OPERATIONS_AND_COMPLIANCE
+    article = articles.PLAN_THE_LOGISTICS
 
 
 class UseFreightForwarderView(BaseArticleDetailView):
-    article = structure.USE_FREIGHT_FORWARDER
-    article_list = structure.ARTICLE_LIST_OPERATIONS_AND_COMPLIANCE
+    article = articles.USE_FREIGHT_FORWARDER
 
 
 class UseIncotermsInContractsView(BaseArticleDetailView):
-    article = structure.USE_INCOTERMS_IN_CONTRACTS
-    article_list = structure.ARTICLE_LIST_OPERATIONS_AND_COMPLIANCE
+    article = articles.USE_INCOTERMS_IN_CONTRACTS
 
 
 class GetYourExportDocumentsRightView(BaseArticleDetailView):
-    article = structure.GET_YOUR_EXPORT_DOCUMENTS_RIGHT
-    article_list = structure.ARTICLE_LIST_OPERATIONS_AND_COMPLIANCE
+    article = articles.GET_YOUR_EXPORT_DOCUMENTS_RIGHT
 
 
 class SetupWesbiteView(BaseArticleDetailView):
-    article = structure.INTERNATIONALISE_WESBITE
-    article_list = structure.ARTICLE_LIST_OPERATIONS_AND_COMPLIANCE
+    article = articles.INTERNATIONALISE_WESBITE
 
 
 class MatchYourWebsiteToYourAudienceView(BaseArticleDetailView):
-    article = structure.MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE
-    article_list = structure.ARTICLE_LIST_OPERATIONS_AND_COMPLIANCE
+    article = articles.MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE
 
 
 class WhatInterlectualPropertyIsView(BaseArticleDetailView):
-    article = structure.WHAT_INTERLECTUAL_PROPERTY_IS
-    article_list = structure.ARTICLE_LIST_OPERATIONS_AND_COMPLIANCE
+    article = articles.WHAT_INTERLECTUAL_PROPERTY_IS
 
 
 class TypesOfInterlectualPropertyView(BaseArticleDetailView):
-    article = structure.TYPES_OF_INTERLECTUAL_PROPERTY
-    article_list = structure.ARTICLE_LIST_OPERATIONS_AND_COMPLIANCE
+    article = articles.TYPES_OF_INTERLECTUAL_PROPERTY
 
 
 class KnowWhatInterlectualPropertyYouHaveView(BaseArticleDetailView):
-    article = structure.KNOW_WHAT_INTERLECTUAL_PROPERTY_YOU_HAVE
-    article_list = structure.ARTICLE_LIST_OPERATIONS_AND_COMPLIANCE
+    article = articles.KNOW_WHAT_INTERLECTUAL_PROPERTY_YOU_HAVE
 
 
 class InterlectualPropertyProtectionView(BaseArticleDetailView):
-    article = structure.INTERLECTUAL_PROPERTY_PROTECTION
-    article_list = structure.ARTICLE_LIST_OPERATIONS_AND_COMPLIANCE
+    article = articles.INTERLECTUAL_PROPERTY_PROTECTION
 
 
 class MeetYourCustomerView(BaseArticleDetailView):
-    article = structure.MEET_YOUR_CUSTOMER
-    article_list = structure.ARTICLE_LIST_CUSTOMER_INSIGHT
+    article = articles.MEET_YOUR_CUSTOMER
 
 
 class ManageLanguageDifferencesView(BaseArticleDetailView):
-    article = structure.MANAGE_LANGUAGE_DIFFERENCES
-    article_list = structure.ARTICLE_LIST_CUSTOMER_INSIGHT
+    article = articles.MANAGE_LANGUAGE_DIFFERENCES
 
 
 class UnderstandYourCustomersCultureView(BaseArticleDetailView):
-    article = structure.UNDERSTAND_YOUR_CUSTOMERS_CULTURE
-    article_list = structure.ARTICLE_LIST_CUSTOMER_INSIGHT
+    article = articles.UNDERSTAND_YOUR_CUSTOMERS_CULTURE

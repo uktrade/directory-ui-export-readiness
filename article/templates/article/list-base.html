@@ -8,31 +8,7 @@
 
 {% block content %}
 
-<div class="container">
-    <nav class="navigation-ribbon">
-        <ul class="navigation">
-            <li class="market-research">
-                <a href="{% url 'article-list-market-research' %}" {% if request.resolver_match.url_name == 'article-list-market-research' %} class="active"{% endif %}>Market research</a>
-            </li>
-            <li class="customer-insight">
-                <a href="{% url 'article-list-customer-insight' %}" {% if request.resolver_match.url_name == 'article-list-customer-insight' %} class="active"{% endif %}>Customer insight</a>
-            </li>
-            <li class="finance">
-                <a href="{% url 'article-list-finance' %}" {% if request.resolver_match.url_name == 'article-list-finance' %} class="active"{% endif %}>Finance</a>
-            </li>
-            <li class="business-planning">
-                <a href="{% url 'article-list-business-planning' %}" {% if request.resolver_match.url_name == 'article-list-business-planning' %} class="active"{% endif %}>Business planning</a>
-            </li>
-            <li class="getting-paid">
-                <a href="{% url 'article-list-getting-paid' %}" {% if request.resolver_match.url_name == 'article-list-getting-paid' %} class="active"{% endif %}>Getting paid</a>
-            </li>
-            <li class="operations-and-compliance">
-                <a href="{% url 'article-list-operations-and-compliance' %}" {% if request.resolver_match.url_name == 'article-list-operations-and-compliance' %} class="active"{% endif %}>Operations and compliance</a>
-            </li>
-        </ul>
-    </nav>
-</div>
-<section style="background-image: url( {% static 'images/hero-background-section-desktop.jpg' %})" class="hero-section">
+<section style="{% block header_style%}{% endblock %}" class="hero-section">
     <div class="container">
         <div class="hero-teaser">
             <h1 class="title">
@@ -54,14 +30,13 @@
         </div>
         <div class="section-content-list">
             <ul class="navigation" aria-live="assertive">
-                {% for article in article_list.articles %}
+                {% for article in article_group.articles %}
                     <li>
-                        <span class="section">{{ article_list.title }}<span class="verbose">:</span>&nbsp;</span>
-                        <a href="{{ article.url }}" class="article">{{ article.title }}</a>
+                        <span class="section">{{ article.parent.title }}<span class="verbose">:</span>&nbsp;</span>
+                        <a href="{{ article.url }}?source={{article_group.key}}" class="article">{{ article.title }}</a>
                     </li>
                 {% endfor %}
             </ul>
-            <div class="buttons"><a href="#" aria-hidden="true" class="button previous">Previous 5 chapters</a><span class="separator verbose">,</span><a href="#" aria-hidden="true" class="button next">Next 5 chapters</a><span class="separator verbose">,</span><a href="#ListPaginationControl_1508499914813_06139424706495396" aria-hidden="true" class="button more" aria-controls="ListPaginationControl_1508499914813_06139424706495396" style="display: none;">Show more</a></div>
         </div>
     </div>
 </section>

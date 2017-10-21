@@ -33,8 +33,16 @@
             </p>
         </footer>
     </article>
+    {% if next_article %}
+        <div class="link-continuity">
+          <p>
+            <span class="lead">Next</span>
+            <span class="verbose">:&nbsp;</span><a id="next-article-link" href="{{ next_article.url }}?source={{ article_group.key }}">{{ next_article.title }}</a>
+          </p>
+        </div>
+    {% endif %}
     <div class="group">
-        <span class="link-back-to">Back to <a href="{{ article_list.url }}" class="link">{{ article_list.title }}</a></span><a href="#top" class="link-top link">Back to top</a>
+        <span class="link-back-to">{% if article_group.url %}Back to <a id="category-link" href="{{ article_group.url }}" class="link">{{ article_group.title }}</a>{% else %}&nbsp;{% endif %}</span><a href="#top" class="link-top link">Back to top</a>
   </div>
 </div>
 {% endblock %}
