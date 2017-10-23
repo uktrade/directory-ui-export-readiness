@@ -1,3 +1,5 @@
+from unittest.mock import patch, call
+
 from bs4 import BeautifulSoup
 
 import pytest
@@ -338,3 +340,33 @@ def test_inferred_return_to_article(client, group):
 
         assert category_element.attrs['href'] == str(group.url)
         assert category_element.text == group.title
+
+
+@patch('article.helpers.DatabaseArticlesReadManager.persist_article')
+def test_article_view_persist_article_read_logged_in_user(
+        mocked_persist_articles,
+        authed_client
+):
+    url = reverse('article-research-market')
+    response = authed_client.get(url)
+
+    assert response.status_code == 200
+    assert mocked_persist_articles.call_count == 1
+    assert mocked_persist_articles.call_args == call(
+        article={'article_uuid': 'DO_RESEARCH_FIRST'}
+    )
+
+
+@patch('article.helpers.SessionArticlesReadManager.persist_article')
+def test_article_view_persist_article_read_anon_user(
+        mocked_persist_articles,
+        client
+):
+    url = reverse('article-research-market')
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert mocked_persist_articles.call_count == 1
+    assert mocked_persist_articles.call_args == call(
+        article={'article_uuid': 'DO_RESEARCH_FIRST'}
+    )

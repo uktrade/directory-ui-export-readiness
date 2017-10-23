@@ -12,7 +12,8 @@ class BaseArticleDetailView(TemplateView):
         return super().get(request, *args, **kwargs)
 
     def record_article_visit(self):
-        pass
+        manager = helpers.ArticleReadManager(self.request)
+        manager.persist_article(article={'article_uuid': self.article.uuid})
 
     def get_context_data(self, *args, **kwargs):
         social_link_kwargs = {

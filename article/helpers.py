@@ -46,7 +46,7 @@ class BaseArticleReadManager(abc.ABC):
     def __init__(self, request):
         self.request = request
 
-    persist_articles = abc.abstractproperty()
+    persist_article = abc.abstractproperty()
     retrieve_articles = abc.abstractproperty()
 
 
@@ -60,7 +60,7 @@ class ArticleReadManager:
 class SessionArticlesReadManager(BaseArticleReadManager):
     SESSION_KEY = 'ARTICLES_READ'
 
-    def persist_articles(self, article):
+    def persist_article(self, article):
         session = self.request.session
         articles = session.get(self.SESSION_KEY, [])
         articles.append(article)
@@ -73,7 +73,7 @@ class SessionArticlesReadManager(BaseArticleReadManager):
 
 class DatabaseArticlesReadManager(BaseArticleReadManager):
 
-    def persist_articles(self, article):
+    def persist_article(self, article):
         response = api_client.exportreadiness.create_article_read(
             form_data=article,
             sso_session_id=self.request.sso_user.session_id,

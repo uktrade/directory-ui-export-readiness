@@ -66,7 +66,7 @@ def test_database_create_article_read_calls_api(
 
     article = {'key', 'value'}
     manager = helpers.DatabaseArticlesReadManager(sso_request)
-    manager.persist_articles(article)
+    manager.persist_article(article)
 
     assert mock_create_article_read.call_count == 1
     assert mock_create_article_read.call_args == call(
@@ -83,7 +83,7 @@ def test_database_create_article_read_handle_exceptions(
     manager = helpers.DatabaseArticlesReadManager(sso_request)
 
     with pytest.raises(requests.HTTPError):
-        manager.persist_articles({'key', 'value'})
+        manager.persist_article({'key', 'value'})
 
 
 @patch('api_client.api_client.exportreadiness.retrieve_article_read')
@@ -117,7 +117,7 @@ def test_session_article_manager_stores_in_session_no_existing_articles(
 ):
     data = {'article_uuid': '123'}
     manager = helpers.SessionArticlesReadManager(anon_request)
-    manager.persist_articles(data)
+    manager.persist_article(data)
 
     assert anon_request.session[manager.SESSION_KEY] == [
         {'article_uuid': '123'}
@@ -133,7 +133,7 @@ def test_session_article_manager_stores_in_session_existing_articles(
 
     data = {'article_uuid': '345'}
     manager = helpers.SessionArticlesReadManager(anon_request)
-    manager.persist_articles(data)
+    manager.persist_article(data)
 
     assert anon_request.session[manager.SESSION_KEY] == [
         {'article_uuid': '123'},
