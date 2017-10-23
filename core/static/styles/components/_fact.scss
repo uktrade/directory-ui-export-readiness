@@ -1,0 +1,64 @@
+// Fact Component
+// ---------------------------
+
+// REQUIRES...
+// From _vars.scss
+// $spacing-3
+
+// From _typography
+// @mixin body-xl
+// @mixin body-l
+
+// From _colours.scss
+// $active-blue
+
+
+.fact {
+  strong {
+    color: $active-blue;
+    display: block;
+    font-family: $brand-font-alternative;
+    font-size: 72px;
+    font-weight: 400;
+    line-height: initial;
+  }
+  
+  .figure {
+    border-left: $active-blue solid 5px;
+    float: right;
+    min-width: 230px;
+    padding-left: $spacing-3;
+    width: 30%;
+  }
+  
+  .intro {
+    @include body-xl;
+    float: left;
+    padding-right: $spacing-3;
+    width: 60%;
+  }
+}
+
+// TABLET
+@media (max-width: 767px) {
+  .fact {
+    .figure,
+    .intro {
+      float: none;
+      width: 100%;
+    }
+  }
+}
+
+// MOBILE
+@media (max-width: 480px) {
+  .fact {
+    .intro {
+      @include body-l;
+    }
+    
+    strong {
+      font-size: 48px;
+    }
+  }
+}

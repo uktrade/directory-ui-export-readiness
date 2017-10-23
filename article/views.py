@@ -236,19 +236,19 @@ class MatchYourWebsiteToYourAudienceView(BaseArticleDetailView):
 
 
 class WhatInterlectualPropertyIsView(BaseArticleDetailView):
-    article = articles.WHAT_INTERLECTUAL_PROPERTY_IS
+    article = articles.WHAT_INTELLECTUAL_PROPERTY_IS
 
 
 class TypesOfInterlectualPropertyView(BaseArticleDetailView):
-    article = articles.TYPES_OF_INTERLECTUAL_PROPERTY
+    article = articles.TYPES_OF_INTELLECTUAL_PROPERTY
 
 
 class KnowWhatInterlectualPropertyYouHaveView(BaseArticleDetailView):
-    article = articles.KNOW_WHAT_INTERLECTUAL_PROPERTY_YOU_HAVE
+    article = articles.KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE
 
 
 class InterlectualPropertyProtectionView(BaseArticleDetailView):
-    article = articles.INTERLECTUAL_PROPERTY_PROTECTION
+    article = articles.INTELLECTUAL_PROPERTY_PROTECTION
 
 
 class MeetYourCustomerView(BaseArticleDetailView):

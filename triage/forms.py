@@ -1,3 +1,5 @@
+from collections import namedtuple
+
 from directory_constants.constants import exred_sector_names
 
 from django import forms
@@ -6,9 +8,12 @@ from core.widgets import CheckboxWithInlineLabel, RadioSelect
 from triage import fields
 
 
-REGULAR_EXPORTER = ('REGULAR_EXPORTER', 'Regular Exporter')
-OCCASIONAL_EXPORTER = ('OCCASIONAL_EXPORTER', 'Occasional Exporter')
-NEW_EXPORTER = ('NEW_EXPORTER', 'New Exporter')
+Persona = namedtuple('Persona', ['key', 'label'])
+REGULAR_EXPORTER = Persona(key='REGULAR_EXPORTER', label='Regular Exporter')
+OCCASIONAL_EXPORTER = Persona(
+    key='OCCASIONAL_EXPORTER', label='Occasional Exporter'
+)
+NEW_EXPORTER = Persona(key='NEW_EXPORTER', label='New Exporter')
 
 
 class BaseTriageForm(forms.Form):
@@ -109,12 +114,20 @@ def get_persona(cleaned_data):
     return NEW_EXPORTER
 
 
-def get_has_exported_before(cleaned_data):
-    return cleaned_data.get('exported_before') is True
+def get_has_exported_before(answers):
+    return answers.get('exported_before') is True
 
 
-def get_is_regular_exporter(cleaned_data):
-    return cleaned_data.get('regular_exporter') is True
+def get_is_regular_exporter(answers):
+    return answers.get('regular_exporter') is True
+
+
+def get_is_sole_trader(answers):
+    return answers.get('sole_trader') is True
+
+
+def get_used_marketplace(answers):
+    return answers.get('used_online_marketplace') is True
 
 
 def get_sector_label(cleaned_data):

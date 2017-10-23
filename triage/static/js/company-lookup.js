@@ -302,7 +302,6 @@ GOVUK.components = (new function() {
     this._private.$form.on("submit.CompaniesHouseNameLookup", function(e) {
       // If no input or no company selected
       if(instance._private.$field.val() === "") {
-        e.preventDefault();
         instance._private.$errors.empty();
         instance._private.$errors.append("<p>Check that you entered the company name correctly and select the matching company name from the list.</p>");
       }
