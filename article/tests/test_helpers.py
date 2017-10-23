@@ -119,29 +119,34 @@ def test_session_article_manager_stores_in_session_no_existing_articles(
     manager = helpers.SessionArticlesReadManager(anon_request)
     manager.persist_articles(data)
 
-    assert anon_request.session[manager.SESSION_KEY] == [data['article_uuid']]
+    assert anon_request.session[manager.SESSION_KEY] == [
+        {'article_uuid': '123'}
+    ]
 
 
 def test_session_article_manager_stores_in_session_existing_articles(
         anon_request
 ):
     key = helpers.SessionArticlesReadManager.SESSION_KEY
-    anon_request.session[key] = ['123']
-    assert anon_request.session[key] == ['123']
+    anon_request.session[key] = [{'article_uuid': '123'}]
+    assert anon_request.session[key] == [{'article_uuid': '123'}]
 
     data = {'article_uuid': '345'}
     manager = helpers.SessionArticlesReadManager(anon_request)
     manager.persist_articles(data)
 
-    assert anon_request.session[manager.SESSION_KEY] == ['123', '345']
+    assert anon_request.session[manager.SESSION_KEY] == [
+        {'article_uuid': '123'},
+        {'article_uuid': '345'}
+    ]
 
 
 def test_session_article_manager_retrieves_from_session(anon_request):
     key = helpers.SessionArticlesReadManager.SESSION_KEY
-    anon_request.session[key] = ['123']
-    assert anon_request.session[key] == ['123']
+    anon_request.session[key] = [{'article_uuid': '123'}]
+    assert anon_request.session[key] == [{'article_uuid': '123'}]
 
     manager = helpers.SessionArticlesReadManager(anon_request)
     answers = manager.retrieve_articles()
 
-    assert answers == ['123']
+    assert answers == [{'article_uuid': '123'}]

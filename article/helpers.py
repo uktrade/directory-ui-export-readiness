@@ -63,7 +63,7 @@ class SessionArticlesReadManager(BaseArticleReadManager):
     def persist_articles(self, article):
         session = self.request.session
         articles = session.get(self.SESSION_KEY, [])
-        articles.append(article['article_uuid'])
+        articles.append(article)
         session[self.SESSION_KEY] = articles
         session.modified = True
 
