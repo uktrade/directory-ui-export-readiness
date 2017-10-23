@@ -30,7 +30,7 @@
                         <li>access to worldwide statistics so you can research 	your market</li>
                     </ul>
                     {% if has_completed_triage %}
-                        <a href="{% url 'custom-landing-page' %}" class="button button-cta">Continue export journey</a>
+                        <a href="{% url 'custom-page' %}" class="button button-cta">Continue export journey</a>
                     {% else %}
                         <a href="{% url 'triage-wizard' %}" class="button button-cta">Get started</a>
                     {% endif %}

@@ -1,10 +1,10 @@
+from formtools.wizard.views import SessionWizardView
+
+from django.core.urlresolvers import reverse_lazy
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.utils.functional import cached_property
 from django.views.generic import TemplateView
-from formtools.wizard.views import SessionWizardView
-
-from django.http import JsonResponse
-from django.template.response import TemplateResponse
 from django.views.generic import View
 
 from article import structure
@@ -50,6 +50,7 @@ class TriageWizardFormView(SessionWizardView):
         COMPANY: 'triage/wizard-step-company.html',
         SUMMARY: 'triage/wizard-step-summary.html',
     }
+    success_url = reverse_lazy('custom-page')
 
     def process_step(self, form):
         if self.steps.current == self.REGULAR_EXPORTER:
@@ -77,12 +78,12 @@ class TriageWizardFormView(SessionWizardView):
         answers = forms.serialize_triage_form(self.get_all_cleaned_data())
         answer_manager = helpers.TriageAnswersManager(self.request)
         answer_manager.persist_answers(answers)
-        return TemplateResponse(self.request, 'triage/wizard-step-done.html')
+        return redirect(self.success_url)
 
 
 class CustomPageView(TemplateView):
     http_method_names = ['get']
-    template_name = 'triage/custom-landing-page.html'
+    template_name = 'triage/custom-page.html'
 
     @cached_property
     def triage_answers(self):
@@ -101,26 +102,28 @@ class CustomPageView(TemplateView):
         return context
 
     def get_section_configuration(self):
-        persona = forms.get_persona(self.triage_answers)
+        answers = self.triage_answers
+        persona = forms.get_persona(answers)
         if persona == forms.NEW_EXPORTER:
-            return self.get_persona_new_section_configuration()
+            return self.get_persona_new_section_configuration(answers)
         elif persona == forms.OCCASIONAL_EXPORTER:
-            return self.get_persona_occasional_section_configuration()
+            return self.get_persona_occasional_section_configuration(answers)
         elif persona == forms.REGULAR_EXPORTER:
-            return self.get_persona_regular_section_configuration()
+            return self.get_persona_regular_section_configuration(answers)
 
-    def get_persona_new_section_configuration(self):
+    @staticmethod
+    def get_persona_new_section_configuration(answers):
         return {
             'persona_article_group': structure.PERSONA_NEW_ARTICLES,
-            'trade_profile': not forms.get_is_sole_trader(self.triage_answers),
+            'trade_profile': not forms.get_is_sole_trader(answers),
             'selling_online_overseas': False,
             'selling_online_overseas_and_export_opportunities': False,
             'articles_resources': False,
             'case_studies': True,
         }
 
-    def get_persona_occasional_section_configuration(self):
-        answers = self.triage_answers
+    @staticmethod
+    def get_persona_occasional_section_configuration(answers):
         return {
             'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
             'trade_profile': not forms.get_is_sole_trader(answers),
@@ -130,10 +133,11 @@ class CustomPageView(TemplateView):
             'case_studies': True,
         }
 
-    def get_persona_regular_section_configuration(self):
+    @staticmethod
+    def get_persona_regular_section_configuration(answers):
         return {
             'persona_article_group': [],
-            'trade_profile': not forms.get_is_sole_trader(self.triage_answers),
+            'trade_profile': not forms.get_is_sole_trader(answers),
             'selling_online_overseas': False,
             'selling_online_overseas_and_export_opportunities': True,
             'articles_resources': True,

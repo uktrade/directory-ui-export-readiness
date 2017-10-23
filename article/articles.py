@@ -352,8 +352,8 @@ MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE = Article(
     url=reverse_lazy('match-your-website-to-your-audience'),
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE,
 )
-WHAT_INTERLECTUAL_PROPERTY_IS = Article(
-    uuid='WHAT_INTERLECTUAL_PROPERTY_IS',
+WHAT_INTELLECTUAL_PROPERTY_IS = Article(
+    uuid='WHAT_INTELLECTUAL_PROPERTY_IS',
     title='What intellectual property is',
     keywords=[],
     tasks=[],
@@ -363,8 +363,8 @@ WHAT_INTERLECTUAL_PROPERTY_IS = Article(
     url=reverse_lazy('what-intellectual-property-is'),
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE,
 )
-TYPES_OF_INTERLECTUAL_PROPERTY = Article(
-    uuid='TYPES_OF_INTERLECTUAL_PROPERTY',
+TYPES_OF_INTELLECTUAL_PROPERTY = Article(
+    uuid='TYPES_OF_INTELLECTUAL_PROPERTY',
     title='Types of intellectual property',
     keywords=[],
     tasks=[],
@@ -374,8 +374,8 @@ TYPES_OF_INTERLECTUAL_PROPERTY = Article(
     url=reverse_lazy('types-of-intellectual-property'),
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE,
 )
-KNOW_WHAT_INTERLECTUAL_PROPERTY_YOU_HAVE = Article(
-    uuid='KNOW_WHAT_INTERLECTUAL_PROPERTY_YOU_HAVE',
+KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE = Article(
+    uuid='KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE',
     title='Know what IP you have',
     keywords=[],
     tasks=[],
@@ -383,8 +383,8 @@ KNOW_WHAT_INTERLECTUAL_PROPERTY_YOU_HAVE = Article(
     url=reverse_lazy('know-what-IP-you-have'),
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE,
 )
-INTERLECTUAL_PROPERTY_PROTECTION = Article(
-    uuid='INTERLECTUAL_PROPERTY_PROTECTION',
+INTELLECTUAL_PROPERTY_PROTECTION = Article(
+    uuid='INTELLECTUAL_PROPERTY_PROTECTION',
     title='IP protection in multiple countries',
     keywords=[],
     tasks=[],
