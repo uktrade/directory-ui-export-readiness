@@ -26,7 +26,8 @@
 .service-section {
   padding: $spacing-3 0 0 0;
   position: relative;
-
+  padding-top: 60px;
+  padding-bottom: 15px;
   img {
     float: right;
     width: calc(50% - #{$spacing-3});
@@ -65,9 +66,15 @@
     .button {
       @include button-ghost($grey, $white);
     }
+    li::before {
+      background-color: black;
+    }
   }
   
-  &.exops { background-color: #DFD5C6; }
+  &.exops {
+    background-color: #DFD5C6;
+
+  }
 }
 
 .service-teaser {

@@ -256,11 +256,11 @@ ALL_GROUPS = [
     GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES,
     ALL_ARTICLES,
 ]
-ALL_GOUPS_DICT = {group.key: group for group in ALL_GROUPS}
+ALL_GROUPS_DICT = {group.key: group for group in ALL_GROUPS}
 
 
 def get_article_group(group_key):
-    return ALL_GOUPS_DICT.get(group_key) or ALL_ARTICLES
+    return ALL_GROUPS_DICT.get(group_key) or ALL_ARTICLES
 
 
 def get_next_article(article_group, current_article):

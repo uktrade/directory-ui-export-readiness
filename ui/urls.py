@@ -277,7 +277,7 @@ urlpatterns = [
     url(
         r'^custom$',
         triage.views.CustomPageView.as_view(),
-        name='custom-page'
+        name='custom-landing-page'
     ),
     url(
         r'^api/internal/companies-house-search/$',

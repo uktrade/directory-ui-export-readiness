@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.template.response import TemplateResponse
 from django.views.generic import View
 
+from article import structure
 from triage import forms, helpers
 
 
@@ -81,7 +82,7 @@ class TriageWizardFormView(SessionWizardView):
 
 class CustomPageView(TemplateView):
     http_method_names = ['get']
-    template_name = 'triage/custom-page.html'
+    template_name = 'triage/custom-landing-page.html'
 
     @cached_property
     def triage_answers(self):
@@ -95,7 +96,46 @@ class CustomPageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        persona = forms.get_persona(self.triage_answers)
-        context['persona'] = persona
         context['triage_result'] = self.triage_answers
+        context['section_configuration'] = self.get_section_configuration()
         return context
+
+    def get_section_configuration(self):
+        persona = forms.get_persona(self.triage_answers)
+        if persona == forms.NEW_EXPORTER:
+            return self.get_persona_new_section_configuration()
+        elif persona == forms.OCCASIONAL_EXPORTER:
+            return self.get_persona_occasional_section_configuration()
+        elif persona == forms.REGULAR_EXPORTER:
+            return self.get_persona_regular_section_configuration()
+
+    def get_persona_new_section_configuration(self):
+        return {
+            'persona_article_group': structure.PERSONA_NEW_ARTICLES,
+            'trade_profile': self.triage_answers['sole_trader'] is False,
+            'selling_online_overseas': False,
+            'selling_online_overseas_and_export_opportunities': False,
+            'articles_resources': False,
+            'case_studies': True,
+        }
+
+    def get_persona_occasional_section_configuration(self):
+        used_marketpolace = self.triage_answers['used_online_marketplace']
+        return {
+            'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
+            'trade_profile': self.triage_answers['sole_trader'] is False,
+            'selling_online_overseas': used_marketpolace,
+            'selling_online_overseas_and_export_opportunities': False,
+            'articles_resources': False,
+            'case_studies': True,
+        }
+
+    def get_persona_regular_section_configuration(self):
+        return {
+            'persona_article_group': [],
+            'trade_profile': self.triage_answers['sole_trader'] is False,
+            'selling_online_overseas': False,
+            'selling_online_overseas_and_export_opportunities': True,
+            'articles_resources': True,
+            'case_studies': False,
+        }

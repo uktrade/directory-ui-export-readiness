@@ -18,14 +18,38 @@
         </div>
     </div>
 </section>
+
+{% if section_configuration.persona_article_group %}
+<section id="articles">
+    <div class="container">
+        <div class="section-intro">
+            <h2 class="header">Your export guidance</h2>
+            <p class="intro">
+                Based on your answers, we've selected information that will help guide you through the different areas of exporting. After reading the information, complete the tasks to get the most out of your exporting journey.
+            </p>
+        </div>
+        <div class="section-content-list">
+            <ul class="navigation" aria-live="assertive">
+                {% for article in section_configuration.persona_article_group.articles %}
+                    <li>
+                        <span class="section">{{ article.parent.title }}<span class="verbose">:</span>&nbsp;</span>
+                        <a href="{{ article.url }}?source={{article_group.key}}" class="article">{{ article.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% if section_configuration.trade_profile %}
 <section class="service-section fas">
     <div class="container">
         <h2 class="heading">
-	        {% if triage_result.company_name %}
-	        	Connect {{ triage_result.company_name }} directly with international buyers
-	        {% else %}
-	        	Connect directly with international buyers
-	       	{% endif %}
+            {% if triage_result.company_name %}
+                Connect {{ triage_result.company_name }} directly with international buyers
+            {% else %}
+                Connect directly with international buyers
+            {% endif %}
         </h2>
         <img src="{% static 'images/services/service-fas-section.png' %}" alt="">
         <div class="intro">
@@ -41,6 +65,8 @@
         </div>
     </div>
 </section>
+{% endif %}
+{% if section_configuration.selling_online_overseas_and_export_opportunities %}
 <section id="other-services">
     <div class="container">
         <h2 class="header verbose">Other services</h2>
@@ -62,6 +88,40 @@
         </div>
     </div>
 </section>
-{% include 'core/guidance-resources.html' %}
+{% endif %}
+
+{% if section_configuration.selling_online_overseas %}
+<section class="service-section soo">
+    <div class="container">
+        <h2 class="heading">
+            {% if triage_result.company_name %}
+                Help {{ triage_result.company_name }} reach over 2 billion consumers around the world
+            {% else %}
+                Reach over 2 billion consumers around the world
+            {% endif %}
+        </h2>
+        <img src="{% static 'images/services/service-soo-section.png' %}" alt="">
+        <div class="intro">
+            <div class="content">
+                <p>Get promoted internationally with a free trade profile.</p>
+                <ul>
+                    <li>find online marketplaces to sell your products and compare them by size, fees and support.</li>
+                    <li>find out their details and exclusive deals.</li>
+                    <li>join an online marketplace and start selling your   products to customers across the world.</li>
+                </ul>
+                <a href="https://opportunities.export.great.gov.uk/" class="button button-cta">Find marketplaces</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if section_configuration.articles_resources %}
+    {% include 'core/guidance-resources.html' %}
+{% endif %}
+
+{% if section_configuration.case_studies %}
+
+{% endif %}
 
 {% endblock %}
