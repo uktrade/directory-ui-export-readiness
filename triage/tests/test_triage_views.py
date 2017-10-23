@@ -1,5 +1,6 @@
 from unittest.mock import call, patch, Mock
 
+from bs4 import BeautifulSoup
 import pytest
 import requests
 
@@ -40,7 +41,9 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
 
     assert done_response.status_code == 302
     assert done_response.get('Location') == str(view_class.success_url)
-    assert summary_response.context_data['persona'] == 'Regular Exporter'
+    assert summary_response.context_data['persona'] == (
+        forms.REGULAR_EXPORTER
+    )
     assert summary_response.context_data['sector_label'] == 'Animals; live'
     assert summary_response.context_data['all_cleaned_data'] == {
         'sole_trader': True,
@@ -94,7 +97,9 @@ def test_submit_triage_occasional_exporter(mock_persist_answers, client):
 
     assert done_response.status_code == 302
     assert done_response.get('Location') == str(view_class.success_url)
-    assert summary_response.context_data['persona'] == 'Occasional Exporter'
+    assert summary_response.context_data['persona'] == (
+        forms.OCCASIONAL_EXPORTER
+    )
     assert summary_response.context_data['sector_label'] == 'Animals; live'
     assert summary_response.context_data['all_cleaned_data'] == {
         'sole_trader': True,
@@ -141,7 +146,7 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
 
     assert done_response.status_code == 302
     assert done_response.get('Location') == str(view_class.success_url)
-    assert summary_response.context_data['persona'] == 'New Exporter'
+    assert summary_response.context_data['persona'] == forms.NEW_EXPORTER
     assert summary_response.context_data['sector_label'] == 'Animals; live'
     assert summary_response.context_data['all_cleaned_data'] == {
         'company_number': '',
@@ -262,9 +267,16 @@ def test_custom_view_new_exporter(
     with patch('triage.forms.get_is_sole_trader', return_value=is_sole_trader):
         url = reverse('custom-page')
         response = authed_client.get(url)
+        soup = BeautifulSoup(response.content, 'html.parser')
 
         assert response.status_code == 200
         assert response.context_data['section_configuration'] == expected
+        assert soup.find('h1').text.replace('\n', '') == (
+            'Use your'
+            'potential'
+            'start'
+            'exporting'
+        )
 
 
 @pytest.mark.parametrize('is_sole_trader,is_marketplace_user,expected', (
@@ -330,9 +342,16 @@ def test_custom_view_occasional_exporter(
         ):
             url = reverse('custom-page')
             response = authed_client.get(url)
+            soup = BeautifulSoup(response.content, 'html.parser')
 
             assert response.status_code == 200
             assert response.context_data['section_configuration'] == expected
+            assert soup.find('h1').text.replace('\n', '') == (
+                'New customers'
+                'are waiting'
+                'promote your'
+                'business'
+            )
 
 
 @pytest.mark.parametrize('is_sole_trader,expected', (
@@ -367,6 +386,13 @@ def test_custom_view_regular_exporter(
     with patch('triage.forms.get_is_sole_trader', return_value=is_sole_trader):
         url = reverse('custom-page')
         response = authed_client.get(url)
+        soup = BeautifulSoup(response.content, 'html.parser')
 
         assert response.status_code == 200
         assert response.context_data['section_configuration'] == expected
+        assert soup.find('h1').text.replace('\n', '') == (
+            'Choose your'
+            'next market'
+            'Find new'
+            'customers'
+        )

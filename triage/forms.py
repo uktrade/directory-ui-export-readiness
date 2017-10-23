@@ -1,3 +1,5 @@
+from collections import namedtuple
+
 from directory_constants.constants import exred_sector_names
 
 from django import forms
@@ -6,9 +8,12 @@ from core.widgets import CheckboxWithInlineLabel, RadioSelect
 from triage import fields
 
 
-REGULAR_EXPORTER = ('REGULAR_EXPORTER', 'Regular Exporter')
-OCCASIONAL_EXPORTER = ('OCCASIONAL_EXPORTER', 'Occasional Exporter')
-NEW_EXPORTER = ('NEW_EXPORTER', 'New Exporter')
+Persona = namedtuple('Persona', ['key', 'label'])
+REGULAR_EXPORTER = Persona(key='REGULAR_EXPORTER', label='Regular Exporter')
+OCCASIONAL_EXPORTER = Persona(
+    key='OCCASIONAL_EXPORTER', label='Occasional Exporter'
+)
+NEW_EXPORTER = Persona(key='NEW_EXPORTER', label='New Exporter')
 
 
 class BaseTriageForm(forms.Form):

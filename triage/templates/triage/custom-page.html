@@ -11,9 +11,26 @@
 <section style="" class="hero-section regular">
     <div class="container">
         <div class="hero-teaser">
-            <h1 class="title"><span>Choose your</span><br><span>next market</span><br><span>Find new</span><br><span>customers</span><br>
+            <h1 class="title">
+            {% if persona.key == 'NEW_EXPORTER' %}
+                <span>Use your</span><br>
+                <span>potential</span><br>
+                <span>start</span><br>
+                <span>exporting</span><br>
+            {% elif persona.key == 'OCCASIONAL_EXPORTER' %}
+                <span>New customers</span><br>
+                <span>are waiting</span><br>
+                <span>promote your</span><br>
+                <span>business</span><br>
+            {% elif persona.key == 'REGULAR_EXPORTER'%}
+                <span>Choose your</span><br>
+                <span>next market</span><br>
+                <span>Find new</span><br>
+                <span>customers</span><br>
+            {% endif %}
             </h1>
-            <p>We've gathered information, guidance and tools to help your beverages, spirits and vinegar business to grow</p>
+            <p>Learn about the best markets for your sector, increase your exporting knowledge and start connecting with overseas buyers.</p>
+            <a href="{% url 'triage-wizard' %}" class="preferences">Update preferences</a>
             <img src="{% static 'images/eig-logo-stacked.svg' %}">
         </div>
     </div>

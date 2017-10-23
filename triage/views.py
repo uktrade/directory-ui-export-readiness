@@ -71,7 +71,7 @@ class TriageWizardFormView(SessionWizardView):
             all_cleaned_data = self.get_all_cleaned_data()
             context['all_cleaned_data'] = all_cleaned_data
             context['sector_label'] = forms.get_sector_label(all_cleaned_data)
-            context['persona'] = forms.get_persona(all_cleaned_data)[1]
+            context['persona'] = forms.get_persona(all_cleaned_data)
         return context
 
     def done(self, *args, **kwargs):
@@ -97,6 +97,7 @@ class CustomPageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['persona'] = forms.get_persona(self.triage_answers)
         context['triage_result'] = self.triage_answers
         context['section_configuration'] = self.get_section_configuration()
         return context
