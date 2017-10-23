@@ -353,7 +353,7 @@ def test_article_view_persist_article_read_logged_in_user(
     assert response.status_code == 200
     assert mocked_persist_articles.call_count == 1
     assert mocked_persist_articles.call_args == call(
-        article={'article_uuid': 'DO_RESEARCH_FIRST'}
+        article_uuid='DO_RESEARCH_FIRST'
     )
 
 
@@ -368,5 +368,5 @@ def test_article_view_persist_article_read_anon_user(
     assert response.status_code == 200
     assert mocked_persist_articles.call_count == 1
     assert mocked_persist_articles.call_args == call(
-        article={'article_uuid': 'DO_RESEARCH_FIRST'}
+        article_uuid='DO_RESEARCH_FIRST'
     )

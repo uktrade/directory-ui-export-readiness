@@ -60,10 +60,10 @@ class ArticleReadManager:
 class SessionArticlesReadManager(BaseArticleReadManager):
     SESSION_KEY = 'ARTICLES_READ'
 
-    def persist_article(self, article):
+    def persist_article(self, article_uuid):
         session = self.request.session
         articles = session.get(self.SESSION_KEY, [])
-        articles.append(article)
+        articles.append(article_uuid)
         session[self.SESSION_KEY] = articles
         session.modified = True
 
@@ -73,9 +73,9 @@ class SessionArticlesReadManager(BaseArticleReadManager):
 
 class DatabaseArticlesReadManager(BaseArticleReadManager):
 
-    def persist_article(self, article):
+    def persist_article(self, article_uuid):
         response = api_client.exportreadiness.create_article_read(
-            form_data=article,
+            article_uuid=article_uuid,
             sso_session_id=self.request.sso_user.session_id,
         )
         response.raise_for_status()
@@ -85,4 +85,4 @@ class DatabaseArticlesReadManager(BaseArticleReadManager):
             sso_session_id=self.request.sso_user.session_id
         )
         response.raise_for_status()
-        return response.json()
+        return [article['article_uuid'] for article in response.json()]
