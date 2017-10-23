@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+
+{% load static from staticfiles %}
+
+{% block css %}
+    <link href="{% static 'styles/pages/casestudy.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <p class="breadcrumbs">
+        <span class="label verbose">You are here:</span>
+        <a href="{% url 'landing-page' %}">Export</a><span class="separator">,</span>
+        <span class="current">{% block breadcrums_title %}{% endblock %}</span>
+    </p>
+    <article id="top">
+        <h1>{% block title %}{% endblock %}</h1>
+        <p class="type">Case Study</p>
+        <p class="description">{% block subtitle %}{% endblock %}</p>
+        <div class="image">
+            {% block image %}{% endblock %}
+            <blockquote class="quote">
+                <span class="text">{% block quote_one_text %}{% endblock %}</span>
+                <cite>
+                    <span class="name">{% block quote_one_name %}{% endblock %}</span>
+                    <span class="verbose">,</span>
+                    <span class="role">{% block quote_one_job_title %}{% endblock %}</span>
+                    {% block quote_one_link %}{% endblock %}
+                </cite>
+            </blockquote>
+        </div>
+        <div class="content">
+            {% block main_content %}{% endblock %}
+        </div>
+        <blockquote class="quote">
+            <span class="text">{% block quote_two_text %}{% endblock %}</span>
+            <cite>
+                <span class="name">{% block quote_two_name %}{% endblock %}</span>
+                <span class="verbose">,</span>
+                <span class="role">{% block quote_two_job_title %}{% endblock %}</span>
+                {% block quote_two_link %}{% endblock %}
+            </cite>
+        </blockquote>
+        {% include 'core/social-share-links.html' %}
+    </article>
+    <p class="footnote">Find out how you can sell through online marketplaces like Amazon and eBay by using the <a href="https://selling-online-overseas.export.great.gov.uk/">Selling Online Overseas Service</a>.
+    </p>
+</div>
+{% endblock %}

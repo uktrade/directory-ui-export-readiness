@@ -8,6 +8,7 @@ from article import views
 from django.core.urlresolvers import reverse
 
 from article import helpers, structure
+import core.helpers
 
 
 persona_lise_views_under_test = (
@@ -274,27 +275,28 @@ def test_articles_share_links(view_class, url, client):
     assert response.status_code == 200
     assert response.template_name == [view_class.template_name]
 
-    expected_twitter = helpers.build_twitter_link(
+    expected_twitter = core.helpers.build_twitter_link(
         request=response._request,
         title=view_class.article.title,
     )
-    expected_facebook = helpers.build_facebook_link(
+    expected_facebook = core.helpers.build_facebook_link(
         request=response._request,
         title=view_class.article.title,
     )
-    expected_linkedin = helpers.build_linkedin_link(
+    expected_linkedin = core.helpers.build_linkedin_link(
         request=response._request,
         title=view_class.article.title,
     )
-    expected_email = helpers.build_email_link(
+    expected_email = core.helpers.build_email_link(
         request=response._request,
         title=view_class.article.title,
     )
+    soup = BeautifulSoup(response.content, 'html.parser')
 
-    expected_twitter in str(response.content)
-    expected_facebook in str(response.content)
-    expected_linkedin in str(response.content)
-    expected_email in str(response.content)
+    assert soup.find(id='share-twitter').attrs['href'] == expected_twitter
+    assert soup.find(id='share-facebook').attrs['href'] == expected_facebook
+    assert soup.find(id='share-linkedin').attrs['href'] == expected_linkedin
+    assert soup.find(id='share-email').attrs['href'] == expected_email
 
 
 # skip the last group - it does not have a page, it's a list of all articles.
@@ -327,7 +329,7 @@ def test_inferred_next_articles(client, group):
             )
             assert next_article_element.text == next_article.title
         else:
-            next_article_element is None
+            assert next_article_element is None
 
 
 # skip the last group - it does not have a page, it's a list of all articles.

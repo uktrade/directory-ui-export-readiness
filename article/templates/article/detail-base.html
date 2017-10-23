@@ -13,24 +13,7 @@
         <h1>{{ article.title }}</h1>
         {% include_markdown article.markdown_file_path %}
         <footer>
-            <p class="sharing-links" data-component="sharing-links">
-                <span class="label">Share</span>
-                <a id="share-twitter" href="{{ social_links.twitter }}">
-                    <img alt="with Twitter" height="36px" src="{% static 'images/twitter.svg' %}" width="36px">
-                </a>
-                <span class="verbose">,</span>
-                <a id="share-facebook" href="{{ social_links.facebook }}">
-                    <img alt="with Facebook" height="36px" src="{% static 'images/facebook.svg' %}" width="36px">
-                </a>
-                <span class="verbose">,</span>
-                <a id="share-linkedin" href="{{ social_links.linkedin }}">
-                    <img alt="with LinkedIn" height="36px" src="{% static 'images/linkedin.svg' %}" width="36px">
-                </a>
-                <span class="verbose">,</span>
-                <a id="share-email" href="{{ social_links.email }}">
-                	<img alt="with Email" height="36px" src="{% static 'images/email.svg' %}" width="36px">
-                </a>
-            </p>
+            {% include 'core/social-share-links.html' %}
         </footer>
     </article>
     {% if next_article %}
