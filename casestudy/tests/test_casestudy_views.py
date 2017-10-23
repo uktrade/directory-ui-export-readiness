@@ -34,6 +34,7 @@ def test_casestudy_market(client, view_class, url):
     assert response.status_code == 200
     assert response.template_name == [view_class.template_name]
     assert response.context_data['title'] == view_class.title
+    assert response.context_data['description'] == view_class.description
     assert soup.find(id='share-twitter').attrs['href'] == expected_twitter
     assert soup.find(id='share-facebook').attrs['href'] == expected_facebook
     assert soup.find(id='share-linkedin').attrs['href'] == expected_linkedin

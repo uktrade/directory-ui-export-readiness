@@ -9,6 +9,7 @@
 @import '../components/_export-status-selector';
 @import '../components/_resources';
 @import '../components/_exporter-story';
+@import '../components/_carousel';
 
 #personas,
 #services {
@@ -22,7 +23,10 @@
 }
 
 // TABLET
-@media (max-width: 767px) {
+@media (min-width: 767px) {
+  .service-teaser {
+    height: 487.391px
+  }
 }
 
 

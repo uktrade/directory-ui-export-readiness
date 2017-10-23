@@ -138,7 +138,13 @@
 {% endif %}
 
 {% if section_configuration.case_studies %}
-
+<section id="carousel">
+    <div class="container">
+        <h2 class="heading">Exporters share their story</h2>
+        <p class="intro">Read what other UK businesses have to say about their experiences with exporting and the decisions they made to secure the future of their business.</p>
+        {% include 'casestudy/carousel.html' %}
+    </div>
+</section>
 {% endif %}
 
 {% endblock %}

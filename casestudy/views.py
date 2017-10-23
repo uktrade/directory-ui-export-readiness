@@ -1,30 +1,31 @@
 from django.views.generic import TemplateView
 
 from core.helpers import build_social_links
+from casestudy import casestudies
 
 
 class BaseCaseStudyView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         social_links = build_social_links(
-            request=self.request, title=self.title
+            request=self.request, title=self.casestudy.title
         )
         return super().get_context_data(
             *args, **kwargs,
             social_links=social_links,
-            title=self.title,
+            casestudy=self.casestudy,
         )
 
 
 class CasestudyHelloBabyView(BaseCaseStudyView):
     template_name = 'casestudy/hello-baby.html'
-    title = "Hello Baby's rapid online growth"
+    casestudy = casestudies.HELLO_BABY
 
 
 class CasestudyMarketplaceView(BaseCaseStudyView):
     template_name = 'casestudy/marketplace.html'
-    title = "Online marketplaces propel FreestyleXtreme"
+    casestudy = casestudies.MARKETPLACE
 
 
 class CasestudyYorkBagView(BaseCaseStudyView):
     template_name = 'casestudy/york-bag.html'
-    title = "York bag retailer goes global via e-commerce"
+    casestudy = casestudies.YORK

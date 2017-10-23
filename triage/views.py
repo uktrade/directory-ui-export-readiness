@@ -9,6 +9,7 @@ from django.views.generic import View
 
 from article import structure
 from triage import forms, helpers
+from casestudy import casestudies
 
 
 class CompaniesHouseSearchApiView(View):
@@ -100,6 +101,11 @@ class CustomPageView(TemplateView):
         context['persona'] = forms.get_persona(self.triage_answers)
         context['triage_result'] = self.triage_answers
         context['section_configuration'] = self.get_section_configuration()
+        context['casestudies'] = [
+            casestudies.MARKETPLACE,
+            casestudies.HELLO_BABY,
+            casestudies.YORK,
+        ]
         return context
 
     def get_section_configuration(self):
