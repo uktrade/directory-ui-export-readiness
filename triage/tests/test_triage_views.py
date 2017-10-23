@@ -1,4 +1,4 @@
-from unittest.mock import call, patch
+from unittest.mock import call, patch, Mock
 
 import pytest
 import requests
@@ -7,7 +7,8 @@ from django.core.urlresolvers import reverse
 from directory_constants.constants import exred_sector_names
 
 from core.tests.helpers import create_response
-from triage import views
+from triage import forms, views
+from article import structure
 
 
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
@@ -195,7 +196,7 @@ def test_companies_house_search_api_success(
 
 
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers')
-def test_custom_view(mocked_retrieve_answers, authed_client, sso_user):
+def test_custom_landing_page(mocked_retrieve_answers, authed_client, sso_user):
     triage_result = {
         'company_name': 'Acme ltd',
         'created': '2016-11-23T11:21:10.977518Z',
@@ -211,22 +212,161 @@ def test_custom_view(mocked_retrieve_answers, authed_client, sso_user):
         'company_number': None,
     }
     mocked_retrieve_answers.return_value = triage_result
-    url = reverse('custom-page')
+    url = reverse('custom-landing-page')
     response = authed_client.get(url)
     assert response.status_code == 200
-    assert response.template_name == ['triage/custom-page.html']
-    assert response.context_data['persona'] == (
-        'REGULAR_EXPORTER',
-        'Regular Exporter'
-    )
+    assert response.template_name == ['triage/custom-landing-page.html']
     assert response.context_data['triage_result'] == triage_result
 
 
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers')
-def test_custom_view_no_triage_result_found(mocked_retrieve_answers,
-                                            authed_client):
+def test_custom_landing_page_no_triage_result_found(
+    mocked_retrieve_answers, authed_client
+):
     mocked_retrieve_answers.return_value = {}
-    url = reverse('custom-page')
+    url = reverse('custom-landing-page')
     response = authed_client.get(url)
     assert response.status_code == 302
     assert response.url == reverse('triage-wizard')
+
+
+@pytest.mark.parametrize('is_sole_trader,expected', (
+    (
+        False,
+        {
+            'persona_article_group': structure.PERSONA_NEW_ARTICLES,
+            'trade_profile': True,
+            'selling_online_overseas': False,
+            'selling_online_overseas_and_export_opportunities': False,
+            'articles_resources': False,
+            'case_studies': True,
+        },
+    ),
+    (
+        True,
+        {
+            'persona_article_group': structure.PERSONA_NEW_ARTICLES,
+            'trade_profile': False,
+            'selling_online_overseas': False,
+            'selling_online_overseas_and_export_opportunities': False,
+            'articles_resources': False,
+            'case_studies': True,
+        },
+    ),
+))
+@patch('triage.views.CustomPageView.triage_answers', Mock(return_value={1: 2}))
+@patch('triage.forms.get_persona', Mock(return_value=forms.NEW_EXPORTER))
+def test_custom_landing_page_new_exporter(
+    is_sole_trader, expected, authed_client
+):
+    with patch('triage.forms.get_is_sole_trader', return_value=is_sole_trader):
+        url = reverse('custom-landing-page')
+        response = authed_client.get(url)
+
+        assert response.status_code == 200
+        assert response.context_data['section_configuration'] == expected
+
+
+@pytest.mark.parametrize('is_sole_trader,is_marketplace_user,expected', (
+    (
+        False,
+        False,
+        {
+            'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
+            'trade_profile': True,
+            'selling_online_overseas': False,
+            'selling_online_overseas_and_export_opportunities': False,
+            'articles_resources': False,
+            'case_studies': True,
+        },
+    ),
+    (
+        True,
+        False,
+        {
+            'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
+            'trade_profile': False,
+            'selling_online_overseas': False,
+            'selling_online_overseas_and_export_opportunities': False,
+            'articles_resources': False,
+            'case_studies': True,
+        },
+    ),
+    (
+        False,
+        True,
+        {
+            'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
+            'trade_profile': True,
+            'selling_online_overseas': True,
+            'selling_online_overseas_and_export_opportunities': False,
+            'articles_resources': False,
+            'case_studies': True,
+        },
+    ),
+    (
+        True,
+        True,
+        {
+            'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
+            'trade_profile': False,
+            'selling_online_overseas': True,
+            'selling_online_overseas_and_export_opportunities': False,
+            'articles_resources': False,
+            'case_studies': True,
+        },
+    ),
+))
+@patch('triage.views.CustomPageView.triage_answers', Mock(return_value={1: 2}))
+@patch('triage.forms.get_persona',
+       Mock(return_value=forms.OCCASIONAL_EXPORTER))
+def test_custom_landing_page_occasional_exporter(
+    is_sole_trader, is_marketplace_user, expected, authed_client
+):
+    with patch('triage.forms.get_is_sole_trader', return_value=is_sole_trader):
+        with patch(
+            'triage.forms.get_used_marketplace',
+            return_value=is_marketplace_user
+        ):
+            url = reverse('custom-landing-page')
+            response = authed_client.get(url)
+
+            assert response.status_code == 200
+            assert response.context_data['section_configuration'] == expected
+
+
+@pytest.mark.parametrize('is_sole_trader,expected', (
+    (
+        False,
+        {
+            'persona_article_group': [],
+            'trade_profile': True,
+            'selling_online_overseas': False,
+            'selling_online_overseas_and_export_opportunities': True,
+            'articles_resources': True,
+            'case_studies': False,
+        },
+    ),
+    (
+        True,
+        {
+            'persona_article_group': [],
+            'trade_profile': False,
+            'selling_online_overseas': False,
+            'selling_online_overseas_and_export_opportunities': True,
+            'articles_resources': True,
+            'case_studies': False,
+        },
+    ),
+))
+@patch('triage.views.CustomPageView.triage_answers', Mock(return_value={1: 2}))
+@patch('triage.forms.get_persona', Mock(return_value=forms.REGULAR_EXPORTER))
+def test_custom_landing_page_regular_exporter(
+    is_sole_trader, expected, authed_client
+):
+    with patch('triage.forms.get_is_sole_trader', return_value=is_sole_trader):
+        url = reverse('custom-landing-page')
+        response = authed_client.get(url)
+
+        assert response.status_code == 200
+        assert response.context_data['section_configuration'] == expected

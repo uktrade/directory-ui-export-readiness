@@ -112,7 +112,7 @@ class CustomPageView(TemplateView):
     def get_persona_new_section_configuration(self):
         return {
             'persona_article_group': structure.PERSONA_NEW_ARTICLES,
-            'trade_profile': self.triage_answers['sole_trader'] is False,
+            'trade_profile': not forms.get_is_sole_trader(self.triage_answers),
             'selling_online_overseas': False,
             'selling_online_overseas_and_export_opportunities': False,
             'articles_resources': False,
@@ -120,11 +120,11 @@ class CustomPageView(TemplateView):
         }
 
     def get_persona_occasional_section_configuration(self):
-        used_marketpolace = self.triage_answers['used_online_marketplace']
+        answers = self.triage_answers
         return {
             'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
-            'trade_profile': self.triage_answers['sole_trader'] is False,
-            'selling_online_overseas': used_marketpolace,
+            'trade_profile': not forms.get_is_sole_trader(answers),
+            'selling_online_overseas': forms.get_used_marketplace(answers),
             'selling_online_overseas_and_export_opportunities': False,
             'articles_resources': False,
             'case_studies': True,
@@ -133,7 +133,7 @@ class CustomPageView(TemplateView):
     def get_persona_regular_section_configuration(self):
         return {
             'persona_article_group': [],
-            'trade_profile': self.triage_answers['sole_trader'] is False,
+            'trade_profile': not forms.get_is_sole_trader(self.triage_answers),
             'selling_online_overseas': False,
             'selling_online_overseas_and_export_opportunities': True,
             'articles_resources': True,

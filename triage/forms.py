@@ -109,12 +109,20 @@ def get_persona(cleaned_data):
     return NEW_EXPORTER
 
 
-def get_has_exported_before(cleaned_data):
-    return cleaned_data.get('exported_before') is True
+def get_has_exported_before(answers):
+    return answers.get('exported_before') is True
 
 
-def get_is_regular_exporter(cleaned_data):
-    return cleaned_data.get('regular_exporter') is True
+def get_is_regular_exporter(answers):
+    return answers.get('regular_exporter') is True
+
+
+def get_is_sole_trader(answers):
+    return answers.get('sole_trader') is True
+
+
+def get_used_marketplace(answers):
+    return answers.get('used_online_marketplace') is True
 
 
 def get_sector_label(cleaned_data):
