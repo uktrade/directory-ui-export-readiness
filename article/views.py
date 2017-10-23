@@ -2,6 +2,7 @@ from django.views.generic import TemplateView
 from django.utils.functional import cached_property
 
 from article import helpers, articles, structure
+from core.helpers import build_social_links
 
 
 class BaseArticleDetailView(TemplateView):
@@ -16,15 +17,9 @@ class BaseArticleDetailView(TemplateView):
         manager.persist_article(article_uuid=self.article.uuid)
 
     def get_context_data(self, *args, **kwargs):
-        social_link_kwargs = {
-            'request': self.request, 'title': self.article.title,
-        }
-        social_links = {
-            'facebook': helpers.build_facebook_link(**social_link_kwargs),
-            'twitter': helpers.build_twitter_link(**social_link_kwargs),
-            'linkedin': helpers.build_linkedin_link(**social_link_kwargs),
-            'email': helpers.build_email_link(**social_link_kwargs),
-        }
+        social_links = build_social_links(
+            request=self.request, title=self.article.title
+        )
         return super().get_context_data(
             *args, **kwargs,
             article=self.article,

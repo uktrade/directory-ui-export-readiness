@@ -1,9 +1,9 @@
 from django.conf.urls import url
 
 import article.views
+import casestudy.views
 import core.views
 import triage.views
-
 
 urlpatterns = [
     url(
@@ -275,5 +275,20 @@ urlpatterns = [
         r'^api/internal/companies-house-search/$',
         triage.views.CompaniesHouseSearchApiView.as_view(),
         name='api-internal-companies-house-search'
+    ),
+    url(
+        r'^story/hello-babys-rapid-online-growth$',
+        casestudy.views.CasestudyHelloBabyView.as_view(),
+        name='casestudy-hello-baby'
+    ),
+    url(
+        r'^story/online-marketplaces-propel-freestyle-xtreme-sales$',
+        casestudy.views.CasestudyMarketplaceView.as_view(),
+        name='casestudy-online-marketplaces'
+    ),
+    url(
+        r'^story/york-bag-retailer-goes-global-via-e-commerce$',
+        casestudy.views.CasestudyYorkBagView.as_view(),
+        name='casestudy-york-bag'
     ),
 ]

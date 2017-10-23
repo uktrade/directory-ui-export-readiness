@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "core",
     "article",
     "triage",
+    "casestudy",
 ]
 
 MIDDLEWARE_CLASSES = [

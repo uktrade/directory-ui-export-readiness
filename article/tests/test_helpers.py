@@ -7,57 +7,6 @@ from article import helpers
 from core.tests.helpers import create_response
 
 
-def test_build_twitter_link(rf):
-    request = rf.get('/')
-    actual = helpers.build_twitter_link(
-        request=request,
-        title='Do research first',
-    )
-
-    assert actual == (
-        'https://twitter.com/intent/tweet'
-        '?text=Export Readiness - Do research first http://testserver/'
-    )
-
-
-def test_build_facebook_link(rf):
-    request = rf.get('/')
-    actual = helpers.build_facebook_link(
-        request=request,
-        title='Do research first',
-    )
-    assert actual == (
-        'http://www.facebook.com/share.php?u=http://testserver/'
-    )
-
-
-def test_build_linkedin_link(rf):
-    request = rf.get('/')
-    actual = helpers.build_linkedin_link(
-        request=request,
-        title='Do research first',
-    )
-
-    assert actual == (
-        'https://www.linkedin.com/shareArticle?mini=true&'
-        'url=http://testserver/&'
-        'title=Export Readiness - Do research first&source=LinkedIn'
-    )
-
-
-def test_build_email_link(rf):
-    request = rf.get('/')
-    actual = helpers.build_email_link(
-        request=request,
-        title='Do research first',
-    )
-
-    assert actual == (
-        'mailto:?body=Export Readiness - Do research first'
-        '&subject=http://testserver/'
-    )
-
-
 @patch('api_client.api_client.exportreadiness.create_article_read')
 def test_database_create_article_read_calls_api(
     mock_create_article_read, sso_request, sso_user
