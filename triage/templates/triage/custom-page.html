@@ -1,3 +1,67 @@
 {% extends "core/base.html" %}
 
-custom view template goes here
+{% load static from staticfiles %}
+
+{% block css %}
+    <link href="{% static 'styles/pages/custom-landing-page.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+<section style="" class="hero-section regular">
+    <div class="container">
+        <div class="hero-teaser">
+            <h1 class="title"><span>Choose your</span><br><span>next market</span><br><span>Find new</span><br><span>customers</span><br>
+            </h1>
+            <p>We've gathered information, guidance and tools to help your beverages, spirits and vinegar business to grow</p>
+            <img src="{% static 'images/eig-logo-stacked.svg' %}">
+        </div>
+    </div>
+</section>
+<section class="service-section fas">
+    <div class="container">
+        <h2 class="heading">
+	        {% if triage_result.company_name %}
+	        	Connect {{ triage_result.company_name }} directly with international buyers
+	        {% else %}
+	        	Connect directly with international buyers
+	       	{% endif %}
+        </h2>
+        <img src="{% static 'images/services/service-fas-section.png' %}" alt="">
+        <div class="intro">
+            <div class="content">
+                <p>Get promoted internationally with a free trade profile.</p>
+                <ul>
+                    <li>let international buyers get in touch with your company's sales team</li>
+                    <li>showcase your company's outstanding projects and experience to give buyers insight into what you do</li>
+                    <li>give companies looking to buy from your industry an easy way to find you</li>
+                </ul>
+                <a href="https://find-a-buyer.export.great.gov.uk" class="button button-cta">Create a trade profile</a>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="other-services">
+    <div class="container">
+        <h2 class="header verbose">Other services</h2>
+        <div class="group">
+            <div class="lg-2 md-1">
+                <article data-component="service-teaser" class="service-teaser">
+                    <h3 class="title">Find online marketplaces</h3>
+                    <p class="text">Reach over 2 billion consumers online around the world. Get exclusive deals negotiated on behalf of UK businesses.</p>
+                    <img src="{% static 'images/services/service-soo-teaser.png' %}"><a href="https://selling-online-overseas.export.great.gov.uk/" class="link">Service: Find online marketplaces</a>
+                </article>
+            </div>
+            <div class="lg-2 md-1">
+                <article data-component="service-teaser" class="service-teaser">
+                    <h3 class="title">Find export opportunities</h3>
+                    <p class="text">Find and apply for overseas opportunities from businesses looking for products or services like yours.</p>
+                    <img src="{% static 'images/services/service-exopps-teaser.png' %}"><a href="https://opportunities.export.great.gov.uk/" class="link">Service: Find export opportunities</a>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'core/guidance-resources.html' %}
+
+{% endblock %}

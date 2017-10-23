@@ -2,14 +2,14 @@
 // ------------------------------------------------
 
 @import '../base';
-@import '../../components/hero/_hero';
-@import '../../components/fact/_fact';
-@import '../../components/scope-indicator/_scope-indicator';
-@import '../../components/section-content-list/_section-content-list';
-@import '../../components/service/_service';
-@import '../../components/exporter-story/_exporter-story';
-@import '../../components/resources/_resources';
-@import '../../components/feedback/_style';
+@import '../components/_hero';
+@import '../components/_fact';
+@import '../components/_scope-indicator';
+@import '../components/_section-content-list';
+@import '../components/_service';
+@import '../components/_exporter-story';
+@import '../components/_resources';
+@import '../components/_feedback';
 
 .hero-section.new {
   background-image: url('/static/images/hero-background-new-desktop.jpg');
