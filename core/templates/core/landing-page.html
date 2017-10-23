@@ -29,7 +29,11 @@
                         <li>information that's relevant to your answers with tasks to help you learn</li>
                         <li>access to worldwide statistics so you can research 	your market</li>
                     </ul>
-                    <a href="{% url 'triage-wizard' %}" class="button button-cta">Get started</a>
+                    {% if has_completed_triage %}
+                        <a href="{% url 'custom-page' %}" class="button button-cta">Continue export journey</a>
+                    {% else %}
+                        <a href="{% url 'triage-wizard' %}" class="button button-cta">Get started</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -51,74 +55,7 @@
             </div>
         </div>
     </section>
-    <section id="resource-guidance">
-        <div class="container">
-            <h2 class="section-header">Guidance</h2>
-            <p class="section-intro">Learn exporting topics in greater detail. Our knowledge comes from subject matter experts, so you’ll be learning accurate information from the best.</p>
-            <div class="group">
-                <div class="lg-3 md-2 sm-1">
-                    <div data-component="resource-teaser" class="resources resources-teaser market-research" style="height: 386.797px;">
-                        <h3 class="title">Market research</h3>
-                        <img src="{% static 'images/sections/market-research-blue.svg' %}" class="icon">
-                        </p>
-                        <p>Research is an essential first step to selling to a new overseas market. Making decisions based on market data will help you maximise profits and avoid costly mistakes.</p>
-                        <a href="{% url 'article-list-market-research' %}" class="more"><span>Articles:</span>Market research 
-                        </a>
-                    </div>
-                </div>
-                <div class="lg-3 md-2 sm-1">
-                    <div data-component="resource-teaser" class="resources resources-teaser customer-insight" style="height: 386.797px;">
-                        <h3 class="title">Customer insight</h3>
-                        <img src="{% static 'images/sections/customer-insight-blue.svg' %}" class="icon">
-                        </p>
-                        <p>Defining who your customers are is vital. Begin with what you know about your current customers. It’s likely there will be similarities between them and potential customers in a new market.</p>
-                        <a href="{% url 'article-list-customer-insight' %}" class="more"><span>Articles:</span>Customer insight 
-                        </a>
-                    </div>
-                </div>
-                <div class="lg-3 md-2 sm-1">
-                    <div data-component="resource-teaser" class="resources resources-teaser finance" style="height: 386.797px;">
-                        <h3 class="title">Finance</h3>
-                        <img src="{% static 'images/sections/finance-blue.svg' %}" class="icon">
-                        </p>
-                        <p>Export finance can provide the working capital you need to be competitive in overseas markets, help you get paid and insure against non-payment.</p>
-                        <a href="{% url 'article-list-finance' %}" class="more"><span>Articles:</span>Finance 
-                        </a>
-                    </div>
-                </div>
-                <div class="lg-3 md-2 sm-1">
-                    <div data-component="resource-teaser" class="resources resources-teaser business-planning" style="height: 386.797px;">
-                        <h3 class="title">Business planning</h3>
-                        <img src="{% static 'images/sections/business-planning-blue.svg' %}" class="icon">
-                        </p>
-                        <p>It’s important to use data to make an informed decision on how to enter a market. The way you choose to sell and market your product or service will affect your profits and success in that country.</p>
-                        <a href="{% url 'article-list-business-planning' %}" class="more"><span>Articles:</span>Business planning 
-                        </a>
-                    </div>
-                </div>
-                <div class="lg-3 md-2 sm-1">
-                    <div data-component="resource-teaser" class="resources resources-teaser getting-paid" style="height: 386.797px;">
-                        <h3 class="title">Getting paid</h3>
-                        <img src="{% static 'images/sections/getting-paid-blue.svg' %}" class="icon">
-                        </p>
-                        <p>Getting paid for international sales isn’t always straightforward. You should think about which currency to invoice in, at what point you get paid and how the money will reach you.</p>
-                        <a href="{% url 'article-list-getting-paid' %}" class="more"><span>Articles:</span>Getting paid 
-                        </a>
-                    </div>
-                </div>
-                <div class="lg-3 md-2 sm-1">
-                    <div data-component="resource-teaser" class="resources resources-teaser operations-and-compliance" style="height: 386.797px;">
-                        <h3 class="title">Operations and compliance</h3>
-                        <img src="{% static 'images/sections/operations-and-compliance-blue.svg' %}" class="icon">
-                        </p>
-                        <p>To be successful at selling overseas you need to get your products where they need to be and get them there on time. You'll need to decide whether to manage logistics yourself or to use a freight forwarder.</p>
-                        <a href="{% url 'article-list-operations-and-compliance' %}" class="more"><span>Articles:</span>Operations and compliance 
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    {% include 'core/guidance-resources.html' %}
     <section id="services">
         <div class="container">
             <h2 class="header">Services</h2>

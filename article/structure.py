@@ -24,8 +24,8 @@ PERSONA_NEW_ARTICLES = ArticleGroup(
         articles.CONSIDER_HOW_PAID,
         articles.PLAN_THE_LOGISTICS,
         articles.INTERNATIONALISE_WESBITE,
-        articles.WHAT_INTERLECTUAL_PROPERTY_IS,
-        articles.TYPES_OF_INTERLECTUAL_PROPERTY,
+        articles.WHAT_INTELLECTUAL_PROPERTY_IS,
+        articles.TYPES_OF_INTELLECTUAL_PROPERTY,
     ],
     url=reverse_lazy('article-list-persona-new'),
 )
@@ -64,10 +64,10 @@ PERSONA_OCCASIONAL_ARTICLES = ArticleGroup(
         articles.GET_YOUR_EXPORT_DOCUMENTS_RIGHT,
         articles.MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE,
         articles.INTERNATIONALISE_WESBITE,
-        articles.WHAT_INTERLECTUAL_PROPERTY_IS,
-        articles.TYPES_OF_INTERLECTUAL_PROPERTY,
-        articles.KNOW_WHAT_INTERLECTUAL_PROPERTY_YOU_HAVE,
-        articles.INTERLECTUAL_PROPERTY_PROTECTION,
+        articles.WHAT_INTELLECTUAL_PROPERTY_IS,
+        articles.TYPES_OF_INTELLECTUAL_PROPERTY,
+        articles.KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE,
+        articles.INTELLECTUAL_PROPERTY_PROTECTION,
     ],
     url=reverse_lazy('article-list-persona-occasional'),
 )
@@ -92,8 +92,8 @@ PERSONA_REGULAR_ARTICLES = ArticleGroup(
         articles.START_JOINT_VENTURE,
         articles.SETUP_OVERSEAS_OPERATION,
         articles.INSURE_AGAINST_NON_PAYMENT,
-        articles.KNOW_WHAT_INTERLECTUAL_PROPERTY_YOU_HAVE,
-        articles.INTERLECTUAL_PROPERTY_PROTECTION,
+        articles.KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE,
+        articles.INTELLECTUAL_PROPERTY_PROTECTION,
     ],
     url=reverse_lazy('article-list-persona-regular'),
 )
@@ -185,10 +185,10 @@ GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES = ArticleGroup(
         articles.GET_YOUR_EXPORT_DOCUMENTS_RIGHT,
         articles.MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE,
         articles.INTERNATIONALISE_WESBITE,
-        articles.WHAT_INTERLECTUAL_PROPERTY_IS,
-        articles.TYPES_OF_INTERLECTUAL_PROPERTY,
-        articles.KNOW_WHAT_INTERLECTUAL_PROPERTY_YOU_HAVE,
-        articles.INTERLECTUAL_PROPERTY_PROTECTION,
+        articles.WHAT_INTELLECTUAL_PROPERTY_IS,
+        articles.TYPES_OF_INTELLECTUAL_PROPERTY,
+        articles.KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE,
+        articles.INTELLECTUAL_PROPERTY_PROTECTION,
     ],
     url=reverse_lazy('article-list-operations-and-compliance'),
 )
@@ -232,10 +232,10 @@ ALL_ARTICLES = ArticleGroup(
         articles.GET_YOUR_EXPORT_DOCUMENTS_RIGHT,
         articles.INTERNATIONALISE_WESBITE,
         articles.MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE,
-        articles.WHAT_INTERLECTUAL_PROPERTY_IS,
-        articles.TYPES_OF_INTERLECTUAL_PROPERTY,
-        articles.KNOW_WHAT_INTERLECTUAL_PROPERTY_YOU_HAVE,
-        articles.INTERLECTUAL_PROPERTY_PROTECTION,
+        articles.WHAT_INTELLECTUAL_PROPERTY_IS,
+        articles.TYPES_OF_INTELLECTUAL_PROPERTY,
+        articles.KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE,
+        articles.INTELLECTUAL_PROPERTY_PROTECTION,
         articles.MEET_YOUR_CUSTOMER,
         articles.MANAGE_LANGUAGE_DIFFERENCES,
         articles.UNDERSTAND_YOUR_CUSTOMERS_CULTURE,
@@ -256,11 +256,11 @@ ALL_GROUPS = [
     GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES,
     ALL_ARTICLES,
 ]
-ALL_GOUPS_DICT = {group.key: group for group in ALL_GROUPS}
+ALL_GROUPS_DICT = {group.key: group for group in ALL_GROUPS}
 
 
 def get_article_group(group_key):
-    return ALL_GOUPS_DICT.get(group_key) or ALL_ARTICLES
+    return ALL_GROUPS_DICT.get(group_key) or ALL_ARTICLES
 
 
 def get_next_article(article_group, current_article):
