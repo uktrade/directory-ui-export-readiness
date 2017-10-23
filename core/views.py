@@ -3,6 +3,7 @@ from triage.helpers import TriageAnswersManager
 
 from casestudy import casestudies
 
+
 class LandingPagelView(TemplateView):
     template_name = 'core/landing-page.html'
 
