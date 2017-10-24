@@ -125,6 +125,12 @@ class CountryComtradeData(BaseComtradeData):
 
     def format_csv_rows(self):
         csv_rows = self.load_csv_rows()
+        for row in csv_rows:
+            gdp = row['gdp'].replace(',' ,'').replace(' ', '')
+            if gdp.isdigit():
+                row['gdp'] = int(gdp) * 1000000
+            else:
+                row['gdp'] = 0
         return {row['country_code']: row for row in csv_rows}
 
 
@@ -139,12 +145,12 @@ class SectorComtradeData(BaseComtradeData):
 def get_top_markets(commodity_code, market_count=10):
 
     comtrade_data = TopTenCountryCommodityComtradeData().read()
-    country_data = CountryComtradeData().read()
+    countries_data = CountryComtradeData().read()
 
     markets = comtrade_data[commodity_code][:market_count]
 
     for market in markets:
-        market['country'] = country_data.get(market['partner_iso'])
+        market['country'] = countries_data.get(market['partner_iso'])
     return markets
 
 
