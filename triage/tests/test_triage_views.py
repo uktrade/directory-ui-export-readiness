@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 from directory_constants.constants import exred_sector_names
 
 from core.tests.helpers import create_response
+from casestudy import casestudies
 from triage import forms, views
 from article import structure
 
@@ -271,6 +272,11 @@ def test_custom_view_new_exporter(
 
         assert response.status_code == 200
         assert response.context_data['section_configuration'] == expected
+        assert response.context_data['casestudies'] == [
+            casestudies.MARKETPLACE,
+            casestudies.HELLO_BABY,
+            casestudies.YORK,
+        ]
         assert soup.find('h1').text.replace('\n', '') == (
             'Use your'
             'potential'
@@ -346,6 +352,11 @@ def test_custom_view_occasional_exporter(
 
             assert response.status_code == 200
             assert response.context_data['section_configuration'] == expected
+            assert response.context_data['casestudies'] == [
+                casestudies.MARKETPLACE,
+                casestudies.HELLO_BABY,
+                casestudies.YORK,
+            ]
             assert soup.find('h1').text.replace('\n', '') == (
                 'New customers'
                 'are waiting'
@@ -390,6 +401,11 @@ def test_custom_view_regular_exporter(
 
         assert response.status_code == 200
         assert response.context_data['section_configuration'] == expected
+        assert response.context_data['casestudies'] == [
+            casestudies.MARKETPLACE,
+            casestudies.HELLO_BABY,
+            casestudies.YORK,
+        ]
         assert soup.find('h1').text.replace('\n', '') == (
             'Choose your'
             'next market'

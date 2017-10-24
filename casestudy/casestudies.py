@@ -4,9 +4,9 @@ from collections import namedtuple
 from django.contrib.staticfiles.storage import staticfiles_storage
 
 
-Casestudy = namedtuple('Casestudy', ['title', 'description', 'image_url'])
+CaseStudy = namedtuple('CaseStudy', ['title', 'description', 'image_url'])
 
-HELLO_BABY = Casestudy(
+HELLO_BABY = CaseStudy(
     title="Hello Baby's rapid online growth",
     description=(
         'Hello Baby is an online nursery business that gets more than half '
@@ -16,7 +16,7 @@ HELLO_BABY = Casestudy(
     image_url=staticfiles_storage.url('images/stories/hellobaby.jpg'),
 )
 
-MARKETPLACE = Casestudy(
+MARKETPLACE = CaseStudy(
     title="Online marketplaces propel FreestyleXtreme",
     description=(
         'Like many businesses, Bristol-based specialist sports retailer '
@@ -25,7 +25,7 @@ MARKETPLACE = Casestudy(
     image_url=staticfiles_storage.url('images/stories/freestylextreme.jpg'),
 )
 
-YORK = Casestudy(
+YORK = CaseStudy(
     title="York bag retailer goes global via e-commerce",
     description=(
         'York-based retailer Maxwell Scott Bags was already selling '
