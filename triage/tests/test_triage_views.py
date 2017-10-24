@@ -225,6 +225,44 @@ def test_custom_view(mocked_retrieve_answers, authed_client, sso_user):
 
 
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers')
+def test_triage_wizard_summary_view(
+    mocked_retrieve_answers, authed_client, sso_user
+):
+    mocked_retrieve_answers.return_value = {
+        'company_name': 'Acme ltd',
+        'exported_before': True,
+        'regular_exporter': True,
+        'used_online_marketplace': False,
+        'sector': 'HS01',
+        'sole_trader': True,
+        'company_number': '123445',
+        'company_name': 'Example corp',
+    }
+    response = authed_client.post(
+        reverse('triage-wizard'),
+        {'wizard_goto_step': views.TriageWizardFormView.SUMMARY}
+    )
+    assert response.status_code == 200
+    assert response.template_name == [
+        views.TriageWizardFormView.templates['SUMMARY']
+    ]
+    assert response.context_data['persona'] == (
+        forms.REGULAR_EXPORTER
+    )
+    assert response.context_data['sector_label'] == 'Animals; live'
+    assert response.context_data['all_cleaned_data'] == {
+        'sole_trader': True,
+        'company_name': 'Example corp',
+        'exported_before': True,
+        'regular_exporter': True,
+        'sector': 'HS01',
+        'company_number': '123445',
+        'company_name': 'Example corp',
+        'used_online_marketplace': False,
+    }
+
+
+@patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers')
 def test_custom_view_no_triage_result_found(
     mocked_retrieve_answers, authed_client
 ):
