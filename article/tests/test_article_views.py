@@ -3,6 +3,8 @@ from unittest.mock import patch, call
 from bs4 import BeautifulSoup
 
 import pytest
+from directory_constants.constants import exred_articles
+
 from article import views
 
 from django.core.urlresolvers import reverse
@@ -355,7 +357,7 @@ def test_article_view_persist_article_read_logged_in_user(
     assert response.status_code == 200
     assert mocked_persist_articles.call_count == 1
     assert mocked_persist_articles.call_args == call(
-        article_uuid='DO_RESEARCH_FIRST'
+        article_uuid=exred_articles.DO_RESEARCH_FIRST
     )
 
 
@@ -370,5 +372,5 @@ def test_article_view_persist_article_read_anon_user(
     assert response.status_code == 200
     assert mocked_persist_articles.call_count == 1
     assert mocked_persist_articles.call_args == call(
-        article_uuid='DO_RESEARCH_FIRST'
+        article_uuid=exred_articles.DO_RESEARCH_FIRST
     )
