@@ -11,14 +11,14 @@
     <p class="breadcrumbs">
         <span class="label verbose">You are here:</span>
         <a href="{% url 'landing-page' %}">Export</a><span class="separator">,</span>
-        <span class="current">{% block breadcrums_title %}{% endblock %}</span>
+        <span class="current">{{ casestudy.title }}</span>
     </p>
     <article id="top">
-        <h1>{% block title %}{% endblock %}</h1>
+        <h1>{{ casestudy.title }}</h1>
         <p class="type">Case Study</p>
-        <p class="description">{% block subtitle %}{% endblock %}</p>
+        <p class="description">{{ casestudy.description }}</p>
         <div class="image">
-            {% block image %}{% endblock %}
+            <img src="{{ casestudy.image_url }}" alt="">
             <blockquote class="quote">
                 <span class="text">{% block quote_one_text %}{% endblock %}</span>
                 <cite>
