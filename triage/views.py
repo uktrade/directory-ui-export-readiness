@@ -1,4 +1,5 @@
 from formtools.wizard.views import SessionWizardView
+from directory_constants.constants.exred_sector_names import CODES_SECTORS_DICT
 
 from django.core.urlresolvers import reverse_lazy
 from django.http import JsonResponse
@@ -10,7 +11,6 @@ from django.views.generic import View
 from article import structure
 from triage import forms, helpers
 from casestudy import casestudies
-
 
 class CompaniesHouseSearchApiView(View):
     form_class = forms.CompaniesHouseSearchForm
@@ -117,6 +117,12 @@ class CustomPageView(TemplateView):
             casestudies.HELLO_BABY,
             casestudies.YORK,
         ]
+        sector_code = self.triage_answers['sector']
+        # harmonised system codes begin with HS. Service codes begin with EB
+        if sector_code.startswith('HS'):
+            context['top_markets'] = helpers.get_top_markets(sector_code)
+            context['sector_name'] = CODES_SECTORS_DICT[sector_code]
+            context['top_importer'] = helpers.get_top_importer(sector_code)
         return context
 
     def get_section_configuration(self):

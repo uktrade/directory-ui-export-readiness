@@ -1,4 +1,6 @@
 import abc
+import csv
+import itertools
 import http
 from functools import partial
 from urllib.parse import urljoin
@@ -83,3 +85,69 @@ class CompaniesHouseClient:
     def search(cls, term):
         url = cls.endpoints['search']
         return cls.get(url, params={'q': term})
+
+
+
+class BaseComtradeData(abc.ABC):
+    file_path = abc.abstractproperty()
+    format_csv_rows = abc.abstractproperty()
+
+    def load_csv_rows(self):
+        with open(self.file_path) as f:
+            reader = csv.DictReader(f)
+            reader.fieldnames = [
+                item.lower().replace(' ', '_') for item in reader.fieldnames
+            ]
+            return list(reader)
+
+    def read(self):
+        return self.format_csv_rows()
+
+
+class TopTenCountryCommodityComtradeData(BaseComtradeData):
+    file_path = 'triage/resources/country_commodity_top_tens.csv'
+
+    def format_csv_rows(self):
+        csv_rows = self.load_csv_rows()
+        sorted_csv_rows = sorted(
+            csv_rows,
+            key=lambda row: (row["commodity_code"], 0-int(row['trade_value']))
+        )
+        grouped_lines = itertools.groupby(
+            sorted_csv_rows,
+            key=lambda row: row['commodity_code']
+        )
+        return {'HS' + key: list(group) for key, group in grouped_lines}
+
+
+class CountryComtradeData(BaseComtradeData):
+    file_path = 'triage/resources/countries.csv'
+
+    def format_csv_rows(self):
+        csv_rows = self.load_csv_rows()
+        return {row['country_code']: row for row in csv_rows}
+
+
+class SectorComtradeData(BaseComtradeData):
+    file_path = 'triage/resources/grouped_data.csv'
+
+    def format_csv_rows(self):
+        csv_rows = self.load_csv_rows()
+        return {'HS' + row['commodity_code']: row for row in csv_rows}
+
+
+def get_top_markets(commodity_code, market_count=10):
+
+    comtrade_data = TopTenCountryCommodityComtradeData().read()
+    country_data = CountryComtradeData().read()
+
+    markets = comtrade_data[commodity_code][:market_count]
+
+    for market in markets:
+        market['country'] = country_data.get(market['partner_iso'])
+    return markets
+
+
+def get_top_importer(commodity_code):
+    sector_data = SectorComtradeData().read()
+    return sector_data[commodity_code]
