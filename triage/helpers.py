@@ -87,28 +87,30 @@ class CompaniesHouseClient:
         return cls.get(url, params={'q': term})
 
 
-
-class BaseComtradeData(abc.ABC):
+class BaseCSVComtradeFile(abc.ABC):
     file_path = abc.abstractproperty()
     format_csv_rows = abc.abstractproperty()
 
-    def load_csv_rows(self):
-        with open(self.file_path) as f:
+    @classmethod
+    def load_csv_rows(cls):
+        with open(cls.file_path) as f:
             reader = csv.DictReader(f)
             reader.fieldnames = [
                 item.lower().replace(' ', '_') for item in reader.fieldnames
             ]
             return list(reader)
 
-    def read(self):
-        return self.format_csv_rows()
+    @classmethod
+    def read(cls):
+        return cls.format_csv_rows()
 
 
-class TopTenCountryCommodityComtradeData(BaseComtradeData):
+class CountryCommodityCSVComtradeFile(BaseCSVComtradeFile):
     file_path = 'triage/resources/country_commodity_top_tens.csv'
 
-    def format_csv_rows(self):
-        csv_rows = self.load_csv_rows()
+    @classmethod
+    def format_csv_rows(cls):
+        csv_rows = cls.load_csv_rows()
         sorted_csv_rows = sorted(
             csv_rows,
             key=lambda row: (row["commodity_code"], 0-int(row['trade_value']))
@@ -120,13 +122,14 @@ class TopTenCountryCommodityComtradeData(BaseComtradeData):
         return {'HS' + key: list(group) for key, group in grouped_lines}
 
 
-class CountryComtradeData(BaseComtradeData):
+class CountryCSVComtradeFile(BaseCSVComtradeFile):
     file_path = 'triage/resources/countries.csv'
 
-    def format_csv_rows(self):
-        csv_rows = self.load_csv_rows()
+    @classmethod
+    def format_csv_rows(cls):
+        csv_rows = cls.load_csv_rows()
         for row in csv_rows:
-            gdp = row['gdp'].replace(',' ,'').replace(' ', '')
+            gdp = row['gdp'].replace(',', '').replace(' ', '')
             if gdp.isdigit():
                 row['gdp'] = int(gdp) * 1000000
             else:
@@ -134,20 +137,21 @@ class CountryComtradeData(BaseComtradeData):
         return {row['country_code']: row for row in csv_rows}
 
 
-class SectorComtradeData(BaseComtradeData):
+class SectorCSVComtradeFile(BaseCSVComtradeFile):
     file_path = 'triage/resources/grouped_data.csv'
 
-    def format_csv_rows(self):
-        csv_rows = self.load_csv_rows()
+    @classmethod
+    def format_csv_rows(cls):
+        csv_rows = cls.load_csv_rows()
         return {'HS' + row['commodity_code']: row for row in csv_rows}
 
 
-def get_top_markets(commodity_code, market_count=10):
+def get_top_markets(commodity_code, count=10):
 
-    comtrade_data = TopTenCountryCommodityComtradeData().read()
-    countries_data = CountryComtradeData().read()
+    top_markets = CountryCommodityCSVComtradeFile.read()
+    countries_data = CountryCSVComtradeFile.read()
 
-    markets = comtrade_data[commodity_code][:market_count]
+    markets = top_markets[commodity_code][:count]
 
     for market in markets:
         market['country'] = countries_data.get(market['partner_iso'])
@@ -155,5 +159,5 @@ def get_top_markets(commodity_code, market_count=10):
 
 
 def get_top_importer(commodity_code):
-    sector_data = SectorComtradeData().read()
+    sector_data = SectorCSVComtradeFile.read()
     return sector_data[commodity_code]

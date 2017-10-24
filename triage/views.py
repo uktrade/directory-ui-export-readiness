@@ -12,6 +12,7 @@ from article import structure
 from triage import forms, helpers
 from casestudy import casestudies
 
+
 class CompaniesHouseSearchApiView(View):
     form_class = forms.CompaniesHouseSearchForm
 
