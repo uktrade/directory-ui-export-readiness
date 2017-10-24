@@ -39,7 +39,11 @@ class SessionTriageAnswersManager(BaseTriageAnswersManager):
 class DatabaseTriageAnswersManager(BaseTriageAnswersManager):
 
     def persist_answers(self, answers):
-        response = api_client.exportreadiness.create_triage_result(
+        if self.retrieve_answers():
+            api_client_method = api_client.exportreadiness.update_triage_result
+        else:
+            api_client_method = api_client.exportreadiness.create_triage_result
+        response = api_client_method(
             form_data=answers,
             sso_session_id=self.request.sso_user.session_id,
         )
