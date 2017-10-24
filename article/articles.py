@@ -1,5 +1,6 @@
 from collections import namedtuple
 
+from directory_constants.constants import exred_articles
 from django.core.urlresolvers import reverse_lazy
 
 
@@ -37,7 +38,7 @@ GUIDANCE_OPERATIONS_AND_COMPLIANCE = ArticleParent(
 )
 
 DO_RESEARCH_FIRST = Article(
-    uuid='DO_RESEARCH_FIRST',
+    uuid=exred_articles.DO_RESEARCH_FIRST,
     title='Do research first',
     keywords=[],
     tasks=[],
@@ -46,7 +47,7 @@ DO_RESEARCH_FIRST = Article(
     parent=GUIDANCE_MARKET_RESEARCH,
 )
 DEFINE_MARKET_POTENTIAL = Article(
-    uuid='DEFINE_MARKET_POTENTIAL',
+    uuid=exred_articles.DEFINE_MARKET_POTENTIAL,
     title='Define market potential',
     keywords=[],
     tasks=[],
@@ -55,7 +56,7 @@ DEFINE_MARKET_POTENTIAL = Article(
     parent=GUIDANCE_MARKET_RESEARCH,
 )
 DO_FIELD_RESEARCH = Article(
-    uuid='DO_FIELD_RESEARCH',
+    uuid=exred_articles.DO_FIELD_RESEARCH,
     title='Do field research',
     keywords=[],
     tasks=[],
@@ -64,7 +65,7 @@ DO_FIELD_RESEARCH = Article(
     parent=GUIDANCE_MARKET_RESEARCH,
 )
 ANALYSE_THE_COMPETITION = Article(
-    uuid='ANALYSE_THE_COMPETITION',
+    uuid=exred_articles.ANALYSE_THE_COMPETITION,
     title='Analyse the competition',
     keywords=[],
     tasks=[],
@@ -73,7 +74,7 @@ ANALYSE_THE_COMPETITION = Article(
     parent=GUIDANCE_MARKET_RESEARCH,
 )
 VISIT_TRADE_SHOW = Article(
-    uuid='VISIT_TRADE_SHOW',
+    uuid=exred_articles.VISIT_TRADE_SHOW,
     title='Visit a trade show',
     keywords=[],
     tasks=[],
@@ -82,7 +83,7 @@ VISIT_TRADE_SHOW = Article(
     parent=GUIDANCE_MARKET_RESEARCH,
 )
 KNOW_YOUR_CUSTOMER = Article(
-    uuid='KNOW_YOUR_CUSTOMER',
+    uuid=exred_articles.KNOW_YOUR_CUSTOMER,
     title='Know your customers',
     keywords=[],
     tasks=[],
@@ -91,7 +92,7 @@ KNOW_YOUR_CUSTOMER = Article(
     parent=GUIDANCE_CUSTOMER_INSIGHT,
 )
 MAKE_EXPORTING_PLAN = Article(
-    uuid='MAKE_EXPORTING_PLAN',
+    uuid=exred_articles.MAKE_EXPORTING_PLAN,
     title='Make an export plan',
     keywords=[],
     tasks=[],
@@ -100,7 +101,7 @@ MAKE_EXPORTING_PLAN = Article(
     parent=GUIDANCE_BUSINESS_PLANNING,
 )
 FIND_A_ROUTE_TO_MARKET = Article(
-    uuid='FIND_A_ROUTE_TO_MARKET',
+    uuid=exred_articles.FIND_A_ROUTE_TO_MARKET,
     title='Find a route to market',
     keywords=[],
     tasks=[],
@@ -109,7 +110,7 @@ FIND_A_ROUTE_TO_MARKET = Article(
     parent=GUIDANCE_BUSINESS_PLANNING,
 )
 USE_OVERSEAS_AGENT = Article(
-    uuid='USE_OVERSEAS_AGENT',
+    uuid=exred_articles.USE_OVERSEAS_AGENT,
     title='Use an overseas agent',
     keywords=[],
     tasks=[],
@@ -118,7 +119,7 @@ USE_OVERSEAS_AGENT = Article(
     parent=GUIDANCE_BUSINESS_PLANNING,
 )
 USE_DISTRIBUTOR = Article(
-    uuid='USE_DISTRIBUTOR',
+    uuid=exred_articles.USE_DISTRIBUTOR,
     title='Use a distributor',
     keywords=[],
     tasks=[],
@@ -127,7 +128,7 @@ USE_DISTRIBUTOR = Article(
     parent=GUIDANCE_BUSINESS_PLANNING,
 )
 CHOOSING_AGENT_OR_DISTRIBUTOR = Article(
-    uuid='CHOOSING_AGENT_OR_DISTRIBUTOR',
+    uuid=exred_articles.CHOOSING_AGENT_OR_DISTRIBUTOR,
     title='Choosing an agent or distributor',
     keywords=[],
     tasks=[],
@@ -138,7 +139,7 @@ CHOOSING_AGENT_OR_DISTRIBUTOR = Article(
     parent=GUIDANCE_BUSINESS_PLANNING,
 )
 LICENCE_AND_FRANCHISING = Article(
-    uuid='LICENCE_AND_FRANCHISING',
+    uuid=exred_articles.LICENCE_AND_FRANCHISING,
     title='Licensing and franchising',
     keywords=[],
     tasks=[],
@@ -147,7 +148,7 @@ LICENCE_AND_FRANCHISING = Article(
     parent=GUIDANCE_BUSINESS_PLANNING,
 )
 LICENCE_YOUR_PRODUCT_OR_SERVICE = Article(
-    uuid='LICENCE_YOUR_PRODUCT_OR_SERVICE',
+    uuid=exred_articles.LICENCE_YOUR_PRODUCT_OR_SERVICE,
     title='License your product or service',
     keywords=[],
     tasks=[],
@@ -158,7 +159,7 @@ LICENCE_YOUR_PRODUCT_OR_SERVICE = Article(
     parent=GUIDANCE_BUSINESS_PLANNING,
 )
 FRANCHISE_YOUR_BUSINESS = Article(
-    uuid='FRANCHISE_YOUR_BUSINESS',
+    uuid=exred_articles.FRANCHISE_YOUR_BUSINESS,
     title='Franchise your business',
     keywords=[],
     tasks=[],
@@ -167,7 +168,7 @@ FRANCHISE_YOUR_BUSINESS = Article(
     parent=GUIDANCE_BUSINESS_PLANNING,
 )
 START_JOINT_VENTURE = Article(
-    uuid='START_JOINT_VENTURE',
+    uuid=exred_articles.START_JOINT_VENTURE,
     title='Start a joint venture',
     keywords=[],
     tasks=[],
@@ -176,7 +177,7 @@ START_JOINT_VENTURE = Article(
     parent=GUIDANCE_BUSINESS_PLANNING,
 )
 SETUP_OVERSEAS_OPERATION = Article(
-    uuid='SETUP_OVERSEAS_OPERATION',
+    uuid=exred_articles.SETUP_OVERSEAS_OPERATION,
     title='Set up an overseas operation',
     keywords=[],
     tasks=[],
@@ -185,7 +186,7 @@ SETUP_OVERSEAS_OPERATION = Article(
     parent=GUIDANCE_BUSINESS_PLANNING,
 )
 GET_MONEY_TO_EXPORT = Article(
-    uuid='GET_MONEY_TO_EXPORT',
+    uuid=exred_articles.GET_MONEY_TO_EXPORT,
     title='Get money to export',
     keywords=[],
     tasks=[],
@@ -194,7 +195,7 @@ GET_MONEY_TO_EXPORT = Article(
     parent=GUIDANCE_FINANCE,
 )
 CHOOSE_THE_RIGHT_FINANCE = Article(
-    uuid='CHOOSE_THE_RIGHT_FINANCE',
+    uuid=exred_articles.CHOOSE_THE_RIGHT_FINANCE,
     title='Choose the right finance',
     keywords=[],
     tasks=[],
@@ -203,7 +204,7 @@ CHOOSE_THE_RIGHT_FINANCE = Article(
     parent=GUIDANCE_FINANCE,
 )
 GET_EXPORT_FINANCE = Article(
-    uuid='GET_EXPORT_FINANCE',
+    uuid=exred_articles.GET_EXPORT_FINANCE,
     title='Get export finance',
     keywords=[],
     tasks=[],
@@ -212,7 +213,7 @@ GET_EXPORT_FINANCE = Article(
     parent=GUIDANCE_FINANCE,
 )
 RAISE_MONEY_BY_BORROWING = Article(
-    uuid='RAISE_MONEY_BY_BORROWING',
+    uuid=exred_articles.RAISE_MONEY_BY_BORROWING,
     title='Raise money by borrowing',
     keywords=[],
     tasks=[],
@@ -221,7 +222,7 @@ RAISE_MONEY_BY_BORROWING = Article(
     parent=GUIDANCE_FINANCE,
 )
 BORROW_AGAINST_ASSETS = Article(
-    uuid='BORROW_AGAINST_ASSETS',
+    uuid=exred_articles.BORROW_AGAINST_ASSETS,
     title='Borrow against assets',
     keywords=[],
     tasks=[],
@@ -230,7 +231,7 @@ BORROW_AGAINST_ASSETS = Article(
     parent=GUIDANCE_FINANCE,
 )
 RAISE_MONEY_WITH_INVESTMENT = Article(
-    uuid='RAISE_MONEY_WITH_INVESTMENT',
+    uuid=exred_articles.RAISE_MONEY_WITH_INVESTMENT,
     title='Raise money with investment',
     keywords=[],
     tasks=[],
@@ -239,7 +240,7 @@ RAISE_MONEY_WITH_INVESTMENT = Article(
     parent=GUIDANCE_FINANCE
 )
 GET_GOVERNMENT_FINANCE_SUPPORT = Article(
-    uuid='GET_GOVERNMENT_FINANCE_SUPPORT',
+    uuid=exred_articles.GET_GOVERNMENT_FINANCE_SUPPORT,
     title='Get government finance support',
     keywords=[],
     tasks=[],
@@ -250,7 +251,7 @@ GET_GOVERNMENT_FINANCE_SUPPORT = Article(
     parent=GUIDANCE_FINANCE,
 )
 CONSIDER_HOW_PAID = Article(
-    uuid='CONSIDER_HOW_PAID',
+    uuid=exred_articles.CONSIDER_HOW_PAID,
     title="Consider how you'll get paid",
     keywords=[],
     tasks=[],
@@ -259,7 +260,7 @@ CONSIDER_HOW_PAID = Article(
     parent=GUIDANCE_GETTING_PAID,
 )
 INVOICE_CURRENCY_AND_CONTENTS = Article(
-    uuid='INVOICE_CURRENCY_AND_CONTENTS',
+    uuid=exred_articles.INVOICE_CURRENCY_AND_CONTENTS,
     title='Invoice currency and contents',
     keywords=[],
     tasks=[],
@@ -268,7 +269,7 @@ INVOICE_CURRENCY_AND_CONTENTS = Article(
     parent=GUIDANCE_GETTING_PAID,
 )
 DECIDE_WHEN_PAID = Article(
-    uuid='DECIDE_WHEN_PAID',
+    uuid=exred_articles.DECIDE_WHEN_PAID,
     title="Decide when you'll get paid",
     keywords=[],
     tasks=[],
@@ -277,7 +278,7 @@ DECIDE_WHEN_PAID = Article(
     parent=GUIDANCE_GETTING_PAID,
 )
 PAYMENT_METHODS = Article(
-    uuid='PAYMENT_METHODS',
+    uuid=exred_articles.PAYMENT_METHODS,
     title='Payment methods',
     keywords=[],
     tasks=[],
@@ -286,7 +287,7 @@ PAYMENT_METHODS = Article(
     parent=GUIDANCE_GETTING_PAID,
 )
 INSURE_AGAINST_NON_PAYMENT = Article(
-    uuid='INSURE_AGAINST_NON_PAYMENT',
+    uuid=exred_articles.INSURE_AGAINST_NON_PAYMENT,
     title='Insure against non-payment',
     keywords=[],
     tasks=[],
@@ -295,7 +296,7 @@ INSURE_AGAINST_NON_PAYMENT = Article(
     parent=GUIDANCE_GETTING_PAID,
 )
 PLAN_THE_LOGISTICS = Article(
-    uuid='PLAN_THE_LOGISTICS',
+    uuid=exred_articles.PLAN_THE_LOGISTICS,
     title='Plan the logistics',
     keywords=[],
     tasks=[],
@@ -304,7 +305,7 @@ PLAN_THE_LOGISTICS = Article(
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE,
 )
 USE_FREIGHT_FORWARDER = Article(
-    uuid='USE_FREIGHT_FORWARDER',
+    uuid=exred_articles.USE_FREIGHT_FORWARDER,
     title='Use a freight forwarder',
     keywords=[],
     tasks=[],
@@ -313,7 +314,7 @@ USE_FREIGHT_FORWARDER = Article(
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE,
 )
 USE_INCOTERMS_IN_CONTRACTS = Article(
-    uuid='USE_INCOTERMS_IN_CONTRACTS',
+    uuid=exred_articles.USE_INCOTERMS_IN_CONTRACTS,
     title='User incoterms in contracts',
     keywords=[],
     tasks=[],
@@ -322,7 +323,7 @@ USE_INCOTERMS_IN_CONTRACTS = Article(
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE,
 )
 GET_YOUR_EXPORT_DOCUMENTS_RIGHT = Article(
-    uuid='GET_YOUR_EXPORT_DOCUMENTS_RIGHT',
+    uuid=exred_articles.GET_YOUR_EXPORT_DOCUMENTS_RIGHT,
     title='Get your export documents right',
     keywords=[],
     tasks=[],
@@ -333,7 +334,7 @@ GET_YOUR_EXPORT_DOCUMENTS_RIGHT = Article(
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE,
 )
 INTERNATIONALISE_WESBITE = Article(
-    uuid='INTERNATIONALISE_WESBITE',
+    uuid=exred_articles.INTERNATIONALISE_WESBITE,
     title='Internationalise your website',
     keywords=[],
     tasks=[],
@@ -342,7 +343,7 @@ INTERNATIONALISE_WESBITE = Article(
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE,
 )
 MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE = Article(
-    uuid='MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE',
+    uuid=exred_articles.MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE,
     title='Match your website to your audience',
     keywords=[],
     tasks=[],
@@ -353,7 +354,7 @@ MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE = Article(
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE,
 )
 WHAT_INTELLECTUAL_PROPERTY_IS = Article(
-    uuid='WHAT_INTELLECTUAL_PROPERTY_IS',
+    uuid=exred_articles.WHAT_INTELLECTUAL_PROPERTY_IS,
     title='What intellectual property is',
     keywords=[],
     tasks=[],
@@ -364,7 +365,7 @@ WHAT_INTELLECTUAL_PROPERTY_IS = Article(
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE,
 )
 TYPES_OF_INTELLECTUAL_PROPERTY = Article(
-    uuid='TYPES_OF_INTELLECTUAL_PROPERTY',
+    uuid=exred_articles.TYPES_OF_INTELLECTUAL_PROPERTY,
     title='Types of intellectual property',
     keywords=[],
     tasks=[],
@@ -375,7 +376,7 @@ TYPES_OF_INTELLECTUAL_PROPERTY = Article(
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE,
 )
 KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE = Article(
-    uuid='KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE',
+    uuid=exred_articles.KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE,
     title='Know what IP you have',
     keywords=[],
     tasks=[],
@@ -384,7 +385,7 @@ KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE = Article(
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE,
 )
 INTELLECTUAL_PROPERTY_PROTECTION = Article(
-    uuid='INTELLECTUAL_PROPERTY_PROTECTION',
+    uuid=exred_articles.INTELLECTUAL_PROPERTY_PROTECTION,
     title='IP protection in multiple countries',
     keywords=[],
     tasks=[],
@@ -395,7 +396,7 @@ INTELLECTUAL_PROPERTY_PROTECTION = Article(
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE
 )
 MEET_YOUR_CUSTOMER = Article(
-    uuid='MEET_YOUR_CUSTOMER',
+    uuid=exred_articles.MEET_YOUR_CUSTOMER,
     title='Meet your customers',
     keywords=[],
     tasks=[],
@@ -404,7 +405,7 @@ MEET_YOUR_CUSTOMER = Article(
     parent=GUIDANCE_CUSTOMER_INSIGHT,
 )
 MANAGE_LANGUAGE_DIFFERENCES = Article(
-    uuid='MANAGE_LANGUAGE_DIFFERENCES',
+    uuid=exred_articles.MANAGE_LANGUAGE_DIFFERENCES,
     title='Manage language differences',
     keywords=[],
     tasks=[],
@@ -413,7 +414,7 @@ MANAGE_LANGUAGE_DIFFERENCES = Article(
     parent=GUIDANCE_CUSTOMER_INSIGHT,
 )
 UNDERSTAND_YOUR_CUSTOMERS_CULTURE = Article(
-    uuid='UNDERSTAND_YOUR_CUSTOMERS_CULTURE',
+    uuid=exred_articles.UNDERSTAND_YOUR_CUSTOMERS_CULTURE,
     title="Understand your customer's culture",
     keywords=[],
     tasks=[],
