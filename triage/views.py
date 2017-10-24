@@ -53,6 +53,14 @@ class TriageWizardFormView(SessionWizardView):
     }
     success_url = reverse_lazy('custom-page')
 
+    @cached_property
+    def triage_answers(self):
+        answer_manager = helpers.TriageAnswersManager(self.request)
+        return answer_manager.retrieve_answers()
+
+    def get_form_initial(self, step):
+        return self.triage_answers
+
     def process_step(self, form):
         if self.steps.current == self.REGULAR_EXPORTER:
             is_regular = forms.get_is_regular_exporter(form.cleaned_data)
@@ -69,10 +77,13 @@ class TriageWizardFormView(SessionWizardView):
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
         if self.steps.current == self.SUMMARY:
-            all_cleaned_data = self.get_all_cleaned_data()
-            context['all_cleaned_data'] = all_cleaned_data
-            context['sector_label'] = forms.get_sector_label(all_cleaned_data)
-            context['persona'] = forms.get_persona(all_cleaned_data)
+            data = {
+                **self.triage_answers,
+                **self.get_all_cleaned_data(),
+            }
+            context['all_cleaned_data'] = data
+            context['sector_label'] = forms.get_sector_label(data)
+            context['persona'] = forms.get_persona(data)
         return context
 
     def done(self, *args, **kwargs):

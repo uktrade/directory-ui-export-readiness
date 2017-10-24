@@ -1,4 +1,4 @@
-from unittest.mock import call, patch
+from unittest.mock import call, patch, Mock
 
 import pytest
 import requests
@@ -44,8 +44,10 @@ def test_triage_manager_anon_user_returns_session(anon_request):
     assert isinstance(manager, helpers.SessionTriageAnswersManager)
 
 
+@patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers',
+       Mock(return_value={}))
 @patch('api_client.api_client.exportreadiness.create_triage_result')
-def test_database_answer_manager_calls_api(
+def test_database_answer_manager_create_calls_api(
     mock_create_triage_result, sso_request, sso_user
 ):
     mock_create_triage_result.return_value = create_response(200)
@@ -56,6 +58,25 @@ def test_database_answer_manager_calls_api(
 
     assert mock_create_triage_result.call_count == 1
     assert mock_create_triage_result.call_args == call(
+        form_data=data,
+        sso_session_id=sso_user.session_id,
+    )
+
+
+@patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers',
+       Mock(return_value={1: 2}))
+@patch('api_client.api_client.exportreadiness.update_triage_result')
+def test_database_answer_manager_update_calls_api(
+    mock_update_triage_result, sso_request, sso_user
+):
+    mock_update_triage_result.return_value = create_response(200)
+
+    data = {'field': 'value'}
+    manager = helpers.DatabaseTriageAnswersManager(sso_request)
+    manager.persist_answers(data)
+
+    assert mock_update_triage_result.call_count == 1
+    assert mock_update_triage_result.call_args == call(
         form_data=data,
         sso_session_id=sso_user.session_id,
     )

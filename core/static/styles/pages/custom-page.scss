@@ -55,6 +55,12 @@
 
 .preferences {
   color: #ffffff;
+  background: transparent;
+  border: navajowhite;
+  font-size: 16px;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 @media (max-width: 960px) {
