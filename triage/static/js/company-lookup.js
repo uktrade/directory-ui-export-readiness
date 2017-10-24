@@ -110,6 +110,19 @@ GOVUK.components = (new function() {
         }
       });
 
+      $input.on("keyup.SelectiveLookup", function(e) {
+        // check backspace
+        if(e.which == 8) {
+          instance._private.$field.val('');
+        }
+      })
+
+      $input.on("keypress.SelectiveLookup", function(e) {
+        if(e.which !== 0) {
+          instance._private.$field.val('');
+        }
+      });
+
       /* Bind events to allow keyboard navigation of component.
        * Using keydown event because works better with Tab capture.
        * Supports following keys:
@@ -302,6 +315,8 @@ GOVUK.components = (new function() {
     this._private.$form.on("submit.CompaniesHouseNameLookup", function(e) {
       // If no input or no company selected
       if(instance._private.$field.val() === "") {
+        instance._private.$input.val($eventTarget.text());
+        instance._private.$field.val($eventTarget.attr("data-value"));
         instance._private.$errors.empty();
         instance._private.$errors.append("<p>Check that you entered the company name correctly and select the matching company name from the list.</p>");
       }
