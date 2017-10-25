@@ -298,7 +298,8 @@ def test_custom_view_no_triage_result_found(
         },
     ),
 ))
-@patch('triage.views.CustomPageView.triage_answers', Mock(return_value={1: 2}))
+@patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers',
+       Mock(return_value={'sector': 'HS01'}))
 @patch('triage.forms.get_persona', Mock(return_value=forms.NEW_EXPORTER))
 def test_custom_view_new_exporter(
     is_sole_trader, expected, authed_client
@@ -373,7 +374,8 @@ def test_custom_view_new_exporter(
         },
     ),
 ))
-@patch('triage.views.CustomPageView.triage_answers', Mock(return_value={1: 2}))
+@patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers',
+       Mock(return_value={'sector': 'HS01'}))
 @patch('triage.forms.get_persona',
        Mock(return_value=forms.OCCASIONAL_EXPORTER))
 def test_custom_view_occasional_exporter(
@@ -427,7 +429,8 @@ def test_custom_view_occasional_exporter(
         },
     ),
 ))
-@patch('triage.views.CustomPageView.triage_answers', Mock(return_value={1: 2}))
+@patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers',
+       Mock(return_value={'sector': 'HS01'}))
 @patch('triage.forms.get_persona', Mock(return_value=forms.REGULAR_EXPORTER))
 def test_custom_view_regular_exporter(
     is_sole_trader, expected, authed_client
@@ -450,3 +453,22 @@ def test_custom_view_regular_exporter(
             'Find new'
             'customers'
         )
+
+
+@pytest.mark.parametrize('sector_code', exred_sector_names.CODES_SECTORS_DICT)
+def test_custom_page_top_markets(sector_code, client):
+    mock_path = 'triage.helpers.SessionTriageAnswersManager.retrieve_answers'
+    with patch(mock_path) as mock:
+        mock.return_value = {
+            'company_name': 'Acme ltd',
+            'exported_before': True,
+            'regular_exporter': True,
+            'used_online_marketplace': False,
+            'sector': sector_code,
+            'sole_trader': True,
+            'company_number': '123445',
+            'company_name': 'Example corp',
+        }
+        url = reverse('custom-page')
+        response = client.get(url)
+        assert response.status_code == 200

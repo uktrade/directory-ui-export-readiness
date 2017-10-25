@@ -1,0 +1,98 @@
+Commodity Code,Commodity Name,UK Export Value,Largest Importer ISO,Largest Importer Name,Largest Importer Value,Largest Exporter ISO,Largest Exporter Name,Largest Exporter Value
+01,Live animals,679969503,USA,USA,1573677282,CAN,Canada,1573677282
+02,Meat and edible meat offal,1887497695,JPN,Japan,3059713703,USA,USA,3059713703
+03,"Fish and crustaceans, molluscs and other aquatic invertebrates",2027132496,USA,USA,2768053581,CAN,Canada,2768053581
+04,"Dairy produce; birds' eggs; natural honey; edible products of animal origin, not elsewhere specified or included",1742259480,DEU,Germany,2376043446,NLD,Netherlands,2376043446
+05,"Products of animal origin, not elsewhere specified or included",106838398,DEU,Germany,284705955,CHN,China,284705955
+06,"Live trees and other plants; bulbs, roots and the like; cut flowers and ornamental foliage",89056067,DEU,Germany,2829443978,NLD,Netherlands,2829443978
+07,Edible vegetables and certain roots and tubers,515006764,USA,USA,6401618971,MEX,Mexico,6401618971
+08,Edible fruit and nuts; peel of citrus fruit or melons,297441405,USA,USA,4614330021,MEX,Mexico,4614330021
+09,"Coffee, tea, maté and spices",553723963,DEU,Germany,1033033706,BRA,Brazil,1033033706
+10,Cereals,944563957,MEX,Mexico,3694841049,USA,USA,3694841049
+11,Products of the milling industry; malt; starches; inulin; wheat gluten,420756837,USA,USA,669051739,CAN,Canada,669051739
+12,"Oil seeds and oleaginous fruits; miscellaneous grains,seeds and fruit; industrial or medicinal plants; straw and fodder",357630792,CHN,China,14909266914,USA,USA,14909266914
+13,"Lac; gums, resins and other vegetable saps and extracts",124411508,USA,USA,389145418,IND,India,389145418
+14,Vegetable plaiting materials; vegetable products not elsewhere specified or included,5464038,USA,USA,44847050,MEX,Mexico,44847050
+15,Animal or vegetable fats and oils and their cleavage products; prepared edible fats; animal or vegetable waxes,640881604,IND,India,3492564655,IDN,Indonesia,3492564655
+16,"Preparations of meat, of fish or of crustaceans, molluscs or other aquatic invertebrates",413444158,JPN,Japan,2487154233,CHN,China,2487154233
+17,Sugars and sugar confectionery,493665498,USA,USA,1277534740,MEX,Mexico,1277534740
+18,Cocoa and cocoa preparations,950301485,USA,USA,1488331680,CAN,Canada,1488331680
+19,"Preparations of cereals, flour, starch or milk; pastrycooks' products",2035771106,USA,USA,3082184871,CAN,Canada,3082184871
+20,"Preparations of vegetables, fruit, nuts or other parts of plants",669117384,CAN,Canada,1700681649,USA,USA,1700681649
+21,Miscellaneous edible preparations,2586048430,CAN,Canada,2319930820,USA,USA,2319930820
+22,"Beverages, spirits and vinegar",9226346724,USA,USA,3681175722,MEX,Mexico,3681175722
+23,Residues and waste from the food industries; prepared animal fodder,1499042745,USA,USA,1579116290,CAN,Canada,1579116290
+24,Tobacco and manufactured tobacco substitutes,313594500,ZAF,South Africa,843841994,ZWE,Zimbabwe,843841994
+25,"Salt; sulphur; earths and stone; plastering materials, lime and cement",567392896,USA,USA,942306918,CAN,Canada,942306918
+26,"Ores, slag and ash",235320450,CHN,China,35255315013,AUS,Australia,35255315013
+27,"Mineral fuels, mineral oils and products of their distillation; bituminous substances; mineral waxes",25738310259,USA,USA,57561023110,CAN,Canada,57561023110
+28,"Inorganic chemicals; organic or inorganic compounds of precious metals, of rare-earth metals, of radioactive elements or of isotopes",1128064544,,"Areas, nes",2800721150,AUS,Australia,2800721150
+29,Organic chemicals,9893125187,CHN,China,10166947394,KOR,Rep. of Korea,10166947394
+30,Pharmaceutical products,32406499161,USA,USA,15446904710,CHE,Switzerland,15446904710
+31,Fertilisers,218755411,USA,USA,2548869086,CAN,Canada,2548869086
+32,"Tanning or dyeing extracts; tannins and their derivatives; dyes, pigments and other colouring matter; paints and varnishes; putty and other mastics; inks",3263825248,CAN,Canada,2006213006,USA,USA,2006213006
+33,"Essential oils and resinoids; perfumery, cosmetic or toilet preparations",5484391742,CAN,Canada,2806984861,USA,USA,2806984861
+34,"Soap, organic surface-active agents, washing preparations, lubricating preparations, artificial waxes, prepared waxes, polishing or scouring preparations, candles and similar articles, modelling pastes, “dental waxes” and dental preparations with a basis of plaster",2186093835,CAN,Canada,2178303328,USA,USA,2178303328
+35,Albuminoidal substances; modified starches; glues; enzymes,484363587,CAN,Canada,839864268,USA,USA,839864268
+36,Explosives; pyrotechnic products; matches; pyrophoric alloys; certain combustible preparations,46767865,USA,USA,293980214,CHN,China,293980214
+37,Photographic or cinematographic goods,602381114,USA,USA,879202311,JPN,Japan,879202311
+38,Miscellaneous chemical products,6262276963,CAN,Canada,3932707143,USA,USA,3932707143
+39,Plastics and articles thereof,10920320385,MEX,Mexico,16169450818,USA,USA,16169450818
+40,Rubber and articles thereof,2474017117,CAN,Canada,3808970920,USA,USA,3808970920
+41,Raw hides and skins (other than furskins) and leather,481498074,CHN,China,1289850893,HKG,"China, Hong Kong SAR",1289850893
+42,"Articles of leather; saddlery and harness; travel goods, handbags and similar containers; articles of animal gut (other than silk-worm gut)",1079136049,USA,USA,6418908473,CHN,China,6418908473
+43,Furskins and artificial fur; manufactures thereof,41290190,RUS,Russian Federation,2563638861,CHN,China,2563638861
+44,Wood and articles of wood; wood charcoal,498867956,USA,USA,10114035303,CAN,Canada,10114035303
+45,Cork and articles of cork,5485837,FRA,France,197512497,PRT,Portugal,197512497
+46,"Manufactures of straw, of esparto or of other plaiting materials; basketware and wickerwork",8364336,USA,USA,331996152,CHN,China,331996152
+47,Pulp of wood or of other fibrous cellulosic material; recovered (waste and scrap) paper or paperboard,747513728,CHN,China,3480854095,USA,USA,3480854095
+48,"Paper and paperboard; articles of paper pulp, of paper or of paperboard",2996708194,USA,USA,6115238842,CAN,Canada,6115238842
+49,"Printed books, newspapers, pictures and other products of the printing industry; manuscripts, typescripts and plans",3577103549,CAN,Canada,1959170252,USA,USA,1959170252
+50,Silk,29244468,IND,India,237311297,CHN,China,237311297
+51,"Wool, fine or coarse animal hair; horsehair yarn and woven fabric",484509342,CHN,China,1643631424,AUS,Australia,1643631424
+52,Cotton,180542784,BGD,Bangladesh,2320398216,CHN,China,2320398216
+53,Other vegetable textile fibres; paper yarn and woven fabrics of paper yarn,51924020,CHN,China,250017225,FRA,France,250017225
+54,Man-made filaments; strip and the like of man-made textile materials,371249090,VNM,Viet Nam,1541824493,CHN,China,1541824493
+55,Man-made staple fibres,315233788,VNM,Viet Nam,2311705431,CHN,China,2311705431
+56,"Wadding, felt and nonwovens; special yarns; twine, cordage, ropes and cables and articles thereof",366288983,MEX,Mexico,674937357,USA,USA,674937357
+57,Carpets and other textile floor coverings,301501117,USA,USA,827714101,IND,India,827714101
+58,Special woven fabrics; tufted textile fabrics; lace; tapestries; trimmings; embroidery,183907817,HKG,"China, Hong Kong SAR",592516444,CHN,China,592516444
+59,"Impregnated, coated, covered or laminated textile fabrics; textile articles of a kind suitable for industrial use",518072649,MEX,Mexico,1154056209,USA,USA,1154056209
+60,Knitted or crocheted fabrics,149467557,VNM,Viet Nam,2496091829,CHN,China,2496091829
+61,"Articles of apparel and clothing accessories, knitted or crocheted",3430269371,USA,USA,16094992183,CHN,China,16094992183
+62,"Articles of apparel and clothing accessories,not knitted or crocheted",4464306039,USA,USA,14320207720,CHN,China,14320207720
+63,Other made up textile articles; sets; worn clothing and worn textile articles; rags,1008051839,USA,USA,7538037542,CHN,China,7538037542
+64,"Footwear, gaiters and the like; parts of such articles",2159242889,USA,USA,12154380735,CHN,China,12154380735
+65,Headgear and parts thereof,214256165,USA,USA,1204966816,CHN,China,1204966816
+66,"Umbrellas, sun umbrellas, walking-sticks, seat-sticks, whips, riding-crops and parts thereof",20813525,USA,USA,463736541,CHN,China,463736541
+67,Prepared feathers and down and articles made of feathers or of down; artificial flowers; articles of human hair,45339196,USA,USA,2016174004,CHN,China,2016174004
+68,"Articles of stone, plaster, cement, asbestos, mica or similar materials",1077826048,USA,USA,1466143720,CHN,China,1466143720
+69,Ceramic products,550352200,USA,USA,2393973952,CHN,China,2393973952
+70,Glass and glassware,1177871900,USA,USA,2520912803,CHN,China,2520912803
+71,"Natural or cultured pearls, precious or semi-precious stones, precious metals, metals clad with precious metal, and articles thereof; imitation jewellery; coin",28465614495,CHN,China,40014446049,HKG,"China, Hong Kong SAR",40014446049
+72,Iron and steel,5331723823,KOR,Rep. of Korea,6068663805,CHN,China,6068663805
+73,Articles of iron or steel,5278484484,USA,USA,8977151869,CHN,China,8977151869
+74,Copper and articles thereof,1659502103,CHN,China,7034814529,CHL,Chile,7034814529
+75,Nickel and articles thereof,1077335333,NLD,Netherlands,886813744,RUS,Russian Federation,886813744
+76,Aluminium and articles thereof,2676737803,USA,USA,6981348185,CAN,Canada,6981348185
+78,Lead and articles thereof,522117978,USA,USA,536958280,CAN,Canada,536958280
+79,Zinc and articles thereof,125615702,USA,USA,1127583984,CAN,Canada,1127583984
+80,Tin and articles thereof,25236717,SGP,Singapore,492967484,IDN,Indonesia,492967484
+81,Other base metals; cermets; articles thereof,799102903,GBR,United Kingdom,401377234,USA,USA,401377234
+82,"Tools, implements, cutlery, spoons and forks, of base metal; parts thereof of base metal",993108331,USA,USA,3165246998,CHN,China,3165246998
+83,Miscellaneous articles of base metal,1284973683,USA,USA,3201007225,CHN,China,3201007225
+84,"Nuclear reactors, boilers, machinery and mechanical appliances; parts thereof",60051531379,USA,USA,79462404249,CHN,China,79462404249
+85,"Electrical machinery and equipment and parts thereof; sound recorders and reproducers, television image and sound recorders and reproducers, and parts and accessories of such articles",26737187850,CHN,China,166649165875,HKG,"China, Hong Kong SAR",166649165875
+86,"Railway or tramway locomotives, rolling-stock and parts thereof; railway or tramway track fixtures and fittings and parts thereof; mechanical (including electro-mechanical) traffic signalling equipment of all kinds",364607466,USA,USA,3071871470,MEX,Mexico,3071871470
+87,"Vehicles other than railway or tramway rolling-stock, and parts and accessories thereof",51124208626,USA,USA,73676226446,MEX,Mexico,73676226446
+88,"Aircraft, spacecraft, and parts thereof",20510506682,DEU,Germany,15624879268,FRA,France,15624879268
+89,"Ships, boats and floating structures",1942917054,MHL,Marshall Isds,7722131491,KOR,Rep. of Korea,7722131491
+90,"Optical, photographic, cinematographic, measuring, checking, precision, medical or surgical instruments and apparatus; parts and accessories thereof",17009030654,CHN,China,16619943611,KOR,Rep. of Korea,16619943611
+91,Clocks and watches and parts thereof,982264584,HKG,"China, Hong Kong SAR",2517441646,CHN,China,2517441646
+92,Musical instruments; parts and accessories of such articles,118173416,USA,USA,487069892,CHN,China,487069892
+93,Arms and ammunition; parts and accessories thereof,243309714,,"Areas, nes",992847000,ISR,Israel,992847000
+94,"Furniture; bedding, mattresses, mattress supports, cushions and similar stuffed furnishings; lamps and lighting fittings, not elsewhere specified or included; illuminated signs, illuminated name-plates and the like; prefabricated buildings",3574204024,USA,USA,27392905896,CHN,China,27392905896
+95,"Toys, games and sports requisites; parts and accessories thereof",2026019170,USA,USA,14769534898,CHN,China,14769534898
+96,Miscellaneous manufactured articles,755943975,USA,USA,3279727168,CHN,China,3279727168
+97,"Works of art, collectors' pieces and antiques",7159880237,USA,USA,4168050680,GBR,United Kingdom,4168050680
+99,Commodities not specified according to kind,6806047392,,"Areas, nes",149586066741,ARE,United Arab Emirates,149586066741

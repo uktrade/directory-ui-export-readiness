@@ -1,13 +1,14 @@
 {% extends "core/base.html" %}
 
 {% load static from staticfiles %}
+{% load intword from triage_tags %}
+{% load intcomma from humanize %}
 
 {% block css %}
     <link href="{% static 'styles/pages/custom-page.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
-
 <section style="" class="hero-section regular">
     <div class="container">
         <div class="hero-teaser">
@@ -39,7 +40,53 @@
         </div>
     </div>
 </section>
-
+{% if top_markets %}
+<section class="sector-fact">
+    <div class="container">
+        <div class="fact">
+          <p class="intro">{{ top_importer.largest_importer_name }} is the largest importer in this sector with a value of ${{ top_importer.largest_importer_value|intword|intcomma }}</p>
+          <p class="figure"><strong>${{ top_importer.uk_export_value|intword|intcomma }}</strong><span class="verbose">,&nbsp;</span><span>is the total value of exports in this sector from the UK in 2016</span>
+          </p>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% if top_markets %}
+<section class="markets background--white">
+    <div class="container">
+        <div class="grid-container">
+            <div class="cols-1"></div>
+            <div class="cols-10">
+                <h2>Top 10 markets for {{ sector_name }}</h2>
+                <p>The choice and order of markets is based on UK import value</p>
+                <table id="top-of-the-markets">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th>Export value from the UK</th>
+                            <th>GDP</th>
+                            <th>Ease of Doing<br>Business rank</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for market in top_markets %}
+                        <tr {% if not forloop.last %}class="lined"{% endif %}>
+                            <td>{{ forloop.counter }}</td>
+                            <td class="partner"><strong>{{ market.partner }}</strong></td>
+                            <td>${{ market.trade_value|intword }}</td>
+                            <td>${{ market.country.gdp|intword }}</td>
+                            <td>{{ market.country.ease_of_doing_business }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <p id="market-source-data">Data sources: UN Comtrade Database and World Bank Group</p>
+    </div>
+</section>
+{% endif %}
 {% if section_configuration.persona_article_group %}
 <section id="articles">
     <div class="container">
