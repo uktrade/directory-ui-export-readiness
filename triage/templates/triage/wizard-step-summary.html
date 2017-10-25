@@ -29,7 +29,7 @@
 {% endblock %}
 
 {% block submit_button_label %}
-	{% if has_completed_triage %}
+	{% if is_user_reviewing_persisted_answers %}
 		Continue my exporting journey
 	{% else %}
 		Create my exporting journey

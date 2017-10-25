@@ -55,12 +55,12 @@ class TriageWizardFormView(SessionWizardView):
     success_url = reverse_lazy('custom-page')
 
     @cached_property
-    def triage_answers(self):
+    def persisted_triage_answers(self):
         answer_manager = helpers.TriageAnswersManager(self.request)
         return answer_manager.retrieve_answers()
 
     def get_form_initial(self, step):
-        return self.triage_answers
+        return self.persisted_triage_answers
 
     def process_step(self, form):
         if self.steps.current == self.REGULAR_EXPORTER:
@@ -75,19 +75,26 @@ class TriageWizardFormView(SessionWizardView):
     def get_template_names(self):
         return [self.templates[self.steps.current]]
 
+    @property
+    def is_user_reviewing_persisted_answers(self):
+        # on the custom page there is a link to "change your preferences". That
+        # link includes '?result' in the querystring. This indicates that the
+        # user should be sent to the last step in the wizard to review their
+        # answers
+        return 'result' in self.request.GET
+
     def get_all_cleaned_data(self):
-        return {
-            **self.triage_answers,
-            **super().get_all_cleaned_data(),
-        }
+        if self.is_user_reviewing_persisted_answers:
+            return self.persisted_triage_answers
+        return super().get_all_cleaned_data()
 
     def get(self, *args, **kwargs):
-        if 'result' in self.request.GET:
+        if self.is_user_reviewing_persisted_answers:
             return self.render_goto_step(self.SUMMARY)
         return super().get(*args, **kwargs)
 
     def render_done(self, form, **kwargs):
-        if 'result' in self.request.GET:
+        if self.is_user_reviewing_persisted_answers:
             return redirect(self.success_url)
         return super().render_done(form, **kwargs)
 
@@ -98,7 +105,9 @@ class TriageWizardFormView(SessionWizardView):
             context['all_cleaned_data'] = data
             context['sector_label'] = forms.get_sector_label(data)
             context['persona'] = forms.get_persona(data)
-            context['has_completed_triage'] = self.triage_answers != {}
+            context['is_user_reviewing_persisted_answers'] = (
+                self.is_user_reviewing_persisted_answers
+            )
         return context
 
     def done(self, *args, **kwargs):
