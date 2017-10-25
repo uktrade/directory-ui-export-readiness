@@ -90,7 +90,32 @@ select {
       margin-left: 45px;
     }
   }
+  .autocomplete__input {
+    margin-bottom: 0;
+    max-width: none;
+  }
+  .autocomplete__option--focused,
+  .autocomplete__option:hover {
+    background: #007ea3 !important;  
+  }
 
+  .autocomplete__menu {
+    .autocomplete__option {
+      &::before {
+        background-color: transparent;
+      }
+    }
+    width: 100%;
+  }
+  .autocomplete__hint {
+    height: 50px;
+  }
+
+  .autocomplete__input,
+  .autocomplete__menu .autocomplete__option,
+  .autocomplete__hint {
+    padding: 12px 24px;
+  }
 }
 
 // DESKTOP

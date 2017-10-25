@@ -3,6 +3,7 @@ from collections import namedtuple
 from directory_constants.constants import exred_sector_names
 
 from django import forms
+from django.db.models.fields import BLANK_CHOICE_DASH
 
 from core.widgets import CheckboxWithInlineLabel, RadioSelect
 from triage import fields
@@ -23,9 +24,10 @@ class BaseTriageForm(forms.Form):
 
 class SectorForm(BaseTriageForm):
     sector = forms.ChoiceField(
-        choices=exred_sector_names.SECTORS_CHOICES,
+        choices=BLANK_CHOICE_DASH + list(exred_sector_names.SECTORS_CHOICES),
         label='What is your sector?',
         label_suffix='',
+        widget=forms.Select(attrs={'id': 'js-sector-select'}),
     )
 
 
