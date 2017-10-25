@@ -121,6 +121,7 @@ select {
 // DESKTOP
 @media (min-width: 768px) {
   .questions {
+    min-height: 600px;
     background: linear-gradient(to right, #{$white} #{$cols-7}, #{$offwhite} #{$cols-5});
   }
   .question {
