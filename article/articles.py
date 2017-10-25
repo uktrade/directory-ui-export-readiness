@@ -1,7 +1,7 @@
 from collections import namedtuple
 
 from directory_constants.constants import exred_articles
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 
 
 Article = namedtuple(
@@ -9,33 +9,103 @@ Article = namedtuple(
     ['uuid', 'title', 'keywords', 'tasks', 'markdown_file_path', 'url',
      'parent']
 )
-ArticleParent = namedtuple('ArticleParent', ['uuid', 'title'])
+ArticleParent = namedtuple('ArticleParent', ['uuid', 'title', 'articles'])
 
 
 GUIDANCE_MARKET_RESEARCH = ArticleParent(
     uuid='GUIDANCE_MARKET_RESEARCH',
     title='Market research',
+    articles=frozenset((
+        exred_articles.DO_RESEARCH_FIRST,
+        exred_articles.DEFINE_MARKET_POTENTIAL,
+        exred_articles.DO_FIELD_RESEARCH,
+        exred_articles.ANALYSE_THE_COMPETITION,
+        exred_articles.VISIT_TRADE_SHOW
+    ))
 )
+
 GUIDANCE_CUSTOMER_INSIGHT = ArticleParent(
     uuid='GUIDANCE_CUSTOMER_INSIGHT',
     title='Customer insight',
+    articles=frozenset((
+        exred_articles.KNOW_YOUR_CUSTOMER,
+        exred_articles.MEET_YOUR_CUSTOMER,
+        exred_articles.MANAGE_LANGUAGE_DIFFERENCES,
+        exred_articles.UNDERSTAND_YOUR_CUSTOMERS_CULTURE,
+    ))
 )
+
 GUIDANCE_FINANCE = ArticleParent(
     uuid='GUIDANCE_FINANCE',
     title='Finance',
+    articles=frozenset((
+        exred_articles.GET_MONEY_TO_EXPORT,
+        exred_articles.CHOOSE_THE_RIGHT_FINANCE,
+        exred_articles.GET_EXPORT_FINANCE,
+        exred_articles.RAISE_MONEY_BY_BORROWING,
+        exred_articles.BORROW_AGAINST_ASSETS,
+        exred_articles.RAISE_MONEY_WITH_INVESTMENT,
+        exred_articles.GET_GOVERNMENT_FINANCE_SUPPORT,
+
+    ))
 )
+
 GUIDANCE_BUSINESS_PLANNING = ArticleParent(
     uuid='GUIDANCE_BUSINESS_PLANNING',
     title='Business planning',
+    articles=frozenset((
+        exred_articles.MAKE_EXPORTING_PLAN,
+        exred_articles.FIND_A_ROUTE_TO_MARKET,
+        exred_articles.USE_OVERSEAS_AGENT,
+        exred_articles.USE_DISTRIBUTOR,
+        exred_articles.CHOOSING_AGENT_OR_DISTRIBUTOR,
+        exred_articles.LICENCE_AND_FRANCHISING,
+        exred_articles.LICENCE_YOUR_PRODUCT_OR_SERVICE,
+        exred_articles.FRANCHISE_YOUR_BUSINESS,
+        exred_articles.START_JOINT_VENTURE,
+        exred_articles.SETUP_OVERSEAS_OPERATION,
+    ))
 )
+
 GUIDANCE_GETTING_PAID = ArticleParent(
     uuid='GUIDANCE_GETTING_PAID',
     title='Getting paid',
+    articles=frozenset((
+        exred_articles.CONSIDER_HOW_PAID,
+        exred_articles.INVOICE_CURRENCY_AND_CONTENTS,
+        exred_articles.DECIDE_WHEN_PAID,
+        exred_articles.PAYMENT_METHODS,
+        exred_articles.INSURE_AGAINST_NON_PAYMENT,
+    ))
 )
+
 GUIDANCE_OPERATIONS_AND_COMPLIANCE = ArticleParent(
     uuid='GUIDANCE_OPERATIONS_AND_COMPLIANCE',
     title='Operations and compliance',
+    articles=frozenset((
+        exred_articles.PLAN_THE_LOGISTICS,
+        exred_articles.USE_FREIGHT_FORWARDER,
+        exred_articles.USE_INCOTERMS_IN_CONTRACTS,
+        exred_articles.GET_YOUR_EXPORT_DOCUMENTS_RIGHT,
+        exred_articles.INTERNATIONALISE_WESBITE,
+        exred_articles.MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE,
+        exred_articles.WHAT_INTELLECTUAL_PROPERTY_IS,
+        exred_articles.TYPES_OF_INTELLECTUAL_PROPERTY,
+        exred_articles.KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE,
+        exred_articles.INTELLECTUAL_PROPERTY_PROTECTION,
+    ))
 )
+
+
+CATEGORIES_LOOKUP = {
+    'GUIDANCE_MARKET_RESEARCH': GUIDANCE_MARKET_RESEARCH,
+    'GUIDANCE_CUSTOMER_INSIGHT': GUIDANCE_CUSTOMER_INSIGHT,
+    'GUIDANCE_FINANCE': GUIDANCE_FINANCE,
+    'GUIDANCE_BUSINESS_PLANNING': GUIDANCE_BUSINESS_PLANNING,
+    'GUIDANCE_GETTING_PAID': GUIDANCE_GETTING_PAID,
+    'GUIDANCE_OPERATIONS_AND_COMPLIANCE': GUIDANCE_OPERATIONS_AND_COMPLIANCE
+}
+
 
 DO_RESEARCH_FIRST = Article(
     uuid=exred_articles.DO_RESEARCH_FIRST,

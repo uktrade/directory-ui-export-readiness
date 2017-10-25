@@ -6,6 +6,8 @@ from django.template.loader import render_to_string
 
 from api_client import api_client
 
+from . import articles
+
 
 def markdown_to_html(markdown_file_path):
     html = render_to_string(markdown_file_path)
@@ -18,6 +20,7 @@ class BaseArticleReadManager(abc.ABC):
 
     persist_article = abc.abstractproperty()
     retrieve_articles = abc.abstractproperty()
+    article_read_count = abc.abstractproperty()
 
 
 class ArticleReadManager:
@@ -40,6 +43,16 @@ class SessionArticlesReadManager(BaseArticleReadManager):
     def retrieve_articles(self):
         return self.request.session.get(self.SESSION_KEY, [])
 
+    def article_read_count(self, category):
+        if category not in articles.CATEGORIES_LOOKUP:
+            raise Exception('Incorrect category')
+
+        session = self.request.session
+        read_articles = frozenset(session.get(self.SESSION_KEY, []))
+        articles_in_category = articles.CATEGORIES_LOOKUP[category].articles
+        read_articles_in_category = read_articles & articles_in_category
+        return len(read_articles_in_category)
+
 
 class DatabaseArticlesReadManager(BaseArticleReadManager):
 
@@ -56,3 +69,12 @@ class DatabaseArticlesReadManager(BaseArticleReadManager):
         )
         response.raise_for_status()
         return [article['article_uuid'] for article in response.json()]
+
+    def article_read_count(self, category):
+        if category not in articles.CATEGORIES_LOOKUP:
+            raise Exception('Incorrect category')
+
+        read_articles = frozenset(self.retrieve_articles())
+        articles_in_category = articles.CATEGORIES_LOOKUP[category].articles
+        read_articles_in_category = read_articles & articles_in_category
+        return len(read_articles_in_category)
