@@ -42,7 +42,7 @@
 							{% if wizard.steps.step1 != wizard.steps.count %}
 								<button type="submit" class="button button">Continue</button>
 							{% else %}
-								<input class="button next" type="submit" value="Create my exporting journey"/>
+								<input class="button next" type="submit" value="{% block submit_button_label %}{% endblock %}"/>
 							{% endif %}
 							{% if wizard.steps.prev %}
 								<button name="wizard_goto_step" class="previous-step" type="submit" value="{{ wizard.steps.prev }}">Previous step</button>

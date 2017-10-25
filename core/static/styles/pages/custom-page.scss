@@ -55,12 +55,9 @@
 
 .preferences {
   color: #ffffff;
-  background: transparent;
-  border: navajowhite;
-  font-size: 16px;
-  padding: 0;
-  text-decoration: underline;
-  cursor: pointer;
+  &:hover {
+    color: #ffffff;
+  }
 }
 
 #top-of-the-markets {

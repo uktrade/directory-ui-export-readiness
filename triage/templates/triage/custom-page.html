@@ -31,11 +31,7 @@
             {% endif %}
             </h1>
             <p>Learn about the best markets for your sector, increase your exporting knowledge and start connecting with overseas buyers.</p>
-
-            <form action="{% url 'triage-wizard' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
-                <button name="wizard_goto_step" type="submit" value="SUMMARY" class="preferences">Update preferences</button>
-            </form>
-
+                <a href="{% url 'triage-wizard' %}?result" class="preferences">Update preferences</a>
             <img src="{% static 'images/eig-logo-stacked.svg' %}">
         </div>
     </div>
