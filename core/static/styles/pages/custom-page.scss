@@ -60,6 +60,42 @@
   }
 }
 
+#top-of-the-markets {
+  margin-top: 71px;
+  width: 100%;
+  text-align: center;
+  color: #333333;
+  th {
+    font-size: 15px;
+    line-height: 1.47;
+  }
+  td {
+    font-size: 19px;
+    line-height: 3.16;
+  }
+  tr.lined {
+    td {
+      border-bottom: solid 1px #e6e6e6;
+    }
+  }
+  .partner {
+    font-weight: bold;
+  }
+}
+
+#market-source-data {
+  font-size: 15px;
+  line-height: 1.47;
+  text-align: left;
+  color: #999999;
+  margin-top: 30px;
+  margin-bottom: 49px;
+}
+
+h2 {
+  max-width: 570px;
+}
+
 @media (max-width: 960px) {
   .hero-section.regular {
     background-position: 60% 10%;
