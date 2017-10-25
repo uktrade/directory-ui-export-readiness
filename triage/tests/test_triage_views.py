@@ -229,6 +229,8 @@ def test_custom_view(mocked_retrieve_answers, authed_client, sso_user):
 def test_triage_wizard_summary_view(
     mocked_retrieve_answers, authed_client, sso_user
 ):
+    view_class = views.TriageWizardFormView
+    view_name = 'triage_wizard_form_view'
     mocked_retrieve_answers.return_value = {
         'company_name': 'Acme ltd',
         'exported_before': True,
@@ -239,19 +241,20 @@ def test_triage_wizard_summary_view(
         'company_number': '123445',
         'company_name': 'Example corp',
     }
-    response = authed_client.post(
-        reverse('triage-wizard'),
-        {'wizard_goto_step': views.TriageWizardFormView.SUMMARY}
-    )
-    assert response.status_code == 200
-    assert response.template_name == [
+    url = reverse('triage-wizard') + '?result'
+    summary_response = authed_client.get(url)
+    done_response = authed_client.post(url, {
+        view_name + '-current_step': view_class.SUMMARY,
+    })
+    assert summary_response.status_code == 200
+    assert summary_response.template_name == [
         views.TriageWizardFormView.templates['SUMMARY']
     ]
-    assert response.context_data['persona'] == (
+    assert summary_response.context_data['persona'] == (
         forms.REGULAR_EXPORTER
     )
-    assert response.context_data['sector_label'] == 'Animals; live'
-    assert response.context_data['all_cleaned_data'] == {
+    assert summary_response.context_data['sector_label'] == 'Animals; live'
+    assert summary_response.context_data['all_cleaned_data'] == {
         'sole_trader': True,
         'company_name': 'Example corp',
         'exported_before': True,
@@ -261,6 +264,8 @@ def test_triage_wizard_summary_view(
         'company_name': 'Example corp',
         'used_online_marketplace': False,
     }
+    assert done_response.status_code == 302
+    assert done_response.get('Location') == str(view_class.success_url)
 
 
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers')

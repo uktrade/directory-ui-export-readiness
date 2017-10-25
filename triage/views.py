@@ -74,13 +74,26 @@ class TriageWizardFormView(SessionWizardView):
     def get_template_names(self):
         return [self.templates[self.steps.current]]
 
+    def get_all_cleaned_data(self):
+        return {
+            **self.triage_answers,
+            **super().get_all_cleaned_data(),
+        }
+
+    def get(self, *args, **kwargs):
+        if 'result' in self.request.GET:
+            return self.render_goto_step(self.SUMMARY)
+        return super().get(*args, **kwargs)
+
+    def render_done(self, form, **kwargs):
+        if 'result' in self.request.GET:
+            return redirect(self.success_url)
+        return super().render_done(form, **kwargs)
+
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
         if self.steps.current == self.SUMMARY:
-            data = {
-                **self.triage_answers,
-                **self.get_all_cleaned_data(),
-            }
+            data = self.get_all_cleaned_data()
             context['all_cleaned_data'] = data
             context['sector_label'] = forms.get_sector_label(data)
             context['persona'] = forms.get_persona(data)
