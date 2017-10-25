@@ -4,9 +4,7 @@ from directory_constants.constants import exred_articles
 import pytest
 import requests
 
-from article import helpers
-from article.articles import GUIDANCE_GETTING_PAID, \
-    GUIDANCE_OPERATIONS_AND_COMPLIANCE
+from article import helpers, structure
 from core.tests.helpers import create_response
 
 
@@ -68,7 +66,9 @@ def test_database_article_read_count(
     )
 
     manager = helpers.DatabaseArticlesReadManager(sso_request)
-    count = manager.article_read_count(GUIDANCE_GETTING_PAID.uuid)
+    count = manager.article_read_count(
+        structure.GUIDANCE_GETTING_PAID_ARTICLES.key
+    )
 
     assert count == 2
 
@@ -171,7 +171,9 @@ def test_session_article_read_count(anon_request):
     ]
 
     manager = helpers.SessionArticlesReadManager(anon_request)
-    count = manager.article_read_count(GUIDANCE_OPERATIONS_AND_COMPLIANCE.uuid)
+    count = manager.article_read_count(
+        structure.GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES
+    )
 
     assert count == 2
 
