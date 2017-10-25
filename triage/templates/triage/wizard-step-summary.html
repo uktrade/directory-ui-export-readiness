@@ -27,3 +27,11 @@
 	<button name="wizard_goto_step" type="submit" class="previous-step update" value="{{ wizard.steps.first }}">Change your answers</button>
 </div>
 {% endblock %}
+
+{% block submit_button_label %}
+	{% if has_completed_triage %}
+		Continue my exporting journey
+	{% else %}
+		Create my exporting journey
+	{% endif %}
+{% endblock %}

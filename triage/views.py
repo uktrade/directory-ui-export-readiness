@@ -98,6 +98,7 @@ class TriageWizardFormView(SessionWizardView):
             context['all_cleaned_data'] = data
             context['sector_label'] = forms.get_sector_label(data)
             context['persona'] = forms.get_persona(data)
+            context['has_completed_triage'] = self.triage_answers != {}
         return context
 
     def done(self, *args, **kwargs):

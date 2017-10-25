@@ -42,6 +42,7 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
 
     assert done_response.status_code == 302
     assert done_response.get('Location') == str(view_class.success_url)
+    assert b'Create my exporting journey' in summary_response.content
     assert summary_response.context_data['persona'] == (
         forms.REGULAR_EXPORTER
     )
@@ -98,6 +99,7 @@ def test_submit_triage_occasional_exporter(mock_persist_answers, client):
 
     assert done_response.status_code == 302
     assert done_response.get('Location') == str(view_class.success_url)
+    assert b'Create my exporting journey' in summary_response.content
     assert summary_response.context_data['persona'] == (
         forms.OCCASIONAL_EXPORTER
     )
@@ -147,6 +149,7 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
 
     assert done_response.status_code == 302
     assert done_response.get('Location') == str(view_class.success_url)
+    assert b'Create my exporting journey' in summary_response.content
     assert summary_response.context_data['persona'] == forms.NEW_EXPORTER
     assert summary_response.context_data['sector_label'] == 'Animals; live'
     assert summary_response.context_data['all_cleaned_data'] == {
@@ -255,6 +258,7 @@ def test_triage_wizard_summary_view(
     done_response = authed_client.post(url, {
         view_name + '-current_step': view_class.SUMMARY,
     })
+    assert b'Continue my exporting journey' in summary_response.content
     assert summary_response.status_code == 200
     assert summary_response.template_name == [
         views.TriageWizardFormView.templates[view_class.SUMMARY]
