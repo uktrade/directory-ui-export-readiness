@@ -225,6 +225,15 @@ def test_custom_view(mocked_retrieve_answers, authed_client, sso_user):
     assert response.context_data['triage_result'] == triage_result
 
 
+def test_triage_wizard(client):
+    response = client.get(reverse('triage-wizard'))
+
+    assert response.status_code == 200
+    assert response.template_name == [
+        views.TriageWizardFormView.templates[views.TriageWizardFormView.SECTOR]
+    ]
+
+
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers')
 def test_triage_wizard_summary_view(
     mocked_retrieve_answers, authed_client, sso_user
@@ -248,7 +257,7 @@ def test_triage_wizard_summary_view(
     })
     assert summary_response.status_code == 200
     assert summary_response.template_name == [
-        views.TriageWizardFormView.templates['SUMMARY']
+        views.TriageWizardFormView.templates[view_class.SUMMARY]
     ]
     assert summary_response.context_data['persona'] == (
         forms.REGULAR_EXPORTER
