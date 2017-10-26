@@ -73,13 +73,6 @@ def test_database_article_read_count(
     assert count == 2
 
 
-def test_database_article_read_count_handle_exceptions(sso_request, sso_user):
-    manager = helpers.DatabaseArticlesReadManager(sso_request)
-
-    with pytest.raises(Exception):
-        manager.article_read_count('FOOO')
-
-
 @patch('api_client.api_client.exportreadiness.retrieve_article_read')
 def test_database_retrieve_article_read_api_call(
     mock_retrieve_article_read, sso_request, sso_user
@@ -172,14 +165,7 @@ def test_session_article_read_count(anon_request):
 
     manager = helpers.SessionArticlesReadManager(anon_request)
     count = manager.article_read_count(
-        structure.GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES
+        structure.GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES.key
     )
 
     assert count == 2
-
-
-def test_session_article_read_count_handle_exceptions(anon_request):
-    manager = helpers.SessionArticlesReadManager(anon_request)
-
-    with pytest.raises(Exception):
-        manager.article_read_count('FOOO')

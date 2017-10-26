@@ -1,5 +1,3 @@
-import abc
-
 import markdown2
 
 from django.template.loader import render_to_string
@@ -14,13 +12,24 @@ def markdown_to_html(markdown_file_path):
     return markdown2.markdown(html)
 
 
-class BaseArticleReadManager(abc.ABC):
+class BaseArticleReadManager:
     def __init__(self, request):
         self.request = request
 
-    persist_article = abc.abstractproperty()
-    retrieve_articles = abc.abstractproperty()
-    article_read_count = abc.abstractproperty()
+    def persist_article(self, article_uuid):
+        raise NotImplementedError('persist_article must be implemented')
+
+    def retrieve_articles(self):
+        raise NotImplementedError('retrieve_articles must be implemented')
+
+    def article_read_count(self, group):
+        read_articles = frozenset(self.retrieve_articles())
+        articles_in_category = frozenset(
+            [article.uuid for article in
+             structure.ALL_GROUPS_DICT[group].articles]
+        )
+        read_articles_in_category = read_articles & articles_in_category
+        return len(read_articles_in_category)
 
 
 class ArticleReadManager:
@@ -33,28 +42,18 @@ class ArticleReadManager:
 class SessionArticlesReadManager(BaseArticleReadManager):
     SESSION_KEY = 'ARTICLES_READ'
 
+    def __init__(self, request):
+        super().__init__(request)
+        self.session = request.session
+
     def persist_article(self, article_uuid):
-        session = self.request.session
-        articles = session.get(self.SESSION_KEY, [])
+        articles = self.session.get(self.SESSION_KEY, [])
         articles.append(article_uuid)
-        session[self.SESSION_KEY] = articles
-        session.modified = True
+        self.session[self.SESSION_KEY] = articles
+        self.session.modified = True
 
     def retrieve_articles(self):
         return self.request.session.get(self.SESSION_KEY, [])
-
-    def article_read_count(self, category):
-        if category not in structure.CATEGORIES_LOOKUP:
-            raise Exception('Incorrect category')
-
-        session = self.request.session
-        read_articles = frozenset(session.get(self.SESSION_KEY, []))
-        articles_in_category = frozenset(
-            [article.uuid for article in
-             structure.CATEGORIES_LOOKUP[category].articles]
-        )
-        read_articles_in_category = read_articles & articles_in_category
-        return len(read_articles_in_category)
 
 
 class DatabaseArticlesReadManager(BaseArticleReadManager):
@@ -72,15 +71,3 @@ class DatabaseArticlesReadManager(BaseArticleReadManager):
         )
         response.raise_for_status()
         return [article['article_uuid'] for article in response.json()]
-
-    def article_read_count(self, category):
-        if category not in structure.CATEGORIES_LOOKUP:
-            raise Exception('Incorrect category')
-
-        read_articles = frozenset(self.retrieve_articles())
-        articles_in_category = frozenset(
-            [article.uuid for article in
-             structure.CATEGORIES_LOOKUP[category].articles]
-        )
-        read_articles_in_category = read_articles & articles_in_category
-        return len(read_articles_in_category)
