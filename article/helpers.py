@@ -26,6 +26,8 @@ class BaseArticleReadManager(abc.ABC):
             [article.uuid for article in
              structure.ALL_GROUPS_DICT[group].articles]
         )
+        # read_articles_in_category is a new set (intersection)
+        # with elements common to read_articles and articles_in_category
         read_articles_in_group = read_articles & articles_in_group
         return len(read_articles_in_group)
 
