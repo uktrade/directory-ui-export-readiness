@@ -2,13 +2,38 @@ from collections import namedtuple
 
 from directory_constants.constants import exred_articles
 from django.urls import reverse_lazy
+from django.utils.functional import cached_property
 
-Article = namedtuple(
-    'Article',
-    ['uuid', 'title', 'keywords', 'tasks', 'markdown_file_path', 'url',
-     'parent']
-)
+from . import helpers
+
 ArticleParent = namedtuple('ArticleParent', ['uuid', 'title'])
+
+
+class Article:
+    __slots__ = [
+        'uuid',
+        'title',
+        'keywords',
+        'tasks',
+        'markdown_file_path',
+        'url',
+        'parent'
+    ]
+
+    def __init__(self, uuid, title, keywords, tasks,
+                 markdown_file_path, url, parent):
+        self.uuid = uuid
+        self.title = title
+        self.keywords = keywords
+        self.tasks = tasks
+        self.markdown_file_path = markdown_file_path
+        self.url = url
+        self.parent = parent
+
+    @cached_property
+    def time_to_read(self):
+        return helpers.time_to_read_in_minutes(self)
+
 
 GUIDANCE_MARKET_RESEARCH = ArticleParent(
     uuid='GUIDANCE_MARKET_RESEARCH',
@@ -49,6 +74,7 @@ DO_RESEARCH_FIRST = Article(
     url=reverse_lazy('article-research-market'),
     parent=GUIDANCE_MARKET_RESEARCH,
 )
+
 DEFINE_MARKET_POTENTIAL = Article(
     uuid=exred_articles.DEFINE_MARKET_POTENTIAL,
     title='Define market potential',
