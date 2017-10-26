@@ -3,14 +3,12 @@ from collections import namedtuple
 from directory_constants.constants import exred_articles
 from django.urls import reverse_lazy
 
-
 Article = namedtuple(
     'Article',
     ['uuid', 'title', 'keywords', 'tasks', 'markdown_file_path', 'url',
      'parent']
 )
 ArticleParent = namedtuple('ArticleParent', ['uuid', 'title'])
-
 
 GUIDANCE_MARKET_RESEARCH = ArticleParent(
     uuid='GUIDANCE_MARKET_RESEARCH',
@@ -41,7 +39,6 @@ GUIDANCE_OPERATIONS_AND_COMPLIANCE = ArticleParent(
     uuid='GUIDANCE_OPERATIONS_AND_COMPLIANCE',
     title='Operations and compliance',
 )
-
 
 DO_RESEARCH_FIRST = Article(
     uuid=exred_articles.DO_RESEARCH_FIRST,
