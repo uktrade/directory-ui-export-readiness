@@ -29,16 +29,30 @@
             <p class="intro">{% block subtitle %}{% endblock %}</p>
         </div>
         <div class="section-content-list">
-            <ul class="navigation" aria-live="assertive">
+            <ol class="navigation" aria-live="assertive"  id="js-paginate-list">
                 {% for article in article_group.articles %}
                     <li>
                         <span class="section">{{ article.parent.title }}<span class="verbose">:</span>&nbsp;</span>
                         <a href="{{ article.url }}?source={{article_group.key}}" class="article">{{ article.title }}</a>
                     </li>
                 {% endfor %}
-            </ul>
+
+                <div class="buttons">
+                    <a class="button more js-enabled-only" id="js-paginate-list-more">Show more</a>
+                </div>
+            </ol>
         </div>
     </div>
 </section>
 
+{% endblock %}
+
+
+{% block bodyScripts %}
+    <script src="{% static 'js/article-list.js' %}"></script>
+    <script>
+        var listELement = document.getElementById('js-paginate-list');  
+        var loadMoreButton = document.getElementById('js-paginate-list-more');  
+        new GOVUK.components.ArticlePaginator(listELement, loadMoreButton);
+    </script>
 {% endblock %}

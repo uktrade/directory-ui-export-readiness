@@ -82,6 +82,9 @@ section {
   z-index: -1;
 }
 
+.hidden {
+  display: none;
+}
 
 // TABLET
 @media (max-width: 767px) {
