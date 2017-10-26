@@ -1,3 +1,4 @@
+import abc
 import markdown2
 
 from django.template.loader import render_to_string
@@ -12,15 +13,12 @@ def markdown_to_html(markdown_file_path):
     return markdown2.markdown(html)
 
 
-class BaseArticleReadManager:
+class BaseArticleReadManager(abc.ABC):
     def __init__(self, request):
         self.request = request
 
-    def persist_article(self, article_uuid):
-        raise NotImplementedError('persist_article must be implemented')
-
-    def retrieve_articles(self):
-        raise NotImplementedError('retrieve_articles must be implemented')
+    persist_article = abc.abstractproperty()
+    retrieve_articles = abc.abstractproperty()
 
     def article_read_count(self, group):
         read_articles = frozenset(self.retrieve_articles())
