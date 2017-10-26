@@ -1,10 +1,28 @@
-from collections import namedtuple
+from django.urls import reverse_lazy
+from django.utils.functional import cached_property
 
-from django.core.urlresolvers import reverse_lazy
+from article import articles, helpers
 
-from article import articles
 
-ArticleGroup = namedtuple('ArticleGroup', ['articles', 'key', 'title', 'url'])
+class ArticleGroup:
+
+    def __init__(self, articles, key, title, url):
+        self.articles = articles
+        self.key = key
+        self.title = title
+        self.url = url
+
+    @cached_property
+    def articles_set(self):
+        return frozenset([article.uuid for article in self.articles])
+
+    @cached_property
+    def total_reading_time(self):
+        return sum(
+            (helpers.time_to_read_in_minutes(article) for
+             article in self.articles)
+        )
+
 
 PERSONA_NEW_ARTICLES = ArticleGroup(
     key='persona-new',
@@ -246,10 +264,6 @@ ALL_GROUPS = [
     ALL_ARTICLES,
 ]
 ALL_GROUPS_DICT = {group.key: group for group in ALL_GROUPS}
-ALL_GROUPS_ARTICLES_SETS = {
-    group.key: frozenset([article.uuid for article in group.articles]) for
-    group in ALL_GROUPS
-}
 
 
 def get_article_group(group_key):

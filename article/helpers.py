@@ -50,10 +50,6 @@ def time_to_read_in_minutes(article):
     return round(total_words_count / WORDS_PER_MINUTE)
 
 
-def remaining_reading_time_in_group(current_article, group):
-    pass
-
-
 class BaseArticleReadManager(abc.ABC):
     def __init__(self, request):
         self.request = request
@@ -61,13 +57,16 @@ class BaseArticleReadManager(abc.ABC):
     persist_article = abc.abstractproperty()
     retrieve_articles = abc.abstractproperty()
 
-    def article_read_count(self, group):
+    def article_read_count(self, group_key):
         read_articles = frozenset(self.retrieve_articles())
-        articles_in_group = structure.ALL_GROUPS_ARTICLES_SETS[group]
+        articles_in_group = structure.ALL_GROUPS_DICT[group_key].articles_set
         # read_articles_in_category is a new set (intersection)
         # with elements common to read_articles and articles_in_category
         read_articles_in_group = read_articles & articles_in_group
         return len(read_articles_in_group)
+
+    def remaining_reading_time_in_group(self, group_key):
+        pass
 
 
 class ArticleReadManager:
