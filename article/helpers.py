@@ -50,6 +50,10 @@ def time_to_read_in_minutes(article):
     return round(total_words_count / WORDS_PER_MINUTE)
 
 
+def total_time_to_read_multiple_articles(articles):
+    return sum((time_to_read_in_minutes(article) for article in articles))
+
+
 class BaseArticleReadManager(abc.ABC):
     def __init__(self, request):
         self.request = request
@@ -57,16 +61,41 @@ class BaseArticleReadManager(abc.ABC):
     persist_article = abc.abstractproperty()
     retrieve_articles = abc.abstractproperty()
 
-    def article_read_count(self, group_key):
-        read_articles = frozenset(self.retrieve_articles())
-        articles_in_group = structure.ALL_GROUPS_DICT[group_key].articles_set
+    @staticmethod
+    def articles_group(group_key):
+        return structure.ALL_GROUPS_DICT[group_key]
+
+    @staticmethod
+    def article_from_key(article_key):
+        return structure.ALL_ARTICLES_DICT[article_key]
+
+    def articles_from_keys(self, articles_keys):
+        return (self.article_from_key(key) for key in articles_keys)
+
+    def read_articles_keys_in_group(self, group_key):
+        read_articles_uuids = frozenset(self.retrieve_articles())
+        articles_in_group = self.articles_group(group_key).articles_set
         # read_articles_in_category is a new set (intersection)
         # with elements common to read_articles and articles_in_category
-        read_articles_in_group = read_articles & articles_in_group
-        return len(read_articles_in_group)
+        read_articles_in_group = read_articles_uuids & articles_in_group
+        return read_articles_in_group
+
+    def article_read_count(self, group_key):
+        return len(self.read_articles_keys_in_group(group_key))
 
     def remaining_reading_time_in_group(self, group_key):
-        pass
+        """ Return the remaining reading time in minutes
+            for unread articles in the group
+        """
+        read_articles_keys = self.read_articles_keys_in_group(group_key)
+        read_articles = self.article_from_key(read_articles_keys)
+        read_articles_total_time = total_time_to_read_multiple_articles(
+            read_articles
+        )
+        group_total_reading_time = self.articles_group(
+            group_key
+        ).total_reading_time
+        return group_total_reading_time - read_articles_total_time
 
 
 class ArticleReadManager:

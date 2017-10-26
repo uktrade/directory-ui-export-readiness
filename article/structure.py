@@ -264,6 +264,8 @@ ALL_GROUPS = [
     ALL_ARTICLES,
 ]
 ALL_GROUPS_DICT = {group.key: group for group in ALL_GROUPS}
+ALL_ARTICLES_DICT = {article.uuid: article for
+                     article in ALL_ARTICLES.articles}
 
 
 def get_article_group(group_key):
