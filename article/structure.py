@@ -4,9 +4,7 @@ from django.core.urlresolvers import reverse_lazy
 
 from article import articles
 
-
 ArticleGroup = namedtuple('ArticleGroup', ['articles', 'key', 'title', 'url'])
-
 
 PERSONA_NEW_ARTICLES = ArticleGroup(
     key='persona-new',
@@ -72,7 +70,6 @@ PERSONA_OCCASIONAL_ARTICLES = ArticleGroup(
     url=reverse_lazy('article-list-persona-occasional'),
 )
 
-
 PERSONA_REGULAR_ARTICLES = ArticleGroup(
     key='persona-regular',
     title='Regular exporter',
@@ -98,7 +95,6 @@ PERSONA_REGULAR_ARTICLES = ArticleGroup(
     url=reverse_lazy('article-list-persona-regular'),
 )
 
-
 GUIDANCE_MARKET_RESEARCH_ARTICLES = ArticleGroup(
     key='market-research',
     title=articles.GUIDANCE_MARKET_RESEARCH.title,
@@ -112,7 +108,6 @@ GUIDANCE_MARKET_RESEARCH_ARTICLES = ArticleGroup(
     url=reverse_lazy('article-list-market-research'),
 )
 
-
 GUIDANCE_CUSTOMER_INSIGHT_ARTICLES = ArticleGroup(
     key='customer-insights',
     title=articles.GUIDANCE_CUSTOMER_INSIGHT.title,
@@ -124,7 +119,6 @@ GUIDANCE_CUSTOMER_INSIGHT_ARTICLES = ArticleGroup(
     ],
     url=reverse_lazy('article-list-customer-insight'),
 )
-
 
 GUIDANCE_FINANCE_ARTICLES = ArticleGroup(
     key='finance',
@@ -140,7 +134,6 @@ GUIDANCE_FINANCE_ARTICLES = ArticleGroup(
     ],
     url=reverse_lazy('article-list-finance'),
 )
-
 
 GUIDANCE_BUSINESS_PLANNING_ARTICLES = ArticleGroup(
     key='business-planning',
@@ -160,7 +153,6 @@ GUIDANCE_BUSINESS_PLANNING_ARTICLES = ArticleGroup(
     url=reverse_lazy('article-list-business-planning'),
 )
 
-
 GUIDANCE_GETTING_PAID_ARTICLES = ArticleGroup(
     key='getting-paid',
     title=articles.GUIDANCE_GETTING_PAID.title,
@@ -173,7 +165,6 @@ GUIDANCE_GETTING_PAID_ARTICLES = ArticleGroup(
     ],
     url=reverse_lazy('article-list-getting-paid'),
 )
-
 
 GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES = ArticleGroup(
     key='operations-and-compliance',
@@ -192,7 +183,6 @@ GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES = ArticleGroup(
     ],
     url=reverse_lazy('article-list-operations-and-compliance'),
 )
-
 
 ALL_ARTICLES = ArticleGroup(
     key='all',
@@ -240,23 +230,26 @@ ALL_ARTICLES = ArticleGroup(
         articles.MANAGE_LANGUAGE_DIFFERENCES,
         articles.UNDERSTAND_YOUR_CUSTOMERS_CULTURE,
     ],
-    url=''
+    url='',
 )
 
-
 ALL_GROUPS = [
-    PERSONA_NEW_ARTICLES,
-    PERSONA_OCCASIONAL_ARTICLES,
-    PERSONA_REGULAR_ARTICLES,
     GUIDANCE_MARKET_RESEARCH_ARTICLES,
     GUIDANCE_CUSTOMER_INSIGHT_ARTICLES,
     GUIDANCE_FINANCE_ARTICLES,
     GUIDANCE_BUSINESS_PLANNING_ARTICLES,
     GUIDANCE_GETTING_PAID_ARTICLES,
     GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES,
+    PERSONA_NEW_ARTICLES,
+    PERSONA_OCCASIONAL_ARTICLES,
+    PERSONA_REGULAR_ARTICLES,
     ALL_ARTICLES,
 ]
 ALL_GROUPS_DICT = {group.key: group for group in ALL_GROUPS}
+ALL_GROUPS_ARTICLES_SETS = {
+    group.key: frozenset([article.uuid for article in group.articles]) for
+    group in ALL_GROUPS
+}
 
 
 def get_article_group(group_key):
@@ -269,7 +262,7 @@ def get_next_article(article_group, current_article):
     except ValueError:
         # current article is not in the specified group
         return None
-    if current_index+1 == len(article_group.articles):
+    if current_index + 1 == len(article_group.articles):
         # current item is the last item
         return None
-    return article_group.articles[current_index+1]
+    return article_group.articles[current_index + 1]
