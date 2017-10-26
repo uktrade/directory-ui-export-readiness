@@ -73,7 +73,6 @@
       background-color: transparent;
       border-width: 0 0 4px 0;
       color: $active-blue;
-      display: none; // JS will toggle visibility (non-JS users won't need these)
       padding-bottom: $spacing-3;
       padding-right: 0;
       text-decoration: underline;
