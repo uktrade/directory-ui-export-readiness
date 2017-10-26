@@ -1,5 +1,6 @@
 import abc
 import markdown2
+from bs4 import BeautifulSoup
 
 from django.template.loader import render_to_string
 
@@ -8,9 +9,49 @@ from api_client import api_client
 from . import structure
 
 
+WORDS_PER_MINUTE = 180  # Average WPM on screen
+
+
 def markdown_to_html(markdown_file_path):
     html = render_to_string(markdown_file_path)
     return markdown2.markdown(html)
+
+
+def filter_lines(lines_list):
+    """BeautifulSoup returns \n as lines as well, we filter them out.
+
+    It's a function because more filtering can be added later.
+    """
+    return filter(lambda x: x != '\n', lines_list)
+
+
+def lines_list_from_html(html):
+    """Parses the HTML to return text lines."""
+    soup = BeautifulSoup(html, 'html.parser')
+    return soup.findAll(text=True)
+
+
+def count_average_word_number_in_lines_list(lines_list, word_length=5):
+    """Assume average word length, counts how many words in all the lines."""
+    total_words = 0
+    for line in lines_list:
+        total_words += len(line)/word_length
+    return total_words
+
+
+def time_to_read_in_minutes(article):
+    """Return rounded time to read in minutes give an Article object."""
+    html = markdown_to_html(article.markdown_file_path)
+    lines_list = lines_list_from_html(html)
+    filtered_lines_list = filter_lines(lines_list)
+    total_words_count = count_average_word_number_in_lines_list(
+        filtered_lines_list
+    )
+    return round(total_words_count / WORDS_PER_MINUTE)
+
+
+def remaining_reading_time_in_group(current_article, group):
+    pass
 
 
 class BaseArticleReadManager(abc.ABC):
