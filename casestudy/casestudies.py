@@ -1,10 +1,12 @@
 from collections import namedtuple
-
+from django.urls import reverse_lazy
 
 from django.contrib.staticfiles.storage import staticfiles_storage
 
 
-CaseStudy = namedtuple('CaseStudy', ['title', 'description', 'image_url'])
+CaseStudy = namedtuple(
+    'CaseStudy', ['title', 'description', 'image_url', 'url']
+)
 
 HELLO_BABY = CaseStudy(
     title="Hello Baby's rapid online growth",
@@ -14,6 +16,7 @@ HELLO_BABY = CaseStudy(
         'Amazon, eBay and Cdiscount.'
     ),
     image_url=staticfiles_storage.url('images/stories/hellobaby.jpg'),
+    url=reverse_lazy('casestudy-hello-baby'),
 )
 
 MARKETPLACE = CaseStudy(
@@ -23,6 +26,7 @@ MARKETPLACE = CaseStudy(
         'FreestyleXtreme has seen big growth through online sales overseas.'
     ),
     image_url=staticfiles_storage.url('images/stories/freestylextreme.jpg'),
+    url=reverse_lazy('casestudy-online-marketplaces'),
 )
 
 YORK = CaseStudy(
@@ -33,4 +37,5 @@ YORK = CaseStudy(
         'decision to launch a German website.'
     ),
     image_url=staticfiles_storage.url('images/stories/maxwellscottbags.jpg'),
+    url=reverse_lazy('casestudy-york-bag'),
 )
