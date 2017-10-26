@@ -30,25 +30,26 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
         view_name + '-current_step': view_class.REGULAR_EXPORTER,
         view_class.REGULAR_EXPORTER + '-regular_exporter': 'True',
     })
-    # skips the "do you use the marketplace" step
+    client.post(url, {
+        view_name + '-current_step': view_class.COMPANIES_HOUSE,
+        view_class.COMPANIES_HOUSE + '-is_in_companies_house': True,
+    })
     summary_response = client.post(url, {
         view_name + '-current_step': view_class.COMPANY,
         view_class.COMPANY + '-company_name': 'Example corp',
-        view_class.COMPANY + '-sole_trader': True,
     })
+    # skips the "do you use the marketplace" step
     done_response = client.post(url, {
         view_name + '-current_step': view_class.SUMMARY,
     })
 
-    assert done_response.status_code == 302
-    assert done_response.get('Location') == str(view_class.success_url)
     assert b'Create my exporting journey' in summary_response.content
     assert summary_response.context_data['persona'] == (
         forms.REGULAR_EXPORTER
     )
     assert summary_response.context_data['sector_label'] == 'Animals; live'
     assert summary_response.context_data['all_cleaned_data'] == {
-        'sole_trader': True,
+        'is_in_companies_house': True,
         'company_name': 'Example corp',
         'exported_before': True,
         'regular_exporter': True,
@@ -57,14 +58,17 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
     }
     assert mock_persist_answers.call_count == 1
     assert mock_persist_answers.call_args == call({
-        'sole_trader': True,
+        'sole_trader': False,
         'company_name': 'Example corp',
         'used_online_marketplace': None,
         'exported_before': True,
         'regular_exporter': True,
         'sector': 'HS01',
         'company_number': '',
+        'is_in_companies_house': True,
     })
+    assert done_response.status_code == 302
+    assert done_response.get('Location') == str(view_class.success_url)
 
 
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
@@ -88,10 +92,14 @@ def test_submit_triage_occasional_exporter(mock_persist_answers, client):
         view_name + '-current_step': view_class.ONLINE_MARKETPLACE,
         view_class.ONLINE_MARKETPLACE + '-used_online_marketplace': 'True',
     })
+    client.post(url, {
+        view_name + '-current_step': view_class.COMPANIES_HOUSE,
+        view_class.COMPANIES_HOUSE + '-is_in_companies_house': True,
+    })
     summary_response = client.post(url, {
         view_name + '-current_step': view_class.COMPANY,
         view_class.COMPANY + '-company_name': 'Example corp',
-        view_class.COMPANY + '-sole_trader': True,
+        view_class.COMPANY + '-company_number': '41231231',
     })
     done_response = client.post(url, {
         view_name + '-current_step': view_class.SUMMARY,
@@ -105,23 +113,24 @@ def test_submit_triage_occasional_exporter(mock_persist_answers, client):
     )
     assert summary_response.context_data['sector_label'] == 'Animals; live'
     assert summary_response.context_data['all_cleaned_data'] == {
-        'sole_trader': True,
+        'is_in_companies_house': True,
         'company_name': 'Example corp',
         'exported_before': True,
         'used_online_marketplace': True,
         'regular_exporter': False,
         'sector': 'HS01',
-        'company_number': '',
+        'company_number': '41231231',
     }
     assert mock_persist_answers.call_count == 1
     assert mock_persist_answers.call_args == call({
-        'sole_trader': True,
+        'sole_trader': False,
         'company_name': 'Example corp',
         'exported_before': True,
         'used_online_marketplace': True,
         'regular_exporter': False,
         'sector': 'HS01',
-        'company_number': '',
+        'company_number': '41231231',
+        'is_in_companies_house': True,
     })
 
 
@@ -138,10 +147,13 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
         view_class.EXPORTED_BEFORE + '-exported_before': 'False',
     })
+    client.post(url, {
+        view_name + '-current_step': view_class.COMPANIES_HOUSE,
+        view_class.COMPANIES_HOUSE + '-is_in_companies_house': True,
+    })
     summary_response = client.post(url, {
         view_name + '-current_step': view_class.COMPANY,
         view_class.COMPANY + '-company_name': 'Example corp',
-        view_class.COMPANY + '-sole_trader': True,
     })
     done_response = client.post(url, {
         view_name + '-current_step': view_class.SUMMARY,
@@ -154,7 +166,7 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
     assert summary_response.context_data['sector_label'] == 'Animals; live'
     assert summary_response.context_data['all_cleaned_data'] == {
         'company_number': '',
-        'sole_trader': True,
+        'is_in_companies_house': True,
         'company_name': 'Example corp',
         'exported_before': False,
         'sector': 'HS01',
@@ -162,13 +174,179 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
     assert mock_persist_answers.call_count == 1
     assert mock_persist_answers.call_args == call({
         'company_number': '',
-        'sole_trader': True,
+        'is_in_companies_house': True,
+        'sole_trader': False,
         'company_name': 'Example corp',
         'exported_before': False,
         'sector': 'HS01',
         'used_online_marketplace': None,
         'regular_exporter': False,
     })
+
+
+@patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
+def test_triage_manually_skip_company(mock_persist_answers, client):
+    url = reverse('triage-wizard')
+    view_class = views.TriageWizardFormView
+    view_name = 'triage_wizard_form_view'
+    client.post(url, {
+        view_name + '-current_step': view_class.SECTOR,
+        view_class.SECTOR + '-sector': 'HS01',
+    })
+    client.post(url, {
+        view_name + '-current_step': view_class.EXPORTED_BEFORE,
+        view_class.EXPORTED_BEFORE + '-exported_before': 'False',
+    })
+    response = client.post(url, {
+        view_name + '-current_step': view_class.COMPANY,
+        'wizard_skip_step': True,
+    })
+
+    assert response.status_code == 200
+    assert response.template_name == [view_class.templates[view_class.SUMMARY]]
+
+
+@patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
+def test_triage_sole_trader_skip_company(mock_persist_answers, client):
+    url = reverse('triage-wizard')
+    view_class = views.TriageWizardFormView
+    view_name = 'triage_wizard_form_view'
+    client.post(url, {
+        view_name + '-current_step': view_class.SECTOR,
+        view_class.SECTOR + '-sector': 'HS01',
+    })
+    client.post(url, {
+        view_name + '-current_step': view_class.EXPORTED_BEFORE,
+        view_class.EXPORTED_BEFORE + '-exported_before': 'False',
+    })
+    response = client.post(url, {
+        view_name + '-current_step': view_class.COMPANIES_HOUSE,
+        view_class.COMPANIES_HOUSE + '-is_in_companies_house': False,
+    })
+
+    assert response.status_code == 200
+    assert response.template_name == [view_class.templates[view_class.SUMMARY]]
+
+
+def test_triage_skip_company_clears_previous_answers(client):
+    url = reverse('triage-wizard')
+    view_class = views.TriageWizardFormView
+    view_name = 'triage_wizard_form_view'
+
+    client.post(url, {
+        view_name + '-current_step': view_class.SECTOR,
+        view_class.SECTOR + '-sector': 'HS01',
+    })
+    client.post(url, {
+        view_name + '-current_step': view_class.EXPORTED_BEFORE,
+        view_class.EXPORTED_BEFORE + '-exported_before': 'False',
+    })
+    client.post(url, {
+        view_name + '-current_step': view_class.COMPANIES_HOUSE,
+        view_class.COMPANIES_HOUSE + '-is_in_companies_house': True,
+    })
+    client.post(url, {
+        view_name + '-current_step': view_class.COMPANY,
+        view_class.COMPANY + '-company_name': 'Example corp',
+    })
+    summary_response = client.post(url, {
+        view_name + '-current_step': view_class.COMPANY,
+        'wizard_skip_step': True,
+    })
+    done_response = client.post(url, {
+        view_name + '-current_step': view_class.SUMMARY,
+    })
+
+    assert done_response.status_code == 302
+    assert done_response.get('Location') == str(view_class.success_url)
+    assert b'Create my exporting journey' in summary_response.content
+    assert summary_response.context_data['all_cleaned_data'] == {
+        'company_number': '',
+        'is_in_companies_house': True,
+        'company_name': '',
+        'sector': 'HS01',
+        'exported_before': False
+    }
+
+
+@patch('triage.helpers.SessionTriageAnswersManager.retrieve_answers')
+def test_triage_skip_company_clears_previous_answers_summary(
+    mocked_retrieve_answers, client
+):
+    url = reverse('triage-wizard')
+    view_class = views.TriageWizardFormView
+    view_name = 'triage_wizard_form_view'
+
+    mocked_retrieve_answers.return_value = {
+        'company_name': 'Example corp',
+        'company_number': '123445',
+        'exported_before': True,
+        'is_in_companies_house': True,
+        'regular_exporter': True,
+        'sector': 'HS01',
+        'sole_trader': False,
+        'used_online_marketplace': False,
+    }
+    client.get(url + '?result')
+    summary_response = client.post(url, {
+        view_name + '-current_step': view_class.COMPANY,
+        'wizard_skip_step': True,
+    })
+    done_response = client.post(url, {
+        view_name + '-current_step': view_class.SUMMARY,
+    })
+    assert done_response.status_code == 302
+    assert done_response.get('Location') == str(view_class.success_url)
+    assert b'Continue my exporting journey' in summary_response.content
+    assert summary_response.context_data['all_cleaned_data'] == {
+        'company_number': '',
+        'regular_exporter': True,
+        'company_name': '',
+        'sector': 'HS01',
+        'exported_before': True,
+        'is_in_companies_house': True,
+    }
+
+
+@patch('triage.helpers.DatabaseTriageAnswersManager.persist_answers', Mock)
+@patch('triage.helpers.SessionTriageAnswersManager.retrieve_answers')
+def test_triage_summary_change_answers(
+    mocked_retrieve_answers, client
+):
+    url = reverse('triage-wizard')
+    view_class = views.TriageWizardFormView
+    view_name = 'triage_wizard_form_view'
+    mocked_retrieve_answers.return_value = {
+        'company_name': 'Acme ltd',
+        'exported_before': True,
+        'regular_exporter': True,
+        'used_online_marketplace': False,
+        'sector': 'HS01',
+        'sole_trader': False,
+        'is_in_companies_house': True,
+        'company_number': '123445',
+        'company_name': 'Example corp',
+    }
+    client.get(url + '?result')
+    summary_response = client.post(url, {
+        view_name + '-current_step': view_class.COMPANY,
+        view_class.COMPANY + '-company_name': 'Other Example limited',
+    })
+    done_response = client.post(url, {
+        view_name + '-current_step': view_class.SUMMARY,
+    })
+
+    assert b'Continue my exporting journey' in summary_response.content
+    assert summary_response.context_data['all_cleaned_data'] == {
+        'company_number': '',
+        'is_in_companies_house': True,
+        'company_name': 'Other Example limited',
+        'sector': 'HS01',
+        'exported_before': True,
+        'regular_exporter': True,
+    }
+    assert done_response.status_code == 302
+    assert done_response.get('Location') == str(view_class.success_url)
 
 
 def test_companies_house_search_validation_error(client):
@@ -237,9 +415,10 @@ def test_triage_wizard(client):
     ]
 
 
+@patch('triage.helpers.DatabaseTriageAnswersManager.persist_answers', Mock)
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers')
 def test_triage_wizard_summary_view(
-    mocked_retrieve_answers, authed_client, sso_user
+    mocked_retrieve_answers, authed_client
 ):
     view_class = views.TriageWizardFormView
     view_name = 'triage_wizard_form_view'
@@ -249,12 +428,13 @@ def test_triage_wizard_summary_view(
         'regular_exporter': True,
         'used_online_marketplace': False,
         'sector': 'HS01',
-        'sole_trader': True,
-        'company_number': '123445',
+        'sole_trader': False,
+        'company_number': '33123445',
         'company_name': 'Example corp',
+        'is_in_companies_house': True,
     }
-    url = reverse('triage-wizard') + '?result'
-    summary_response = authed_client.get(url)
+    url = reverse('triage-wizard')
+    summary_response = authed_client.get(url + '?result')
     done_response = authed_client.post(url, {
         view_name + '-current_step': view_class.SUMMARY,
     })
@@ -268,14 +448,13 @@ def test_triage_wizard_summary_view(
     )
     assert summary_response.context_data['sector_label'] == 'Animals; live'
     assert summary_response.context_data['all_cleaned_data'] == {
-        'sole_trader': True,
+        'is_in_companies_house': True,
         'company_name': 'Example corp',
         'exported_before': True,
         'regular_exporter': True,
         'sector': 'HS01',
-        'company_number': '123445',
+        'company_number': '33123445',
         'company_name': 'Example corp',
-        'used_online_marketplace': False,
     }
     assert done_response.status_code == 302
     assert done_response.get('Location') == str(view_class.success_url)
