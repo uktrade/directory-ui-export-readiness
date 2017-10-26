@@ -246,6 +246,10 @@ ALL_GROUPS = [
     ALL_ARTICLES,
 ]
 ALL_GROUPS_DICT = {group.key: group for group in ALL_GROUPS}
+ALL_GROUPS_ARTICLES_SETS = {
+    group.key: frozenset([article.uuid for article in group.articles]) for
+    group in ALL_GROUPS
+}
 
 
 def get_article_group(group_key):

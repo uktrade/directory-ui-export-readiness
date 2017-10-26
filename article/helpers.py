@@ -22,10 +22,7 @@ class BaseArticleReadManager(abc.ABC):
 
     def article_read_count(self, group):
         read_articles = frozenset(self.retrieve_articles())
-        articles_in_group = frozenset(
-            [article.uuid for article in
-             structure.ALL_GROUPS_DICT[group].articles]
-        )
+        articles_in_group = structure.ALL_GROUPS_ARTICLES_SETS[group]
         # read_articles_in_category is a new set (intersection)
         # with elements common to read_articles and articles_in_category
         read_articles_in_group = read_articles & articles_in_group
