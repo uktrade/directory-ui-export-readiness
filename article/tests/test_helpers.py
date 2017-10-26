@@ -169,3 +169,11 @@ def test_session_article_read_count(anon_request):
     )
 
     assert count == 2
+
+
+def test_incomplete_base_class_implementation_raises_not_implemented_error():
+    manager = helpers.BaseArticleReadManager('foo')
+
+    with pytest.raises(NotImplementedError):
+        manager.persist_article('uuid')
+        manager.retrieve_articles()
