@@ -1,8 +1,7 @@
 from collections import namedtuple
 
 from directory_constants.constants import exred_articles
-from django.core.urlresolvers import reverse_lazy
-
+from django.urls import reverse_lazy
 
 Article = namedtuple(
     'Article',
@@ -11,27 +10,31 @@ Article = namedtuple(
 )
 ArticleParent = namedtuple('ArticleParent', ['uuid', 'title'])
 
-
 GUIDANCE_MARKET_RESEARCH = ArticleParent(
     uuid='GUIDANCE_MARKET_RESEARCH',
     title='Market research',
 )
+
 GUIDANCE_CUSTOMER_INSIGHT = ArticleParent(
     uuid='GUIDANCE_CUSTOMER_INSIGHT',
     title='Customer insight',
 )
+
 GUIDANCE_FINANCE = ArticleParent(
     uuid='GUIDANCE_FINANCE',
     title='Finance',
 )
+
 GUIDANCE_BUSINESS_PLANNING = ArticleParent(
     uuid='GUIDANCE_BUSINESS_PLANNING',
     title='Business planning',
 )
+
 GUIDANCE_GETTING_PAID = ArticleParent(
     uuid='GUIDANCE_GETTING_PAID',
     title='Getting paid',
 )
+
 GUIDANCE_OPERATIONS_AND_COMPLIANCE = ArticleParent(
     uuid='GUIDANCE_OPERATIONS_AND_COMPLIANCE',
     title='Operations and compliance',

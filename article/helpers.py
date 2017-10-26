@@ -1,10 +1,11 @@
 import abc
-
 import markdown2
 
 from django.template.loader import render_to_string
 
 from api_client import api_client
+
+from . import structure
 
 
 def markdown_to_html(markdown_file_path):
@@ -19,6 +20,14 @@ class BaseArticleReadManager(abc.ABC):
     persist_article = abc.abstractproperty()
     retrieve_articles = abc.abstractproperty()
 
+    def article_read_count(self, group):
+        read_articles = frozenset(self.retrieve_articles())
+        articles_in_group = structure.ALL_GROUPS_ARTICLES_SETS[group]
+        # read_articles_in_category is a new set (intersection)
+        # with elements common to read_articles and articles_in_category
+        read_articles_in_group = read_articles & articles_in_group
+        return len(read_articles_in_group)
+
 
 class ArticleReadManager:
     def __new__(cls, request):
@@ -30,12 +39,15 @@ class ArticleReadManager:
 class SessionArticlesReadManager(BaseArticleReadManager):
     SESSION_KEY = 'ARTICLES_READ'
 
+    def __init__(self, request):
+        super().__init__(request)
+        self.session = request.session
+
     def persist_article(self, article_uuid):
-        session = self.request.session
-        articles = session.get(self.SESSION_KEY, [])
+        articles = self.session.get(self.SESSION_KEY, [])
         articles.append(article_uuid)
-        session[self.SESSION_KEY] = articles
-        session.modified = True
+        self.session[self.SESSION_KEY] = articles
+        self.session.modified = True
 
     def retrieve_articles(self):
         return self.request.session.get(self.SESSION_KEY, [])
