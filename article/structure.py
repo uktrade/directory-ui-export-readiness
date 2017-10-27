@@ -1,7 +1,6 @@
 from django.urls import reverse_lazy
-from django.utils.functional import cached_property
 
-from article import articles, helpers
+from article import articles
 
 
 class ArticleGroup:
@@ -11,17 +10,11 @@ class ArticleGroup:
         self.key = key
         self.title = title
         self.url = url
-
-    @cached_property
-    def articles_set(self):
-        return frozenset([article.uuid for article in self.articles])
-
-    @cached_property
-    def total_reading_time(self):
-        return sum(
-            (helpers.time_to_read_in_minutes(article) for
-             article in self.articles)
+        self.articles_set = frozenset(
+            [article.uuid for article in self.articles]
         )
+        self.total_reading_time = sum((article.time_to_read for
+                                      article in self.articles))
 
 
 PERSONA_NEW_ARTICLES = ArticleGroup(
@@ -264,8 +257,8 @@ ALL_GROUPS = [
     ALL_ARTICLES,
 ]
 ALL_GROUPS_DICT = {group.key: group for group in ALL_GROUPS}
-ALL_ARTICLES_DICT = {article.uuid: article for
-                     article in ALL_ARTICLES.articles}
+ALL_ARTICLES_PER_UUID = {article.uuid: article for
+                         article in ALL_ARTICLES.articles}
 
 
 def get_article_group(group_key):
@@ -282,3 +275,11 @@ def get_next_article(article_group, current_article):
         # current item is the last item
         return None
     return article_group.articles[current_index + 1]
+
+
+def get_article_from_uuid(article_uuid):
+    return ALL_ARTICLES_PER_UUID[article_uuid]
+
+
+def get_articles_from_uuids(articles_uuids):
+    return (get_article_from_uuid(uuid) for uuid in articles_uuids)

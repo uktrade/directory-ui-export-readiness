@@ -51,7 +51,7 @@ def time_to_read_in_minutes(article):
 
 
 def total_time_to_read_multiple_articles(articles):
-    return sum((time_to_read_in_minutes(article) for article in articles))
+    return sum((article.time_to_read for article in articles))
 
 
 class BaseArticleReadManager(abc.ABC):
@@ -61,20 +61,9 @@ class BaseArticleReadManager(abc.ABC):
     persist_article = abc.abstractproperty()
     retrieve_articles = abc.abstractproperty()
 
-    @staticmethod
-    def articles_group(group_key):
-        return structure.ALL_GROUPS_DICT[group_key]
-
-    @staticmethod
-    def article_from_key(article_key):
-        return structure.ALL_ARTICLES_DICT[article_key]
-
-    def articles_from_keys(self, articles_keys):
-        return (self.article_from_key(key) for key in articles_keys)
-
     def read_articles_keys_in_group(self, group_key):
         read_articles_uuids = frozenset(self.retrieve_articles())
-        articles_in_group = self.articles_group(group_key).articles_set
+        articles_in_group = structure.get_article_group(group_key).articles_set
         # read_articles_in_category is a new set (intersection)
         # with elements common to read_articles and articles_in_category
         read_articles_in_group = read_articles_uuids & articles_in_group
@@ -87,12 +76,12 @@ class BaseArticleReadManager(abc.ABC):
         """ Return the remaining reading time in minutes
             for unread articles in the group
         """
-        read_articles_keys = self.read_articles_keys_in_group(group_key)
-        read_articles = self.article_from_key(read_articles_keys)
+        read_articles_uuids = self.read_articles_keys_in_group(group_key)
+        read_articles = structure.get_article_from_uuid(read_articles_uuids)
         read_articles_total_time = total_time_to_read_multiple_articles(
             read_articles
         )
-        group_total_reading_time = self.articles_group(
+        group_total_reading_time = structure.get_article_group(
             group_key
         ).total_reading_time
         return group_total_reading_time - read_articles_total_time
