@@ -6,20 +6,19 @@ from core.helpers import build_social_links
 
 
 class ArticleReadCounterMixin:
-    def get_article_read_counter(self):
+    def get_article_group_progress_details(self):
+        key = self.article_group.key
         manager = helpers.ArticleReadManager(request=self.request)
-        read_article_uuids = manager.read_articles_keys_in_group(
-            group_key=self.article_group.key
-        )
         return {
-            'read_count': len(read_article_uuids),
+            'read_count': len(manager.read_articles_keys_in_group(key)),
             'total_articles_count': len(self.article_group.articles),
+            'time_left_to_read': manager.remaining_reading_time_in_group(key),
         }
 
     def get_context_data(self, *args, **kwargs):
         return super().get_context_data(
             *args, **kwargs,
-            article_read_counter=self.get_article_read_counter(),
+            article_group_progress=self.get_article_group_progress_details(),
         )
 
 
@@ -44,6 +43,7 @@ class BaseArticleDetailView(ArticleReadCounterMixin, TemplateView):
             next_article=self.next_article,
             article_group=self.article_group,
             social_links=social_links,
+            article_group_title=self.article_group.title,
         )
 
     @property

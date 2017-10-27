@@ -23,7 +23,7 @@ class Article:
 
     @cached_property
     def time_to_read(self):
-        return helpers.time_to_read_in_minutes(self)
+        return helpers.time_to_read_in_seconds(self)
 
 
 GUIDANCE_MARKET_RESEARCH = ArticleParent(
