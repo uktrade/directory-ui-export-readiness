@@ -68,10 +68,9 @@ def test_database_article_read_count(
     manager = helpers.DatabaseArticlesReadManager(sso_request)
     count = manager.article_read_count(group_key)
     articles_uuids = manager.read_articles_keys_in_group(group_key)
-
-    assert list(articles_uuids) == [
+    assert sorted(list(articles_uuids)) == [
         exred_articles.CONSIDER_HOW_PAID,
-        exred_articles.INVOICE_CURRENCY_AND_CONTENTS
+        exred_articles.INVOICE_CURRENCY_AND_CONTENTS,
     ]
     assert count == 2
 
@@ -205,11 +204,11 @@ def test_session_article_read_count(anon_request):
     manager = helpers.SessionArticlesReadManager(anon_request)
     returned_articles_uuids = manager.read_articles_keys_in_group(group_key)
     count = manager.article_read_count(group_key)
-    expected_articles_uuids = [
+    expected_articles_uuids = sorted([
         exred_articles.PLAN_THE_LOGISTICS,
         exred_articles.USE_FREIGHT_FORWARDER,
-    ]
-    assert list(returned_articles_uuids) == expected_articles_uuids
+    ])
+    assert sorted(list(returned_articles_uuids)) == expected_articles_uuids
     assert count == 2
 
 
