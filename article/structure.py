@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy
+from django.utils.functional import cached_property
 
 from article import articles
 
@@ -13,8 +14,10 @@ class ArticleGroup:
         self.articles_set = frozenset(
             [article.uuid for article in self.articles]
         )
-        self.total_reading_time = sum((article.time_to_read for
-                                      article in self.articles))
+
+    @cached_property
+    def total_reading_time(self):
+        return sum((article.time_to_read for article in self.articles))
 
 
 PERSONA_NEW_ARTICLES = ArticleGroup(

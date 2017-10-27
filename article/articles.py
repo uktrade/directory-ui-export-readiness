@@ -2,6 +2,7 @@ from collections import namedtuple
 
 from directory_constants.constants import exred_articles
 from django.urls import reverse_lazy
+from django.utils.functional import cached_property
 
 from . import helpers
 
@@ -19,7 +20,10 @@ class Article:
         self.markdown_file_path = markdown_file_path
         self.url = url
         self.parent = parent
-        self.time_to_read = helpers.time_to_read_in_minutes(self)
+
+    @cached_property
+    def time_to_read(self):
+        return helpers.time_to_read_in_minutes(self)
 
 
 GUIDANCE_MARKET_RESEARCH = ArticleParent(
