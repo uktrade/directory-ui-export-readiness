@@ -8,12 +8,12 @@ from core.helpers import build_social_links
 class ArticleReadCounterMixin:
     def get_article_read_counter(self):
         manager = helpers.ArticleReadManager(request=self.request)
-        uuids = set([item.uuid for item in self.article_group.articles])
-        read_uuids = set(manager.retrieve_articles())
+        read_article_uuids = manager.read_articles_keys_in_group(
+            group_key=self.article_group.key
+        )
         return {
-            'read_count': len(read_uuids.intersection(uuids)),
+            'read_count': len(read_article_uuids),
             'total_articles_count': len(self.article_group.articles),
-
         }
 
     def get_context_data(self, *args, **kwargs):
