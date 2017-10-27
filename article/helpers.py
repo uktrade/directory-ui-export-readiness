@@ -47,7 +47,7 @@ def time_to_read_in_seconds(article):
     total_words_count = count_average_word_number_in_lines_list(
         filtered_lines_list
     )
-    return round(total_words_count / WORDS_PER_SECOND, 0)
+    return round(total_words_count / WORDS_PER_SECOND)
 
 
 def total_time_to_read_multiple_articles(articles):
