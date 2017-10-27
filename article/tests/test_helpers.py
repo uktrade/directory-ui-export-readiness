@@ -4,7 +4,7 @@ from directory_constants.constants import exred_articles
 import pytest
 import requests
 
-from article import helpers, structure
+from article import articles, helpers, structure
 from core.tests.helpers import create_response
 
 
@@ -189,3 +189,20 @@ def test_count_average_word_number():
     assert helpers.count_average_word_number_in_lines_list(
         lines_list
     ) == 23.0
+
+
+def test_time_to_read_in_minutes():
+    article = articles.INVOICE_CURRENCY_AND_CONTENTS
+    assert helpers.time_to_read_in_minutes(
+        article
+    ) == 2.34
+
+
+def test_total_time_to_read_multiple_articles():
+    articles_list = [
+        articles.INVOICE_CURRENCY_AND_CONTENTS,
+        articles.PLAN_THE_LOGISTICS
+    ]
+    assert helpers.total_time_to_read_multiple_articles(
+        articles_list
+    ) == 2.67
