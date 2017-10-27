@@ -9,7 +9,7 @@ from article import views
 
 from django.core.urlresolvers import reverse
 
-from article import helpers, structure
+from article import articles, helpers, structure
 import core.helpers
 
 
@@ -375,3 +375,43 @@ def test_article_view_persist_article_read_anon_user(
     assert mocked_persist_articles.call_args == call(
         article_uuid=exred_articles.DO_RESEARCH_FIRST
     )
+
+
+@pytest.mark.parametrize('url,read_count,total_count', [
+    (
+        reverse('article-research-market'),
+        3,
+        len(structure.ALL_ARTICLES.articles)
+    ),
+    (
+        reverse('article-research-market') + '?source=finance',
+        2,
+        len(structure.GUIDANCE_FINANCE_ARTICLES.articles)
+    ),
+    (
+        reverse('get-export-finance'),
+        3,
+        len(structure.ALL_ARTICLES.articles)
+    ),
+    (
+        reverse('get-export-finance') + '?source=finance',
+        2,
+        len(structure.GUIDANCE_FINANCE_ARTICLES.articles)
+    ),
+])
+@patch('article.helpers.SessionArticlesReadManager.persist_article', Mock)
+@patch('article.helpers.SessionArticlesReadManager.retrieve_articles')
+def test_article_group_read_counter_with_source(
+    mock_retrieve_articles, client, url, read_count, total_count
+):
+    mock_retrieve_articles.return_value = [
+       articles.USE_DISTRIBUTOR.uuid,
+       articles.GET_EXPORT_FINANCE.uuid,
+       articles.GET_MONEY_TO_EXPORT.uuid,
+    ]
+    response = client.get(url)
+
+    assert response.context_data['article_read_counter'] == {
+        'read_count': read_count,
+        'total_articles_count': total_count,
+    }
