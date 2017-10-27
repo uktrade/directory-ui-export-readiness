@@ -1,10 +1,27 @@
-from collections import namedtuple
-
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
+from django.utils.functional import cached_property
 
 from article import articles
 
-ArticleGroup = namedtuple('ArticleGroup', ['articles', 'key', 'title', 'url'])
+
+class ArticleGroup:
+
+    def __init__(self, articles, key, title, url):
+        self.articles = articles
+        self.key = key
+        self.title = title
+        self.url = url
+        self.articles_set = frozenset(
+            [article.uuid for article in self.articles]
+        )
+
+    @cached_property
+    def total_reading_time(self):
+        return round(
+            sum((article.time_to_read for article in self.articles)),
+            2
+        )
+
 
 PERSONA_NEW_ARTICLES = ArticleGroup(
     key='persona-new',
@@ -246,10 +263,8 @@ ALL_GROUPS = [
     ALL_ARTICLES,
 ]
 ALL_GROUPS_DICT = {group.key: group for group in ALL_GROUPS}
-ALL_GROUPS_ARTICLES_SETS = {
-    group.key: frozenset([article.uuid for article in group.articles]) for
-    group in ALL_GROUPS
-}
+ALL_ARTICLES_PER_UUID = {article.uuid: article for
+                         article in ALL_ARTICLES.articles}
 
 
 def get_article_group(group_key):
@@ -266,3 +281,11 @@ def get_next_article(article_group, current_article):
         # current item is the last item
         return None
     return article_group.articles[current_index + 1]
+
+
+def get_article_from_uuid(article_uuid):
+    return ALL_ARTICLES_PER_UUID[article_uuid]
+
+
+def get_articles_from_uuids(articles_uuids):
+    return (get_article_from_uuid(uuid) for uuid in articles_uuids)
