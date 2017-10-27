@@ -53,6 +53,11 @@
         <main id="content" class="{% block css_layout_class %}{% endblock css_layout_class %}" role="main">
             {% block content %}{% endblock %}
         </main>
+        <section class="error-reporting">
+            <div class="container">
+                <a href="https://contact-us.export.great.gov.uk/export_opportunities/FeedbackForm" target="_blank">Is there anything wrong with this page?</a>
+            </div>
+        </section>
         {% include 'directory_header_footer/footer.html' %}
         {% block bodyScripts %}{% endblock bodyScripts %}
     </body>
