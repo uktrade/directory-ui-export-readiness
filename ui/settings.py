@@ -73,8 +73,9 @@ TEMPLATES = [
                 'directory_header_footer.context_processors.sso_processor',
                 ('directory_header_footer.context_processors.'
                  'header_footer_context_processor'),
-                'ui.context_processors.feature_flags',
-                'ui.context_processors.analytics',
+                'core.context_processors.feature_flags',
+                'core.context_processors.analytics',
+                'core.context_processors.external_service_urls',
             ],
         },
     },
@@ -250,3 +251,8 @@ HEADER_FOOTER_CSS_ACTIVE_CLASSES = {'fab': True}
 # CORS
 CORS_ORIGIN_ALLOW_ALL = os.getenv('CORS_ORIGIN_ALLOW_ALL') == 'true'
 CORS_ORIGIN_WHITELIST = os.getenv('CORS_ORIGIN_WHITELIST', '').split(',')
+
+EXTERNAL_SERVICE_FEEDBACK_URL = os.getenv(
+    'EXTERNAL_SERVICE_FEEDBACK_URL',
+    'https://contact-us.export.great.gov.uk/export_readiness/FeedbackForm',
+)
