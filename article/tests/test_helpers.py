@@ -64,13 +64,54 @@ def test_database_article_read_count(
             }
         ]
     )
-
+    group_key = structure.GUIDANCE_GETTING_PAID_ARTICLES.key
     manager = helpers.DatabaseArticlesReadManager(sso_request)
-    count = manager.article_read_count(
-        structure.GUIDANCE_GETTING_PAID_ARTICLES.key
+    count = manager.article_read_count(group_key)
+    articles_uuids = manager.read_articles_keys_in_group(group_key)
+
+    assert list(articles_uuids) == [
+        exred_articles.CONSIDER_HOW_PAID,
+        exred_articles.INVOICE_CURRENCY_AND_CONTENTS
+    ]
+    assert count == 2
+
+
+@patch('api_client.api_client.exportreadiness.retrieve_article_read')
+def test_database_remaining_reading_time_in_group(
+    mock_retrieve_article_read, sso_request, sso_user
+):
+    mock_retrieve_article_read.return_value = create_response(
+        200, json_body=[
+            {
+                'created': '2016-11-23T11:21:10.977518Z',
+                'id': '1',
+                'modified': '2016-11-23T11:21:10.977518Z',
+                'sso_id': '999',
+                'article_uuid': exred_articles.DEFINE_MARKET_POTENTIAL
+            },
+            {
+                'created': '2016-11-23T11:21:10.977518Z',
+                'id': '2',
+                'modified': '2016-11-23T11:21:10.977518Z',
+                'sso_id': '999',
+                'article_uuid': exred_articles.DO_FIELD_RESEARCH
+            },
+            {
+                'created': '2016-11-23T11:21:10.977518Z',
+                'id': '3',
+                'modified': '2016-11-23T11:21:10.977518Z',
+                'sso_id': '999',
+                'article_uuid': exred_articles.ANALYSE_THE_COMPETITION
+            }
+        ]
     )
 
-    assert count == 2
+    manager = helpers.DatabaseArticlesReadManager(sso_request)
+    time_left = manager.remaining_reading_time_in_group(
+        structure.PERSONA_OCCASIONAL_ARTICLES.key
+    )
+
+    assert time_left == 35.06
 
 
 @patch('api_client.api_client.exportreadiness.retrieve_article_read')
@@ -152,23 +193,45 @@ def test_session_article_manager_retrieves_from_session(anon_request):
 
 def test_session_article_read_count(anon_request):
     key = helpers.SessionArticlesReadManager.SESSION_KEY
-    anon_request.session[key] = [
+    articles_uuids = [
         exred_articles.PLAN_THE_LOGISTICS,
         exred_articles.USE_FREIGHT_FORWARDER,
         exred_articles.CONSIDER_HOW_PAID
     ]
-    assert anon_request.session[key] == [
+    anon_request.session[key] = articles_uuids
+    assert anon_request.session[key] == articles_uuids
+
+    group_key = structure.GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES.key
+    manager = helpers.SessionArticlesReadManager(anon_request)
+    returned_articles_uuids = manager.read_articles_keys_in_group(group_key)
+    count = manager.article_read_count(group_key)
+    expected_articles_uuids = [
         exred_articles.PLAN_THE_LOGISTICS,
         exred_articles.USE_FREIGHT_FORWARDER,
-        exred_articles.CONSIDER_HOW_PAID
+    ]
+    assert list(returned_articles_uuids) == expected_articles_uuids
+    assert count == 2
+
+
+def test_session_remaining_reading_time_in_group(anon_request):
+    key = helpers.SessionArticlesReadManager.SESSION_KEY
+    anon_request.session[key] = [
+        exred_articles.DEFINE_MARKET_POTENTIAL,
+        exred_articles.DO_FIELD_RESEARCH,
+        exred_articles.ANALYSE_THE_COMPETITION
+    ]
+    assert anon_request.session[key] == [
+        exred_articles.DEFINE_MARKET_POTENTIAL,
+        exred_articles.DO_FIELD_RESEARCH,
+        exred_articles.ANALYSE_THE_COMPETITION
     ]
 
     manager = helpers.SessionArticlesReadManager(anon_request)
-    count = manager.article_read_count(
-        structure.GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES.key
+    time_left = manager.remaining_reading_time_in_group(
+        structure.PERSONA_OCCASIONAL_ARTICLES.key
     )
 
-    assert count == 2
+    assert time_left == 35.06
 
 
 def test_filter_lines():

@@ -77,14 +77,14 @@ class BaseArticleReadManager(abc.ABC):
             for unread articles in the group
         """
         read_articles_uuids = self.read_articles_keys_in_group(group_key)
-        read_articles = structure.get_article_from_uuid(read_articles_uuids)
+        read_articles = structure.get_articles_from_uuids(read_articles_uuids)
         read_articles_total_time = total_time_to_read_multiple_articles(
             read_articles
         )
         group_total_reading_time = structure.get_article_group(
             group_key
         ).total_reading_time
-        return group_total_reading_time - read_articles_total_time
+        return round(group_total_reading_time - read_articles_total_time, 2)
 
 
 class ArticleReadManager:
