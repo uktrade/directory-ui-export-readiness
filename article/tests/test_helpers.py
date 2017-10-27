@@ -169,3 +169,23 @@ def test_session_article_read_count(anon_request):
     )
 
     assert count == 2
+
+
+def test_filter_lines():
+    lines = ['foo', '\n', 'bar']
+    assert list(helpers.filter_lines(lines)) == ['foo', 'bar']
+
+
+def test_lines_from_html():
+    html = '<p>foo</p><p>bar</p>'
+    assert helpers.lines_list_from_html(html) == ['foo', 'bar']
+
+
+def test_count_average_word_number():
+    lines_list = [
+        'Lorem Ipsum is simply dummy text of the printing and typesetting',
+        'Lorem Ipsum has been the industry\'s standard dummy '
+    ]
+    assert helpers.count_average_word_number_in_lines_list(
+        lines_list
+    ) == 23.0

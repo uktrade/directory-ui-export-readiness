@@ -40,14 +40,14 @@ def count_average_word_number_in_lines_list(lines_list, word_length=5):
 
 
 def time_to_read_in_minutes(article):
-    """Return rounded time to read in minutes give an Article object."""
+    """Return time to read in minutes give an Article object."""
     html = markdown_to_html(article.markdown_file_path)
     lines_list = lines_list_from_html(html)
     filtered_lines_list = filter_lines(lines_list)
     total_words_count = count_average_word_number_in_lines_list(
         filtered_lines_list
     )
-    return round(total_words_count / WORDS_PER_MINUTE)
+    return round(total_words_count / WORDS_PER_MINUTE, 2)
 
 
 def total_time_to_read_multiple_articles(articles):

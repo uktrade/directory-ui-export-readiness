@@ -24,3 +24,8 @@ def test_get_articles_from_uuids():
         [article.uuid for article in articles_list]
     )
     assert list(articles_returned) == articles_list
+
+
+def test_article_group_total_reading_time():
+    group = structure.PERSONA_NEW_ARTICLES
+    assert group.total_reading_time == 13.47
