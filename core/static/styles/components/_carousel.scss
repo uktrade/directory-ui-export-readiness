@@ -2,15 +2,7 @@
 // -------------------------------
 
 .carousel-cta {
-    background-image: url(/static/images/arrow-blue.svg);
-    background-position: center right;
-    background-repeat: no-repeat;
-    background-size: 52px;
-    content: "";
-    display: inline-block;
-    height: 52px;
-    width: 52px;
-    position: absolute;
+    @include continue-arrow;
 }
 
 .ed-carousel {

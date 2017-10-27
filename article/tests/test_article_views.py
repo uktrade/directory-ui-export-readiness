@@ -377,13 +377,18 @@ def test_article_view_persist_article_read_anon_user(
     )
 
 
-@pytest.mark.parametrize('url,read_count,total_count,title,read_time', [
+@pytest.mark.parametrize('url,read_count,total_count,title,time,uuids', [
     (
         reverse('article-research-market'),
         3,
         len(structure.ALL_ARTICLES.articles),
         '',
         2965.0,
+        frozenset([
+           articles.USE_DISTRIBUTOR.uuid,
+           articles.GET_EXPORT_FINANCE.uuid,
+           articles.GET_MONEY_TO_EXPORT.uuid,
+        ]),
     ),
     (
         reverse('article-research-market') + '?source=finance',
@@ -391,6 +396,10 @@ def test_article_view_persist_article_read_anon_user(
         len(structure.GUIDANCE_FINANCE_ARTICLES.articles),
         structure.GUIDANCE_FINANCE_ARTICLES.title,
         404.0,
+        frozenset([
+           articles.GET_EXPORT_FINANCE.uuid,
+           articles.GET_MONEY_TO_EXPORT.uuid,
+        ]),
     ),
     (
         reverse('get-export-finance'),
@@ -398,6 +407,11 @@ def test_article_view_persist_article_read_anon_user(
         len(structure.ALL_ARTICLES.articles),
         '',
         2965.0,
+        frozenset([
+           articles.USE_DISTRIBUTOR.uuid,
+           articles.GET_EXPORT_FINANCE.uuid,
+           articles.GET_MONEY_TO_EXPORT.uuid,
+        ]),
     ),
     (
         reverse('get-export-finance') + '?source=finance',
@@ -405,12 +419,16 @@ def test_article_view_persist_article_read_anon_user(
         len(structure.GUIDANCE_FINANCE_ARTICLES.articles),
         structure.GUIDANCE_FINANCE_ARTICLES.title,
         404.0,
+        frozenset([
+           articles.GET_EXPORT_FINANCE.uuid,
+           articles.GET_MONEY_TO_EXPORT.uuid,
+        ]),
     ),
 ])
 @patch('article.helpers.SessionArticlesReadManager.persist_article', Mock)
 @patch('article.helpers.SessionArticlesReadManager.retrieve_articles')
 def test_article_group_read_counter_with_source(
-    mock_retrieve, client, url, read_count, total_count, title, read_time
+    mock_retrieve, client, url, read_count, total_count, title, time, uuids
 ):
     mock_retrieve.return_value = [
        articles.USE_DISTRIBUTOR.uuid,
@@ -422,6 +440,7 @@ def test_article_group_read_counter_with_source(
     assert response.context_data['article_group_progress'] == {
         'read_count': read_count,
         'total_articles_count': total_count,
-        'time_left_to_read': read_time,
+        'time_left_to_read': time,
+        'read_article_uuids': uuids,
     }
     assert response.context_data.get('article_group_title') == title

@@ -58,8 +58,8 @@
       top: calc(50% - 26px);
     }
     
-    &:visited::after {
-      background-image: url(/static/images/arrow.svg);
+    &.article-read::after {
+      background-image: url(/static/images/tick-purple.svg);
     }
   }
   
