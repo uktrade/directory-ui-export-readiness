@@ -13,6 +13,10 @@
 			<dd class="answer">{{ all_cleaned_data.exported_before|yesno:"Yes,No" }}</dd>
 			<dt class="answer">Is exporting a regular part of your business activities?</dt>
 			<dd class="answer">{{ all_cleaned_data.regular_exporter|yesno:"Yes,No" }}</dd>
+			{% if all_cleaned_data.used_online_marketplace %}
+				<dt class="answer">Do you use online marketplaces to sell your products?</dt>
+				<dd class="answer">{{ all_cleaned_data.used_online_marketplace|yesno:"Yes,No" }}</dd>
+			{% endif %}
 			{% if all_cleaned_data.company_name %}
 				<dt class="answer">Company name</dt>
 				<dd class="answer">{{ all_cleaned_data.company_name }}</dd>
@@ -29,9 +33,5 @@
 {% endblock %}
 
 {% block submit_button_label %}
-	{% if is_user_reviewing_persisted_answers %}
-		Continue my exporting journey
-	{% else %}
-		Create my exporting journey
-	{% endif %}
+{{ is_updating_answers|yesno:'Continue my exporting journey,Create my exporting journey' }}
 {% endblock %}

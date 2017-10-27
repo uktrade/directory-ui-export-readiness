@@ -34,6 +34,7 @@ class TriageWizardFormView(SessionWizardView):
     REGULAR_EXPORTER = 'REGULAR_EXPORTER'
     ONLINE_MARKETPLACE = 'ONLINE_MARKETPLACE'
     COMPANY = 'COMPANY'
+    COMPANIES_HOUSE = 'COMPANIES_HOUSE'
     SUMMARY = 'SUMMARY'
 
     form_list = (
@@ -41,6 +42,7 @@ class TriageWizardFormView(SessionWizardView):
         (EXPORTED_BEFORE, forms.ExportExperienceForm),
         (REGULAR_EXPORTER, forms.RegularExporterForm),
         (ONLINE_MARKETPLACE, forms.OnlineMarketplaceForm),
+        (COMPANIES_HOUSE, forms.CompaniesHouseForm),
         (COMPANY, forms.CompanyForm),
         (SUMMARY, forms.SummaryForm),
     )
@@ -49,10 +51,33 @@ class TriageWizardFormView(SessionWizardView):
         EXPORTED_BEFORE: 'triage/wizard-step-exported-before.html',
         REGULAR_EXPORTER: 'triage/wizard-step-regular-exporter.html',
         ONLINE_MARKETPLACE: 'triage/wizard-step-online-marketplace.html',
+        COMPANIES_HOUSE: 'triage/wizard-step-sole-trader.html',
         COMPANY: 'triage/wizard-step-company.html',
         SUMMARY: 'triage/wizard-step-summary.html',
     }
     success_url = reverse_lazy('custom-page')
+
+    def should_show_online_marketplace(self):
+        export_data = self.get_cleaned_data_for_step(self.EXPORTED_BEFORE)
+        regular_data = self.get_cleaned_data_for_step(self.REGULAR_EXPORTER)
+        has_exported_before = forms.get_has_exported_before(export_data or {})
+        is_regular_exporter = forms.get_is_regular_exporter(regular_data or {})
+        return has_exported_before and not is_regular_exporter
+
+    def should_show_regular_exporter(self):
+        data = self.get_cleaned_data_for_step(self.EXPORTED_BEFORE)
+        return forms.get_has_exported_before(data or {})
+
+    def should_show_company(self):
+        data = self.get_cleaned_data_for_step(self.COMPANIES_HOUSE)
+        is_sole_trader = forms.get_is_sole_trader(data or {})
+        return not is_sole_trader
+
+    condition_dict = {
+        ONLINE_MARKETPLACE: should_show_online_marketplace,
+        REGULAR_EXPORTER: should_show_regular_exporter,
+        COMPANY: should_show_company,
+    }
 
     @cached_property
     def persisted_triage_answers(self):
@@ -63,14 +88,19 @@ class TriageWizardFormView(SessionWizardView):
         return self.persisted_triage_answers
 
     def process_step(self, form):
-        if self.steps.current == self.REGULAR_EXPORTER:
-            is_regular = forms.get_is_regular_exporter(form.cleaned_data)
-            self.condition_dict[self.ONLINE_MARKETPLACE] = not is_regular
-        elif self.steps.current == self.EXPORTED_BEFORE:
-            has_exported = forms.get_has_exported_before(form.cleaned_data)
-            self.condition_dict[self.ONLINE_MARKETPLACE] = has_exported
-            self.condition_dict[self.REGULAR_EXPORTER] = has_exported
+        if self.is_user_skipping_current_step:
+            return {}
+        if self.steps.current == self.COMPANIES_HOUSE:
+            if forms.get_is_sole_trader(form.cleaned_data):
+                self.storage.set_step_data(self.COMPANY, {})
         return super().process_step(form)
+
+    def render_next_step(self, form):
+        if self.steps.current == self.COMPANY:
+            if self.is_user_skipping_current_step:
+                self.storage.set_step_data(self.COMPANY, {})
+                return self.render_goto_step(self.SUMMARY)
+        return super().render_next_step(form)
 
     def get_template_names(self):
         return [self.templates[self.steps.current]]
@@ -83,13 +113,18 @@ class TriageWizardFormView(SessionWizardView):
         # answers
         return 'result' in self.request.GET
 
-    def get_all_cleaned_data(self):
-        if self.is_user_reviewing_persisted_answers:
-            return self.persisted_triage_answers
-        return super().get_all_cleaned_data()
+    @property
+    def is_user_skipping_current_step(self):
+        return 'wizard_skip_step' in self.request.POST
 
     def get(self, *args, **kwargs):
         if self.is_user_reviewing_persisted_answers:
+            for form_key in self.form_list:
+                initial_data = {
+                    self.get_form_prefix(step=form_key) + '-' + key: [value]
+                    for key, value in self.persisted_triage_answers.items()
+                }
+                self.storage.set_step_data(form_key, initial_data)
             return self.render_goto_step(self.SUMMARY)
         return super().get(*args, **kwargs)
 
@@ -105,8 +140,8 @@ class TriageWizardFormView(SessionWizardView):
             context['all_cleaned_data'] = data
             context['sector_label'] = forms.get_sector_label(data)
             context['persona'] = forms.get_persona(data)
-            context['is_user_reviewing_persisted_answers'] = (
-                self.is_user_reviewing_persisted_answers
+            context['is_updating_answers'] = (
+                self.persisted_triage_answers != {}
             )
         return context
 
