@@ -1,4 +1,4 @@
-from unittest.mock import patch, call
+from unittest.mock import call, patch, Mock
 
 from bs4 import BeautifulSoup
 
@@ -346,10 +346,11 @@ def test_inferred_return_to_article(client, group):
         assert category_element.text == group.title
 
 
+@patch('article.helpers.DatabaseArticlesReadManager.retrieve_articles',
+       Mock(return_value=[]))
 @patch('article.helpers.DatabaseArticlesReadManager.persist_article')
 def test_article_view_persist_article_read_logged_in_user(
-        mocked_persist_articles,
-        authed_client
+    mocked_persist_articles, authed_client
 ):
     url = reverse('article-research-market')
     response = authed_client.get(url)
