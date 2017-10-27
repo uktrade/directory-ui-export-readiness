@@ -1,0 +1,14 @@
+<div class="scope-indicator">
+    <dl>
+        <dt class="section">{{ article_group.title }}</dt>
+        <dd class="position">
+            <span class="from">{{ article_read_counter.read_count }}</span>
+            <span class="of">&nbsp; of </span>
+            <span class="to">{{ article_read_counter.total_articles_count }}</span>
+            <span class="chapters"></span>
+        </dd>
+    </dl>
+    <p class="register">
+        <a href="{{ sso_register_url }}">Register </a>to save your progress
+    </p>
+</div>

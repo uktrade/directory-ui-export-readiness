@@ -5,7 +5,25 @@ from article import helpers, articles, structure
 from core.helpers import build_social_links
 
 
-class BaseArticleDetailView(TemplateView):
+class ArticleReadCounterMixin:
+    def get_article_read_counter(self):
+        manager = helpers.ArticleReadManager(request=self.request)
+        read_article_uuids = manager.read_articles_keys_in_group(
+            group_key=self.article_group.key
+        )
+        return {
+            'read_count': len(read_article_uuids),
+            'total_articles_count': len(self.article_group.articles),
+        }
+
+    def get_context_data(self, *args, **kwargs):
+        return super().get_context_data(
+            *args, **kwargs,
+            article_read_counter=self.get_article_read_counter(),
+        )
+
+
+class BaseArticleDetailView(ArticleReadCounterMixin, TemplateView):
     template_name = 'article/detail-base.html'
 
     def get(self, request, *args, **kwargs):
@@ -42,10 +60,11 @@ class BaseArticleDetailView(TemplateView):
         )
 
 
-class BaseArticleListView(TemplateView):
+class BaseArticleListView(ArticleReadCounterMixin, TemplateView):
+
     def get_context_data(self, *args, **kwargs):
         return super().get_context_data(
-            *args, **kwargs, article_group=self.article_group
+            *args, **kwargs, article_group=self.article_group,
         )
 
 

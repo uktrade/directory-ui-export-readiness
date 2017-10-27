@@ -28,6 +28,7 @@
             <h2 class="header">{% block title %}{% endblock %}</h2>
             <p class="intro">{% block subtitle %}{% endblock %}</p>
         </div>
+        {% include 'article/read-count.html' %}
         <div class="section-content-list">
             <ol class="navigation" aria-live="assertive"  id="js-paginate-list">
                 {% for article in article_group.articles %}
