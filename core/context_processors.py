@@ -16,3 +16,11 @@ def analytics(request):
             'UTM_COOKIE_DOMAIN': settings.UTM_COOKIE_DOMAIN,
         }
     }
+
+
+def external_service_urls(request):
+    return {
+        'external_services': {
+            'FEEDBACK_URL': settings.EXTERNAL_SERVICE_FEEDBACK_URL
+        }
+    }
