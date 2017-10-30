@@ -34,11 +34,12 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.staticfiles',
+    "django.contrib.staticfiles",
     'django.contrib.humanize',
     "django_extensions",
     "raven.contrib.django.raven_compat",
     "django.contrib.sessions",
+    "django.contrib.sitemaps",
     "formtools",
     "corsheaders",
     "ui",
