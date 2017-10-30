@@ -10,11 +10,11 @@ from triage import fields
 
 
 Persona = namedtuple('Persona', ['key', 'label'])
-REGULAR_EXPORTER = Persona(key='REGULAR_EXPORTER', label='Regular Exporter')
+REGULAR_EXPORTER = Persona(key='REGULAR_EXPORTER', label='Regular exporter')
 OCCASIONAL_EXPORTER = Persona(
-    key='OCCASIONAL_EXPORTER', label='Occasional Exporter'
+    key='OCCASIONAL_EXPORTER', label='Occasional exporter'
 )
-NEW_EXPORTER = Persona(key='NEW_EXPORTER', label='New Exporter')
+NEW_EXPORTER = Persona(key='NEW_EXPORTER', label='New exporter')
 
 
 class BaseTriageForm(forms.Form):
