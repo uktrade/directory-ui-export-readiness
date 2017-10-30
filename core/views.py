@@ -1,7 +1,10 @@
+from django.contrib import sitemaps
+from django.core.urlresolvers import reverse
 from django.views.generic import TemplateView
-from triage.helpers import TriageAnswersManager
 
 from casestudy import casestudies
+from triage.helpers import TriageAnswersManager
+from ui import urls
 
 
 class LandingPagelView(TemplateView):
@@ -19,3 +22,18 @@ class LandingPagelView(TemplateView):
                 casestudies.YORK,
             ],
         )
+
+
+class StaticViewSitemap(sitemaps.Sitemap):
+    changefreq = 'daily'
+
+    def items(self):
+        return [url.name for url in urls.urlpatterns]
+
+    def location(self, item):
+        return reverse(item)
+
+
+class RobotsView(TemplateView):
+    template_name = 'core/robots.txt'
+    content_type = 'text/plain'
