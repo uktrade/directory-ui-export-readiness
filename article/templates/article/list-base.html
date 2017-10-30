@@ -34,7 +34,7 @@
                 {% for article in article_group.articles %}
                     <li>
                         <span class="section">{{ article.parent.title }}<span class="verbose">:</span>&nbsp;</span>
-                        <a href="{{ article.url }}?source={{article_group.key}}" class="article">{{ article.title }}</a>
+                        <a href="{{ article.url }}?source={{article_group.key}}" class="article{% if article.uuid in article_group_progress.read_article_uuids %} article-read{% endif %}">{{ article.title }}</a>
                     </li>
                 {% endfor %}
 
