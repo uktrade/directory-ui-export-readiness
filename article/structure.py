@@ -18,8 +18,7 @@ class ArticleGroup:
     @cached_property
     def total_reading_time(self):
         return round(
-            sum((article.time_to_read for article in self.articles)),
-            0
+            sum((article.time_to_read for article in self.articles))
         )
 
 

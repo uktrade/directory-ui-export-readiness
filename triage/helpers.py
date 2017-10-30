@@ -1,4 +1,5 @@
 import abc
+from collections import defaultdict
 import csv
 import itertools
 import http
@@ -146,15 +147,34 @@ class SectorCSVComtradeFile(BaseCSVComtradeFile):
         return {'HS' + row['commodity_code']: row for row in csv_rows}
 
 
+class CountryExportTotalsCSVComtradeFile(BaseCSVComtradeFile):
+    file_path = 'triage/resources/country_commodity_export_totals.csv'
+
+    @classmethod
+    def format_csv_rows(cls):
+        csv_rows = cls.load_csv_rows()
+        formatted = defaultdict(dict)
+        for row in csv_rows:
+            harmonised_system_code = 'HS' + row['commodity_code']
+            country_code = row['partner_iso']
+            trade_value = row['trade_value']
+            formatted[harmonised_system_code][country_code] = trade_value
+        return formatted
+
+
 def get_top_markets(commodity_code, count=10):
 
     top_markets = CountryCommodityCSVComtradeFile.read()
     countries_data = CountryCSVComtradeFile.read()
-
+    global_trade_value = CountryExportTotalsCSVComtradeFile().read()
     markets = top_markets[commodity_code][:count]
 
     for market in markets:
-        market['country'] = countries_data.get(market['partner_iso'])
+        country_code = market['partner_iso']
+        market['country'] = countries_data.get(country_code)
+        market['global_trade_value'] = (
+            global_trade_value[commodity_code][country_code]
+        )
     return markets
 
 
