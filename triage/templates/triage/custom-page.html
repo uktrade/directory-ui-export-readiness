@@ -63,7 +63,8 @@
                             <th></th>
                             <th></th>
                             <th>Export value from the UK</th>
-                            <th>GDP</th>
+                            <th>Export value from the world</th>
+                            <th>Gross domestic product (GDP)</th>
                             <th>Ease of Doing<br>Business rank</th>
                         </tr>
                     </thead>
@@ -71,8 +72,9 @@
                         {% for market in top_markets %}
                         <tr {% if not forloop.last %}class="lined"{% endif %}>
                             <td>{{ forloop.counter }}</td>
-                            <td class="partner"><strong>{{ market.partner }}</strong></td>
+                            <td class="partner">{{ market.partner }}</td>
                             <td>${{ market.trade_value|intword }}</td>
+                            <td>${{ market.global_trade_value|intword }}</td>
                             <td>${{ market.country.gdp|intword }}</td>
                             <td>{{ market.country.ease_of_doing_business }}</td>
                         </tr>

@@ -1,11 +1,27 @@
 from django.conf.urls import url
+from django.contrib.sitemaps.views import sitemap
 
 import article.views
 import casestudy.views
 import core.views
 import triage.views
 
+
+sitemaps = {
+    'static': core.views.StaticViewSitemap,
+}
+
+
 urlpatterns = [
+    url(
+        r"^sitemap\.xml$", sitemap, {'sitemaps': sitemaps},
+        name='sitemap'
+    ),
+    url(
+        r"^robots\.txt$",
+        core.views.RobotsView.as_view(),
+        name='robots'
+    ),
     url(
         r"^$",
         core.views.LandingPagelView.as_view(),
