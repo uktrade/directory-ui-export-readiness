@@ -25,7 +25,7 @@ class BaseTriageForm(forms.Form):
 class SectorForm(BaseTriageForm):
     sector = forms.ChoiceField(
         choices=BLANK_CHOICE_DASH + list(exred_sector_names.SECTORS_CHOICES),
-        label='What is your sector?',
+        label='What do you want to export?',
         label_suffix='',
         widget=forms.Select(attrs={'id': 'js-sector-select'}),
     )
@@ -43,7 +43,7 @@ class ExportExperienceForm(BaseTriageForm):
 
 class RegularExporterForm(BaseTriageForm):
     regular_exporter = forms.TypedChoiceField(
-        label='Is exporting a regular part of your business?',
+        label='Is exporting a regular part of your business activities?',
         label_suffix='',
         coerce=lambda x: x == 'True',
         choices=[(True, 'Yes'), (False, 'No')],
