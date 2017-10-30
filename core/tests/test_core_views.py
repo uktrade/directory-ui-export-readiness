@@ -16,3 +16,19 @@ def test_landing_page(client):
         casestudies.HELLO_BABY,
         casestudies.YORK,
     ]
+
+
+def test_sitemaps(client):
+    url = reverse('sitemap')
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+
+def test_robots(client):
+    url = reverse('robots')
+
+    response = client.get(url)
+
+    assert response.status_code == 200
