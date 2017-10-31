@@ -97,6 +97,10 @@ h2 {
   max-width: 570px;
 }
 
+.top-markets .header span {
+  display: block; 
+}
+
 @media (max-width: 960px) {
   .hero-section.regular {
     background-position: 60% 10%;
