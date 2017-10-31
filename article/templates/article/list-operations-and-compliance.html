@@ -1,5 +1,9 @@
 {% extends 'article/list-base-guidance.html' %}
 
+{% load static from staticfiles %}
+
+{% block header_style %}background-image: url( {% static 'images/vertical-hero-operations.png' %}){% endblock %}
+
 {% block hero_title %}
 <span>Operations</span><br>
 <span>and</span><br>

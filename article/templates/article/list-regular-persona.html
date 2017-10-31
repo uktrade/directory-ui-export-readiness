@@ -1,5 +1,9 @@
 {% extends 'article/list-base-persona.html' %}
 
+{% load static from staticfiles %}
+
+{% block header_style %}background-image: url( {% static 'images/persona-hero-regular-exporter.png' %}){% endblock %}
+
 {% block hero_title %}
 <span>Regular</span><br>
 <span>exporter</span>

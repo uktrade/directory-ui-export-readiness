@@ -13,18 +13,18 @@
 @import '../components/_carousel';
 
 .hero-section.new {
-  background-image: url('/static/images/hero-background-new-desktop.jpg');
+  background-image: url('/static/images/hero-background-new-desktop.png');
   background-position: 75% 10%;
 }
 
 .hero-section.occasional {
-  background-image: url('/static/images/hero-background-occasional-desktop.jpg');
+  background-image: url('/static/images/hero-background-occasional-desktop.png');
   background-position: 50%;
   padding-top: 300px;
 }
 
 .hero-section.regular {
-  background-image: url('/static/images/hero-background-occasional-desktop.jpg');
+  background-image: url('/static/images/hero-background-regular-desktop.png');
   background-position: 50%;
   padding-top: 300px;
 }
@@ -104,11 +104,11 @@ h2 {
 @media (max-width: 960px) {
   .hero-section.regular {
     background-position: 60% 10%;
-    background-image: url('/static/images/hero-background-occasional-mobile.jpg');
+    background-image: url('/static/images/hero-background-regular-mobile.png');
   }
   .hero-section.occasional {
     background-position: 60% 10%;
-    background-image: url('/static/images/hero-background-occasional-mobile.jpg');
+    background-image: url('/static/images/hero-background-occasional-mobile.png');
   }
 }
 
