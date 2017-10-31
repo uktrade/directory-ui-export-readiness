@@ -30,14 +30,13 @@
         </div>
         {% include 'article/read-count.html' %}
         <div class="section-content-list">
-            <ol class="navigation" aria-live="assertive"  id="js-paginate-list">
+            <ol class="navigation" aria-live="assertive" id="js-paginate-list">
                 {% for article in article_group.articles %}
                     <li>
                         <span class="section">{{ article.parent.title }}<span class="verbose">:</span>&nbsp;</span>
                         <a href="{{ article.url }}?source={{article_group.key}}" class="article{% if article.uuid in article_group_progress.read_article_uuids %} article-read{% endif %}">{{ article.title }}</a>
                     </li>
                 {% endfor %}
-
                 <div class="buttons">
                     <a class="button more js-enabled-only" id="js-paginate-list-more">Show more</a>
                 </div>
@@ -47,7 +46,6 @@
 </section>
 
 {% endblock %}
-
 
 {% block bodyScripts %}
     <script src="{% static 'js/article-list.js' %}"></script>
