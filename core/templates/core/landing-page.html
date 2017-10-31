@@ -44,13 +44,13 @@
             <p class="intro">Whether you’re new to exporting or just want to improve - we can help you.  Start learning how to export successfully, based on your level of experience.</p>
             <div class="group">
                 <div class="lg-3 md-1">
-                    <div class="export-status-selector"><img src="{% static 'images/promo-home-new.jpg' %}"><a href="#" class="link"><span class="status">I'm new to</span><br><span class="status">exporting</span><br></a></div>
+                    <div class="export-status-selector"><img src="{% static 'images/promo-home-new.jpg' %}"><a href="{% url 'article-list-persona-new' %}" class="link"><span class="status">I'm new to</span><br><span class="status">exporting</span><br></a></div>
                 </div>
                 <div class="lg-3 md-1">
-                    <div class="export-status-selector"><img src="{% static 'images/promo-home-occasional.jpg' %}"><a href="#' %}" class="link dead"><span class="status">I export</span><br><span class="status">occasionally</span><br></a></div>
+                    <div class="export-status-selector"><img src="{% static 'images/promo-home-occasional.jpg' %}"><a href="{% url 'article-list-persona-occasional' %}" class="link dead"><span class="status">I export</span><br><span class="status">occasionally</span><br></a></div>
                 </div>
                 <div class="lg-3 md-1">
-                    <div class="export-status-selector"><img src="{% static 'images/promo-home-regular.jpg' %}"><a href="#' %}" class="link dead"><span class="status">I’m a regular</span><br><span class="status">exporter</span><br></a></div>
+                    <div class="export-status-selector"><img src="{% static 'images/promo-home-regular.jpg' %}"><a href="{% url 'article-list-persona-regular' %}" class="link dead"><span class="status">I’m a regular</span><br><span class="status">exporter</span><br></a></div>
                 </div>
             </div>
         </div>
