@@ -11,23 +11,25 @@
     <section class="hero-section">
         <div class="container">
             <div class="hero-teaser">
-                <h1 class="title"><span>Use your</span><br><span>potential</span><br><span>Start</span><br><span>exporting</span><br>
+                <h1 class="title"><span>Use your</span><br><span>potential -</span><br><span>Start</span><br><span>exporting</span><br>
                 </h1>
-                <p>We're the UK government's main destination for exporting and are responsible for helping UK businesses to grow.</p>
+                <p>Selling overseas gives you access to more customers which can lead to increased sales, growth and stability. Explore the potential of exporting with guidance, services and support from the Department for International Trade.</p>
+				<p>It’s never been easier to start your exporting journey.</p>
                 <img src="{% static 'images/eig-logo-stacked.svg' %}">
             </div>
         </div>
     </section>
     <section class="triage triage-section">
         <div class="container">
-            <h2 class="heading">Build your own exporting journey</h2>
+            <h2 class="heading">Start your exporting journey</h2>
             <img src="{% static 'images/home-triage-world-connections@2x.png' %}" alt="">
             <div class="intro">
                 <div class="content">
-                    <p>Answer some simple questions about your sector, experience and business ambitions to get:</p>
+                    <p>Answer a few quick questions about what you want to export and your level of experience to get:</p>
                     <ul>
-                        <li>information that's relevant to your answers with tasks to help you learn</li>
-                        <li>access to worldwide statistics so you can research 	your market</li>
+                        <li>export guidance aimed at your level</li>
+                        <li>export statistics to start your market research</li>
+						<li>access to services to help you export</li>
                     </ul>
                     {% if has_completed_triage %}
                         <a href="{% url 'custom-page' %}" class="button button-cta">Continue export journey</a>
@@ -41,7 +43,7 @@
     <section id="personas">
         <div class="container">
             <h2 class="header">Export readiness</h2>
-            <p class="intro">Whether you’re new to exporting or just want to improve - we can help you.  Start learning how to export successfully, based on your level of experience.</p>
+            <p class="intro">It can be hard to know where to start if you’re new to exporting. And even if you export regularly, there’s always more to know. Get exporting guidance for your experience level.</p>
             <div class="group">
                 <div class="lg-3 md-1">
                     <div class="export-status-selector"><img src="{% static 'images/home-new-to-exporting-cta@2x.png' %}"><a href="{% url 'article-list-persona-new' %}" class="link"><span class="status">I'm new to</span><br><span class="status">exporting</span><br></a></div>
@@ -58,21 +60,31 @@
     {% include 'core/guidance-resources.html' %}
     <section id="services">
         <div class="container">
-            <h2 class="header">Services</h2>
-            <p class="intro">Our exporting tools help to connect UK businesses with international buyers every single day.</p>
+            <h2 class="header">Export services</h2>
+            <p class="intro">Our export services help to connect UK businesses with international buyers.</p>
             <div class="group">
                 <div class="lg-3 md-1">
                     <article data-component="service-teaser" class="service-teaser">
                         <h3 class="title">Find a buyer</h3>
+<<<<<<< HEAD
                         <p class="text">Create your free trade profile and get promoted on an international level to businesses around the world.</p>
                         <img src="{% static 'images/home-fab-cta@2x.png' %}"><a href="#" class="link">Service: Find a buyer</a>
+=======
+                        <p class="text">Create your free trade profile and get promoted to businesses around the world.</p>
+                        <img src="{% static 'images/services/service-fab-teaser.png' %}"><a href="#" class="link">Service: Find a buyer</a>
+>>>>>>> origin
                     </article>
                 </div>
                 <div class="lg-3 md-1">
                     <article data-component="service-teaser" class="service-teaser">
                         <h3 class="title">Find online marketplaces</h3>
+<<<<<<< HEAD
                         <p class="text">Reach over 2 billion consumers online around the world. Get exclusive deals negotiated on behalf of UK businesses.</p>
                         <img src="{% static 'images/home-soo-cta@2x.png' %}"><a href="#" class="link">Service: Find online marketplaces</a>
+=======
+                        <p class="text">Reach over 2 billion international consumers online. Get exclusive deals negotiated on behalf of UK businesses.</p>
+                        <img src="{% static 'images/services/service-soo-teaser.png' %}"><a href="#" class="link">Service: Find online marketplaces</a>
+>>>>>>> origin
                     </article>
                 </div>
                 <div class="lg-3 md-1">
