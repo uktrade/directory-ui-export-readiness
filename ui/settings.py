@@ -72,6 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'directory_header_footer.context_processors.sso_processor',
+                'directory_header_footer.context_processors.urls_processor',
                 ('directory_header_footer.context_processors.'
                  'header_footer_context_processor'),
                 'core.context_processors.feature_flags',
@@ -215,6 +216,27 @@ ANALYTICS_ID = os.getenv("ANALYTICS_ID")
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_HSTS_SECONDS = int(os.getenv('SECURE_HSTS_SECONDS', '16070400'))
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+# HEADER/FOOTER URLS
+# EXPORTING PERSONAS
+EXPORTING_NEW = os.environ["EXPORTING_NEW"]
+EXPORTING_REGULAR = os.environ["EXPORTING_REGULAR"]
+EXPORTING_OCCASIONAL = os.environ["EXPORTING_OCCASIONAL"]
+
+# GUIDANCE/ARTICLE SECTIONS
+GUIDANCE_MARKET_RESEARCH = os.environ["GUIDANCE_MARKET_RESEARCH"]
+GUIDANCE_CUSTOMER_INSIGHT = os.environ["GUIDANCE_CUSTOMER_INSIGHT"]
+GUIDANCE_FINANCE = os.environ["GUIDANCE_FINANCE"]
+GUIDANCE_BUSINESS_PLANNING = os.environ["GUIDANCE_BUSINESS_PLANNING"]
+GUIDANCE_GETTING_PAID = os.environ["GUIDANCE_GETTING_PAID"]
+ops_and_compliance = "GUIDANCE_OPERATIONS_AND_COMPLIANCE"
+GUIDANCE_OPERATIONS_AND_COMPLIANCE = os.environ[ops_and_compliance]
+
+# SERVICES
+SERVICES_EXOPPS = os.environ["SERVICES_EXOPPS"]
+SERVICES_FAB = os.environ["SERVICES_FAB"]
+SERVICES_GET_FINANCE = os.environ["SERVICES_GET_FINANCE"]
+SERVICES_SOO = os.environ["SERVICES_SOO"]
 
 # Sentry
 RAVEN_CONFIG = {

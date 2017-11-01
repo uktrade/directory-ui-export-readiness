@@ -117,8 +117,20 @@ DEBUG_SET_ENV_VARS := \
 	export COMPANIES_HOUSE_CLIENT_SECRET=debug-client-secret; \
 	export SECURE_HSTS_SECONDS=0; \
 	export PYTHONWARNINGS=all; \
-	export PYTHONDEBUG=true
-
+	export PYTHONDEBUG=true; \
+	export EXPORTING_NEW=/new; \
+	export EXPORTING_OCCASIONAL=/occasional; \
+	export EXPORTING_REGULAR=/regular; \
+	export GUIDANCE_MARKET_RESEARCH=/market-research; \
+	export GUIDANCE_CUSTOMER_INSIGHT=/customer-insight; \
+	export GUIDANCE_FINANCE=/finance; \
+	export GUIDANCE_BUSINESS_PLANNING=/business-planning; \
+	export GUIDANCE_GETTING_PAID=/getting-paid; \
+	export GUIDANCE_OPERATIONS_AND_COMPLIANCE=/operations-and-compliance; \
+	export SERVICES_EXOPPS=http://opportunities.export.great.gov.uk; \
+	export SERVICES_FAB=http://buyer.trade.great.dev:8001; \
+	export SERVICES_GET_FINANCE=/finance/get-finance-support-from-government; \
+	export SERVICES_SOO=http://soo.trade.great.dev:8008
 
 debug_webserver:
 	$(DEBUG_SET_ENV_VARS) && $(DJANGO_WEBSERVER)
