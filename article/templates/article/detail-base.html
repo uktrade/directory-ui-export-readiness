@@ -26,6 +26,17 @@
         {% include 'article/read-count.html' %}
         {% include_markdown article.markdown_file_path %}
         <footer>
+            <div class="vote-yes-no js-enabled-only">
+                <div id="js-feedback">
+                    <p>Did you find this useful?</p>
+                    <a id="js-feedback-positive" class="button button-cta">Yes </a>
+                    <span class="verbose">, </span>
+                    <a id="js-feedback-negative" class="button button-cta">No</a>
+                </div>
+                <div id="js-feedback-success" style="display: none;">
+                    <p>Thank you for the feedback</p>
+                </div>
+            </div>
             {% include 'core/social-share-links.html' %}
         </footer>
     </article>
@@ -41,4 +52,17 @@
         <span class="link-back-to">{% if article_group.url %}Back to <a id="category-link" href="{{ article_group.url }}" class="link">{{ article_group.title }}</a>{% else %}&nbsp;{% endif %}</span><a href="#top" class="link-top link">Back to top</a>
   </div>
 </div>
+{% endblock %}
+
+{% block bodyScripts %}
+    <script src="{% static 'js/article-detail.js' %}"></script>
+    <script>
+        var positiveELement = document.getElementById('js-feedback-positive');  
+        var negativeELement = document.getElementById('js-feedback-negative');  
+        var containerQuestion = document.getElementById('js-feedback'); 
+        var containerOutcome = document.getElementById('js-feedback-success'); 
+        new GOVUK.components.Feedback(
+            positiveELement, negativeELement, containerQuestion, containerOutcome
+        );
+    </script>
 {% endblock %}
