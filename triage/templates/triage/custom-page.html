@@ -8,6 +8,17 @@
     <link href="{% static 'styles/pages/custom-page.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
+{% block header_class %}
+    {% if persona.key == 'NEW_EXPORTER' %}
+        new
+    {% elif persona.key == 'OCCASIONAL_EXPORTER' %}
+        occasional
+    {% elif persona.key == 'REGULAR_EXPORTER'%}
+        regular
+    {% endif %}
+{% endblock %}
+
+
 {% block content %}
 <section style="" class="hero-section regular">
     <div class="container">
@@ -127,7 +138,7 @@
                 Connect directly with international buyers
             {% endif %}
         </h2>
-        <img src="{% static 'images/services/service-fas-section.png' %}" alt="">
+        <img src="{% static 'images/service-fas-section.png' %}" alt="">
         <div class="intro">
             <div class="content">
                 <p>Get promoted internationally with a free trade profile.</p>
@@ -151,7 +162,7 @@
                 <article data-component="service-teaser" class="service-teaser">
                     <h3 class="title">Find online marketplaces</h3>
                     <p class="text">Reach over 2 billion consumers online around the world. Get exclusive deals negotiated on behalf of UK businesses.</p>
-                    <img src="{% static 'images/services/service-soo-teaser.png' %}"><a href="https://selling-online-overseas.export.great.gov.uk/" class="link">Service: Find online marketplaces</a>
+                    <img src="{% static 'images/service-soo-teaser.png' %}"><a href="https://selling-online-overseas.export.great.gov.uk/" class="link">Service: Find online marketplaces</a>
                 </article>
             </div>
             <div class="lg-2 md-1">

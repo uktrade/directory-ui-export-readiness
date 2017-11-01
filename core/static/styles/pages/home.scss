@@ -22,6 +22,11 @@
   }
 }
 
+.hero-section {
+  background-image: url('/static/images/home-hero-tangerine@2x.png');
+  background-position: 75% 10%;
+}
+
 // TABLET
 @media (min-width: 767px) {
   .service-teaser {
@@ -31,9 +36,9 @@
 
 
 // MOBILE
-@media (max-width: 480px) {
+@media (max-width: 540px) {
   .hero-section {
-    background-image: url('/static/images/hero-background-home-mobile.jpg');
+    background-image: url('/static/images/home-hero-tangerine-mobile@2x.png');
     background-position: 50% 30%;
   }
 }
