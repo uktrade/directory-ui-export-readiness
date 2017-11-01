@@ -60,6 +60,11 @@ h1 {
   top: $spacing-3;
   width: $cols-2;
   z-index: 1;
+  a {
+    height: 36px;
+    width: 36px;
+    display: inline-block;
+  }
 }
 
 
