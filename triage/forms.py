@@ -9,12 +9,12 @@ from core.widgets import RadioSelect
 from triage import fields
 
 
-Persona = namedtuple('Persona', ['key', 'label'])
-REGULAR_EXPORTER = Persona(key='REGULAR_EXPORTER', label='Regular exporter')
+Persona = namedtuple('Persona', ['name', 'label'])
+REGULAR_EXPORTER = Persona(name='REGULAR_EXPORTER', label='Regular exporter')
 OCCASIONAL_EXPORTER = Persona(
-    key='OCCASIONAL_EXPORTER', label='Occasional exporter'
+    name='OCCASIONAL_EXPORTER', label='Occasional exporter'
 )
-NEW_EXPORTER = Persona(key='NEW_EXPORTER', label='New exporter')
+NEW_EXPORTER = Persona(name='NEW_EXPORTER', label='New exporter')
 
 
 class BaseTriageForm(forms.Form):

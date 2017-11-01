@@ -88,7 +88,9 @@
   .hero-section {
     padding-top: 200px;
     position: relative;
-
+    &:after {
+      height: 230px;
+    }
     img {
       left: $spacing-3;
       position: absolute;
@@ -122,8 +124,8 @@
   .hero-teaser {
     .title {
       @include heading-hero-mob;
-      margin-top: 145px;
-
+      margin-top: 105px;
+      margin-bottom: 55px;
       span {
         margin-bottom: 2px;
         padding: 5px $spacing-4;

@@ -8,20 +8,31 @@
     <link href="{% static 'styles/pages/custom-page.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
+{% block header_class %}
+    {% if persona.name == 'NEW_EXPORTER' %}
+        new
+    {% elif persona.name == 'OCCASIONAL_EXPORTER' %}
+        occasional
+    {% elif persona.name == 'REGULAR_EXPORTER'%}
+        regular
+    {% endif %}
+{% endblock %}
+
+
 {% block content %}
 <section style="" class="hero-section regular">
     <div class="container">
         <div class="hero-teaser">
             <h1 class="title">
-            {% if persona.key == 'NEW_EXPORTER' %}
+            {% if persona.name == 'NEW_EXPORTER' %}
                 <span>Use your potential -</span><br>
                 <span>start exporting</span><br>
-            {% elif persona.key == 'OCCASIONAL_EXPORTER' %}
+            {% elif persona.name == 'OCCASIONAL_EXPORTER' %}
                 <span>New customers</span><br>
                 <span>are waiting</span><br>
                 <span>promote your</span><br>
                 <span>business</span><br>
-            {% elif persona.key == 'REGULAR_EXPORTER'%}
+            {% elif persona.name == 'REGULAR_EXPORTER'%}
                 <span>Choose your</span><br>
                 <span>next market</span><br>
                 <span>Find new</span><br>
@@ -127,7 +138,7 @@
                 Connect directly with international buyers
             {% endif %}
         </h2>
-        <img src="{% static 'images/services/service-fas-section.png' %}" alt="">
+        <img src="{% static 'images/service-fas-section.png' %}" alt="">
         <div class="intro">
             <div class="content">
                 <p>Get promoted internationally with a free trade profile.</p>
@@ -151,14 +162,14 @@
                 <article data-component="service-teaser" class="service-teaser">
                     <h3 class="title">Find online marketplaces</h3>
                     <p class="text">Reach over 2 billion consumers online around the world. Get exclusive deals negotiated on behalf of UK businesses.</p>
-                    <img src="{% static 'images/services/service-soo-teaser.png' %}"><a href="https://selling-online-overseas.export.great.gov.uk/" class="link">Service: Find online marketplaces</a>
+                    <img src="{% static 'images/home-soo-cta@2x.png' %}"><a href="https://selling-online-overseas.export.great.gov.uk/" class="link">Service: Find online marketplaces</a>
                 </article>
             </div>
             <div class="lg-2 md-1">
                 <article data-component="service-teaser" class="service-teaser">
                     <h3 class="title">Find export opportunities</h3>
                     <p class="text">Find and apply for overseas opportunities from businesses looking for products or services like yours.</p>
-                    <img src="{% static 'images/services/service-exopps-teaser.png' %}"><a href="https://opportunities.export.great.gov.uk/" class="link">Service: Find export opportunities</a>
+                    <img src="{% static 'images/home-export-opps-cta@2x.png' %}"><a href="https://opportunities.export.great.gov.uk/" class="link">Service: Find export opportunities</a>
                 </article>
             </div>
         </div>
@@ -176,7 +187,7 @@
                 Reach over 2 billion consumers around the world
             {% endif %}
         </h2>
-        <img src="{% static 'images/services/service-soo-section.png' %}" alt="">
+        <img src="{% static 'images/home-soo-cta@2x.png' %}" alt="">
         <div class="intro">
             <div class="content">
                 <p>Get promoted internationally with a free trade profile.</p>
@@ -206,10 +217,12 @@
 
 
 {% block bodyScripts %}
-    <script src="{% static 'js/article-list.js' %}"></script>
-    <script>
-        var listELement = document.getElementById('js-paginate-list');  
-        var loadMoreButton = document.getElementById('js-paginate-list-more');  
-        new GOVUK.components.ArticlePaginator(listELement, loadMoreButton);
-    </script>
+    {% if section_configuration.persona_article_group %}
+        <script src="{% static 'js/article-list.js' %}"></script>
+        <script>
+            var listELement = document.getElementById('js-paginate-list');  
+            var loadMoreButton = document.getElementById('js-paginate-list-more');  
+            new GOVUK.components.ArticlePaginator(listELement, loadMoreButton);
+        </script>
+    {% endif %}
 {% endblock %}
