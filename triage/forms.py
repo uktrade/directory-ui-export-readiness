@@ -15,6 +15,10 @@ OCCASIONAL_EXPORTER = Persona(
     name='OCCASIONAL_EXPORTER', label='Occasional exporter'
 )
 NEW_EXPORTER = Persona(name='NEW_EXPORTER', label='New exporter')
+SECTORS_CHOICES = [
+    (value, value + ' ' + label)
+    for value, label in exred_sector_names.SECTORS_CHOICES
+]
 
 
 class BaseTriageForm(forms.Form):
@@ -24,7 +28,7 @@ class BaseTriageForm(forms.Form):
 
 class SectorForm(BaseTriageForm):
     sector = forms.ChoiceField(
-        choices=BLANK_CHOICE_DASH + list(exred_sector_names.SECTORS_CHOICES),
+        choices=BLANK_CHOICE_DASH + SECTORS_CHOICES,
         label='What do you want to export?',
         label_suffix='',
         widget=forms.Select(attrs={'id': 'js-sector-select'}),
@@ -83,7 +87,7 @@ class CompanyForm(BaseTriageForm):
 
 class CompaniesHouseForm(BaseTriageForm):
     is_in_companies_house = forms.TypedChoiceField(
-        label='Are you registered with Companies House?',
+        label='Is your company incorporated in the UK?',
         label_suffix='',
         coerce=lambda x: x == 'True',
         choices=[(True, 'Yes'), (False, 'No')],
