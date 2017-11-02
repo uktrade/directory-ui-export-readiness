@@ -42,6 +42,7 @@ PERSONA_NEW_ARTICLES = ArticleGroup(
         articles.INTERNATIONALISE_WESBITE,
         articles.WHAT_INTELLECTUAL_PROPERTY_IS,
         articles.TYPES_OF_INTELLECTUAL_PROPERTY,
+        articles.NEXT_STEPS_NEW_EXPORTER,
     ],
     url=reverse_lazy('article-list-persona-new'),
 )
@@ -71,7 +72,7 @@ PERSONA_OCCASIONAL_ARTICLES = ArticleGroup(
         articles.RAISE_MONEY_BY_BORROWING,
         articles.BORROW_AGAINST_ASSETS,
         articles.RAISE_MONEY_WITH_INVESTMENT,
-        articles.GET_GOVERNMENT_FINANCE_SUPPORT, 
+        articles.GET_GOVERNMENT_FINANCE_SUPPORT,
         articles.CONSIDER_HOW_PAID,
         articles.INVOICE_CURRENCY_AND_CONTENTS,
         articles.DECIDE_WHEN_PAID,
@@ -86,6 +87,7 @@ PERSONA_OCCASIONAL_ARTICLES = ArticleGroup(
         articles.TYPES_OF_INTELLECTUAL_PROPERTY,
         articles.KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE,
         articles.INTELLECTUAL_PROPERTY_PROTECTION,
+        articles.NEXT_STEPS_OCCASIONAL_EXPORTER,
     ],
     url=reverse_lazy('article-list-persona-occasional'),
 )
@@ -111,6 +113,7 @@ PERSONA_REGULAR_ARTICLES = ArticleGroup(
         articles.INSURE_AGAINST_NON_PAYMENT,
         articles.KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE,
         articles.INTELLECTUAL_PROPERTY_PROTECTION,
+        articles.NEXT_STEPS_REGULAR_EXPORTER,
     ],
     url=reverse_lazy('article-list-persona-regular'),
 )
@@ -249,6 +252,9 @@ ALL_ARTICLES = ArticleGroup(
         articles.MEET_YOUR_CUSTOMER,
         articles.MANAGE_LANGUAGE_DIFFERENCES,
         articles.UNDERSTAND_YOUR_CUSTOMERS_CULTURE,
+        articles.NEXT_STEPS_NEW_EXPORTER,
+        articles.NEXT_STEPS_OCCASIONAL_EXPORTER,
+        articles.NEXT_STEPS_REGULAR_EXPORTER,
     ],
     url='',
 )

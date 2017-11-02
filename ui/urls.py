@@ -278,6 +278,21 @@ urlpatterns = [
         name='ip-protection-in-multiple-countries',
     ),
     url(
+        r"^new/next-steps$",
+        article.views.NextStepsNewExporterView.as_view(),
+        name='next-steps-new-exporter',
+    ),
+    url(
+        r"^ooccasional/next-steps$",
+        article.views.NextStepsOccasionalExporterView.as_view(),
+        name='next-steps-occasional-exporter',
+    ),
+    url(
+        r"^regular/next-steps$",
+        article.views.NextStepsRegularExporterView.as_view(),
+        name='next-steps-regular-exporter',
+    ),
+    url(
         r'^triage$',
         triage.views.TriageWizardFormView.as_view(),
         name='triage-wizard'

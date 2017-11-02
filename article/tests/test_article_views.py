@@ -383,7 +383,7 @@ def test_article_view_persist_article_read_anon_user(
         3,
         len(structure.ALL_ARTICLES.articles),
         '',
-        2965.0,
+        3042,
         frozenset([
            articles.USE_DISTRIBUTOR.uuid,
            articles.GET_EXPORT_FINANCE.uuid,
@@ -406,7 +406,7 @@ def test_article_view_persist_article_read_anon_user(
         3,
         len(structure.ALL_ARTICLES.articles),
         '',
-        2965.0,
+        3042,
         frozenset([
            articles.USE_DISTRIBUTOR.uuid,
            articles.GET_EXPORT_FINANCE.uuid,

@@ -277,3 +277,15 @@ class ManageLanguageDifferencesView(BaseArticleDetailView):
 
 class UnderstandYourCustomersCultureView(BaseArticleDetailView):
     article = articles.UNDERSTAND_YOUR_CUSTOMERS_CULTURE
+
+
+class NextStepsNewExporterView(BaseArticleDetailView):
+    article = articles.NEXT_STEPS_NEW_EXPORTER
+
+
+class NextStepsOccasionalExporterView(BaseArticleDetailView):
+    article = articles.NEXT_STEPS_OCCASIONAL_EXPORTER
+
+
+class NextStepsRegularExporterView(BaseArticleDetailView):
+    article = articles.NEXT_STEPS_REGULAR_EXPORTER
