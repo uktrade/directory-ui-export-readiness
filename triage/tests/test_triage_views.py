@@ -594,7 +594,7 @@ def test_custom_view_occasional_exporter(
             ]
             assert soup.find('h1').text.replace('\n', '') == (
                 'New customers'
-                'are waiting'
+                'are waiting -'
                 'promote your'
                 'business'
             )
@@ -644,7 +644,7 @@ def test_custom_view_regular_exporter(
         ]
         assert soup.find('h1').text.replace('\n', '') == (
             'Choose your'
-            'next market'
+            'next market -'
             'Find new'
             'customers'
         )
