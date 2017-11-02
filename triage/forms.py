@@ -9,12 +9,16 @@ from core.widgets import RadioSelect
 from triage import fields
 
 
-Persona = namedtuple('Persona', ['key', 'label'])
-REGULAR_EXPORTER = Persona(key='REGULAR_EXPORTER', label='Regular exporter')
+Persona = namedtuple('Persona', ['name', 'label'])
+REGULAR_EXPORTER = Persona(name='REGULAR_EXPORTER', label='Regular exporter')
 OCCASIONAL_EXPORTER = Persona(
-    key='OCCASIONAL_EXPORTER', label='Occasional exporter'
+    name='OCCASIONAL_EXPORTER', label='Occasional exporter'
 )
-NEW_EXPORTER = Persona(key='NEW_EXPORTER', label='New exporter')
+NEW_EXPORTER = Persona(name='NEW_EXPORTER', label='New exporter')
+SECTORS_CHOICES = [
+    (value, value + ' ' + label)
+    for value, label in exred_sector_names.SECTORS_CHOICES
+]
 
 
 class BaseTriageForm(forms.Form):
@@ -24,7 +28,7 @@ class BaseTriageForm(forms.Form):
 
 class SectorForm(BaseTriageForm):
     sector = forms.ChoiceField(
-        choices=BLANK_CHOICE_DASH + list(exred_sector_names.SECTORS_CHOICES),
+        choices=BLANK_CHOICE_DASH + SECTORS_CHOICES,
         label='What do you want to export?',
         label_suffix='',
         widget=forms.Select(attrs={'id': 'js-sector-select'}),

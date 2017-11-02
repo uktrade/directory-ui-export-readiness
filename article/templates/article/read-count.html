@@ -9,10 +9,12 @@
             <span class="chapters"></span>
         </dd>
         <dd class="time">
-            <span class="value">{{ article_group_progress.time_left_to_read|time_to_read }}</span><span>&nbsp;read time to complete remaining chapters</span>
+            <span class="value">{{ article_group_progress.time_left_to_read|time_to_read }}</span><span>&nbsp;read time to complete</span>
     </dd>
     </dl>
-    <p class="register">
-        <a href="{{ sso_register_url }}">Register </a>to save your progress
-    </p>
+    {% if not sso_is_logged_in %}
+        <p class="register">
+            <a href="{{ sso_register_url }}">Register </a> or <a href="{{ sso_login_url }}">login</a> to save your progress
+        </p>
+    {% endif %}
 </div>
