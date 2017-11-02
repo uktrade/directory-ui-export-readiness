@@ -33,6 +33,11 @@ urlpatterns = [
         name='about',
     ),
     url(
+        r"^privacy-cookies$",
+        core.views.PrivacyView.as_view(),
+        name='privacy',
+    ),
+    url(
         r"^new$",
         article.views.PeronaNewArticleListView.as_view(),
         name='article-list-persona-new',

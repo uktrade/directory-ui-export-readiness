@@ -41,3 +41,12 @@ def test_about(client):
 
     assert response.status_code == 200
     assert response.template_name == [views.AboutView.template_name]
+
+
+def test_privacy(client):
+    url = reverse('privacy')
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == [views.PrivacyView.template_name]
