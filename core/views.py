@@ -23,7 +23,9 @@ class LandingPagelView(TemplateView):
                 casestudies.HELLO_BABY,
                 casestudies.YORK,
             ],
-            group_read_progress=article_manager.get_group_read_progress(),
+            article_group_read_progress=(
+                article_manager.get_group_read_progress()
+            ),
         )
 
 
