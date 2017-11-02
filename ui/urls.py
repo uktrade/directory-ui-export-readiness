@@ -28,6 +28,11 @@ urlpatterns = [
         name='landing-page',
     ),
     url(
+        r"^about$",
+        core.views.AboutView.as_view(),
+        name='about',
+    ),
+    url(
         r"^new$",
         article.views.PeronaNewArticleListView.as_view(),
         name='article-list-persona-new',

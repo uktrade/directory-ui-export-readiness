@@ -32,3 +32,12 @@ def test_robots(client):
     response = client.get(url)
 
     assert response.status_code == 200
+
+
+def test_about(client):
+    url = reverse('about')
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == [views.AboutView.template_name]

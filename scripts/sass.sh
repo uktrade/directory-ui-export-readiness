@@ -15,6 +15,8 @@ input_output_map="\
 	./core/static/styles/pages/triage.scss:core/static/styles/pages/triage.css \
 	./core/static/styles/pages/article-list.scss:core/static/styles/pages/article-list.css \
 	./core/static/styles/pages/custom-page.scss:core/static/styles/pages/custom-page.css \
+	./core/static/styles/pages/default.scss:core/static/styles/pages/default.css \
+
 "
 prod_command="sass --style compressed"
 

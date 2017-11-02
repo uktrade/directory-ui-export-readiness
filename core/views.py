@@ -37,3 +37,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
 class RobotsView(TemplateView):
     template_name = 'core/robots.txt'
     content_type = 'text/plain'
+
+
+class AboutView(TemplateView):
+    template_name = 'core/about.html'
