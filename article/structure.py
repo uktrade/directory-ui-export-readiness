@@ -23,7 +23,7 @@ class ArticleGroup:
 
 
 PERSONA_NEW_ARTICLES = ArticleGroup(
-    key='persona-new',
+    key='persona_new',
     title='New to exporting',
     articles=[
         articles.DO_RESEARCH_FIRST,
@@ -45,7 +45,7 @@ PERSONA_NEW_ARTICLES = ArticleGroup(
 )
 
 PERSONA_OCCASIONAL_ARTICLES = ArticleGroup(
-    key='persona-occasional',
+    key='persona_occasional',
     title='Occasional exporter',
     articles=[
         articles.DEFINE_MARKET_POTENTIAL,
@@ -87,7 +87,7 @@ PERSONA_OCCASIONAL_ARTICLES = ArticleGroup(
 )
 
 PERSONA_REGULAR_ARTICLES = ArticleGroup(
-    key='persona-regular',
+    key='persona_regular',
     title='Regular exporter',
     articles=[
         articles.DEFINE_MARKET_POTENTIAL,
@@ -112,7 +112,7 @@ PERSONA_REGULAR_ARTICLES = ArticleGroup(
 )
 
 GUIDANCE_MARKET_RESEARCH_ARTICLES = ArticleGroup(
-    key='market-research',
+    key='market_research',
     title=articles.GUIDANCE_MARKET_RESEARCH.title,
     articles=[
         articles.DO_RESEARCH_FIRST,
@@ -125,7 +125,7 @@ GUIDANCE_MARKET_RESEARCH_ARTICLES = ArticleGroup(
 )
 
 GUIDANCE_CUSTOMER_INSIGHT_ARTICLES = ArticleGroup(
-    key='customer-insights',
+    key='customer_insights',
     title=articles.GUIDANCE_CUSTOMER_INSIGHT.title,
     articles=[
         articles.KNOW_YOUR_CUSTOMER,
@@ -152,7 +152,7 @@ GUIDANCE_FINANCE_ARTICLES = ArticleGroup(
 )
 
 GUIDANCE_BUSINESS_PLANNING_ARTICLES = ArticleGroup(
-    key='business-planning',
+    key='business_planning',
     title=articles.GUIDANCE_BUSINESS_PLANNING.title,
     articles=[
         articles.MAKE_EXPORTING_PLAN,
@@ -170,7 +170,7 @@ GUIDANCE_BUSINESS_PLANNING_ARTICLES = ArticleGroup(
 )
 
 GUIDANCE_GETTING_PAID_ARTICLES = ArticleGroup(
-    key='getting-paid',
+    key='getting_paid',
     title=articles.GUIDANCE_GETTING_PAID.title,
     articles=[
         articles.CONSIDER_HOW_PAID,
@@ -183,7 +183,7 @@ GUIDANCE_GETTING_PAID_ARTICLES = ArticleGroup(
 )
 
 GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES = ArticleGroup(
-    key='operations-and-compliance',
+    key='operations_and_compliance',
     title=articles.GUIDANCE_OPERATIONS_AND_COMPLIANCE.title,
     articles=[
         articles.PLAN_THE_LOGISTICS,

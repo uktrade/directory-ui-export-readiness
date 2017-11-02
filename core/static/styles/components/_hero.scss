@@ -46,6 +46,12 @@
 }
 
 .hero-teaser {
+  position: relative;
+  img {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
   p {
     color: $white;
   }

@@ -61,6 +61,16 @@ class BaseArticleReadManager(abc.ABC):
     persist_article = abc.abstractproperty()
     retrieve_articles = abc.abstractproperty()
 
+    def get_group_read_progress(self):
+        read_uuids = frozenset(self.retrieve_articles())
+        return {
+            group.key: {
+                'read': len(read_uuids & group.articles_set),
+                'total': len(group.articles_set),
+            }
+            for group in structure.ALL_GROUPS
+        }
+
     def read_articles_keys_in_group(self, group_key):
         read_articles_uuids = frozenset(self.retrieve_articles())
         articles_in_group = structure.get_article_group(group_key).articles_set
