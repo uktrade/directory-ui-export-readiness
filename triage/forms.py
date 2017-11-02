@@ -87,7 +87,7 @@ class CompanyForm(BaseTriageForm):
 
 class CompaniesHouseForm(BaseTriageForm):
     is_in_companies_house = forms.TypedChoiceField(
-        label='Are you registered with Companies House?',
+        label='Is your company incorporated in the UK?',
         label_suffix='',
         coerce=lambda x: x == 'True',
         choices=[(True, 'Yes'), (False, 'No')],
