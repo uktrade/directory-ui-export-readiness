@@ -145,7 +145,9 @@ DEBUG_SET_ENV_VARS := \
 	export SERVICES_EXOPPS=http://opportunities.export.great.gov.uk; \
 	export SERVICES_FAB=http://buyer.trade.great.dev:8001; \
 	export SERVICES_GET_FINANCE=/finance/get-finance-support-from-government; \
-	export SERVICES_SOO=http://soo.trade.great.dev:8008
+	export SERVICES_SOO=http://soo.trade.great.dev:8008; \
+	export INFO_ABOUT=/about; \
+	export INFO_PRIVACY_AND_COOKIES=/privacy-cookies
 
 debug_webserver:
 	$(DEBUG_SET_ENV_VARS) && $(DJANGO_WEBSERVER)
