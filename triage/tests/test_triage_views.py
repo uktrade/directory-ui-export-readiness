@@ -13,6 +13,14 @@ from triage import forms, views
 from article import structure
 
 
+@pytest.fixture(autouse=True)
+def mock_retrive_articles_read():
+    mock = patch('api_client.api_client.exportreadiness.retrieve_article_read')
+    mock.return_value = create_response(200, json_body=[])
+    yield mock.start()
+    mock.stop()
+
+
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
 def test_submit_triage_regular_exporter(mock_persist_answers, client):
     url = reverse('triage-wizard')
@@ -404,6 +412,38 @@ def test_custom_view(mocked_retrieve_answers, authed_client, sso_user):
     assert response.status_code == 200
     assert response.template_name == ['triage/custom-page.html']
     assert response.context_data['triage_result'] == triage_result
+    assert response.context_data['article_group_read_progress'] == {
+        'all': {
+            'read': 0, 'total': 41
+        },
+        'business_planning': {
+            'read': 0, 'total': 10
+        },
+        'customer_insights': {
+            'read': 0, 'total': 4
+        },
+        'finance': {
+            'read': 0, 'total': 7
+        },
+        'getting_paid': {
+            'read': 0, 'total': 5
+        },
+        'market_research': {
+            'read': 0, 'total': 5
+        },
+        'operations_and_compliance': {
+            'read': 0, 'total': 10
+        },
+        'persona_new': {
+            'read': 0, 'total': 14
+        },
+        'persona_occasional': {
+            'read': 0, 'total': 34
+        },
+        'persona_regular': {
+            'read': 0, 'total': 17
+        }
+    }
 
 
 def test_triage_wizard(client):

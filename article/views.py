@@ -7,14 +7,14 @@ from core.helpers import build_social_links
 
 class ArticleReadMixin:
     def get_article_group_progress_details(self):
-        key = self.article_group.key
+        name = self.article_group.name
         manager = helpers.ArticleReadManager(request=self.request)
-        read_article_uuids = manager.read_articles_keys_in_group(key)
+        read_article_uuids = manager.read_articles_keys_in_group(name)
         return {
             'read_article_uuids': read_article_uuids,
             'read_count': len(read_article_uuids),
             'total_articles_count': len(self.article_group.articles),
-            'time_left_to_read': manager.remaining_reading_time_in_group(key),
+            'time_left_to_read': manager.remaining_reading_time_in_group(name),
         }
 
     def get_context_data(self, *args, **kwargs):
@@ -58,7 +58,7 @@ class BaseArticleDetailView(ArticleReadMixin, TemplateView):
     @cached_property
     def article_group(self):
         return structure.get_article_group(
-            group_key=self.request.GET.get('source', 'all'),
+            group_name=self.request.GET.get('source', 'all'),
         )
 
 
