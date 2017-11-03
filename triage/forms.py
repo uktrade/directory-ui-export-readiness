@@ -124,8 +124,8 @@ def get_is_regular_exporter(answers):
     return answers.get('regular_exporter') is True
 
 
-def get_is_sole_trader(answers):
-    return answers.get('is_in_companies_house') is not True  # False or ''
+def get_is_in_companies_house(answers):
+    return answers.get('is_in_companies_house') is True
 
 
 def get_used_marketplace(answers):
@@ -145,7 +145,6 @@ def serialize_triage_form(data):
         'regular_exporter': data.get('regular_exporter') or False,
         'used_online_marketplace': data.get('used_online_marketplace'),
         'company_name': data.get('company_name', ''),
-        'sole_trader': data['is_in_companies_house'] is False,
         'company_number': data.get('company_number', ''),
         'is_in_companies_house': data['is_in_companies_house'],
     }

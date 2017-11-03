@@ -4,11 +4,11 @@ import pytest
 
 from django.http import HttpResponse
 
-from ui import middleware
+from core import middleware
 
 
 def test_no_cache_middlware_installed(settings):
-    assert 'ui.middleware.NoCacheMiddlware' in settings.MIDDLEWARE_CLASSES
+    assert 'core.middleware.NoCacheMiddlware' in settings.MIDDLEWARE_CLASSES
 
 
 def test_no_cache_middlware(rf, settings):
