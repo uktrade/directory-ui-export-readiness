@@ -25,8 +25,10 @@
         <div class="hero-teaser">
             <h1 class="title">
             {% if persona.name == 'NEW_EXPORTER' %}
-                <span>Use your potential -</span><br>
-                <span>start exporting</span><br>
+                <span>Use your</span><br>
+                <span>potential -</span><br>
+                <span>start</span><br>
+                <span>exporting</span><br>
             {% elif persona.name == 'OCCASIONAL_EXPORTER' %}
                 <span>New customers</span><br>
                 <span>are waiting -</span><br>
@@ -99,8 +101,6 @@
             <p>The <a href="http://www.doingbusiness.org/rankings" target="_blank">World Bank’s Doing Business project</a> ranks economies from 1 to 190 on the how easy their regulatory environment makes it to start a business, with 1 being the easiest.</p>
             <p>The UK government takes no responsibility for this data.</p>
         </div>
-
-    
     </div>
 </section>
 {% endif %}
@@ -112,12 +112,13 @@
             <p class="intro">
                  Read the export guidance we've selected for your experience level. You can come back to this page at any time, but you'll need to <a href="{{ sso_register_url }} ">register</a> if you want to save your progress.</p>
         </div>
+        {% include 'article/read-count.html' %}
         <div class="section-content-list">
             <ol class="navigation" aria-live="assertive" id="js-paginate-list">
                 {% for article in section_configuration.persona_article_group.articles %}
                     <li>
                         <span class="section">{{ article.parent.title }}<span class="verbose">:</span>&nbsp;</span>
-                        <a href="{{ article.url }}?source={{article_group.name}}" class="article">{{ article.title }}</a>
+                        <a href="{{ article.url }}?source={{ article_group.name }}" class="article{% if article.uuid in article_group_progress.read_article_uuids %} article-read{% endif %}">{{ article.title }}</a>
                     </li>
                 {% endfor %}
                 <div class="buttons">
@@ -138,7 +139,6 @@
                 Connect directly with international buyers
             {% endif %}
         </h2>
-        <img src="{% static 'images/service-fas-section.png' %}" alt="">
         <div class="intro">
             <div class="content">
                 <p>Get promoted internationally with a free trade profile.</p>
@@ -150,6 +150,7 @@
                 <a href="https://find-a-buyer.export.great.gov.uk" class="button button-cta">Create a trade profile</a>
             </div>
         </div>
+        <img src="{% static 'images/service-fas-section.png' %}" alt="">
     </div>
 </section>
 {% endif %}

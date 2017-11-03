@@ -205,9 +205,9 @@ def test_database_retrieve_article_read_api_call(
     )
 
     manager = helpers.DatabaseArticlesReadManager(sso_request)
-    articles = manager.retrieve_articles()
+    articles = manager.retrieve_article_uuids()
 
-    assert articles == ['123', '345']
+    assert articles == {'123', '345'}
     assert mock_retrieve_article_read.call_count == 1
     assert mock_retrieve_article_read.call_args == call(
         sso_session_id=sso_user.session_id,
@@ -222,7 +222,7 @@ def test_database_retrieve_article_read_handle_exceptions(
     manager = helpers.DatabaseArticlesReadManager(sso_request)
 
     with pytest.raises(requests.HTTPError):
-        manager.retrieve_articles()
+        manager.retrieve_article_uuids()
 
 
 def test_session_article_manager_stores_in_session_no_existing_articles(
@@ -253,9 +253,9 @@ def test_session_article_manager_retrieves_from_session(anon_request):
     assert anon_request.session[key] == ['123']
 
     manager = helpers.SessionArticlesReadManager(anon_request)
-    answers = manager.retrieve_articles()
+    answers = manager.retrieve_article_uuids()
 
-    assert answers == ['123']
+    assert answers == {'123'}
 
 
 def test_session_article_read_count(anon_request):
