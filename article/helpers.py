@@ -64,35 +64,35 @@ class BaseArticleReadManager(abc.ABC):
     def get_group_read_progress(self):
         read_uuids = frozenset(self.retrieve_articles())
         return {
-            group.key: {
+            group.name: {
                 'read': len(read_uuids & group.articles_set),
                 'total': len(group.articles_set),
             }
             for group in structure.ALL_GROUPS
         }
 
-    def read_articles_keys_in_group(self, group_key):
+    def read_articles_keys_in_group(self, group_name):
         read_articles_uuids = frozenset(self.retrieve_articles())
-        articles_in_group = structure.get_article_group(group_key).articles_set
+        article_uuids = structure.get_article_group(group_name).articles_set
         # read_articles_in_category is a new set (intersection)
         # with elements common to read_articles and articles_in_category
-        read_articles_in_group = read_articles_uuids & articles_in_group
+        read_articles_in_group = read_articles_uuids & article_uuids
         return read_articles_in_group
 
-    def article_read_count(self, group_key):
-        return len(self.read_articles_keys_in_group(group_key))
+    def article_read_count(self, group_name):
+        return len(self.read_articles_keys_in_group(group_name))
 
-    def remaining_reading_time_in_group(self, group_key):
+    def remaining_reading_time_in_group(self, group_name):
         """ Return the remaining reading time in minutes
             for unread articles in the group
         """
-        read_articles_uuids = self.read_articles_keys_in_group(group_key)
+        read_articles_uuids = self.read_articles_keys_in_group(group_name)
         read_articles = structure.get_articles_from_uuids(read_articles_uuids)
         read_articles_total_time = total_time_to_read_multiple_articles(
             read_articles
         )
         group_total_reading_time = structure.get_article_group(
-            group_key
+            group_name
         ).total_reading_time
         return round(group_total_reading_time - read_articles_total_time, 2)
 
