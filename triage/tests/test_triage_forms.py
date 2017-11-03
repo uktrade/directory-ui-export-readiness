@@ -42,7 +42,6 @@ def test_company_form_null_company_number():
     assert form.cleaned_data['company_number'] is None
 
 
-
 @pytest.mark.parametrize('value,expected', (
     (True, True),
     (False, False),
