@@ -84,6 +84,12 @@ class CompanyForm(BaseTriageForm):
         widget=forms.HiddenInput(attrs={'id': 'js-typeahead-company-number'}),
     )
 
+    def clean_company_number(self):
+        number = self.cleaned_data['company_number']
+        if number == '':
+            return None
+        return number
+
 
 class CompaniesHouseForm(BaseTriageForm):
     is_in_companies_house = forms.TypedChoiceField(
