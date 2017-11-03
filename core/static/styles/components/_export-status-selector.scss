@@ -58,6 +58,9 @@
     .status {
       top: 50%;
     }
+    img {
+      margin-top: -25px
+    }
   }
 }
 
@@ -75,6 +78,20 @@
     
     .link {
       padding-right: 34%;
+    }
+  }
+}
+
+
+// MOBILE
+@media (max-width: 540px) {
+  .export-status-selector {
+     height: 116px;
+     overflow: hidden;
+     margin-bottom: 30px;
+    .status {
+      top: 20%;
+      left: 5%;
     }
   }
 }
