@@ -39,7 +39,7 @@ class BaseArticleDetailView(ArticleReadMixin, TemplateView):
     @cached_property
     def article_group(self):
         return structure.get_article_group(
-            group_key=self.request.GET.get('source', 'all'),
+            group_name=self.request.GET.get('source', 'all'),
         )
 
 

@@ -62,7 +62,7 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
         'exported_before': True,
         'regular_exporter': True,
         'sector': 'HS01',
-        'company_number': '',
+        'company_number': None,
     }
     assert mock_persist_answers.call_count == 1
     assert mock_persist_answers.call_args == call({
@@ -71,7 +71,7 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
         'exported_before': True,
         'regular_exporter': True,
         'sector': 'HS01',
-        'company_number': '',
+        'company_number': None,
         'is_in_companies_house': True,
     })
     assert done_response.status_code == 302
@@ -171,7 +171,7 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
     assert summary_response.context_data['persona'] == forms.NEW_EXPORTER
     assert summary_response.context_data['sector_label'] == 'Animals; live'
     assert summary_response.context_data['all_cleaned_data'] == {
-        'company_number': '',
+        'company_number': None,
         'is_in_companies_house': True,
         'company_name': 'Example corp',
         'exported_before': False,
@@ -179,7 +179,7 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
     }
     assert mock_persist_answers.call_count == 1
     assert mock_persist_answers.call_args == call({
-        'company_number': '',
+        'company_number': None,
         'is_in_companies_house': True,
         'company_name': 'Example corp',
         'exported_before': False,
@@ -266,7 +266,7 @@ def test_triage_skip_company_clears_previous_answers(client):
     assert done_response.get('Location') == str(view_class.success_url)
     assert b'Create my exporting journey' in summary_response.content
     assert summary_response.context_data['all_cleaned_data'] == {
-        'company_number': '',
+        'company_number': None,
         'is_in_companies_house': True,
         'company_name': '',
         'sector': 'HS01',
@@ -303,7 +303,7 @@ def test_triage_skip_company_clears_previous_answers_summary(
     assert done_response.get('Location') == str(view_class.success_url)
     assert b'Continue my exporting journey' in summary_response.content
     assert summary_response.context_data['all_cleaned_data'] == {
-        'company_number': '',
+        'company_number': None,
         'regular_exporter': True,
         'company_name': '',
         'sector': 'HS01',
@@ -341,7 +341,7 @@ def test_triage_summary_change_answers(
 
     assert b'Continue my exporting journey' in summary_response.content
     assert summary_response.context_data['all_cleaned_data'] == {
-        'company_number': '',
+        'company_number': None,
         'is_in_companies_house': True,
         'company_name': 'Other Example limited',
         'sector': 'HS01',

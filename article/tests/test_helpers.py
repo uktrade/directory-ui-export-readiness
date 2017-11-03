@@ -69,7 +69,7 @@ def test_database_article_read_count(
     mock_retrieve_article_read.return_value = create_response(
         200, json_body=articles_read
     )
-    group_key = structure.GUIDANCE_GETTING_PAID_ARTICLES.key
+    group_key = structure.GUIDANCE_GETTING_PAID_ARTICLES.name
     manager = helpers.DatabaseArticlesReadManager(sso_request)
     count = manager.article_read_count(group_key)
     articles_uuids = manager.read_articles_keys_in_group(group_key)
@@ -175,7 +175,7 @@ def test_database_remaining_reading_time_in_group(
 
     manager = helpers.DatabaseArticlesReadManager(sso_request)
     time_left = manager.remaining_reading_time_in_group(
-        structure.PERSONA_OCCASIONAL_ARTICLES.key
+        structure.PERSONA_OCCASIONAL_ARTICLES.name
     )
 
     assert time_left == 2386
@@ -268,7 +268,7 @@ def test_session_article_read_count(anon_request):
     anon_request.session[key] = articles_uuids
     assert anon_request.session[key] == articles_uuids
 
-    group_key = structure.GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES.key
+    group_key = structure.GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES.name
     manager = helpers.SessionArticlesReadManager(anon_request)
     returned_articles_uuids = manager.read_articles_keys_in_group(group_key)
     count = manager.article_read_count(group_key)
@@ -295,7 +295,7 @@ def test_session_remaining_reading_time_in_group(anon_request):
 
     manager = helpers.SessionArticlesReadManager(anon_request)
     time_left = manager.remaining_reading_time_in_group(
-        structure.PERSONA_OCCASIONAL_ARTICLES.key
+        structure.PERSONA_OCCASIONAL_ARTICLES.name
     )
 
     assert time_left == 2102.0
