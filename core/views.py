@@ -5,6 +5,7 @@ from django.views.generic import TemplateView
 from casestudy import casestudies
 from triage.helpers import TriageAnswersManager
 from ui import urls
+from article.helpers import ArticleReadManager
 
 
 class LandingPagelView(TemplateView):
@@ -12,6 +13,7 @@ class LandingPagelView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         answer_manager = TriageAnswersManager(self.request)
+        article_manager = ArticleReadManager(request=self.request)
         has_completed_triage = answer_manager.retrieve_answers() != {}
         return super().get_context_data(
             *args, **kwargs,
@@ -21,6 +23,9 @@ class LandingPagelView(TemplateView):
                 casestudies.HELLO_BABY,
                 casestudies.YORK,
             ],
+            article_group_read_progress=(
+                article_manager.get_group_read_progress()
+            ),
         )
 
 

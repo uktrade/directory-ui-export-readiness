@@ -9,6 +9,7 @@ from django.views.generic import TemplateView
 from django.views.generic import View
 
 from article import structure
+from article.helpers import ArticleReadManager
 from triage import forms, helpers
 from casestudy import casestudies
 
@@ -176,6 +177,10 @@ class CustomPageView(TemplateView):
             casestudies.HELLO_BABY,
             casestudies.YORK,
         ]
+        article_manager = ArticleReadManager(request=self.request)
+        context['article_group_read_progress'] = (
+            article_manager.get_group_read_progress()
+        )
         sector_code = self.triage_answers['sector']
         # harmonised system codes begin with HS. Service codes begin with EB
         if sector_code.startswith('HS'):

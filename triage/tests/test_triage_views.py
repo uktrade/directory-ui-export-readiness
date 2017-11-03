@@ -13,6 +13,14 @@ from triage import forms, views
 from article import structure
 
 
+@pytest.fixture(autouse=True)
+def mock_retrive_articles_read():
+    mock = patch('api_client.api_client.exportreadiness.retrieve_article_read')
+    mock.return_value = create_response(200, json_body=[])
+    yield mock.start()
+    mock.stop()
+
+
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
 def test_submit_triage_regular_exporter(mock_persist_answers, client):
     url = reverse('triage-wizard')
@@ -54,7 +62,7 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
         'exported_before': True,
         'regular_exporter': True,
         'sector': 'HS01',
-        'company_number': '',
+        'company_number': None,
     }
     assert mock_persist_answers.call_count == 1
     assert mock_persist_answers.call_args == call({
@@ -64,7 +72,7 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
         'exported_before': True,
         'regular_exporter': True,
         'sector': 'HS01',
-        'company_number': '',
+        'company_number': None,
         'is_in_companies_house': True,
     })
     assert done_response.status_code == 302
@@ -165,7 +173,7 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
     assert summary_response.context_data['persona'] == forms.NEW_EXPORTER
     assert summary_response.context_data['sector_label'] == 'Animals; live'
     assert summary_response.context_data['all_cleaned_data'] == {
-        'company_number': '',
+        'company_number': None,
         'is_in_companies_house': True,
         'company_name': 'Example corp',
         'exported_before': False,
@@ -173,7 +181,7 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
     }
     assert mock_persist_answers.call_count == 1
     assert mock_persist_answers.call_args == call({
-        'company_number': '',
+        'company_number': None,
         'is_in_companies_house': True,
         'sole_trader': False,
         'company_name': 'Example corp',
@@ -261,7 +269,7 @@ def test_triage_skip_company_clears_previous_answers(client):
     assert done_response.get('Location') == str(view_class.success_url)
     assert b'Create my exporting journey' in summary_response.content
     assert summary_response.context_data['all_cleaned_data'] == {
-        'company_number': '',
+        'company_number': None,
         'is_in_companies_house': True,
         'company_name': '',
         'sector': 'HS01',
@@ -299,7 +307,7 @@ def test_triage_skip_company_clears_previous_answers_summary(
     assert done_response.get('Location') == str(view_class.success_url)
     assert b'Continue my exporting journey' in summary_response.content
     assert summary_response.context_data['all_cleaned_data'] == {
-        'company_number': '',
+        'company_number': None,
         'regular_exporter': True,
         'company_name': '',
         'sector': 'HS01',
@@ -338,7 +346,7 @@ def test_triage_summary_change_answers(
 
     assert b'Continue my exporting journey' in summary_response.content
     assert summary_response.context_data['all_cleaned_data'] == {
-        'company_number': '',
+        'company_number': None,
         'is_in_companies_house': True,
         'company_name': 'Other Example limited',
         'sector': 'HS01',
@@ -404,6 +412,38 @@ def test_custom_view(mocked_retrieve_answers, authed_client, sso_user):
     assert response.status_code == 200
     assert response.template_name == ['triage/custom-page.html']
     assert response.context_data['triage_result'] == triage_result
+    assert response.context_data['article_group_read_progress'] == {
+        'all': {
+            'read': 0, 'total': 41
+        },
+        'business_planning': {
+            'read': 0, 'total': 10
+        },
+        'customer_insights': {
+            'read': 0, 'total': 4
+        },
+        'finance': {
+            'read': 0, 'total': 7
+        },
+        'getting_paid': {
+            'read': 0, 'total': 5
+        },
+        'market_research': {
+            'read': 0, 'total': 5
+        },
+        'operations_and_compliance': {
+            'read': 0, 'total': 10
+        },
+        'persona_new': {
+            'read': 0, 'total': 14
+        },
+        'persona_occasional': {
+            'read': 0, 'total': 34
+        },
+        'persona_regular': {
+            'read': 0, 'total': 17
+        }
+    }
 
 
 def test_triage_wizard(client):

@@ -313,21 +313,21 @@ def test_article_links_include_next_param(client, group):
 
     for article, article_link_element in zip(group.articles, article_links):
         assert article_link_element.attrs['href'] == (
-            str(article.url) + '?source=' + group.key
+            str(article.url) + '?source=' + group.name
         )
 
 
 @pytest.mark.parametrize('group', structure.ALL_GROUPS)
 def test_inferred_next_articles(client, group):
     for article, next_article in zip(group.articles, group.articles[1:]):
-        response = client.get(article.url + '?source=' + group.key)
+        response = client.get(article.url + '?source=' + group.name)
         soup = BeautifulSoup(response.content, 'html.parser')
         next_article_element = soup.find(id='next-article-link')
 
         if next_article:
             assert response.context_data['next_article'] == next_article
             assert next_article_element.attrs['href'] == (
-                str(next_article.url) + '?source=' + group.key
+                str(next_article.url) + '?source=' + group.name
             )
             assert next_article_element.text == next_article.title
         else:
@@ -338,7 +338,7 @@ def test_inferred_next_articles(client, group):
 @pytest.mark.parametrize('group', structure.ALL_GROUPS[:-1])
 def test_inferred_return_to_article(client, group):
     for article in group.articles:
-        response = client.get(article.url + '?source=' + group.key)
+        response = client.get(article.url + '?source=' + group.name)
         soup = BeautifulSoup(response.content, 'html.parser')
         category_element = soup.find(id='category-link')
 
