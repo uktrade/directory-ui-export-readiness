@@ -3,9 +3,9 @@ import markdown2
 from bs4 import BeautifulSoup
 
 from django.template.loader import render_to_string
+from django.utils.functional import cached_property
 
 from api_client import api_client
-
 from . import structure
 
 
@@ -58,25 +58,28 @@ class BaseArticleReadManager(abc.ABC):
     def __init__(self, request):
         self.request = request
 
-    persist_article = abc.abstractproperty()
-    retrieve_articles = abc.abstractproperty()
+    @abc.abstractmethod
+    def persist_article(self, article_uuid):
+        pass
+
+    @abc.abstractmethod
+    def retrieve_article_uuids(self):
+        return
 
     def get_group_read_progress(self):
-        read_uuids = frozenset(self.retrieve_articles())
         return {
             group.name: {
-                'read': len(read_uuids & group.articles_set),
+                'read': len(self.read_article_uuids & group.articles_set),
                 'total': len(group.articles_set),
             }
             for group in structure.ALL_GROUPS
         }
 
     def read_articles_keys_in_group(self, group_name):
-        read_articles_uuids = frozenset(self.retrieve_articles())
         article_uuids = structure.get_article_group(group_name).articles_set
         # read_articles_in_category is a new set (intersection)
         # with elements common to read_articles and articles_in_category
-        read_articles_in_group = read_articles_uuids & article_uuids
+        read_articles_in_group = self.read_article_uuids & article_uuids
         return read_articles_in_group
 
     def article_read_count(self, group_name):
@@ -86,8 +89,13 @@ class BaseArticleReadManager(abc.ABC):
         """ Return the remaining reading time in minutes
             for unread articles in the group
         """
-        read_articles_uuids = self.read_articles_keys_in_group(group_name)
-        read_articles = structure.get_articles_from_uuids(read_articles_uuids)
+
+        read_articles_uuids_in_group = self.read_articles_keys_in_group(
+            group_name
+        )
+        read_articles = structure.get_articles_from_uuids(
+            read_articles_uuids_in_group
+        )
         read_articles_total_time = total_time_to_read_multiple_articles(
             read_articles
         )
@@ -95,6 +103,10 @@ class BaseArticleReadManager(abc.ABC):
             group_name
         ).total_reading_time
         return round(group_total_reading_time - read_articles_total_time, 2)
+
+    @cached_property
+    def read_article_uuids(self):
+        return self.retrieve_article_uuids()
 
 
 class ArticleReadManager:
@@ -117,8 +129,9 @@ class SessionArticlesReadManager(BaseArticleReadManager):
         self.session[self.SESSION_KEY] = articles
         self.session.modified = True
 
-    def retrieve_articles(self):
-        return self.request.session.get(self.SESSION_KEY, [])
+    def retrieve_article_uuids(self):
+        uuids = self.request.session.get(self.SESSION_KEY, [])
+        return frozenset(uuids)
 
 
 class DatabaseArticlesReadManager(BaseArticleReadManager):
@@ -130,9 +143,10 @@ class DatabaseArticlesReadManager(BaseArticleReadManager):
         )
         response.raise_for_status()
 
-    def retrieve_articles(self):
+    def retrieve_article_uuids(self):
         response = api_client.exportreadiness.retrieve_article_read(
             sso_session_id=self.request.sso_user.session_id
         )
         response.raise_for_status()
-        return [article['article_uuid'] for article in response.json()]
+        uuids = [article['article_uuid'] for article in response.json()]
+        return frozenset(uuids)

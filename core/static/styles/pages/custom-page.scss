@@ -12,21 +12,23 @@
 @import '../components/_feedback';
 @import '../components/_carousel';
 
+
+.hero-section {
+  padding-top: 45px;
+  height: 540px;
+  background-position: top center;
+}
+
 .hero-section.new {
   background-image: url('/static/images/custom-hero-new-to-exporting@2x.png');
-  background-position: 75% 10%;
 }
 
 .hero-section.occasional {
   background-image: url('/static/images/custom-hero-occasional-exporter@2x.png');
-  background-position: 50%;
-  padding-top: 300px;
 }
 
 .hero-section.regular {
   background-image: url('/static/images/custom-hero-regular-exporter@2x.png');
-  background-position: 50%;
-  padding-top: 300px;
 }
 
 .section-content-list {
@@ -59,8 +61,12 @@
     color: #ffffff;
   }
 }
+#articles {
+  background-color: #fafafa;
+}
 
 #top-of-the-markets {
+  border-spacing: 0;
   margin-top: 71px;
   width: 100%;
   text-align: center;
@@ -101,6 +107,19 @@ h2 {
   display: block; 
 }
 
+.service-section.fas {
+  ul {
+    margin-bottom: 45px;
+  }
+}
+
+@media (min-width: 767px) {
+  .service-section.fas {
+    .content {
+      margin-right: 50px;
+    }
+  }
+}
 
 // TABLET
 @media (max-width: 767px) {
@@ -119,6 +138,14 @@ h2 {
 
 // MOBILE
 @media (max-width: 540px) {
+  .service-section.fas {
+    .button-cta {
+      font-weight: bold;
+      width: 100%;
+      text-align: center;
+    }
+  }
+
   .hero-section:after {
     margin-top: -350px;
   }
