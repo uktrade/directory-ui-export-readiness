@@ -58,8 +58,13 @@ class BaseArticleReadManager(abc.ABC):
     def __init__(self, request):
         self.request = request
 
-    persist_article = abc.abstractproperty()
-    retrieve_article_uuids = abc.abstractproperty()
+    @abc.abstractmethod
+    def persist_article(self, article_uuid):
+        pass
+
+    @abc.abstractmethod
+    def retrieve_article_uuids(self):
+        return
 
     def get_group_read_progress(self):
         return {
@@ -85,8 +90,12 @@ class BaseArticleReadManager(abc.ABC):
             for unread articles in the group
         """
 
-        read_articles_uuids = self.read_articles_keys_in_group(group_name)
-        read_articles = structure.get_articles_from_uuids(read_articles_uuids)
+        read_articles_uuids_in_group = self.read_articles_keys_in_group(
+            group_name
+        )
+        read_articles = structure.get_articles_from_uuids(
+            read_articles_uuids_in_group
+        )
         read_articles_total_time = total_time_to_read_multiple_articles(
             read_articles
         )
