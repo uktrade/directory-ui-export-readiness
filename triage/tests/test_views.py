@@ -550,8 +550,10 @@ def test_custom_view_new_exporter(
             casestudies.YORK,
         ]
         assert soup.find('h1').text.replace('\n', '') == (
-            'Use your potential -'
-            'start exporting'
+            'Use your'
+            'potential -'
+            'start'
+            'exporting'
         )
 
 
