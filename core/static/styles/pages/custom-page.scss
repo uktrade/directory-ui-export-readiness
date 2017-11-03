@@ -138,6 +138,14 @@ h2 {
 
 // MOBILE
 @media (max-width: 540px) {
+  .service-section.fas {
+    .button-cta {
+      font-weight: bold;
+      width: 100%;
+      text-align: center;
+    }
+  }
+
   .hero-section:after {
     margin-top: -350px;
   }
