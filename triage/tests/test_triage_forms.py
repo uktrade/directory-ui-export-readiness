@@ -24,6 +24,25 @@ def test_company_form_pad_company_number():
     assert form.cleaned_data['company_number'] == '01231245'
 
 
+def test_company_form_empty_string_company_number():
+    form = forms.CompanyForm(data={
+        'company_number': '',
+    })
+    form.is_valid()
+
+    assert form.cleaned_data['company_number'] is None
+
+
+def test_company_form_null_company_number():
+    form = forms.CompanyForm(data={
+        'company_number': None,
+    })
+    form.is_valid()
+
+    assert form.cleaned_data['company_number'] is None
+
+
+
 @pytest.mark.parametrize('value,expected', (
     (True, True),
     (False, False),
