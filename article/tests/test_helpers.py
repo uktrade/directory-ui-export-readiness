@@ -216,10 +216,47 @@ def test_database_retrieve_article_read_api_call(
     manager = helpers.DatabaseArticlesReadManager(sso_request)
     articles = manager.retrieve_article_uuids()
 
-    assert articles == ['123', '345']
+    assert articles == {'123', '345'}
     assert mock_retrieve_article_read.call_count == 2
     assert mock_retrieve_article_read.call_args == call(
         sso_session_id=sso_user.session_id,
+    )
+
+
+@patch('api_client.api_client.exportreadiness.create_article_read')
+@patch('api_client.api_client.exportreadiness.retrieve_article_read')
+def test_database_retrieve_article_update_from_session(
+        mock_retrieve_article_read,
+        mock_create_article_read,
+        sso_request,
+        sso_user,
+):
+    mock_retrieve_article_read.return_value = create_response(
+        200, json_body=[
+            {
+                'created': '2016-11-23T11:21:10.977518Z',
+                'id': '1',
+                'modified': '2016-11-23T11:21:10.977518Z',
+                'sso_id': '999',
+                'article_uuid': '123'
+            },
+            {
+                'created': '2016-11-23T11:21:10.977518Z',
+                'id': '2',
+                'modified': '2016-11-23T11:21:10.977518Z',
+                'sso_id': '999',
+                'article_uuid': '345'
+            }
+        ]
+    )
+
+    key = helpers.SessionArticlesReadManager.SESSION_KEY
+    sso_request.session[key] = {'678', '123'}
+    helpers.DatabaseArticlesReadManager(sso_request)
+
+    assert mock_create_article_read.call_count == 1
+    assert mock_create_article_read.call_args == call(
+        article_uuid='678', sso_session_id=sso_user.session_id,
     )
 
 
@@ -228,9 +265,9 @@ def test_database_retrieve_article_read_handle_exceptions(
     mock_retrieve_article_read, sso_request,
 ):
     mock_retrieve_article_read.return_value = create_response(400)
-    manager = helpers.DatabaseArticlesReadManager(sso_request)
 
     with pytest.raises(requests.HTTPError):
+        manager = helpers.DatabaseArticlesReadManager(sso_request)
         manager.retrieve_article_uuids()
 
 
