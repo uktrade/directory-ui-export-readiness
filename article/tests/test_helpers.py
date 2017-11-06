@@ -176,7 +176,7 @@ def test_session_get_group_read_progress(anon_request, articles_read):
 
 @patch('api_client.api_client.exportreadiness.retrieve_article_read')
 def test_database_remaining_reading_time_in_group(
-    mock_retrieve_article_read, sso_request, article_read
+    mock_retrieve_article_read, sso_request, articles_read
 ):
     mock_retrieve_article_read.return_value = create_response(
         200, json_body=articles_read
