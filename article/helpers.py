@@ -136,6 +136,10 @@ class SessionArticlesReadManager(BaseArticleReadManager):
 
 class DatabaseArticlesReadManager(BaseArticleReadManager):
 
+    def __init__(self, request):
+        super().__init__(request)
+        self.transfer_article_progress()
+
     def persist_article(self, article_uuid):
         response = api_client.exportreadiness.create_article_read(
             article_uuid=article_uuid,
@@ -150,3 +154,17 @@ class DatabaseArticlesReadManager(BaseArticleReadManager):
         response.raise_for_status()
         uuids = [article['article_uuid'] for article in response.json()]
         return frozenset(uuids)
+
+    def transfer_article_progress(self):
+        """ Get the read articles from session and
+            copies them to db if not there.
+        """
+        articles_uuids_in_db = self.read_article_uuids
+        articles_uuids_in_session = self.get_read_articles_uuids_from_session()
+        articles_uuids = articles_uuids_in_session - articles_uuids_in_db
+        for uuid in articles_uuids:
+            self.persist_article(uuid)
+
+    def get_read_articles_uuids_from_session(self):
+        manager = SessionArticlesReadManager(self.request)
+        return manager.retrieve_article_uuids()
