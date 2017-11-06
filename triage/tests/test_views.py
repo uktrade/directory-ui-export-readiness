@@ -710,3 +710,23 @@ def test_custom_page_top_markets(sector_code, client):
         url = reverse('custom-page')
         response = client.get(url)
         assert response.status_code == 200
+
+        soup = BeautifulSoup(response.content, 'html.parser')
+        top_import_name = soup.find(id='top_importer_name')
+
+        # data is not available for service codes, only for Harmonised
+        # System codes.
+        if not sector_code.startswith('HS'):
+            assert top_import_name is None
+        else:
+            top_import_value = soup.find(id='top_importer_global_trade_value')
+            top_country_row = soup.find(id='row-' + top_import_name.text)
+            # there is no guarantee that the "country that imports the most" is
+            # in the "top 10 countries for buying British goods"
+            if top_country_row:
+                top_country_row_import_value = top_country_row.find(
+                    class_='cell-global_trade_value'
+                )
+                assert (
+                    top_country_row_import_value.text == top_import_value.text
+                )
