@@ -3,64 +3,64 @@
 <section id="resource-guidance">
     <div class="container">
         <h2 class="section-header">Guidance</h2>
-        <p class="section-intro">Find information on the areas of exporting you’re dealing with as and when you need it.</p>
+        <p class="intro">Find information on the areas of exporting you’re dealing with as and when you need it.</p>
         <div class="group">
             <div class="lg-3 md-2 sm-1">
-                <div data-component="resource-teaser" class="resources resources-teaser market-research" style="height: 346.797px;">
+                <div data-component="resource-teaser" class="resources resources-teaser market-research">
                     <h3 class="title">Market research</h3>
                     <img src="{% static 'images/sections/market-research-blue.svg' %}" class="icon">
-                    </p>
-                    <p>Research is an essential first step to selling in a new market. Making decisions based on market data will help you maximise profits and avoid costly mistakes.</p>
+                    <p class="count">{{article_group_read_progress.market_research.read}}/{{article_group_read_progress.market_research.total}} chapters completed</p>
+                    <p class="resource-description">Research is an essential first step to selling in a new market. Making decisions based on market data will help you maximise profits and avoid costly mistakes.</p>
                     <a href="{% url 'article-list-market-research' %}" class="more"><span>Articles:</span>Market research 
                     </a>
                 </div>
             </div>
             <div class="lg-3 md-2 sm-1">
-                <div data-component="resource-teaser" class="resources resources-teaser customer-insight" style="height: 346.797px;">
+                <div data-component="resource-teaser" class="resources resources-teaser customer-insight">
                     <h3 class="title">Customer insight</h3>
                     <img src="{% static 'images/sections/customer-insight-blue.svg' %}" class="icon">
-                    </p>
-                    <p>Find out about potential customers to target them effectively. Once you have overseas customers, nurture the customer relationship with regular face-to-face meetings.</p>
+                    <p class="count">{{article_group_read_progress.customer_insights.read}}/{{article_group_read_progress.customer_insights.total}} chapters completed</p>
+                    <p class="resource-description">Find out about potential customers to target them effectively. Once you have overseas customers, nurture the customer relationship with regular face-to-face meetings.</p>
                     <a href="{% url 'article-list-customer-insight' %}" class="more"><span>Articles:</span>Customer insight 
                     </a>
                 </div>
             </div>
             <div class="lg-3 md-2 sm-1">
-                <div data-component="resource-teaser" class="resources resources-teaser finance" style="height: 346.797px;">
+                <div data-component="resource-teaser" class="resources resources-teaser finance">
                     <h3 class="title">Finance</h3>
                     <img src="{% static 'images/sections/finance-blue.svg' %}" class="icon">
-                    </p>
-                    <p>Finding the right financial products for your business can give you a competitive edge in overseas markets and bridge the gap between invoicing and payment.</p>
+                    <p class="count">{{article_group_read_progress.finance.read}}/{{article_group_read_progress.finance.total}} chapters completed</p>
+                    <p class="resource-description">Finding the right financial products for your business can give you a competitive edge in overseas markets and bridge the gap between invoicing and payment.</p>
                     <a href="{% url 'article-list-finance' %}" class="more"><span>Articles:</span>Finance 
                     </a>
                 </div>
             </div>
             <div class="lg-3 md-2 sm-1">
-                <div data-component="resource-teaser" class="resources resources-teaser business-planning" style="height: 346.797px;">
+                <div data-component="resource-teaser" class="resources resources-teaser business-planning">
                     <h3 class="title">Business planning</h3>
                     <img src="{% static 'images/sections/business-planning-blue.svg' %}" class="icon">
-                    </p>
-                    <p>Having a well thought out export plan will make it easier to get financial support and make informed decisions on your which markets to enter and which routes to take.</p>
+                    <p class="count">{{article_group_read_progress.business_planning.read}}/{{article_group_read_progress.business_planning.total}} chapters completed</p>
+                    <p class="resource-description">Having a well thought out export plan will make it easier to get financial support and make informed decisions on your which markets to enter and which routes to take.</p>
                     <a href="{% url 'article-list-business-planning' %}" class="more"><span>Articles:</span>Business planning 
                     </a>
                 </div>
             </div>
             <div class="lg-3 md-2 sm-1">
-                <div data-component="resource-teaser" class="resources resources-teaser getting-paid" style="height: 346.797px;">
+                <div data-component="resource-teaser" class="resources resources-teaser getting-paid">
                     <h3 class="title">Getting paid</h3>
                     <img src="{% static 'images/sections/getting-paid-blue.svg' %}" class="icon">
-                    </p>
-                    <p>Think about what currency to invoice in, what to include on a commercial invoice, whether to offer open account and if you need to insure against non-payment.</p>
+                    <p class="count">{{article_group_read_progress.getting_paid.read}}/{{article_group_read_progress.getting_paid.total}} chapters completed</p>
+                    <p class="resource-description">Think about what currency to invoice in, what to include on a commercial invoice, whether to offer open account and if you need to insure against non-payment.</p>
                     <a href="{% url 'article-list-getting-paid' %}" class="more"><span>Articles:</span>Getting paid 
                     </a>
                 </div>
             </div>
             <div class="lg-3 md-2 sm-1">
-                <div data-component="resource-teaser" class="resources resources-teaser operations-and-compliance" style="height: 346.797px;">
+                <div data-component="resource-teaser" class="resources resources-teaser operations-and-compliance">
                     <h3 class="title">Operations and compliance</h3>
                     <img src="{% static 'images/sections/operations-and-compliance-blue.svg' %}" class="icon">
-                    </p>
-                    <p>How you market your website, deliver your products and protect your brand will need more consideration when your customers are overseas.</p>
+                    <p class="count">{{article_group_read_progress.operations_and_compliance.read}}/{{article_group_read_progress.operations_and_compliance.total}} chapters completed</p>
+                    <p class="resource-description">How you market your website, deliver your products and protect your brand will need more consideration when your customers are overseas.</p>
                     <a href="{% url 'article-list-operations-and-compliance' %}" class="more"><span>Articles:</span>Operations and compliance 
                     </a>
                 </div>

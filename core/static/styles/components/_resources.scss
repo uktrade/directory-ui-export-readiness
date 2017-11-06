@@ -12,6 +12,7 @@
 // @mixin heading-s
 
 .resources-teaser {
+  height: 345px;
   background-color: $white;
   border: $light-grey solid 1px;
   margin-bottom: $spacing-3;
@@ -55,5 +56,32 @@
     margin-bottom: 0.2em;
     position: relative;
     z-index: -1;
+  }
+}
+
+// MOBILE
+@media (max-width: 540px) {
+  .resources-teaser {
+    h3 {
+      display: none;
+    }
+    height: 78px;
+    .resource-description {
+      display: none;
+    }
+    .more {
+      top: 20px;
+      left: 20px;
+    }
+    .count {
+      margin-left: -10px;
+      margin-top: -10px;
+    }
+    .icon {
+      right: 20px;
+      left: inherit;
+      top: 40px;
+      z-index: 1;
+    }
   }
 }

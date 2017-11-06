@@ -313,21 +313,21 @@ def test_article_links_include_next_param(client, group):
 
     for article, article_link_element in zip(group.articles, article_links):
         assert article_link_element.attrs['href'] == (
-            str(article.url) + '?source=' + group.key
+            str(article.url) + '?source=' + group.name
         )
 
 
 @pytest.mark.parametrize('group', structure.ALL_GROUPS)
 def test_inferred_next_articles(client, group):
     for article, next_article in zip(group.articles, group.articles[1:]):
-        response = client.get(article.url + '?source=' + group.key)
+        response = client.get(article.url + '?source=' + group.name)
         soup = BeautifulSoup(response.content, 'html.parser')
         next_article_element = soup.find(id='next-article-link')
 
         if next_article:
             assert response.context_data['next_article'] == next_article
             assert next_article_element.attrs['href'] == (
-                str(next_article.url) + '?source=' + group.key
+                str(next_article.url) + '?source=' + group.name
             )
             assert next_article_element.text == next_article.title
         else:
@@ -338,7 +338,7 @@ def test_inferred_next_articles(client, group):
 @pytest.mark.parametrize('group', structure.ALL_GROUPS[:-1])
 def test_inferred_return_to_article(client, group):
     for article in group.articles:
-        response = client.get(article.url + '?source=' + group.key)
+        response = client.get(article.url + '?source=' + group.name)
         soup = BeautifulSoup(response.content, 'html.parser')
         category_element = soup.find(id='category-link')
 
@@ -346,10 +346,10 @@ def test_inferred_return_to_article(client, group):
         assert category_element.text == group.title
 
 
-@patch('article.helpers.DatabaseArticlesReadManager.retrieve_articles',
-       Mock(return_value=[]))
+@patch('article.helpers.DatabaseArticlesReadManager.retrieve_article_uuids',
+       Mock(return_value=set()))
 @patch('article.helpers.DatabaseArticlesReadManager.persist_article')
-def test_article_view_persist_article_read_logged_in_user(
+def test_article_view_persist_article_logged_in_user(
     mocked_persist_articles, authed_client
 ):
     url = reverse('article-research-market')
@@ -358,12 +358,12 @@ def test_article_view_persist_article_read_logged_in_user(
     assert response.status_code == 200
     assert mocked_persist_articles.call_count == 1
     assert mocked_persist_articles.call_args == call(
-        article_uuid=exred_articles.DO_RESEARCH_FIRST
+        exred_articles.DO_RESEARCH_FIRST
     )
 
 
 @patch('article.helpers.SessionArticlesReadManager.persist_article')
-def test_article_view_persist_article_read_anon_user(
+def test_article_view_persist_article_anon_user(
         mocked_persist_articles,
         client
 ):
@@ -373,7 +373,7 @@ def test_article_view_persist_article_read_anon_user(
     assert response.status_code == 200
     assert mocked_persist_articles.call_count == 1
     assert mocked_persist_articles.call_args == call(
-        article_uuid=exred_articles.DO_RESEARCH_FIRST
+        exred_articles.DO_RESEARCH_FIRST
     )
 
 
@@ -426,15 +426,15 @@ def test_article_view_persist_article_read_anon_user(
     ),
 ])
 @patch('article.helpers.SessionArticlesReadManager.persist_article', Mock)
-@patch('article.helpers.SessionArticlesReadManager.retrieve_articles')
+@patch('article.helpers.SessionArticlesReadManager.retrieve_article_uuids')
 def test_article_group_read_counter_with_source(
     mock_retrieve, client, url, read_count, total_count, title, time, uuids
 ):
-    mock_retrieve.return_value = [
+    mock_retrieve.return_value = {
        articles.USE_DISTRIBUTOR.uuid,
        articles.GET_EXPORT_FINANCE.uuid,
        articles.GET_MONEY_TO_EXPORT.uuid,
-    ]
+    }
     response = client.get(url)
 
     assert response.context_data['article_group_progress'] == {

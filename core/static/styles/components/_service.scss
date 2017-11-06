@@ -127,7 +127,9 @@
 @media (max-width: 767px) {
   .service-section {
     img {
-      display: none;
+      width: 80%;
+      margin-left: 10%;
+      float: left;
     }
     
     &:after {

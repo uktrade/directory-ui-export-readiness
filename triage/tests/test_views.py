@@ -13,6 +13,14 @@ from triage import forms, views
 from article import structure
 
 
+@pytest.fixture(autouse=True)
+def mock_retrive_articles_read():
+    mock = patch('api_client.api_client.exportreadiness.retrieve_article_read')
+    mock.return_value = create_response(200, json_body=[])
+    yield mock.start()
+    mock.stop()
+
+
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
 def test_submit_triage_regular_exporter(mock_persist_answers, client):
     url = reverse('triage-wizard')
@@ -54,17 +62,16 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
         'exported_before': True,
         'regular_exporter': True,
         'sector': 'HS01',
-        'company_number': '',
+        'company_number': None,
     }
     assert mock_persist_answers.call_count == 1
     assert mock_persist_answers.call_args == call({
-        'sole_trader': False,
         'company_name': 'Example corp',
         'used_online_marketplace': None,
         'exported_before': True,
         'regular_exporter': True,
         'sector': 'HS01',
-        'company_number': '',
+        'company_number': None,
         'is_in_companies_house': True,
     })
     assert done_response.status_code == 302
@@ -123,7 +130,6 @@ def test_submit_triage_occasional_exporter(mock_persist_answers, client):
     }
     assert mock_persist_answers.call_count == 1
     assert mock_persist_answers.call_args == call({
-        'sole_trader': False,
         'company_name': 'Example corp',
         'exported_before': True,
         'used_online_marketplace': True,
@@ -165,7 +171,7 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
     assert summary_response.context_data['persona'] == forms.NEW_EXPORTER
     assert summary_response.context_data['sector_label'] == 'Animals; live'
     assert summary_response.context_data['all_cleaned_data'] == {
-        'company_number': '',
+        'company_number': None,
         'is_in_companies_house': True,
         'company_name': 'Example corp',
         'exported_before': False,
@@ -173,9 +179,8 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
     }
     assert mock_persist_answers.call_count == 1
     assert mock_persist_answers.call_args == call({
-        'company_number': '',
+        'company_number': None,
         'is_in_companies_house': True,
-        'sole_trader': False,
         'company_name': 'Example corp',
         'exported_before': False,
         'sector': 'HS01',
@@ -261,7 +266,7 @@ def test_triage_skip_company_clears_previous_answers(client):
     assert done_response.get('Location') == str(view_class.success_url)
     assert b'Create my exporting journey' in summary_response.content
     assert summary_response.context_data['all_cleaned_data'] == {
-        'company_number': '',
+        'company_number': None,
         'is_in_companies_house': True,
         'company_name': '',
         'sector': 'HS01',
@@ -284,7 +289,6 @@ def test_triage_skip_company_clears_previous_answers_summary(
         'is_in_companies_house': True,
         'regular_exporter': True,
         'sector': 'HS01',
-        'sole_trader': False,
         'used_online_marketplace': False,
     }
     client.get(url + '?result')
@@ -299,7 +303,7 @@ def test_triage_skip_company_clears_previous_answers_summary(
     assert done_response.get('Location') == str(view_class.success_url)
     assert b'Continue my exporting journey' in summary_response.content
     assert summary_response.context_data['all_cleaned_data'] == {
-        'company_number': '',
+        'company_number': None,
         'regular_exporter': True,
         'company_name': '',
         'sector': 'HS01',
@@ -322,7 +326,6 @@ def test_triage_summary_change_answers(
         'regular_exporter': True,
         'used_online_marketplace': False,
         'sector': 'HS01',
-        'sole_trader': False,
         'is_in_companies_house': True,
         'company_number': '123445',
         'company_name': 'Example corp',
@@ -338,7 +341,7 @@ def test_triage_summary_change_answers(
 
     assert b'Continue my exporting journey' in summary_response.content
     assert summary_response.context_data['all_cleaned_data'] == {
-        'company_number': '',
+        'company_number': None,
         'is_in_companies_house': True,
         'company_name': 'Other Example limited',
         'sector': 'HS01',
@@ -394,7 +397,6 @@ def test_custom_view(mocked_retrieve_answers, authed_client, sso_user):
         'modified': '2016-11-23T11:21:10.977518Z',
         'sector': exred_sector_names.SECTORS_CHOICES[0][0],
         'sector_name': exred_sector_names.SECTORS_CHOICES[0][1],
-        'sole_trader': False,
         'sso_id': sso_user.id,
         'company_number': None,
     }
@@ -404,6 +406,18 @@ def test_custom_view(mocked_retrieve_answers, authed_client, sso_user):
     assert response.status_code == 200
     assert response.template_name == ['triage/custom-page.html']
     assert response.context_data['triage_result'] == triage_result
+    assert response.context_data['article_group_read_progress'] == {
+        'all': {'read': 0, 'total': 43},
+        'business_planning': {'read': 0, 'total': 10},
+        'customer_insights': {'read': 0, 'total': 4},
+        'finance': {'read': 0, 'total': 7},
+        'getting_paid': {'read': 0, 'total': 5},
+        'market_research': {'read': 0, 'total': 5},
+        'operations_and_compliance': {'read': 0, 'total': 10},
+        'persona_new': {'read': 0, 'total': 17},
+        'persona_occasional': {'read': 0, 'total': 37},
+        'persona_regular': {'read': 0, 'total': 18}
+    }
 
 
 def test_triage_wizard(client):
@@ -428,7 +442,6 @@ def test_triage_wizard_summary_view(
         'regular_exporter': True,
         'used_online_marketplace': False,
         'sector': 'HS01',
-        'sole_trader': False,
         'company_number': '33123445',
         'company_name': 'Example corp',
         'is_in_companies_house': True,
@@ -471,9 +484,9 @@ def test_custom_view_no_triage_result_found(
     assert response.url == reverse('triage-wizard')
 
 
-@pytest.mark.parametrize('is_sole_trader,expected', (
+@pytest.mark.parametrize('is_in_companies_house,expected', (
     (
-        False,
+        True,
         {
             'persona_article_group': structure.PERSONA_NEW_ARTICLES,
             'trade_profile': True,
@@ -484,7 +497,7 @@ def test_custom_view_no_triage_result_found(
         },
     ),
     (
-        True,
+        False,
         {
             'persona_article_group': structure.PERSONA_NEW_ARTICLES,
             'trade_profile': False,
@@ -499,9 +512,12 @@ def test_custom_view_no_triage_result_found(
        Mock(return_value={'sector': 'HS01'}))
 @patch('triage.forms.get_persona', Mock(return_value=forms.NEW_EXPORTER))
 def test_custom_view_new_exporter(
-    is_sole_trader, expected, authed_client
+    is_in_companies_house, expected, authed_client
 ):
-    with patch('triage.forms.get_is_sole_trader', return_value=is_sole_trader):
+    with patch(
+        'triage.forms.get_is_in_companies_house',
+        return_value=is_in_companies_house
+    ):
         url = reverse('custom-page')
         response = authed_client.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -514,14 +530,16 @@ def test_custom_view_new_exporter(
             casestudies.YORK,
         ]
         assert soup.find('h1').text.replace('\n', '') == (
-            'Use your potential -'
-            'start exporting'
+            'Use your'
+            'potential -'
+            'start'
+            'exporting'
         )
 
 
-@pytest.mark.parametrize('is_sole_trader,is_marketplace_user,expected', (
+@pytest.mark.parametrize('in_companies_house,is_marketplace_user,expected', (
     (
-        False,
+        True,
         False,
         {
             'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
@@ -533,7 +551,7 @@ def test_custom_view_new_exporter(
         },
     ),
     (
-        True,
+        False,
         False,
         {
             'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
@@ -545,7 +563,7 @@ def test_custom_view_new_exporter(
         },
     ),
     (
-        False,
+        True,
         True,
         {
             'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
@@ -557,7 +575,7 @@ def test_custom_view_new_exporter(
         },
     ),
     (
-        True,
+        False,
         True,
         {
             'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
@@ -574,9 +592,12 @@ def test_custom_view_new_exporter(
 @patch('triage.forms.get_persona',
        Mock(return_value=forms.OCCASIONAL_EXPORTER))
 def test_custom_view_occasional_exporter(
-    is_sole_trader, is_marketplace_user, expected, authed_client
+    in_companies_house, is_marketplace_user, expected, authed_client
 ):
-    with patch('triage.forms.get_is_sole_trader', return_value=is_sole_trader):
+    with patch(
+        'triage.forms.get_is_in_companies_house',
+        return_value=in_companies_house
+    ):
         with patch(
             'triage.forms.get_used_marketplace',
             return_value=is_marketplace_user
@@ -600,9 +621,9 @@ def test_custom_view_occasional_exporter(
             )
 
 
-@pytest.mark.parametrize('is_sole_trader,expected', (
+@pytest.mark.parametrize('is_in_companies_house,expected', (
     (
-        False,
+        True,
         {
             'persona_article_group': [],
             'trade_profile': True,
@@ -613,7 +634,7 @@ def test_custom_view_occasional_exporter(
         },
     ),
     (
-        True,
+        False,
         {
             'persona_article_group': [],
             'trade_profile': False,
@@ -628,9 +649,12 @@ def test_custom_view_occasional_exporter(
        Mock(return_value={'sector': 'HS01'}))
 @patch('triage.forms.get_persona', Mock(return_value=forms.REGULAR_EXPORTER))
 def test_custom_view_regular_exporter(
-    is_sole_trader, expected, authed_client
+    is_in_companies_house, expected, authed_client
 ):
-    with patch('triage.forms.get_is_sole_trader', return_value=is_sole_trader):
+    with patch(
+        'triage.forms.get_is_in_companies_house',
+        return_value=is_in_companies_house
+    ):
         url = reverse('custom-page')
         response = authed_client.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -660,10 +684,29 @@ def test_custom_page_top_markets(sector_code, client):
             'regular_exporter': True,
             'used_online_marketplace': False,
             'sector': sector_code,
-            'sole_trader': True,
             'company_number': '123445',
             'company_name': 'Example corp',
         }
         url = reverse('custom-page')
         response = client.get(url)
         assert response.status_code == 200
+
+        soup = BeautifulSoup(response.content, 'html.parser')
+        top_import_name = soup.find(id='top_importer_name')
+
+        # data is not available for service codes, only for Harmonised
+        # System codes.
+        if not sector_code.startswith('HS'):
+            assert top_import_name is None
+        else:
+            top_import_value = soup.find(id='top_importer_global_trade_value')
+            top_country_row = soup.find(id='row-' + top_import_name.text)
+            # there is no guarantee that the "country that imports the most" is
+            # in the "top 10 countries for buying British goods"
+            if top_country_row:
+                top_country_row_import_value = top_country_row.find(
+                    class_='cell-global_trade_value'
+                )
+                assert (
+                    top_country_row_import_value.text == top_import_value.text
+                )

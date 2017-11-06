@@ -46,6 +46,12 @@
 }
 
 .hero-teaser {
+  position: relative;
+  img {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
   p {
     color: $white;
   }
@@ -117,15 +123,20 @@
 
     img {
       height: 60px;
-      top: 40px;
+      top: -100px;
+      left: 0;
+    }
+    .container {
+      height: 530px;
     }
   }
 
   .hero-teaser {
     .title {
       @include heading-hero-mob;
-      margin-top: 105px;
+      margin-top: 0;
       margin-bottom: 55px;
+      margin-left: 10px;
       span {
         margin-bottom: 2px;
         padding: 5px $spacing-4;

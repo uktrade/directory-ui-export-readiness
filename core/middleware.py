@@ -1,5 +1,7 @@
 from django.conf import settings
 
+from article.helpers import ArticleReadManager
+
 
 class NoCacheMiddlware:
     """Tell the browser to not cache the pages.
@@ -21,3 +23,9 @@ class NoCacheMiddlware:
         if request.sso_user:
             response['Cache-Control'] = 'no-store, no-cache'
         return response
+
+
+class ArticleReadManagerMiddlware:
+
+    def process_request(self, request):
+        request.article_read_manager = ArticleReadManager(request=request)

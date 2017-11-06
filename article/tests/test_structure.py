@@ -3,7 +3,7 @@ from article import articles, structure
 
 def test_get_article_group():
     group = structure.GUIDANCE_MARKET_RESEARCH_ARTICLES
-    assert structure.get_article_group(group.key) == group
+    assert structure.get_article_group(group.name) == group
 
 
 def test_get_article_group_missing_key():

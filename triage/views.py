@@ -9,8 +9,9 @@ from django.views.generic import TemplateView
 from django.views.generic import View
 
 from article import structure
-from triage import forms, helpers
 from casestudy import casestudies
+from core.views import ArticleReadMixin
+from triage import forms, helpers
 
 
 class CompaniesHouseSearchApiView(View):
@@ -70,8 +71,8 @@ class TriageWizardFormView(SessionWizardView):
 
     def should_show_company(self):
         data = self.get_cleaned_data_for_step(self.COMPANIES_HOUSE)
-        is_sole_trader = forms.get_is_sole_trader(data or {})
-        return not is_sole_trader
+        is_in_companies_house = forms.get_is_in_companies_house(data or {})
+        return is_in_companies_house
 
     condition_dict = {
         ONLINE_MARKETPLACE: should_show_online_marketplace,
@@ -91,7 +92,7 @@ class TriageWizardFormView(SessionWizardView):
         if self.is_user_skipping_current_step:
             return {}
         if self.steps.current == self.COMPANIES_HOUSE:
-            if forms.get_is_sole_trader(form.cleaned_data):
+            if not forms.get_is_in_companies_house(form.cleaned_data):
                 self.storage.set_step_data(self.COMPANY, {})
         return super().process_step(form)
 
@@ -152,7 +153,7 @@ class TriageWizardFormView(SessionWizardView):
         return redirect(self.success_url)
 
 
-class CustomPageView(TemplateView):
+class CustomPageView(ArticleReadMixin, TemplateView):
     http_method_names = ['get']
     template_name = 'triage/custom-page.html'
 
@@ -171,18 +172,32 @@ class CustomPageView(TemplateView):
         context['persona'] = forms.get_persona(self.triage_answers)
         context['triage_result'] = self.triage_answers
         context['section_configuration'] = self.get_section_configuration()
+        context['article_group'] = self.article_group
         context['casestudies'] = [
             casestudies.MARKETPLACE,
             casestudies.HELLO_BABY,
             casestudies.YORK,
         ]
+        context['article_group_read_progress'] = (
+            self.request.article_read_manager.get_group_read_progress()
+        )
         sector_code = self.triage_answers['sector']
         # harmonised system codes begin with HS. Service codes begin with EB
         if sector_code.startswith('HS'):
-            context['top_markets'] = helpers.get_top_markets(sector_code)
+            context['top_markets'] = helpers.get_top_markets(sector_code)[:10]
             context['sector_name'] = CODES_SECTORS_DICT[sector_code]
             context['top_importer'] = helpers.get_top_importer(sector_code)
         return context
+
+    @property
+    def article_group(self):
+        answers = self.triage_answers
+        persona = forms.get_persona(answers)
+        if persona == forms.NEW_EXPORTER:
+            return structure.PERSONA_NEW_ARTICLES
+        elif persona == forms.OCCASIONAL_EXPORTER:
+            return structure.PERSONA_OCCASIONAL_ARTICLES
+        return structure.PERSONA_REGULAR_ARTICLES
 
     def get_section_configuration(self):
         answers = self.triage_answers
@@ -194,22 +209,20 @@ class CustomPageView(TemplateView):
         elif persona == forms.REGULAR_EXPORTER:
             return self.get_persona_regular_section_configuration(answers)
 
-    @staticmethod
-    def get_persona_new_section_configuration(answers):
+    def get_persona_new_section_configuration(self, answers):
         return {
-            'persona_article_group': structure.PERSONA_NEW_ARTICLES,
-            'trade_profile': not forms.get_is_sole_trader(answers),
+            'persona_article_group': self.article_group,
+            'trade_profile': forms.get_is_in_companies_house(answers),
             'selling_online_overseas': False,
             'selling_online_overseas_and_export_opportunities': False,
             'articles_resources': False,
             'case_studies': True,
         }
 
-    @staticmethod
-    def get_persona_occasional_section_configuration(answers):
+    def get_persona_occasional_section_configuration(self, answers):
         return {
-            'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
-            'trade_profile': not forms.get_is_sole_trader(answers),
+            'persona_article_group': self.article_group,
+            'trade_profile': forms.get_is_in_companies_house(answers),
             'selling_online_overseas': forms.get_used_marketplace(answers),
             'selling_online_overseas_and_export_opportunities': False,
             'articles_resources': False,
@@ -220,7 +233,7 @@ class CustomPageView(TemplateView):
     def get_persona_regular_section_configuration(answers):
         return {
             'persona_article_group': [],
-            'trade_profile': not forms.get_is_sole_trader(answers),
+            'trade_profile': forms.get_is_in_companies_house(answers),
             'selling_online_overseas': False,
             'selling_online_overseas_and_export_opportunities': True,
             'articles_resources': True,

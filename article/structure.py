@@ -6,9 +6,9 @@ from article import articles
 
 class ArticleGroup:
 
-    def __init__(self, articles, key, title, url):
+    def __init__(self, articles, name, title, url):
         self.articles = articles
-        self.key = key
+        self.name = name
         self.title = title
         self.url = url
         self.articles_set = frozenset(
@@ -23,7 +23,7 @@ class ArticleGroup:
 
 
 PERSONA_NEW_ARTICLES = ArticleGroup(
-    key='persona-new',
+    name='persona_new',
     title='New to exporting',
     articles=[
         articles.DO_RESEARCH_FIRST,
@@ -48,7 +48,7 @@ PERSONA_NEW_ARTICLES = ArticleGroup(
 )
 
 PERSONA_OCCASIONAL_ARTICLES = ArticleGroup(
-    key='persona-occasional',
+    name='persona_occasional',
     title='Occasional exporter',
     articles=[
         articles.DO_RESEARCH_FIRST,
@@ -93,7 +93,7 @@ PERSONA_OCCASIONAL_ARTICLES = ArticleGroup(
 )
 
 PERSONA_REGULAR_ARTICLES = ArticleGroup(
-    key='persona-regular',
+    name='persona_regular',
     title='Regular exporter',
     articles=[
         articles.DEFINE_MARKET_POTENTIAL,
@@ -119,7 +119,7 @@ PERSONA_REGULAR_ARTICLES = ArticleGroup(
 )
 
 GUIDANCE_MARKET_RESEARCH_ARTICLES = ArticleGroup(
-    key='market-research',
+    name='market_research',
     title=articles.GUIDANCE_MARKET_RESEARCH.title,
     articles=[
         articles.DO_RESEARCH_FIRST,
@@ -132,7 +132,7 @@ GUIDANCE_MARKET_RESEARCH_ARTICLES = ArticleGroup(
 )
 
 GUIDANCE_CUSTOMER_INSIGHT_ARTICLES = ArticleGroup(
-    key='customer-insights',
+    name='customer_insights',
     title=articles.GUIDANCE_CUSTOMER_INSIGHT.title,
     articles=[
         articles.KNOW_YOUR_CUSTOMER,
@@ -144,7 +144,7 @@ GUIDANCE_CUSTOMER_INSIGHT_ARTICLES = ArticleGroup(
 )
 
 GUIDANCE_FINANCE_ARTICLES = ArticleGroup(
-    key='finance',
+    name='finance',
     title=articles.GUIDANCE_FINANCE.title,
     articles=[
         articles.GET_MONEY_TO_EXPORT,
@@ -159,7 +159,7 @@ GUIDANCE_FINANCE_ARTICLES = ArticleGroup(
 )
 
 GUIDANCE_BUSINESS_PLANNING_ARTICLES = ArticleGroup(
-    key='business-planning',
+    name='business_planning',
     title=articles.GUIDANCE_BUSINESS_PLANNING.title,
     articles=[
         articles.MAKE_EXPORTING_PLAN,
@@ -177,7 +177,7 @@ GUIDANCE_BUSINESS_PLANNING_ARTICLES = ArticleGroup(
 )
 
 GUIDANCE_GETTING_PAID_ARTICLES = ArticleGroup(
-    key='getting-paid',
+    name='getting_paid',
     title=articles.GUIDANCE_GETTING_PAID.title,
     articles=[
         articles.CONSIDER_HOW_PAID,
@@ -190,7 +190,7 @@ GUIDANCE_GETTING_PAID_ARTICLES = ArticleGroup(
 )
 
 GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES = ArticleGroup(
-    key='operations-and-compliance',
+    name='operations_and_compliance',
     title=articles.GUIDANCE_OPERATIONS_AND_COMPLIANCE.title,
     articles=[
         articles.PLAN_THE_LOGISTICS,
@@ -208,7 +208,7 @@ GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES = ArticleGroup(
 )
 
 ALL_ARTICLES = ArticleGroup(
-    key='all',
+    name='all',
     title='',
     articles=[
         articles.DO_RESEARCH_FIRST,
@@ -271,13 +271,13 @@ ALL_GROUPS = [
     PERSONA_REGULAR_ARTICLES,
     ALL_ARTICLES,
 ]
-ALL_GROUPS_DICT = {group.key: group for group in ALL_GROUPS}
+ALL_GROUPS_DICT = {group.name: group for group in ALL_GROUPS}
 ALL_ARTICLES_PER_UUID = {article.uuid: article for
                          article in ALL_ARTICLES.articles}
 
 
-def get_article_group(group_key):
-    return ALL_GROUPS_DICT.get(group_key) or ALL_ARTICLES
+def get_article_group(group_name):
+    return ALL_GROUPS_DICT.get(group_name) or ALL_ARTICLES
 
 
 def get_next_article(article_group, current_article):

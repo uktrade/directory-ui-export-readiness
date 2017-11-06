@@ -201,7 +201,9 @@
 .ed-carousel__slide__image {
   height: 100%;
   position: relative;
+  float: right;
   @media (max-width: 640px) {
+    float: none;
     max-height: 300px;
     margin-bottom: 30px;
   }
@@ -216,8 +218,9 @@
 }
 .ed-carousel__slide__image,
 .ed-carousel--thumb .ed-carousel__indicators .ed-carousel__indicator {
-  background-size: cover;
+  background-size: contain;
   background-position: center;
+  background-repeat: no-repeat;
 }
 
 .ed-carousel--thumb .ed-carousel__indicators .ed-carousel__indicator {

@@ -24,7 +24,31 @@
 
 .hero-section {
   background-image: url('/static/images/home-hero-tangerine@2x.png');
-  background-position: 75% 10%;
+  padding-top: 45px;
+  height: 540px;
+}
+
+
+.intro {
+  ul {
+    margin-bottom: 45px;
+  }
+}
+#content .triage-section {
+  padding-top: 60px;
+}
+
+#content section {
+  padding-bottom: 90px;
+}
+
+#content section#resource-guidance {
+  // the guidance boxes have margin-bottom of 30px
+  padding-bottom: 60px;  
+}
+
+#content section .intro {
+  margin-bottom: 30px;
 }
 
 // TABLET
@@ -37,15 +61,41 @@
 
 // MOBILE
 @media (max-width: 540px) {
+
+  #content section {
+    padding-bottom: 45px;
+  }
+
+  #content section #resource-guidance {
+    // the guidance boxes have margin-bottom of 15px
+    padding-bottom: 30px;  
+  }
+
+  #content section .intro {
+    margin-bottom: 15px;
+  }
+
   .hero-section {
     background-image: url('/static/images/home-hero-tangerine-mobile@2x.png');
     background-position: 50% 30%;
+  }
+  .intro {
+    ul {
+      margin-bottom: 30px;
+    }
+  }
+  .triage-section {
+    .button {
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+    }
   }
 }
 
 // LARGE SCREENS
 @media (min-width: 1200px) {
   .hero-section {
-    background-position: 50% 10%;
+    background-position: top center;
   }
 }
