@@ -11,8 +11,10 @@
 			<dd class="answer">{{ sector_label }}</dd>
 			<dt class="answer">Have you exported before?</dt>
 			<dd class="answer">{{ all_cleaned_data.exported_before|yesno:"Yes,No" }}</dd>
-			<dt class="answer">Is exporting a regular part of your business activities?</dt>
-			<dd class="answer">{{ all_cleaned_data.regular_exporter|yesno:"Yes,No" }}</dd>
+			{% if all_cleaned_data.regular_exporter is not None %}
+				<dt class="answer">Is exporting a regular part of your business activities?</dt>
+				<dd class="answer" id="regular_exporter">{{ all_cleaned_data.regular_exporter|yesno:"Yes,No" }}</dd>
+			{% endif %}
 			{% if all_cleaned_data.used_online_marketplace is not None %}
 				<dt class="answer">Do you use online marketplaces to sell your products?</dt>
 				<dd class="answer" id="used_online_marketplace">{{ all_cleaned_data.used_online_marketplace|yesno:"Yes,No" }}</dd>
