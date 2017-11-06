@@ -1,9 +1,10 @@
 import abc
 from collections import defaultdict
 import csv
-import itertools
-import http
 from functools import partial
+import http
+import itertools
+from operator import itemgetter
 from urllib.parse import urljoin
 
 from django.conf import settings
@@ -90,7 +91,10 @@ class CompaniesHouseClient:
 
 class BaseCSVComtradeFile(abc.ABC):
     file_path = abc.abstractproperty()
-    format_csv_rows = abc.abstractproperty()
+
+    @abc.abstractmethod
+    def format_csv_rows(self):
+        return {}
 
     @classmethod
     def load_csv_rows(cls):
@@ -138,14 +142,6 @@ class CountryCSVComtradeFile(BaseCSVComtradeFile):
         return {row['country_code']: row for row in csv_rows}
 
 
-class SectorCSVComtradeFile(BaseCSVComtradeFile):
-    file_path = 'triage/resources/grouped_data.csv'
-
-    @classmethod
-    def format_csv_rows(cls):
-        csv_rows = cls.load_csv_rows()
-        return {'HS' + row['commodity_code']: row for row in csv_rows}
-
 
 class CountryExportTotalsCSVComtradeFile(BaseCSVComtradeFile):
     file_path = 'triage/resources/country_commodity_export_totals.csv'
@@ -162,22 +158,29 @@ class CountryExportTotalsCSVComtradeFile(BaseCSVComtradeFile):
         return formatted
 
 
-def get_top_markets(commodity_code, count=10):
+def get_top_markets(commodity_code):
 
     top_markets = CountryCommodityCSVComtradeFile.read()
     countries_data = CountryCSVComtradeFile.read()
     global_trade_value = CountryExportTotalsCSVComtradeFile().read()
-    markets = top_markets[commodity_code][:count]
+    markets = top_markets[commodity_code]
 
     for market in markets:
         country_code = market['partner_iso']
         market['country'] = countries_data.get(country_code)
-        market['global_trade_value'] = (
+        market['global_trade_value'] = int(
             global_trade_value[commodity_code][country_code]
         )
     return markets
 
 
 def get_top_importer(commodity_code):
-    sector_data = SectorCSVComtradeFile.read()
-    return sector_data[commodity_code]
+    data = get_top_markets(commodity_code)
+    top = sorted(data, key=itemgetter('global_trade_value'), reverse=True)[0]
+    return {
+        'partner': top['partner'],
+        'global_trade_value': top['global_trade_value'],
+        'uk_export_value': sum(int(i['trade_value']) for i in data),
+    }
+
+
