@@ -7,7 +7,7 @@ from directory_constants.constants import exred_articles
 
 from article import views
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from article import articles, helpers, structure
 import core.helpers

@@ -35,9 +35,13 @@ def articles_read():
     ]
 
 
+@patch('api_client.api_client.exportreadiness.retrieve_article_read')
 @patch('api_client.api_client.exportreadiness.create_article_read')
 def test_database_create_article_read_calls_api(
-    mock_create_article_read, sso_request, sso_user
+        mock_create_article_read,
+        mock_retrieve_article_read,
+        sso_request,
+        sso_user
 ):
     mock_create_article_read.return_value = create_response(200)
 
@@ -51,9 +55,12 @@ def test_database_create_article_read_calls_api(
     )
 
 
+@patch('api_client.api_client.exportreadiness.retrieve_article_read')
 @patch('api_client.api_client.exportreadiness.create_article_read')
 def test_database_create_article_read_handle_exceptions(
-    mock_create_article_read, sso_request
+        mock_create_article_read,
+        mock_retrieve_article_read,
+        sso_request,
 ):
     mock_create_article_read.return_value = create_response(400)
     manager = helpers.DatabaseArticlesReadManager(sso_request)
@@ -64,7 +71,9 @@ def test_database_create_article_read_handle_exceptions(
 
 @patch('api_client.api_client.exportreadiness.retrieve_article_read')
 def test_database_article_read_count(
-    mock_retrieve_article_read, sso_request, articles_read
+        mock_retrieve_article_read,
+        sso_request,
+        article_read
 ):
     mock_retrieve_article_read.return_value = create_response(
         200, json_body=articles_read
@@ -167,7 +176,7 @@ def test_session_get_group_read_progress(anon_request, articles_read):
 
 @patch('api_client.api_client.exportreadiness.retrieve_article_read')
 def test_database_remaining_reading_time_in_group(
-    mock_retrieve_article_read, sso_request, articles_read
+    mock_retrieve_article_read, sso_request, article_read
 ):
     mock_retrieve_article_read.return_value = create_response(
         200, json_body=articles_read
@@ -207,8 +216,8 @@ def test_database_retrieve_article_read_api_call(
     manager = helpers.DatabaseArticlesReadManager(sso_request)
     articles = manager.retrieve_article_uuids()
 
-    assert articles == {'123', '345'}
-    assert mock_retrieve_article_read.call_count == 1
+    assert articles == ['123', '345']
+    assert mock_retrieve_article_read.call_count == 2
     assert mock_retrieve_article_read.call_args == call(
         sso_session_id=sso_user.session_id,
     )

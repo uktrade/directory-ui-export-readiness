@@ -29,9 +29,10 @@ def authed_client(client):
 
 
 @pytest.fixture
-def sso_request(rf, sso_user):
+def sso_request(rf, sso_user, client):
     request = rf.get('/')
     request.sso_user = sso_user
+    request.session = client.session
     return request
 
 
