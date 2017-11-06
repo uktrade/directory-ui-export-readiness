@@ -142,7 +142,6 @@ class CountryCSVComtradeFile(BaseCSVComtradeFile):
         return {row['country_code']: row for row in csv_rows}
 
 
-
 class CountryExportTotalsCSVComtradeFile(BaseCSVComtradeFile):
     file_path = 'triage/resources/country_commodity_export_totals.csv'
 
@@ -182,5 +181,3 @@ def get_top_importer(commodity_code):
         'global_trade_value': top['global_trade_value'],
         'uk_export_value': sum(int(i['trade_value']) for i in data),
     }
-
-
