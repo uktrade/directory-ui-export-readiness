@@ -1,27 +1,9 @@
 from django.views.generic import TemplateView
 from django.utils.functional import cached_property
 
-from article import helpers, articles, structure
+from article import articles, structure
 from core.helpers import build_social_links
-
-
-class ArticleReadMixin:
-    def get_article_group_progress_details(self):
-        name = self.article_group.name
-        manager = helpers.ArticleReadManager(request=self.request)
-        read_article_uuids = manager.read_articles_keys_in_group(name)
-        return {
-            'read_article_uuids': read_article_uuids,
-            'read_count': len(read_article_uuids),
-            'total_articles_count': len(self.article_group.articles),
-            'time_left_to_read': manager.remaining_reading_time_in_group(name),
-        }
-
-    def get_context_data(self, *args, **kwargs):
-        return super().get_context_data(
-            *args, **kwargs,
-            article_group_progress=self.get_article_group_progress_details(),
-        )
+from core.views import ArticleReadMixin
 
 
 class BaseArticleDetailView(ArticleReadMixin, TemplateView):
@@ -32,8 +14,7 @@ class BaseArticleDetailView(ArticleReadMixin, TemplateView):
         return super().get(request, *args, **kwargs)
 
     def record_article_visit(self):
-        manager = helpers.ArticleReadManager(self.request)
-        manager.persist_article(article_uuid=self.article.uuid)
+        self.request.article_read_manager.persist_article(self.article.uuid)
 
     def get_context_data(self, *args, **kwargs):
         social_links = build_social_links(

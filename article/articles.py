@@ -4,7 +4,6 @@ from directory_constants.constants import exred_articles
 from django.urls import reverse_lazy
 from django.utils.functional import cached_property
 
-from . import helpers
 
 ArticleParent = namedtuple('ArticleParent', ['uuid', 'title'])
 
@@ -23,6 +22,8 @@ class Article:
 
     @cached_property
     def time_to_read(self):
+        # to avoid circular import. fix with ED-2475
+        from article import helpers
         return helpers.time_to_read_in_seconds(self)
 
 

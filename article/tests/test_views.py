@@ -346,10 +346,10 @@ def test_inferred_return_to_article(client, group):
         assert category_element.text == group.title
 
 
-@patch('article.helpers.DatabaseArticlesReadManager.retrieve_articles',
-       Mock(return_value=[]))
+@patch('article.helpers.DatabaseArticlesReadManager.retrieve_article_uuids',
+       Mock(return_value=set()))
 @patch('article.helpers.DatabaseArticlesReadManager.persist_article')
-def test_article_view_persist_article_read_logged_in_user(
+def test_article_view_persist_article_logged_in_user(
     mocked_persist_articles, authed_client
 ):
     url = reverse('article-research-market')
@@ -358,12 +358,12 @@ def test_article_view_persist_article_read_logged_in_user(
     assert response.status_code == 200
     assert mocked_persist_articles.call_count == 1
     assert mocked_persist_articles.call_args == call(
-        article_uuid=exred_articles.DO_RESEARCH_FIRST
+        exred_articles.DO_RESEARCH_FIRST
     )
 
 
 @patch('article.helpers.SessionArticlesReadManager.persist_article')
-def test_article_view_persist_article_read_anon_user(
+def test_article_view_persist_article_anon_user(
         mocked_persist_articles,
         client
 ):
@@ -373,7 +373,7 @@ def test_article_view_persist_article_read_anon_user(
     assert response.status_code == 200
     assert mocked_persist_articles.call_count == 1
     assert mocked_persist_articles.call_args == call(
-        article_uuid=exred_articles.DO_RESEARCH_FIRST
+        exred_articles.DO_RESEARCH_FIRST
     )
 
 
@@ -426,15 +426,15 @@ def test_article_view_persist_article_read_anon_user(
     ),
 ])
 @patch('article.helpers.SessionArticlesReadManager.persist_article', Mock)
-@patch('article.helpers.SessionArticlesReadManager.retrieve_articles')
+@patch('article.helpers.SessionArticlesReadManager.retrieve_article_uuids')
 def test_article_group_read_counter_with_source(
     mock_retrieve, client, url, read_count, total_count, title, time, uuids
 ):
-    mock_retrieve.return_value = [
+    mock_retrieve.return_value = {
        articles.USE_DISTRIBUTOR.uuid,
        articles.GET_EXPORT_FINANCE.uuid,
        articles.GET_MONEY_TO_EXPORT.uuid,
-    ]
+    }
     response = client.get(url)
 
     assert response.context_data['article_group_progress'] == {

@@ -61,9 +61,35 @@
 
 // MOBILE
 @media (max-width: 540px) {
+
+  #content section {
+    padding-bottom: 45px;
+  }
+
+  #content section #resource-guidance {
+    // the guidance boxes have margin-bottom of 15px
+    padding-bottom: 30px;  
+  }
+
+  #content section .intro {
+    margin-bottom: 15px;
+  }
+
   .hero-section {
     background-image: url('/static/images/home-hero-tangerine-mobile@2x.png');
     background-position: 50% 30%;
+  }
+  .intro {
+    ul {
+      margin-bottom: 30px;
+    }
+  }
+  .triage-section {
+    .button {
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+    }
   }
 }
 
