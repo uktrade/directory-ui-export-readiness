@@ -27,6 +27,11 @@ class Article:
         return helpers.time_to_read_in_seconds(self)
 
 
+GUIDANCE_NEXT_STEPS = ArticleParent(
+    uuid='GUIDANCE_NEXT_STEPS',
+    title='Next steps',
+)
+
 GUIDANCE_MARKET_RESEARCH = ArticleParent(
     uuid='GUIDANCE_MARKET_RESEARCH',
     title='Market research',
@@ -99,7 +104,7 @@ VISIT_TRADE_SHOW = Article(
     title='Visit a trade show',
     keywords=[],
     tasks=[],
-    markdown_file_path='article/markdown/05_visit-a-trade-show.md',
+    markdown_file_path='article/markdown/41_visit-a-trade-show.md',
     url=reverse_lazy('visit-trade-show'),
     parent=GUIDANCE_MARKET_RESEARCH,
 )
@@ -444,4 +449,40 @@ UNDERSTAND_YOUR_CUSTOMERS_CULTURE = Article(
     ),
     url=reverse_lazy('understand-your-customers-culture'),
     parent=GUIDANCE_CUSTOMER_INSIGHT,
+)
+
+NEXT_STEPS_NEW_EXPORTER = Article(
+    uuid=exred_articles.NEXT_STEPS_NEW_EXPORTER,
+    title="Next steps for new to exporting",
+    keywords=[],
+    tasks=[],
+    markdown_file_path=(
+        'article/markdown/47_new-exporter-next-steps.md'
+    ),
+    url=reverse_lazy('next-steps-new-exporter'),
+    parent=GUIDANCE_NEXT_STEPS,
+)
+
+NEXT_STEPS_OCCASIONAL_EXPORTER = Article(
+    uuid=exred_articles.NEXT_STEPS_OCCASIONAL_EXPORTER,
+    title="Next steps for occasional exporters",
+    keywords=[],
+    tasks=[],
+    markdown_file_path=(
+        'article/markdown/48_occasional-exporter-next-steps.md'
+    ),
+    url=reverse_lazy('next-steps-occasional-exporter'),
+    parent=GUIDANCE_NEXT_STEPS,
+)
+
+NEXT_STEPS_REGULAR_EXPORTER = Article(
+    uuid=exred_articles.NEXT_STEPS_OCCASIONAL_EXPORTER,
+    title="Next steps for regular exporters",
+    keywords=[],
+    tasks=[],
+    markdown_file_path=(
+        'article/markdown/49_regular-exporter-next-steps.md'
+    ),
+    url=reverse_lazy('next-steps-regular-exporter'),
+    parent=GUIDANCE_NEXT_STEPS,
 )
