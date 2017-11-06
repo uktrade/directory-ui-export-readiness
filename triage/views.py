@@ -184,7 +184,7 @@ class CustomPageView(ArticleReadMixin, TemplateView):
         sector_code = self.triage_answers['sector']
         # harmonised system codes begin with HS. Service codes begin with EB
         if sector_code.startswith('HS'):
-            context['top_markets'] = helpers.get_top_markets(sector_code)
+            context['top_markets'] = helpers.get_top_markets(sector_code)[:10]
             context['sector_name'] = CODES_SECTORS_DICT[sector_code]
             context['top_importer'] = helpers.get_top_importer(sector_code)
         return context
