@@ -73,7 +73,7 @@ def test_database_create_article_read_handle_exceptions(
 def test_database_article_read_count(
         mock_retrieve_article_read,
         sso_request,
-        article_read
+        articles_read
 ):
     mock_retrieve_article_read.return_value = create_response(
         200, json_body=articles_read
