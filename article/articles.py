@@ -68,7 +68,7 @@ DO_RESEARCH_FIRST = Article(
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/01_do-research-first.md',
-    url=reverse_lazy('article-research-market'),
+    url=reverse_lazy('do-research-first'),
     parent=GUIDANCE_MARKET_RESEARCH,
 )
 
@@ -86,7 +86,7 @@ DO_FIELD_RESEARCH = Article(
     title='Do field research',
     keywords=[],
     tasks=[],
-    markdown_file_path='article/markdown/02_define-market-potential.md',
+    markdown_file_path='article/markdown/03_do-field-research.md',
     url=reverse_lazy('do-field-research'),
     parent=GUIDANCE_MARKET_RESEARCH,
 )
@@ -217,7 +217,7 @@ GET_MONEY_TO_EXPORT = Article(
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/18_get-money-to-export.md',
-    url=reverse_lazy('get-money'),
+    url=reverse_lazy('get-money-to-export'),
     parent=GUIDANCE_FINANCE,
 )
 CHOOSE_THE_RIGHT_FINANCE = Article(
@@ -267,7 +267,7 @@ RAISE_MONEY_WITH_INVESTMENT = Article(
 )
 GET_GOVERNMENT_FINANCE_SUPPORT = Article(
     uuid=exred_articles.GET_GOVERNMENT_FINANCE_SUPPORT,
-    title='Get government finance support',
+    title='Get finance support from government',
     keywords=[],
     tasks=[],
     markdown_file_path=(
@@ -365,7 +365,7 @@ INTERNATIONALISE_WESBITE = Article(
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/34_internationalise-your-website.md',
-    url=reverse_lazy('set-up-a-website'),
+    url=reverse_lazy('internationalise-your-website'),
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE,
 )
 MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE = Article(
@@ -427,7 +427,7 @@ MEET_YOUR_CUSTOMER = Article(
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/43_meet-your-customers.md',
-    url=reverse_lazy('meet-your-customer'),
+    url=reverse_lazy('meet-your-customers'),
     parent=GUIDANCE_CUSTOMER_INSIGHT,
 )
 MANAGE_LANGUAGE_DIFFERENCES = Article(
@@ -476,7 +476,7 @@ NEXT_STEPS_OCCASIONAL_EXPORTER = Article(
 )
 
 NEXT_STEPS_REGULAR_EXPORTER = Article(
-    uuid=exred_articles.NEXT_STEPS_OCCASIONAL_EXPORTER,
+    uuid=exred_articles.NEXT_STEPS_REGULAR_EXPORTER,
     title="Next steps for regular exporters",
     keywords=[],
     tasks=[],
