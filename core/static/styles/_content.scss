@@ -81,6 +81,7 @@ ul {
   @include button($active-blue, $active-blue-alt);
   border-style: solid;
   border-width: 2px;
+  border-radius: 0;
   box-shadow: none;
   cursor: pointer;
   display: inline-block;
