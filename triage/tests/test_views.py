@@ -718,8 +718,6 @@ def test_triage_step_labels(mock_persist_answers, client):
     view_class = views.TriageWizardFormView
     view_name = 'triage_wizard_form_view'
 
-    LABEL_PREVIOUS_STEP = b'Previous step'
-
     response_one = client.get(url)
     response_two = client.post(url, {
         view_name + '-current_step': view_class.SECTOR,
@@ -742,12 +740,6 @@ def test_triage_step_labels(mock_persist_answers, client):
         view_class.COMPANY + '-company_name': 'Example corp',
     })
 
-    assert LABEL_PREVIOUS_STEP not in response_one.content
-    assert LABEL_PREVIOUS_STEP in response_two.content
-    assert LABEL_PREVIOUS_STEP in response_three.content
-    assert LABEL_PREVIOUS_STEP in response_four.content
-    assert LABEL_PREVIOUS_STEP in response_five.content
-    assert LABEL_PREVIOUS_STEP not in response_six.content
     assert b'Question 1' in response_one.content
     assert b'Question 2' in response_two.content
     assert b'Question 3' in response_three.content
