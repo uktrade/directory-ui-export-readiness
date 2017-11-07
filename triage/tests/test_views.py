@@ -710,3 +710,47 @@ def test_custom_page_top_markets(sector_code, client):
                 assert (
                     top_country_row_import_value.text == top_import_value.text
                 )
+
+
+@patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
+def test_triage_step_labels(mock_persist_answers, client):
+    url = reverse('triage-wizard')
+    view_class = views.TriageWizardFormView
+    view_name = 'triage_wizard_form_view'
+
+    LABEL_PREVIOUS_STEP = b'Previous step'
+
+    response_one = client.get(url)
+    response_two = client.post(url, {
+        view_name + '-current_step': view_class.SECTOR,
+        view_class.SECTOR + '-sector': 'HS01',
+    })
+    response_three = client.post(url, {
+        view_name + '-current_step': view_class.EXPORTED_BEFORE,
+        view_class.EXPORTED_BEFORE + '-exported_before': 'True',
+    })
+    response_four = client.post(url, {
+        view_name + '-current_step': view_class.REGULAR_EXPORTER,
+        view_class.REGULAR_EXPORTER + '-regular_exporter': 'True',
+    })
+    response_five = client.post(url, {
+        view_name + '-current_step': view_class.COMPANIES_HOUSE,
+        view_class.COMPANIES_HOUSE + '-is_in_companies_house': True,
+    })
+    response_six = client.post(url, {
+        view_name + '-current_step': view_class.COMPANY,
+        view_class.COMPANY + '-company_name': 'Example corp',
+    })
+
+    assert LABEL_PREVIOUS_STEP not in response_one.content
+    assert LABEL_PREVIOUS_STEP in response_two.content
+    assert LABEL_PREVIOUS_STEP in response_three.content
+    assert LABEL_PREVIOUS_STEP in response_four.content
+    assert LABEL_PREVIOUS_STEP in response_five.content
+    assert LABEL_PREVIOUS_STEP not in response_six.content
+    assert b'Question 1' in response_one.content
+    assert b'Question 2' in response_two.content
+    assert b'Question 3' in response_three.content
+    assert b'Question 4' in response_four.content
+    assert b'Question 5' in response_five.content
+    assert b'Question 6' not in response_six.content
