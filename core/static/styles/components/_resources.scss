@@ -62,25 +62,25 @@
 // MOBILE
 @media (max-width: 540px) {
   .resources-teaser {
-    h3 {
-      display: none;
-    }
-    height: 78px;
+    padding: 10px;
+    height: auto;
     .resource-description {
       display: none;
     }
     .more {
-      top: 20px;
-      left: 20px;
+      font-size: 20px;
+      top: 0;
+      position: relative;
+      left: 0;
     }
     .count {
-      margin-left: -10px;
-      margin-top: -10px;
+      margin-top: 10px;
+      margin-bottom: 0;
     }
     .icon {
       right: 20px;
       left: inherit;
-      top: 40px;
+      top: 22px;
       z-index: 1;
     }
   }
