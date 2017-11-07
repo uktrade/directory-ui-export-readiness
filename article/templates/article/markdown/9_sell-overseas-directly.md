@@ -6,13 +6,13 @@ When you sell directly to overseas customers you’re responsible for everything
 - see what your competitors are doing
 - plan an effective market strategy
 
-*** More resource and risk
+***More resource and risk
 
 Doing everything yourself takes a lot of resource. You’ll need to visit customers overseas and either speak the language or hire an interpreter. The time and money you invest exposes you to risk if something unexpected happens. 
 
 You may find that selling directly isn’t scalable for the size of your business and that using an agent or distributor are more cost effective routes to market.
 
-** Sell online overseas
+**Sell online overseas
 
 Selling online is a low cost way to sell directly to overseas customers. 
 
