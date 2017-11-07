@@ -99,7 +99,6 @@ class CompaniesHouseForm(BaseTriageForm):
         choices=[(True, 'Yes'), (False, 'No')],
         widget=RadioSelect(),
         required=False,
-        initial=False,
     )
 
 

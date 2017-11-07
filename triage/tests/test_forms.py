@@ -53,3 +53,9 @@ def test_get_used_marketplace(value, expected):
     }
 
     assert forms.get_used_marketplace(answers) is expected
+
+
+def test_companies_house_form_initial():
+    form = forms.CompaniesHouseForm(data={})
+
+    assert form.fields['is_in_companies_house'].initial is None
