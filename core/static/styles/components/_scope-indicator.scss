@@ -126,6 +126,7 @@
 // MOBILE
 @media (max-width: 420px) {
   .scope-indicator {
+    margin-bottom: 5px;
     @include body-m-mob;
 
     .chapters {
@@ -151,7 +152,9 @@
       height: auto;
       overflow: hidden;
     }
+
     
+
     .register,
     .section {
       @include body-s-mob;
