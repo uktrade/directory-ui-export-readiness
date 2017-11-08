@@ -16,8 +16,13 @@ article {
   z-index: 0;
 }
 
+.link-top,
+.link-back-to a {
+  border-bottom: 0;
+}
+
 h1 {
-  margin-bottom: $spacing-4;
+  margin-bottom: 45px;
   padding-top: $spacing-3;
 }
 

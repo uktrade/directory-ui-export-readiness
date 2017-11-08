@@ -16,7 +16,11 @@
 
 .scope-indicator {
   @include body-s;
-  
+
+  a {
+    font-weight: bold;
+  }
+
   .chapters {
     clear: both;
     display: block;
