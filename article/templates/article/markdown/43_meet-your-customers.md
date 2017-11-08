@@ -21,7 +21,7 @@ Think strategically about how you&rsquo;ll nurture the relationship over time af
 
 ### Alternatives to face-to-face meetings
 
-Travelling to overseas meetings can be expensive and time consuming. If you can&rsquo;t afford to visit a client in their own country, you could arrange to meet them at an international trade show in the UK or overseas.
+Travelling to overseas meetings can be expensive and time consuming. If you can&rsquo;t afford to visit a client in their own country, you could arrange to meet them at an international trade show.
 
 Trade shows can be cost effective if you arrange face-to-face meetings with several customers. They are a good place to market your product or service and to find agents, distributors and potential customers.
 
