@@ -26,17 +26,7 @@
         {% include 'article/read-count.html' %}
         {% include_markdown article.markdown_file_path %}
         <footer>
-            <div class="vote-yes-no js-enabled-only">
-                <div id="js-feedback">
-                    <p>Did you find this useful?</p>
-                    <a id="js-feedback-positive" class="button button-cta">Yes </a>
-                    <span class="verbose">, </span>
-                    <a id="js-feedback-negative" class="button button-cta">No</a>
-                </div>
-                <div id="js-feedback-success" style="display: none;">
-                    <p>Thank you for the feedback</p>
-                </div>
-            </div>
+            {% include 'article/useful-feedback.html' %}
             {% include 'core/social-share-links.html' %}
         </footer>
     </article>
@@ -55,7 +45,7 @@
 {% endblock %}
 
 {% block bodyScripts %}
-    <script src="{% static 'js/article-detail.js' %}"></script>
+    <script src="{% static 'js/useful-feedback.js' %}"></script>
     <script>
         var positiveELement = document.getElementById('js-feedback-positive');  
         var negativeELement = document.getElementById('js-feedback-negative');  
