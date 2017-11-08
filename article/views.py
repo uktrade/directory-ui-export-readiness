@@ -128,6 +128,10 @@ class FindARouteToMarketView(BaseArticleDetailView):
     article = articles.FIND_A_ROUTE_TO_MARKET
 
 
+class SellOverseasDirectlyView(BaseArticleDetailView):
+    article = articles.SELL_OVERSEAS_DIRECTLY
+
+
 class UseOverseasAgentView(BaseArticleDetailView):
     article = articles.USE_OVERSEAS_AGENT
 
@@ -224,7 +228,7 @@ class GetYourExportDocumentsRightView(BaseArticleDetailView):
     article = articles.GET_YOUR_EXPORT_DOCUMENTS_RIGHT
 
 
-class SetupWesbiteView(BaseArticleDetailView):
+class InternationaliseWesbiteView(BaseArticleDetailView):
     article = articles.INTERNATIONALISE_WESBITE
 
 

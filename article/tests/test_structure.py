@@ -28,4 +28,4 @@ def test_get_articles_from_uuids():
 
 def test_article_group_total_reading_time():
     group = structure.PERSONA_NEW_ARTICLES
-    assert group.total_reading_time == 946
+    assert group.total_reading_time == 1023

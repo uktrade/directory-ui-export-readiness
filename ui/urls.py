@@ -73,7 +73,7 @@ urlpatterns = [
         name='article-list-operations-and-compliance',
     ),
     url(
-        r"^market-research/research-your-market$",
+        r"^market-research/do-research-first$",
         article.views.DoResearchFirstView.as_view(),
         name='article-research-market',
     ),
@@ -105,7 +105,7 @@ urlpatterns = [
     url(
         r"^customer-insight/meet-your-customers$",
         article.views.MeetYourCustomerView.as_view(),
-        name='meet-your-customer',
+        name='meet-your-customers',
     ),
     url(
         r"^customer-insight/manage-language-differences$",
@@ -120,7 +120,7 @@ urlpatterns = [
     url(
         r"^finance/get-money-to-export$",
         article.views.GetMoneyToExportView.as_view(),
-        name='get-money',
+        name='get-money-to-export',
     ),
     url(
         r"^finance/choose-the-right-finance$",
@@ -161,6 +161,11 @@ urlpatterns = [
         r"^business-planning/find-a-route-to-market$",
         article.views.FindARouteToMarketView.as_view(),
         name='find-a-route-to-market',
+    ),
+    url(
+        r"^business-planning/sell-overseas-directly$",
+        article.views.SellOverseasDirectlyView.as_view(),
+        name='sell-overseas-directly',
     ),
     url(
         r"^business-planning/use-an-overseas-agent$",
@@ -248,9 +253,9 @@ urlpatterns = [
         name='get-your-export-documents-right',
     ),
     url(
-        r"^operations-and-compliance/set-up-a-website$",
-        article.views.SetupWesbiteView.as_view(),
-        name='set-up-a-website',
+        r"^operations-and-compliance/internationalise-your-website$",
+        article.views.InternationaliseWesbiteView.as_view(),
+        name='internationalise-your-website',
     ),
     url(
         r"^operations-and-compliance/match-your-website-to-your-audience$",
