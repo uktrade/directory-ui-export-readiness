@@ -51,7 +51,7 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
         view_name + '-current_step': view_class.SUMMARY,
     })
 
-    assert b'Create my exporting journey' in summary_response.content
+    assert b'Create my export journey' in summary_response.content
     assert summary_response.context_data['persona'] == (
         forms.REGULAR_EXPORTER
     )
@@ -114,7 +114,7 @@ def test_submit_triage_occasional_exporter(mock_persist_answers, client):
 
     assert done_response.status_code == 302
     assert done_response.get('Location') == str(view_class.success_url)
-    assert b'Create my exporting journey' in summary_response.content
+    assert b'Create my export journey' in summary_response.content
     assert summary_response.context_data['persona'] == (
         forms.OCCASIONAL_EXPORTER
     )
@@ -167,7 +167,7 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
 
     assert done_response.status_code == 302
     assert done_response.get('Location') == str(view_class.success_url)
-    assert b'Create my exporting journey' in summary_response.content
+    assert b'Create my export journey' in summary_response.content
     assert summary_response.context_data['persona'] == forms.NEW_EXPORTER
     assert summary_response.context_data['sector_label'] == 'Animals; live'
     assert summary_response.context_data['all_cleaned_data'] == {
@@ -264,7 +264,7 @@ def test_triage_skip_company_clears_previous_answers(client):
 
     assert done_response.status_code == 302
     assert done_response.get('Location') == str(view_class.success_url)
-    assert b'Create my exporting journey' in summary_response.content
+    assert b'Create my export journey' in summary_response.content
     assert summary_response.context_data['all_cleaned_data'] == {
         'company_number': None,
         'is_in_companies_house': True,
@@ -301,7 +301,7 @@ def test_triage_skip_company_clears_previous_answers_summary(
     })
     assert done_response.status_code == 302
     assert done_response.get('Location') == str(view_class.success_url)
-    assert b'Continue my exporting journey' in summary_response.content
+    assert b'Continue my export journey' in summary_response.content
     assert summary_response.context_data['all_cleaned_data'] == {
         'company_number': None,
         'regular_exporter': True,
@@ -339,7 +339,7 @@ def test_triage_summary_change_answers(
         view_name + '-current_step': view_class.SUMMARY,
     })
 
-    assert b'Continue my exporting journey' in summary_response.content
+    assert b'Continue my export journey' in summary_response.content
     assert summary_response.context_data['all_cleaned_data'] == {
         'company_number': None,
         'is_in_companies_house': True,
@@ -451,7 +451,7 @@ def test_triage_wizard_summary_view(
     done_response = authed_client.post(url, {
         view_name + '-current_step': view_class.SUMMARY,
     })
-    assert b'Continue my exporting journey' in summary_response.content
+    assert b'Continue my export journey' in summary_response.content
     assert summary_response.status_code == 200
     assert summary_response.template_name == [
         views.TriageWizardFormView.templates[view_class.SUMMARY]
