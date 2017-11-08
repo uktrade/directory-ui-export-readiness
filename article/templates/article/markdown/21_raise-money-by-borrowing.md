@@ -14,7 +14,7 @@ If your company is less than 24 months old you could be eligible for a [Start Up
 
 ### Use a finance platform
 
-There are many websites that match businesses to financial products. The government requires banks that can’t help a company with a loan to refer them to 3 lending platforms:
+There are many websites that match businesses to financial products. The government requires banks to refer companies they can't help with a loan to:
 
 * [Business Finance Compared](https://www.businessfinancecompared.com/ "Business Finance Compared")
 * [Funding Options](https://exporting.fundingoptions.com/ "Funding Options")
