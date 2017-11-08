@@ -35,12 +35,12 @@
     @include heading-s;
     background-color: $white;
     color: $active-blue;
-    left: $spacing-3;
     margin-right: $spacing-3;
     overflow: hidden;
-    position: absolute;
-    top: 83px;
-    
+    position: relative;
+    top: 0;
+    left: 0;
+
     span {
       left: -1000px;
       position: absolute;
