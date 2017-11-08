@@ -83,7 +83,7 @@ article_views_under_test = (
     ),
     (
         views.MeetYourCustomerView,
-        reverse('meet-your-customer'),
+        reverse('meet-your-customers'),
     ),
     (
         views.ManageLanguageDifferencesView,
@@ -95,7 +95,7 @@ article_views_under_test = (
     ),
     (
         views.GetMoneyToExportView,
-        reverse('get-money'),
+        reverse('get-money-to-export'),
     ),
     (
         views.ChooseTheRightFinanceView,
@@ -128,6 +128,10 @@ article_views_under_test = (
     (
         views.FindARouteToMarketView,
         reverse('find-a-route-to-market'),
+    ),
+    (
+        views.SellOverseasDirectlyView,
+        reverse('sell-overseas-directly'),
     ),
     (
         views.UseOverseasAgentView,
@@ -198,8 +202,8 @@ article_views_under_test = (
         reverse('get-your-export-documents-right'),
     ),
     (
-        views.SetupWesbiteView,
-        reverse('set-up-a-website'),
+        views.InternationaliseWesbiteView,
+        reverse('internationalise-your-website'),
     ),
     (
         views.MatchYourWebsiteToYourAudienceView,
@@ -221,6 +225,18 @@ article_views_under_test = (
         views.InterlectualPropertyProtectionView,
         reverse('ip-protection-in-multiple-countries'),
     ),
+    (
+        views.NextStepsNewExporterView,
+        reverse('next-steps-new-exporter'),
+    ),
+    (
+        views.NextStepsOccasionalExporterView,
+        reverse('next-steps-occasional-exporter'),
+    ),
+    (
+        views.NextStepsRegularExporterView,
+        reverse('next-steps-regular-exporter'),
+    )
 )
 
 
@@ -383,7 +399,7 @@ def test_article_view_persist_article_anon_user(
         3,
         len(structure.ALL_ARTICLES.articles),
         '',
-        3042,
+        3017,
         frozenset([
            articles.USE_DISTRIBUTOR.uuid,
            articles.GET_EXPORT_FINANCE.uuid,
@@ -406,7 +422,7 @@ def test_article_view_persist_article_anon_user(
         3,
         len(structure.ALL_ARTICLES.articles),
         '',
-        3042,
+        3017,
         frozenset([
            articles.USE_DISTRIBUTOR.uuid,
            articles.GET_EXPORT_FINANCE.uuid,

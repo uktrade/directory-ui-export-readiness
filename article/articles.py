@@ -68,7 +68,7 @@ DO_RESEARCH_FIRST = Article(
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/01_do-research-first.md',
-    url=reverse_lazy('do-research-first'),
+    url=reverse_lazy('article-research-market'),
     parent=GUIDANCE_MARKET_RESEARCH,
 )
 
@@ -133,6 +133,17 @@ FIND_A_ROUTE_TO_MARKET = Article(
     tasks=[],
     markdown_file_path='article/markdown/07_find-a-route-to-market.md',
     url=reverse_lazy('find-a-route-to-market'),
+    parent=GUIDANCE_BUSINESS_PLANNING,
+)
+SELL_OVERSEAS_DIRECTLY = Article(
+    uuid=exred_articles.SELL_OVERSEAS_DIRECTLY,
+    title="Sell overseas directly",
+    keywords=[],
+    tasks=[],
+    markdown_file_path=(
+        'article/markdown/9_sell-overseas-directly.md'
+    ),
+    url=reverse_lazy('sell-overseas-directly'),
     parent=GUIDANCE_BUSINESS_PLANNING,
 )
 USE_OVERSEAS_AGENT = Article(
