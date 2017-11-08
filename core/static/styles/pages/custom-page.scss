@@ -121,6 +121,9 @@ h2 {
 
 #largest-importers {
   margin-bottom: 75px;
+  .commodity-name {
+    font-weight: bold;
+  }
 }
 
 @media (min-width: 767px) {
