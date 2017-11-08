@@ -100,7 +100,7 @@ def test_database_get_group_read_progress(
     manager = helpers.ArticleReadManager(sso_request)
     actual = manager.get_group_read_progress()
     assert actual == {
-        'all': {'read': 3, 'total': 44},
+        'all': {'read': 3, 'total': 45},
         'business_planning': {'read': 0, 'total': 11},
         'customer_insights': {'read': 0, 'total': 4},
         'finance': {'read': 0, 'total': 7},
@@ -122,7 +122,7 @@ def test_session_get_group_read_progress(anon_request, articles_read):
     actual = manager.get_group_read_progress()
 
     assert actual == {
-        'all': {'read': 3, 'total': 44},
+        'all': {'read': 3, 'total': 45},
         'business_planning': {'read': 0, 'total': 11},
         'customer_insights': {'read': 0, 'total': 4},
         'finance': {'read': 0, 'total': 7},
