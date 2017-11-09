@@ -9,7 +9,7 @@ from api_client import api_client
 from . import structure
 
 
-WORDS_PER_SECOND = 3  # Average word per second on screen
+WORDS_PER_SECOND = 1.5  # Average word per second on screen
 
 
 def markdown_to_html(markdown_file_path):
