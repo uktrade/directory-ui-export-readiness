@@ -17,7 +17,7 @@ Your export plan should include:
 - how you intend to resource your plan including staffing and finance
 - your operating model or route to market
 - operational information including transport, distribution, customs and licences
-- your [SMART objectives](https://en.wikipedia.org/wiki/SMART_criteria "SMART objectives - Wikipedia")
+- your [objectives](https://en.wikipedia.org/wiki/SMART_criteria "SMART objectives - Wikipedia")
 - targets and how you will measure them
 
 [Export Savvy](https://www.exportsavvy.co.uk/plan/create-your-plan "Export Savvy - create your plan") and [Open to Export](http://opentoexport.com/info/export-action-plan/ "Open to Export - export action plan") both have interactive step-by-step guides to help you create an export plan.
