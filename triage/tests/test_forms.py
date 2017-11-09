@@ -59,3 +59,22 @@ def test_companies_house_form_initial():
     form = forms.CompaniesHouseForm(data={})
 
     assert form.fields['is_in_companies_house'].initial is None
+
+
+def test_regular_exporter_optional_fields():
+    form = forms.RegularExporterForm(data={})
+
+    assert form.fields['regular_exporter'].required is False
+
+
+def test_online_marketplace_optional_fields():
+    form = forms.OnlineMarketplaceForm(data={})
+
+    assert form.fields['used_online_marketplace'].required is False
+
+
+def test_company_form_optional_fields():
+    form = forms.CompanyForm(data={})
+
+    assert form.fields['company_name'].required is False
+    assert form.fields['company_number'].required is False
