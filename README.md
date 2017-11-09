@@ -67,7 +67,7 @@ This requires all host environment variables to be set.
     $ pip install -r requirements_test.txt
 
 ### Running the webserver
-	$ source .venv/bin/activate
+    $ source .venv/bin/activate
     $ make debug_webserver
 
 ### Running the tests
@@ -78,10 +78,10 @@ This requires all host environment variables to be set.
 
 If you're doing front-end development work you will need to be able to compile the SASS to CSS. For this you need:
 
-```bash
-npm install
-npm run sass-prod
-```
+    $ npm install
+    $ npm run compile-sass
+
+Since the sass compiler uses ruby, if using a ruby version manager such as rbenv, make sure to set your ruby version or `compile-sass` will error.
 
 We add compiled CSS files to version control. This will sometimes result in conflicts if multiple developers are working on the same SASS files. However, by adding the compiled CSS to version control we avoid having to install node, npm, node-sass, etc to non-development machines.
 
