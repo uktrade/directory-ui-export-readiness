@@ -1,4 +1,6 @@
-Use your [market research]({% url 'article-research-market' %} "Do research first") to understand the culture of your audience. The images, colours and branding you use should be culturally appropriate. For example, images of alcohol and certain foods and animals should be avoided in some markets.
+{% load url_with_source from article_tags %}
+
+Use your [market research]({% url_with_source 'article-research-market' %} "Do research first") to understand the culture of your audience. The images, colours and branding you use should be culturally appropriate. For example, images of alcohol and certain foods and animals should be avoided in some markets.
 
 Think about showing aspects of everyday life such as cars, buildings, cityscapes or the countryside.
 

@@ -1,3 +1,5 @@
+{% load url_with_source from article_tags %}
+
 How money reaches you could involve charges or delays. You should avoid taking payment by cheque. Cheques take time to clear, can be cancelled or may bounce. 
 
 There are a number of payment methods that can be used whether you give terms of credit or take payment in advance including:
@@ -27,7 +29,7 @@ Be aware that some countries cap the amount of local currency that can be transf
 
 ### Bank guarantees
 
-For larger payments or where the buyer and seller need more security, there are financial products like [letters of credit or bank collection]({% url 'decide-when-youll-get-paid' %}#Share-the-risk "Share the risk - letter of credit and bank collection"). With both products money is released by a bank once certain documents are produced and the seller and buyer share the risk.
+For larger payments or where the buyer and seller need more security, there are financial products like [letters of credit or bank collection]({% url_with_source 'decide-when-youll-get-paid' %}#Share-the-risk "Share the risk - letter of credit and bank collection"). With both products money is released by a bank once certain documents are produced and the seller and buyer share the risk.
 
 ### Country specific requirements
 

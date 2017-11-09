@@ -1,3 +1,5 @@
+{% load url_with_source from article_tags %}
+
 Currency exchange rates go up and down. Setting a price in a foreign currency could see the value of your invoice rise or fall depending on the exchange rate on the day it is paid.
 
 If you haven&rsquo;t fixed your exchange rate, you haven&rsquo;t fixed your price.
@@ -33,7 +35,7 @@ If you ship goods overseas, a commercial invoice must be included with the shipm
 - price, method of payment, currency and any discounts or additional charges
 - quantity, gross and net weight of goods and number, weight and type of packages
 - harmonised system (HS) tariff code and a plain English description of the products
-- [incoterms]({% url 'use-incoterms-in-contracts' %} "Use incoterms in contracts") including delivery and payment
+- [incoterms]({% url_with_source 'use-incoterms-in-contracts' %} "Use incoterms in contracts") including delivery and payment
 - country of origin of the goods
 - means of transport and route
 - actual value of the goods

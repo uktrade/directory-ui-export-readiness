@@ -302,3 +302,8 @@ def get_article_from_uuid(article_uuid):
 
 def get_articles_from_uuids(articles_uuids):
     return (get_article_from_uuid(uuid) for uuid in articles_uuids)
+
+
+def is_article_in_group(group_name, article):
+    group = ALL_GROUPS_DICT.get(group_name)
+    return group is not None and article in group.articles

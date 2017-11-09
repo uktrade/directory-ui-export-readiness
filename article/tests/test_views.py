@@ -267,9 +267,11 @@ def test_articles_views(view_class, url, client):
     assert response.context_data['article'] == view_class.article
     assert response.context_data['article_group'] == structure.ALL_ARTICLES
 
-    html = helpers.markdown_to_html(view_class.article.markdown_file_path)
+    html = helpers.markdown_to_html(
+        markdown_file_path=view_class.article.markdown_file_path,
+        context=response.context[-1].flatten(),
+    )
     expected = str(BeautifulSoup(html, 'html.parser'))
-
     assert expected in str(BeautifulSoup(response.content, 'html.parser'))
 
 
