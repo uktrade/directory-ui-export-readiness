@@ -18,7 +18,7 @@ Selling online is a low cost way to sell directly to overseas customers.
 
 You can sell online through:
 
-- your [internationalised website](/operations-and-compliance/internationalise-your-website "internationalise your website")
+- your [internationalised website]({% url 'internationalise-your-website' %} "internationalise your website")
 - online marketplaces 
 - social media platforms
 

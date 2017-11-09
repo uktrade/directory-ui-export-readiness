@@ -33,7 +33,7 @@ If you ship goods overseas, a commercial invoice must be included with the shipm
 - price, method of payment, currency and any discounts or additional charges
 - quantity, gross and net weight of goods and number, weight and type of packages
 - harmonised system (HS) tariff code and a plain English description of the products
-- [incoterms](/operations-and-compliance/use-incoterms-in-contracts "Use incoterms in contracts") including delivery and payment
+- [incoterms]({% url 'use-incoterms-in-contracts' %} "Use incoterms in contracts") including delivery and payment
 - country of origin of the goods
 - means of transport and route
 - actual value of the goods

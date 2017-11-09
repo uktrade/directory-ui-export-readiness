@@ -6,6 +6,6 @@ Licensing can be a quick and cost effective way to get your product or service i
 
 There is a risk that your idea, or intellectual property (IP), could be stolen or the brand devalued by a product or service being delivered that doesn&rsquo;t meet your standards. A good licensing agreement should address these issues.
 
-You&rsquo;ll need legal advice to set up a licensing agreement to [protect your IP](/operations-and-compliance/what-intellectual-property-is "What intellectual property is"). This can be  costly but should be a one-off setup cost.
+You&rsquo;ll need legal advice to set up a licensing agreement to [protect your IP]({% url 'what-intellectual-property-is' %} "What intellectual property is"). This can be  costly but should be a one-off setup cost.
 
-Licensing may not be an option in some markets. [Research your market](/market-research/do-research-first "Do research first") to find the best way to sell your product or service.
+Licensing may not be an option in some markets. [Research your market]({% url 'article-research-market' %} "Do research first") to find the best way to sell your product or service.

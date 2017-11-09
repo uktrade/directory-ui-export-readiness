@@ -27,7 +27,7 @@ Be aware that some countries cap the amount of local currency that can be transf
 
 ### Bank guarantees
 
-For larger payments or where the buyer and seller need more security, there are financial products like [letters of credit or bank collection](/getting-paid/decide-when-youll-get-paid#Share-the-risk "Share the risk - letter of credit and bank collection"). With both products money is released by a bank once certain documents are produced and the seller and buyer share the risk.
+For larger payments or where the buyer and seller need more security, there are financial products like [letters of credit or bank collection]({% url 'decide-when-youll-get-paid' %}#Share-the-risk "Share the risk - letter of credit and bank collection"). With both products money is released by a bank once certain documents are produced and the seller and buyer share the risk.
 
 ### Country specific requirements
 
