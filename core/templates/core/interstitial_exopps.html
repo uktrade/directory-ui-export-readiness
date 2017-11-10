@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+{% load static from staticfiles %}
+{% block css %}
+<link href="{% static 'styles/pages/interstitial.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block content %}
+<section>
+  <div class="container">
+    <article>
+
+    <h1>Export Opportunities</h1>
+      <p>To secure an overseas business deal you need to show that you can meet their demand.</p>
+      <p>Read our selected guidance before applying for an opportunity to make sure you’re export ready:</p>
+      <ul>
+        <li><a href="{% url 'article-research-market' %}">Do market research first</a></li>
+        <li><a href="{% url 'make-an-export-plan' %}">Make an export plan</a></li>
+        <li><a href="{% url 'plan-the-logistics' %}">Plan the logistics</a></li>
+        <li><a href="{% url 'understand-your-customers-culture' %}">Understand your customer’s culture</a></li>
+      </ul>
+
+      <a class="button button-primary" href="{{ exopps_url }}">Go to Export Opportunities</a>
+
+    </article>
+  </div>
+</section>
+{% endblock %}
