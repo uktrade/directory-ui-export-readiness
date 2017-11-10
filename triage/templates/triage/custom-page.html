@@ -8,19 +8,8 @@
     <link href="{% static 'styles/pages/custom-page.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
-{% block header_class %}
-    {% if persona.name == 'NEW_EXPORTER' %}
-        new
-    {% elif persona.name == 'OCCASIONAL_EXPORTER' %}
-        occasional
-    {% elif persona.name == 'REGULAR_EXPORTER'%}
-        regular
-    {% endif %}
-{% endblock %}
-
-
 {% block content %}
-<section style="" class="hero-section regular">
+<section style="" class="hero-section {% if persona.name == 'NEW_EXPORTER' %}new{% elif persona.name == 'OCCASIONAL_EXPORTER' %}occasional{% elif persona.name == 'REGULAR_EXPORTER'%}regular{% endif %}">
     <div class="container">
         <div class="hero-teaser">
             <h1 class="title">
@@ -72,7 +61,7 @@
     </div>
     <div class="container">
         <div class="intro">
-            <p>Start your market research with the data shown below. The export data is taken from the <a href="https://comtrade.un.org/">UN Comtrade Database</a>. The gross domestic product and ease of doing business ranking is taken from the World Bank’s <a href="http://www.doingbusiness.org/rankings">Doing Business project</a>.</p> 
+            <p>Start your market research with the data shown below. The export data is taken from the <a href="https://comtrade.un.org/">UN Comtrade Database</a>. The gross domestic product and ease of doing business ranking is taken from the World Bank’s <a href="http://www.doingbusiness.org/rankings">Doing Business project</a>.</p>
     		<p>For more import and export data use our  <a href="https://comtrade.un.org/labs/dit-trade-vis/?reporter=826&type=C&year=2016&flow=2&commodity">data visualisation tool.</a></p>
     		<p>Read our guidance on  <a href="{% url 'article-research-market' %}">researching your market.</a></p>
         </div>
@@ -226,8 +215,8 @@
     {% if section_configuration.persona_article_group %}
         <script src="{% static 'js/article-list.js' %}"></script>
         <script>
-            var listELement = document.getElementById('js-paginate-list');  
-            var loadMoreButton = document.getElementById('js-paginate-list-more');  
+            var listELement = document.getElementById('js-paginate-list');
+            var loadMoreButton = document.getElementById('js-paginate-list-more');
             new GOVUK.components.ArticlePaginator(listELement, loadMoreButton);
         </script>
     {% endif %}
