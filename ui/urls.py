@@ -28,6 +28,11 @@ urlpatterns = [
         name='landing-page',
     ),
     url(
+        r"^export-opportunities$",
+        core.views.InterstitialPageExoppsView.as_view(),
+        name='export-opportunities',
+    ),
+    url(
         r"^new$",
         article.views.PeronaNewArticleListView.as_view(),
         name='article-list-persona-new',

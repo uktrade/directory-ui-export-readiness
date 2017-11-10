@@ -45,6 +45,17 @@ class LandingPagelView(TemplateView):
         )
 
 
+class InterstitialPageExoppsView(TemplateView):
+    template_name = 'core/interstitial_exopps.html'
+
+    def get_context_data(self, **kwargs):
+        from django.conf import settings
+        context = {
+            'exopps_url': settings.SERVICES_EXOPPS_ACTUAL
+            }
+        return context
+
+
 class StaticViewSitemap(sitemaps.Sitemap):
     changefreq = 'daily'
 
