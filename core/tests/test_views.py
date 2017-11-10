@@ -1,4 +1,6 @@
 from django.core.urlresolvers import reverse
+from django.conf import settings
+from bs4 import BeautifulSoup
 
 from core import views
 from casestudy import casestudies
@@ -28,6 +30,23 @@ def test_landing_page(client):
         'persona_occasional': {'read': 0, 'total': 38},
         'persona_regular': {'read': 0, 'total': 18},
     }
+
+
+def test_interstitial_page_exopps(client):
+    url = reverse('export-opportunities')
+    response = client.get(url)
+    context = response.context_data
+
+    assert response.status_code == 200
+    assert context['exopps_url'] == settings.SERVICES_EXOPPS_ACTUAL
+
+    heading = '<h1>Export Opportunities</h1>'
+    expected = str(BeautifulSoup(heading, 'html.parser'))
+    button_text = 'Go to Export Opportunities'
+    html_page = str(BeautifulSoup(response.content, 'html.parser'))
+
+    assert expected in html_page
+    assert button_text in html_page
 
 
 def test_sitemaps(client):
