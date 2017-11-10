@@ -1,5 +1,4 @@
 from django.conf import settings
-from directory_constants.constants import urls as default_urls
 
 
 def feature_flags(request):
