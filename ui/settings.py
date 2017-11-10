@@ -74,12 +74,12 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'directory_header_footer.context_processors.sso_processor',
+                'directory_header_footer.context_processors.urls_processor',
                 ('directory_header_footer.context_processors.'
                  'header_footer_context_processor'),
                 'core.context_processors.feature_flags',
                 'core.context_processors.analytics',
                 'core.context_processors.external_service_urls',
-                'core.context_processors.header_footer_interstitial_urls',
             ],
         },
     },
@@ -247,8 +247,8 @@ GUIDANCE_OPERATIONS_AND_COMPLIANCE = os.getenv(
 
 # SERVICES
 SERVICES_EXOPPS = os.getenv('SERVICES_EXOPPS', default_urls.SERVICES_EXOPPS)
-SERVICES_EXOPPS_INTERSTITIAL = os.getenv(
-    'SERVICES_EXOPPS_INTERSTITIAL', default_urls.SERVICES_EXOPPS)
+SERVICES_EXOPPS_ACTUAL = os.getenv(
+    'SERVICES_EXOPPS_ACTUAL', default_urls.SERVICES_EXOPPS)
 SERVICES_FAB = os.getenv('SERVICES_FAB', default_urls.SERVICES_FAB)
 SERVICES_GET_FINANCE = os.getenv(
     'SERVICES_GET_FINANCE', default_urls.SERVICES_GET_FINANCE)

@@ -51,7 +51,7 @@ class InterstitialPageExoppsView(TemplateView):
     def get_context_data(self, **kwargs):
         from django.conf import settings
         context = {
-            'exopps_url': settings.SERVICES_EXOPPS
+            'exopps_url': settings.SERVICES_EXOPPS_ACTUAL
             }
         return context
 
