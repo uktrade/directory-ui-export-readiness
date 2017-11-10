@@ -8,6 +8,13 @@ ul {
   margin-bottom: $spacing-2;
 }
 
-.interstitial.container {
-    width: 60%;
+.content {
+  width: 50%
+}
+
+// TABLET
+@media (max-width: 767px) {
+  .content {
+    width: 100%;
+  }
 }
