@@ -1,0 +1,13 @@
+// PAGE: INTERSTITIAL PAGE
+// ------------------------------------------------
+
+@import '../base';
+@import '../components/_breadcrumbs';
+
+ul {
+  margin-bottom: $spacing-2;
+}
+
+.interstitial.container {
+    width: 60%;
+}
