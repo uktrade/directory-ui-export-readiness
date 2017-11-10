@@ -19,6 +19,9 @@ article {
 .link-top,
 .link-back-to a {
   border-bottom: 0;
+  &:hover, &:focus, &:active, &:visited {
+    border-bottom: 0;
+  }
 }
 
 h1 {
@@ -51,7 +54,7 @@ h1 {
   right: 0;
   top: $spacing-3;
   width: 100%;
-  
+
   dt {
     left: $cols-2;
     position: absolute;
@@ -94,23 +97,23 @@ h1 {
     padding-left: 0;
     width: auto;
   }
-  
+
   .link-top {
     float: right;
     margin-left: 0;
   }
-  
+
   .scope-indicator {
     dd {
       display: none;
     }
-    
+
     dt {
       left: 0;
       padding-right: 60px;
       top: $spacing-3;
     }
-    
+
     .register {
       left: 0;
       margin-left: 0;
@@ -118,7 +121,7 @@ h1 {
       top: -$spacing-3;
     }
   }
-  
+
   .sharing-links {
     left: initial;
     right: 0;
@@ -135,24 +138,24 @@ h1 {
     margin-bottom: $spacing-2;
     padding-top: $spacing-2;
   }
-  
+
   .back-to {
     float: left;
     margin-left: 0;
     width: auto;
   }
-  
+
   .back-to-top {
     float: right;
     width: auto;
   }
-  
+
   .scope-indicator {
     dt {
       top: $spacing-4;
     }
   }
-  
+
   .sharing-links {
     top: #{$spacing-2 - 5px};
   }
