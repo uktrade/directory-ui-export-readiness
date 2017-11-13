@@ -6,11 +6,12 @@ from article import articles
 
 class ArticleGroup:
 
-    def __init__(self, articles, name, title, url):
+    def __init__(self, articles, name, title, url, next_guidance_group=None):
         self.articles = articles
         self.name = name
         self.title = title
         self.url = url
+        self.next_guidance_group = next_guidance_group
         self.articles_set = frozenset(
             [article.uuid for article in self.articles]
         )
@@ -120,44 +121,36 @@ PERSONA_REGULAR_ARTICLES = ArticleGroup(
     url=reverse_lazy('article-list-persona-regular'),
 )
 
-GUIDANCE_MARKET_RESEARCH_ARTICLES = ArticleGroup(
-    name='market_research',
-    title=articles.GUIDANCE_MARKET_RESEARCH.title,
+GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES = ArticleGroup(
+    name='operations_and_compliance',
+    title=articles.GUIDANCE_OPERATIONS_AND_COMPLIANCE.title,
     articles=[
-        articles.DO_RESEARCH_FIRST,
-        articles.DEFINE_MARKET_POTENTIAL,
-        articles.DO_FIELD_RESEARCH,
-        articles.ANALYSE_THE_COMPETITION,
-        articles.VISIT_TRADE_SHOW,
+        articles.PLAN_THE_LOGISTICS,
+        articles.USE_FREIGHT_FORWARDER,
+        articles.USE_INCOTERMS_IN_CONTRACTS,
+        articles.GET_YOUR_EXPORT_DOCUMENTS_RIGHT,
+        articles.MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE,
+        articles.INTERNATIONALISE_WESBITE,
+        articles.WHAT_INTELLECTUAL_PROPERTY_IS,
+        articles.TYPES_OF_INTELLECTUAL_PROPERTY,
+        articles.KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE,
+        articles.INTELLECTUAL_PROPERTY_PROTECTION,
     ],
-    url=reverse_lazy('article-list-market-research'),
+    url=reverse_lazy('article-list-operations-and-compliance'),
 )
 
-GUIDANCE_CUSTOMER_INSIGHT_ARTICLES = ArticleGroup(
-    name='customer_insights',
-    title=articles.GUIDANCE_CUSTOMER_INSIGHT.title,
+GUIDANCE_GETTING_PAID_ARTICLES = ArticleGroup(
+    name='getting_paid',
+    title=articles.GUIDANCE_GETTING_PAID.title,
     articles=[
-        articles.KNOW_YOUR_CUSTOMER,
-        articles.MEET_YOUR_CUSTOMER,
-        articles.MANAGE_LANGUAGE_DIFFERENCES,
-        articles.UNDERSTAND_YOUR_CUSTOMERS_CULTURE,
+        articles.CONSIDER_HOW_PAID,
+        articles.INVOICE_CURRENCY_AND_CONTENTS,
+        articles.DECIDE_WHEN_PAID,
+        articles.PAYMENT_METHODS,
+        articles.INSURE_AGAINST_NON_PAYMENT,
     ],
-    url=reverse_lazy('article-list-customer-insight'),
-)
-
-GUIDANCE_FINANCE_ARTICLES = ArticleGroup(
-    name='finance',
-    title=articles.GUIDANCE_FINANCE.title,
-    articles=[
-        articles.GET_MONEY_TO_EXPORT,
-        articles.CHOOSE_THE_RIGHT_FINANCE,
-        articles.GET_EXPORT_FINANCE,
-        articles.RAISE_MONEY_BY_BORROWING,
-        articles.BORROW_AGAINST_ASSETS,
-        articles.RAISE_MONEY_WITH_INVESTMENT,
-        articles.GET_GOVERNMENT_FINANCE_SUPPORT,
-    ],
-    url=reverse_lazy('article-list-finance'),
+    url=reverse_lazy('article-list-getting-paid'),
+    next_guidance_group=GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES
 )
 
 GUIDANCE_BUSINESS_PLANNING_ARTICLES = ArticleGroup(
@@ -177,38 +170,52 @@ GUIDANCE_BUSINESS_PLANNING_ARTICLES = ArticleGroup(
         articles.SETUP_OVERSEAS_OPERATION,
     ],
     url=reverse_lazy('article-list-business-planning'),
+    next_guidance_group=GUIDANCE_GETTING_PAID_ARTICLES
 )
 
-GUIDANCE_GETTING_PAID_ARTICLES = ArticleGroup(
-    name='getting_paid',
-    title=articles.GUIDANCE_GETTING_PAID.title,
+GUIDANCE_FINANCE_ARTICLES = ArticleGroup(
+    name='finance',
+    title=articles.GUIDANCE_FINANCE.title,
     articles=[
-        articles.CONSIDER_HOW_PAID,
-        articles.INVOICE_CURRENCY_AND_CONTENTS,
-        articles.DECIDE_WHEN_PAID,
-        articles.PAYMENT_METHODS,
-        articles.INSURE_AGAINST_NON_PAYMENT,
+        articles.GET_MONEY_TO_EXPORT,
+        articles.CHOOSE_THE_RIGHT_FINANCE,
+        articles.GET_EXPORT_FINANCE,
+        articles.RAISE_MONEY_BY_BORROWING,
+        articles.BORROW_AGAINST_ASSETS,
+        articles.RAISE_MONEY_WITH_INVESTMENT,
+        articles.GET_GOVERNMENT_FINANCE_SUPPORT,
     ],
-    url=reverse_lazy('article-list-getting-paid'),
+    url=reverse_lazy('article-list-finance'),
+    next_guidance_group=GUIDANCE_BUSINESS_PLANNING_ARTICLES
 )
 
-GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES = ArticleGroup(
-    name='operations_and_compliance',
-    title=articles.GUIDANCE_OPERATIONS_AND_COMPLIANCE.title,
+GUIDANCE_CUSTOMER_INSIGHT_ARTICLES = ArticleGroup(
+    name='customer_insights',
+    title=articles.GUIDANCE_CUSTOMER_INSIGHT.title,
     articles=[
-        articles.PLAN_THE_LOGISTICS,
-        articles.USE_FREIGHT_FORWARDER,
-        articles.USE_INCOTERMS_IN_CONTRACTS,
-        articles.GET_YOUR_EXPORT_DOCUMENTS_RIGHT,
-        articles.MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE,
-        articles.INTERNATIONALISE_WESBITE,
-        articles.WHAT_INTELLECTUAL_PROPERTY_IS,
-        articles.TYPES_OF_INTELLECTUAL_PROPERTY,
-        articles.KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE,
-        articles.INTELLECTUAL_PROPERTY_PROTECTION,
+        articles.KNOW_YOUR_CUSTOMER,
+        articles.MEET_YOUR_CUSTOMER,
+        articles.MANAGE_LANGUAGE_DIFFERENCES,
+        articles.UNDERSTAND_YOUR_CUSTOMERS_CULTURE,
     ],
-    url=reverse_lazy('article-list-operations-and-compliance'),
+    url=reverse_lazy('article-list-customer-insight'),
+    next_guidance_group=GUIDANCE_FINANCE_ARTICLES
 )
+
+GUIDANCE_MARKET_RESEARCH_ARTICLES = ArticleGroup(
+    name='market_research',
+    title=articles.GUIDANCE_MARKET_RESEARCH.title,
+    articles=[
+        articles.DO_RESEARCH_FIRST,
+        articles.DEFINE_MARKET_POTENTIAL,
+        articles.DO_FIELD_RESEARCH,
+        articles.ANALYSE_THE_COMPETITION,
+        articles.VISIT_TRADE_SHOW,
+    ],
+    url=reverse_lazy('article-list-market-research'),
+    next_guidance_group=GUIDANCE_CUSTOMER_INSIGHT_ARTICLES
+)
+
 
 ALL_ARTICLES = ArticleGroup(
     name='all',
