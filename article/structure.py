@@ -214,12 +214,26 @@ ALL_ARTICLES = ArticleGroup(
     name='all',
     title='',
     articles=[
+        # market research
         articles.DO_RESEARCH_FIRST,
         articles.DEFINE_MARKET_POTENTIAL,
         articles.DO_FIELD_RESEARCH,
         articles.ANALYSE_THE_COMPETITION,
         articles.VISIT_TRADE_SHOW,
+        # customer insight
         articles.KNOW_YOUR_CUSTOMER,
+        articles.MEET_YOUR_CUSTOMER,
+        articles.MANAGE_LANGUAGE_DIFFERENCES,
+        articles.UNDERSTAND_YOUR_CUSTOMERS_CULTURE,
+        # finance
+        articles.GET_MONEY_TO_EXPORT,
+        articles.CHOOSE_THE_RIGHT_FINANCE,
+        articles.GET_EXPORT_FINANCE,
+        articles.RAISE_MONEY_BY_BORROWING,
+        articles.BORROW_AGAINST_ASSETS,
+        articles.RAISE_MONEY_WITH_INVESTMENT,
+        articles.GET_GOVERNMENT_FINANCE_SUPPORT,
+        # business planning
         articles.MAKE_EXPORTING_PLAN,
         articles.FIND_A_ROUTE_TO_MARKET,
         articles.SELL_OVERSEAS_DIRECTLY,
@@ -231,31 +245,24 @@ ALL_ARTICLES = ArticleGroup(
         articles.FRANCHISE_YOUR_BUSINESS,
         articles.START_JOINT_VENTURE,
         articles.SETUP_OVERSEAS_OPERATION,
-        articles.GET_MONEY_TO_EXPORT,
-        articles.CHOOSE_THE_RIGHT_FINANCE,
-        articles.GET_EXPORT_FINANCE,
-        articles.RAISE_MONEY_BY_BORROWING,
-        articles.BORROW_AGAINST_ASSETS,
-        articles.RAISE_MONEY_WITH_INVESTMENT,
-        articles.GET_GOVERNMENT_FINANCE_SUPPORT,
+        # getting paid
         articles.CONSIDER_HOW_PAID,
         articles.INVOICE_CURRENCY_AND_CONTENTS,
         articles.DECIDE_WHEN_PAID,
         articles.PAYMENT_METHODS,
         articles.INSURE_AGAINST_NON_PAYMENT,
+        # operations and compliance
         articles.PLAN_THE_LOGISTICS,
         articles.USE_FREIGHT_FORWARDER,
         articles.USE_INCOTERMS_IN_CONTRACTS,
         articles.GET_YOUR_EXPORT_DOCUMENTS_RIGHT,
-        articles.INTERNATIONALISE_WESBITE,
         articles.MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE,
+        articles.INTERNATIONALISE_WESBITE,
         articles.WHAT_INTELLECTUAL_PROPERTY_IS,
         articles.TYPES_OF_INTELLECTUAL_PROPERTY,
         articles.KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE,
         articles.INTELLECTUAL_PROPERTY_PROTECTION,
-        articles.MEET_YOUR_CUSTOMER,
-        articles.MANAGE_LANGUAGE_DIFFERENCES,
-        articles.UNDERSTAND_YOUR_CUSTOMERS_CULTURE,
+        # next steps
         articles.NEXT_STEPS_NEW_EXPORTER,
         articles.NEXT_STEPS_OCCASIONAL_EXPORTER,
         articles.NEXT_STEPS_REGULAR_EXPORTER,
@@ -285,15 +292,39 @@ def get_article_group(group_name):
 
 
 def get_next_article(article_group, current_article):
+    index_in_all = ALL_ARTICLES.articles.index(current_article)
     try:
         current_index = article_group.articles.index(current_article)
+        i_group = ALL_GROUPS.index(article_group)
     except ValueError:
         # current article is not in the specified group
         return None
     if current_index + 1 == len(article_group.articles):
         # current item is the last item
-        return None
+        if ALL_GROUPS[i_group] == GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES:
+            # don't go to new group
+            return None
+        if index_in_all + 1 == len(ALL_ARTICLES.articles):
+            return None
+        return ALL_ARTICLES.articles[index_in_all + 1]
     return article_group.articles[current_index + 1]
+
+
+def get_next_group(article_group, current_article):
+    try:
+        current_index = article_group.articles.index(current_article)
+        i_group = ALL_GROUPS.index(article_group)
+    except ValueError:
+        # group does not exist
+        return None
+    if current_index + 1 == len(article_group.articles):
+        # current item is the last item
+        if ALL_GROUPS[i_group] == GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES:
+            # don't go to new persona group
+            return None
+        if i_group + 1 == len(ALL_GROUPS):
+            return None
+        return ALL_GROUPS[i_group + 1]
 
 
 def get_article_from_uuid(article_uuid):
