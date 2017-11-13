@@ -24,6 +24,7 @@ class BaseArticleDetailView(ArticleReadMixin, TemplateView):
             *args, **kwargs,
             article=self.article,
             next_article=self.next_article,
+            next_group=self.next_group,
             article_group=self.article_group,
             social_links=social_links,
             article_group_title=self.article_group.title,
@@ -32,6 +33,13 @@ class BaseArticleDetailView(ArticleReadMixin, TemplateView):
     @property
     def next_article(self):
         return structure.get_next_article(
+            article_group=self.article_group,
+            current_article=self.article,
+        )
+
+    @property
+    def next_group(self):
+        return structure.get_next_group(
             article_group=self.article_group,
             current_article=self.article,
         )
