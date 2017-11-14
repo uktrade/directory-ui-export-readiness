@@ -79,22 +79,22 @@ class BaseArticleListView(ArticleReadMixin, TemplateView):
         )
 
 
-class PeronaNewArticleListView(BaseArticleListView):
+class PersonaNewArticleListView(BaseArticleListView):
     template_name = 'article/list-new-persona.html'
     article_group = structure.PERSONA_NEW_ARTICLES
 
 
-class PeronaOccasionalArticleListView(BaseArticleListView):
+class PersonaOccasionalArticleListView(BaseArticleListView):
     template_name = 'article/list-occasional-persona.html'
     article_group = structure.PERSONA_OCCASIONAL_ARTICLES
 
 
-class PeronaRegularArticleListView(BaseArticleListView):
+class PersonaRegularArticleListView(BaseArticleListView):
     template_name = 'article/list-regular-persona.html'
     article_group = structure.PERSONA_REGULAR_ARTICLES
 
 
-class MarketReasearchArticleListView(BaseArticleListView):
+class MarketResearchArticleListView(BaseArticleListView):
     template_name = 'article/list-market-research.html'
     article_group = structure.GUIDANCE_MARKET_RESEARCH_ARTICLES
 
@@ -264,19 +264,19 @@ class MatchYourWebsiteToYourAudienceView(BaseArticleDetailView):
     article = articles.MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE
 
 
-class WhatInterlectualPropertyIsView(BaseArticleDetailView):
+class WhatIntellectualPropertyIsView(BaseArticleDetailView):
     article = articles.WHAT_INTELLECTUAL_PROPERTY_IS
 
 
-class TypesOfInterlectualPropertyView(BaseArticleDetailView):
+class TypesOfIntellectualPropertyView(BaseArticleDetailView):
     article = articles.TYPES_OF_INTELLECTUAL_PROPERTY
 
 
-class KnowWhatInterlectualPropertyYouHaveView(BaseArticleDetailView):
+class KnowWhatIntellectualPropertyYouHaveView(BaseArticleDetailView):
     article = articles.KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE
 
 
-class InterlectualPropertyProtectionView(BaseArticleDetailView):
+class IntellectualPropertyProtectionView(BaseArticleDetailView):
     article = articles.INTELLECTUAL_PROPERTY_PROTECTION
 
 

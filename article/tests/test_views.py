@@ -15,22 +15,22 @@ import core.helpers
 
 persona_lise_views_under_test = (
     (
-        views.PeronaNewArticleListView,
+        views.PersonaNewArticleListView,
         reverse('article-list-persona-new'),
     ),
     (
-        views.PeronaOccasionalArticleListView,
+        views.PersonaOccasionalArticleListView,
         reverse('article-list-persona-occasional')
     ),
     (
-        views.PeronaRegularArticleListView,
+        views.PersonaRegularArticleListView,
         reverse('article-list-persona-regular'),
     ),
 )
 
 guidance_views_under_test = (
     (
-        views.MarketReasearchArticleListView,
+        views.MarketResearchArticleListView,
         reverse('article-list-market-research'),
     ),
     (
@@ -210,19 +210,19 @@ article_views_under_test = (
         reverse('match-your-website-to-your-audience'),
     ),
     (
-        views.WhatInterlectualPropertyIsView,
+        views.WhatIntellectualPropertyIsView,
         reverse('what-intellectual-property-is'),
     ),
     (
-        views.TypesOfInterlectualPropertyView,
+        views.TypesOfIntellectualPropertyView,
         reverse('types-of-intellectual-property'),
     ),
     (
-        views.KnowWhatInterlectualPropertyYouHaveView,
+        views.KnowWhatIntellectualPropertyYouHaveView,
         reverse('know-what-IP-you-have'),
     ),
     (
-        views.InterlectualPropertyProtectionView,
+        views.IntellectualPropertyProtectionView,
         reverse('ip-protection-in-multiple-countries'),
     ),
     (
