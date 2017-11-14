@@ -31,21 +31,12 @@
         </footer>
     </article>
     {% if next_article %}
-        <div class="link-continuity">
-          <p>
-            <span class="lead">Next</span>
-            <span class="verbose">:&nbsp;</span><a id="next-article-link" href="{{ next_article.url }}?source={{ next_article_group.name }}">{{ next_article.title }}</a>
-          </p>
-        </div>
-    {% else %}
-      {% if article_group.next_guidance_group %}
-      <div class="link-continuity">
-        <p>
-          <span class="lead">Next</span>
-          <span class="verbose">:&nbsp;</span><a id="next-article-link" href="{{ article_group.next_guidance_group.articles.0.url }}?source={{ article_group.next_guidance_group.name }}">{{ article_group.next_guidance_group.articles.0.title }}</a>
-        </p>
-      </div>
-      {% endif %}
+    <div class="link-continuity">
+      <p>
+        <span class="lead">Next</span>
+        <span class="verbose">:&nbsp;</span><a id="next-article-link" href="{{ next_article.url }}?source={{ next_article_group.name }}">{{ next_article.title }}</a>
+      </p>
+    </div>
     {% endif %}
     <div class="group">
         <span class="link-back-to">{% if article_group.url %}Back to <a id="category-link" href="{{ article_group.url }}" class="link">{{ article_group.title }}</a>{% else %}&nbsp;{% endif %}</span><a href="#top" class="link-top link">Back to top</a>

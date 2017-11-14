@@ -49,7 +49,7 @@ class BaseArticleDetailView(ArticleReadMixin, TemplateView):
     @staticmethod
     def get_article_from_next_group(group):
         try:
-            return list(group.articles_set)[0]
+            return group.articles[0]
         except IndexError:
             return None
 
