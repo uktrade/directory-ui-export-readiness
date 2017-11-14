@@ -34,7 +34,7 @@
         <div class="link-continuity">
           <p>
             <span class="lead">Next</span>
-            <span class="verbose">:&nbsp;</span><a id="next-article-link" href="{{ next_article.url }}?source={{ article_group.name }}">{{ next_article.title }}</a>
+            <span class="verbose">:&nbsp;</span><a id="next-article-link" href="{{ next_article.url }}?source={{ next_article_group.name }}">{{ next_article.title }}</a>
           </p>
         </div>
     {% endif %}
@@ -47,10 +47,10 @@
 {% block bodyScripts %}
     <script src="{% static 'js/useful-feedback.js' %}"></script>
     <script>
-        var positiveELement = document.getElementById('js-feedback-positive');  
-        var negativeELement = document.getElementById('js-feedback-negative');  
-        var containerQuestion = document.getElementById('js-feedback'); 
-        var containerOutcome = document.getElementById('js-feedback-success'); 
+        var positiveELement = document.getElementById('js-feedback-positive');
+        var negativeELement = document.getElementById('js-feedback-negative');
+        var containerQuestion = document.getElementById('js-feedback');
+        var containerOutcome = document.getElementById('js-feedback-success');
         new GOVUK.components.Feedback(
             positiveELement, negativeELement, containerQuestion, containerOutcome
         );

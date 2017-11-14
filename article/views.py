@@ -25,22 +25,50 @@ class BaseArticleDetailView(ArticleReadMixin, TemplateView):
             article=self.article,
             next_article=self.next_article,
             article_group=self.article_group,
+            next_article_group=self.next_article_group,
             social_links=social_links,
             article_group_title=self.article_group.title,
         )
 
     @property
     def next_article(self):
-        return structure.get_next_article(
+        """ Return either the next article in the group or
+        the first article in the same group.
+        """
+        article = structure.get_next_article(
             article_group=self.article_group,
             current_article=self.article,
         )
+        next_group = self.article_group.next_guidance_group
+        if not article and next_group:
+            article = self.get_article_from_next_group(group=next_group)
+        elif not article and not next_group:
+            article = None
+        return article
+
+    @staticmethod
+    def get_article_from_next_group(group):
+        try:
+            return list(group.articles_set)[0]
+        except IndexError:
+            return None
 
     @cached_property
     def article_group(self):
         return structure.get_article_group(
             group_name=self.request.GET.get('source', 'all'),
         )
+
+    @property
+    def next_article_group(self):
+        """"""
+        if structure.get_next_article(
+            article_group=self.article_group,
+            current_article=self.article,
+        ):
+            return self.article_group
+
+        return self.article_group.next_guidance_group
 
 
 class BaseArticleListView(ArticleReadMixin, TemplateView):

@@ -349,7 +349,8 @@ def test_inferred_next_articles(client, group):
             )
             assert next_article_element.text == next_article.title
         else:
-            assert next_article_element is None
+            next_group_top_article = group.next_guidance_group.articles_set[0]
+            assert next_article_element == next_group_top_article
 
 
 # skip the last group - it does not have a page, it's a list of all articles.
