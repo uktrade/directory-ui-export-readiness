@@ -19,6 +19,10 @@
 				<dt class="answer">Do you use online marketplaces to sell your products?</dt>
 				<dd class="answer" id="used_online_marketplace">{{ all_cleaned_data.used_online_marketplace|yesno:"Yes,No" }}</dd>
 			{% endif %}
+            {% if all_cleaned_data.is_in_companies_house is not None %}
+				<dt class="answer">Is your company incorporated in the UK?</dt>
+				<dd class="answer" id="is_in_companies_house">{{ all_cleaned_data.is_in_companies_house|yesno:"Yes,No" }}</dd>
+			{% endif %}
 			{% if all_cleaned_data.company_name %}
 				<dt class="answer">Company name</dt>
 				<dd class="answer">{{ all_cleaned_data.company_name }}</dd>
