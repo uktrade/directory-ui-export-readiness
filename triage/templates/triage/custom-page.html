@@ -48,7 +48,7 @@
 </section>
 {% endif %}
 {% if top_markets %}
-<section class="top-markets background--white">
+<section class="top-markets">
     <div class="container">
         <div class="intro" id="largest-importers">
             <h2 class="header">
@@ -57,13 +57,9 @@
             <p class="commodity-name">{{ sector_name }}</p>
             <p><a href="{% url 'triage-wizard' %}">Select a different product category</a></p>
             <hr>
-        </div>
-    </div>
-    <div class="container">
-        <div class="intro">
             <p>Start your market research with the data shown below. The export data is taken from the <a href="https://comtrade.un.org/">UN Comtrade Database</a>. The gross domestic product and ease of doing business ranking is taken from the World Bank’s <a href="http://www.doingbusiness.org/rankings">Doing Business project</a>.</p>
-    		<p>For more import and export data use our  <a href="https://comtrade.un.org/labs/dit-trade-vis/?reporter=826&type=C&year=2016&flow=2&commodity">data visualisation tool.</a></p>
-    		<p>Read our guidance on  <a href="{% url 'article-research-market' %}">researching your market.</a></p>
+            <p>For more import and export data use our  <a href="https://comtrade.un.org/labs/dit-trade-vis/?reporter=826&type=C&year=2016&flow=2&commodity">data visualisation tool.</a></p>
+            <p>Read our guidance on  <a href="{% url 'article-research-market' %}">researching your market.</a></p>
         </div>
         <table id="top-of-the-markets">
             <thead>
