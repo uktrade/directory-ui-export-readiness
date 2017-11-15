@@ -46,16 +46,6 @@ urlpatterns = [
         name='not-found'
     ),
     url(
-        r"^finance$",
-        TemplateView.as_view(template_name='core/finance.html'),
-        name='finance'
-    ),
-    url(
-        r"^finance/get-finance-support-from-government$",
-        TemplateView.as_view(template_name='core/finance_support.html'),
-        name='get-finance-support'
-    ),
-    url(
         r"^about$",
         TemplateView.as_view(template_name='core/about.html'),
         name='about'

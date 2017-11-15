@@ -9,11 +9,6 @@ from django.urls import reverse
         ('landing-page-international', '/international'),
         ('sorry', '/sorry'),
         ('not-found', '/not-found'),
-        ('finance', '/finance'),
-        (
-                'get-finance-support',
-                '/finance/get-finance-support-from-government'
-        ),
         ('about', '/about'),
         ('privacy-cookies', '/privacy-cookies'),
         ('terms-conditions', '/terms-conditions')
