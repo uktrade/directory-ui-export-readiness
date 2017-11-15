@@ -344,13 +344,16 @@ def test_inferred_next_articles(client, group):
 
         if next_article:
             assert response.context_data['next_article'] == next_article
+            assert response.context_data['article_group'] == group
+            assert response.context_data['next_article_group'] == group
             assert next_article_element.attrs['href'] == (
                 str(next_article.url) + '?source=' + group.name
             )
             assert next_article_element.text == next_article.title
         else:
-            next_group_top_article = group.next_guidance_group.articles_set[0]
+            next_group_top_article = group.next_guidance_group.articles[0]
             assert next_article_element == next_group_top_article
+            assert response.context_data['next_article_group'] == group.next_guidance_group
 
 
 # skip the last group - it does not have a page, it's a list of all articles.
