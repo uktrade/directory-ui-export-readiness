@@ -34,22 +34,22 @@ urlpatterns = [
     ),
     url(
         r"^new$",
-        article.views.PeronaNewArticleListView.as_view(),
+        article.views.PersonaNewArticleListView.as_view(),
         name='article-list-persona-new',
     ),
     url(
         r"^occasional$",
-        article.views.PeronaOccasionalArticleListView.as_view(),
+        article.views.PersonaOccasionalArticleListView.as_view(),
         name='article-list-persona-occasional',
     ),
     url(
         r"^regular$",
-        article.views.PeronaRegularArticleListView.as_view(),
+        article.views.PersonaRegularArticleListView.as_view(),
         name='article-list-persona-regular',
     ),
     url(
         r"^market-research$",
-        article.views.MarketReasearchArticleListView.as_view(),
+        article.views.MarketResearchArticleListView.as_view(),
         name='article-list-market-research',
     ),
     url(
@@ -269,22 +269,22 @@ urlpatterns = [
     ),
     url(
         r"^operations-and-compliance/what-intellectual-property-is$",
-        article.views.WhatInterlectualPropertyIsView.as_view(),
+        article.views.WhatIntellectualPropertyIsView.as_view(),
         name='what-intellectual-property-is',
     ),
     url(
         r"^operations-and-compliance/types-of-intellectual-property$",
-        article.views.TypesOfInterlectualPropertyView.as_view(),
+        article.views.TypesOfIntellectualPropertyView.as_view(),
         name='types-of-intellectual-property',
     ),
     url(
         r"^operations-and-compliance/know-what-IP-you-have$",
-        article.views.KnowWhatInterlectualPropertyYouHaveView.as_view(),
+        article.views.KnowWhatIntellectualPropertyYouHaveView.as_view(),
         name='know-what-IP-you-have',
     ),
     url(
         r"^operations-and-compliance/ip-protection-in-multiple-countries$",
-        article.views.InterlectualPropertyProtectionView.as_view(),
+        article.views.IntellectualPropertyProtectionView.as_view(),
         name='ip-protection-in-multiple-countries',
     ),
     url(

@@ -31,12 +31,12 @@
         </footer>
     </article>
     {% if next_article %}
-        <div class="link-continuity">
-          <p>
-            <span class="lead">Next</span>
-            <span class="verbose">:&nbsp;</span><a id="next-article-link" href="{{ next_article.url }}?source={{ article_group.name }}">{{ next_article.title }}</a>
-          </p>
-        </div>
+    <div class="link-continuity">
+      <p>
+        <span class="lead">Next</span>
+        <span class="verbose">:&nbsp;</span><a id="next-article-link" href="{{ next_article.url }}?source={{ next_article_group.name }}">{{ next_article.title }}</a>
+      </p>
+    </div>
     {% endif %}
     <div class="group">
         <span class="link-back-to">{% if article_group.url %}Back to <a id="category-link" href="{{ article_group.url }}" class="link">{{ article_group.title }}</a>{% else %}&nbsp;{% endif %}</span><a href="#top" class="link-top link">Back to top</a>
@@ -47,10 +47,10 @@
 {% block bodyScripts %}
     <script src="{% static 'js/useful-feedback.js' %}"></script>
     <script>
-        var positiveELement = document.getElementById('js-feedback-positive');  
-        var negativeELement = document.getElementById('js-feedback-negative');  
-        var containerQuestion = document.getElementById('js-feedback'); 
-        var containerOutcome = document.getElementById('js-feedback-success'); 
+        var positiveELement = document.getElementById('js-feedback-positive');
+        var negativeELement = document.getElementById('js-feedback-negative');
+        var containerQuestion = document.getElementById('js-feedback');
+        var containerOutcome = document.getElementById('js-feedback-success');
         new GOVUK.components.Feedback(
             positiveELement, negativeELement, containerQuestion, containerOutcome
         );
