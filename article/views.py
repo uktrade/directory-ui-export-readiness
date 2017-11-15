@@ -48,10 +48,7 @@ class BaseArticleDetailView(ArticleReadMixin, TemplateView):
 
     @staticmethod
     def get_article_from_next_group(group):
-        try:
-            return group.articles[0]
-        except IndexError:
-            return None
+        return group.articles[0]
 
     @cached_property
     def article_group(self):
@@ -61,7 +58,9 @@ class BaseArticleDetailView(ArticleReadMixin, TemplateView):
 
     @property
     def next_article_group(self):
-        """"""
+        """If the next article is in the same group, return that.
+            If not, return the next group.
+        """
         if structure.get_next_article(
             article_group=self.article_group,
             current_article=self.article,
