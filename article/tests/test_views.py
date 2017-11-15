@@ -353,7 +353,8 @@ def test_inferred_next_articles(client, group):
         else:
             next_group_top_article = group.next_guidance_group.articles[0]
             assert next_article_element == next_group_top_article
-            assert response.context_data['next_article_group'] == group.next_guidance_group
+            assert response.context_data['next_article_group'] == \
+                group.next_guidance_group
 
 
 # skip the last group - it does not have a page, it's a list of all articles.
