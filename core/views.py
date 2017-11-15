@@ -25,7 +25,7 @@ class ArticleReadMixin:
         )
 
 
-class LandingPagelView(TemplateView):
+class LandingPageView(TemplateView):
     template_name = 'core/landing-page.html'
 
     def get_context_data(self, *args, **kwargs):

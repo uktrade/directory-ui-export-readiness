@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from django.contrib.sitemaps.views import sitemap
+from django.views.generic import TemplateView
 
 import article.views
 import casestudy.views
@@ -24,8 +25,40 @@ urlpatterns = [
     ),
     url(
         r"^$",
-        core.views.LandingPagelView.as_view(),
+        core.views.LandingPageView.as_view(),
         name='landing-page',
+    ),
+    url(
+        r"^international$",
+        TemplateView.as_view(
+            template_name='core/landing_page_international.html'
+        ),
+        name='landing-page-international'
+    ),
+    url(
+        r"^sorry$",
+        TemplateView.as_view(template_name='core/sorry.html'),
+        name='sorry'
+    ),
+    url(
+        r"^not-found$",
+        TemplateView.as_view(template_name='core/not_found.html'),
+        name='not-found'
+    ),
+    url(
+        r"^about$",
+        TemplateView.as_view(template_name='core/about.html'),
+        name='about'
+    ),
+    url(
+        r"^privacy-cookies$",
+        TemplateView.as_view(template_name='core/privacy_cookies.html'),
+        name='privacy-cookies'
+    ),
+    url(
+        r"^terms-conditions$",
+        TemplateView.as_view(template_name='core/terms_conditions.html'),
+        name='terms-conditions'
     ),
     url(
         r"^export-opportunities$",
