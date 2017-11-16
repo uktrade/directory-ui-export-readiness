@@ -8,4 +8,4 @@ Get specialist legal advice to set up a well thought out franchising agreement t
 
 Like licensing, franchise agreements are for a fixed amount of time and need to be renewed. They are usually longer than license agreements.
 
-Monitoring quality and standards can be time consuming, particularly if you have several franchises in different countries. You&rsquo;ll need to be aware of the legal requirements of each country and prepared for extra administrative work.
+Monitoring quality and standards can be time consuming, particularly if you have several franchises in different countries. You&rsquo;ll need to be aware of the legal requirements of each country and prepare for extra administrative work.
