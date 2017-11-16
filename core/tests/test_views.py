@@ -12,7 +12,7 @@ def test_landing_page(client):
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == [views.LandingPagelView.template_name]
+    assert response.template_name == [views.LandingPageView.template_name]
     assert response.context_data['casestudies'] == [
         casestudies.MARKETPLACE,
         casestudies.HELLO_BABY,
