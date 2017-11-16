@@ -67,10 +67,18 @@ def test_robots(client):
     assert response.status_code == 200
 
 
-@pytest.mark.parametrize('view,expected_template', (
-    ('about', 'core/about.html'),
-    ('privacy-cookies', 'core/privacy_cookies.html'),
-))
+@pytest.mark.parametrize(
+    'view,expected_template',
+    (
+        ('about', 'core/about.html'),
+        ('privacy-cookies', 'core/privacy_cookies.html'),
+        ('landing-page-international', 'core/landing_page_international.html'),
+        ('sorry', 'core/sorry.html'),
+        ('not-found', 'core/not_found.html'),
+        ('terms-conditions', 'core/terms_conditions.html'),
+        ('get-finance', 'core/get_finance.html')
+    )
+)
 def test_templates(view, expected_template, client):
     url = reverse(view)
 

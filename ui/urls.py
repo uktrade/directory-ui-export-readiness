@@ -61,6 +61,11 @@ urlpatterns = [
         name='terms-conditions'
     ),
     url(
+        r"^get-finance$",
+        TemplateView.as_view(template_name='core/get_finance.html'),
+        name='get-finance'
+    ),
+    url(
         r"^export-opportunities$",
         core.views.InterstitialPageExoppsView.as_view(),
         name='export-opportunities',
