@@ -13,13 +13,13 @@
   padding: 0;
   list-style: none;
   margin: 0;
-  @media (max-width: 640px) { 
+  @media (max-width: 640px) {
     height: 610px;
   }
 }
 
 .ed-carousel__controls {
-  @media (max-width: 640px) { 
+  @media (max-width: 640px) {
     bottom: 20px;
     position: absolute;
     width: 100%;
@@ -110,7 +110,7 @@
   bottom: 0;
   width: 100%;
   text-align: center;
-  @media (max-width: 640px) { 
+  @media (max-width: 640px) {
     bottom: 10px;
   }
 }
@@ -165,7 +165,7 @@
   padding-left: 60px;
   padding-right: 50px;
   padding-bottom: 40px;
-  @media (max-width: 640px) { 
+  @media (max-width: 640px) {
     padding-left: 10px;
     padding-right: 10px;
     .button {
