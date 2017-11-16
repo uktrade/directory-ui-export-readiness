@@ -69,7 +69,7 @@ def test_robots(client):
 
 @pytest.mark.parametrize('view,expected_template', (
     ('about', 'core/about.html'),
-    ('privacy', 'core/privacy_cookies.html'),
+    ('privacy-cookies', 'core/privacy_cookies.html'),
 ))
 def test_templates(view, expected_template, client):
     url = reverse(view)
