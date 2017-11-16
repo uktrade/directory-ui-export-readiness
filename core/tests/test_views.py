@@ -2,6 +2,8 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from bs4 import BeautifulSoup
 
+import pytest
+
 from core import views
 from casestudy import casestudies
 
@@ -63,3 +65,16 @@ def test_robots(client):
     response = client.get(url)
 
     assert response.status_code == 200
+
+
+@pytest.mark.parametrize('view,expected_template', (
+    ('about', 'core/about.html'),
+    ('privacy-cookies', 'core/privacy_cookies.html'),
+))
+def test_templates(view, expected_template, client):
+    url = reverse(view)
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == [expected_template]
