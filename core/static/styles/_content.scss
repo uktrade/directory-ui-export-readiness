@@ -22,7 +22,12 @@ a,
   &:hover {
     color: $mid-blue;
   }
-  
+
+  &:active {
+    color: $aqua;
+    background-color: $focus-yellow;
+  }
+
   &:focus {
     outline: $focus-yellow solid 3px;
   }
@@ -94,7 +99,7 @@ ul {
   &[disabled="disabled"] {
     @include button-disabled($active-blue-disabled, $white);
   }
-  
+
   &:focus {
     outline: $focus-yellow solid 3px;
   }
