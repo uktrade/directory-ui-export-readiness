@@ -39,7 +39,7 @@ For larger contracts, banks can provide a contract bond. This is a guarantee tha
 
 ### Get paid after delivery
 
-Accepting payment after delivery is often called open account. The buyer pays when they&rsquo;ve received the delivery or after 30, 60 or 90 days if you have offered credit terms. This is the most risky payment option for you.
+Accepting payment after delivery is often called 'open account'. The buyer pays when they&rsquo;ve received the delivery or after 30, 60 or 90 days if you have offered credit terms. This is the most risky payment option.
 
 Before offering terms to a customer you should:
 
