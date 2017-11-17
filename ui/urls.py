@@ -30,9 +30,7 @@ urlpatterns = [
     ),
     url(
         r"^international$",
-        TemplateView.as_view(
-            template_name='core/landing_page_international.html'
-        ),
+        core.views.InternationalLandingPageView.as_view(),
         name='landing-page-international'
     ),
     url(
