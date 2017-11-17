@@ -1,24 +1,24 @@
 // PAGE: INTERNATIONAL
 // ------------------------------------------------
 
-@import '../reset';
-@import '../colours';
-@import '../vars';
-@import '../typography';
-@import '../mixins';
-@import '../layout';
+@import './partials/reset';
+@import './partials/colours';
+@import './partials/vars';
+@import './partials/typography';
+@import './partials/mixins';
+@import './partials/layout';
 
 // Global style
-@import '../general';
-@import '../content';
-@import '../elements';
-@import '../effects';
+@import './partials/general';
+@import './partials/content';
+@import './partials/elements';
+@import './partials/effects';
 
 // Components
-@import '../components/_header';
-@import '../components/_footer';
-@import '../components/_language-selector';
-@import '../components/_teaser';
+@import './components/_header';
+@import './components/_footer';
+@import './components/_language-selector';
+@import './components/_teaser';
 
 h1 {
 	@include heading-l-int;
