@@ -1,0 +1,161 @@
+// PAGE: INTERNATIONAL
+// ------------------------------------------------
+
+@import '../reset';
+@import '../colours';
+@import '../vars';
+@import '../typography';
+@import '../mixins';
+@import '../layout';
+
+// Global style
+@import '../general';
+@import '../content';
+@import '../elements';
+@import '../effects';
+
+// Components
+@import '../components/_header';
+@import '../components/_footer';
+@import '../components/_language-selector';
+@import '../components/_teaser';
+
+h1 {
+	@include heading-l-int;
+}
+
+section {
+	padding: 0;
+}
+
+// Language selection
+.international-links {
+	.teaser-site-external {
+		@include items(2, $spacing-3);
+		padding-top: 29%;
+		position: relative;
+	}
+	
+	img {
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 100%;
+	}
+}
+
+.LanguageSelectorDialog-Tracker {
+	float: right;
+}
+
+
+// Footer
+.global-footer {
+	background-color: inherit;
+	clear: both;
+}
+
+#footer {
+	background-color: $grey;
+	padding-top: $spacing-1;
+
+	.sharing-links {
+		float: right;
+		margin-top: $spacing-4;
+		text-align: right;
+		width: $cols-3;
+
+		a {
+			margin-left: $spacing-4;
+		}
+
+		span {
+			position: absolute;
+			z-index: -1;
+		}
+	}
+
+	.site-links {
+		border-top: $white solid 1px;
+		margin-top: $spacing-1;
+
+		a {
+			@include body-s-mob;
+		}
+
+		ul {
+			border: none;
+			float: left;
+			padding: $spacing-4 0;
+			width: $cols-8;
+		}
+	}
+}
+
+#footer-big-logo {
+	float: right;
+	height: auto;
+	margin-top: 10px;
+	max-width: 192px;
+	width: 45%;
+}
+
+#footer-hm-logo {
+	height: auto;
+	max-width: 216px;
+	width: 45%;
+}
+
+
+// Header
+#header {
+	margin-bottom: $spacing-2;
+}
+
+#header-bar {
+	background-color: $grey;
+}
+
+#header-menu {
+	background-color: $white;
+	color: $grey;
+	min-height: auto;
+
+	.great {
+		padding-top: $spacing-3;
+	}
+
+	.logo {
+		margin-bottom: 0;
+	}
+}
+
+
+
+// TABLET
+@media (max-width: 768px) {
+	#footer {
+		.sharing-links {
+			float: none;
+			text-align: center;
+			width: auto;
+		}
+
+		.site-links ul {
+			float: none;
+			width: auto;
+		}
+	}
+
+}
+
+@media (max-width: 580px) {
+	.international-links {
+		.teaser-site-external {
+			float: none;
+			margin-left: 0;
+			padding-top: 58%;
+			width: auto;
+		}
+	}
+}
