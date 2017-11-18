@@ -21,7 +21,7 @@ def test_build_facebook_link(rf):
         title='Do research first',
     )
     assert actual == (
-        'http://www.facebook.com/share.php?u=http://testserver/'
+        'https://www.facebook.com/share.php?u=http://testserver/'
     )
 
 
