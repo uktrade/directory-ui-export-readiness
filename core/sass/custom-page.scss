@@ -1,16 +1,16 @@
 // PAGE: CUSTOM
 // ------------------------------------------------
 
-@import '../base';
-@import '../components/_hero';
-@import '../components/_fact';
-@import '../components/_scope-indicator';
-@import '../components/_section-content-list';
-@import '../components/_service';
-@import '../components/_exporter-story';
-@import '../components/_resources';
-@import '../components/_feedback';
-@import '../components/_carousel';
+@import './partials/base';
+@import './components/_hero';
+@import './components/_fact';
+@import './components/_scope-indicator';
+@import './components/_section-content-list';
+@import './components/_service';
+@import './components/_exporter-story';
+@import './components/_resources';
+@import './components/_feedback';
+@import './components/_carousel';
 
 
 .hero-section {
@@ -104,7 +104,7 @@ h2 {
 }
 
 .top-markets .header span {
-  display: block; 
+  display: block;
 }
 
 .service-section.fas {

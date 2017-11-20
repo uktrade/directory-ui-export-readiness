@@ -1,11 +1,11 @@
 // PAGE: PERSONA
 // ------------------------------------------------
 
-@import '../base';
-@import '../components/_hero';
-@import '../components/_breadcrumbs';
-@import '../components/_scope-indicator';
-@import '../components/_section-content-list';
+@import './partials/base';
+@import './components/_hero';
+@import './components/_breadcrumbs';
+@import './components/_scope-indicator';
+@import './components/_section-content-list';
 
 
 .scope-indicator {

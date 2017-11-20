@@ -1,8 +1,8 @@
 // PAGE: INTERSTITIAL PAGE
 // ------------------------------------------------
 
-@import '../base';
-@import '../components/_breadcrumbs';
+@import './partials/base';
+@import './components/_breadcrumbs';
 
 article {
   width: 50%
