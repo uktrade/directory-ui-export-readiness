@@ -60,6 +60,9 @@ MIDDLEWARE_CLASSES = [
     'sso.middleware.SSOUserMiddleware',
     'core.middleware.NoCacheMiddlware',
     'core.middleware.ArticleReadManagerMiddlware',
+    'ui.middleware.LocaleQuerystringMiddleware',
+    'ui.middleware.PersistLocaleMiddleware',
+    'ui.middleware.ForceDefaultLocale',
 ]
 
 ROOT_URLCONF = 'ui.urls'
