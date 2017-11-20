@@ -4,10 +4,6 @@
   "description": "Directory of UK exporters UI service",
   "main": "index.js",
   "private": true,
-  "scripts": {
-    "sass": "gulp sass",
-    "sass-watch": "gulp sass:watch"
-  },
   "author": "DIT",
   "license": "ISC",
   "devDependencies": {
