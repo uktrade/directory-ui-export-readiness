@@ -1,11 +1,11 @@
 // PAGE: PERSONA
 // ------------------------------------------------
 
-@import '../base';
-@import '../../components/hero/_hero';
-@import '../../components/breadcrumbs/_breadcrumbs';
-@import '../../components/scope-indicator/_scope-indicator';
-@import '../../components/section-content-list/_section-content-list';
+@import './partials/base';
+@import './components/_hero';
+@import './components/_breadcrumbs';
+@import './components/_scope-indicator';
+@import './components/_section-content-list';
 
 
 .scope-indicator {
@@ -22,7 +22,7 @@
 #articles .section-intro {
   @include columns(6);
   margin-left: $cols-2;
-  
+
   .header,
   .intro {
     width: auto;
@@ -43,11 +43,10 @@
     float: none;
     width: auto;
   }
-  
+
   .section-content-list,
   #articles .section-intro {
     float: none;
     width: calc(#{$cols-10} - #{$spacing-3});
   }
 }
-

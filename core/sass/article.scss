@@ -1,13 +1,13 @@
 // PAGE: CONTENT/ARTICLE
 // ------------------------------------------------
 
-@import '../base';
-@import '../components/_section-content-list';
-@import '../components/_breadcrumbs';
-@import '../components/_sharing-links';
-@import '../components/_personas-keywords';
-@import '../components/_article-widgets';
-@import '../components/_scope-indicator';
+@import './partials/base';
+@import './components/_section-content-list';
+@import './components/_breadcrumbs';
+@import './components/_sharing-links';
+@import './components/_personas-keywords';
+@import './components/_article-widgets';
+@import './components/_scope-indicator';
 
 article {
   margin-bottom: $spacing-1;

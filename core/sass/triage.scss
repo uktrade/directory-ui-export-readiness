@@ -1,8 +1,8 @@
 // PAGE: TRIAGE
 // ------------------------------------------------
 
-@import '../base';
-@import '../components/_form-wizard';
+@import './partials/base';
+@import './components/_form-wizard';
 
 
 input[type='text'],
@@ -40,7 +40,7 @@ select {
 }
 
 #change-answers-button-container {
-  margin-top: 30px;  
+  margin-top: 30px;
 }
 
 // like question div but specific to resultspage
@@ -55,7 +55,7 @@ select {
   }
 }
 
-.exred-triage-form { 
+.exred-triage-form {
   .input-field-container li {
     list-style: none;
     padding-left: 0;
@@ -70,7 +70,7 @@ select {
     }
   }
 
-  .previous-step { 
+  .previous-step {
     color: #00549f;
     cursor: pointer;
     text-decoration: underline;
@@ -99,7 +99,7 @@ select {
   }
   .autocomplete__option--focused,
   .autocomplete__option:hover {
-    background: #007ea3 !important;  
+    background: #007ea3 !important;
   }
 
   .autocomplete__menu {

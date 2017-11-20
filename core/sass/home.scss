@@ -1,15 +1,15 @@
 // PAGE: HOME
 // ------------------------------------------------
 
-@import '../base';
-@import '../components/_hero';
-@import '../components/_video';
-@import '../components/_triage';
-@import '../components/_service';
-@import '../components/_export-status-selector';
-@import '../components/_resources';
-@import '../components/_exporter-story';
-@import '../components/_carousel';
+@import './partials/base';
+@import './components/_hero';
+@import './components/_video';
+@import './components/_triage';
+@import './components/_service';
+@import './components/_export-status-selector';
+@import './components/_resources';
+@import './components/_exporter-story';
+@import './components/_carousel';
 
 #personas,
 #services {
@@ -48,7 +48,7 @@
 
 #content section#resource-guidance {
   // the guidance boxes have margin-bottom of 30px
-  padding-bottom: 60px;  
+  padding-bottom: 60px;
 }
 
 #content section .intro {
@@ -72,7 +72,7 @@
 
   #content section#resource-guidance {
     // the guidance boxes have margin-bottom of 15px
-    padding-bottom: 30px;  
+    padding-bottom: 30px;
   }
 
   #content section .intro {
