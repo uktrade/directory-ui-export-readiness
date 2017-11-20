@@ -14,7 +14,7 @@
                 <h1 class="title"><span>Use your</span><br><span>potential -</span><br><span>Start</span><br><span>exporting</span><br>
                 </h1>
                 <p>Selling overseas gives you access to more customers which can lead to increased sales, growth and stability. Explore the potential of exporting with guidance, services and support from the Department for International Trade.</p>
-				<p>It’s never been easier to start your export journey.</p>
+                <p>It’s never been easier to start your export journey.</p>
                 <img src="{% static 'images/eig-logo-stacked.png' %}">
             </div>
         </div>
@@ -29,7 +29,7 @@
                     <ul>
                         <li>export guidance aimed at your level</li>
                         <li>export statistics to start your market research</li>
-						<li>access to services to help you export</li>
+                        <li>access to services to help you export</li>
                     </ul>
                     {% if has_completed_triage %}
                         <a href="{% url 'custom-page' %}" class="button button-cta">Continue your export journey</a>
@@ -91,6 +91,17 @@
     <section id="carousel">
         <div class="container">
             {% include 'casestudy/carousel.html' %}
+        </div>
+    </section>
+
+    <section class="teaser-section">
+        <div class="container">
+            <h2 class="heading">Grow your business</h2>
+            <img src="/static/images/teaser-great-business.jpg"/>
+            <p class="intro">
+                <span class="text">If you want to start or grow a business, the Department for Business, Energy &amp; Industrial Strategy can give you support and advice to help make it a success.</span>
+                <a href="https://www.greatbusiness.gov.uk" target="_blank">Find out more on www.greatbusiness.gov.uk</a>
+            </p>
         </div>
     </section>
 </main>
