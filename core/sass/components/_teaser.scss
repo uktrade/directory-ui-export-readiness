@@ -25,6 +25,10 @@
     overflow: hidden;
   }
 
+  .container {
+    overflow: hidden;
+  }
+
   .text {
     display: block;
     margin-bottom: $spacing-2;
@@ -36,22 +40,25 @@
 @media (max-width: 767px) {
   .teaser-section {
     img {
-      margin-bottom: $spacing-3;
+      bottom: 0;
+      left: 0;
+      position: absolute;
       width: 100%;
+    }
+
+    .container {
+      padding-bottom: 54%;
+      position: relative;
     }
   }
 }
 
 
 // MOBILE
-@media (max-width: 580px) {
-  .triage-section {
-    img {
-      display: none;
-    }
-
+@media (max-width: 540px) {
+  .teaser-section {
     .text {
-      display: block;
+      margin-bottom: $spacing-3-m;
     }
   }
 }
