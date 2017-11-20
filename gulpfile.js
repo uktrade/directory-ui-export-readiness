@@ -21,3 +21,5 @@ gulp.task('sass', function () {
 gulp.task('sass:watch', function () {
   gulp.watch(SASS_FILES, ['sass']);
 });
+
+gulp.task('default', ['sass']);
