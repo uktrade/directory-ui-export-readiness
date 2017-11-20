@@ -381,13 +381,13 @@ MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE = Article(
 )
 WHAT_INTELLECTUAL_PROPERTY_IS = Article(
     uuid=exred_articles.WHAT_INTELLECTUAL_PROPERTY_IS,
-    title='What intellectual property is',
+    title='Protect your intellectual property',
     keywords=[],
     tasks=[],
     markdown_file_path=(
-        'article/markdown/37_what-intellectual-property-is.md'
+        'article/markdown/37_protect-your-intellectual-property.md'
     ),
-    url=reverse_lazy('what-intellectual-property-is'),
+    url=reverse_lazy('protect-your-intellectual-property'),
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE,
 )
 TYPES_OF_INTELLECTUAL_PROPERTY = Article(
@@ -403,22 +403,22 @@ TYPES_OF_INTELLECTUAL_PROPERTY = Article(
 )
 KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE = Article(
     uuid=exred_articles.KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE,
-    title='Know what IP you have',
+    title='Know what intellectual property you have',
     keywords=[],
     tasks=[],
-    markdown_file_path='article/markdown/39_know-what-IP-you-have.md',
-    url=reverse_lazy('know-what-IP-you-have'),
+    markdown_file_path='article/markdown/39_know-what-intellectual-property-you-have.md',
+    url=reverse_lazy('know-what-intellectual-property-you-have'),
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE,
 )
 INTELLECTUAL_PROPERTY_PROTECTION = Article(
     uuid=exred_articles.INTELLECTUAL_PROPERTY_PROTECTION,
-    title='IP protection in multiple countries',
+    title='International intellectual property protection',
     keywords=[],
     tasks=[],
     markdown_file_path=(
-        'article/markdown/40_ip-protection-in-multiple-countries.md'
+        'article/markdown/40_international-intellectual-property-protection.md'
     ),
-    url=reverse_lazy('ip-protection-in-multiple-countries'),
+    url=reverse_lazy('international-intellectual-property-protection'),
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE
 )
 MEET_YOUR_CUSTOMER = Article(
