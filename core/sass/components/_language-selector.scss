@@ -278,9 +278,19 @@
 }
 
 @media screen and (max-width: 480px) {
+  .language-selector-dialog {
+    padding: $spacing-3-m;
+  }
+
   .LanguageSelectorDialog-Modal {
     p {
       @include heading-m-mob;
+    }
+
+    .content {
+      padding-left: 0;
+      padding-right: 0;
+      padding-top: 85px;
     }
 
     .countries {
@@ -291,13 +301,22 @@
       }
       
       li {
-        @include items(2, $spacing-3);
+        @include items(2, $spacing-3-m);
       }
     }
-  
+
+    .domestic-redirect {
+      padding-top: 0;
+    }
+
     .languages {
       li {
-        @include items(2, $spacing-4);
+        @include items(2, $spacing-4-m);
+      }
+     
+      p {
+        left: 0;
+        top: $spacing-4-m;
       }
     }
   }

@@ -172,6 +172,12 @@
     left: $spacing-4;
     margin-top: $spacing-4;
     width: calc(100% - (#{$spacing-4 * 2}));
+
+    .close {
+      right: 0;
+      top: 0;
+    }
+
     .content {
       padding: $spacing-4;
     }
