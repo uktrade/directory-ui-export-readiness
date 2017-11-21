@@ -62,7 +62,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
     def items(self):
         # import here to avoid circular import
         from ui import urls
-        return [url.name for url in urls.urlpatterns if url.name != 'triage-wi']
+        return [url.name for url in urls.urlpatterns]
 
     def location(self, item):
         # triage-wizard needs an additional argument to be reversed

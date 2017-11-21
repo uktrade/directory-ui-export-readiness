@@ -147,7 +147,7 @@ class TriageWizardFormView(NamedUrlSessionWizardView):
         if self.is_user_reviewing_persisted_answers:
             context['form_url'] = reverse_lazy(
                 'triage-wizard',
-                kwargs={'step': 'SUMMARY'}
+                kwargs={'step': self.SUMMARY}
             )
         return context
 
@@ -169,7 +169,11 @@ class CustomPageView(ArticleReadMixin, TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         if not self.triage_answers:
-            return redirect('triage-wizard')
+            url = reverse_lazy(
+                'triage-wizard',
+                kwargs={'step': TriageWizardFormView.SECTOR}
+            )
+            return redirect(url)
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
