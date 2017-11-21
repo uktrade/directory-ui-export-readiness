@@ -109,7 +109,7 @@
     }
     
     .register {
-      margin-left: #{$spacing-3 + 5};
+      margin-left: 25px;
       max-width: none;
     }
     
@@ -159,7 +159,11 @@
 
     
 
-    .register,
+    .register {
+      @include body-s-mob;
+      margin-left: 20px;
+    }
+
     .section {
       @include body-s-mob;
     }
