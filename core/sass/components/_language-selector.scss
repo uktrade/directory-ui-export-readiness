@@ -320,4 +320,12 @@
       }
     }
   }
+
+  .LanguageSelectorDialog-Tracker {
+    .label,
+    .lang::after {
+      position: absolute;
+      z-index: -1;
+    }
+  }
 }
