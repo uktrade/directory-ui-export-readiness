@@ -329,7 +329,7 @@ urlpatterns = [
         name='next-steps-new-exporter',
     ),
     url(
-        r"^ooccasional/next-steps$",
+        r"^occasional/next-steps$",
         article.views.NextStepsOccasionalExporterView.as_view(),
         name='next-steps-occasional-exporter',
     ),
