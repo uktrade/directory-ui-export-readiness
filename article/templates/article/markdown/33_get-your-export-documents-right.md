@@ -18,9 +18,9 @@ All consignments must have either a bill of lading or sea waybill. These documen
 A sea waybill is a receipt for the goods. A bill of lading:
 
 - is issued by the shipping company acknowledging receipt of the goods
-- allows you to still own the goods until full payment is made (it&rsquo;s a risk to release goods otherwise unless you know your customer&rsquo;s creditworthiness)
+- allows you to still own the goods until full payment is made (it&rsquo;s a risk to release goods unless you're confident of your customer&rsquo;s creditworthiness)
 - gives you security and more control over your consignments
 
 Normally, you send the documents to your bank and they transfer the documents across to the buyer. If you&rsquo;re using an open accounts payment you send the documents to the buyer directly.
 
-Find more [information on export documentation on GOV.UK](https://www.gov.uk/guidance/international-trade-paperwork-the-basics "GOV.UK International trade paperwork").
+Find more [information on export documentation](https://www.gov.uk/guidance/international-trade-paperwork-the-basics "International trade paperwork - GOV.UK").
