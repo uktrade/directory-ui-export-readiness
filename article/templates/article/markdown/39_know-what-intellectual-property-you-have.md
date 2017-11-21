@@ -1,4 +1,4 @@
-If you&rsquo;re not sure what intellectual property you have you can find out by:
+If you&rsquo;re not sure what intellectual property (IP) you have you can find out by:
 
 - hiring an IP lawyer
 - using the [IP Equip service](http://www.ipo.gov.uk/blogs/equip/ "IP Equip service") 
