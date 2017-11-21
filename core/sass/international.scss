@@ -15,7 +15,6 @@
 @import './partials/effects';
 
 // Components
-@import './components/_footer';
 @import './components/_language-selector';
 @import './components/_teaser';
 
@@ -52,11 +51,32 @@ section {
 .global-footer {
   background-color: inherit;
   clear: both;
+  color: $white;
+  padding-bottom: 5px;
+  padding-top: 5px;
+
+  img {
+    vertical-align: middle;
+  }
+
+  span {
+    @include body-s-mob;
+    float: right;
+    line-height: 1.9em;
+  }
 }
 
 #footer {
+  @include body-m;
   background-color: $grey;
+  color: $light-grey;
   padding-top: $spacing-1;
+  position: relative;
+
+  a {
+    @include body-s;
+    color: $light-grey;
+  }
 
   .sharing-links {
     float: right;
@@ -76,10 +96,17 @@ section {
 
   .site-links {
     border-top: $white solid 1px;
+    clear: both;
     margin-top: $spacing-1;
 
     a {
       @include body-s-mob;
+      display: inline;
+    }
+
+    li {
+      display: inline;
+      margin-right: $spacing-3;
     }
 
     ul {
@@ -221,6 +248,18 @@ section {
     }
   }
 
+
+  .global-footer {
+    padding-bottom: $spacing-4;
+    padding-top: $spacing-4;
+
+    span {
+      display: block;
+      float: none;
+      padding-top: 5px;
+    }
+  }
+
   #footer {
     .sharing-links {
       float: none;
@@ -228,9 +267,18 @@ section {
       width: auto;
     }
 
-    .site-links ul {
-      float: none;
-      width: auto;
+    .site-links {
+      li {
+        margin: 0 5px;
+      }
+
+      ul {
+        border-color: $mid-grey;
+        float: none;
+        padding: 20px $spacing-3;
+        text-align: center;
+        width: auto;
+      }
     }
   }
 
@@ -268,6 +316,13 @@ section {
 }
 
 @media (max-width: 420px) {
+  #footer {
+    .site-links ul {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
   #header {
     .logo {
       margin-bottom: $spacing-4;
