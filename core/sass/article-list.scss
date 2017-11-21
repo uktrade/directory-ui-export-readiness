@@ -122,6 +122,10 @@
 }
 
 @media (max-width: 767px) {
+  section {
+    padding-top: 0;
+  }
+
   .scope-indicator {
     float: none;
     width: auto;
