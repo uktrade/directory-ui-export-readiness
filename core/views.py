@@ -62,9 +62,14 @@ class StaticViewSitemap(sitemaps.Sitemap):
     def items(self):
         # import here to avoid circular import
         from ui import urls
-        return [url.name for url in urls.urlpatterns]
+        return [url.name for url in urls.urlpatterns if url.name != 'triage-wi']
 
     def location(self, item):
+        # triage-wizard needs an additional argument to be reversed
+        if item == 'triage-wizard':
+            # import here to avoid circular import
+            from triage.views import TriageWizardFormView
+            return reverse(item, kwargs={'step': TriageWizardFormView.SECTOR})
         return reverse(item)
 
 

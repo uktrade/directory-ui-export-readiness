@@ -34,7 +34,7 @@
                     {% if has_completed_triage %}
                         <a href="{% url 'custom-page' %}" class="button button-cta">Continue your export journey</a>
                     {% else %}
-                        <a href="{% url 'triage-wizard' %}" class="button button-cta">Get started</a>
+                        <a href="{% url 'triage-wizard' step='sector' %}" class="button button-cta">Get started</a>
                     {% endif %}
                 </div>
             </div>

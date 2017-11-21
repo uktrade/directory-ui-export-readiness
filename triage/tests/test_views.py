@@ -23,34 +23,40 @@ def mock_retrive_articles_read():
 
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
 def test_submit_triage_regular_exporter(mock_persist_answers, client):
-    url = reverse('triage-wizard')
     view_class = views.TriageWizardFormView
+    url = reverse('triage-wizard', kwargs={'step': view_class.SECTOR})
     view_name = 'triage_wizard_form_view'
-    client.post(url, {
+    response = client.post(url, {
         view_name + '-current_step': view_class.SECTOR,
         view_class.SECTOR + '-sector': 'HS01',
     })
-    client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
         view_class.EXPORTED_BEFORE + '-exported_before': 'True',
     })
-    client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.REGULAR_EXPORTER,
         view_class.REGULAR_EXPORTER + '-regular_exporter': 'True',
     })
-    client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.COMPANIES_HOUSE,
         view_class.COMPANIES_HOUSE + '-is_in_companies_house': True,
     })
-    summary_response = client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.COMPANY,
         view_class.COMPANY + '-company_name': 'Example corp',
     })
     # skips the "do you use the marketplace" step
-    done_response = client.post(url, {
+    client.post(response.url, {
         view_name + '-current_step': view_class.SUMMARY,
     })
+    summary_response = client.get(response.url)
 
+    assert response.status_code == 302
     assert b'Create my export journey' in summary_response.content
     assert summary_response.context_data['persona'] == (
         forms.REGULAR_EXPORTER
@@ -74,8 +80,8 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
         'company_number': None,
         'is_in_companies_house': True,
     })
-    assert done_response.status_code == 302
-    assert done_response.get('Location') == str(view_class.success_url)
+    assert summary_response.status_code == 302
+    assert summary_response.get('Location') == str(view_class.success_url)
 
 
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
