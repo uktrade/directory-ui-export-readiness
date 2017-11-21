@@ -24,7 +24,7 @@ def build_linkedin_link(request, title):
 
 
 def build_email_link(request, title):
-    template = 'mailto:?body={text}&subject={url}'
+    template = 'mailto:?body={url}&subject={text}'
     return build_social_link(template, request, title)
 
 

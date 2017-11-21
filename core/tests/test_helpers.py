@@ -47,6 +47,6 @@ def test_build_email_link(rf):
     )
 
     assert actual == (
-        'mailto:?body=Export Readiness - Do research first'
-        '&subject=http://testserver/'
+        'mailto:?body=http://testserver/'
+        '&subject=Export Readiness - Do research first'
     )

@@ -1,0 +1,52 @@
+// PAGE: PERSONA
+// ------------------------------------------------
+
+@import './partials/base';
+@import './components/_hero';
+@import './components/_breadcrumbs';
+@import './components/_scope-indicator';
+@import './components/_section-content-list';
+
+
+.scope-indicator {
+  float: right;
+  min-width: 200px;
+  width: $cols-2;
+}
+
+.section-content-list {
+  @include columns(6);
+  margin-left: $cols-2;
+}
+
+#articles .section-intro {
+  @include columns(6);
+  margin-left: $cols-2;
+
+  .header,
+  .intro {
+    width: auto;
+  }
+}
+
+
+// TABLET
+@media (max-width: 1024px) {
+  #articles .section-intro {
+    margin-left: 0;
+    width: $cols-8;
+  }
+}
+
+@media (max-width: 767px) {
+  .scope-indicator {
+    float: none;
+    width: auto;
+  }
+
+  .section-content-list,
+  #articles .section-intro {
+    float: none;
+    width: calc(#{$cols-10} - #{$spacing-3});
+  }
+}

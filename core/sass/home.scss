@@ -1,0 +1,103 @@
+// PAGE: HOME
+// ------------------------------------------------
+
+@import './partials/base';
+@import './components/_hero';
+@import './components/_video';
+@import './components/_triage';
+@import './components/_service';
+@import './components/_export-status-selector';
+@import './components/_resources';
+@import './components/_exporter-story';
+@import './components/_carousel';
+@import './components/_teaser';
+
+#personas,
+#services {
+  background-color: $offwhite;
+}
+
+#stories {
+  .Carousel {
+    width: 100%;
+  }
+}
+
+.hero-section {
+  background-image: url('/static/images/home-hero-tangerine@2x.png');
+  padding-top: 45px;
+  height: 540px;
+}
+
+
+.intro {
+  ul {
+    margin-bottom: 45px;
+  }
+}
+#content .triage-section {
+  padding-top: 60px;
+}
+
+#content .triage-section .intro {
+  margin-bottom: 0;
+}
+
+#content section {
+  padding-bottom: 90px;
+}
+
+#content section#resource-guidance {
+  // the guidance boxes have margin-bottom of 30px
+  padding-bottom: 60px;
+}
+
+
+// TABLET
+@media (min-width: 767px) {
+  .service-teaser {
+    height: 487.391px
+  }
+}
+
+
+// MOBILE
+@media (max-width: 540px) {
+
+  #content section {
+    padding-bottom: 45px;
+  }
+
+  #content section#resource-guidance {
+    // the guidance boxes have margin-bottom of 15px
+    padding-bottom: 30px;
+  }
+
+  #content section .intro {
+    margin-bottom: 15px;
+  }
+
+  .hero-section {
+    background-image: url('/static/images/home-hero-tangerine-mobile@2x.png');
+    background-position: 50% 30%;
+  }
+  .intro {
+    ul {
+      margin-bottom: 30px;
+    }
+  }
+  .triage-section {
+    .button {
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+}
+
+// LARGE SCREENS
+@media (min-width: 1200px) {
+  .hero-section {
+    background-position: top center;
+  }
+}

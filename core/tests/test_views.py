@@ -1,7 +1,9 @@
+import http
+
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from bs4 import BeautifulSoup
 
+from bs4 import BeautifulSoup
 import pytest
 
 from core import views
@@ -86,3 +88,26 @@ def test_templates(view, expected_template, client):
 
     assert response.status_code == 200
     assert response.template_name == [expected_template]
+
+
+@pytest.mark.parametrize("lang", ['ar', 'es', 'zh-hans', 'pt', 'de', 'ja'])
+def test_international_landing_view_translations(lang, client):
+    response = client.get(
+        reverse('landing-page-international'),
+        {'lang': lang}
+    )
+
+    assert response.status_code == http.client.OK
+    assert response.cookies['django_language'].value == lang
+
+
+def test_international_landing_view_translations_bidi(client):
+    response = client.get(
+        reverse('landing-page-international'),
+        {'lang': 'ar'}
+    )
+
+    assert response.status_code == http.client.OK
+    assert response.template_name == [
+        views.InternationalLandingPageView.template_name_bidi
+    ]

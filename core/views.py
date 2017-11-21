@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 
 from casestudy import casestudies
 from triage.helpers import TriageAnswersManager
+from ui.views import TranslationsMixin
 
 
 class ArticleReadMixin:
@@ -43,6 +44,11 @@ class LandingPageView(TemplateView):
                 self.request.article_read_manager.get_group_read_progress()
             ),
         )
+
+
+class InternationalLandingPageView(TranslationsMixin, TemplateView):
+    template_name = 'core/landing_page_international.html'
+    template_name_bidi = 'core/landing_page_international-bidi.html'
 
 
 class InterstitialPageExoppsView(TemplateView):

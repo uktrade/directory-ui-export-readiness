@@ -76,28 +76,21 @@ This requires all host environment variables to be set.
 
 ### CSS development
 
-If you're doing front-end development work you will need to be able to compile the SASS to CSS. For this you need:
+When doing front-end development work you will need to be able to compile SASS to CSS. First run:
 
     $ npm install
-    $ npm run compile-sass
 
-Since the sass compiler uses ruby, if using a ruby version manager such as rbenv, make sure to set your ruby version or `compile-sass` will error.
+Then:
 
-You can also get sass to watch for changes by running:
+    $ gulp sass
 
-    $ npm run watch-sass
+...to compile sass. You can also watch for changes by running:
+
+    $ gulp sass:watch
 
 We add compiled CSS files to version control. This will sometimes result in conflicts if multiple developers are working on the same SASS files. However, by adding the compiled CSS to version control we avoid having to install node, npm, node-sass, etc to non-development machines.
 
 You should not edit CSS files directly, instead edit their SCSS counterparts.
-
-When adding new stylesheets you will need to add their file paths in `sass.sh` and `sass-watch.sh` to tell sass which files to output where:
-
-```
-input_output_map="\
-	./core/static/styles/pages/example.scss:core/static/styles/pages/example.css \
-"
-```
 
 ## Session
 

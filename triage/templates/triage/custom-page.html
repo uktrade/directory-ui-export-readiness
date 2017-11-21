@@ -5,7 +5,7 @@
 {% load intcomma from humanize %}
 
 {% block css %}
-    <link href="{% static 'styles/pages/custom-page.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'styles/custom-page.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -61,30 +61,29 @@
             <p>For more import and export data use our  <a href="https://comtrade.un.org/labs/dit-trade-vis/?reporter=826&type=C&year=2016&flow=2&commodity">data visualisation tool.</a></p>
             <p>Read our guidance on  <a href="{% url 'article-research-market' %}">researching your market.</a></p>
         </div>
-        <table id="top-of-the-markets">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th>Export value from the UK</th>
-                    <th>Export value from the world</th>
-                    <th>Gross domestic product (GDP)</th>
-                    <th>Ease of Doing<br>Business rank*</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for market in top_markets %}
-                <tr id="row-{{ market.partner }}" {% if not forloop.last %}class="lined"{% endif %}>
-                    <td>{{ forloop.counter }}</td>
-                    <td class="partner">{{ market.partner }}</td>
-                    <td>${{ market.trade_value|intword }}</td>
-                    <td class="cell-global_trade_value">${{ market.global_trade_value|intword }}</td>
-                    <td>${{ market.country.gdp|intword }}</td>
-                    <td>{{ market.country.ease_of_doing_business }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <ol class="top-markets-list">
+            {% for market in top_markets %}
+            <li>
+                <dl>
+                    <dt class="country">Country</dt>
+                    <dd class="country">{{ market.partner }}</dd>
+ 
+                    <dt class="uk">Export value from the UK</dt>
+                    <dd class="uk">${{ market.trade_value|intword }}</dd>
+
+                    <dt class="world">Export value from the world</dt>
+                    <dd class="world">${{ market.global_trade_value|intword }}</dd>
+
+                    <dt class="gdp">Gross domestic product (GDP)</dt>
+                    <dd class="gdp">${{ market.country.gdp|intword }}
+
+                    <dt class="ease">Ease of doing business rank*</dt>
+                    <dd class="ease">{{ market.country.ease_of_doing_business }}</dd>
+                </dl>
+            </li>
+            {% endfor %}
+        </ol>
+
         <div id="market-source-data">
             <p>The data is for 2016. This page was updated on 30 October 2017.</p>
             <p>All import and export values are the value of exports a country has reported to <a href="https://comtrade.un.org" target="_blank">UN Comtrade, DESA/UNSD</a>.</p>
@@ -153,14 +152,14 @@
                 <article data-component="service-teaser" class="service-teaser">
                     <h3 class="title">Find online marketplaces</h3>
                     <p class="text">Reach over 2 billion consumers online around the world. Get exclusive deals negotiated on behalf of UK businesses.</p>
-                    <img src="{% static 'images/home-soo-cta@2x.png' %}"><a href="https://selling-online-overseas.export.great.gov.uk/" class="link">Service: Find online marketplaces</a>
+                    <img src="{% static 'images/home-soo-cta@2x.png' %}" alt=""><a href="https://selling-online-overseas.export.great.gov.uk/" class="link">Service: Find online marketplaces</a>
                 </article>
             </div>
             <div class="lg-2 md-1">
                 <article data-component="service-teaser" class="service-teaser">
                     <h3 class="title">Find export opportunities</h3>
                     <p class="text">Find and apply for overseas opportunities from businesses looking for products or services like yours.</p>
-                    <img src="{% static 'images/home-export-opps-cta@2x.png' %}"><a href="https://opportunities.export.great.gov.uk/" class="link">Service: Find export opportunities</a>
+                    <img src="{% static 'images/home-export-opps-cta@2x.png' %}" alt=""><a href="https://opportunities.export.great.gov.uk/" class="link">Service: Find export opportunities</a>
                 </article>
             </div>
         </div>

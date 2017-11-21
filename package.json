@@ -4,16 +4,15 @@
   "description": "Directory of UK exporters UI service",
   "main": "index.js",
   "private": true,
-  "scripts": {
-    "compile-sass": "./scripts/sass.sh",
-    "watch-sass": "./scripts/sass-watch.sh"
-  },
   "author": "DIT",
   "license": "ISC",
   "devDependencies": {
+    "dit-pattern-library": "git+https://github.com/uktrade/dit-pattern-library.git#0.1.0",
     "govuk-elements-sass": "^1.2.1",
     "govuk_frontend_toolkit": "^4.13.0",
-    "trade_elements": "0.0.3",
-    "dit-pattern-library": "git+https://github.com/uktrade/dit-pattern-library.git#0.1.0"
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.1",
+    "trade_elements": "0.0.3"
   }
 }

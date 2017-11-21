@@ -1,0 +1,162 @@
+// PAGE: CONTENT/ARTICLE
+// ------------------------------------------------
+
+@import './partials/base';
+@import './components/_section-content-list';
+@import './components/_breadcrumbs';
+@import './components/_sharing-links';
+@import './components/_personas-keywords';
+@import './components/_article-widgets';
+@import './components/_scope-indicator';
+
+article {
+  margin-bottom: $spacing-1;
+  padding: $spacing-3 $cols-3 0 $cols-2;
+  position: relative;
+  z-index: 0;
+}
+
+.link-top,
+.link-back-to a {
+  border-bottom: 0;
+  &:hover, &:focus, &:active, &:visited {
+    border-bottom: 0;
+  }
+}
+
+h1 {
+  margin-bottom: 45px;
+  padding-top: $spacing-3;
+}
+
+.keywords {
+  margin-bottom: $spacing-4;
+}
+
+.link-back-to {
+  display: inline-block;
+  margin: 0 0 90px $cols-2;
+  width: $cols-7;
+}
+
+.link-continuity {
+  padding-left: $cols-2;
+  width: $cols-8;
+}
+
+.link-top {
+  margin-left: $cols-1;
+}
+
+.scope-indicator {
+  padding-left: $cols-10;
+  position: absolute;
+  right: 0;
+  top: $spacing-3;
+  width: 100%;
+
+  dt {
+    left: $cols-2;
+    position: absolute;
+    top: 0;
+  }
+}
+
+.sharing-links {
+  left: 0;
+  position: absolute;
+  top: $spacing-3;
+  width: $cols-2;
+  z-index: 1;
+  a {
+    height: 36px;
+    width: 36px;
+    display: inline-block;
+  }
+}
+
+
+// TABLET
+@media (max-width: 1024px) {
+  .link-continuity {
+    width: $cols-11;
+  }
+}
+
+@media (max-width: 767px) {
+  article {
+    padding: $spacing-1 0 0 0;
+    width: auto;
+  }
+
+  .link-back-to {
+    margin-left: 0
+  }
+
+  .link-continuity {
+    padding-left: 0;
+    width: auto;
+  }
+
+  .link-top {
+    float: right;
+    margin-left: 0;
+  }
+
+  .scope-indicator {
+    dd {
+      display: none;
+    }
+
+    dt {
+      left: 0;
+      padding-right: 60px;
+      top: $spacing-3;
+    }
+
+    .register {
+      left: 0;
+      margin-left: 0;
+      position: absolute;
+      top: -$spacing-3;
+    }
+  }
+
+  .sharing-links {
+    left: initial;
+    right: 0;
+    top: #{$spacing-1 - 5px};
+    width: auto;
+    position: relative;
+  }
+}
+
+
+// MOBILE
+@media (max-width: 480px) {
+  article {
+    margin-bottom: $spacing-2;
+    padding-top: $spacing-2;
+  }
+
+  .back-to {
+    float: left;
+    margin-left: 0;
+    width: auto;
+  }
+
+  .back-to-top {
+    float: right;
+    width: auto;
+  }
+
+  .scope-indicator {
+    dt {
+      top: $spacing-4;
+    }
+  }
+
+  .sharing-links {
+    top: #{$spacing-2 - 5px};
+  }
+}
