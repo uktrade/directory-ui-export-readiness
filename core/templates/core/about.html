@@ -13,18 +13,18 @@
             <div class="static">
                 <h1 class="header">About</h1>
                 <p>Great.gov.uk brings together international trade and investment information and services from across government. It is maintained by the <a href="https://www.gov.uk/government/organisations/department-for-international-trade" title="Department for International Trade - GOV.UK">Department for International Trade (DIT)</a>.</p>
-				<p>DIT is the government department responsible for promoting and financing international trade and investment, and championing free trade.</p>
-				<h2 class="header">What's on great.gov.uk</h2>
-				<p aria-labels="about-list-1">You can:</p>
+		<p>DIT is the government department responsible for promoting and financing international trade and investment, and championing free trade.</p>
+		<h2 class="header">What's on great.gov.uk</h2>
+		<p aria-labels="about-list-1">You can:</p>
                 <ul id="about-list-1">
-                    <li><a href="/">read guidance</a> to help you export your product or service
+                    <li><a href="{% url 'landing-page' %}">read guidance</a> to help you export your product or service
                     </li>
-                    <li><a href="/triage">get market statistics and guidance</a> to match your experience</li>
+                    <li><a href="{% url 'triage-wizard' %}">get market statistics and guidance</a> to match your experience</li>
                     <li><a href="https://find-a-buyer.export.great.gov.uk/">create a profile</a> to showcase your business to overseas buyers</li>
-					<li><a href="https://selling-online-overseas.export.great.gov.uk/">find an online marketplace</a> to sell your products overseas</li>
-					<li><a href="https://opportunities.export.great.gov.uk/">apply for opportunities</a> to sell your product or service overseas</li>
-					<li><a href="/get finance">get finance advice and support from UK Export Finance</a></li>
-					<li><a href="https://www.events.trade.gov.uk/">find events and trade missions</a> to attend</li>
+		    <li><a href="https://selling-online-overseas.export.great.gov.uk/">find an online marketplace</a> to sell your products overseas</li>
+		    <li><a href="https://opportunities.export.great.gov.uk/">apply for opportunities</a> to sell your product or service overseas</li>
+		    <li><a href="{% url 'get-finance' %}">get finance advice and support from UK Export Finance</a></li>
+		    <li><a href="https://www.events.trade.gov.uk/">find events and trade missions</a> to attend</li>
                 </ul>
                 <p aria-labels="about-list-2">Overseas companies can:</p>
                 <ul id="about-list-2">
