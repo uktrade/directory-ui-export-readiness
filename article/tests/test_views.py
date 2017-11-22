@@ -334,6 +334,7 @@ def test_article_links_include_next_param(client, group):
             str(article.url) + '?source=' + group.name
         )
 
+
 @pytest.mark.parametrize('group', [
     structure.CUSTOM_PAGE_NEW_ARTICLES,
     structure.CUSTOM_PAGE_REGULAR_ARTICLES,
