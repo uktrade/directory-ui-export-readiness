@@ -198,10 +198,10 @@ class CustomPageView(ArticleReadMixin, TemplateView):
         answers = self.triage_answers
         persona = forms.get_persona(answers)
         if persona == forms.NEW_EXPORTER:
-            return structure.PERSONA_NEW_ARTICLES
+            return structure.CUSTOM_PAGE_NEW_ARTICLES
         elif persona == forms.OCCASIONAL_EXPORTER:
-            return structure.PERSONA_OCCASIONAL_ARTICLES
-        return structure.PERSONA_REGULAR_ARTICLES
+            return structure.CUSTOM_PAGE_OCCASIONAL_ARTICLES
+        return structure.CUSTOM_PAGE_REGULAR_ARTICLES
 
     def get_section_configuration(self):
         answers = self.triage_answers
