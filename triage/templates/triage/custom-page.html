@@ -31,7 +31,7 @@
             {% endif %}
             </h1>
             <p>We've gathered information, guidance and tools to help your business grow.</p>
-                <a href="{% url 'triage-wizard' %}?result" class="preferences">Update preferences</a>
+                <a href="{% url 'triage-wizard' step='summary' %}?result" class="preferences">Update preferences</a>
             <img src="{% static 'images/eig-logo-stacked.png' %}">
         </div>
     </div>
@@ -55,7 +55,7 @@
                 10 largest importers from the UK
             </h2>
             <p class="commodity-name">{{ sector_name }}</p>
-            <p><a href="{% url 'triage-wizard' %}">Select a different product category</a></p>
+            <p><a href="{% url 'triage-wizard' step='sector' %}">Select a different product category</a></p>
             <hr>
             <p>Start your market research with the data shown below. The export data is taken from the <a href="https://comtrade.un.org/">UN Comtrade Database</a>. The gross domestic product and ease of doing business ranking is taken from the World Bank’s <a href="http://www.doingbusiness.org/rankings">Doing Business project</a>.</p>
             <p>For more import and export data use our  <a href="https://comtrade.un.org/labs/dit-trade-vis/?reporter=826&type=C&year=2016&flow=2&commodity">data visualisation tool.</a></p>

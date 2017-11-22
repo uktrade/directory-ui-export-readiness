@@ -1,4 +1,4 @@
-from formtools.wizard.views import SessionWizardView
+from formtools.wizard.views import NamedUrlSessionWizardView
 from directory_constants.constants.exred_sector_names import CODES_SECTORS_DICT
 
 from django.core.urlresolvers import reverse_lazy
@@ -28,15 +28,15 @@ class CompaniesHouseSearchApiView(View):
         return JsonResponse(api_response.json()['items'], safe=False)
 
 
-class TriageWizardFormView(SessionWizardView):
+class TriageWizardFormView(NamedUrlSessionWizardView):
 
-    SECTOR = 'SECTOR'
-    EXPORTED_BEFORE = 'EXPORTED_BEFORE'
-    REGULAR_EXPORTER = 'REGULAR_EXPORTER'
-    ONLINE_MARKETPLACE = 'ONLINE_MARKETPLACE'
-    COMPANY = 'COMPANY'
-    COMPANIES_HOUSE = 'COMPANIES_HOUSE'
-    SUMMARY = 'SUMMARY'
+    SECTOR = 'sector'
+    EXPORTED_BEFORE = 'exported-before'
+    REGULAR_EXPORTER = 'regular-exporter'
+    ONLINE_MARKETPLACE = 'online-marketplace'
+    COMPANY = 'company'
+    COMPANIES_HOUSE = 'companies_house'
+    SUMMARY = 'summary'
 
     form_list = (
         (SECTOR, forms.SectorForm),
@@ -164,7 +164,11 @@ class CustomPageView(ArticleReadMixin, TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         if not self.triage_answers:
-            return redirect('triage-wizard')
+            url = reverse_lazy(
+                'triage-wizard',
+                kwargs={'step': TriageWizardFormView.SECTOR}
+            )
+            return redirect(url)
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

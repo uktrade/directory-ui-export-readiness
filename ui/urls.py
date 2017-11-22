@@ -339,8 +339,10 @@ urlpatterns = [
         name='next-steps-regular-exporter',
     ),
     url(
-        r'^triage$',
-        triage.views.TriageWizardFormView.as_view(),
+        r'^triage/(?P<step>.+)$',
+        triage.views.TriageWizardFormView.as_view(
+            url_name='triage-wizard', done_step_name='finished'
+        ),
         name='triage-wizard'
     ),
     url(
