@@ -18,7 +18,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="76x76" href="{% static 'images/icons/apple-touch-icon-76x76.png' %}">
     <link rel="apple-touch-icon-precomposed" href="{% static 'images/icons/apple-touch-icon-60x60.png' %}">
 
-    <link rel="stylesheet" type="text/css" href="/static/styles/international.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/international.css' %}">
     {% block css %}{% endblock %}
 
     <script src="{% static 'Dit-Pattern-Styling/public/js/third-party.js' %}"></script>
@@ -86,7 +86,7 @@
                 <a href="http://www.facebook.com/share.php?u=/int/en"><img src="{% static 'images/international/facebook.svg' %}" width="36px" height="36px" alt="with Facebook"/></a>
                 <span class="verbose">, </span>
                 <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/int/en&amp;title=Welcome to the UK&amp;source=LinkedIn"><img src="{% static 'images/international/linkedin.svg' %}" width="36px" height="36px" alt="with LinkedIn"/></a><span class="verbose">, </span>
-                <a href="mailto:?&amp;body=Great.gov.uk/int/en&amp;subject=Welcome to the UK"><img src="{% static '/images/international/email.svg' %}" width="36px" height="36px" alt="by email"/></a>
+                <a href="mailto:?&amp;body=Great.gov.uk/int/en&amp;subject=Welcome to the UK"><img src="{% static 'images/international/email.svg' %}" width="36px" height="36px" alt="by email"/></a>
             </p>
         </div>
 
