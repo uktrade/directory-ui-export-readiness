@@ -470,7 +470,10 @@ def test_custom_view(mocked_retrieve_answers, authed_client, sso_user):
         'operations_and_compliance': {'read': 0, 'total': 10},
         'persona_new': {'read': 0, 'total': 18},
         'persona_occasional': {'read': 0, 'total': 38},
-        'persona_regular': {'read': 0, 'total': 18}
+        'persona_regular': {'read': 0, 'total': 18},
+        'custom_persona_new': {'read': 0, 'total': 18},
+        'custom_persona_occasional': {'read': 0, 'total': 38},
+        'custom_persona_regular': {'read': 0, 'total': 18},
     }
 
 
@@ -555,7 +558,7 @@ def test_custom_view_no_triage_result_found(
     (
         True,
         {
-            'persona_article_group': structure.PERSONA_NEW_ARTICLES,
+            'persona_article_group': structure.CUSTOM_PAGE_NEW_ARTICLES,
             'trade_profile': True,
             'selling_online_overseas': False,
             'selling_online_overseas_and_export_opportunities': False,
@@ -566,7 +569,7 @@ def test_custom_view_no_triage_result_found(
     (
         False,
         {
-            'persona_article_group': structure.PERSONA_NEW_ARTICLES,
+            'persona_article_group': structure.CUSTOM_PAGE_NEW_ARTICLES,
             'trade_profile': False,
             'selling_online_overseas': False,
             'selling_online_overseas_and_export_opportunities': False,
@@ -609,7 +612,7 @@ def test_custom_view_new_exporter(
         True,
         False,
         {
-            'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
+            'persona_article_group': structure.CUSTOM_PAGE_OCCASIONAL_ARTICLES,
             'trade_profile': True,
             'selling_online_overseas': False,
             'selling_online_overseas_and_export_opportunities': False,
@@ -621,7 +624,7 @@ def test_custom_view_new_exporter(
         False,
         False,
         {
-            'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
+            'persona_article_group': structure.CUSTOM_PAGE_OCCASIONAL_ARTICLES,
             'trade_profile': False,
             'selling_online_overseas': False,
             'selling_online_overseas_and_export_opportunities': False,
@@ -633,7 +636,7 @@ def test_custom_view_new_exporter(
         True,
         True,
         {
-            'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
+            'persona_article_group': structure.CUSTOM_PAGE_OCCASIONAL_ARTICLES,
             'trade_profile': True,
             'selling_online_overseas': True,
             'selling_online_overseas_and_export_opportunities': False,
@@ -645,7 +648,7 @@ def test_custom_view_new_exporter(
         False,
         True,
         {
-            'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
+            'persona_article_group': structure.CUSTOM_PAGE_OCCASIONAL_ARTICLES,
             'trade_profile': False,
             'selling_online_overseas': True,
             'selling_online_overseas_and_export_opportunities': False,

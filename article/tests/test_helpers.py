@@ -110,6 +110,9 @@ def test_database_get_group_read_progress(
         'persona_new': {'read': 2, 'total': 18},
         'persona_occasional': {'read': 2, 'total': 38},
         'persona_regular': {'read': 0, 'total': 18},
+        'custom_persona_new': {'read': 2, 'total': 18},
+        'custom_persona_occasional': {'read': 2, 'total': 38},
+        'custom_persona_regular': {'read': 0, 'total': 18},
     }
 
 
@@ -132,6 +135,9 @@ def test_session_get_group_read_progress(anon_request, articles_read):
         'persona_new': {'read': 2, 'total': 18},
         'persona_occasional': {'read': 2, 'total': 38},
         'persona_regular': {'read': 0, 'total': 18},
+        'custom_persona_new': {'read': 2, 'total': 18},
+        'custom_persona_occasional': {'read': 2, 'total': 38},
+        'custom_persona_regular': {'read': 0, 'total': 18},
     }
 
 

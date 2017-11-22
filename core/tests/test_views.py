@@ -33,6 +33,9 @@ def test_landing_page(client):
         'persona_new': {'read': 0, 'total': 18},
         'persona_occasional': {'read': 0, 'total': 38},
         'persona_regular': {'read': 0, 'total': 18},
+        'custom_persona_new': {'read': 0, 'total': 18},
+        'custom_persona_occasional': {'read': 0, 'total': 38},
+        'custom_persona_regular': {'read': 0, 'total': 18},
     }
 
 
