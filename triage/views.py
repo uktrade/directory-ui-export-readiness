@@ -144,11 +144,6 @@ class TriageWizardFormView(NamedUrlSessionWizardView):
             context['is_updating_answers'] = (
                 self.persisted_triage_answers != {}
             )
-        if self.is_user_reviewing_persisted_answers:
-            context['form_url'] = reverse_lazy(
-                'triage-wizard',
-                kwargs={'step': self.SUMMARY}
-            )
         return context
 
     def done(self, *args, **kwargs):

@@ -10,7 +10,7 @@
     <section class="questions {% block container_class %}{% endblock %}">
         <div class="container">
             <div class="question ">
-				<form action="{{ form_url }}" method="post" enctype="multipart/form-data">
+				<form method="post" enctype="multipart/form-data">
 					<div class="exred-triage-form">
 						{% if wizard.steps.step1 != wizard.steps.count %}
 							<legend>Question {{ wizard.steps.step1 }}</legend>
