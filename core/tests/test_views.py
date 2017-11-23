@@ -11,13 +11,15 @@ from core import views
 from casestudy import casestudies
 
 
-def test_landing_page(client):
+def test_landing_page(client, settings):
+    settings.TRIAGE_COMPLETED_COOKIE_NAME = 'the-name'
     url = reverse('landing-page')
 
     response = client.get(url)
 
     assert response.status_code == 200
     assert response.template_name == [views.LandingPageView.template_name]
+    assert response.context_data['TRIAGE_COMPLETED_COOKIE_NAME'] == 'the-name'
     assert response.context_data['casestudies'] == [
         casestudies.MARKETPLACE,
         casestudies.HELLO_BABY,
@@ -117,11 +119,42 @@ def test_international_landing_view_translations_bidi(client):
     ]
 
 
-def test_set_etag_mixin(rf):
-    class MyView(SetEtagMixin, TemplateView):
+@pytest.mark.parametrize('method,expected', (
+    ('get', '"aa579dae951f3cc5d696e5359261e123"'),
+    ('post', None),
+    ('patch', None),
+    ('put', None),
+    ('delete', None),
+    ('head', None),
+    ('options', None),
+))
+def test_set_etag_mixin(rf, method, expected):
+    class MyView(views.SetEtagMixin, TemplateView):
+
         template_name = 'core/robots.txt'
 
-    view = MyView.as_view()
-    response = view(rf.get('/'))
+        def post(self, *args, **kwargs):
+            return super().get(*args, **kwargs)
 
-    assert response.get('Etag')
+        def patch(self, *args, **kwargs):
+            return super().get(*args, **kwargs)
+
+        def put(self, *args, **kwargs):
+            return super().get(*args, **kwargs)
+
+        def delete(self, *args, **kwargs):
+            return super().get(*args, **kwargs)
+
+        def head(self, *args, **kwargs):
+            return super().get(*args, **kwargs)
+
+        def options(self, *args, **kwargs):
+            return super().get(*args, **kwargs)
+
+    request = getattr(rf, method)('/')
+    request.sso_user = None
+    view = MyView.as_view()
+    response = view(request)
+
+    response.render()
+    assert response.get('Etag') == expected

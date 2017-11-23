@@ -2,11 +2,10 @@ from django.conf import settings
 from django.contrib import sitemaps
 from django.core.urlresolvers import reverse
 
-from django.utils.cache import get_conditional_response, set_response_etag
+from django.utils.cache import set_response_etag
 from django.views.generic import TemplateView
 
 from casestudy import casestudies
-from triage.helpers import TriageAnswersManager
 from ui.views import TranslationsMixin
 
 
