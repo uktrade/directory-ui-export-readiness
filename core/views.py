@@ -48,9 +48,6 @@ class LandingPageView(SetEtagMixin, TemplateView):
                 casestudies.HELLO_BABY,
                 casestudies.YORK,
             ],
-            article_group_read_progress=(
-                self.request.article_read_manager.get_group_read_progress()
-            ),
         )
 
 

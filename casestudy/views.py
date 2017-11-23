@@ -5,7 +5,7 @@ from core.helpers import build_social_links
 from core.views import SetEtagMixin
 
 
-class BaseCaseStudyView(SetEtagMixin, TemplateView):
+class BaseCaseStudyView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         social_links = build_social_links(
             request=self.request, title=self.casestudy.title
@@ -17,16 +17,16 @@ class BaseCaseStudyView(SetEtagMixin, TemplateView):
         )
 
 
-class CasestudyHelloBabyView(BaseCaseStudyView):
+class CasestudyHelloBabyView(SetEtagMixin, BaseCaseStudyView):
     template_name = 'casestudy/hello-baby.html'
     casestudy = casestudies.HELLO_BABY
 
 
-class CasestudyMarketplaceView(BaseCaseStudyView):
+class CasestudyMarketplaceView(SetEtagMixin, BaseCaseStudyView):
     template_name = 'casestudy/marketplace.html'
     casestudy = casestudies.MARKETPLACE
 
 
-class CasestudyYorkBagView(BaseCaseStudyView):
+class CasestudyYorkBagView(SetEtagMixin, BaseCaseStudyView):
     template_name = 'casestudy/york-bag.html'
     casestudy = casestudies.YORK
