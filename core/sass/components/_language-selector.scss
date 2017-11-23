@@ -113,7 +113,7 @@
 
 .LanguageSelectorDialog-Modal {
   a {
-    font-size: inherit;
+    font-size: 21px;
   }
   
   li {
@@ -122,16 +122,21 @@
   }
   
   p {
-    @include heading-m;
+    @include body-xl;
     display: block;
+    margin-bottom: $spacing-3;
   }
   
   ul {
     display: block;
   }
-  
-  .content {
-    padding-top: 100px;
+
+  .close {
+    background: $white url(/static/images/international/great-close-icon.svg) top right no-repeat;
+    height: 30px;
+    overflow: hidden;
+    text-indent: -1000px;
+    width: 30px;
   }
 
   .countries {
@@ -154,19 +159,12 @@
     overflow: hidden;
     padding: 0 $spacing-3 0 0;
     width: $cols-8;
-
-
-    p {
-      left: $spacing-3;
-      margin-right: 40px;
-      position: absolute;
-      top: $spacing-3;
-    }
   }
 
   .domestic-redirect {
     float: right;
     padding-left: $spacing-3;
+    padding-top: 71px;
     width: $cols-4;
 
     p {
@@ -176,6 +174,9 @@
 
     span {
       @include body-s;
+      display: block;
+      max-width: 215px;
+      padding-top: $spacing-4;
     }
   }
   
@@ -193,7 +194,7 @@
 .LanguageSelectorDialog-Tracker {
   @include body-s;
   background-image: url(/static/images/international/language-icon.svg);
-  background-position: 0px 6px;
+  background-position: 0px 8px;
   background-repeat: no-repeat;
   background-size: 20px;
   color: $white;
@@ -201,7 +202,8 @@
   display: inline-block;
   height: 27px;
   line-height: 27px;
-  padding: 3px 3px 3px 25px;
+  min-height: 30px;
+  padding: 5px 3px 3px 25px;
   text-decoration: none;
   
   &:hover {
@@ -284,7 +286,7 @@
 
   .LanguageSelectorDialog-Modal {
     p {
-      @include heading-m-mob;
+      @include body-l;
     }
 
     .content {
