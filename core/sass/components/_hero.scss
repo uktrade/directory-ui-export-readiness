@@ -14,8 +14,9 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  padding-bottom: $spacing-3;
   padding-top: 200px;
-  padding-bottom: 0;
+  position: relative;
 
   img {
     float: right;
@@ -23,6 +24,7 @@
   }
 
   p {
+    margin-top: $spacing-3;
     width: 50%;
   }
 
@@ -35,23 +37,27 @@
       top: 0;
     }
   }
-  &:after {
-    display: block;
+  &:before {
     background-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
-    margin-top: -250px;
-    height: 400px;
-    width: 100%;
     content: '';
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
   }
 }
 
 .hero-teaser {
   position: relative;
+
   img {
     position: absolute;
     bottom: 0;
     right: 0;
   }
+
   p {
     color: $white;
   }
@@ -59,7 +65,7 @@
   .title {
     @include heading-hero;
     color: $white;
-    margin-bottom: $spacing-4;
+    margin-bottom: 0;
     text-transform: uppercase;
 
     span {
@@ -94,17 +100,13 @@
   .hero-section {
     padding-top: 200px;
     position: relative;
-    &:after {
-      height: 230px;
-    }
+
     img {
-      left: $spacing-3;
-      position: absolute;
-      top: 50px;
-      z-index: 0;
+      display: none;
     }
 
     p {
+      margin-top: $spacing-3-m;
       width: 100%;
     }
 
@@ -119,23 +121,14 @@
 
 @media (max-width: 420px) {
   .hero-section {
-    padding-top: 0px;
-
-    img {
-      height: 60px;
-      top: -100px;
-      left: 0;
-    }
-    .container {
-      height: 530px;
-    }
+    padding-bottom: $spacing-3-m;
+    padding-top: 0;
   }
 
   .hero-teaser {
     .title {
       @include heading-hero-mob;
       margin-top: 0;
-      margin-bottom: 55px;
       margin-left: 10px;
       span {
         margin-bottom: 2px;
