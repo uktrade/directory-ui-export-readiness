@@ -193,7 +193,7 @@
 .LanguageSelectorDialog-Tracker {
   @include body-s;
   background-image: url(/static/images/international/language-icon.svg);
-  background-position: 0px 6px;
+  background-position: 0px 8px;
   background-repeat: no-repeat;
   background-size: 20px;
   color: $white;
@@ -201,7 +201,8 @@
   display: inline-block;
   height: 27px;
   line-height: 27px;
-  padding: 3px 3px 3px 25px;
+  min-height: 30px;
+  padding: 5px 3px 3px 25px;
   text-decoration: none;
   
   &:hover {

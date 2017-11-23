@@ -148,6 +148,7 @@ section {
   @include body-s;
 	background-color: $grey;
   color: $light-grey;
+  min-height: 37px;
   overflow: hidden;
   
   a {
