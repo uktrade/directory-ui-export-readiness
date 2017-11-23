@@ -76,6 +76,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.i18n',
                 'directory_header_footer.context_processors.sso_processor',
                 'directory_header_footer.context_processors.urls_processor',
                 ('directory_header_footer.context_processors.'
@@ -110,6 +111,18 @@ CACHES = {
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
 LANGUAGE_CODE = 'en-gb'
+
+# https://github.com/django/django/blob/master/django/conf/locale/__init__.py
+LANGUAGES = [
+    ('en-gb', 'English'),               # English
+    ('zh-hans', '简体中文'),             # Simplified Chinese
+    ('de', 'Deutsch'),                  # German
+    ('ja', '日本語'),                    # Japanese
+    ('es', 'Español'),                  # Spanish
+    ('fr', 'Français'),                 # French
+    ('pt', 'Português'),                # Portuguese
+    ('ar', 'العربيّة'),                 # Arabic
+]
 
 TIME_ZONE = 'UTC'
 
