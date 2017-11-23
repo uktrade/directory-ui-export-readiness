@@ -6,6 +6,14 @@
     <link href="{% static 'styles/home.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
+{% block header_area %}
+    {% include 'directory_header_footer/header_static.html' %}
+{% endblock %}
+
+{% block footer_area %}
+    {% include 'directory_header_footer/footer_static.html' %}
+{% endblock %}
+
 {% block content %}
     <section class="hero-section">
         <div class="container">
