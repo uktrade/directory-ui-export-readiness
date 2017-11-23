@@ -54,6 +54,7 @@ section {
   color: $white;
   padding-bottom: 5px;
   padding-top: 5px;
+  text-align: right;
 
   img {
     vertical-align: middle;
@@ -61,7 +62,6 @@ section {
 
   span {
     @include body-s-mob;
-    float: right;
     line-height: 1.9em;
   }
 }
