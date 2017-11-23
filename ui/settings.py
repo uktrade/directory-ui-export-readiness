@@ -57,6 +57,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'sso.middleware.SSOUserMiddleware',
     'core.middleware.NoCacheMiddlware',
     'core.middleware.ArticleReadManagerMiddlware',
@@ -119,10 +120,13 @@ LANGUAGES = [
     ('de', 'Deutsch'),                  # German
     ('ja', '日本語'),                    # Japanese
     ('es', 'Español'),                  # Spanish
-    ('fr', 'Français'),                 # French
     ('pt', 'Português'),                # Portuguese
     ('ar', 'العربيّة'),                 # Arabic
 ]
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
 
 TIME_ZONE = 'UTC'
 
