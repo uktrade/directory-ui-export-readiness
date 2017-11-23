@@ -268,9 +268,7 @@ SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'true') == 'true'
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SECURE = True
-TRIAGE_COMPLETED_COOKIE_NAME = os.getenv(
-    'TRIAGE_COMPLETED_COOKIE_NAME', 'has_completed_triage'
-)
+TRIAGE_COMPLETED_COOKIE_NAME = 'has_completed_triage'
 
 API_CLIENT_CLASSES = {
     'default': 'directory_api_client.client.DirectoryAPIClient',

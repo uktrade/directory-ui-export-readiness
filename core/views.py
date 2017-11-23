@@ -61,7 +61,7 @@ class InternationalLandingPageView(
     template_name_bidi = 'core/landing_page_international-bidi.html'
 
 
-class InterstitialPageExoppsView(TemplateView):
+class InterstitialPageExoppsView(SetEtagMixin, TemplateView):
     template_name = 'core/interstitial_exopps.html'
 
     def get_context_data(self, **kwargs):
@@ -92,3 +92,19 @@ class StaticViewSitemap(sitemaps.Sitemap):
 class RobotsView(TemplateView):
     template_name = 'core/robots.txt'
     content_type = 'text/plain'
+
+
+class AboutView(SetEtagMixin, TemplateView):
+    template_name = 'core/about.html'
+
+
+class PrivacyCookies(SetEtagMixin, TemplateView):
+    template_name = 'core/privacy_cookies.html'
+
+
+class TermsConditions(SetEtagMixin, TemplateView):
+    template_name = 'core/terms_conditions.html'
+
+
+class SorryView(SetEtagMixin, TemplateView):
+    template_name = 'core/sorry.html'

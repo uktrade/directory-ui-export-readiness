@@ -158,3 +158,31 @@ def test_set_etag_mixin(rf, method, expected):
 
     response.render()
     assert response.get('Etag') == expected
+
+
+def test_about_view(client):
+    response = client.get(reverse('about'))
+
+    assert response.status_code == 200
+    assert response.template_name == [views.AboutView.template_name]
+
+
+def test_privacy_view(client):
+    response = client.get(reverse('privacy-cookies'))
+
+    assert response.status_code == 200
+    assert response.template_name == [views.PrivacyCookies.template_name]
+
+
+def test_terms_and_conditions_view(client):
+    response = client.get(reverse('terms-conditions'))
+
+    assert response.status_code == 200
+    assert response.template_name == [views.TermsConditions.template_name]
+
+
+def test_sorry_view(client):
+    response = client.get(reverse('sorry'))
+
+    assert response.status_code == 200
+    assert response.template_name == [views.SorryView.template_name]

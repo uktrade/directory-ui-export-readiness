@@ -1,10 +1,11 @@
 from django.views.generic import TemplateView
 
-from core.helpers import build_social_links
 from casestudy import casestudies
+from core.helpers import build_social_links
+from core.views import SetEtagMixin
 
 
-class BaseCaseStudyView(TemplateView):
+class BaseCaseStudyView(SetEtagMixin, TemplateView):
     def get_context_data(self, *args, **kwargs):
         social_links = build_social_links(
             request=self.request, title=self.casestudy.title
