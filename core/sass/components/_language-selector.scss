@@ -129,6 +129,10 @@
   ul {
     display: block;
   }
+
+  .close {
+    background: $white url(/static/images/international/great-close-icon.svg) top right no-repeat;
+  }
   
   .content {
     padding-top: 100px;

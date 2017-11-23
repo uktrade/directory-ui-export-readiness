@@ -132,7 +132,6 @@
   width: calc(100% - (#{$spacing-3 * 2}));
 
   .close {
-    background: $white url(/static/images/icons/close.png) top right no-repeat;
     border-radius: 15px;
     border-width: 0;
     cursor: pointer;
