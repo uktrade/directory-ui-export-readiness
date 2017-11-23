@@ -1,5 +1,7 @@
+from django.conf import settings
 from django.contrib import sitemaps
 from django.core.urlresolvers import reverse
+
 from django.utils.cache import get_conditional_response, set_response_etag
 from django.views.generic import TemplateView
 
@@ -30,20 +32,18 @@ class ArticleReadMixin:
 class SetEtagMixin:
     def dispatch(self, request, *args, **kwargs):
         response = super().dispatch(request, *args, **kwargs)
-        if request.method != 'GET' or response.has_header('ETag'):
-            return response
-        return set_response_etag(response)
+        if request.method == 'GET':
+            response.add_post_render_callback(set_response_etag)
+        return response
 
 
 class LandingPageView(SetEtagMixin, TemplateView):
     template_name = 'core/landing-page.html'
 
     def get_context_data(self, *args, **kwargs):
-        answer_manager = TriageAnswersManager(self.request)
-        has_completed_triage = answer_manager.retrieve_answers() != {}
         return super().get_context_data(
             *args, **kwargs,
-            has_completed_triage=has_completed_triage,
+            TRIAGE_COMPLETED_COOKIE_NAME=settings.TRIAGE_COMPLETED_COOKIE_NAME,
             casestudies=[
                 casestudies.MARKETPLACE,
                 casestudies.HELLO_BABY,

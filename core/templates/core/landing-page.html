@@ -30,11 +30,9 @@
                         <li>export statistics to start your market research</li>
                         <li>access to services to help you export</li>
                     </ul>
-                    {% if has_completed_triage %}
-                        <a href="{% url 'custom-page' %}" class="button button-cta">Continue your export journey</a>
-                    {% else %}
-                        <a href="{% url 'triage-wizard' step='sector' %}" class="button button-cta">Get started</a>
-                    {% endif %}
+                    {# visibility changed by javascript #}
+                    <a id="begin-export-journey" href="{% url 'triage-wizard' step='sector' %}" class="button button-cta">Get started</a>
+                    <a id="continue-export-journey" href="{% url 'custom-page' %}" class="button button-cta" style="display: none;">Continue your export journey</a>
                 </div>
             </div>
         </div>
@@ -104,3 +102,13 @@
         </div>
     </section>
 {% endblock %}
+
+{% block bodyScripts %}
+    <script type="text/javascript">
+      var hasCompletedTriage = document.cookie.indexOf('{{ TRIAGE_COMPLETED_COOKIE_NAME }}=true') > -1;
+      var continueJourneyStyle = hasCompletedTriage ? 'inline-block' : 'none';
+      var beginJourneyStyle = hasCompletedTriage ? 'none' : 'inline-block';
+      document.getElementById('continue-export-journey').style.display = continueJourneyStyle;
+      document.getElementById('begin-export-journey').style.display = beginJourneyStyle;
+    </script>
+{% endblock bodyScripts %}

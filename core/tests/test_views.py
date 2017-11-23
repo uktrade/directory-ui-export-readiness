@@ -1,10 +1,11 @@
 import http
 
-from django.core.urlresolvers import reverse
-from django.conf import settings
-
 from bs4 import BeautifulSoup
 import pytest
+
+from django.core.urlresolvers import reverse
+from django.conf import settings
+from django.views.generic import TemplateView
 
 from core import views
 from casestudy import casestudies
@@ -114,3 +115,13 @@ def test_international_landing_view_translations_bidi(client):
     assert response.template_name == [
         views.InternationalLandingPageView.template_name_bidi
     ]
+
+
+def test_set_etag_mixin(rf):
+    class MyView(SetEtagMixin, TemplateView):
+        template_name = 'core/robots.txt'
+
+    view = MyView.as_view()
+    response = view(rf.get('/'))
+
+    assert response.get('Etag')
