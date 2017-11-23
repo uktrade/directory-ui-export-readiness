@@ -174,7 +174,7 @@
 
     span {
       @include body-s;
-      display: inline-block;
+      display: block;
       max-width: 215px;
       padding-top: $spacing-4;
     }
