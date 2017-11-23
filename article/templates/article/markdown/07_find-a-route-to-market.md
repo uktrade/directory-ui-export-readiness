@@ -14,6 +14,6 @@ The way you choose to sell your product or service will affect your profits and 
 
 ### Start small and test the market
 
-Trying one or more routes to market on a small scale is a good way to test the route to market and test your product or service on the market.
+Trying one or more routes to market on a small scale is a good way to test the route to market and test your product or service in that market.
 
 For example, you could [start selling overseas through an ecommerce platform](https://selling-online-overseas.export.great.gov.uk/ "Selling online overseas"). The setup costs are small so you can test demand for your product without too much risk. If it goes well you could look at expanding your online presence or start using an agent or distributor.

@@ -6,6 +6,8 @@ Meeting a client in person helps:
 
 Research the customs and culture in your target market. If face-to-face meetings are expected you should make them a part of your export plan. If you don&rsquo;t you could struggle to win business in that market.
 
+Start your research with our [exporting country guides](https://www.gov.uk/government/collections/exporting-country-guides "Exporting country guides - GOV.UK").
+
 ### Plan your meetings
 
 Plan overseas visits to make the most of the investment of time and money. You should:
@@ -21,7 +23,7 @@ Think strategically about how you&rsquo;ll nurture the relationship over time af
 
 ### Alternatives to face-to-face meetings
 
-Travelling to overseas meetings can be expensive and time consuming. If you can&rsquo;t afford to visit a client in their own country, you could arrange to meet them at an international trade show in the UK or overseas.
+Travelling to overseas meetings can be expensive and time consuming. If you can&rsquo;t afford to visit a client in their own country, you could arrange to meet them at an international trade show.
 
 Trade shows can be cost effective if you arrange face-to-face meetings with several customers. They are a good place to market your product or service and to find agents, distributors and potential customers.
 

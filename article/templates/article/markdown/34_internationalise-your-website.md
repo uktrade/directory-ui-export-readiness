@@ -1,8 +1,8 @@
-Having a website is vital to promote and sell your products internationally. Having a website will help buyers to:
+Having a website will help buyers to:
 
  - have confidence that you&rsquo;re an established business
  - see what you&rsquo;re selling in greater detail
- - show you&rsquo;re business to their colleagues
+ - show your business to their colleagues
 
 
 ### Buy your company domain
@@ -18,12 +18,12 @@ Having a short, accurate domain name will make it easier for buyers to find and 
 
 ### Choose your domain extension
 
-A domain extension is the .com, .co.uk, .org of a website URL. Domain extensions have different meanings so it&rsquo;s important to choose the right one for your business. As a UK business, your domain extension should be .co.uk.
+A domain extension is the .com, .co.uk or .org of a website URL. Domain extensions have different meanings so it&rsquo;s important to choose the right one for your business. UK websites are usually .co.uk but you may choose .com if you plan to trade internationally.
 
 If you want to have a website in a specific country other than the UK, you could: 
 
-- choose a domain extension suitable for that country, such as website.cn for China
-- use a subdomain, such as website.com/cn
+- choose a domain extension suitable for that country, such as .cn for China
+- use a subdomain, such as .com/cn
 
 Be aware that:
 

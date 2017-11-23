@@ -2,12 +2,12 @@
 
 {% load static from staticfiles %}
 
-{% block header_class %}operations{% endblock %}
-
+{% block header_style %}background-image: url( {% static 'images/vertical-hero-operations.png' %}){% endblock %}
 
 {% block hero_title %}
 <span>Operations</span><br>
-<span>and compliance</span>
+<span>and</span><br>
+<span>compliance</span>
 <br>
 {% endblock %}
 
@@ -18,5 +18,5 @@
 	Manage the logistics
 {% endblock %}
 {% block subtitle %}
-	The details are important from getting your product or service to your customers to protecting your brand.
+	Manage your export operations including getting your product or service to your customers and protecting your brand.
 {% endblock %}

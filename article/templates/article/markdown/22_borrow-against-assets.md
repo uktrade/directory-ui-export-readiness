@@ -3,7 +3,7 @@ The main types of asset lending are:
 * invoice factoring
 * invoice discounting
 * supply chain finance
-* sset based lending
+* asset based lending
 
 ### Borrow against invoices
 

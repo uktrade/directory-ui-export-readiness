@@ -32,7 +32,7 @@ Online resources for market size include:
 
 Online resources for market attractiveness include:
 
-- [exporting country guides](https://www.gov.uk/government/collections/exporting-country-guides "GOV.UK exporting country guides") for an overview of economic and industry information, legal and IP issues and language and cultural barriers
+- [exporting country guides](https://www.gov.uk/government/collections/exporting-country-guides "GOV.UK exporting country guides") for an overview of economic and industry information, legal and intellectual property issues and language and cultural barriers
 - [overseas business risk reports](https://www.gov.uk/government/collections/overseas-business-risk "GOV.UK Overseas Business Risk") for information on political instability, terrorism, crime, corruption, human rights issues and intellectual property risks
 - searching for [pre-published market research reports](https://www.marketresearch.com/ "market research reports and industry analysis")
 - pay-as-you-go bespoke reports from [Alacra](https://www.alacra.com/business-research-solutions/ "Alacra")

@@ -13,15 +13,15 @@ You should use an experienced operator who is a member of the British Internatio
 
 [Find a freight forwarder on the BIFA website](http://www.bifa.org/members "BIFA").
 
-Read more on [freight forwarding on GOV.UK](https://www.gov.uk/guidance/freight-forwarding-moving-goods "GOV.UK Freight forwarding: moving goods").
+Read more on [freight forwarding](https://www.gov.uk/guidance/freight-forwarding-moving-goods "Freight forwarding: moving goods - GOV.UK").
 
 ### Choose your transport
 
 You can use any combination of road, rail, air or sea to transport your goods. Take into account:
 
 - costs and distance
-- when it needs to be delivered by
+- when the goods need to arrive
 - your product&rsquo;s size, weight, perishability and any need for security
-- special requirements for animals and dangerous goods
+- special requirements or [export licences for animals and dangerous goods](https://www.gov.uk/guidance/beginners-guide-to-export-controls "Do I need an export licence? - GOV.UK")
 
-If you&rsquo;re working with a freight forwarder to help you manage transport and logistics, discuss the options thoroughly with them. Get information on [the different types of international trade transport on gov.uk](https://www.gov.uk/guidance/transport-and-distribution-for-international-trade "GOV.UK Transport and distribution for international trade").
+If you&rsquo;re working with a freight forwarder to help you manage transport and logistics, discuss the options thoroughly with them. Get information on [the different types of international trade transport](https://www.gov.uk/guidance/transport-and-distribution-for-international-trade "Transport and distribution for international trade - GOV.UK").
