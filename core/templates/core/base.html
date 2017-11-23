@@ -48,7 +48,9 @@
         {% include 'core/google_tag_manager_body.html' %}
         <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
 
-        {% include 'directory_header_footer/header.html' %}
+        {% block header_area %}
+            {% include 'directory_header_footer/header.html' %}
+        {% endblock %}
         <main id="content" class="{% block css_layout_class %}{% endblock css_layout_class %}" role="main">
             {% block content %}{% endblock %}
         </main>
@@ -61,7 +63,9 @@
         </section>
         {% endblock %}
 
-        {% include 'directory_header_footer/footer.html' %}
+        {% block footer_area %}
+            {% include 'directory_header_footer/footer.html' %}
+        {% endblock %}
         {% block bodyScripts %}{% endblock bodyScripts %}
     </body>
 </html>
