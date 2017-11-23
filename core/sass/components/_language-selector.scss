@@ -132,6 +132,10 @@
 
   .close {
     background: $white url(/static/images/international/great-close-icon.svg) top right no-repeat;
+    height: 30px;
+    overflow: hidden;
+    text-indent: -1000px;
+    width: 30px;
   }
   
   .content {

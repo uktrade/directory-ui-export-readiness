@@ -132,17 +132,17 @@
   width: calc(100% - (#{$spacing-3 * 2}));
 
   .close {
-    border-radius: 15px;
-    border-width: 0;
+    background-color: transparent;
+    border: none;
+    color: $active-blue;
     cursor: pointer;
-    height: 30px;
-    overflow: hidden;
-    text-indent: -1000px;
+    cursor: pointer;
+    font-size: inherit;
     padding: 0;
     position: absolute;
-    right: $spacing-4;
-    top: $spacing-4;
-    width: 30px;
+    right: 0;
+    text-decoration: underline;
+    top: 0;
     z-index: 1;
   }
 
