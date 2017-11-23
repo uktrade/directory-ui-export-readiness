@@ -19,7 +19,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:image" content="{% static 'images/icons/opengraph-image.png' %}">
         <link href="{% static 'Dit-Pattern-Styling/public/css/main.css' %}" media="all" rel="stylesheet" />
-        <link href="{% static 'Dit-Pattern-Styling/public/css/compatibility.css' %}" media="all" rel="stylesheet" />
         <script src="{% static 'Dit-Pattern-Styling/public/js/third-party.js' %}"></script>
         <script src="{% static 'Dit-Pattern-Styling/public/js/script.js' %}"></script>
 
@@ -53,11 +52,15 @@
         <main id="content" class="{% block css_layout_class %}{% endblock css_layout_class %}" role="main">
             {% block content %}{% endblock %}
         </main>
+
+        {% block feedback_reporter %}
         <section class="error-reporting">
             <div class="container">
                 <a href="{{ external_services.FEEDBACK_URL }}" target="_blank">Is there anything wrong with this page?</a>
             </div>
         </section>
+        {% endblock %}
+
         {% include 'directory_header_footer/footer.html' %}
         {% block bodyScripts %}{% endblock bodyScripts %}
     </body>

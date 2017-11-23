@@ -329,7 +329,7 @@ urlpatterns = [
         name='next-steps-new-exporter',
     ),
     url(
-        r"^ooccasional/next-steps$",
+        r"^occasional/next-steps$",
         article.views.NextStepsOccasionalExporterView.as_view(),
         name='next-steps-occasional-exporter',
     ),
@@ -339,8 +339,10 @@ urlpatterns = [
         name='next-steps-regular-exporter',
     ),
     url(
-        r'^triage$',
-        triage.views.TriageWizardFormView.as_view(),
+        r'^triage/(?P<step>.+)$',
+        triage.views.TriageWizardFormView.as_view(
+            url_name='triage-wizard', done_step_name='finished'
+        ),
         name='triage-wizard'
     ),
     url(

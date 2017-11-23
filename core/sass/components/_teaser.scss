@@ -1,0 +1,82 @@
+// Teaser Component
+// ---------------------------
+
+.teaser-site,
+.teaser-site-external {
+  background-color: $white;
+  border: $light-grey solid 1px;
+  margin-bottom: $spacing-3;
+  padding: $spacing-3;
+
+  .title {
+    @include heading-s;
+  }
+}
+
+.teaser-section {
+  padding: $spacing-3 0;
+  img {
+    border-bottom: $great-red solid 4px;
+    float: right;
+    width: calc(50% - #{$spacing-3});
+  }
+  
+  p {
+    overflow: hidden;
+  }
+
+  .container {
+    overflow: hidden;
+  }
+
+  .text {
+    display: block;
+    margin-bottom: $spacing-2;
+  }
+}
+
+
+// TABLET 
+@media (max-width: 767px) {
+  .teaser-section {
+    img {
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      width: 100%;
+    }
+
+    .container {
+      padding-bottom: 54%;
+      position: relative;
+    }
+  }
+}
+
+
+// MOBILE
+@media (max-width: 540px) {
+  .teaser-section {
+    .text {
+      margin-bottom: $spacing-3-m;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .teaser-site,
+  .teaser-site-external {
+    margin-bottom: $spacing-3-m;
+    padding-bottom: $spacing-3-m;
+    padding-left: $spacing-3-m;
+    padding-right: $spacing-3-m;
+
+    p {
+      margin-bottom: $spacing-3-m;
+    }
+
+    .title {
+      margin-bottom: 15px;
+    }
+  } 
+}

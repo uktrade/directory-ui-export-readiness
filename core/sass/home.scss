@@ -10,6 +10,7 @@
 @import './components/_resources';
 @import './components/_exporter-story';
 @import './components/_carousel';
+@import './components/_teaser';
 
 #personas,
 #services {
@@ -51,9 +52,6 @@
   padding-bottom: 60px;
 }
 
-#content section .intro {
-  margin-bottom: 30px;
-}
 
 // TABLET
 @media (min-width: 767px) {

@@ -11,6 +11,7 @@
 @import './components/_resources';
 @import './components/_feedback';
 @import './components/_carousel';
+@import './components/_top_markets';
 
 
 .hero-section {
@@ -126,6 +127,7 @@ h2 {
   }
 }
 
+
 @media (min-width: 767px) {
   .service-section.fas {
     .content {
@@ -146,6 +148,10 @@ h2 {
     float: none;
     margin: 0;
     width: auto;
+  }
+
+  #largest-importers {
+    margin-bottom: $spacing-3;
   }
 }
 
@@ -204,3 +210,4 @@ h2 {
     width: auto;
   }
 }
+
