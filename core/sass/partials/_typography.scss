@@ -24,6 +24,14 @@ $brand-font-serif: georgia, serif;
   line-height: 30px;
 }
 
+@mixin heading-l-int {
+  font-family: $brand-font-alternative;
+  font-size:   36px;
+  font-weight: 800;
+  line-height: 1.15em;
+  margin: 0 0 $spacing-4 0;
+}
+
 @mixin heading-l {
   font-family: $brand-font-standard;
   font-size:   48px;
