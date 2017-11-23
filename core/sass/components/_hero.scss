@@ -1,21 +1,12 @@
 // Hero Banner Component Template
 // -------------------------------
 
-// REQIURES...
-// $mid-grey
-// $white
-//
-// $spacing-2
-//
-// @mixin heading-m
-
 .hero-section {
   background-color: $white;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  padding-bottom: $spacing-3;
-  padding-top: 200px;
+  padding: 0;
   position: relative;
 
   img {
@@ -26,6 +17,11 @@
   p {
     margin-top: $spacing-3;
     width: 50%;
+  }
+
+  .container {
+    min-height: 286px;
+    position: relative;
   }
 
   .video {
@@ -50,7 +46,9 @@
 }
 
 .hero-teaser {
-  position: relative;
+  bottom: 0;
+  left: 0;
+  position: absolute;
 
   img {
     position: absolute;
@@ -64,23 +62,13 @@
 
   .title {
     @include heading-hero;
+    background-color: rgba(0, 82, 157, 0.8);
+    border-bottom: $great-red solid 4px;
     color: $white;
+    display: inline-block;
     margin-bottom: 0;
+    padding: $spacing-3;
     text-transform: uppercase;
-
-    span {
-      background-color: $great-red;
-      display: inline-block;
-      margin: 0 0 5px -#{$spacing-4};
-      padding: 8px $spacing-4 5px $spacing-4;
-
-      // firefox specific styling to fix how background colour is positioned in span tags
-      @-moz-document url-prefix() {
-        & {
-          padding: 13px $spacing-4 0px $spacing-4;
-        }
-      }
-    }
   }
 }
 
