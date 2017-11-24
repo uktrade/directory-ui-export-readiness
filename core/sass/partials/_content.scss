@@ -94,7 +94,8 @@ ul {
   overflow: hidden;
   padding: 10px $spacing-2;
   text-decoration: none;
-  -webkit-appearance: default-button;
+  -webkit-appearance: none;
+  border-radius: 0;
 
   &[disabled="disabled"] {
     @include button-disabled($active-blue-disabled, $white);
