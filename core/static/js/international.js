@@ -297,15 +297,21 @@ dit.responsive = (new function () {
     $(document.body).append(this.$container);
   }
   
+  // Handles open actions including whether additioal
+  // ability to focus and remember activator if using
+  // the keyboard for navigation.
   Modal.activate = function(activator, event) {
     switch(event.which) {
       case 1: 
         this.open(false);
         this.activator = null;
+        event.preventDefault();
         break;
       case 13: 
         this.open(true);
+        this.focus(); 
         this.activator = activator;
+        event.preventDefault();
         break;
     }
   }
@@ -325,11 +331,9 @@ dit.responsive = (new function () {
   }
 
   Modal.bindActivators = function($activators) {
-    // Prevent Defaults are after action to stop high-jacking tab too early.
     var self = this;
     $activators.on("click, keydown", function(e) {
       Modal.activate.call(self, this, e);
-      e.preventDefault();
     });
   }
 
@@ -370,17 +374,13 @@ dit.responsive = (new function () {
     }
   }
   
-  Modal.prototype.open = function(addFocus) {
+  Modal.prototype.open = function() {
     var self = this;
     self.$container.css("top", window.scrollY + "px");
     self.$container.addClass(CSS_CLASS_OPEN);
     self.$container.fadeIn(250, function () {
       self.$container.attr(ARIA_EXPANDED, true);
     });
-    
-    if(arguments.length > 0 && addFocus) {
-      self.focus(); 
-    }
 
     if (self.$overlay && self.$overlay.length) {
       Modal.setOverlayHeight(self.$overlay);
@@ -526,7 +526,6 @@ dit.components.languageSelector = (new function() {
 
       this.$control.on("click.LanguageSelectorDialog, keydown.LanguageSelectorDialog", function(e) {
         dit.classes.Modal.activate.call(LANGUAGE_SELECTOR_DISPLAY, this, e);
-        e.preventDefault(); // After activate to avoid high-jacking tabbing
       });
     }
   }
