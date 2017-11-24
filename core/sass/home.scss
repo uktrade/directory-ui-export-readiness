@@ -2,7 +2,7 @@
 // ------------------------------------------------
 
 @import './partials/base';
-@import './components/_hero';
+@import './components/_hero-campaign';
 @import './components/_video';
 @import './components/_triage';
 @import './components/_service';
@@ -23,40 +23,11 @@
   }
 }
 
-.hero-section {
+.hero-campaign-section {
   background-image: url('/static/images/home-hero-tangerine@2x.png');
   padding-top: 45px;
   height: 540px;
 }
-
-.hero-teaser {
-  position: static;
-
-  .title {
-    background: none;
-    border: none;
-    padding: 0;
-
-    span {
-      background-color: $great-red;
-      display: inline-block;
-      margin: 0 0 5px -#{$spacing-4};
-      padding: 8px $spacing-4 5px $spacing-4;
-
-      // firefox specific styling to fix how background colour is positioned in span tags
-      @-moz-document url-prefix() {
-        & {
-          padding: 13px $spacing-4 0px $spacing-4;
-        }
-      }
-    }
-
-    &:before {
-      display: none;
-    }
-  }
-}
-
 
 .intro {
   ul {
@@ -105,7 +76,7 @@
     margin-bottom: 15px;
   }
 
-  .hero-section {
+  .hero-campaign-section {
     background-image: url('/static/images/home-hero-tangerine-mobile@2x.png');
     background-position: 50% 30%;
   }
@@ -125,7 +96,7 @@
 
 // LARGE SCREENS
 @media (min-width: 1200px) {
-  .hero-section {
+  .hero-campaign-section {
     background-position: top center;
   }
 }
