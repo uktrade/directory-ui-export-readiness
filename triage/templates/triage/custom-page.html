@@ -32,7 +32,7 @@
             </h1>
             <p>We've gathered information, guidance and tools to help your business grow.</p>
                 <a href="{% url 'triage-wizard' step='summary' %}?result" class="preferences">Update preferences</a>
-            <img src="{% static 'images/eig-logo-stacked.png' %}">
+            <img src="{% static 'images/eig-logo-stacked.png' %}" alt="">
         </div>
     </div>
 </section>
@@ -67,7 +67,7 @@
                 <dl>
                     <dt class="country">Country</dt>
                     <dd class="country">{{ market.partner }}</dd>
- 
+
                     <dt class="uk">Export value from the UK</dt>
                     <dd class="uk">${{ market.trade_value|intword }}</dd>
 
