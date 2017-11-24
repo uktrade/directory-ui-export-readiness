@@ -35,6 +35,10 @@
   float: left;
   position: static;
   width: 43%;
+
+  .title {
+    margin-bottom: $spacing-3;
+  }
 }
 
 
@@ -226,6 +230,12 @@ h2 {
 }
 
 @media (max-width: 420px) {
+  .hero-teaser {
+    .title {
+      margin-bottom: $spacing-3;
+    }
+  }
+
   .section-content-list {
     width: auto;
   }
