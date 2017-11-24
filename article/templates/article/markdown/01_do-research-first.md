@@ -2,7 +2,7 @@ Doing research early will give you the information you need to make informed dec
 
 - which market to enter and when
 - the best routes into a market
-- how to position your product or service in your chosen market
+- how to position your product or service in your chosen markets
 
 Market data should shape your plans. For example, it could show you that a country you were planning to move into has too much competition or falling demand. 
 
@@ -20,6 +20,6 @@ Plan your research to keep it focused. Common questions to start with are:
 
 ### Start with desk research 
 
-Desk research is a low cost way to prioritise countries to focus your resources on. There is a lot of general market information available online.
+Desk research is a low cost way to focus your resources on your prioritised countries. There is a lot of general market information available online.
 
 Choose a few countries of interest for comparison. Market size will help define the potential demand for your product. Market attractiveness is a measure of how easy it is to enter a market. 

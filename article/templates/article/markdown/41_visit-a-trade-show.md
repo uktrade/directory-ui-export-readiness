@@ -10,6 +10,7 @@ Attending an overseas trade show, fair or exhibition is a good way to:
 
 Find trade shows for your sector:
 
+- on [www.events.trade.gov.uk](https://www.events.trade.gov.uk/search/?fter=trade+shows&submit=Search "find Department for International Trade events, shows and missions")
 - on a directory like [EventsEye](http://www.eventseye.com/index.html "Trade show directory: trade shows, exhibitions, conferences and business events worldwide") 
 - on [Wikipedia](https://en.wikipedia.org/wiki/Trade_fair "Trade fair - Wikipedia") 
 - by asking your trade association

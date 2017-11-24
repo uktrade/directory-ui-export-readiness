@@ -20,7 +20,7 @@ Equity investment is usually sought by businesses that want to grow quickly. The
 
 * want a share of the business
 * want some control or input into the business
-* often bring useful knowledge and expertise
+* often bring useful knowledge, contacts and expertise
 
 Equity could be a good option if you don&rsquo;t have the credit history to borrow through other means.
 
