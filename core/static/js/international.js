@@ -297,6 +297,19 @@ dit.responsive = (new function () {
     $(document.body).append(this.$container);
   }
   
+  Modal.activate = function(activator, event) {
+    switch(event.which) {
+      case 1: 
+        this.open(false);
+        this.activator = null;
+        break;
+      case 13: 
+        this.open(true);
+        this.activator = activator;
+        break;
+    }
+  }
+
   Modal.bindCloseEvents = function() {
     var self = this;
     self.$closeButton.on("click", function(e) {
@@ -310,21 +323,13 @@ dit.responsive = (new function () {
       });
     }
   }
-  
+
   Modal.bindActivators = function($activators) {
     // Prevent Defaults are after action to stop high-jacking tab too early.
     var self = this;
-    $activators.on("click", function(e) {
-      switch(e.which) {
-        case 1: 
-          self.open(false);
-          e.preventDefault();
-          break;
-        case 13: 
-          self.open(true);
-          e.preventDefault();
-          break;
-      }
+    $activators.on("click, keydown", function(e) {
+      Modal.activate.call(self, this, e);
+      e.preventDefault();
     });
   }
 
@@ -515,16 +520,8 @@ dit.components.languageSelector = (new function() {
       this.setContent(this.$dialog.children());
 
       this.$control.on("click.LanguageSelectorDialog, keydown.LanguageSelectorDialog", function(e) {
-        switch(e.which) {
-          case 1: 
-            LANGUAGE_SELECTOR_DISPLAY.open(false);
-            e.preventDefault();
-            break;
-          case 13: 
-            LANGUAGE_SELECTOR_DISPLAY.open(true);
-            e.preventDefault();
-            break;
-        }
+        dit.classes.Modal.activate.call(LANGUAGE_SELECTOR_DISPLAY, this, e);
+        e.preventDefault(); // After activate to avoid high-jacking tabbing
       });
     }
   }
