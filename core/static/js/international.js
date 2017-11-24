@@ -302,13 +302,13 @@ dit.responsive = (new function () {
   // the keyboard for navigation.
   Modal.activate = function(activator, event) {
     switch(event.which) {
-      case 1: 
-        this.open(false);
+      case 1: // mouse
+        this.open();
         this.activator = null;
         event.preventDefault();
         break;
-      case 13: 
-        this.open(true);
+      case 13: // Enter
+        this.open();
         this.focus(); 
         this.activator = activator;
         event.preventDefault();
@@ -316,23 +316,41 @@ dit.responsive = (new function () {
     }
   }
 
+  // Handles close including whether additional
+  // ability to refocus on origina activator if
+  // using keyboard for navigaiton.
+  Modal.deactivate = function(event) {
+    switch(event.which) {
+      case 1: // mouse
+        this.close();
+        this.activator = null;
+        event.preventDefault();
+        break;
+      case 13: // Enter
+        this.close();
+        this.activator && this.activator.focus();
+        this.activator = null;
+        event.preventDefault();
+        break;
+    }
+  }
+
   Modal.bindCloseEvents = function() {
     var self = this;
-    self.$closeButton.on("click", function(e) {
-      e.preventDefault();
-      self.close();
+    self.$closeButton.on("click keydown", function(e) {
+      Modal.deactivate.call(self, e);
     });
     
     if (self.$overlay && self.$overlay.length) {
-      self.$overlay.on("click", function() {
-        self.close();
+      self.$overlay.on("click", function(e) {
+        Modal.deactivate.call(self, e);
       });
     }
   }
 
   Modal.bindActivators = function($activators) {
     var self = this;
-    $activators.on("click, keydown", function(e) {
+    $activators.on("click keydown", function(e) {
       Modal.activate.call(self, this, e);
     });
   }
@@ -366,11 +384,6 @@ dit.responsive = (new function () {
     
     if (self.$overlay && self.$overlay.length) {
       self.$overlay.fadeOut(150);
-    }
-
-    if (self.activator) {
-      self.activator.focus();
-      self.activator = null; // reset
     }
   }
   
