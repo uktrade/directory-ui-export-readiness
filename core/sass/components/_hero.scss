@@ -9,52 +9,20 @@
   padding: 0;
   position: relative;
 
-  img {
-    float: right;
-    height: 90px;
-  }
-
-  p {
-    margin-top: $spacing-3;
-    width: 50%;
-  }
-
   .container {
     min-height: 286px;
     position: relative;
   }
-
-  .video {
-    float: left;
-    padding-top: $spacing-3;
-    img {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-  }
-  &:before {
-    background-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
-    content: '';
-    display: block;
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-  }
 }
 
 .hero-teaser {
+  background-color: rgba(0, 82, 157, 0.8);
+  border-bottom: $great-red solid 4px;
   bottom: 0;
   left: 0;
+  max-width: 530px;
+  padding: $spacing-3;
   position: absolute;
-
-  img {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-  }
 
   p {
     color: $white;
@@ -62,23 +30,10 @@
 
   .title {
     @include heading-hero;
-    background-color: rgba(0, 82, 157, 0.8);
-    border-bottom: $great-red solid 4px;
     color: $white;
     display: inline-block;
-    margin-bottom: 0;
-    padding: $spacing-3;
+    margin: 0;
     text-transform: uppercase;
-  }
-}
-
-
-// TABLET
-@media (max-width: 767px) {
-  .hero-section {
-    p {
-      width: 62%;
-    }
   }
 }
 
@@ -88,47 +43,15 @@
   .hero-section {
     padding-top: 200px;
     position: relative;
-
-    img {
-      display: none;
-    }
-
-    p {
-      margin-top: $spacing-3-m;
-      width: 100%;
-    }
-
-    .video {
-      width: 100%;
-      .button-video {
-        width: 100%;
-      }
-    }
   }
 }
 
 @media (max-width: 420px) {
-  .hero-section {
-    padding-bottom: $spacing-3-m;
-    padding-top: 0;
-  }
-
   .hero-teaser {
+    padding: $spacing-3-m;
+
     .title {
       @include heading-hero-mob;
-      margin-top: 0;
-      margin-left: 10px;
-      span {
-        margin-bottom: 2px;
-        padding: 5px $spacing-4;
-
-        // firefox specific styling to fix how background colour is positioned in span tags
-        @-moz-document url-prefix() {
-          & {
-            padding: 8px $spacing-4 1px $spacing-4;
-          }
-        }
-      }
     }
   }
 }
