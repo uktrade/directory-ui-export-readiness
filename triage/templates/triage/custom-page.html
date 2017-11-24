@@ -40,7 +40,7 @@
 <section class="sector-fact">
     <div class="container">
         <div class="fact">
-          <p class="intro"><span id="top_importer_name">{{ top_importer.partner }}</span> is the largest importer in this sector with a value of <span id="top_importer_global_trade_value">${{ top_importer.global_trade_value|intword|intcomma }}</span></p>
+          <p class="intro"><span id="top_importer_name">{{ top_importer.partner }}</span> is the largest importer in your sector with a value of <span id="top_importer_global_trade_value">${{ top_importer.global_trade_value|intword|intcomma }}</span></p>
           <p class="figure"><strong>${{ top_importer.uk_export_value|intword|intcomma }}</strong><span class="verbose">,&nbsp;</span><span>is the total value of exports in this sector from the UK in 2016</span>
           </p>
         </div>
@@ -52,7 +52,7 @@
     <div class="container">
         <div class="intro" id="largest-importers">
             <h2 class="header">
-                10 largest importers from the UK
+                10 largest importers for your sector from the UK
             </h2>
             <p class="commodity-name">{{ sector_name }}</p>
             <p><a href="{% url 'triage-wizard' step='sector' %}">Select a different product category</a></p>
