@@ -30,7 +30,7 @@ def test_get_articles_from_uuids():
 
 def test_article_group_total_reading_time():
     group = structure.PERSONA_NEW_ARTICLES
-    assert group.total_reading_time == 2048
+    assert group.total_reading_time == 2055
 
 
 @pytest.mark.parametrize(

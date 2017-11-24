@@ -1,6 +1,8 @@
+{% load url_with_source from article_tags %}
+
 Export finance can refer to specific financial products that reduce the risks that come with selling internationally. They are usually short-term products that include:
 
-* guarantees or [letters of credit](/getting-paid/decide-when-youll-get-paid#Share-the-risk "letters of credit") to help you get paid
+* guarantees or [letters of credit]({% url_with_source 'decide-when-youll-get-paid' %}#Share-the-risk "letters of credit") to help you get paid
 * working capital loans to fulfil orders
 * insurance against not being paid
 
