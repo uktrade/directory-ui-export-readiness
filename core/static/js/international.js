@@ -363,6 +363,11 @@ dit.responsive = (new function () {
     if (self.$overlay && self.$overlay.length) {
       self.$overlay.fadeOut(150);
     }
+
+    if (self.activator) {
+      self.activator.focus();
+      self.activator = null; // reset
+    }
   }
   
   Modal.prototype.open = function(addFocus) {
