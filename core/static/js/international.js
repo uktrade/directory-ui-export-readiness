@@ -326,6 +326,7 @@ dit.responsive = (new function () {
         this.activator = null;
         event.preventDefault();
         break;
+      case 27: // Esc (fallthrough)
       case 13: // Enter
         this.close();
         this.activator && this.activator.focus();
@@ -337,6 +338,11 @@ dit.responsive = (new function () {
 
   Modal.bindCloseEvents = function() {
     var self = this;
+
+    self.$container.on("keydown", function(e) {
+      Modal.deactivate.call(self, e);
+    });
+
     self.$closeButton.on("click keydown", function(e) {
       Modal.deactivate.call(self, e);
     });
