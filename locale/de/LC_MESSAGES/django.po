@@ -1,0 +1,151 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-23 17:31+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: core/templates/core/base_international.html:13
+msgid "International - GREAT.gov.uk"
+msgstr ""
+
+#: core/templates/core/base_international.html:34
+msgid "Skip to main content"
+msgstr ""
+
+#: core/templates/core/base_international.html:37
+msgid "Choose your language"
+msgstr ""
+
+#: core/templates/core/base_international.html:45
+msgid "English (UK)"
+msgstr ""
+
+#: core/templates/core/base_international.html:45
+msgid "Get guidance and services to help you export."
+msgstr ""
+
+#: core/templates/core/base_international.html:51
+msgid "Department for International Trade"
+msgstr ""
+
+#: core/templates/core/base_international.html:58
+#: core/templates/core/base_international.html:70
+msgid "HM Government"
+msgstr ""
+
+#: core/templates/core/base_international.html:59
+msgid "Great Britain and Northern Ireland"
+msgstr ""
+
+#: core/templates/core/base_international.html:75
+msgid "Privacy and cookies"
+msgstr ""
+
+#: core/templates/core/base_international.html:76
+msgid "Terms and Conditions"
+msgstr ""
+
+#: core/templates/core/base_international.html:79
+msgid "Share"
+msgstr ""
+
+#: core/templates/core/base_international.html:80
+msgid "with Twitter"
+msgstr ""
+
+#: core/templates/core/base_international.html:82
+msgid "with Facebook"
+msgstr ""
+
+#: core/templates/core/base_international.html:84
+msgid "with LinkedIn"
+msgstr ""
+
+#: core/templates/core/base_international.html:85
+#: core/templates/core/landing_page_international.html:8
+msgid "Welcome to the UK"
+msgstr ""
+
+#: core/templates/core/base_international.html:85
+msgid "by email"
+msgstr ""
+
+#: core/templates/core/base_international.html:92
+msgid "Crown copyright 2017. All rights reserved."
+msgstr ""
+
+#: core/templates/core/landing_page_international.html:9
+msgid ""
+"Home to cutting edge innovators, a place that nurtures talent and creates "
+"exceptional products and services. Your future belongs here."
+msgstr ""
+
+#: core/templates/core/landing_page_international.html:16
+msgid "Buy from the UK"
+msgstr ""
+
+#: core/templates/core/landing_page_international.html:17
+msgid ""
+"Get exclusive early access to profiles of high quality UK businesses ready "
+"to fulfill your demand."
+msgstr ""
+
+#: core/templates/core/landing_page_international.html:19
+msgid "Find a Supplier"
+msgstr ""
+
+#: core/templates/core/landing_page_international.html:23
+msgid "Invest in the UK"
+msgstr ""
+
+#: core/templates/core/landing_page_international.html:24
+msgid ""
+"Discover the UK’s wealth of investment opportunities and how the UK "
+"government will support your global ambition."
+msgstr ""
+
+#: core/templates/core/landing_page_international.html:26
+msgid "See the potential"
+msgstr ""
+
+#: core/templates/core/landing_page_international.html:30
+msgid "Study in the UK"
+msgstr ""
+
+#: core/templates/core/landing_page_international.html:31
+msgid ""
+"Get a headstart from an exceptional British education that will inspire you "
+"to achieve."
+msgstr ""
+
+#: core/templates/core/landing_page_international.html:33
+msgid "Learn more"
+msgstr ""
+
+#: core/templates/core/landing_page_international.html:37
+msgid "Visit the UK"
+msgstr ""
+
+#: core/templates/core/landing_page_international.html:38
+msgid ""
+"Take a journey through vibrant cities, breathtaking scenery, unrivalled "
+"heritage and iconic landmarks and discover what makes the UK great."
+msgstr ""
+
+#: core/templates/core/landing_page_international.html:40
+msgid "Plan your trip"
+msgstr ""

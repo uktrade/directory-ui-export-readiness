@@ -35,7 +35,7 @@ urlpatterns = [
     ),
     url(
         r"^sorry$",
-        TemplateView.as_view(template_name='core/sorry.html'),
+        core.views.SorryView.as_view(),
         name='sorry'
     ),
     url(
@@ -45,17 +45,17 @@ urlpatterns = [
     ),
     url(
         r"^about$",
-        TemplateView.as_view(template_name='core/about.html'),
+        core.views.AboutView.as_view(),
         name='about'
     ),
     url(
         r"^privacy-cookies$",
-        TemplateView.as_view(template_name='core/privacy_cookies.html'),
+        core.views.PrivacyCookies.as_view(),
         name='privacy-cookies'
     ),
     url(
         r"^terms-conditions$",
-        TemplateView.as_view(template_name='core/terms_conditions.html'),
+        core.views.TermsConditions.as_view(),
         name='terms-conditions'
     ),
     url(

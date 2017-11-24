@@ -1,6 +1,7 @@
 from formtools.wizard.views import NamedUrlSessionWizardView
 from directory_constants.constants.exred_sector_names import CODES_SECTORS_DICT
 
+from django.conf import settings
 from django.core.urlresolvers import reverse_lazy
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -169,7 +170,15 @@ class CustomPageView(ArticleReadMixin, TemplateView):
                 kwargs={'step': TriageWizardFormView.SECTOR}
             )
             return redirect(url)
-        return super().dispatch(request, *args, **kwargs)
+        response = super().dispatch(request, *args, **kwargs)
+        response.set_cookie(
+            key=settings.TRIAGE_COMPLETED_COOKIE_NAME,
+            value='true',
+            max_age=settings.SESSION_COOKIE_AGE,
+            path=settings.SESSION_COOKIE_PATH,
+            domain=settings.SESSION_COOKIE_DOMAIN,
+        )
+        return response
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

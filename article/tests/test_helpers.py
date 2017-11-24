@@ -154,7 +154,7 @@ def test_database_remaining_reading_time_in_group(
         structure.PERSONA_OCCASIONAL_ARTICLES.name
     )
 
-    assert time_left == 5262
+    assert time_left == 5400
 
 
 @patch('api_client.api_client.exportreadiness.retrieve_article_read')
@@ -311,7 +311,7 @@ def test_session_remaining_reading_time_in_group(anon_request):
         structure.PERSONA_OCCASIONAL_ARTICLES.name
     )
 
-    assert time_left == 4898
+    assert time_left == 5037
 
 
 def test_filter_lines():
@@ -338,7 +338,7 @@ def test_time_to_read_in_seconds():
     article = articles.INVOICE_CURRENCY_AND_CONTENTS
     assert helpers.time_to_read_in_seconds(
         article
-    ) == 280
+    ) == 279
 
 
 def test_total_time_to_read_multiple_articles():
@@ -348,4 +348,4 @@ def test_total_time_to_read_multiple_articles():
     ]
     assert helpers.total_time_to_read_multiple_articles(
         articles_list
-    ) == 319
+    ) == 318

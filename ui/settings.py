@@ -57,6 +57,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'sso.middleware.SSOUserMiddleware',
     'core.middleware.NoCacheMiddlware',
     'core.middleware.ArticleReadManagerMiddlware',
@@ -76,6 +77,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.i18n',
                 'directory_header_footer.context_processors.sso_processor',
                 'directory_header_footer.context_processors.urls_processor',
                 ('directory_header_footer.context_processors.'
@@ -110,6 +112,21 @@ CACHES = {
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
 LANGUAGE_CODE = 'en-gb'
+
+# https://github.com/django/django/blob/master/django/conf/locale/__init__.py
+LANGUAGES = [
+    ('en-gb', 'English'),               # English
+    ('zh-hans', '简体中文'),             # Simplified Chinese
+    ('de', 'Deutsch'),                  # German
+    ('ja', '日本語'),                    # Japanese
+    ('es', 'Español'),                  # Spanish
+    ('pt', 'Português'),                # Portuguese
+    ('ar', 'العربيّة'),                 # Arabic
+]
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
 
 TIME_ZONE = 'UTC'
 
@@ -268,6 +285,7 @@ SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'true') == 'true'
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SECURE = True
+TRIAGE_COMPLETED_COOKIE_NAME = 'triage_show_continue_message'
 
 API_CLIENT_CLASSES = {
     'default': 'directory_api_client.client.DirectoryAPIClient',

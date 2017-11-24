@@ -23,7 +23,7 @@ You can reduce this risk by:
 
 You should also account for the cost of exchanging currency in your pricing.
 
-Think about your exchange strategy and consider getting [expert financial advice on exchange rates](https://www.fxcompared.com/partners/ukef "FX Compared") (sometimes called FX).
+Think about your exchange strategy and consider getting [financial advice on exchange rates](https://www.fxcompared.com/partners/ukef "FX Compared") (sometimes called FX).
 
 ### What to put on an export invoice
 
