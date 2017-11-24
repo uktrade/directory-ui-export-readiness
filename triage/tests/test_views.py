@@ -440,7 +440,9 @@ def test_companies_house_search_api_success(
 
 
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers')
-def test_custom_view(mocked_retrieve_answers, authed_client, sso_user):
+def test_custom_view(
+    mocked_retrieve_answers, authed_client, sso_user, settings
+):
     triage_result = {
         'company_name': 'Acme ltd',
         'created': '2016-11-23T11:21:10.977518Z',
@@ -457,6 +459,7 @@ def test_custom_view(mocked_retrieve_answers, authed_client, sso_user):
     mocked_retrieve_answers.return_value = triage_result
     url = reverse('custom-page')
     response = authed_client.get(url)
+    cookie = response.cookies.get(settings.TRIAGE_COMPLETED_COOKIE_NAME)
     assert response.status_code == 200
     assert response.template_name == ['triage/custom-page.html']
     assert response.context_data['triage_result'] == triage_result
@@ -475,6 +478,7 @@ def test_custom_view(mocked_retrieve_answers, authed_client, sso_user):
         'custom_persona_occasional': {'read': 0, 'total': 38},
         'custom_persona_regular': {'read': 0, 'total': 18},
     }
+    assert cookie.value == 'true'
 
 
 def test_triage_wizard(client):
