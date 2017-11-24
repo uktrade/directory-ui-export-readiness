@@ -312,10 +312,19 @@ dit.responsive = (new function () {
   }
   
   Modal.bindActivators = function($activators) {
+    // Prevent Defaults are after action to stop high-jacking tab too early.
     var self = this;
     $activators.on("click", function(e) {
-      e.preventDefault();
-      self.open();
+      switch(e.which) {
+        case 1: 
+          self.open(false);
+          e.preventDefault();
+          break;
+        case 13: 
+          self.open(true);
+          e.preventDefault();
+          break;
+      }
     });
   }
 
@@ -351,7 +360,7 @@ dit.responsive = (new function () {
     }
   }
   
-  Modal.prototype.open = function() {
+  Modal.prototype.open = function(addFocus) {
     var self = this;
     self.$container.css("top", window.scrollY + "px");
     self.$container.addClass(CSS_CLASS_OPEN);
@@ -359,6 +368,10 @@ dit.responsive = (new function () {
       self.$container.attr(ARIA_EXPANDED, true);
     });
     
+    if(arguments.length > 0 && addFocus) {
+      self.focus(); 
+    }
+
     if (self.$overlay && self.$overlay.length) {
       Modal.setOverlayHeight(self.$overlay);
       self.$overlay.fadeIn(0);
@@ -369,6 +382,12 @@ dit.responsive = (new function () {
     var self = this;
     self.$content.empty();
     self.$content.append(content);
+  }
+
+  // Tries to add focus to the first found element allowed nwith atural focus ability.
+  Modal.prototype.focus = function() {
+    var self = this;
+    self.$content.find("a, button, input, select").eq(0).focus();
   }
   
   
@@ -495,9 +514,17 @@ dit.components.languageSelector = (new function() {
       this.config.$controlContainer.append(this.$control);
       this.setContent(this.$dialog.children());
 
-      this.$control.on("click.LanguageSelectorDialog", function(e) {
-        e.preventDefault();
-        LANGUAGE_SELECTOR_DISPLAY.open();
+      this.$control.on("click.LanguageSelectorDialog, keydown.LanguageSelectorDialog", function(e) {
+        switch(e.which) {
+          case 1: 
+            LANGUAGE_SELECTOR_DISPLAY.open(false);
+            e.preventDefault();
+            break;
+          case 13: 
+            LANGUAGE_SELECTOR_DISPLAY.open(true);
+            e.preventDefault();
+            break;
+        }
       });
     }
   }
