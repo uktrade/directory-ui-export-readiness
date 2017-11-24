@@ -304,7 +304,7 @@ urlpatterns = [
         name='match-your-website-to-your-audience',
     ),
     url(
-        r"^operations-and-compliance/what-intellectual-property-is$",
+        r"^operations-and-compliance/protect-your-intellectual-property$",
         article.views.WhatIntellectualPropertyIsView.as_view(),
         name='what-intellectual-property-is',
     ),
@@ -314,12 +314,12 @@ urlpatterns = [
         name='types-of-intellectual-property',
     ),
     url(
-        r"^operations-and-compliance/know-what-IP-you-have$",
+        r"^operations-and-compliance/know-what-ip-you-have$",
         article.views.KnowWhatIntellectualPropertyYouHaveView.as_view(),
         name='know-what-IP-you-have',
     ),
     url(
-        r"^operations-and-compliance/ip-protection-in-multiple-countries$",
+        r"^operations-and-compliance/international-ip-protection$",
         article.views.IntellectualPropertyProtectionView.as_view(),
         name='ip-protection-in-multiple-countries',
     ),
