@@ -36,7 +36,7 @@ class ForceDefaultLocale:
     """
     Force translation to English before view is called, then putting the user's
     original language back after the view has been called, laying the ground
-    work for`EnableTranslationsMixin` to turn on the desired locale. This
+    work for`TranslationsMixin` to turn on the desired locale. This
     provides per-view translations.
 
     """
