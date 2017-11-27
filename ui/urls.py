@@ -49,14 +49,14 @@ urlpatterns = [
         name='about'
     ),
     url(
-        r"^privacy-cookies$",
+        r"^privacy-and-cookies$",
         core.views.PrivacyCookies.as_view(),
-        name='privacy-cookies'
+        name='privacy-and-cookies'
     ),
     url(
-        r"^terms-conditions$",
+        r"^terms-and-conditions$",
         core.views.TermsConditions.as_view(),
-        name='terms-conditions'
+        name='terms-and-conditions'
     ),
     url(
         r"^get-finance$",

@@ -67,12 +67,12 @@
     <footer id="footer">
         <div class="container">
             <a href="https://www.gov.uk/"><img id="footer-hm-logo" src="{% static 'images/international/hm-government-2.svg' %}" alt="{% trans "HM Government" %}" height="75px"></a>
-            <img id="footer-big-logo" src="{% static 'images/international/big-logo-blue-type.svg' %}" height="65px">
+            <img id="footer-big-logo" src="{% static 'images/international/big-logo-blue-type.svg' %}" alt="" height="65px">
         </div>
         <div class="site-links container">
             <ul class="navigation">
-                <li><a href="{% url 'privacy-cookies' %}?lang=en-gb" class="">{% trans "Privacy and cookies" %}</a></li>
-                <li><a href="{% url 'terms-conditions' %}?lang=en-gb" class="">{% trans "Terms and Conditions" %}</a></li>
+                <li><a href="{% url 'privacy-and-cookies' %}?lang=en-gb" class="">{% trans "Privacy and cookies" %}</a></li>
+                <li><a href="{% url 'terms-and-conditions' %}?lang=en-gb" class="">{% trans "Terms and Conditions" %}</a></li>
             </ul>
             <p data-component="sharing-links" class="sharing-links">
                 <span class="label">{% trans "Share" %} </span>

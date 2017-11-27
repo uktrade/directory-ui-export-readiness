@@ -64,11 +64,11 @@ def test_robots(client):
     'view,expected_template',
     (
         ('about', 'core/about.html'),
-        ('privacy-cookies', 'core/privacy_cookies.html'),
+        ('privacy-and-cookies', 'core/privacy_cookies.html'),
         ('landing-page-international', 'core/landing_page_international.html'),
         ('sorry', 'core/sorry.html'),
         ('not-found', 'core/not_found.html'),
-        ('terms-conditions', 'core/terms_conditions.html'),
+        ('terms-and-conditions', 'core/terms_conditions.html'),
         ('get-finance', 'core/get_finance.html')
     )
 )
@@ -168,14 +168,14 @@ def test_about_view(client):
 
 
 def test_privacy_view(client):
-    response = client.get(reverse('privacy-cookies'))
+    response = client.get(reverse('privacy-and-cookies'))
 
     assert response.status_code == 200
     assert response.template_name == [views.PrivacyCookies.template_name]
 
 
 def test_terms_and_conditions_view(client):
-    response = client.get(reverse('terms-conditions'))
+    response = client.get(reverse('terms-and-conditions'))
 
     assert response.status_code == 200
     assert response.template_name == [views.TermsConditions.template_name]
