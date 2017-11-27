@@ -72,17 +72,11 @@
 }
 
 
-.hero-section {
-  height: 300px;
-  background-size: none;
-  padding-top: 130px;
-}
 
 // MOBILE
 @media (max-width: 540px) {
   .hero-section {
     background-position: top center;
-    background-size: contain;
   }
   .hero-section.regular {
     background-image: url('/static/images/persona-hero-regular-exporter-mobile@2x.png');
@@ -122,6 +116,10 @@
 }
 
 @media (max-width: 767px) {
+  section {
+    padding-top: 0;
+  }
+
   .scope-indicator {
     float: none;
     width: auto;

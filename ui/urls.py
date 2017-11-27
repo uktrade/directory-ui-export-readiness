@@ -35,7 +35,7 @@ urlpatterns = [
     ),
     url(
         r"^sorry$",
-        TemplateView.as_view(template_name='core/sorry.html'),
+        core.views.SorryView.as_view(),
         name='sorry'
     ),
     url(
@@ -45,18 +45,18 @@ urlpatterns = [
     ),
     url(
         r"^about$",
-        TemplateView.as_view(template_name='core/about.html'),
+        core.views.AboutView.as_view(),
         name='about'
     ),
     url(
-        r"^privacy-cookies$",
-        TemplateView.as_view(template_name='core/privacy_cookies.html'),
-        name='privacy-cookies'
+        r"^privacy-and-cookies$",
+        core.views.PrivacyCookies.as_view(),
+        name='privacy-and-cookies'
     ),
     url(
-        r"^terms-conditions$",
-        TemplateView.as_view(template_name='core/terms_conditions.html'),
-        name='terms-conditions'
+        r"^terms-and-conditions$",
+        core.views.TermsConditions.as_view(),
+        name='terms-and-conditions'
     ),
     url(
         r"^get-finance$",
@@ -304,7 +304,7 @@ urlpatterns = [
         name='match-your-website-to-your-audience',
     ),
     url(
-        r"^operations-and-compliance/what-intellectual-property-is$",
+        r"^operations-and-compliance/protect-your-intellectual-property$",
         article.views.WhatIntellectualPropertyIsView.as_view(),
         name='what-intellectual-property-is',
     ),
@@ -314,12 +314,12 @@ urlpatterns = [
         name='types-of-intellectual-property',
     ),
     url(
-        r"^operations-and-compliance/know-what-IP-you-have$",
+        r"^operations-and-compliance/know-what-ip-you-have$",
         article.views.KnowWhatIntellectualPropertyYouHaveView.as_view(),
         name='know-what-IP-you-have',
     ),
     url(
-        r"^operations-and-compliance/ip-protection-in-multiple-countries$",
+        r"^operations-and-compliance/international-ip-protection$",
         article.views.IntellectualPropertyProtectionView.as_view(),
         name='ip-protection-in-multiple-countries',
     ),
@@ -329,7 +329,7 @@ urlpatterns = [
         name='next-steps-new-exporter',
     ),
     url(
-        r"^ooccasional/next-steps$",
+        r"^occasional/next-steps$",
         article.views.NextStepsOccasionalExporterView.as_view(),
         name='next-steps-occasional-exporter',
     ),
@@ -339,8 +339,10 @@ urlpatterns = [
         name='next-steps-regular-exporter',
     ),
     url(
-        r'^triage$',
-        triage.views.TriageWizardFormView.as_view(),
+        r'^triage/(?P<step>.+)$',
+        triage.views.TriageWizardFormView.as_view(
+            url_name='triage-wizard', done_step_name='finished'
+        ),
         name='triage-wizard'
     ),
     url(

@@ -19,7 +19,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:image" content="{% static 'images/icons/opengraph-image.png' %}">
         <link href="{% static 'Dit-Pattern-Styling/public/css/main.css' %}" media="all" rel="stylesheet" />
-        <link href="{% static 'Dit-Pattern-Styling/public/css/compatibility.css' %}" media="all" rel="stylesheet" />
         <script src="{% static 'Dit-Pattern-Styling/public/js/third-party.js' %}"></script>
         <script src="{% static 'Dit-Pattern-Styling/public/js/script.js' %}"></script>
 
@@ -49,16 +48,24 @@
         {% include 'core/google_tag_manager_body.html' %}
         <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
 
-        {% include 'directory_header_footer/header.html' %}
+        {% block header_area %}
+            {% include 'directory_header_footer/header.html' %}
+        {% endblock %}
         <main id="content" class="{% block css_layout_class %}{% endblock css_layout_class %}" role="main">
             {% block content %}{% endblock %}
         </main>
+
+        {% block feedback_reporter %}
         <section class="error-reporting">
             <div class="container">
                 <a href="{{ external_services.FEEDBACK_URL }}" target="_blank">Is there anything wrong with this page?</a>
             </div>
         </section>
-        {% include 'directory_header_footer/footer.html' %}
+        {% endblock %}
+
+        {% block footer_area %}
+            {% include 'directory_header_footer/footer.html' %}
+        {% endblock %}
         {% block bodyScripts %}{% endblock bodyScripts %}
     </body>
 </html>

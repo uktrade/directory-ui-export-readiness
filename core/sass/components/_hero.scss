@@ -1,57 +1,29 @@
 // Hero Banner Component Template
 // -------------------------------
 
-// REQIURES...
-// $mid-grey
-// $white
-//
-// $spacing-2
-//
-// @mixin heading-m
-
 .hero-section {
   background-color: $white;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  padding-top: 200px;
-  padding-bottom: 0;
+  padding: 0;
+  position: relative;
 
-  img {
-    float: right;
-    height: 90px;
-  }
-
-  p {
-    width: 50%;
-  }
-
-  .video {
-    float: left;
-    padding-top: $spacing-3;
-    img {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-  }
-  &:after {
-    display: block;
-    background-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
-    margin-top: -250px;
-    height: 400px;
-    width: 100%;
-    content: '';
+  .container {
+    min-height: 286px;
+    position: relative;
   }
 }
 
 .hero-teaser {
-  position: relative;
-  img {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-  }
+  background-color: rgba(0, 82, 157, 0.8);
+  border-bottom: $great-red solid 4px;
+  bottom: 0;
+  left: 0;
+  max-width: 530px;
+  padding: $spacing-3;
+  position: absolute;
+
   p {
     color: $white;
   }
@@ -59,32 +31,9 @@
   .title {
     @include heading-hero;
     color: $white;
-    margin-bottom: $spacing-4;
+    display: inline-block;
+    margin: 0;
     text-transform: uppercase;
-
-    span {
-      background-color: $great-red;
-      display: inline-block;
-      margin: 0 0 5px -#{$spacing-4};
-      padding: 8px $spacing-4 5px $spacing-4;
-
-      // firefox specific styling to fix how background colour is positioned in span tags
-      @-moz-document url-prefix() {
-        & {
-          padding: 13px $spacing-4 0px $spacing-4;
-        }
-      }
-    }
-  }
-}
-
-
-// TABLET
-@media (max-width: 767px) {
-  .hero-section {
-    p {
-      width: 62%;
-    }
   }
 }
 
@@ -94,60 +43,15 @@
   .hero-section {
     padding-top: 200px;
     position: relative;
-    &:after {
-      height: 230px;
-    }
-    img {
-      left: $spacing-3;
-      position: absolute;
-      top: 50px;
-      z-index: 0;
-    }
-
-    p {
-      width: 100%;
-    }
-
-    .video {
-      width: 100%;
-      .button-video {
-        width: 100%;
-      }
-    }
   }
 }
 
 @media (max-width: 420px) {
-  .hero-section {
-    padding-top: 0px;
-
-    img {
-      height: 60px;
-      top: -100px;
-      left: 0;
-    }
-    .container {
-      height: 530px;
-    }
-  }
-
   .hero-teaser {
+    padding: $spacing-3-m;
+
     .title {
       @include heading-hero-mob;
-      margin-top: 0;
-      margin-bottom: 55px;
-      margin-left: 10px;
-      span {
-        margin-bottom: 2px;
-        padding: 5px $spacing-4;
-
-        // firefox specific styling to fix how background colour is positioned in span tags
-        @-moz-document url-prefix() {
-          & {
-            padding: 8px $spacing-4 1px $spacing-4;
-          }
-        }
-      }
     }
   }
 }

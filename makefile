@@ -8,7 +8,7 @@ test_requirements:
 	pip install -r requirements_test.txt
 
 FLAKE8 := flake8 . --exclude=migrations,.venv,node_modules
-PYTEST := pytest . --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
+PYTEST := pytest . --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
 COLLECT_STATIC := python manage.py collectstatic --noinput
 CODECOV := \
 	if [ "$$CODECOV_REPO_TOKEN" != "" ]; then \
@@ -72,8 +72,9 @@ DOCKER_SET_DEBUG_ENV_VARS := \
 	export DIRECTORY_UI_EXPORT_READINESS_SERVICES_EXOPPS_INTERSTITIAL=/export-opportunities; \
 	export DIRECTORY_UI_EXPORT_READINESS_SERVICES_EXOPPS=http://opportunities.export.great.gov.uk; \
 	export DIRECTORY_UI_EXPORT_READINESS_SERVICES_FAB=http://buyer.trade.great.dev:8001; \
-	export DIRECTORY_UI_EXPORT_READINESS_SERVICES_GET_FINANCE=/finance/get-finance-support-from-government; \
-	export DIRECTORY_UI_EXPORT_READINESS_SERVICES_SOO=http://soo.trade.great.dev:8008
+	export DIRECTORY_UI_EXPORT_READINESS_SERVICES_GET_FINANCE=/get-finance; \
+	export DIRECTORY_UI_EXPORT_READINESS_SERVICES_SOO=http://soo.trade.great.dev:8008; \
+	export DIRECTORY_UI_EXPORT_READINESS_SECURE_SSL_REDIRECT=false
 
 docker_test_env_files:
 	$(DOCKER_SET_DEBUG_ENV_VARS) && \
@@ -146,8 +147,9 @@ DEBUG_SET_ENV_VARS := \
 	export SERVICES_EXOPPS=/export-opportunities; \
 	export SERVICES_EXOPPS_ACTUAL=http://opportunities.export.great.gov.uk; \
 	export SERVICES_FAB=http://buyer.trade.great.dev:8001; \
-	export SERVICES_GET_FINANCE=/finance/get-finance-support-from-government; \
-	export SERVICES_SOO=http://soo.trade.great.dev:8008
+	export SERVICES_GET_FINANCE=/get-finance; \
+	export SERVICES_SOO=http://soo.trade.great.dev:8008; \
+	export SECURE_SSL_REDIRECT=false
 
 debug_webserver:
 	$(DEBUG_SET_ENV_VARS) && $(DJANGO_WEBSERVER)

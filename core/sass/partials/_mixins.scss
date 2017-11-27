@@ -15,6 +15,10 @@
   width: 100%;
 }
 
+@mixin focus {
+  outline: $focus-yellow solid 3px;
+}
+
 @mixin separator($colour) {
   background-color: $colour;
   content: "";

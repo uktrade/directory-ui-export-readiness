@@ -49,6 +49,13 @@ PERSONA_NEW_ARTICLES = ArticleGroup(
     url=reverse_lazy('article-list-persona-new'),
 )
 
+CUSTOM_PAGE_NEW_ARTICLES = ArticleGroup(
+    name='custom_persona_new',
+    title='Your export journey',
+    articles=PERSONA_NEW_ARTICLES.articles,
+    url=reverse_lazy('custom-page'),
+)
+
 PERSONA_OCCASIONAL_ARTICLES = ArticleGroup(
     name='persona_occasional',
     title='Occasional exporter',
@@ -95,6 +102,13 @@ PERSONA_OCCASIONAL_ARTICLES = ArticleGroup(
     url=reverse_lazy('article-list-persona-occasional'),
 )
 
+CUSTOM_PAGE_OCCASIONAL_ARTICLES = ArticleGroup(
+    name='custom_persona_occasional',
+    title='Your export journey',
+    articles=PERSONA_OCCASIONAL_ARTICLES.articles,
+    url=reverse_lazy('custom-page'),
+)
+
 PERSONA_REGULAR_ARTICLES = ArticleGroup(
     name='persona_regular',
     title='Regular exporter',
@@ -119,6 +133,13 @@ PERSONA_REGULAR_ARTICLES = ArticleGroup(
         articles.NEXT_STEPS_REGULAR_EXPORTER,
     ],
     url=reverse_lazy('article-list-persona-regular'),
+)
+
+CUSTOM_PAGE_REGULAR_ARTICLES = ArticleGroup(
+    name='custom_persona_regular',
+    title='Your export journey',
+    articles=PERSONA_REGULAR_ARTICLES.articles,
+    url=reverse_lazy('custom-page'),
 )
 
 GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES = ArticleGroup(
@@ -280,9 +301,13 @@ ALL_GROUPS = [
     PERSONA_NEW_ARTICLES,
     PERSONA_OCCASIONAL_ARTICLES,
     PERSONA_REGULAR_ARTICLES,
+    CUSTOM_PAGE_NEW_ARTICLES,
+    CUSTOM_PAGE_OCCASIONAL_ARTICLES,
+    CUSTOM_PAGE_REGULAR_ARTICLES,
     ALL_ARTICLES,
 ]
 ALL_GROUPS_DICT = {group.name: group for group in ALL_GROUPS}
+
 ALL_ARTICLES_PER_UUID = {article.uuid: article for
                          article in ALL_ARTICLES.articles}
 

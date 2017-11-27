@@ -2,7 +2,7 @@
 // ------------------------------------------------
 
 @import './partials/base';
-@import './components/_hero';
+@import './components/_hero-campaign';
 @import './components/_video';
 @import './components/_triage';
 @import './components/_service';
@@ -10,6 +10,7 @@
 @import './components/_resources';
 @import './components/_exporter-story';
 @import './components/_carousel';
+@import './components/_teaser';
 
 #personas,
 #services {
@@ -22,12 +23,11 @@
   }
 }
 
-.hero-section {
+.hero-campaign-section {
   background-image: url('/static/images/home-hero-tangerine@2x.png');
   padding-top: 45px;
   height: 540px;
 }
-
 
 .intro {
   ul {
@@ -51,9 +51,6 @@
   padding-bottom: 60px;
 }
 
-#content section .intro {
-  margin-bottom: 30px;
-}
 
 // TABLET
 @media (min-width: 767px) {
@@ -79,7 +76,7 @@
     margin-bottom: 15px;
   }
 
-  .hero-section {
+  .hero-campaign-section {
     background-image: url('/static/images/home-hero-tangerine-mobile@2x.png');
     background-position: 50% 30%;
   }
@@ -99,7 +96,7 @@
 
 // LARGE SCREENS
 @media (min-width: 1200px) {
-  .hero-section {
+  .hero-campaign-section {
     background-position: top center;
   }
 }
