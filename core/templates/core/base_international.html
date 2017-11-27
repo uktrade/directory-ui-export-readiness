@@ -10,7 +10,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta property="og:image" content="{% static 'images/icons/opengraph-image.png' %}">
-    <title>{% block head_title %}{% trans "International - GREAT.gov.uk" %}{% endblock %}</title>
+    <title>{% block head_title %}{% trans "International" %} - GREAT.gov.uk{% endblock %}</title>
 
     <link rel="shortcut icon" href="{% static 'images/icons/favicon.ico' %}" type="image/x-icon" />
     <link rel="mask-icon" href="{% static 'images/icons/gov.uk_logotype_crown.svg' %}" color="#0b0c0c">
@@ -32,7 +32,7 @@
     {% include 'core/google_tag_manager_body.html' %}
     <header id="header">
         <a id="skip-link" href="#content" class="verbose">{% trans "Skip to main content" %}</a>
-        <section role="dialog" data-component="language-selector-dialog" data-lang="en" data-label="International" data-name="English" class="language-selector-dialog">
+        <section role="dialog" data-component="language-selector-dialog" data-lang="{{ LANGUAGE_CODE }}" data-label="{% trans "International" %}" class="language-selector-dialog">
             <div data-node="languages" class="languages">
                 <p id="great-languages-selector">{% trans "Choose your language" %}</p>
                 <ul aria-labelledby="great-languages-selector" class="navigation">
@@ -76,12 +76,12 @@
             </ul>
             <p data-component="sharing-links" class="sharing-links">
                 <span class="label">{% trans "Share" %} </span>
-                <a href="https://twitter.com/intent/tweet?text=Welcome to the UK /int/en"><img src="{% static 'images/international/twitter.svg' %}" width="36px" height="36px" alt="{% trans "with Twitter" %}"/></a>
+                <a href="https://twitter.com/intent/tweet?text={% trans "Welcome to the UK" %} {{ request.build_absolute_uri }}"><img src="{% static 'images/international/twitter.svg' %}" width="36px" height="36px" alt="{% trans "with Twitter" %}"/></a>
                 <span class="verbose">, </span>
-                <a href="http://www.facebook.com/share.php?u=/int/en"><img src="{% static 'images/international/facebook.svg' %}" width="36px" height="36px" alt="{% trans "with Facebook" %}"/></a>
+                <a href="http://www.facebook.com/share.php?u={{ request.build_absolute_uri }}"><img src="{% static 'images/international/facebook.svg' %}" width="36px" height="36px" alt="{% trans "with Facebook" %}"/></a>
                 <span class="verbose">, </span>
-                <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/int/en&amp;title=Welcome to the UK&amp;source=LinkedIn"><img src="{% static 'images/international/linkedin.svg' %}" width="36px" height="36px" alt="{% trans "with LinkedIn" %}"/></a><span class="verbose">, </span>
-                <a href="mailto:?&amp;body={% url 'landing-page-international' %}&amp;subject={% trans "Welcome to the UK" %}"><img src="{% static 'images/international/email.svg' %}" width="36px" height="36px" alt="{% trans "by email" %}"/></a>
+                <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{ request.build_absolute_uri }}&amp;title={% trans "Welcome to the UK" %}&amp;source=LinkedIn"><img src="{% static 'images/international/linkedin.svg' %}" width="36px" height="36px" alt="{% trans "with LinkedIn" %}"/></a><span class="verbose">, </span>
+                <a href="mailto:?body={{ request.build_absolute_uri }}&amp;subject={% trans "Welcome to the UK" %}"><img src="{% static 'images/international/email.svg' %}" width="36px" height="36px" alt="{% trans "by email" %}"/></a>
             </p>
         </div>
 
