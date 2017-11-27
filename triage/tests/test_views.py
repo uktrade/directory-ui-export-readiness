@@ -603,11 +603,8 @@ def test_custom_view_new_exporter(
             casestudies.HELLO_BABY,
             casestudies.YORK,
         ]
-        assert soup.find('h1').text.replace('\n', '') == (
-            'Use your'
-            'potential -'
-            'start'
-            'exporting'
+        assert soup.find('h1').text.strip() == (
+            'Use your potential - start exporting'
         )
 
 
@@ -687,11 +684,8 @@ def test_custom_view_occasional_exporter(
                 casestudies.HELLO_BABY,
                 casestudies.YORK,
             ]
-            assert soup.find('h1').text.replace('\n', '') == (
-                'New customers'
-                'are waiting -'
-                'promote your'
-                'business'
+            assert soup.find('h1').text.strip() == (
+                'New customers are waiting - promote your business'
             )
 
 
@@ -740,11 +734,8 @@ def test_custom_view_regular_exporter(
             casestudies.HELLO_BABY,
             casestudies.YORK,
         ]
-        assert soup.find('h1').text.replace('\n', '') == (
-            'Choose your'
-            'next market -'
-            'Find new'
-            'customers'
+        assert soup.find('h1').text.strip() == (
+            'Choose your next market - Find new customers'
         )
 
 
