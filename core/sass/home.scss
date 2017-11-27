@@ -12,16 +12,6 @@
 @import './components/_carousel';
 @import './components/_teaser';
 
-#personas,
-#services {
-  background-color: $offwhite;
-}
-
-#stories {
-  .Carousel {
-    width: 100%;
-  }
-}
 
 .hero-campaign-section {
   background-image: url('/static/images/hero/export-hp-hero-knitting.jpg');
@@ -34,6 +24,12 @@
     margin-bottom: 45px;
   }
 }
+
+#beis {
+  background-color: $offwhite;
+  margin-bottom: $spacing-2;
+}
+
 #content .triage-section {
   padding-top: 60px;
 }
@@ -49,6 +45,17 @@
 #content section#resource-guidance {
   // the guidance boxes have margin-bottom of 30px
   padding-bottom: 60px;
+}
+
+#personas,
+#services {
+  background-color: $offwhite;
+}
+
+#stories {
+  .Carousel {
+    width: 100%;
+  }
 }
 
 
