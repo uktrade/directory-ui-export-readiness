@@ -1,6 +1,6 @@
 Do research first so you have the information you need to make decisions about: 
 
-- which market to enter and when
+- which markets to enter and when
 - the best routes into a market
 - how to position your product or service in your chosen markets
 
