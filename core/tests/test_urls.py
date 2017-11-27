@@ -10,8 +10,8 @@ from django.urls import reverse
         ('sorry', '/sorry'),
         ('not-found', '/not-found'),
         ('about', '/about'),
-        ('privacy-cookies', '/privacy-cookies'),
-        ('terms-conditions', '/terms-conditions'),
+        ('privacy-and-cookies', '/privacy-and-cookies'),
+        ('terms-and-conditions', '/terms-and-conditions'),
         ('get-finance', '/get-finance')
     )
 )
