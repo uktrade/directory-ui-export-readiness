@@ -64,7 +64,7 @@ GUIDANCE_OPERATIONS_AND_COMPLIANCE = ArticleParent(
 
 DO_RESEARCH_FIRST = Article(
     uuid=exred_articles.DO_RESEARCH_FIRST,
-    title='Do research first',
+    title='Research your market',
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/01_do-research-first.md',
