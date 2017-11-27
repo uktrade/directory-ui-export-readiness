@@ -1,4 +1,4 @@
-Doing research early will give you the information you need to make informed decisions about: 
+Do research first so you have the information you need to make decisions about: 
 
 - which market to enter and when
 - the best routes into a market
