@@ -14,25 +14,15 @@
         <div class="hero-teaser">
             <h1 class="title">
             {% if persona.name == 'NEW_EXPORTER' %}
-                <span>Use your</span><br>
-                <span>potential -</span><br>
-                <span>start</span><br>
-                <span>exporting</span><br>
+                Use your potential - start exporting
             {% elif persona.name == 'OCCASIONAL_EXPORTER' %}
-                <span>New customers</span><br>
-                <span>are waiting -</span><br>
-                <span>promote your</span><br>
-                <span>business</span><br>
+                New customers are waiting - promote your business
             {% elif persona.name == 'REGULAR_EXPORTER'%}
-                <span>Choose your</span><br>
-                <span>next market -</span><br>
-                <span>Find new</span><br>
-                <span>customers</span><br>
+                Choose your next market - Find new customers
             {% endif %}
             </h1>
             <p>We've gathered information, guidance and tools to help your business grow.</p>
-                <a href="{% url 'triage-wizard' step='summary' %}?result" class="preferences">Update preferences</a>
-            <img src="{% static 'images/eig-logo-stacked.png' %}" alt="">
+            <a href="{% url 'triage-wizard' step='summary' %}?result" class="preferences">Update preferences</a>
         </div>
     </div>
 </section>
