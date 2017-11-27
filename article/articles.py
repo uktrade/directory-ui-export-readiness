@@ -392,7 +392,7 @@ MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE = Article(
 )
 WHAT_INTELLECTUAL_PROPERTY_IS = Article(
     uuid=exred_articles.WHAT_INTELLECTUAL_PROPERTY_IS,
-    title='What intellectual property is',
+    title='Protect your intellectual property',
     keywords=[],
     tasks=[],
     markdown_file_path=(
@@ -414,7 +414,7 @@ TYPES_OF_INTELLECTUAL_PROPERTY = Article(
 )
 KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE = Article(
     uuid=exred_articles.KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE,
-    title='Know what IP you have',
+    title='Know what intellectual property you have',
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/39_know-what-IP-you-have.md',
@@ -423,7 +423,7 @@ KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE = Article(
 )
 INTELLECTUAL_PROPERTY_PROTECTION = Article(
     uuid=exred_articles.INTELLECTUAL_PROPERTY_PROTECTION,
-    title='IP protection in multiple countries',
+    title='International intellectual property protection',
     keywords=[],
     tasks=[],
     markdown_file_path=(
