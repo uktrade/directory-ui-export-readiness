@@ -147,6 +147,12 @@ h2 {
 }
 
 @media (max-width: 767px) {
+
+  .section-content-list {
+    float: none;
+    width: calc(#{$cols-10} - #{$spacing-3});
+  }
+
   .hero-teaser {
     min-width: 258px;
     width: calc(100% - 75px);
