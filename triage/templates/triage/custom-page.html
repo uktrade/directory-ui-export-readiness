@@ -47,9 +47,7 @@
             <p class="commodity-name">{{ sector_name }}</p>
             <p><a href="{% url 'triage-wizard' step='sector' %}">Select a different product category</a></p>
             <hr>
-            <p>Start your market research with the data shown below. The export data is taken from the <a href="https://comtrade.un.org/">UN Comtrade Database</a>. The gross domestic product and ease of doing business ranking is taken from the World Bank’s <a href="http://www.doingbusiness.org/rankings">Doing Business project</a>.</p>
-            <p>For more import and export data use our  <a href="https://comtrade.un.org/labs/dit-trade-vis/?reporter=826&type=C&year=2016&flow=2&commodity">data visualisation tool.</a></p>
-            <p>Read our guidance on  <a href="{% url 'article-research-market' %}">researching your market.</a></p>
+            <p>Statistics like export values and gross domestic product can show you the potential size of a market. Information like how easy it is to do business in a country will help you decide how attractive the market is.</p>
         </div>
         <ol class="top-markets-list">
             {% for market in top_markets %}
@@ -75,9 +73,10 @@
         </ol>
 
         <div id="market-source-data">
+			 <p>*The <a href="http://www.doingbusiness.org/rankings" target="_blank">World Bank’s Doing Business project</a> ranks economies from 1 to 190 on the how easy their regulatory environment makes it to start a business, with 1 being the easiest.</p>
             <p>The data is for 2016. This page was updated on 30 October 2017.</p>
             <p>All import and export values are the value of exports a country has reported to <a href="https://comtrade.un.org" target="_blank">UN Comtrade, DESA/UNSD</a>.</p>
-            <p>*The <a href="http://www.doingbusiness.org/rankings" target="_blank">World Bank’s Doing Business project</a> ranks economies from 1 to 190 on the how easy their regulatory environment makes it to start a business, with 1 being the easiest.</p>
+			<p>Use our <a href="https://comtrade.un.org/labs/dit-trade-vis/?reporter=826&type=C&year=2016&flow=2&commodity" target="_blank">data visualisation tool</a> to get more import and export data.</p> 
             <p>The UK government takes no responsibility for this data.</p>
         </div>
     </div>
