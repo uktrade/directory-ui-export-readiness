@@ -137,6 +137,7 @@ h2 {
 
 // TABLET
 @media (max-width: 767px) {
+
   .section-content-list {
     float: none;
     width: calc(#{$cols-10} - #{$spacing-3});
