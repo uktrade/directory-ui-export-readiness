@@ -31,6 +31,17 @@
   background-image: url('/static/images/custom-hero-regular-exporter@2x.png');
 }
 
+.hero-teaser {
+  float: left;
+  position: static;
+  width: 43%;
+
+  .title {
+    margin-bottom: $spacing-3;
+  }
+}
+
+
 .section-content-list {
   @include columns(6);
   margin-left: $cols-2;
@@ -127,20 +138,24 @@ h2 {
 }
 
 
-@media (min-width: 767px) {
-  .service-section.fas {
-    .content {
-      margin-right: 50px;
-    }
+
+// TABLET
+@media (max-width: 840px) {
+  .hero-teaser {
+    width: 75%;
   }
 }
 
-// TABLET
 @media (max-width: 767px) {
 
   .section-content-list {
     float: none;
     width: calc(#{$cols-10} - #{$spacing-3});
+  }
+
+  .hero-teaser {
+    min-width: 258px;
+    width: calc(100% - 75px);
   }
 
   .scope-indicator {
@@ -150,6 +165,17 @@ h2 {
     width: auto;
   }
 
+  .section-content-list {
+    float: none;
+    width: calc(#{$cols-10} - #{$spacing-3});
+  }
+
+  .service-section.fas {
+    .content {
+      margin-right: 50px;
+    }
+  }
+
   #largest-importers {
     margin-bottom: $spacing-3;
   }
@@ -157,15 +183,10 @@ h2 {
 
 // MOBILE
 @media (max-width: 540px) {
-  .service-section.fas {
-    .button-cta {
-      font-weight: bold;
-      width: 100%;
-      text-align: center;
-    }
-  }
-
   .hero-section {
+    padding-bottom: 0;
+    padding-top: 180px; 
+
     &.new {
       background-position: 60% 10%;
       background-image: url('/static/images/custom-hero-new-to-exporting-mobile@2x.png');
@@ -188,6 +209,14 @@ h2 {
     }
   }
 
+  .service-section.fas {
+    .button-cta {
+      font-weight: bold;
+      width: 100%;
+      text-align: center;
+    }
+  }
+
   .top-markets {
     table {
       min-width: 540px;
@@ -207,6 +236,12 @@ h2 {
 }
 
 @media (max-width: 420px) {
+  .hero-teaser {
+    .title {
+      margin-bottom: $spacing-3;
+    }
+  }
+
   .section-content-list {
     width: auto;
   }
