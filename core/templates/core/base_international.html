@@ -28,21 +28,30 @@
     {% block scripts %}{% endblock %}
 
 </head>
-<body id="top">
+<body id="top" class="{{ LANGUAGE_BIDI|yesno:'bidi,' }}">
     {% include 'core/google_tag_manager_body.html' %}
     <header id="header">
         <a id="skip-link" href="#content" class="verbose">{% trans "Skip to main content" %}</a>
         <section role="dialog" data-component="language-selector-dialog" data-lang="{{ LANGUAGE_CODE }}" data-label="{% trans "International" %}" class="language-selector-dialog">
             <div data-node="languages" class="languages">
-                <p id="great-languages-selector">{% trans "Choose your language" %}</p>
+                <p id="great-languages-selector" class="dibi-rtl">{% trans "Choose your language" %}</p>
                 <ul aria-labelledby="great-languages-selector" class="navigation">
                 {% for code, label in LANGUAGES %}
-                    <li><a href="{% url 'landing-page-international' %}?lang={{ code }}">{{ label }}</a></li>
+                    <li class="dibi-rtl">
+                        <a href="{% url 'landing-page-international' %}?lang={{ code }}">{{ label }}</a>
+                    </li>
                 {% endfor %}
                 </ul>
             </div>
             <div data-node="domestic-redirect" class="domestic-redirect">
-                <p lang="en"><a href="{% url 'landing-page' %}">{% trans "English (UK)" %}</a><span>{% trans "Get guidance and services to help you export." %}</span></p>
+                <p lang="en">
+                    <a href="{% url 'landing-page' %}">
+                        <span class="dibi-rtl">
+                            {% trans "English (UK)" %}
+                        </span>
+                    </a>
+                    <span class="dibi-rtl">{% trans "Get guidance and services to help you export." %}</span>
+                </p>
             </div>
         </section>
 

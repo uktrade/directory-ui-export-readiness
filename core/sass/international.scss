@@ -218,6 +218,27 @@ section {
   }
 }
 
+// bidirectional support
+@mixin mirror_relative_to_parent {
+  /* IE6 and 7 via hack */
+  *filter: progid:DXImageTransform.Microsoft.BasicImage(mirror=1);
+  /* Standards browsers, including IE9+ */
+  -moz-transform: scale(-1,1);
+  -ms-transform: scale(-1,1);
+  -o-transform: scale(-1,1); /* Op 11.5 only */
+  -webkit-transform: scale(-1,1);
+  transform: scale(-1,1);
+}
+
+body.bidi {
+  .language-selector-dialog {
+    @include mirror_relative_to_parent();
+    .dibi-rtl {
+      @include mirror_relative_to_parent();
+      text-align: right;
+    }
+  }
+}
 
 // TABLET
 @media (max-width: 768px) {
