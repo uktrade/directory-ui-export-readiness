@@ -13,10 +13,12 @@
 @import './components/_teaser';
 
 
+section {
+  padding-bottom: 90px;
+}
+
 .hero-campaign-section {
-  background-image: url('/static/images/hero/export-hp-hero-knitting.jpg');
-  padding-top: 45px;
-  height: 540px;
+  background-image: url(/static/images/hero/export-hp-hero-500.jpg);
 }
 
 .intro {
@@ -28,6 +30,9 @@
 #beis {
   background-color: $offwhite;
   margin-bottom: $spacing-2;
+  .intro {
+    margin-bottom: 0; 
+  }
 }
 
 #content .triage-section {
@@ -36,10 +41,6 @@
 
 #content .triage-section .intro {
   margin-bottom: 0;
-}
-
-#content section {
-  padding-bottom: 90px;
 }
 
 #content section#resource-guidance {
@@ -84,7 +85,7 @@
   }
 
   .hero-campaign-section {
-    background-image: url('/static/images/hero/export-hp-hero-500.jpg');
+    background-image: url(/static/images/hero/export-hp-hero-knitting.jpg);
     background-position: 50% 30%;
   }
   .intro {

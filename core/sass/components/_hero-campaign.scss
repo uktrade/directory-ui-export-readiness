@@ -2,11 +2,12 @@
 // -------------------------------
 
 .hero-campaign-section {
-  background-color: $white;
-  background-position: center;
+  background-color: $grey;
+  background-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
+  background-position: top center;
   background-repeat: no-repeat;
-  background-size: cover;
-  padding: 0;
+  min-height: 500px;
+  padding: $spacing-2 0 0 0;
   position: relative;
 
   img {
@@ -20,28 +21,28 @@
   }
 
   .container {
-    min-height: 286px;
     position: relative;
   }
 
   .video {
     float: left;
     padding-top: $spacing-3;
+
     img {
       position: absolute;
       right: 0;
       top: 0;
     }
   }
+
   &:before {
-    background-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
-    content: '';
-    display: block;
-    height: 100%;
+    background-image: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.7) 100%);
+    content: "";
+    height: 500px;
     left: 0;
     position: absolute;
     top: 0;
-    width: 100%;
+    width: 2000px;
   }
 }
 
@@ -60,7 +61,7 @@
     @include heading-hero;
     color: $white;
     display: inline-block;
-    margin-bottom: 0;
+    margin-bottom: $spacing-1;
     text-transform: uppercase;
 
     span {
