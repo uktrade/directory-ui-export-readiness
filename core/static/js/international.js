@@ -644,10 +644,9 @@ dit.pages.international = (new function () {
     setComponents();
     viewAdjustments(dit.responsive.mode());
     bindResponsiveListener();
-    
+
     delete this.init; // Run once
   }
-  
   
   function setComponents() {
     _cache.teasers_site = $("[data-component='teaser-site']");
@@ -698,9 +697,36 @@ dit.pages.international = (new function () {
     dit.components.languageSelector.enhanceDialog($dialog, {
       $controlContainer: $("#header-bar .container")
     });
+
+    languageSelectorViewInhibitor(false);
+  }
+
+  /* Because non-JS view is to show all, we might see a brief glimpse of 
+   * the open language selector before JS has kicked in to add functionality. 
+   * We are preventing this by immediately calling a view inhibitor function,
+   * and then the enhanceLanguageSelector() function will switch of the
+   * inhibitor by calling when component has been enhanced and is ready.
+   **/
+  languageSelectorViewInhibitor(true);
+  function languageSelectorViewInhibitor(activate) {
+    var rule = "[data-component='language-selector-dialog'] { display: none; }";
+    var style;
+    if (arguments.length && activate) {
+      // Hide it.
+      style = document.createElement("style");
+      style.setAttribute("type", "text/css");
+      style.setAttribute("id", "language-dialog-view-inhibitor");
+      style.appendChild(document.createTextNode(rule));
+      document.head.appendChild(style);
+    }
+    else {
+      // Reveal it.
+      document.head.removeChild(document.getElementById("language-dialog-view-inhibitor"));
+    }
   }
 
 });
+
 
 $(document).ready(function() {
   dit.pages.international.init();
