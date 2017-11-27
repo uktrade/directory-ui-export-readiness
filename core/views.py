@@ -55,7 +55,6 @@ class InternationalLandingPageView(
     SetEtagMixin, TranslationsMixin, TemplateView
 ):
     template_name = 'core/landing_page_international.html'
-    template_name_bidi = 'core/landing_page_international.html'
 
 
 class InterstitialPageExoppsView(SetEtagMixin, TemplateView):

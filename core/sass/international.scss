@@ -231,12 +231,14 @@ section {
 }
 
 body.bidi {
-  .language-selector-dialog {
+  @include mirror_relative_to_parent();
+  .bidi-rtl {
     @include mirror_relative_to_parent();
-    .dibi-rtl {
-      @include mirror_relative_to_parent();
-      text-align: right;
-    }
+    text-align: right;
+  }
+  .bidi-ltr {
+    @include mirror_relative_to_parent();
+    text-align: left;
   }
 }
 

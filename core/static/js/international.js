@@ -559,7 +559,7 @@ dit.components.languageSelector = (new function() {
     $country.text($node.attr("data-label"));
     $control.append($lang);
     $control.append($country);
-    $control.addClass("LanguageSelectorDialog-Tracker");
+    $control.addClass("LanguageSelectorDialog-Tracker bidi-ltr");
     $control.attr("href", ("#" + id));
     $control.attr("aria-controls", id);
     return $control;
