@@ -120,12 +120,20 @@ class AboutView(SetEtagMixin, TemplateView):
     template_name = 'core/about.html'
 
 
-class PrivacyCookies(SetEtagMixin, TemplateView):
-    template_name = 'core/privacy_cookies.html'
+class PrivacyCookiesDomestic(SetEtagMixin, TemplateView):
+    template_name = 'core/privacy_cookies-domestic.html'
 
 
-class TermsConditions(SetEtagMixin, TemplateView):
-    template_name = 'core/terms_conditions.html'
+class PrivacyCookiesInternational(SetEtagMixin, TemplateView):
+    template_name = 'core/privacy_cookies-international.html'
+
+
+class TermsConditionsDomestic(SetEtagMixin, TemplateView):
+    template_name = 'core/terms_conditions-domestic.html'
+
+
+class TermsConditionsInternational(SetEtagMixin, TemplateView):
+    template_name = 'core/terms_conditions-international.html'
 
 
 class SorryView(SetEtagMixin, TemplateView):

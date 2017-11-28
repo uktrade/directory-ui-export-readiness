@@ -65,13 +65,41 @@ def test_robots(client):
 @pytest.mark.parametrize(
     'view,expected_template',
     (
-        ('about', 'core/about.html'),
-        ('privacy-and-cookies', 'core/privacy_cookies.html'),
-        ('landing-page-international', 'core/landing_page_international.html'),
-        ('sorry', 'core/sorry.html'),
-        ('not-found', 'core/not_found.html'),
-        ('terms-and-conditions', 'core/terms_conditions.html'),
-        ('get-finance', 'core/get_finance.html')
+        (
+            'about',
+            'core/about.html'
+        ),
+        (
+            'privacy-and-cookies',
+            'core/privacy_cookies-domestic.html'
+        ),
+        (
+            'privacy-and-cookies-international',
+            'core/privacy_cookies-international.html'),
+        (
+            'terms-and-conditions',
+            'core/terms_conditions-domestic.html'
+        ),
+        (
+            'terms-and-conditions-international',
+            'core/terms_conditions-international.html'
+        ),
+        (
+            'landing-page-international',
+            'core/landing_page_international.html'
+        ),
+        (
+            'sorry',
+            'core/sorry.html'
+        ),
+        (
+            'not-found',
+            'core/not_found.html'
+        ),
+        (
+            'get-finance',
+            'core/get_finance.html'
+        )
     )
 )
 def test_templates(view, expected_template, client):
@@ -134,7 +162,7 @@ def test_translation_redirects_no_query_params(url, expected_language, client):
     response = client.get(url, follow=False)
 
     assert response.status_code == http.client.MOVED_PERMANENTLY
-    assert response.url == '/international?lang={}'.format(expected_language)
+    assert response.url == '/international/?lang={}'.format(expected_language)
 
 
 UTM_QUERY_PARAMS = '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
@@ -155,7 +183,7 @@ def test_translation_redirects_query_params(url, expected_language, client):
     response = client.get(url, follow=False)
 
     assert response.status_code == http.client.MOVED_PERMANENTLY
-    assert response.url == '/international{}&lang={}'.format(
+    assert response.url == '/international/{}&lang={}'.format(
         UTM_QUERY_PARAMS, expected_language
     )
 
@@ -165,7 +193,7 @@ def test_tos_old_translation_redirect(language, client):
     response = client.get('/int/{}/terms-and-conditions/'.format(language))
 
     assert response.status_code == http.client.MOVED_PERMANENTLY
-    assert response.url == reverse('terms-and-conditions')
+    assert response.url == reverse('terms-and-conditions-international')
 
 
 @pytest.mark.parametrize('language', TOS_AND_PRIVACY_REDIRECT_LANGUAGES)
@@ -173,7 +201,7 @@ def test_privacy_old_translation_redirect(language, client):
     response = client.get('/int/{}/privacy-policy/'.format(language))
 
     assert response.status_code == http.client.MOVED_PERMANENTLY
-    assert response.url == reverse('privacy-and-cookies')
+    assert response.url == reverse('privacy-and-cookies-international')
 
 
 def test_tos_old_translation_redirect_uk(client):
@@ -253,18 +281,40 @@ def test_about_view(client):
     assert response.template_name == [views.AboutView.template_name]
 
 
-def test_privacy_view(client):
+def test_privacy_view_domestic(client):
     response = client.get(reverse('privacy-and-cookies'))
 
     assert response.status_code == 200
-    assert response.template_name == [views.PrivacyCookies.template_name]
+    assert response.template_name == [
+        views.PrivacyCookiesDomestic.template_name
+    ]
 
 
-def test_terms_and_conditions_view(client):
+def test_terms_and_conditions_view_domestic(client):
     response = client.get(reverse('terms-and-conditions'))
 
     assert response.status_code == 200
-    assert response.template_name == [views.TermsConditions.template_name]
+    assert response.template_name == [
+        views.TermsConditionsDomestic.template_name
+    ]
+
+
+def test_privacy_view_international(client):
+    response = client.get(reverse('privacy-and-cookies-international'))
+
+    assert response.status_code == 200
+    assert response.template_name == [
+        views.PrivacyCookiesInternational.template_name
+    ]
+
+
+def test_terms_and_conditions_view_international(client):
+    response = client.get(reverse('terms-and-conditions-international'))
+
+    assert response.status_code == 200
+    assert response.template_name == [
+        views.TermsConditionsInternational.template_name
+    ]
 
 
 def test_sorry_view(client):
