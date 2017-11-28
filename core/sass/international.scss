@@ -220,12 +220,9 @@ section {
 
 // bidirectional support
 @mixin mirror_relative_to_parent {
-  /* IE6 and 7 via hack */
-  *filter: progid:DXImageTransform.Microsoft.BasicImage(mirror=1);
-  /* Standards browsers, including IE9+ */
   -moz-transform: scale(-1,1);
   -ms-transform: scale(-1,1);
-  -o-transform: scale(-1,1); /* Op 11.5 only */
+  -o-transform: scale(-1,1);
   -webkit-transform: scale(-1,1);
   transform: scale(-1,1);
 }
