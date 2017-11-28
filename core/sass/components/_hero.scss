@@ -39,6 +39,9 @@
 // MOBILE
 @media (max-width: 540px) {
   .hero-section {
+    p {
+      @include body-m-mob;
+    }
   }
 }
 

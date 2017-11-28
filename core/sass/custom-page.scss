@@ -16,11 +16,14 @@
 
 .hero-section {
   background-position: top center;
-  padding-top: 45px;
+
+  .container {
+    height: 500px;
+  }
 }
 
 .hero-section.new {
-  background-image: url('/static/images/custom-hero-new-to-exporting@2x.png');
+  background-image: url('/static/images/hero/export-cp-new-to-exporting-hero-500.jpg');
 }
 
 .hero-section.occasional {
@@ -32,8 +35,6 @@
 }
 
 .hero-teaser {
-  float: left;
-  position: static;
   width: 43%;
 
   .title {
@@ -138,11 +139,22 @@ h2 {
 }
 
 
+// DESKTOP
+@media (max-width: 1200px) {
+  .hero-section.new { 
+    background-position: 60% 0;
+  }
+}
+
 
 // TABLET
 @media (max-width: 840px) {
+  .hero-section.new {
+    background-position: 70% 0;
+  }
+
   .hero-teaser {
-    width: 75%;
+    width: 55%;
   }
 }
 
@@ -154,8 +166,7 @@ h2 {
   }
 
   .hero-teaser {
-    min-width: 258px;
-    width: calc(100% - 75px);
+    min-width: 350px;
   }
 
   .scope-indicator {
@@ -184,12 +195,14 @@ h2 {
 // MOBILE
 @media (max-width: 540px) {
   .hero-section {
-    padding-bottom: 0;
-    padding-top: 180px; 
+    .title {
+      @include heading-hero-mob;
+      margin-bottom: $spacing-4;
+    }
 
     &.new {
-      background-position: 60% 10%;
-      background-image: url('/static/images/custom-hero-new-to-exporting-mobile@2x.png');
+      background-image: url('/static/images/hero/export-cp-new-to-exporting-hero-500-mb.jpg');
+      background-position: top right;
     }
     
     &.occasional {
@@ -203,10 +216,11 @@ h2 {
       background-image: url('/static/images/custom-hero-regular-exporter-mobile@2x.png');
       padding-top: 130px;
     }
+  }
 
-    &:after {
-      margin-top: -350px;
-    }
+  .hero-teaser {
+    min-width: 0;
+    width: calc(100% - #{$spacing-2});
   }
 
   .service-section.fas {
@@ -228,20 +242,9 @@ h2 {
 }
 
 @media (max-width: 510px) {
-  .hero-section.new {
-    .title {
-      @include heading-hero-mob;
-    }
-  }
 }
 
 @media (max-width: 420px) {
-  .hero-teaser {
-    .title {
-      margin-bottom: $spacing-3;
-    }
-  }
-
   .section-content-list {
     width: auto;
   }
