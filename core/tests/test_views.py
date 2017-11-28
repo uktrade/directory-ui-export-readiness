@@ -92,18 +92,6 @@ def test_international_landing_view_translations(lang, client):
     assert response.cookies['django_language'].value == lang
 
 
-def test_international_landing_view_translations_bidi(client):
-    response = client.get(
-        reverse('landing-page-international'),
-        {'lang': 'ar'}
-    )
-
-    assert response.status_code == http.client.OK
-    assert response.template_name == [
-        views.InternationalLandingPageView.template_name_bidi
-    ]
-
-
 @pytest.mark.parametrize('method,expected', (
     ('get', '"aa579dae951f3cc5d696e5359261e123"'),
     ('post', None),
