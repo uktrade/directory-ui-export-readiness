@@ -24,13 +24,9 @@
     <p>The UK supports international trade and investment, and welcomes travellers and students from across the world.</p>
     <div data-node="languages" class="languages">
       <ul aria-labelledby="great-languages-selector" class="navigation">
-        <li><a href="{% url 'landing-page-international' %}?lang=en">English (International)</a></li>
-        <li><a href="{% url 'landing-page-international' %}?lang=zh">中国</a></li>
-        <li><a href="{% url 'landing-page-international' %}?lang=de">Deutsch</a></li>
-        <li><a href="{% url 'landing-page-international' %}?lang=ja">日本語</a></li>
-        <li><a href="{% url 'landing-page-international' %}?lang=es">Español</a></li>
-        <li><a href="{% url 'landing-page-international' %}?lang=pt">Português</a></li>
-        <li><a href="{% url 'landing-page-international' %}?lang=ar">عربى</a></li>
+        {% for code, label in LANGUAGES %}
+          <li><a href="{% url 'landing-page-international' %}?lang={{ code }}">{{ label }}</a></li>
+        {% endfor %}
       </ul>
     </div>
   </section>
