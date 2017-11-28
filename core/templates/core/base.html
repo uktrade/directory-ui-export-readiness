@@ -20,7 +20,10 @@
         <meta property="og:image" content="{% static 'images/icons/opengraph-image.png' %}">
         <link href="{% static 'Dit-Pattern-Styling/public/css/main.css' %}" media="all" rel="stylesheet" />
         <script src="{% static 'Dit-Pattern-Styling/public/js/third-party.js' %}"></script>
+
+        {% block js %}
         <script src="{% static 'Dit-Pattern-Styling/public/js/script.js' %}"></script>
+        {% endblock %}
 
         {% block css %}{% endblock %}
 
@@ -51,6 +54,7 @@
         {% block header_area %}
             {% include 'directory_header_footer/header.html' %}
         {% endblock %}
+
         <main id="content" class="{% block css_layout_class %}{% endblock css_layout_class %}" role="main">
             {% block content %}{% endblock %}
         </main>
