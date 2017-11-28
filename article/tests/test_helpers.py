@@ -154,7 +154,7 @@ def test_database_remaining_reading_time_in_group(
         structure.PERSONA_OCCASIONAL_ARTICLES.name
     )
 
-    assert time_left == 5395
+    assert time_left == 5397
 
 
 @patch('api_client.api_client.exportreadiness.retrieve_article_read')
