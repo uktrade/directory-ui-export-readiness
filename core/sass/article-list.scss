@@ -39,6 +39,18 @@
   }
 }
 
+
+.hero-section.new {
+  background-image: url('/static/images/hero/export-ne-hero-300.jpg');
+}
+.hero-section.occasional {
+  background-image: url('/static/images/hero/export-oe-hero-300.jpg');
+}
+.hero-section.regular {
+  background-image: url('/static/images/hero/export-re-hero-300.jpg');
+}
+
+
 .hero-section.business-planning {
   background-image: url('/static/images/verical-hero-business-planning@2x.png');
 }
@@ -58,15 +70,6 @@
 .hero-section.operations {
   background-image: url('/static/images/vertical-hero-operations@2x.png');
 }
-.hero-section.new {
-  background-image: url('/static/images/hero/export-ne-hero-300.jpg');
-}
-.hero-section.occasional {
-  background-image: url('/static/images/hero/export-oe-hero-300.jpg');
-}
-.hero-section.regular {
-  background-image: url('/static/images/hero/export-re-hero-300.jpg');
-}
 
 
 // DESKTOP
@@ -85,8 +88,14 @@
   }
 
   .hero-section.new { }
-  .hero-section.occasional { background-position: 60% 0; }
-  .hero-section.regular {}
+
+  .hero-section.occasional { 
+    background-position: 60% 0; 
+  }
+
+  .hero-section.regular { 
+    background-position: 62% 0; 
+  }
 }
 
 
@@ -126,7 +135,8 @@
   }
 
   .hero-section.regular {
-    background-image: url('/static/images/persona-hero-regular-exporter-mobile@2x.png');
+    background-image: url('/static/images/hero/export-re-hero-300-mb.jpg');
+    background-position: 100% 0;
   }
   .hero-section.occasional {
     background-image: url('/static/images/hero/export-oe-hero-300-mb.jpg');
@@ -135,6 +145,7 @@
     background-image: url('/static/images/hero/export-ne-hero-300-mb.jpg');
     background-position: top right;
   }
+
   .hero-section.business-planning {
     background-image: url('/static/images/verical-hero-business-planning-mobile@2x.png');
   }
