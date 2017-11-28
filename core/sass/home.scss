@@ -71,8 +71,12 @@ section {
 // MOBILE
 @media (max-width: 540px) {
 
-  #content section {
+  section {
     padding-bottom: 45px;
+  }
+
+  .hero-campaign-section {
+    background-position: 45% 0%;
   }
 
   #content section#resource-guidance {
@@ -80,19 +84,12 @@ section {
     padding-bottom: 30px;
   }
 
-  #content section .intro {
-    margin-bottom: 15px;
-  }
-
-  .hero-campaign-section {
-    background-image: url(/static/images/hero/export-hp-hero-knitting.jpg);
-    background-position: 50% 30%;
-  }
   .intro {
     ul {
       margin-bottom: 30px;
     }
   }
+
   .triage-section {
     .button {
       width: 100%;
@@ -102,9 +99,9 @@ section {
   }
 }
 
-// LARGE SCREENS
-@media (min-width: 1200px) {
+
+@media (max-width: 420px) {
   .hero-campaign-section {
-    background-position: top center;
+    background-position: 70% 0%;
   }
 }
