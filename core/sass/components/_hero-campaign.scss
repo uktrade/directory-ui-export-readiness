@@ -2,10 +2,11 @@
 // -------------------------------
 
 .hero-campaign-section {
-  background-color: $white;
-  background-position: center;
+  background-color: $grey;
+  background-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
+  background-position: top center;
   background-repeat: no-repeat;
-  background-size: cover;
+  min-height: 500px;
   padding: 0;
   position: relative;
 
@@ -15,42 +16,26 @@
   }
 
   p {
-    margin-top: $spacing-3;
     width: 50%;
   }
 
   .container {
-    min-height: 286px;
     position: relative;
   }
 
-  .video {
-    float: left;
-    padding-top: $spacing-3;
-    img {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-  }
   &:before {
-    background-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
-    content: '';
-    display: block;
-    height: 100%;
+    background-image: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.7) 100%);
+    content: "";
+    height: 500px;
     left: 0;
     position: absolute;
     top: 0;
-    width: 100%;
+    width: 2000px;
   }
 }
 
 .hero-campaign-teaser {
-  img {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-  }
+  padding: $spacing-2 0 0 0;
 
   p {
     color: $white;
@@ -60,7 +45,7 @@
     @include heading-hero;
     color: $white;
     display: inline-block;
-    margin-bottom: 0;
+    margin-bottom: $spacing-1;
     text-transform: uppercase;
 
     span {
@@ -81,10 +66,23 @@
 
 
 // TABLET
-@media (max-width: 767px) {
+@media (max-width: 1024px) {
   .hero-campaign-section {
     p {
-      width: 62%;
+      width: 65%;
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .hero-campaign-section {
+    img {
+      height: 70px;
+    }
+ 
+    p {
+      margin-bottom: 0;
+      width: 75%;
     }
   }
 }
@@ -93,36 +91,32 @@
 // MOBILE
 @media (max-width: 540px) {
   .hero-campaign-section {
-    padding-top: 200px;
-    position: relative;
-
-    img {
-      display: none;
-    }
-
     p {
-      margin-top: $spacing-3-m;
       width: 100%;
-    }
-
-    .video {
-      width: 100%;
-      .button-video {
-        width: 100%;
-      }
     }
   }
 }
 
 @media (max-width: 420px) {
   .hero-campaign-section {
-    padding-bottom: $spacing-3-m;
-    padding-top: 0;
+    padding-top: $spacing-3;
   }
 
   .hero-campaign-teaser {
+    padding-top: 115px;
+
+    img {
+      bottom: initial;
+      height: 60px;
+      left: $spacing-4;
+      position: absolute;
+      right: initial;
+      top: 0;
+    }
+
     .title {
       @include heading-hero-mob;
+      margin-bottom: $spacing-3;
       margin-top: 0;
       margin-left: 10px;
       span {

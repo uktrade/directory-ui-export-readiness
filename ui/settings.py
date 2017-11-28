@@ -31,6 +31,9 @@ DEBUG = bool(os.getenv("DEBUG", False))
 # PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
 
+# https://docs.djangoproject.com/en/dev/ref/settings/#append-slash
+APPEND_SLASH = True
+
 
 # Application definition
 
@@ -54,16 +57,17 @@ INSTALLED_APPS = [
 
 MIDDLEWARE_CLASSES = [
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'sso.middleware.SSOUserMiddleware',
     'core.middleware.NoCacheMiddlware',
-    'core.middleware.ArticleReadManagerMiddlware',
     'ui.middleware.LocaleQuerystringMiddleware',
     'ui.middleware.PersistLocaleMiddleware',
     'ui.middleware.ForceDefaultLocale',
+    'core.middleware.ArticleReadManagerMiddlware',
 ]
 
 ROOT_URLCONF = 'ui.urls'
@@ -275,6 +279,18 @@ SERVICES_FAB = os.getenv('SERVICES_FAB', default_urls.SERVICES_FAB)
 SERVICES_GET_FINANCE = os.getenv(
     'SERVICES_GET_FINANCE', default_urls.SERVICES_GET_FINANCE)
 SERVICES_SOO = os.getenv('SERVICES_SOO', default_urls.SERVICES_SOO)
+
+# FOOTER LINKS
+INFO_ABOUT = os.getenv('INFO_ABOUT', default_urls.INFO_ABOUT)
+INFO_CONTACT_US_DIRECTORY = os.getenv(
+    'INFO_CONTACT_US_DIRECTORY',
+    default_urls.INFO_CONTACT_US_DIRECTORY)
+INFO_PRIVACY_AND_COOKIES = os.getenv(
+    'INFO_PRIVACY_AND_COOKIES',
+    default_urls.INFO_PRIVACY_AND_COOKIES)
+INFO_TERMS_AND_CONDITIONS = os.getenv(
+    'INFO_TERMS_AND_CONDITIONS',
+    default_urls.INFO_TERMS_AND_CONDITIONS)
 
 # Sentry
 RAVEN_CONFIG = {

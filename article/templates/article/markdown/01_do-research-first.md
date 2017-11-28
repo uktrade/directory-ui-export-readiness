@@ -1,6 +1,6 @@
-Doing research early will give you the information you need to make informed decisions about: 
+Do research first so you have the information you need to make decisions about: 
 
-- which market to enter and when
+- which markets to enter and when
 - the best routes into a market
 - how to position your product or service in your chosen markets
 
@@ -10,13 +10,13 @@ Selling to a new market without the right information could cost you time and mo
 
 ### Decide what you need to know 
 
-Plan your research to keep it focused. Common questions to start with are:
+Plan your research to keep it focused. Start by asking:
 
-- What is the market potential?
-- What are the barriers to entry?
-- Who are my competitors?
-- Who are my customers?
-- What are the best routes to market?
+- what is the market potential?
+- what are the barriers to entry?
+- who are my competitors?
+- who are my customers?
+- what are the best routes to market?
 
 ### Start with desk research 
 

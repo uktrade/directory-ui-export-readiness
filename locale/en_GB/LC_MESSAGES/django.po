@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-23 17:37+0000\n"
+"POT-Creation-Date: 2017-11-27 15:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: core/templates/core/base_international.html:13
-msgid "International - GREAT.gov.uk"
+#: core/templates/core/base_international.html:35
+msgid "International"
 msgstr ""
 
 #: core/templates/core/base_international.html:34
@@ -38,53 +39,51 @@ msgstr ""
 msgid "Get guidance and services to help you export."
 msgstr ""
 
-#: core/templates/core/base_international.html:51
-msgid "Department for International Trade"
-msgstr ""
-
-#: core/templates/core/base_international.html:58
-#: core/templates/core/base_international.html:70
+#: core/templates/core/base_international.html:57
+#: core/templates/core/base_international.html:69
 msgid "HM Government"
 msgstr ""
 
-#: core/templates/core/base_international.html:59
+#: core/templates/core/base_international.html:58
 msgid "Great Britain and Northern Ireland"
 msgstr ""
 
-#: core/templates/core/base_international.html:75
+#: core/templates/core/base_international.html:74
 msgid "Privacy and cookies"
 msgstr ""
 
-#: core/templates/core/base_international.html:76
+#: core/templates/core/base_international.html:75
 msgid "Terms and Conditions"
 msgstr ""
 
-#: core/templates/core/base_international.html:79
+#: core/templates/core/base_international.html:78
 msgid "Share"
 msgstr ""
 
-#: core/templates/core/base_international.html:80
-msgid "with Twitter"
-msgstr ""
-
-#: core/templates/core/base_international.html:82
-msgid "with Facebook"
-msgstr ""
-
+#: core/templates/core/base_international.html:79
+#: core/templates/core/base_international.html:83
 #: core/templates/core/base_international.html:84
-msgid "with LinkedIn"
-msgstr ""
-
-#: core/templates/core/base_international.html:85
 #: core/templates/core/landing_page_international.html:8
 msgid "Welcome to the UK"
 msgstr ""
 
-#: core/templates/core/base_international.html:85
+#: core/templates/core/base_international.html:79
+msgid "with Twitter"
+msgstr ""
+
+#: core/templates/core/base_international.html:81
+msgid "with Facebook"
+msgstr ""
+
+#: core/templates/core/base_international.html:83
+msgid "with LinkedIn"
+msgstr ""
+
+#: core/templates/core/base_international.html:84
 msgid "by email"
 msgstr ""
 
-#: core/templates/core/base_international.html:92
+#: core/templates/core/base_international.html:90
 msgid "Crown copyright 2017. All rights reserved."
 msgstr ""
 

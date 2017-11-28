@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from django.contrib.sitemaps.views import sitemap
 from django.views.generic import TemplateView
+from django.views.generic.base import RedirectView
 
 import article.views
 import casestudy.views
@@ -124,7 +125,7 @@ urlpatterns = [
         name='define-market-potential',
     ),
     url(
-        r"^market-research/do-field-research$",
+        r"^market-research/research-your-market$",
         article.views.DoFieldResearchView.as_view(),
         name='do-field-research',
     ),
@@ -370,4 +371,163 @@ urlpatterns = [
         casestudy.views.CasestudyYorkBagView.as_view(),
         name='casestudy-york-bag'
     ),
+]
+
+translation_redirects = [
+    url(
+        r'^int/$',
+        core.views.TranslationRedirectView.as_view(
+            pattern_name='landing-page-international',
+        ),
+        name='redirect-int'
+    ),
+    url(
+        r'^int/de/$',
+        core.views.TranslationRedirectView.as_view(
+            pattern_name='landing-page-international',
+            language='de',
+        ),
+        name='redirect-int-de'
+    ),
+    url(
+        r'^de/$',
+        core.views.TranslationRedirectView.as_view(
+            pattern_name='landing-page-international',
+            language='de',
+        ),
+        name='redirect-de'
+    ),
+    url(
+        r'^int/ar/$',
+        core.views.TranslationRedirectView.as_view(
+            pattern_name='landing-page-international',
+            language='ar',
+        ),
+        name='redirect-int-ar'
+    ),
+    url(
+        r'^ar/$',
+        core.views.TranslationRedirectView.as_view(
+            pattern_name='landing-page-international',
+            language='ar',
+        ),
+        name='redirect-ar'
+    ),
+    url(
+        r'^int/zh/$',
+        core.views.TranslationRedirectView.as_view(
+            pattern_name='landing-page-international',
+            language='zh-hans',
+        ),
+        name='redirect-int-zh'
+    ),
+    url(
+        r'^zh/$',
+        core.views.TranslationRedirectView.as_view(
+            pattern_name='landing-page-international',
+            language='zh-hans',
+        ),
+        name='redirect-zh'
+    ),
+    url(
+        r'^int/pt/$',
+        core.views.TranslationRedirectView.as_view(
+            pattern_name='landing-page-international',
+            language='pt',
+        ),
+        name='redirect-int-pt'
+    ),
+    url(
+        r'^pt/$',
+        core.views.TranslationRedirectView.as_view(
+            pattern_name='landing-page-international',
+            language='pt',
+        ),
+        name='redirect-pt'
+    ),
+    url(
+        r'^int/es/$',
+        core.views.TranslationRedirectView.as_view(
+            pattern_name='landing-page-international',
+            language='es',
+        ),
+        name='redirect-int-es'
+    ),
+    url(
+        r'^es/$',
+        core.views.TranslationRedirectView.as_view(
+            pattern_name='landing-page-international',
+            language='es',
+        ),
+        name='redirect-es'
+    ),
+    url(
+        r'^int/ja/$',
+        core.views.TranslationRedirectView.as_view(
+            pattern_name='landing-page-international',
+            language='ja',
+        ),
+        name='redirect-int-ja'
+    ),
+    url(
+        r'^ja/$',
+        core.views.TranslationRedirectView.as_view(
+            pattern_name='landing-page-international',
+            language='ja',
+        ),
+        name='redirect-ja'
+    ),
+]
+
+urlpatterns += translation_redirects
+
+# TOS and privacy-and-cookies are no longer translated, instead we redirect to
+# the ENG version
+TOS_AND_PRIVACY_REDIRECT_LANGUAGES = (
+    'zh', 'ja', r'es', 'pt', 'ar', 'de'
+)
+
+urlpatterns += [
+    url(
+        r'^int/{}/terms-and-conditions/$'.format(language),
+        RedirectView.as_view(
+            pattern_name='terms-and-conditions',
+            permanent=True,
+            query_string=True
+        ),
+        name='redirect-terms-and-conditions-{}'.format(language)
+    ) for language in TOS_AND_PRIVACY_REDIRECT_LANGUAGES
+]
+
+urlpatterns += [
+    url(
+        r'^int/{}/privacy-policy/$'.format(language),
+        RedirectView.as_view(
+            pattern_name='privacy-and-cookies',
+            permanent=True,
+            query_string=True
+        ),
+        name='redirect-privacy-policy-{}'.format(language)
+    ) for language in TOS_AND_PRIVACY_REDIRECT_LANGUAGES
+]
+
+urlpatterns += [
+    url(
+        r'^uk/privacy-policy/$',
+        RedirectView.as_view(
+            pattern_name='privacy-and-cookies',
+            permanent=True,
+            query_string=True
+        ),
+        name='redirect-privacy-policy-uk'
+    ),
+    url(
+        r'^uk/terms-and-conditions/$',
+        RedirectView.as_view(
+            pattern_name='terms-and-conditions',
+            permanent=True,
+            query_string=True
+        ),
+        name='redirect-terms-and-conditions-uk'
+    )
 ]

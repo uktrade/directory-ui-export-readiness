@@ -1,9 +1,9 @@
 from django.conf import settings
 from django.contrib import sitemaps
 from django.core.urlresolvers import reverse
-
 from django.utils.cache import set_response_etag
 from django.views.generic import TemplateView
+from django.views.generic.base import RedirectView
 
 from casestudy import casestudies
 from ui.views import TranslationsMixin
@@ -55,7 +55,32 @@ class InternationalLandingPageView(
     SetEtagMixin, TranslationsMixin, TemplateView
 ):
     template_name = 'core/landing_page_international.html'
-    template_name_bidi = 'core/landing_page_international-bidi.html'
+
+
+class TranslationRedirectView(RedirectView):
+    language = None
+    permanent = True
+    query_string = True
+
+    def get_redirect_url(self, *args, **kwargs):
+        """
+        Return the URL redirect
+        """
+        url = super().get_redirect_url(*args, **kwargs)
+
+        if self.language:
+            # Append 'lang' to query params
+            if self.request.META.get('QUERY_STRING'):
+                concatenation_character = '&'
+            # Add 'lang' query param
+            else:
+                concatenation_character = '?'
+
+            url = '{}{}lang={}'.format(
+                url, concatenation_character, self.language
+            )
+
+        return url
 
 
 class InterstitialPageExoppsView(SetEtagMixin, TemplateView):
