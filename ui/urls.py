@@ -124,7 +124,7 @@ urlpatterns = [
         name='define-market-potential',
     ),
     url(
-        r"^market-research/do-field-research$",
+        r"^market-research/research-your-market$",
         article.views.DoFieldResearchView.as_view(),
         name='do-field-research',
     ),
