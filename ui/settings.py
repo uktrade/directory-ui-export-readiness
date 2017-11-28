@@ -31,6 +31,9 @@ DEBUG = bool(os.getenv("DEBUG", False))
 # PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
 
+# https://docs.djangoproject.com/en/dev/ref/settings/#append-slash
+APPEND_SLASH = True
+
 
 # Application definition
 
@@ -54,16 +57,17 @@ INSTALLED_APPS = [
 
 MIDDLEWARE_CLASSES = [
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'sso.middleware.SSOUserMiddleware',
     'core.middleware.NoCacheMiddlware',
-    'core.middleware.ArticleReadManagerMiddlware',
     'ui.middleware.LocaleQuerystringMiddleware',
     'ui.middleware.PersistLocaleMiddleware',
     'ui.middleware.ForceDefaultLocale',
+    'core.middleware.ArticleReadManagerMiddlware',
 ]
 
 ROOT_URLCONF = 'ui.urls'

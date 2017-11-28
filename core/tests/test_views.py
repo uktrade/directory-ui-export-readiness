@@ -1,14 +1,16 @@
 import http
 
+from django.core.urlresolvers import reverse
+from django.conf import settings
+from django.views.generic import TemplateView
+
 from bs4 import BeautifulSoup
 import pytest
 import requests_mock
 
-from django.core.urlresolvers import reverse
-from django.conf import settings
-from django.views.generic import TemplateView
 from core import views
 from casestudy import casestudies
+from ui.urls import TOS_AND_PRIVACY_REDIRECT_LANGUAGES
 
 
 def test_landing_page(client, settings):
@@ -90,6 +92,102 @@ def test_international_landing_view_translations(lang, client):
 
     assert response.status_code == http.client.OK
     assert response.cookies['django_language'].value == lang
+
+
+translation_redirects_params = [
+    'url,expected_language',
+    (
+        ('/int/de', 'de'),
+        ('/de', 'de'),
+        ('/int/de/', 'de'),
+        ('/de/', 'de'),
+        ('/int/ar', 'ar'),
+        ('/ar', 'ar'),
+        ('/int/ar/', 'ar'),
+        ('/ar/', 'ar'),
+        ('/int/zh', 'zh-hans'),
+        ('/zh', 'zh-hans'),
+        ('/int/zh/', 'zh-hans'),
+        ('/zh/', 'zh-hans'),
+        ('/int/pt', 'pt'),
+        ('/pt', 'pt'),
+        ('/int/pt/', 'pt'),
+        ('/pt/', 'pt'),
+        ('/int/es', 'es'),
+        ('/es', 'es'),
+        ('/int/es/', 'es'),
+        ('/es/', 'es'),
+        ('/int/ja', 'ja'),
+        ('/ja', 'ja'),
+        ('/int/ja/', 'ja'),
+        ('/ja/', 'ja'),
+    )
+]
+
+
+@pytest.mark.parametrize(*translation_redirects_params)
+def test_translation_redirects_no_query_params(url, expected_language, client):
+
+    if not url.endswith('/'):
+        url = client.get(url).url
+
+    response = client.get(url, follow=False)
+
+    assert response.status_code == http.client.MOVED_PERMANENTLY
+    assert response.url == '/international?lang={}'.format(expected_language)
+
+
+UTM_QUERY_PARAMS = '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
+
+
+def add_utm_query_params(url):
+    return '{}{}'.format(url, UTM_QUERY_PARAMS)
+
+
+@pytest.mark.parametrize(*translation_redirects_params)
+def test_translation_redirects_query_params(url, expected_language, client):
+
+    if not url.endswith('/'):
+        url = client.get(add_utm_query_params(url)).url
+    else:
+        url = add_utm_query_params(url)
+
+    response = client.get(url, follow=False)
+
+    assert response.status_code == http.client.MOVED_PERMANENTLY
+    assert response.url == '/international{}&lang={}'.format(
+        UTM_QUERY_PARAMS, expected_language
+    )
+
+
+@pytest.mark.parametrize('language', TOS_AND_PRIVACY_REDIRECT_LANGUAGES)
+def test_tos_old_translation_redirect(language, client):
+    response = client.get('/int/{}/terms-and-conditions/'.format(language))
+
+    assert response.status_code == http.client.MOVED_PERMANENTLY
+    assert response.url == reverse('terms-and-conditions')
+
+
+@pytest.mark.parametrize('language', TOS_AND_PRIVACY_REDIRECT_LANGUAGES)
+def test_privacy_old_translation_redirect(language, client):
+    response = client.get('/int/{}/privacy-policy/'.format(language))
+
+    assert response.status_code == http.client.MOVED_PERMANENTLY
+    assert response.url == reverse('privacy-and-cookies')
+
+
+def test_tos_old_translation_redirect_uk(client):
+    response = client.get('/uk/terms-and-conditions/')
+
+    assert response.status_code == http.client.MOVED_PERMANENTLY
+    assert response.url == reverse('terms-and-conditions')
+
+
+def test_privacy_old_translation_redirect_uk(client):
+    response = client.get('/uk/privacy-policy/')
+
+    assert response.status_code == http.client.MOVED_PERMANENTLY
+    assert response.url == reverse('privacy-and-cookies')
 
 
 @pytest.mark.parametrize('method,expected', (
