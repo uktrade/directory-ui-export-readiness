@@ -161,6 +161,9 @@ debug_pytest:
 debug_test:
 	$(DEBUG_SET_ENV_VARS) && $(COLLECT_STATIC) && $(FLAKE8) && $(PYTEST) --cov-report=html
 
+debug_test_last_failed:
+	make debug_test pytest_args='--last-failed'
+
 debug_manage:
 	$(DEBUG_SET_ENV_VARS) && ./manage.py $(cmd)
 
