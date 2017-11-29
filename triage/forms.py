@@ -58,7 +58,7 @@ class RegularExporterForm(BaseTriageForm):
 
 class OnlineMarketplaceForm(BaseTriageForm):
     used_online_marketplace = forms.TypedChoiceField(
-        label='Do you use online marketplace to sell your products?',
+        label='Do you use online marketplaces to sell your products?',
         label_suffix='',
         coerce=lambda x: x == 'True',
         choices=[(True, 'Yes'), (False, 'No')],

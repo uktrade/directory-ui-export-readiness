@@ -19,7 +19,7 @@ section {
 }
 
 .hero-campaign-section {
-  background-image: url(/static/images/hero/export-hp-hero-500.jpg);
+  background-image: url('/static/images/hero/export-hp-hero-500.jpg');
 }
 
 .intro {
@@ -77,7 +77,8 @@ section {
   }
 
   .hero-campaign-section {
-    background-position: 45% 0%;
+    background-image: url('/static/images/hero/export-hp-hero-mb.jpg');
+    background-position: top left;
   }
 
   #content section#resource-guidance {
@@ -103,6 +104,6 @@ section {
 
 @media (max-width: 420px) {
   .hero-campaign-section {
-    background-position: 70% 0%;
+    background-position: 10% 0%;
   }
 }
