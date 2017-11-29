@@ -5,12 +5,10 @@
   background-color: $white;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
   padding: 0;
-  position: relative;
 
   .container {
-    min-height: 286px;
+    height: 300px;
     position: relative;
   }
 }
@@ -41,8 +39,9 @@
 // MOBILE
 @media (max-width: 540px) {
   .hero-section {
-    padding-top: 200px;
-    position: relative;
+    p {
+      @include body-m-mob;
+    }
   }
 }
 
