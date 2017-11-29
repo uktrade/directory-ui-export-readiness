@@ -23,6 +23,7 @@
 
   dt {
     @include body-s;
+    display: none; /* Only show first row labels for table view */
     padding: 0 5px;
     position: absolute;
     text-align: center;
@@ -64,6 +65,12 @@
       text-align: right;
       width: #{$top-table-list-rank-width - $spacing-4};
     }
+
+    &:first-child {
+      dt {
+        display: inline-block;
+      }
+    }
   }
 
   .country {
@@ -102,6 +109,7 @@
     }
 
     dt {
+      display: inline-block;
       float: left;
       margin-bottom: 5px;
       padding-left: 0;

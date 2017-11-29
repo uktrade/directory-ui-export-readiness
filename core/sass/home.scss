@@ -11,6 +11,7 @@
 @import './components/_exporter-story';
 @import './components/_carousel';
 @import './components/_teaser';
+@import './components/_language-selector-home';
 
 
 section {
@@ -31,7 +32,7 @@ section {
   background-color: $offwhite;
   margin-bottom: $spacing-2;
   .intro {
-    margin-bottom: 0; 
+    margin-bottom: 0;
   }
 }
 
