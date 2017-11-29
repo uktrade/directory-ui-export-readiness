@@ -36,7 +36,7 @@
 }
 
 .hero-section.regular {
-  background-image: url('/static/images/custom-hero-regular-exporter@2x.png');
+  background-image: url('/static/images/hero/export-cp-regular-hero-500.jpg');
 }
 
 .hero-teaser {
@@ -172,6 +172,10 @@ h2 {
     }
   }
 
+  .hero-section.regular {
+    background-position: 42% 0;
+  }
+
   .hero-teaser {
     min-width: 350px;
   }
@@ -231,9 +235,11 @@ h2 {
     }
     
     &.regular {
-      background-position: 60% 10%;
-      background-image: url('/static/images/custom-hero-regular-exporter-mobile@2x.png');
-      padding-top: 130px;
+      background-image: url('/static/images/hero/export-cp-regular-hero-500-mb.jpg');
+
+      .hero-teaser {
+        width: calc(100% - #{$spacing-2});
+      }
     }
   }
 
