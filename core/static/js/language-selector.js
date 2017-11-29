@@ -1067,6 +1067,7 @@ dit.components.menu = (new function() {
 
   Modal.prototype.open = function() {
     var self = this;
+    self.$container.css("top", window.scrollY + "px");
     self.$container.addClass(CSS_CLASS_OPEN);
     self.$container.fadeIn(250, function () {
       self.$container.attr(ARIA_EXPANDED, true);
@@ -1087,7 +1088,7 @@ dit.components.menu = (new function() {
   // Tries to add focus to the first found element allowed nwith atural focus ability.
   Modal.prototype.focus = function() {
     var self = this;
-    self.$content.find("a, button, input, select").eq(0).focus();
+    self.$content.find("video, a, button, input, select").eq(0).focus();
   }
 
 
