@@ -1,0 +1,133 @@
+// PAGE: SECTION
+// ------------------------------------------------
+
+@import './partials/base';
+@import './components/_navigation-ribbon';
+@import './components/_hero';
+@import './components/_breadcrumbs';
+@import './components/_scope-indicator';
+@import './components/_section-content-list';
+
+
+.navigation-ribbon {
+  .market-research           { background-image: url(/static/images/sections/market-research-blue.svg); }
+  .customer-insight          { background-image: url(/static/images/sections/customer-insight-blue.svg); }
+  .finance                   { background-image: url(/static/images/sections/finance-blue.svg); }
+  .business-planning         { background-image: url(/static/images/sections/business-planning-blue.svg); }
+  .getting-paid              { background-image: url(/static/images/sections/getting-paid-blue.svg); }
+  .operations-and-compliance { background-image: url(/static/images/sections/operations-and-compliance-blue.svg); }
+}
+
+.scope-indicator {
+  float: right;
+  min-width: 200px;
+  width: $cols-2;
+}
+
+.section-content-list {
+  @include columns(6);
+  margin-left: $cols-2;
+}
+
+#articles .section-intro {
+  @include columns(6);
+  margin-left: $cols-2;
+
+  .header,
+  .intro {
+    width: auto;
+  }
+}
+
+.hero-section {
+  background-position: 75% 10%;
+}
+.hero-section.business-planning {
+  background-image: url('/static/images/verical-hero-business-planning@2x.png');
+}
+
+.hero-section.customer-insight {
+  background-image: url('/static/images/vertical-hero-customer-insight@2x.png');
+}
+.hero-section.finance {
+  background-image: url('/static/images/vertical-hero-finance@2x.png');
+}
+.hero-section.getting-paid {
+  background-image: url('/static/images/vertical-hero-getting-paid@2x.png');
+}
+.hero-section.market-research {
+  background-image: url('/static/images/vertical-hero-market-research@2x.png');
+}
+.hero-section.operations {
+  background-image: url('/static/images/vertical-hero-operations@2x.png');
+}
+.hero-section.new {
+  background-image: url('/static/images/persona-hero-new-to-exporting@2x.png');
+}
+.hero-section.occasional {
+  background-image: url('/static/images/persona-hero-occasional-exporter@2x.png');
+}
+.hero-section.regular {
+  background-image: url('/static/images/persona-hero-regular-exporter@2x.png');
+}
+
+
+
+// MOBILE
+@media (max-width: 540px) {
+  .hero-section {
+    background-position: top center;
+  }
+  .hero-section.regular {
+    background-image: url('/static/images/persona-hero-regular-exporter-mobile@2x.png');
+  }
+  .hero-section.occasional {
+    background-image: url('/static/images/persona-hero-occasional-exporter-mobile@2x.png');
+  }
+  .hero-section.new {
+    background-image: url('/static/images/persona-hero-new-to-exporting-mobile@2x.png');
+  }
+  .hero-section.business-planning {
+    background-image: url('/static/images/verical-hero-business-planning-mobile@2x.png');
+  }
+  .hero-section.customer-insight {
+    background-image: url('/static/images/vertical-hero-customer-insight-mobile@2x.png');
+  }
+  .hero-section.finance {
+    background-image: url('/static/images/vertical-hero-finance@2x.png');
+  }
+  .hero-section.getting-paid {
+    background-image: url('/static/images/vertical-hero-getting-paid-mobile@2x.png ');
+  }
+  .hero-section.market-research {
+    background-image: url('/static/images/vertical-hero-market-research-mobile@2x.png');
+  }
+  .hero-section.operations {
+    background-image: url('/static/images/vertical-hero-operations-mobile@2x.png');
+  }
+}
+
+// TABLET
+@media (max-width: 1024px) {
+  #articles .section-intro {
+    margin-left: 0;
+    width: $cols-8;
+  }
+}
+
+@media (max-width: 767px) {
+  section {
+    padding-top: 0;
+  }
+
+  .scope-indicator {
+    float: none;
+    width: auto;
+  }
+
+  .section-content-list,
+  #articles .section-intro {
+    @include columns(12);
+    margin-left: 0;
+  }
+}

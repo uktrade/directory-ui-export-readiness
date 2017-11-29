@@ -1,14 +1,5 @@
 Once you&rsquo;ve tested a market with an agent, distributor or other selling method, you may decide demand for your product or service is high enough to set up an operation in that country.
 
-Setup costs are likely to be high and you&rsquo;ll need to plan thoroughly. Think about how you&rsquo;ll:
-
-- manage the office remotely
-- manage logistics
-- cope with cultural differences
-- comply with legal, employment and tax requirements
-
-### A long-term investment
-
 Opening an office overseas is often a long-term project for small to medium businesses. It can:
 
 - lower your costs over time
@@ -16,6 +7,15 @@ Opening an office overseas is often a long-term project for small to medium busi
 - send a positive message to the local market
 - improve your customer service and after-sales support
 - make customers feel you&rsquo;re committed to their market
+
+### Plan carefully
+
+Setup costs are likely to be considerable so you&rsquo;ll need to plan thoroughly. Think about how you will:
+
+- manage the office remotely
+- manage logistics
+- cope with cultural differences
+- comply with legal, employment and tax requirements
 
 ### Ways to set up overseas
 

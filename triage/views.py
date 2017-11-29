@@ -1,6 +1,7 @@
-from formtools.wizard.views import SessionWizardView
+from formtools.wizard.views import NamedUrlSessionWizardView
 from directory_constants.constants.exred_sector_names import CODES_SECTORS_DICT
 
+from django.conf import settings
 from django.core.urlresolvers import reverse_lazy
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -28,15 +29,15 @@ class CompaniesHouseSearchApiView(View):
         return JsonResponse(api_response.json()['items'], safe=False)
 
 
-class TriageWizardFormView(SessionWizardView):
+class TriageWizardFormView(NamedUrlSessionWizardView):
 
-    SECTOR = 'SECTOR'
-    EXPORTED_BEFORE = 'EXPORTED_BEFORE'
-    REGULAR_EXPORTER = 'REGULAR_EXPORTER'
-    ONLINE_MARKETPLACE = 'ONLINE_MARKETPLACE'
-    COMPANY = 'COMPANY'
-    COMPANIES_HOUSE = 'COMPANIES_HOUSE'
-    SUMMARY = 'SUMMARY'
+    SECTOR = 'sector'
+    EXPORTED_BEFORE = 'exported-before'
+    REGULAR_EXPORTER = 'regular-exporter'
+    ONLINE_MARKETPLACE = 'online-marketplace'
+    COMPANY = 'company'
+    COMPANIES_HOUSE = 'companies_house'
+    SUMMARY = 'summary'
 
     form_list = (
         (SECTOR, forms.SectorForm),
@@ -164,8 +165,20 @@ class CustomPageView(ArticleReadMixin, TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         if not self.triage_answers:
-            return redirect('triage-wizard')
-        return super().dispatch(request, *args, **kwargs)
+            url = reverse_lazy(
+                'triage-wizard',
+                kwargs={'step': TriageWizardFormView.SECTOR}
+            )
+            return redirect(url)
+        response = super().dispatch(request, *args, **kwargs)
+        response.set_cookie(
+            key=settings.TRIAGE_COMPLETED_COOKIE_NAME,
+            value='true',
+            max_age=settings.SESSION_COOKIE_AGE,
+            path=settings.SESSION_COOKIE_PATH,
+            domain=settings.SESSION_COOKIE_DOMAIN,
+        )
+        return response
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -194,10 +207,10 @@ class CustomPageView(ArticleReadMixin, TemplateView):
         answers = self.triage_answers
         persona = forms.get_persona(answers)
         if persona == forms.NEW_EXPORTER:
-            return structure.PERSONA_NEW_ARTICLES
+            return structure.CUSTOM_PAGE_NEW_ARTICLES
         elif persona == forms.OCCASIONAL_EXPORTER:
-            return structure.PERSONA_OCCASIONAL_ARTICLES
-        return structure.PERSONA_REGULAR_ARTICLES
+            return structure.CUSTOM_PAGE_OCCASIONAL_ARTICLES
+        return structure.CUSTOM_PAGE_REGULAR_ARTICLES
 
     def get_section_configuration(self):
         answers = self.triage_answers

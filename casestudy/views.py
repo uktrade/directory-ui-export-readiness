@@ -1,7 +1,8 @@
 from django.views.generic import TemplateView
 
-from core.helpers import build_social_links
 from casestudy import casestudies
+from core.helpers import build_social_links
+from core.views import SetEtagMixin
 
 
 class BaseCaseStudyView(TemplateView):
@@ -16,16 +17,16 @@ class BaseCaseStudyView(TemplateView):
         )
 
 
-class CasestudyHelloBabyView(BaseCaseStudyView):
+class CasestudyHelloBabyView(SetEtagMixin, BaseCaseStudyView):
     template_name = 'casestudy/hello-baby.html'
     casestudy = casestudies.HELLO_BABY
 
 
-class CasestudyMarketplaceView(BaseCaseStudyView):
+class CasestudyMarketplaceView(SetEtagMixin, BaseCaseStudyView):
     template_name = 'casestudy/marketplace.html'
     casestudy = casestudies.MARKETPLACE
 
 
-class CasestudyYorkBagView(BaseCaseStudyView):
+class CasestudyYorkBagView(SetEtagMixin, BaseCaseStudyView):
     template_name = 'casestudy/york-bag.html'
     casestudy = casestudies.YORK

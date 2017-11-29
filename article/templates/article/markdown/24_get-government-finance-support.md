@@ -8,6 +8,6 @@ UKEF is the export credit agency for the UK. It aims to make sure no viable expo
 
 [Contact UKEF](https://www.contactus.trade.gov.uk/enquiry/topic "contact UK Export Finance") for free, impartial guidance on getting finance for exporting.
 
-Grants, loans and match funding schemes are available from government and other organisations across the country. [Search for finance and support schemes on GOV.UK](https://www.gov.uk/business-finance-support "Finance and support for your business").
+Grants, loans and match funding schemes are available from government and other organisations across the country. [Search for finance and support schemes](https://www.gov.uk/business-finance-support "Finance and support for your business").
 
 You may be able to get a grant to attend overseas trade shows through the [Tradeshow Access Programme](https://www.gov.uk/guidance/tradeshow-access-programme "Tradeshow Access Programme").

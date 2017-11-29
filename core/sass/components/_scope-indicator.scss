@@ -1,0 +1,187 @@
+// Scope Indicator Component
+// ---------------------------
+
+// REQUIRES...
+// From _vars.scss
+// $spacing-2
+// $spacing-3
+// $spacing-4
+
+// From _typegraphy.scss
+// @mixin body-s
+
+// From _colours.scss
+// $active-blue
+
+
+.scope-indicator {
+  @include body-s;
+
+  a {
+    font-weight: bold;
+  }
+
+  .chapters {
+    clear: both;
+    display: block;
+  }
+  
+  .position,
+  .time {
+    border-left: $active-blue solid 4px;
+    clear: both;
+    margin-bottom: $spacing-4;
+    max-width: 200px;
+    padding: $spacing-4 0 0 $spacing-4;
+  }
+  
+  .from {
+    color: $active-blue;
+    float: left;
+    font-family: $brand-font-alternative;
+    font-size: 72px;
+    font-weight: 400;
+    line-height: 40px;
+  }
+  
+  .of {
+    color: $active-blue;
+    border-right: 3px solid $active-blue;
+    float: left;
+    height: 40px;
+    margin-right: 10px;
+    overflow: hidden;
+    text-indent: -100px;
+    transform: rotate(20deg);
+    width: 10px;
+  }
+  
+  .register {
+    margin-left: #{$spacing-4 + 2};
+    max-width: 180px;
+  }
+  
+  .section {
+    @include body-s;
+    margin-bottom: $spacing-4;
+  }
+  
+  .time {
+    padding-top: 0;
+  }
+  
+  .value {
+    font-weight: bold;
+  }
+  
+  .to {
+    color: $active-blue;
+    float: left;
+    font-family: $brand-font-alternative;
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 50px;
+  }
+}
+
+
+// TABLET
+@media (max-width: 767px) {
+  .scope-indicator {
+    margin-bottom: $spacing-2;
+    
+    .chapters {
+      clear: none;
+      display: inline-block;
+      margin-left: 0.5em;
+    }
+    
+    .from {
+      font-size: 48px;
+      line-height: 43px;
+    }
+    
+    .position {
+      border-left-width: 5px;
+      height: 40px;
+      max-width: none;
+      padding: 0 20px;
+    }
+    
+    .register {
+      margin-left: 25px;
+      max-width: none;
+    }
+    
+    .time {
+      border-left-width: 5px;
+      max-width: none;
+      padding: 0 20px;
+    }
+    
+    .to {
+      float: none;
+      line-height: 43px;
+    }
+  }
+}
+
+
+// MOBILE
+@media (max-width: 420px) {
+  .scope-indicator {
+    margin-bottom: 5px;
+    @include body-m-mob;
+
+    .chapters {
+      float: left;
+      line-height: 17px;
+    }
+
+    .from,
+    .to {
+      float: left;
+      font-size: inherit;
+      font-weight: bold;
+      line-height: 17px;
+    }
+    
+    .of {
+      border-right-width: 2px;
+      height: 13px;
+      margin-right: 7px;
+    }
+    
+    .position {
+      height: auto;
+      overflow: hidden;
+    }
+
+    
+
+    .register {
+      @include body-s-mob;
+      margin-left: 20px;
+    }
+
+    .section {
+      @include body-s-mob;
+    }
+    
+    .time {
+      border: none;
+      position: relative;
+    }
+    
+    .value::before {
+      background-color: $active-blue;
+      content: "";
+      height: 17px;
+      left: 0;
+      margin-right: 30px;
+      position: absolute;
+      top: 1px;
+      width: 5px;
+    }
+  }
+}

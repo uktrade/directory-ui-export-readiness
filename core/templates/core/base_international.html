@@ -1,0 +1,104 @@
+{% load static from staticfiles %}
+{% load trans from i18n %}
+
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="lte-ie8" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="en"><!--<![endif]-->
+ <head>
+    <meta id="utmCookieDomain" value="{{ analytics.UTM_COOKIE_DOMAIN }}" />
+    {% include 'core/google_tag_manager_head.html' %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:image" content="{% static 'images/icons/opengraph-image.png' %}">
+    <title>{% block head_title %}{% trans "International" %} - GREAT.gov.uk{% endblock %}</title>
+
+    <link rel="shortcut icon" href="{% static 'images/icons/favicon.ico' %}" type="image/x-icon" />
+    <link rel="mask-icon" href="{% static 'images/icons/gov.uk_logotype_crown.svg' %}" color="#0b0c0c">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{% static 'images/icons/apple-touch-icon-152x152.png' %}">
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="{% static 'images/icons/apple-touch-icon-120x120.png' %}">
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="{% static 'images/icons/apple-touch-icon-76x76.png' %}">
+    <link rel="apple-touch-icon-precomposed" href="{% static 'images/icons/apple-touch-icon-60x60.png' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/international.css' %}">
+    {% block css %}{% endblock %}
+
+    <script src="{% static 'Dit-Pattern-Styling/public/js/third-party.js' %}"></script>
+    <script src="{% static 'Dit-Pattern-Styling/public/js/script.js' %}"></script>
+    <script src="{% static 'js/international.js' %}"></script>
+    {% block scripts %}{% endblock %}
+
+</head>
+<body id="top" class="{{ LANGUAGE_BIDI|yesno:'bidi,' }}">
+    {% include 'core/google_tag_manager_body.html' %}
+    <header id="header">
+        <a id="skip-link" href="#content" class="verbose">{% trans "Skip to main content" %}</a>
+        <section role="dialog" data-component="language-selector-dialog" data-lang="{{ LANGUAGE_CODE }}" data-label="{% trans "International" %}" class="language-selector-dialog">
+            <div data-node="languages" class="languages">
+                <p id="great-languages-selector" class="bidi-rtl">{% trans "Choose your language" %}</p>
+                <ul aria-labelledby="great-languages-selector" class="navigation">
+                {% for code, label in LANGUAGES %}
+                    <li class="bidi-rtl">
+                        <a href="{% url 'landing-page-international' %}?lang={{ code }}">{{ label }}</a>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+            <div data-node="domestic-redirect" class="domestic-redirect">
+                <p lang="en">
+                    <a href="{% url 'landing-page' %}">
+                        <span class="bidi-rtl">
+                            {% trans "English (UK)" %}
+                        </span>
+                    </a>
+                    <span class="bidi-rtl">{% trans "Get guidance and services to help you export." %}</span>
+                </p>
+            </div>
+        </section>
+
+        <div id="header-bar">
+            <div class="container">
+                <p class="government-links"></p>
+            </div>
+        </div>
+
+        <div id="header-menu" class="bidi-ltr">
+            <div class="container">
+                <img src="{% static 'images/international/great-HMGov-logo.svg' %}" alt="{% trans "HM Government" %}" class="logo">
+                <img src="{% static 'images/international/great-logo.svg' %}" alt="{% trans "Great Britain and Northern Ireland" %}" class="great">
+            </div>
+        </div>
+    </header>
+
+    <main id="content" role="main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer id="footer">
+        <div class="container bidi-ltr">
+            <a href="https://www.gov.uk/"><img id="footer-hm-logo" src="{% static 'images/international/hm-government-2.svg' %}" alt="{% trans "HM Government" %}" height="75px"></a>
+            <img id="footer-big-logo" src="{% static 'images/international/big-logo-blue-type.svg' %}" alt="" height="65px">
+        </div>
+        <div class="site-links container">
+            <ul class="navigation bidi-rtl">
+                <li><a href="{% url 'privacy-and-cookies-international' %}?lang=en-gb" class="">{% trans "Privacy and cookies" %}</a></li>
+                <li><a href="{% url 'terms-and-conditions-international' %}?lang=en-gb" class="">{% trans "Terms and Conditions" %}</a></li>
+            </ul>
+            <p data-component="sharing-links" class="sharing-links">
+                <span class="label">{% trans "Share" %} </span>
+                <a href="https://twitter.com/intent/tweet?text={% trans "Welcome to the UK" %} {{ request.build_absolute_uri }}"><img class="bidi-ltr" src="{% static 'images/international/twitter.svg' %}" width="36px" height="36px" alt="{% trans "with Twitter" %}"/></a>
+                <span class="verbose">, </span>
+                <a href="http://www.facebook.com/share.php?u={{ request.build_absolute_uri }}"><img class="bidi-ltr" src="{% static 'images/international/facebook.svg' %}" width="36px" height="36px" alt="{% trans "with Facebook" %}"/></a>
+                <span class="verbose">, </span>
+                <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{ request.build_absolute_uri }}&amp;title={% trans "Welcome to the UK" %}&amp;source=LinkedIn"><img class="bidi-ltr" src="{% static 'images/international/linkedin.svg' %}" width="36px" height="36px" alt="{% trans "with LinkedIn" %}"/></a><span class="verbose">, </span>
+                <a href="mailto:?body={{ request.build_absolute_uri }}&amp;subject={% trans "Welcome to the UK" %}"><img class="bidi-ltr" src="{% static 'images/international/email.svg' %}" width="36px" height="36px" alt="{% trans "by email" %}"/></a>
+            </p>
+        </div>
+
+        <div class="global-footer">
+            <p class="container bidi-ltr">
+                <span>&copy; {% trans "Crown copyright 2017. All rights reserved." %}</span>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

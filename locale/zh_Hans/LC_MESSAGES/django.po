@@ -1,0 +1,152 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-27 15:33+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: core/templates/core/base_international.html:13
+#: core/templates/core/base_international.html:35
+msgid "International"
+msgstr "国际"
+
+#: core/templates/core/base_international.html:34
+msgid "Skip to main content"
+msgstr ""
+
+#: core/templates/core/base_international.html:37
+msgid "Choose your language"
+msgstr ""
+
+#: core/templates/core/base_international.html:45
+msgid "English (UK)"
+msgstr ""
+
+#: core/templates/core/base_international.html:45
+msgid "Get guidance and services to help you export."
+msgstr ""
+
+#: core/templates/core/base_international.html:57
+#: core/templates/core/base_international.html:69
+msgid "HM Government"
+msgstr ""
+
+#: core/templates/core/base_international.html:58
+msgid "Great Britain and Northern Ireland"
+msgstr ""
+
+#: core/templates/core/base_international.html:74
+msgid "Privacy and cookies"
+msgstr "隐私政策"
+
+#: core/templates/core/base_international.html:75
+msgid "Terms and Conditions"
+msgstr "GREAT.gov.uk的条款和条件"
+
+#: core/templates/core/base_international.html:78
+msgid "Share"
+msgstr ""
+
+#: core/templates/core/base_international.html:79
+#: core/templates/core/base_international.html:83
+#: core/templates/core/base_international.html:84
+#: core/templates/core/landing_page_international.html:8
+msgid "Welcome to the UK"
+msgstr "欢迎来到英国"
+
+#: core/templates/core/base_international.html:79
+msgid "with Twitter"
+msgstr ""
+
+#: core/templates/core/base_international.html:81
+msgid "with Facebook"
+msgstr ""
+
+#: core/templates/core/base_international.html:83
+msgid "with LinkedIn"
+msgstr ""
+
+#: core/templates/core/base_international.html:84
+msgid "by email"
+msgstr ""
+
+#: core/templates/core/base_international.html:90
+msgid "Crown copyright 2017. All rights reserved."
+msgstr ""
+
+#: core/templates/core/landing_page_international.html:9
+msgid ""
+"Home to cutting edge innovators, a place that nurtures talent and creates "
+"exceptional products and services. Your future belongs here."
+msgstr ""
+"这里是高新技术创新者的家园，更是培育人才、创造卓越产品和一流服务的地方。您的"
+"未来属于这里。"
+
+#: core/templates/core/landing_page_international.html:16
+msgid "Buy from the UK"
+msgstr "从英国采购"
+
+#: core/templates/core/landing_page_international.html:17
+msgid ""
+"Get exclusive early access to profiles of high quality UK businesses ready "
+"to fulfill your demand."
+msgstr "注册即获享专属特权，尽早查阅优质英国企业的简介，随时满足您的采购需求。"
+
+#: core/templates/core/landing_page_international.html:19
+msgid "Find a Supplier"
+msgstr ""
+
+#: core/templates/core/landing_page_international.html:23
+msgid "Invest in the UK"
+msgstr "在英国投资"
+
+#: core/templates/core/landing_page_international.html:24
+msgid ""
+"Discover the UK’s wealth of investment opportunities and how the UK "
+"government will support your global ambition."
+msgstr "发现英国的诸多投资机会，了解政府可为您的企业提供哪些支持。"
+
+#: core/templates/core/landing_page_international.html:26
+msgid "See the potential"
+msgstr "了解潜在机会"
+
+#: core/templates/core/landing_page_international.html:30
+msgid "Study in the UK"
+msgstr "到英国留学"
+
+#: core/templates/core/landing_page_international.html:31
+msgid ""
+"Get a headstart from an exceptional British education that will inspire you "
+"to achieve."
+msgstr "从卓越的英国教育中抢得先机，激励自己实现理想。"
+
+#: core/templates/core/landing_page_international.html:33
+msgid "Learn more"
+msgstr "了解更多"
+
+#: core/templates/core/landing_page_international.html:37
+msgid "Visit the UK"
+msgstr "计划您的旅行"
+
+#: core/templates/core/landing_page_international.html:38
+msgid ""
+"Take a journey through vibrant cities, breathtaking scenery, unrivalled "
+"heritage and iconic landmarks and discover what makes the UK great."
+msgstr "您是为海外销售寻求支持的英国企业吗？有需求的地方，就应该有您的身影。"
+
+#: core/templates/core/landing_page_international.html:40
+msgid "Plan your trip"
+msgstr "计划您的旅行"
