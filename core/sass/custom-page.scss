@@ -27,7 +27,12 @@
 }
 
 .hero-section.occasional {
-  background-image: url('/static/images/custom-hero-occasional-exporter@2x.png');
+  background-image: url('/static/images/hero/export-cp-hero-occasional.jpg');
+
+  .hero-teaser {
+    max-width: none;
+    width: 60%;
+  }
 }
 
 .hero-section.regular {
@@ -159,14 +164,21 @@ h2 {
 }
 
 @media (max-width: 767px) {
+  .hero-section.occasional {
+    background-position: 54% 0;
 
-  .section-content-list {
-    float: none;
-    width: calc(#{$cols-10} - #{$spacing-3});
+    .hero-teaser {
+      width: 77%;
+    }
   }
 
   .hero-teaser {
     min-width: 350px;
+  }
+
+  .section-content-list {
+    float: none;
+    width: calc(#{$cols-10} - #{$spacing-3});
   }
 
   .scope-indicator {
@@ -203,12 +215,19 @@ h2 {
     &.new {
       background-image: url('/static/images/hero/export-cp-new-to-exporting-hero-500-mb.jpg');
       background-position: top right;
+
+      .hero-teaser {
+        width: calc(100% - #{$spacing-2});
+      }
     }
     
     &.occasional {
-      background-position: 60% 10%;
-      background-image: url('/static/images/custom-hero-occasional-exporter-mobile@2x.png');
-      padding-top: 150px;
+      background-image: url('/static/images/hero/export-cp-occasional-500-mb.jpg');
+
+      .hero-teaser {
+        min-width: 275px;
+        width: calc(100% - #{$spacing-2});
+      }
     }
     
     &.regular {
@@ -220,7 +239,6 @@ h2 {
 
   .hero-teaser {
     min-width: 0;
-    width: calc(100% - #{$spacing-2});
   }
 
   .service-section.fas {
@@ -239,9 +257,6 @@ h2 {
       overflow: auto;
     }
   }
-}
-
-@media (max-width: 510px) {
 }
 
 @media (max-width: 420px) {
