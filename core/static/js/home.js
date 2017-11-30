@@ -31,4 +31,5 @@ dit.header = (new function () {
 
 $(document).ready(function() {
   dit.header.init();
+  dit.components.video.init();
 });
