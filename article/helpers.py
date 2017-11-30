@@ -145,7 +145,7 @@ class DatabaseArticlesReadManager(BaseArticleReadManager):
             article_uuid=article_uuid,
             sso_session_id=self.request.sso_user.session_id,
         )
-        response.raise_for_status()
+        assert response.ok, response.content
 
     def retrieve_article_uuids(self):
         response = api_client.exportreadiness.retrieve_article_read(

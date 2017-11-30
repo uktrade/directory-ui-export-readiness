@@ -62,11 +62,14 @@ def test_database_create_article_read_handle_exceptions(
         mock_retrieve_article_read,
         sso_request,
 ):
-    mock_create_article_read.return_value = create_response(400)
+    mock_create_article_read.return_value = create_response(
+        400, content='{"error": "bad"}'
+    )
     manager = helpers.DatabaseArticlesReadManager(sso_request)
 
-    with pytest.raises(requests.HTTPError):
+    with pytest.raises(AssertionError) as excinfo:
         manager.persist_article(article_uuid='123')
+    assert str(excinfo.value) == '{"error": "bad"}'
 
 
 @patch('api_client.api_client.exportreadiness.retrieve_article_read')
