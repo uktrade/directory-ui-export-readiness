@@ -188,8 +188,8 @@ section {
   
   img {
     margin-bottom: -6px;
-    max-width: 175px;
-    width: 40%;
+    min-width: 250px;
+    width: 30%;
   }
 
   .great {
@@ -254,7 +254,7 @@ body.bidi {
   }
   
   #header-menu {
-    min-height: 124px;
+    min-height: 100px;
       
     img {
       margin-left: $spacing-3;
