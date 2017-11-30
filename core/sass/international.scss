@@ -118,32 +118,13 @@ section {
   }
 }
 
-#footer-big-logo {
-  float: right;
-  height: auto;
-  margin-top: 10px;
-  max-width: 192px;
-  width: 45%;
-}
-
-#footer-hm-logo {
-  height: auto;
-  max-width: 216px;
-  width: 45%;
+#footer-logo {
+  min-width: 250px;
+  width: 30%;
 }
 
 
 // Header
-#header {
-  .logo {
-    cursor: pointer;
-    display: inline-block;
-    float: left;
-    margin-bottom: $spacing-1;
-    padding-top: $spacing-3;
-  }
-}
-
 #header-bar {
   @include body-s;
 	background-color: $grey;
@@ -155,10 +136,6 @@ section {
     color: inherit;
     display: inline-block;
     font-weight: bold;
-  }
-  
-  img {
-    margin-right: 1em;
   }
   
   p {
@@ -185,21 +162,13 @@ section {
   color: $grey;
   min-height: 138px;
   position: relative;
-  
-  img {
-    margin-bottom: -6px;
-    min-width: 250px;
-    width: 30%;
-  }
+}
 
-  .great {
-    float: right;
-    padding-top: $spacing-3;
-  }
-
-  .logo {
-    margin-bottom: 0;
-  }
+#header-logo {
+  margin-bottom: -6px;
+  min-width: 250px;
+  padding-top: 30px;
+  width: 30%;
 }
 
 #skip-link {
@@ -241,12 +210,6 @@ body.bidi {
 
 // TABLET
 @media (max-width: 768px) {
-  #header {
-    .logo {
-      float: none;
-    }
-  }
-  
   #header-bar {
     .partof {
       display: none;
@@ -255,10 +218,6 @@ body.bidi {
   
   #header-menu {
     min-height: 100px;
-      
-    img {
-      margin-left: $spacing-3;
-    }
     
     .container {
       margin: 0;
@@ -269,6 +228,9 @@ body.bidi {
     }
   }
 
+  #header-logo {
+    margin-left: $spacing-3;
+  }
 
   .global-footer {
     padding-bottom: $spacing-4;
@@ -327,13 +289,6 @@ body.bidi {
       width: auto;
     }
   }
-
-  
-  #header-menu {
-    .great {
-      margin-left: 0;
-    }
-  }
 }
 
 @media (max-width: 420px) {
@@ -344,21 +299,10 @@ body.bidi {
     }
   }
 
-  #header {
-    .logo {
-      margin-bottom: $spacing-4;
-      padding-top: $spacing-4;
-    }
-  }
-  
-  #header-menu {
-    img {
-      margin-left: $spacing-3-m;
-    }
-
-    .great {
-      margin-right: $spacing-3-m;
-    }
+  #header-logo {
+    margin-bottom: $spacing-4;
+    margin-left: $spacing-3-m;
+    padding-top: $spacing-4;
   }
 }
 
