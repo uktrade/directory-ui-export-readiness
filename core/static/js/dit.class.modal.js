@@ -213,7 +213,7 @@
   // Tries to add focus to the first found element allowed nwith atural focus ability.
   Modal.prototype.focus = function() {
     var self = this;
-    self.$content.find("a, button, input, select").eq(0).focus();
+    self.$content.find("video, a, button, input, select").eq(0).focus();
   }
   
   
