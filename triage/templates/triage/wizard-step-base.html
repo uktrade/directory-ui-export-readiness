@@ -3,15 +3,14 @@
 {% load static from staticfiles %}
 
 {% block css %}
-    <link href="{% static 'styles/pages/triage.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'styles/triage.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
-<main id="content" role="main">
     <section class="questions {% block container_class %}{% endblock %}">
         <div class="container">
             <div class="question ">
-				<form action="{% url 'triage-wizard' %}" method="post" enctype="multipart/form-data">
+				<form method="post" enctype="multipart/form-data">
 					<div class="exred-triage-form">
 						{% if wizard.steps.step1 != wizard.steps.count %}
 							<legend>Question {{ wizard.steps.step1 }}</legend>
@@ -59,5 +58,4 @@
             </div>
         </div>
     </section>
-</main>
 {% endblock %}

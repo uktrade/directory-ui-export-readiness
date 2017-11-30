@@ -52,16 +52,18 @@ class RegularExporterForm(BaseTriageForm):
         coerce=lambda x: x == 'True',
         choices=[(True, 'Yes'), (False, 'No')],
         widget=RadioSelect(),
+        required=False,
     )
 
 
 class OnlineMarketplaceForm(BaseTriageForm):
     used_online_marketplace = forms.TypedChoiceField(
-        label='Do you use online marketplace to sell your products?',
+        label='Do you use online marketplaces to sell your products?',
         label_suffix='',
         coerce=lambda x: x == 'True',
         choices=[(True, 'Yes'), (False, 'No')],
-        widget=RadioSelect()
+        widget=RadioSelect(),
+        required=False,
     )
 
 
@@ -71,17 +73,17 @@ class CompanyForm(BaseTriageForm):
         help_text="We'll use this information to personalise your experience",
         label_suffix='',
         max_length=1000,
-        required=False,
         widget=forms.TextInput(
             attrs={'id': 'js-typeahead-company-name'}
         ),
+        required=False,
     )
     company_number = fields.PaddedCharField(
         label='Company number:',
         max_length=8,
         fillchar='0',
-        required=False,
         widget=forms.HiddenInput(attrs={'id': 'js-typeahead-company-number'}),
+        required=False,
     )
 
     def clean_company_number(self):
@@ -148,7 +150,7 @@ def serialize_triage_form(data):
         'sector': data['sector'],
         'exported_before': data['exported_before'],
         'regular_exporter': data.get('regular_exporter') or False,
-        'used_online_marketplace': data.get('used_online_marketplace'),
+        'used_online_marketplace': data.get('used_online_marketplace', ''),
         'company_name': data.get('company_name', ''),
         'company_number': data.get('company_number', ''),
         'is_in_companies_house': data['is_in_companies_house'],

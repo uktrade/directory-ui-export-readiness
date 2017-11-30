@@ -1,15 +1,23 @@
-{% extends 'enrolment-base.html' %}
-{% load external_url from constants_tags %}
-{% block sub_header %}{# prevent the subheader from showing on form pages #}{% endblock %}
-{% block content %}
-<div class="ed-error-page-container container">
-    <h1 class="ed-error-page-title">An unexpected error occurred</h1>
-    <ul class="ed-error-page-synopsis">
-        <li>If this problem persists, please <a class="link" href="{% external_url 'feedback_directory' %}" title="report a broken link">report the problem</a>.</li>
-        <li>Return to the <a class="link" href="{% url 'index' %}" title="return to homepage">homepage</a>.</li>
-    </ul>
-    <hr>
-    <p class="ed-error-page-status">HTTP 500 Error Code - Internal Server Error</p>
-</div>
+{% extends 'core/base.html' %}
 
+{% load static from staticfiles %}
+
+{% block css %}
+    <link href="{% static 'styles/default.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <h1>An unexpected error occurred</h1>
+        <ul>
+            <li>If this problem persists, please <a class="link" href="{% external_url 'feedback_directory' %}">report the problem</a>.</li>
+            <li>Return to the <a href="/">home</a> page.</li>
+        </ul>
+        <hr>
+        <p class="page-status">HTTP 500 Error Code - Internal Server Error</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block feedback_reporter %}{% endblock %}

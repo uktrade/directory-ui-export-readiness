@@ -25,22 +25,49 @@ class BaseArticleDetailView(ArticleReadMixin, TemplateView):
             article=self.article,
             next_article=self.next_article,
             article_group=self.article_group,
+            next_article_group=self.next_article_group,
             social_links=social_links,
             article_group_title=self.article_group.title,
         )
 
     @property
     def next_article(self):
-        return structure.get_next_article(
+        """ Return either the next article in the group or
+        the first article in the same group.
+        """
+        article = structure.get_next_article(
             article_group=self.article_group,
             current_article=self.article,
         )
+        next_group = self.article_group.next_guidance_group
+        if not article and next_group:
+            article = self.get_article_from_next_group(group=next_group)
+        elif not article and not next_group:
+            article = None
+        return article
+
+    @staticmethod
+    def get_article_from_next_group(group):
+        return group.articles[0]
 
     @cached_property
     def article_group(self):
         return structure.get_article_group(
             group_name=self.request.GET.get('source', 'all'),
         )
+
+    @property
+    def next_article_group(self):
+        """If the next article is in the same group, return that.
+            If not, return the next group.
+        """
+        if structure.get_next_article(
+            article_group=self.article_group,
+            current_article=self.article,
+        ):
+            return self.article_group
+
+        return self.article_group.next_guidance_group
 
 
 class BaseArticleListView(ArticleReadMixin, TemplateView):
@@ -51,22 +78,22 @@ class BaseArticleListView(ArticleReadMixin, TemplateView):
         )
 
 
-class PeronaNewArticleListView(BaseArticleListView):
+class PersonaNewArticleListView(BaseArticleListView):
     template_name = 'article/list-new-persona.html'
     article_group = structure.PERSONA_NEW_ARTICLES
 
 
-class PeronaOccasionalArticleListView(BaseArticleListView):
+class PersonaOccasionalArticleListView(BaseArticleListView):
     template_name = 'article/list-occasional-persona.html'
     article_group = structure.PERSONA_OCCASIONAL_ARTICLES
 
 
-class PeronaRegularArticleListView(BaseArticleListView):
+class PersonaRegularArticleListView(BaseArticleListView):
     template_name = 'article/list-regular-persona.html'
     article_group = structure.PERSONA_REGULAR_ARTICLES
 
 
-class MarketReasearchArticleListView(BaseArticleListView):
+class MarketResearchArticleListView(BaseArticleListView):
     template_name = 'article/list-market-research.html'
     article_group = structure.GUIDANCE_MARKET_RESEARCH_ARTICLES
 
@@ -126,6 +153,10 @@ class MakeExportingPlanView(BaseArticleDetailView):
 
 class FindARouteToMarketView(BaseArticleDetailView):
     article = articles.FIND_A_ROUTE_TO_MARKET
+
+
+class SellOverseasDirectlyView(BaseArticleDetailView):
+    article = articles.SELL_OVERSEAS_DIRECTLY
 
 
 class UseOverseasAgentView(BaseArticleDetailView):
@@ -224,7 +255,7 @@ class GetYourExportDocumentsRightView(BaseArticleDetailView):
     article = articles.GET_YOUR_EXPORT_DOCUMENTS_RIGHT
 
 
-class SetupWesbiteView(BaseArticleDetailView):
+class InternationaliseWesbiteView(BaseArticleDetailView):
     article = articles.INTERNATIONALISE_WESBITE
 
 
@@ -232,19 +263,19 @@ class MatchYourWebsiteToYourAudienceView(BaseArticleDetailView):
     article = articles.MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE
 
 
-class WhatInterlectualPropertyIsView(BaseArticleDetailView):
+class WhatIntellectualPropertyIsView(BaseArticleDetailView):
     article = articles.WHAT_INTELLECTUAL_PROPERTY_IS
 
 
-class TypesOfInterlectualPropertyView(BaseArticleDetailView):
+class TypesOfIntellectualPropertyView(BaseArticleDetailView):
     article = articles.TYPES_OF_INTELLECTUAL_PROPERTY
 
 
-class KnowWhatInterlectualPropertyYouHaveView(BaseArticleDetailView):
+class KnowWhatIntellectualPropertyYouHaveView(BaseArticleDetailView):
     article = articles.KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE
 
 
-class InterlectualPropertyProtectionView(BaseArticleDetailView):
+class IntellectualPropertyProtectionView(BaseArticleDetailView):
     article = articles.INTELLECTUAL_PROPERTY_PROTECTION
 
 

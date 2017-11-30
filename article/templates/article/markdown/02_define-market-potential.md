@@ -27,12 +27,12 @@ Online resources for market size include:
 - the [OFFSTATS database](http://www.offstats.auckland.ac.nz/ "OFFSTATS database") for collated statistics from official sources on the web
 - [Nationmaster](http://www.nationmaster.com/ "Nationmaster") for quick country comparisons of world statistics
 - the [World Trade Organisation](https://www.wto.org/ "World Trade Organisation") for economic research and statistics
-- Google&rsquo;s [Global Market Finder](https://translate.google.com/globalmarketfinder/g/index.html?locale=en "Global Market Finder") to find which keyword search terms are popular in different countries and regions
+- Google&rsquo;s [Market Finder](https://marketfinder.thinkwithgoogle.com/intl/en_gb/ "Google Market Finder") for market suggestions based on monthly searches for terms related to the product categories you select
 
 
 Online resources for market attractiveness include:
 
-- [exporting country guides](https://www.gov.uk/government/collections/exporting-country-guides "GOV.UK exporting country guides") for an overview of economic and industry information, legal and IP issues and language and cultural barriers
+- [exporting country guides](https://www.gov.uk/government/collections/exporting-country-guides "GOV.UK exporting country guides") for an overview of economic and industry information, legal and intellectual property issues and language and cultural barriers
 - [overseas business risk reports](https://www.gov.uk/government/collections/overseas-business-risk "GOV.UK Overseas Business Risk") for information on political instability, terrorism, crime, corruption, human rights issues and intellectual property risks
 - searching for [pre-published market research reports](https://www.marketresearch.com/ "market research reports and industry analysis")
 - pay-as-you-go bespoke reports from [Alacra](https://www.alacra.com/business-research-solutions/ "Alacra")

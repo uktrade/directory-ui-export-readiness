@@ -1,0 +1,332 @@
+// Language Selector Component
+// ---------------------------
+
+.language-selector-control {
+  overflow: hidden;
+  
+  button {
+    color: $white;
+    font-size: 14px;
+    line-height: 24px;
+    padding: 0 10px;
+  }
+    
+  form {
+    color: $white;
+    margin: 5px 0 0 0;
+    position: relative;
+    z-index: 0;
+    
+    &.enhancedLanguageSelector {
+      button {
+        display: none;
+      }
+    }
+  }
+  
+  option {
+    background-color: $mid-grey;
+    color: $black;
+  }
+  
+  p,
+  select {
+    @include body-s;
+    background-color: transparent;
+    border: 1px solid $mid-grey;
+    border-radius: 0;
+    color: $white;
+    cursor: pointer;
+    height: 27px;
+    line-height: 27px;
+    margin: 0;
+    padding: 0;
+    width: auto;
+  }
+  
+  .SelectTraker-Tracker {
+    background-image: url(/static/images/international/language-icon.svg);
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    border: none;
+    display: inline-block;
+    padding-left: 30px;
+    .code {
+      text-transform: uppercase;
+      &:after {
+        content: " - ";
+      }
+    }
+  }
+  
+  .SelectTracker-Select {
+    border: none;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    text-indent: -1000px;
+    top: 0;
+    &:focus {
+      min-width: 150px;
+      & + p {
+        outline: 3px solid $focus-yellow;
+      }
+    }
+  }
+}
+
+
+.language-selector-dialog {
+  background-color: $white;
+  color: $black;
+  padding: $spacing-3;
+   
+  a {
+    @include body-s;
+  }
+  
+  li {
+    display: inline;
+    float: none;
+  }
+   
+  p {
+    @include body-s;
+    display: inline-block;
+    margin-bottom: 0;
+  }
+
+	.domestic-redirect {
+		padding-top: $spacing-4;
+		span {
+			display: block;
+		}
+	}
+	
+	.languages {
+    border-bottom: $light-grey solid 1px;
+		padding-bottom: $spacing-4;
+	}
+}
+
+
+.LanguageSelectorDialog-Modal {
+  a {
+    font-size: 21px;
+  }
+  
+  li {
+    float: left;
+    margin-bottom: $spacing-3;
+  }
+  
+  p {
+    @include body-xl;
+    display: block;
+    margin-bottom: $spacing-3;
+  }
+  
+  ul {
+    display: block;
+  }
+
+  .close {
+    background: $white url(/static/images/international/great-close-icon.svg) top right no-repeat;
+    height: 30px;
+    overflow: hidden;
+    text-indent: -1000px;
+    width: 30px;
+  }
+
+  .countries {
+    overflow: hidden;
+    a {
+      background-position: top left;
+      background-repeat: no-repeat;
+      background-size: 40px;
+      display: block;
+      min-height: 40px;
+      padding: 5px 0 0 50px;
+    }
+  }
+  
+  .languages {
+		border-bottom: none;
+    border-right: $light-grey solid 1px;
+    float: left;
+    margin-bottom: $spacing-3;
+    padding: 0 $spacing-3 0 0;
+    width: $cols-8;
+  }
+
+  .domestic-redirect {
+    float: right;
+    padding-left: $spacing-3;
+    padding-top: 71px;
+    width: $cols-4;
+
+    p {
+      font-size: inherit;
+      font-weight: normal;
+    }
+
+    span {
+      @include body-s;
+      display: block;
+      max-width: 215px;
+      padding-top: $spacing-4;
+    }
+  }
+  
+  // Country flags
+  .br { background-image: url(/static/images/international/flags/br.svg); }
+  .cn { background-image: url(/static/images/international/flags/cn.svg); }
+  .de { background-image: url(/static/images/international/flags/de.svg); }
+  .es { background-image: url(/static/images/international/flags/es.svg); }
+  .in { background-image: url(/static/images/international/flags/in.svg); }
+  .jp { background-image: url(/static/images/international/flags/jp.svg); }
+  .us { background-image: url(/static/images/international/flags/us.svg); }
+  .uk { background-image: url(/static/images/international/flags/uk.svg); }
+}
+
+.LanguageSelectorDialog-Tracker {
+  @include body-s;
+  background-image: url(/static/images/international/language-icon.svg);
+  background-position: 0px 8px;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  color: $white;
+  cursor: pointer;
+  display: inline-block;
+  height: 27px;
+  line-height: 27px;
+  min-height: 30px;
+  padding: 5px 3px 3px 25px;
+  text-decoration: none;
+  
+  &:hover {
+    color: $white;
+    text-decoration: underline;
+  }
+  
+  .label {
+		font-weight: normal;
+    text-transform: capitalize;
+  }
+  
+  .lang {
+    font-weight: normal;
+    text-transform: uppercase;
+    &:after {
+      content: " - ";
+    }
+  }
+}
+
+
+// DESKTOP ONLY
+@media (min-width: 768px) {
+  .LanguageSelectorDialog-Modal {
+    .countries {
+      li {
+        @include items(4, $spacing-3);
+      }
+    }
+  
+    .languages {
+      li {
+        @include items(4, $spacing-3);
+      }
+    }
+  }
+}
+
+// TABLET
+@media (min-width: 481px) and (max-width: 767px) {
+  .LanguageSelectorDialog-Modal {
+    .countries {
+      li {
+        @include items(2, $spacing-3);
+      }
+    }
+  
+    .languages {
+      li {
+        @include items(3, $spacing-3);
+      }
+    }
+  }
+}
+
+
+// MOBILE
+@media screen and (max-width: 580px) {
+  .LanguageSelectorDialog-Modal {
+    .languages {
+      border-bottom: $light-grey solid 1px;
+      border-right: none;
+      float: none;
+      width: auto;
+    }
+
+    .domestic-redirect {
+      float: none;
+      padding-left: 0;
+      width: auto;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .language-selector-dialog {
+    padding: $spacing-3-m;
+  }
+
+  .LanguageSelectorDialog-Modal {
+    p {
+      @include body-l;
+    }
+
+    .content {
+      padding-left: 0;
+      padding-right: 0;
+      padding-top: 85px;
+    }
+
+    .countries {
+      a {
+        background-size: 20px;
+        min-height: 20px;
+        padding: 0 0 0 30px;
+      }
+      
+      li {
+        @include items(2, $spacing-3-m);
+      }
+    }
+
+    .domestic-redirect {
+      padding-top: 0;
+    }
+
+    .languages {
+      li {
+        @include items(2, $spacing-4-m);
+      }
+     
+      p {
+        left: 0;
+        top: $spacing-4-m;
+      }
+    }
+  }
+
+  .LanguageSelectorDialog-Tracker {
+    .label,
+    .lang::after {
+      position: absolute;
+      z-index: -1;
+    }
+  }
+}

@@ -1,0 +1,137 @@
+// Top Markets List (table)
+.top-markets-list {
+  $top-table-list-standard-width: 16.5%;
+  $top-table-list-country-width: 26%;
+  $top-table-list-rank-width: 50px;
+
+  clear: both;
+  margin-bottom: $spacing-3;
+  padding-top: 55px;
+  position: relative;
+  width: $cols-10;
+
+  dd {
+    float: left;
+    padding: 0 5px;
+    text-align: center;
+    width: $top-table-list-standard-width; 
+
+    &.rank { 
+      clear: left;
+    }
+  }
+
+  dt {
+    @include body-s;
+    display: none; /* Only show first row labels for table view */
+    padding: 0 5px;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: $top-table-list-standard-width;
+
+    &.rank { 
+      left: 0;
+      z-index: -1;
+      &:first-child {
+        position: relative;
+        z-index: auto;
+      }
+    }
+  }
+
+  dt.country { 
+    left: $top-table-list-rank-width; 
+    text-indent: -1000px;
+  }
+  
+  dt.ease    { left: calc((#{$top-table-list-rank-width} + #{$top-table-list-country-width}) + (#{$top-table-list-standard-width} * 3)); }
+  dt.gdp     { left: calc((#{$top-table-list-rank-width} + #{$top-table-list-country-width}) + (#{$top-table-list-standard-width} * 2)); }
+  dt.uk      { left: calc((#{$top-table-list-rank-width} + #{$top-table-list-country-width})); }
+  dt.world   { left: calc((#{$top-table-list-rank-width} + #{$top-table-list-country-width}) + #{$top-table-list-standard-width}); }
+
+  li {
+    border-bottom: $light-grey solid 1px;
+    clear: both;
+    counter-increment: li;
+    list-style-type: none;
+    overflow: hidden;
+    padding: $spacing-4 0;
+    position: static;
+    &:before {
+      content: counter(li) " ";
+      float: left;
+      padding-right: $spacing-4;
+      text-align: right;
+      width: #{$top-table-list-rank-width - $spacing-4};
+    }
+
+    &:first-child {
+      dt {
+        display: inline-block;
+      }
+    }
+  }
+
+  .country {
+    font-weight: bold;
+    text-align: left;
+    width: $top-table-list-country-width;
+  }
+
+  // A little custom tweak to avoid some issues when
+  // the screen gets too small but we don't want to
+  // switch to a tablet/mobile view just yet. 
+  @media screen and (max-width: 840px) {
+    & {
+      width: auto;
+    }
+  }
+}
+
+
+// TABLET 
+@media screen and (max-width: 767px) {
+  .top-markets-list {
+    padding-top: 0;
+
+    dd {
+      float: left;
+      margin-bottom: 5px;
+      padding-left: 0;
+      text-align: left;
+      width: 30%;
+
+      &.country {
+        margin-bottom: $spacing-4;
+        width: 70%;
+      }
+    }
+
+    dt {
+      display: inline-block;
+      float: left;
+      margin-bottom: 5px;
+      padding-left: 0;
+      position: static;
+      text-align: left;
+      width: 70%;
+      
+      &.country {
+        padding: 0;
+        width: 1px;
+      }
+
+      &.uk {
+        clear: left;
+      }
+    }
+
+    li {
+      &:before {
+        text-align: left;
+        width: 15px;
+      }
+    }
+  }  
+}

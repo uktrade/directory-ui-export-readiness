@@ -2,7 +2,7 @@ A distributor buys your products to resell in their market. They buy at a discou
 
 The contract of sale is between you and the distributor. The stock they buy is their responsibility and they deal with the end customer.
 
-A distributor will usually by in bulk and should:
+A distributor will usually buy in bulk and should:
 
 - reduce your overheads and exposure to risk 
 - provide access to their dealers and resellers
@@ -10,7 +10,7 @@ A distributor will usually by in bulk and should:
 
 ### Less resource and control 
 
-A distributor markets and sells the product and provides after sales support. Your costs will be reduced but you usually won&rsquo;t have any control over the marketing and pricing of your product.   
+A distributor markets and sells the product and provides aftersales support. Your costs will be reduced but you usually won&rsquo;t have any control over the marketing and pricing of your product.   
 
 A good distributor may accept your suggested pricing and marketing material. 
 

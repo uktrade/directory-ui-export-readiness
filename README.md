@@ -37,7 +37,7 @@ We use SASS CSS pre-compiler. If you're doing front-end work your local machine 
 
 [node](https://nodejs.org/en/download/)
 
-[SASS](http://sass-lang.com/)
+[SASS](https://rubygems.org/gems/sass/versions/3.4.22)
 
 ## Running locally with Docker
 This requires all host environment variables to be set.
@@ -67,7 +67,7 @@ This requires all host environment variables to be set.
     $ pip install -r requirements_test.txt
 
 ### Running the webserver
-	$ source .venv/bin/activate
+    $ source .venv/bin/activate
     $ make debug_webserver
 
 ### Running the tests
@@ -76,12 +76,17 @@ This requires all host environment variables to be set.
 
 ### CSS development
 
-If you're doing front-end development work you will need to be able to compile the SASS to CSS. For this you need:
+When doing front-end development work you will need to be able to compile SASS to CSS. First run:
 
-```bash
-npm install
-npm run sass-prod
-```
+    $ npm install
+
+Then:
+
+    $ gulp sass
+
+...to compile sass. You can also watch for changes by running:
+
+    $ gulp sass:watch
 
 We add compiled CSS files to version control. This will sometimes result in conflicts if multiple developers are working on the same SASS files. However, by adding the compiled CSS to version control we avoid having to install node, npm, node-sass, etc to non-development machines.
 
@@ -90,6 +95,19 @@ You should not edit CSS files directly, instead edit their SCSS counterparts.
 ## Session
 
 Signed cookies are used as the session backend to avoid using a database. We therefore must avoid storing non-trivial data in the session, because the browser will be exposed to the data.
+
+## Translations
+
+Follow the <a href="https://docs.djangoproject.com/en/1.11/topics/i18n/" target="_blank">Django documentation</a>
+
+To create or update `.po` files:
+
+    $ make debug_manage cmd="makemessages"
+
+To compile `.mo` files (no need to add these to source code, as this is done automatically during build):
+
+    $ make debug_manage cmd="compilemessages"
+
 
 
 ## SSO

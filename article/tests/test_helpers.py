@@ -100,16 +100,19 @@ def test_database_get_group_read_progress(
     manager = helpers.ArticleReadManager(sso_request)
     actual = manager.get_group_read_progress()
     assert actual == {
-        'all': {'read': 3, 'total': 43},
-        'business_planning': {'read': 0, 'total': 10},
+        'all': {'read': 3, 'total': 45},
+        'business_planning': {'read': 0, 'total': 11},
         'customer_insights': {'read': 0, 'total': 4},
         'finance': {'read': 0, 'total': 7},
         'getting_paid': {'read': 2, 'total': 5},
         'market_research': {'read': 0, 'total': 5},
         'operations_and_compliance': {'read': 1, 'total': 10},
-        'persona_new': {'read': 2, 'total': 17},
-        'persona_occasional': {'read': 2, 'total': 37},
+        'persona_new': {'read': 2, 'total': 18},
+        'persona_occasional': {'read': 2, 'total': 38},
         'persona_regular': {'read': 0, 'total': 18},
+        'custom_persona_new': {'read': 2, 'total': 18},
+        'custom_persona_occasional': {'read': 2, 'total': 38},
+        'custom_persona_regular': {'read': 0, 'total': 18},
     }
 
 
@@ -122,16 +125,19 @@ def test_session_get_group_read_progress(anon_request, articles_read):
     actual = manager.get_group_read_progress()
 
     assert actual == {
-        'all': {'read': 3, 'total': 43},
-        'business_planning': {'read': 0, 'total': 10},
+        'all': {'read': 3, 'total': 45},
+        'business_planning': {'read': 0, 'total': 11},
         'customer_insights': {'read': 0, 'total': 4},
         'finance': {'read': 0, 'total': 7},
         'getting_paid': {'read': 2, 'total': 5},
         'market_research': {'read': 0, 'total': 5},
         'operations_and_compliance': {'read': 1, 'total': 10},
-        'persona_new': {'read': 2, 'total': 17},
-        'persona_occasional': {'read': 2, 'total': 37},
+        'persona_new': {'read': 2, 'total': 18},
+        'persona_occasional': {'read': 2, 'total': 38},
         'persona_regular': {'read': 0, 'total': 18},
+        'custom_persona_new': {'read': 2, 'total': 18},
+        'custom_persona_occasional': {'read': 2, 'total': 38},
+        'custom_persona_regular': {'read': 0, 'total': 18},
     }
 
 
@@ -148,7 +154,7 @@ def test_database_remaining_reading_time_in_group(
         structure.PERSONA_OCCASIONAL_ARTICLES.name
     )
 
-    assert time_left == 2656
+    assert time_left == 5397
 
 
 @patch('api_client.api_client.exportreadiness.retrieve_article_read')
@@ -305,7 +311,7 @@ def test_session_remaining_reading_time_in_group(anon_request):
         structure.PERSONA_OCCASIONAL_ARTICLES.name
     )
 
-    assert time_left == 2372
+    assert time_left == 5032
 
 
 def test_filter_lines():
@@ -332,7 +338,7 @@ def test_time_to_read_in_seconds():
     article = articles.INVOICE_CURRENCY_AND_CONTENTS
     assert helpers.time_to_read_in_seconds(
         article
-    ) == 140.0
+    ) == 279
 
 
 def test_total_time_to_read_multiple_articles():
@@ -342,4 +348,4 @@ def test_total_time_to_read_multiple_articles():
     ]
     assert helpers.total_time_to_read_multiple_articles(
         articles_list
-    ) == 160.0
+    ) == 318

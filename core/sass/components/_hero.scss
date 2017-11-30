@@ -1,0 +1,56 @@
+// Hero Banner Component Template
+// -------------------------------
+
+.hero-section {
+  background-color: $white;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 0;
+
+  .container {
+    height: 300px;
+    position: relative;
+  }
+}
+
+.hero-teaser {
+  background-color: rgba(0, 82, 157, 0.8);
+  border-bottom: $great-red solid 4px;
+  bottom: 0;
+  left: 0;
+  max-width: 530px;
+  padding: $spacing-3;
+  position: absolute;
+
+  p {
+    color: $white;
+  }
+
+  .title {
+    @include heading-hero;
+    color: $white;
+    display: inline-block;
+    margin: 0;
+    text-transform: uppercase;
+  }
+}
+
+
+// MOBILE
+@media (max-width: 540px) {
+  .hero-section {
+    p {
+      @include body-m-mob;
+    }
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-teaser {
+    padding: $spacing-3-m;
+
+    .title {
+      @include heading-hero-mob;
+    }
+  }
+}

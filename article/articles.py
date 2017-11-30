@@ -64,7 +64,7 @@ GUIDANCE_OPERATIONS_AND_COMPLIANCE = ArticleParent(
 
 DO_RESEARCH_FIRST = Article(
     uuid=exred_articles.DO_RESEARCH_FIRST,
-    title='Do research first',
+    title='Research your market',
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/01_do-research-first.md',
@@ -86,7 +86,7 @@ DO_FIELD_RESEARCH = Article(
     title='Do field research',
     keywords=[],
     tasks=[],
-    markdown_file_path='article/markdown/02_define-market-potential.md',
+    markdown_file_path='article/markdown/03_do-field-research.md',
     url=reverse_lazy('do-field-research'),
     parent=GUIDANCE_MARKET_RESEARCH,
 )
@@ -133,6 +133,17 @@ FIND_A_ROUTE_TO_MARKET = Article(
     tasks=[],
     markdown_file_path='article/markdown/07_find-a-route-to-market.md',
     url=reverse_lazy('find-a-route-to-market'),
+    parent=GUIDANCE_BUSINESS_PLANNING,
+)
+SELL_OVERSEAS_DIRECTLY = Article(
+    uuid=exred_articles.SELL_OVERSEAS_DIRECTLY,
+    title="Sell overseas directly",
+    keywords=[],
+    tasks=[],
+    markdown_file_path=(
+        'article/markdown/9_sell-overseas-directly.md'
+    ),
+    url=reverse_lazy('sell-overseas-directly'),
     parent=GUIDANCE_BUSINESS_PLANNING,
 )
 USE_OVERSEAS_AGENT = Article(
@@ -217,7 +228,7 @@ GET_MONEY_TO_EXPORT = Article(
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/18_get-money-to-export.md',
-    url=reverse_lazy('get-money'),
+    url=reverse_lazy('get-money-to-export'),
     parent=GUIDANCE_FINANCE,
 )
 CHOOSE_THE_RIGHT_FINANCE = Article(
@@ -267,7 +278,7 @@ RAISE_MONEY_WITH_INVESTMENT = Article(
 )
 GET_GOVERNMENT_FINANCE_SUPPORT = Article(
     uuid=exred_articles.GET_GOVERNMENT_FINANCE_SUPPORT,
-    title='Get government finance support',
+    title='Get finance support from government',
     keywords=[],
     tasks=[],
     markdown_file_path=(
@@ -365,7 +376,7 @@ INTERNATIONALISE_WESBITE = Article(
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/34_internationalise-your-website.md',
-    url=reverse_lazy('set-up-a-website'),
+    url=reverse_lazy('internationalise-your-website'),
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE,
 )
 MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE = Article(
@@ -381,7 +392,7 @@ MATCH_YOUR_WEBSITE_TO_YOUR_AUDIENCE = Article(
 )
 WHAT_INTELLECTUAL_PROPERTY_IS = Article(
     uuid=exred_articles.WHAT_INTELLECTUAL_PROPERTY_IS,
-    title='What intellectual property is',
+    title='Protect your intellectual property',
     keywords=[],
     tasks=[],
     markdown_file_path=(
@@ -403,7 +414,7 @@ TYPES_OF_INTELLECTUAL_PROPERTY = Article(
 )
 KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE = Article(
     uuid=exred_articles.KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE,
-    title='Know what IP you have',
+    title='Know what intellectual property you have',
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/39_know-what-IP-you-have.md',
@@ -412,7 +423,7 @@ KNOW_WHAT_INTELLECTUAL_PROPERTY_YOU_HAVE = Article(
 )
 INTELLECTUAL_PROPERTY_PROTECTION = Article(
     uuid=exred_articles.INTELLECTUAL_PROPERTY_PROTECTION,
-    title='IP protection in multiple countries',
+    title='International intellectual property protection',
     keywords=[],
     tasks=[],
     markdown_file_path=(
@@ -427,7 +438,7 @@ MEET_YOUR_CUSTOMER = Article(
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/43_meet-your-customers.md',
-    url=reverse_lazy('meet-your-customer'),
+    url=reverse_lazy('meet-your-customers'),
     parent=GUIDANCE_CUSTOMER_INSIGHT,
 )
 MANAGE_LANGUAGE_DIFFERENCES = Article(
@@ -476,7 +487,7 @@ NEXT_STEPS_OCCASIONAL_EXPORTER = Article(
 )
 
 NEXT_STEPS_REGULAR_EXPORTER = Article(
-    uuid=exred_articles.NEXT_STEPS_OCCASIONAL_EXPORTER,
+    uuid=exred_articles.NEXT_STEPS_REGULAR_EXPORTER,
     title="Next steps for regular exporters",
     keywords=[],
     tasks=[],

@@ -1,3 +1,5 @@
+import pytest
+
 from article import articles, structure
 
 
@@ -28,4 +30,65 @@ def test_get_articles_from_uuids():
 
 def test_article_group_total_reading_time():
     group = structure.PERSONA_NEW_ARTICLES
-    assert group.total_reading_time == 946
+    assert group.total_reading_time == 2050
+
+
+@pytest.mark.parametrize(
+    'current_group, expected_next_group',
+    (
+        (
+            structure.GUIDANCE_MARKET_RESEARCH_ARTICLES,
+            structure.GUIDANCE_CUSTOMER_INSIGHT_ARTICLES
+        ),
+        (
+            structure.GUIDANCE_CUSTOMER_INSIGHT_ARTICLES,
+            structure.GUIDANCE_FINANCE_ARTICLES
+        ),
+        (
+            structure.GUIDANCE_FINANCE_ARTICLES,
+            structure.GUIDANCE_BUSINESS_PLANNING_ARTICLES
+        ),
+        (
+            structure.GUIDANCE_BUSINESS_PLANNING_ARTICLES,
+            structure.GUIDANCE_GETTING_PAID_ARTICLES
+        ),
+        (
+            structure.GUIDANCE_GETTING_PAID_ARTICLES,
+            structure.GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES
+        ),
+        (
+            structure.GUIDANCE_OPERATIONS_AND_COMPLIANCE_ARTICLES,
+            None
+        ),
+        (
+            structure.ALL_ARTICLES,
+            None
+        ),
+        (
+            structure.PERSONA_NEW_ARTICLES,
+            None
+        ),
+        (
+            structure.PERSONA_OCCASIONAL_ARTICLES,
+            None
+        ),
+        (
+            structure.PERSONA_REGULAR_ARTICLES,
+            None
+        )
+    ),
+    ids=(
+        'Market research',
+        'Customer insight',
+        'Finance',
+        'Business planning',
+        'Getting paid',
+        'Operations and compliance',
+        'All articles',
+        'Persona new article',
+        'Persona occasional articles',
+        'Persona regular articles'
+    )
+)
+def test_next_guidance_category(current_group, expected_next_group):
+    assert current_group.next_guidance_group == expected_next_group

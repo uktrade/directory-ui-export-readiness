@@ -5,32 +5,31 @@ from bs4 import BeautifulSoup
 import pytest
 from directory_constants.constants import exred_articles
 
-from article import views
-
+from django.template.loader import render_to_string
 from django.urls import reverse
 
-from article import articles, helpers, structure
+from article import articles, helpers, structure, views
 import core.helpers
 
 
 persona_lise_views_under_test = (
     (
-        views.PeronaNewArticleListView,
+        views.PersonaNewArticleListView,
         reverse('article-list-persona-new'),
     ),
     (
-        views.PeronaOccasionalArticleListView,
+        views.PersonaOccasionalArticleListView,
         reverse('article-list-persona-occasional')
     ),
     (
-        views.PeronaRegularArticleListView,
+        views.PersonaRegularArticleListView,
         reverse('article-list-persona-regular'),
     ),
 )
 
 guidance_views_under_test = (
     (
-        views.MarketReasearchArticleListView,
+        views.MarketResearchArticleListView,
         reverse('article-list-market-research'),
     ),
     (
@@ -83,7 +82,7 @@ article_views_under_test = (
     ),
     (
         views.MeetYourCustomerView,
-        reverse('meet-your-customer'),
+        reverse('meet-your-customers'),
     ),
     (
         views.ManageLanguageDifferencesView,
@@ -95,7 +94,7 @@ article_views_under_test = (
     ),
     (
         views.GetMoneyToExportView,
-        reverse('get-money'),
+        reverse('get-money-to-export'),
     ),
     (
         views.ChooseTheRightFinanceView,
@@ -128,6 +127,10 @@ article_views_under_test = (
     (
         views.FindARouteToMarketView,
         reverse('find-a-route-to-market'),
+    ),
+    (
+        views.SellOverseasDirectlyView,
+        reverse('sell-overseas-directly'),
     ),
     (
         views.UseOverseasAgentView,
@@ -198,29 +201,41 @@ article_views_under_test = (
         reverse('get-your-export-documents-right'),
     ),
     (
-        views.SetupWesbiteView,
-        reverse('set-up-a-website'),
+        views.InternationaliseWesbiteView,
+        reverse('internationalise-your-website'),
     ),
     (
         views.MatchYourWebsiteToYourAudienceView,
         reverse('match-your-website-to-your-audience'),
     ),
     (
-        views.WhatInterlectualPropertyIsView,
+        views.WhatIntellectualPropertyIsView,
         reverse('what-intellectual-property-is'),
     ),
     (
-        views.TypesOfInterlectualPropertyView,
+        views.TypesOfIntellectualPropertyView,
         reverse('types-of-intellectual-property'),
     ),
     (
-        views.KnowWhatInterlectualPropertyYouHaveView,
+        views.KnowWhatIntellectualPropertyYouHaveView,
         reverse('know-what-IP-you-have'),
     ),
     (
-        views.InterlectualPropertyProtectionView,
+        views.IntellectualPropertyProtectionView,
         reverse('ip-protection-in-multiple-countries'),
     ),
+    (
+        views.NextStepsNewExporterView,
+        reverse('next-steps-new-exporter'),
+    ),
+    (
+        views.NextStepsOccasionalExporterView,
+        reverse('next-steps-occasional-exporter'),
+    ),
+    (
+        views.NextStepsRegularExporterView,
+        reverse('next-steps-regular-exporter'),
+    )
 )
 
 
@@ -251,9 +266,11 @@ def test_articles_views(view_class, url, client):
     assert response.context_data['article'] == view_class.article
     assert response.context_data['article_group'] == structure.ALL_ARTICLES
 
-    html = helpers.markdown_to_html(view_class.article.markdown_file_path)
+    html = helpers.markdown_to_html(
+        markdown_file_path=view_class.article.markdown_file_path,
+        context=response.context[-1].flatten(),
+    )
     expected = str(BeautifulSoup(html, 'html.parser'))
-
     assert expected in str(BeautifulSoup(response.content, 'html.parser'))
 
 
@@ -302,10 +319,38 @@ def test_articles_share_links(view_class, url, client):
 
 
 # skip the last group - it does not have a page, it's a list of all articles.
-@pytest.mark.parametrize('group', structure.ALL_GROUPS[:-1])
+# skip CUSTOM_PAGE_* groups - they're tested elsewhere as they need settting up
+@pytest.mark.parametrize('group', structure.ALL_GROUPS[:-4])
 def test_article_links_include_next_param(client, group):
     response = client.get(group.url)
     soup = BeautifulSoup(response.content, 'html.parser')
+
+    article_links = soup.findAll('a', {'class': 'article'})
+
+    assert len(article_links) == len(group.articles)
+
+    for article, article_link_element in zip(group.articles, article_links):
+        assert article_link_element.attrs['href'] == (
+            str(article.url) + '?source=' + group.name
+        )
+
+
+@pytest.mark.parametrize('group', [
+    structure.CUSTOM_PAGE_NEW_ARTICLES,
+    structure.CUSTOM_PAGE_REGULAR_ARTICLES,
+    structure.CUSTOM_PAGE_OCCASIONAL_ARTICLES,
+])
+def test_article_link_custom_page_exporter_articles(group):
+    html = render_to_string('triage/custom-page.html', {
+        'section_configuration': {
+            'persona_article_group': group,
+        },
+        'article_group': group,
+        'article_group_progress': {
+            'time_left_to_read': 0,
+        }
+    })
+    soup = BeautifulSoup(html, 'html.parser')
 
     article_links = soup.findAll('a', {'class': 'article'})
 
@@ -326,12 +371,17 @@ def test_inferred_next_articles(client, group):
 
         if next_article:
             assert response.context_data['next_article'] == next_article
+            assert response.context_data['article_group'] == group
+            assert response.context_data['next_article_group'] == group
             assert next_article_element.attrs['href'] == (
                 str(next_article.url) + '?source=' + group.name
             )
             assert next_article_element.text == next_article.title
         else:
-            assert next_article_element is None
+            next_group_top_article = group.next_guidance_group.articles[0]
+            assert next_article_element == next_group_top_article
+            assert response.context_data['next_article_group'] == \
+                group.next_guidance_group
 
 
 # skip the last group - it does not have a page, it's a list of all articles.
@@ -383,7 +433,7 @@ def test_article_view_persist_article_anon_user(
         3,
         len(structure.ALL_ARTICLES.articles),
         '',
-        3042,
+        6147,
         frozenset([
            articles.USE_DISTRIBUTOR.uuid,
            articles.GET_EXPORT_FINANCE.uuid,
@@ -395,7 +445,7 @@ def test_article_view_persist_article_anon_user(
         2,
         len(structure.GUIDANCE_FINANCE_ARTICLES.articles),
         structure.GUIDANCE_FINANCE_ARTICLES.title,
-        404.0,
+        852,
         frozenset([
            articles.GET_EXPORT_FINANCE.uuid,
            articles.GET_MONEY_TO_EXPORT.uuid,
@@ -406,7 +456,7 @@ def test_article_view_persist_article_anon_user(
         3,
         len(structure.ALL_ARTICLES.articles),
         '',
-        3042,
+        6147,
         frozenset([
            articles.USE_DISTRIBUTOR.uuid,
            articles.GET_EXPORT_FINANCE.uuid,
@@ -418,7 +468,7 @@ def test_article_view_persist_article_anon_user(
         2,
         len(structure.GUIDANCE_FINANCE_ARTICLES.articles),
         structure.GUIDANCE_FINANCE_ARTICLES.title,
-        404.0,
+        852,
         frozenset([
            articles.GET_EXPORT_FINANCE.uuid,
            articles.GET_MONEY_TO_EXPORT.uuid,

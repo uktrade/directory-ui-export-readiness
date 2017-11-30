@@ -31,6 +31,9 @@ DEBUG = bool(os.getenv("DEBUG", False))
 # PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
 
+# https://docs.djangoproject.com/en/dev/ref/settings/#append-slash
+APPEND_SLASH = True
+
 
 # Application definition
 
@@ -54,11 +57,16 @@ INSTALLED_APPS = [
 
 MIDDLEWARE_CLASSES = [
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'sso.middleware.SSOUserMiddleware',
     'core.middleware.NoCacheMiddlware',
+    'ui.middleware.LocaleQuerystringMiddleware',
+    'ui.middleware.PersistLocaleMiddleware',
+    'ui.middleware.ForceDefaultLocale',
     'core.middleware.ArticleReadManagerMiddlware',
 ]
 
@@ -73,6 +81,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.i18n',
                 'directory_header_footer.context_processors.sso_processor',
                 'directory_header_footer.context_processors.urls_processor',
                 ('directory_header_footer.context_processors.'
@@ -107,6 +116,21 @@ CACHES = {
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
 LANGUAGE_CODE = 'en-gb'
+
+# https://github.com/django/django/blob/master/django/conf/locale/__init__.py
+LANGUAGES = [
+    ('en-gb', 'English'),               # English
+    ('zh-hans', '简体中文'),             # Simplified Chinese
+    ('de', 'Deutsch'),                  # German
+    ('ja', '日本語'),                    # Japanese
+    ('es', 'Español'),                  # Spanish
+    ('pt', 'Português'),                # Portuguese
+    ('ar', 'العربيّة'),                 # Arabic
+]
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
 
 TIME_ZONE = 'UTC'
 
@@ -215,6 +239,8 @@ SSO_PROXY_SESSION_COOKIE = os.environ["SSO_PROXY_SESSION_COOKIE"]
 
 ANALYTICS_ID = os.getenv("ANALYTICS_ID")
 
+SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', 'true') == 'true'
+USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_HSTS_SECONDS = int(os.getenv('SECURE_HSTS_SECONDS', '16070400'))
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
@@ -247,10 +273,24 @@ GUIDANCE_OPERATIONS_AND_COMPLIANCE = os.getenv(
 
 # SERVICES
 SERVICES_EXOPPS = os.getenv('SERVICES_EXOPPS', default_urls.SERVICES_EXOPPS)
+SERVICES_EXOPPS_ACTUAL = os.getenv(
+    'SERVICES_EXOPPS_ACTUAL', default_urls.SERVICES_EXOPPS)
 SERVICES_FAB = os.getenv('SERVICES_FAB', default_urls.SERVICES_FAB)
 SERVICES_GET_FINANCE = os.getenv(
     'SERVICES_GET_FINANCE', default_urls.SERVICES_GET_FINANCE)
 SERVICES_SOO = os.getenv('SERVICES_SOO', default_urls.SERVICES_SOO)
+
+# FOOTER LINKS
+INFO_ABOUT = os.getenv('INFO_ABOUT', default_urls.INFO_ABOUT)
+INFO_CONTACT_US_DIRECTORY = os.getenv(
+    'INFO_CONTACT_US_DIRECTORY',
+    default_urls.INFO_CONTACT_US_DIRECTORY)
+INFO_PRIVACY_AND_COOKIES = os.getenv(
+    'INFO_PRIVACY_AND_COOKIES',
+    default_urls.INFO_PRIVACY_AND_COOKIES)
+INFO_TERMS_AND_CONDITIONS = os.getenv(
+    'INFO_TERMS_AND_CONDITIONS',
+    default_urls.INFO_TERMS_AND_CONDITIONS)
 
 # Sentry
 RAVEN_CONFIG = {
@@ -261,6 +301,7 @@ SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'true') == 'true'
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SECURE = True
+TRIAGE_COMPLETED_COOKIE_NAME = 'triage_show_continue_message'
 
 API_CLIENT_CLASSES = {
     'default': 'directory_api_client.client.DirectoryAPIClient',
