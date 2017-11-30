@@ -140,7 +140,7 @@ class TriageWizardFormView(NamedUrlSessionWizardView):
         data = self.get_all_cleaned_data()
         if self.steps.current == self.SUMMARY and not data:
             return self.render_goto_step(self.SECTOR)
-        super().render(form, **kwargs)
+        return super().render(form, **kwargs)
 
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
