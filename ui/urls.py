@@ -383,113 +383,46 @@ urlpatterns = [
     ),
 ]
 
-translation_redirects = [
+international_translation_redirects = [
     url(
         r'^int/$',
         core.views.TranslationRedirectView.as_view(
             pattern_name='landing-page-international',
         ),
         name='redirect-int'
-    ),
+    )
+]
+# (<url language code>, <language to use in query parameter>)
+INTERNATIONAL_TRANSLATION_REDIRECTS_MAPPING = (
+    ('de', 'de'),
+    ('ar', 'ar'),
+    ('zh', 'zh-hans'),
+    ('pt', 'pt'),
+    ('es', 'es'),
+    ('ja', 'ja'),
+)
+international_translation_redirects += [
     url(
-        r'^int/de/$',
+        r'^int/{language_code}/$'.format(language_code=redirect[0]),
         core.views.TranslationRedirectView.as_view(
             pattern_name='landing-page-international',
-            language='de',
+            language=redirect[1],
         ),
-        name='redirect-int-de'
-    ),
+        name='redirect-int-{}'.format(redirect[0])
+    ) for redirect in INTERNATIONAL_TRANSLATION_REDIRECTS_MAPPING
+]
+international_translation_redirects += [
     url(
-        r'^de/$',
+        r'^{language_code}/$'.format(language_code=redirect[0]),
         core.views.TranslationRedirectView.as_view(
             pattern_name='landing-page-international',
-            language='de',
+            language=redirect[1],
         ),
-        name='redirect-de'
-    ),
-    url(
-        r'^int/ar/$',
-        core.views.TranslationRedirectView.as_view(
-            pattern_name='landing-page-international',
-            language='ar',
-        ),
-        name='redirect-int-ar'
-    ),
-    url(
-        r'^ar/$',
-        core.views.TranslationRedirectView.as_view(
-            pattern_name='landing-page-international',
-            language='ar',
-        ),
-        name='redirect-ar'
-    ),
-    url(
-        r'^int/zh/$',
-        core.views.TranslationRedirectView.as_view(
-            pattern_name='landing-page-international',
-            language='zh-hans',
-        ),
-        name='redirect-int-zh'
-    ),
-    url(
-        r'^zh/$',
-        core.views.TranslationRedirectView.as_view(
-            pattern_name='landing-page-international',
-            language='zh-hans',
-        ),
-        name='redirect-zh'
-    ),
-    url(
-        r'^int/pt/$',
-        core.views.TranslationRedirectView.as_view(
-            pattern_name='landing-page-international',
-            language='pt',
-        ),
-        name='redirect-int-pt'
-    ),
-    url(
-        r'^pt/$',
-        core.views.TranslationRedirectView.as_view(
-            pattern_name='landing-page-international',
-            language='pt',
-        ),
-        name='redirect-pt'
-    ),
-    url(
-        r'^int/es/$',
-        core.views.TranslationRedirectView.as_view(
-            pattern_name='landing-page-international',
-            language='es',
-        ),
-        name='redirect-int-es'
-    ),
-    url(
-        r'^es/$',
-        core.views.TranslationRedirectView.as_view(
-            pattern_name='landing-page-international',
-            language='es',
-        ),
-        name='redirect-es'
-    ),
-    url(
-        r'^int/ja/$',
-        core.views.TranslationRedirectView.as_view(
-            pattern_name='landing-page-international',
-            language='ja',
-        ),
-        name='redirect-int-ja'
-    ),
-    url(
-        r'^ja/$',
-        core.views.TranslationRedirectView.as_view(
-            pattern_name='landing-page-international',
-            language='ja',
-        ),
-        name='redirect-ja'
-    ),
+        name='redirect-{language_code}'.format(language_code=redirect[0])
+    ) for redirect in INTERNATIONAL_TRANSLATION_REDIRECTS_MAPPING
 ]
 
-urlpatterns += translation_redirects
+urlpatterns += international_translation_redirects
 
 # TOS and privacy-and-cookies are no longer translated, instead we redirect to
 # the ENG version
@@ -497,31 +430,43 @@ TOS_AND_PRIVACY_REDIRECT_LANGUAGES = (
     'zh', 'ja', r'es', 'pt', 'ar', 'de'
 )
 
-urlpatterns += [
+tos_redirects = [
     url(
-        r'^int/{}/terms-and-conditions/$'.format(language),
+        r'^int/{language_code}/terms-and-conditions/$'.format(
+            language_code=language
+        ),
         RedirectView.as_view(
             pattern_name='terms-and-conditions-international',
             permanent=True,
             query_string=True
         ),
-        name='redirect-terms-and-conditions-{}'.format(language)
+        name='redirect-terms-and-conditions-{language_code}'.format(
+            language_code=language
+        )
     ) for language in TOS_AND_PRIVACY_REDIRECT_LANGUAGES
 ]
 
-urlpatterns += [
+urlpatterns += tos_redirects
+
+privacy_international_redirects = [
     url(
-        r'^int/{}/privacy-policy/$'.format(language),
+        r'^int/{language_code}/privacy-policy/$'.format(
+            language_code=language
+        ),
         RedirectView.as_view(
             pattern_name='privacy-and-cookies-international',
             permanent=True,
             query_string=True
         ),
-        name='redirect-privacy-policy-{}'.format(language)
+        name='redirect-privacy-policy-{language_code}'.format(
+            language_code=language
+        )
     ) for language in TOS_AND_PRIVACY_REDIRECT_LANGUAGES
 ]
 
-urlpatterns += [
+urlpatterns += privacy_international_redirects
+
+privacy_domestic_redirects = [
     url(
         r'^uk/privacy-policy/$',
         RedirectView.as_view(
@@ -541,3 +486,115 @@ urlpatterns += [
         name='redirect-terms-and-conditions-uk'
     )
 ]
+
+urlpatterns += privacy_domestic_redirects
+
+# (<path>, <pattern to redirect to>)
+ARTICLE_REDIRECTS_MAPPING = (
+    (
+        'find-out-if-a-potential-customer-is-creditworthy',
+        'decide-when-youll-get-paid'
+    ),
+    (
+        'get-ready-to-manage-regulations-legal-issues-and-risk',
+        'article-list-operations-and-compliance'
+    ),
+    (
+        'get-your-finances-ready',
+        'get-money-to-export'
+    ),
+    (
+        'get-your-team-and-your-business-ready',
+        'make-an-export-plan'
+    ),
+    (
+        'getting-paid-and-being-competitive',
+        'decide-when-youll-get-paid'
+    ),
+    (
+        'getting-ready-to-sell-overseas',
+        'article-research-market'
+    ),
+    (
+        'grow-your-export-business',
+        'article-list-persona-occasional'
+    ),
+    (
+        'help-for-exporters-from-finance-partners',
+        'article-list-finance'
+    ),
+    (
+        'make-sure-your-online-presence-is-legal',
+        'sell-overseas-directly'
+    ),
+    (
+        'methods-used-to-research-export-markets',
+        'article-list-market-research'
+    ),
+    (
+        'new-partners-page-for-logistics',
+        'article-list-operations-and-compliance'
+    ),
+    (
+        'reach-overseas-customers-online',
+        'sell-overseas-directly'
+    ),
+    (
+        'research-your-market',
+        'article-research-market'
+    ),
+    (
+        'routes-to-market',
+        'find-a-route-to-market'
+    ),
+    (
+        'selling-direct-to-customers-overseas',
+        'sell-overseas-directly'
+    ),
+    (
+        'selling-overseas-an-experts-view',
+        'article-research-market'
+    ),
+    (
+        'selling-overseas',
+        'article-list-persona-new'
+    ),
+    (
+        'setting-up-an-overseas-operation',
+        'set-up-an-overseas-operation'
+    ),
+    (
+        'shipping-and-logistics',
+        'plan-the-logistics'
+    ),
+    (
+        'simplifying-customs-and-licences',
+        'plan-the-logistics'
+    ),
+    (
+        'use-social-media-and-commerce-to-export',
+        'sell-overseas-directly'
+    ),
+    (
+        'ways-to-grow-your-exports',
+        'article-list-persona-regular'
+    ),
+    (
+        'write-an-export-plan',
+        'make-an-export-plan'
+    )
+)
+
+article_redirects = [
+    url(
+        r'^{path}/$'.format(path=redirect[0]),
+        RedirectView.as_view(
+            pattern_name=redirect[1],
+            permanent=True,
+            query_string=True
+        ),
+        name='redirect-{path}'.format(path=redirect[0])
+    ) for redirect in ARTICLE_REDIRECTS_MAPPING
+]
+
+urlpatterns += article_redirects
