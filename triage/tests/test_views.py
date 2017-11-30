@@ -818,3 +818,18 @@ def test_triage_step_labels(mock_persist_answers, client):
     assert b'Question 3' in response_three_get.content
     assert b'Question 4' in response_four_get.content
     assert b'Question 5' in response_five_get.content
+
+
+def test_get_summary_page_direct_link_should_redirect_to_triage(client):
+    view_class = views.TriageWizardFormView
+    url = reverse('triage-wizard', kwargs={'step': view_class.SUMMARY})
+    view_name = 'triage_wizard_form_view'
+
+    response = client.get(url, {
+        view_name + '-current_step': view_class.SUMMARY,
+    })
+    assert response.status_code == 302
+    assert response.url == reverse(
+        'triage-wizard',
+        kwargs={'step': view_class.SECTOR}
+    )
