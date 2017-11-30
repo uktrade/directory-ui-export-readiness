@@ -3,7 +3,11 @@
 {% load static from staticfiles %}
 
 {% block js %}
-  <script src="{% static 'js/language-selector.js' %}"></script>
+  <script src="{% static 'js/dit.js' %}"></script>
+  <script src="{% static 'js/dit.class.modal.js' %}"></script>
+  <script src="{% static 'js/dit.components.languageSelector.js' %}"></script>
+  <script src="{% static 'js/dit.components.video.js' %}"></script>
+  <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}
 
 {% block css %}
@@ -36,6 +40,9 @@
                 <h1 class="title"><span>If we can,</span><br><span>you can</span></h1>
                 <p>Thousands of businesses like yours have increased their sales, growth and stability by selling overseas. Explore the potential of exporting with guidance, services and support from the Department for International Trade.</p>
                 <img src="{% static 'images/eig-logo-stacked.png' %}" alt="">
+            </div>
+            <div class="video modal">
+                <a href="https://s3-eu-west-1.amazonaws.com/public-directory-api/promo-video_web.mp4" data-node="videoactivator" data-element="video" class="button video-button" target="_blank">Watch video</a>
             </div>
         </div>
     </section>
