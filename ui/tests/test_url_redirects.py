@@ -7,7 +7,8 @@ import pytest
 from ui.url_redirects import (
     TOS_AND_PRIVACY_REDIRECT_LANGUAGES,
     ARTICLE_REDIRECTS_MAPPING,
-    INTERNATIONAL_REDIRECTS_MAPPING
+    INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING,
+    INTERNATIONAL_COUNTRY_REDIRECTS_MAPPING
 )
 
 
@@ -19,17 +20,29 @@ def add_utm_query_params(url):
         url=url, utm_query_params=UTM_QUERY_PARAMS
     )
 
+
+def get_redirect_mapping_param_values(redirect_mapping, url_patterns):
+    param_values = []
+    for path, expected in redirect_mapping:
+        for url_pattern in (url_patterns):
+            param_values.append(
+                (url_pattern.format(path=path), expected)
+            )
+
+    return param_values
+
 # Generate a list of URLs for all paths (e.g. /de and /int/de) with and without
 # trailing slash
-international_url_and_param_values = []
-for path, lang_param_value in INTERNATIONAL_REDIRECTS_MAPPING:
-    for url_pattern in ('/int/{path}/', '/int/{path}', '/{path}/', '/{path}'):
-        international_url_and_param_values.append(
-            (url_pattern.format(path=path), lang_param_value)
-        )
-
+language_redirects = get_redirect_mapping_param_values(
+    redirect_mapping=INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING,
+    url_patterns=('/int/{path}/', '/int/{path}', '/{path}/', '/{path}')
+)
+country_redirects = get_redirect_mapping_param_values(
+        redirect_mapping=INTERNATIONAL_COUNTRY_REDIRECTS_MAPPING,
+        url_patterns=('/{path}/', '/{path}')
+)
 INTERNATIONAL_REDIRECTS_PARAMS = (
-    'url,expected_language', international_url_and_param_values
+    'url,expected_language', language_redirects + country_redirects
 )
 
 
@@ -90,15 +103,15 @@ def test_privacy_international_redirect(path, client):
     assert response.url == reverse('privacy-and-cookies-international')
 
 # Generate a list of URLs with and without trailing slash
-article_url_and_patterns = []
-for path, expected_pattern in ARTICLE_REDIRECTS_MAPPING:
-    for url_pattern in ('/{path}/', '/{path}'):
-        article_url_and_patterns.append(
-            (url_pattern.format(path=path), expected_pattern)
-        )
+ARTICLE_REDIRECT_PARAMS = (
+    'url,expected_pattern', get_redirect_mapping_param_values(
+        redirect_mapping=ARTICLE_REDIRECTS_MAPPING,
+        url_patterns=('/{path}/', '/{path}')
+    )
+)
 
 
-@pytest.mark.parametrize('url,expected_pattern', article_url_and_patterns)
+@pytest.mark.parametrize(*ARTICLE_REDIRECT_PARAMS)
 def test_article_redirects(url, expected_pattern, client):
     if not url.endswith('/'):
         url = client.get(url).url
@@ -109,7 +122,7 @@ def test_article_redirects(url, expected_pattern, client):
     assert response.url == reverse(expected_pattern)
 
 
-@pytest.mark.parametrize('url,expected_pattern', article_url_and_patterns)
+@pytest.mark.parametrize(*ARTICLE_REDIRECT_PARAMS)
 def test_article_redirects_query_params(url, expected_pattern, client):
     if not url.endswith('/'):
         url = client.get(add_utm_query_params(url)).url
@@ -144,6 +157,9 @@ redirects = [
     ('/uk/privacy-policy/', 'privacy-and-cookies'),
     ('/uk/terms-and-conditions/', 'terms-and-conditions'),
     ('/int/', 'landing-page-international'),
+    ('/uk/', 'landing-page'),
+    ('/in/', 'landing-page-international'),
+    ('/us/', 'landing-page-international')
 ]
 
 # add urls with no trailing slash

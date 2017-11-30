@@ -141,24 +141,45 @@ redirects = [
         name='redirect-terms-and-conditions-uk'
     ),
     url(
+        r'^uk/$',
+        core.views.TranslationRedirectView.as_view(
+            pattern_name='landing-page',
+        ),
+        name='redirect-uk'
+    ),
+    url(
         r'^int/$',
         core.views.TranslationRedirectView.as_view(
             pattern_name='landing-page-international',
         ),
         name='redirect-int'
+    ),
+    url(
+        r'^in/$',
+        core.views.TranslationRedirectView.as_view(
+            pattern_name='landing-page-international',
+        ),
+        name='redirect-in'
+    ),
+    url(
+        r'^us/$',
+        core.views.TranslationRedirectView.as_view(
+            pattern_name='landing-page-international',
+        ),
+        name='redirect-us'
     )
 ]
 
 
-# (<path>, <language to use in query parameter>)
-INTERNATIONAL_REDIRECTS_MAPPING = (
+# (<lang code path>, <language to use in query parameter>)
+INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING = [
     ('de', 'de'),
     ('ar', 'ar'),
     ('zh', 'zh-hans'),
     ('pt', 'pt'),
     ('es', 'es'),
     ('ja', 'ja'),
-)
+]
 international_redirects = [
     url(
         r'^int/{path}/$'.format(path=redirect[0]),
@@ -167,7 +188,13 @@ international_redirects = [
             language=redirect[1],
         ),
         name='redirect-int-{}'.format(redirect[0])
-    ) for redirect in INTERNATIONAL_REDIRECTS_MAPPING
+    ) for redirect in INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING
+]
+# (<country code path>, <language to use in query parameter>)
+INTERNATIONAL_COUNTRY_REDIRECTS_MAPPING = [
+    ('cn', 'zh-hans'),
+    ('br', 'pt'),
+    ('jp', 'ja'),
 ]
 international_redirects += [
     url(
@@ -177,7 +204,10 @@ international_redirects += [
             language=redirect[1],
         ),
         name='redirect-{path}'.format(path=redirect[0])
-    ) for redirect in INTERNATIONAL_REDIRECTS_MAPPING
+    ) for redirect in (
+        INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING +
+        INTERNATIONAL_COUNTRY_REDIRECTS_MAPPING
+    )
 ]
 
 
