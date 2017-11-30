@@ -22,7 +22,7 @@ msgstr ""
 #: core/templates/core/base_international.html:13
 #: core/templates/core/base_international.html:35
 msgid "International"
-msgstr ""
+msgstr "دولي"
 
 #: core/templates/core/base_international.html:34
 msgid "Skip to main content"
