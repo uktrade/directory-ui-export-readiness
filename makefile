@@ -75,6 +75,9 @@ DOCKER_SET_DEBUG_ENV_VARS := \
 	export DIRECTORY_UI_EXPORT_READINESS_SERVICES_FAB=http://buyer.trade.great.dev:8001; \
 	export DIRECTORY_UI_EXPORT_READINESS_SERVICES_GET_FINANCE=/get-finance; \
 	export DIRECTORY_UI_EXPORT_READINESS_SERVICES_SOO=http://soo.trade.great.dev:8008; \
+	export DIRECTORY_UI_EXPORT_READINESS_INFO_ABOUT=/about; \
+	export DIRECTORY_UI_EXPORT_READINESS_INFO_PRIVACY_AND_COOKIES=/privacy-and-cookies; \
+	export DIRECTORY_UI_EXPORT_READINESS_INFO_TERMS_AND_CONDITIONS=/terms-and-conditions; \
 	export DIRECTORY_UI_EXPORT_READINESS_SECURE_SSL_REDIRECT=false
 
 docker_test_env_files:
@@ -150,6 +153,9 @@ DEBUG_SET_ENV_VARS := \
 	export SERVICES_FAB=http://buyer.trade.great.dev:8001; \
 	export SERVICES_GET_FINANCE=/get-finance; \
 	export SERVICES_SOO=http://soo.trade.great.dev:8008; \
+	export INFO_ABOUT=/about; \
+	export INFO_PRIVACY_AND_COOKIES=/privacy-and-cookies; \
+	export INFO_TERMS_AND_CONDITIONS=/terms-and-conditions; \
 	export SECURE_SSL_REDIRECT=false
 
 debug_webserver:
