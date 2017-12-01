@@ -87,8 +87,9 @@
   }
   
   li {
-    display: inline;
-    float: none;
+    display: inline-block;
+    margin-right: $spacing-3;
+    white-space: nowrap;
   }
    
   p {
@@ -117,7 +118,6 @@
   }
   
   li {
-    float: left;
     margin-bottom: $spacing-3;
   }
   
@@ -154,16 +154,18 @@
   .languages {
 		border-bottom: none;
     border-right: $light-grey solid 1px;
-    float: left;
+    display: table-cell;
     margin-bottom: $spacing-3;
     padding: 0 $spacing-3 0 0;
+    vertical-align: top;
     width: $cols-8;
   }
 
   .domestic-redirect {
-    float: right;
+    display: table-cell;
     padding-left: $spacing-3;
     padding-top: 71px;
+    vertical-align: top;
     width: $cols-4;
 
     p {
@@ -225,54 +227,20 @@
 }
 
 
-// DESKTOP ONLY
-@media (min-width: 768px) {
-  .LanguageSelectorDialog-Modal {
-    .countries {
-      li {
-        @include items(4, $spacing-3);
-      }
-    }
-  
-    .languages {
-      li {
-        @include items(4, $spacing-3);
-      }
-    }
-  }
-}
-
-// TABLET
-@media (min-width: 481px) and (max-width: 767px) {
-  .LanguageSelectorDialog-Modal {
-    .countries {
-      li {
-        @include items(2, $spacing-3);
-      }
-    }
-  
-    .languages {
-      li {
-        @include items(3, $spacing-3);
-      }
-    }
-  }
-}
-
-
 // MOBILE
 @media screen and (max-width: 580px) {
   .LanguageSelectorDialog-Modal {
     .languages {
       border-bottom: $light-grey solid 1px;
       border-right: none;
-      float: none;
+      display: block;
       width: auto;
     }
 
     .domestic-redirect {
-      float: none;
+      display: block;
       padding-left: 0;
+      padding-top: 0;
       width: auto;
     }
   }
@@ -300,10 +268,6 @@
         min-height: 20px;
         padding: 0 0 0 30px;
       }
-      
-      li {
-        @include items(2, $spacing-3-m);
-      }
     }
 
     .domestic-redirect {
@@ -311,10 +275,6 @@
     }
 
     .languages {
-      li {
-        @include items(2, $spacing-4-m);
-      }
-     
       p {
         left: 0;
         top: $spacing-4-m;
