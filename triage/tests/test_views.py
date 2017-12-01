@@ -604,7 +604,7 @@ def test_custom_view_new_exporter(
             casestudies.YORK,
         ]
         assert soup.find('h1').text.strip() == (
-            'Use your potential - start exporting'
+            'Your Export Journey'
         )
 
 
@@ -685,7 +685,7 @@ def test_custom_view_occasional_exporter(
                 casestudies.YORK,
             ]
             assert soup.find('h1').text.strip() == (
-                'New customers are waiting - promote your business'
+                'Your Export Journey'
             )
 
 
@@ -735,7 +735,7 @@ def test_custom_view_regular_exporter(
             casestudies.YORK,
         ]
         assert soup.find('h1').text.strip() == (
-            'Choose your next market - Find new customers'
+            'Your Export Journey'
         )
 
 
