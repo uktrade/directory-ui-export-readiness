@@ -36,7 +36,7 @@ class TriageWizardFormView(NamedUrlSessionWizardView):
     REGULAR_EXPORTER = 'regular-exporter'
     ONLINE_MARKETPLACE = 'online-marketplace'
     COMPANY = 'company'
-    COMPANIES_HOUSE = 'companies_house'
+    COMPANIES_HOUSE = 'companies-house'
     SUMMARY = 'summary'
 
     form_list = (
