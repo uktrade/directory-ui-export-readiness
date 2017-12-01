@@ -35,11 +35,6 @@ urlpatterns = [
         name='landing-page-international'
     ),
     url(
-        r"^sorry/$",
-        core.views.SorryView.as_view(),
-        name='sorry'
-    ),
-    url(
         r"^not-found/$",
         TemplateView.as_view(template_name='core/not_found.html'),
         name='not-found'
