@@ -134,7 +134,3 @@ class TermsConditionsDomestic(SetEtagMixin, TemplateView):
 
 class TermsConditionsInternational(SetEtagMixin, TemplateView):
     template_name = 'core/terms_conditions-international.html'
-
-
-class SorryView(SetEtagMixin, TemplateView):
-    template_name = 'core/sorry.html'

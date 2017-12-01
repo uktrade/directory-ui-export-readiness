@@ -12,10 +12,6 @@ from django.urls import reverse
             '/international/'
         ),
         (
-            'sorry',
-            '/sorry/'
-        ),
-        (
             'not-found',
             '/not-found/'
         ),
