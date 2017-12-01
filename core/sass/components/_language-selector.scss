@@ -84,6 +84,7 @@
    
   a {
     @include body-s;
+    display: inline-block;
   }
   
   li {
