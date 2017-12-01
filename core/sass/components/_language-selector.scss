@@ -233,11 +233,14 @@
     .languages {
       border-bottom: $light-grey solid 1px;
       border-right: none;
+      display: block;
       width: auto;
     }
 
     .domestic-redirect {
+      display: block;
       padding-left: 0;
+      padding-top: 0;
       width: auto;
     }
   }
