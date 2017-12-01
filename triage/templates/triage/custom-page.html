@@ -12,15 +12,7 @@
 <section style="" class="hero-section {% if persona.name == 'NEW_EXPORTER' %}new{% elif persona.name == 'OCCASIONAL_EXPORTER' %}occasional{% elif persona.name == 'REGULAR_EXPORTER'%}regular{% endif %}">
     <div class="container">
         <div class="hero-teaser">
-            <h1 class="title">
-            {% if persona.name == 'NEW_EXPORTER' %}
-                Use your potential - start exporting
-            {% elif persona.name == 'OCCASIONAL_EXPORTER' %}
-                New customers are waiting - promote your business
-            {% elif persona.name == 'REGULAR_EXPORTER'%}
-                Choose your next market - Find new customers
-            {% endif %}
-            </h1>
+            <h1 class="title">Your Export Journey</h1>
             <p>We've gathered information, guidance and tools to help your business grow.</p>
             <a href="{% url 'triage-wizard' step='summary' %}?result" class="preferences">Update preferences</a>
         </div>
