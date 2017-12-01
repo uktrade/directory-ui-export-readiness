@@ -132,6 +132,7 @@
 {% endblock %}
 
 {% block bodyScripts %}
+   <script src="{% static 'js/geolocation.js' %}"></script>
    {# performing this operation on the browser instead of the server to allow caching the view's response and performance gains. #}
     <script type="text/javascript">
       var hasCompletedTriage = document.cookie.indexOf('{{ TRIAGE_COMPLETED_COOKIE_NAME }}=true') > -1;
