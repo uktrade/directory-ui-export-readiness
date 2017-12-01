@@ -59,7 +59,7 @@ class InternationalLandingPageView(
 
 class TranslationRedirectView(RedirectView):
     language = None
-    permanent = True
+    permanent = False
     query_string = True
 
     def get_redirect_url(self, *args, **kwargs):
