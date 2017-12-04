@@ -752,7 +752,7 @@ dit.components.menu = (new function() {
   // open menu before JS has kicked in to add dropdown functionality. This
   // will hide the menu when JS is on, and deactivate itself when the JS
   // enhancement functionality is ready.
-  dropdownViewInhibitor(true);
+  // dropdownViewInhibitor(true);
   function dropdownViewInhibitor(activate) {
     var rule = SELECTOR_MENU + " .level-2 { display: none; }";
     var style;
