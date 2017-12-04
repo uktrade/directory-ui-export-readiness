@@ -192,7 +192,15 @@
   
   Modal.prototype.open = function() {
     var self = this;
-    self.$container.css("top", window.scrollY + "px");
+    var top;
+    if (window.pageYOffset) {
+      top = window.pageYOffset;
+    }
+    else {
+      top = document.documentElement.scrollTop;
+    }
+
+    self.$container.css("top", top + "px");
     self.$container.addClass(CSS_CLASS_OPEN);
     self.$container.fadeIn(250, function () {
       self.$container.attr(ARIA_EXPANDED, true);
