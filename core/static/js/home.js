@@ -5,8 +5,7 @@
 // dit.js
 // dit.components.js
 //
-headerFooter.menu.init = function() {}
-dit.header = (new function () {
+dit.home = (new function () {
   // Page init
   this.init = function() {
     dit.responsive.init({
@@ -17,7 +16,6 @@ dit.header = (new function () {
 
     enhanceLanguageSelector();
     delete this.init; // Run once
-    dit.components.menu.init();
   }
 
   /* Find and enhance any Language Selector Dialog view
@@ -31,6 +29,6 @@ dit.header = (new function () {
 });
 
 $(document).ready(function() {
-  dit.header.init();
+  dit.home.init();
   dit.components.video.init();
 });
