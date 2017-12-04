@@ -3,16 +3,20 @@
 {% load static from staticfiles %}
 
 {% block js %}
+  <script src="{% static 'Dit-Pattern-Styling/public/js/script.js' %}"></script>
   <script src="{% static 'js/dit.js' %}"></script>
   <script src="{% static 'js/dit.class.modal.js' %}"></script>
   <script src="{% static 'js/dit.components.languageSelector.js' %}"></script>
   <script src="{% static 'js/dit.components.video.js' %}"></script>
   <script src="{% static 'js/home.js' %}"></script>
-  <script src="{% static 'Dit-Pattern-Styling/public/js/script.js' %}"></script>
 {% endblock %}
 
 {% block css %}
     <link href="{% static 'styles/home.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block head_title %}
+    Welcome to great.gov.uk - export guidance and services
 {% endblock %}
 
 {% block header_area %}
