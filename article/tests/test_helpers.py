@@ -230,6 +230,22 @@ def test_database_retrieve_article_update_from_session(
     )
 
 
+@patch('api_client.api_client.exportreadiness.create_article_read')
+@patch.object(helpers.DatabaseArticlesReadManager, 'retrieve_article_uuids')
+def test_database_retrieve_article_update_from_session_uses_uncached_method(
+        mock_retrieve_article_uuids,
+        mock_create_article_read,
+        sso_request,
+):
+    mock_retrieve_article_uuids.return_value = frozenset(('123', '345'))
+
+    key = helpers.SessionArticlesReadManager.SESSION_KEY
+    sso_request.session[key] = {'678', '123'}
+    helpers.DatabaseArticlesReadManager(sso_request)
+
+    assert mock_retrieve_article_uuids.call_count == 1
+
+
 @patch('api_client.api_client.exportreadiness.retrieve_article_read')
 def test_database_retrieve_article_read_handle_exceptions(
     mock_retrieve_article_read, sso_request,
