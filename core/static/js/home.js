@@ -5,6 +5,7 @@
 // dit.js
 // dit.components.js
 //
+headerFooter.menu.init = function() {}
 dit.header = (new function () {
   // Page init
   this.init = function() {

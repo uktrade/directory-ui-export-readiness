@@ -88,10 +88,6 @@ def test_robots(client):
             'core/landing_page_international.html'
         ),
         (
-            'sorry',
-            'core/sorry.html'
-        ),
-        (
             'not-found',
             'core/not_found.html'
         ),
@@ -218,10 +214,3 @@ def test_terms_and_conditions_view_international(client):
     assert response.template_name == [
         views.TermsConditionsInternational.template_name
     ]
-
-
-def test_sorry_view(client):
-    response = client.get(reverse('sorry'))
-
-    assert response.status_code == 200
-    assert response.template_name == [views.SorryView.template_name]
