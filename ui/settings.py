@@ -332,5 +332,5 @@ CORS_ORIGIN_WHITELIST = os.getenv('CORS_ORIGIN_WHITELIST', '').split(',')
 
 EXTERNAL_SERVICE_FEEDBACK_URL = os.getenv(
     'EXTERNAL_SERVICE_FEEDBACK_URL',
-    'https://contact-us.export.great.gov.uk/export_readiness/FeedbackForm',
+    'https://contact-us.export.great.gov.uk/directory/FeedbackForm',
 )
