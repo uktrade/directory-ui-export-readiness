@@ -137,6 +137,44 @@ dit.utils = (new function () {
     // No longer need the old ones
     $images.remove();
   }
+
+  this.getQuerystringParameter = function (name) {
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+    var results = regex.exec(window.location.href);
+    if (!results) {
+      return null;
+    }
+    if (!results[2]) {
+      return '';
+    }
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
+
+  this.setCookie = function(name, value, days) {
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      value += "; expires=" + date.toGMTString();
+    }
+    document.cookie = name + "=" + value + "; path=/";
+  }
+
+  this.getCookie = function(name) {
+    if (document.cookie.length > 0) {
+      var start = document.cookie.indexOf(name + "=");
+      if (start !== -1) {
+        start = start + name.length + 1;
+        var end = document.cookie.indexOf(";", start);
+        if (end == -1) {
+          end = document.cookie.length;
+        }
+        return unescape(document.cookie.substring(start, end));
+      }
+    }
+    return "";
+}
+
 });
 // Responsive Functionality.
 // Adds functionality to help control JS responsive code.
