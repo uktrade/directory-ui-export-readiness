@@ -159,7 +159,7 @@ class DatabaseArticlesReadManager(BaseArticleReadManager):
         """ Get the read articles from session and
             copies them to db if not there.
         """
-        articles_uuids_in_db = self.read_article_uuids
+        articles_uuids_in_db = self.retrieve_article_uuids()
         articles_uuids_in_session = self.get_read_articles_uuids_from_session()
         articles_uuids = articles_uuids_in_session - articles_uuids_in_db
         for uuid in articles_uuids:
