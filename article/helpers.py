@@ -1,6 +1,8 @@
 import abc
-import markdown2
+import logging
+
 from bs4 import BeautifulSoup
+import markdown2
 
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
@@ -10,6 +12,8 @@ from . import structure
 
 
 WORDS_PER_SECOND = 1.5  # Average word per second on screen
+
+log = logging.getLogger(__name__)
 
 
 def markdown_to_html(markdown_file_path, context={}):
@@ -111,9 +115,17 @@ class BaseArticleReadManager(abc.ABC):
 
 class ArticleReadManager:
     def __new__(cls, request):
+        session_manager = SessionArticlesReadManager(request)
+        database_manager = DatabaseArticlesReadManager(request)
+
         if request.sso_user is None:
-            return SessionArticlesReadManager(request)
-        return DatabaseArticlesReadManager(request)
+            return session_manager
+        uuids = session_manager.retrieve_article_uuids()
+        if uuids:
+            response = database_manager.bulk_persist_article(uuids)
+            if response.ok:
+                session_manager.clear()
+        return database_manager
 
 
 class SessionArticlesReadManager(BaseArticleReadManager):
@@ -133,40 +145,40 @@ class SessionArticlesReadManager(BaseArticleReadManager):
         uuids = self.request.session.get(self.SESSION_KEY, [])
         return frozenset(uuids)
 
+    def clear(self):
+        self.session[self.SESSION_KEY] = []
+
 
 class DatabaseArticlesReadManager(BaseArticleReadManager):
 
-    def __init__(self, request):
-        super().__init__(request)
-        self.transfer_article_progress()
+    article_uuids = frozenset()
 
     def persist_article(self, article_uuid):
         response = api_client.exportreadiness.create_article_read(
             article_uuid=article_uuid,
             sso_session_id=self.request.sso_user.session_id,
         )
-        assert response.ok, response.content
+        log_response(response)
+        return response
+
+    def bulk_persist_article(self, article_uuids):
+        response = api_client.exportreadiness.bulk_create_article_read(
+            article_uuids=article_uuids,
+            sso_session_id=self.request.sso_user.session_id,
+        )
+        log_response(response)
+
+        self.article_uuids = frozenset(
+            [article['article_uuid'] for article in response.json()]
+        )
+        return response
 
     def retrieve_article_uuids(self):
-        response = api_client.exportreadiness.retrieve_article_read(
-            sso_session_id=self.request.sso_user.session_id
-        )
-        response.raise_for_status()
-        uuids = [article['article_uuid'] for article in response.json()]
-        return frozenset(uuids)
+        # for performance gains (ED-2822) the articles are returned by API when
+        # bulk_persist_article was called by ArticleReadManager
+        return self.article_uuids
 
-    def transfer_article_progress(self):
-        """ Get the read articles from session and
-            copies them to db if not there.
-        """
-        # We can't use the cached read_articles_uuids because it
-        # creates this bug https://uktrade.atlassian.net/browse/ED-2807
-        articles_uuids_in_db = self.retrieve_article_uuids()
-        articles_uuids_in_session = self.get_read_articles_uuids_from_session()
-        articles_uuids = articles_uuids_in_session - articles_uuids_in_db
-        for uuid in articles_uuids:
-            self.persist_article(uuid)
 
-    def get_read_articles_uuids_from_session(self):
-        manager = SessionArticlesReadManager(self.request)
-        return manager.retrieve_article_uuids()
+def log_response(response):
+    if not response.ok:
+        log.warning('{0.status_code} {0.content}'.format(response))
