@@ -22,6 +22,10 @@ section {
   background-image: url('/static/images/hero/export-hp-hero-500.jpg');
 }
 
+.LanguageSelectorDialog-Modal ul li:first-child a:after{
+  content: " (International)";
+}
+
 .intro {
   ul {
     margin-bottom: 45px;
