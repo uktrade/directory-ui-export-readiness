@@ -60,6 +60,14 @@
           padding: 13px $spacing-4 0px $spacing-4;
         }
       }
+
+      // IE9+ CSS
+      @media screen and (min-width:0\0) and (min-resolution: +72dpi) {
+        & {
+          line-height: 35px;
+          padding: 22px $spacing-4 0px $spacing-4;
+        }
+      }
     }
   }
 }
