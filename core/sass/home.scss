@@ -22,6 +22,18 @@ section {
   background-image: url('/static/images/hero/export-hp-hero-500.jpg');
 }
 
+.beta {
+  padding: 10px 0;
+  @include body-s;
+  span {
+    background-color: $active-blue;
+    text-transform: uppercase;
+    color: $white;
+    padding: 3px 10px;
+    margin-right: $spacing-4;
+  }
+}
+
 .intro {
   ul {
     margin-bottom: 45px;
