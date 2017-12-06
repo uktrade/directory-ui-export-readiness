@@ -14,36 +14,53 @@
 
 
 .fact {
+  display: table;
+
   strong {
     color: $active-blue;
     display: block;
     font-family: $brand-font-alternative;
     font-size: 72px;
     font-weight: 400;
-    line-height: initial;
+    line-height: 1.2em;
+    white-space: nowrap;
   }
   
   .figure {
     border-left: $active-blue solid 5px;
-    float: right;
-    min-width: 290px;
+    display: table-cell;
+    min-width: 270px;
     padding-left: $spacing-3;
+    vertical-align: top;
     width: 30%;
   }
   
   .intro {
     @include body-xl;
-    float: left;
-    padding-right: $spacing-3;
-    width: 60%;
+    display: table-cell;
+    float: none;
+    padding-right: 15%;
+    width: 100%;
   }
 }
 
+
 // TABLET
+@media (max-width: 1024px) {
+  .fact {
+    .intro {
+      padding-right: 5%;
+    }
+  }
+}
+
 @media (max-width: 767px) {
   .fact {
+    display: block;
+
     .figure,
     .intro {
+      display: block;
       float: none;
       width: 100%;
     }
