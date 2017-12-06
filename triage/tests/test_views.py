@@ -459,7 +459,6 @@ def test_custom_view(
     mocked_retrieve_answers.return_value = triage_result
     url = reverse('custom-page')
     response = authed_client.get(url)
-    cookie = response.cookies.get(settings.TRIAGE_COMPLETED_COOKIE_NAME)
     assert response.status_code == 200
     assert response.template_name == ['triage/custom-page.html']
     assert response.context_data['triage_result'] == triage_result
@@ -478,7 +477,6 @@ def test_custom_view(
         'custom_persona_occasional': {'read': 0, 'total': 38},
         'custom_persona_regular': {'read': 0, 'total': 18},
     }
-    assert cookie.value == 'true'
 
 
 def test_triage_wizard(client):

@@ -13,14 +13,12 @@ from casestudy import casestudies
 
 
 def test_landing_page(client, settings):
-    settings.TRIAGE_COMPLETED_COOKIE_NAME = 'the-name'
     url = reverse('landing-page')
 
     response = client.get(url)
 
     assert response.status_code == 200
     assert response.template_name == [views.LandingPageView.template_name]
-    assert response.context_data['TRIAGE_COMPLETED_COOKIE_NAME'] == 'the-name'
     assert response.context_data['casestudies'] == [
         casestudies.MARKETPLACE,
         casestudies.HELLO_BABY,
