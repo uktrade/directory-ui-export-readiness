@@ -89,8 +89,14 @@
     }
  
     p {
-      margin-bottom: 0;
+      margin-bottom: $spacing-3;
       width: 75%;
+    }
+  }
+
+  .hero-campaign-teaser {
+    .title {
+      margin-bottom: $spacing-3;
     }
   }
 }
@@ -99,7 +105,7 @@
 // MOBILE
 @media (max-width: 540px) {
   .hero-campaign-section {
-    padding-top: $spacing-3;
+    padding-top: $spacing-3-m;
 
     img {
       bottom: initial;
@@ -110,34 +116,35 @@
     }
 
     p {
+      margin-bottom: $spacing-3-m;
       width: 100%;
     }
 
     .title {
-      margin-bottom: $spacing-3;
+      margin-bottom: $spacing-3-m;
     }
   }
 
-
   .hero-campaign-teaser {
-    padding-top: 140px;
+    padding-top: 90px;
   }
 }
 
 @media (max-width: 420px) {
   .hero-campaign-section {
-    padding-top: $spacing-3;
+    padding-top: $spacing-2-m;
   }
 
   .hero-campaign-teaser {
+    padding-top: 120px;
+
     .title {
       @include heading-hero-mob;
-      margin-bottom: $spacing-3;
       margin-top: 0;
       margin-left: 10px;
       span {
         margin-bottom: 2px;
-        padding: 5px $spacing-4;
+        padding: 5px $spacing-4-m;
 
         // firefox specific styling to fix how background colour is positioned in span tags
         @-moz-document url-prefix() {
