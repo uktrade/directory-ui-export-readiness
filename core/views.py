@@ -4,15 +4,26 @@ from django.utils.cache import set_response_etag
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 
-from triage.helpers import TriageAnswersManager
+from article.helpers import ArticleReadManager
 from casestudy import casestudies
+from triage.helpers import TriageAnswersManager
 from ui.views import TranslationsMixin
 
 
-class ArticleReadMixin:
+class ArticleReadManagerMixin:
+
+    article_read_manager = None
+
+    def create_article_manager(self, request):
+        return ArticleReadManager(request=request)
+
+    def dispatch(self, request, *args, **kwargs):
+        self.article_read_manager = self.create_article_manager(request)
+        return super().dispatch(request, *args, **kwargs)
+
     def get_article_group_progress_details(self):
         name = self.article_group.name
-        manager = self.request.article_read_manager
+        manager = self.article_read_manager
         read_article_uuids = manager.read_articles_keys_in_group(name)
         return {
             'read_article_uuids': read_article_uuids,

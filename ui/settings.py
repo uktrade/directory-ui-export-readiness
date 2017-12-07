@@ -67,7 +67,6 @@ MIDDLEWARE_CLASSES = [
     'ui.middleware.LocaleQuerystringMiddleware',
     'ui.middleware.PersistLocaleMiddleware',
     'ui.middleware.ForceDefaultLocale',
-    'core.middleware.ArticleReadManagerMiddlware',
 ]
 
 ROOT_URLCONF = 'ui.urls'
