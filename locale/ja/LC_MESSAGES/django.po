@@ -109,7 +109,7 @@ msgstr "https://trade.great.gov.uk/?lang=ja"
 
 #: core/templates/core/landing_page_international.html:21
 msgid "Find a Supplier"
-msgstr ""
+msgstr "サプライヤ検索"
 
 #: core/templates/core/landing_page_international.html:25
 msgid "Invest in the UK"
