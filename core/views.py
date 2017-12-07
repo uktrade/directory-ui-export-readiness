@@ -5,6 +5,7 @@ from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 
 from article.helpers import ArticleReadManager
+from article import structure
 from casestudy import casestudies
 from triage.helpers import TriageAnswersManager
 from ui.views import TranslationsMixin
@@ -47,8 +48,9 @@ class SetEtagMixin:
         return response
 
 
-class LandingPageView(TemplateView):
+class LandingPageView(ArticleReadManagerMixin, TemplateView):
     template_name = 'core/landing-page.html'
+    article_group = structure.ALL_ARTICLES
 
     def get_context_data(self, *args, **kwargs):
         answer_manager = TriageAnswersManager(self.request)
@@ -61,6 +63,9 @@ class LandingPageView(TemplateView):
                 casestudies.HELLO_BABY,
                 casestudies.YORK,
             ],
+            article_group_read_progress=(
+                self.article_read_manager.get_group_read_progress()
+            ),
         )
 
 
