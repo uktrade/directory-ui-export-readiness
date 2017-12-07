@@ -1,7 +1,6 @@
 from formtools.wizard.views import NamedUrlSessionWizardView
 from directory_constants.constants.exred_sector_names import CODES_SECTORS_DICT
 
-from django.conf import settings
 from django.core.urlresolvers import reverse_lazy
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -11,7 +10,7 @@ from django.views.generic import View
 
 from article import structure
 from casestudy import casestudies
-from core.views import ArticleReadMixin
+from core.views import ArticleReadManagerMixin
 from triage import forms, helpers
 
 
@@ -161,7 +160,7 @@ class TriageWizardFormView(NamedUrlSessionWizardView):
         return redirect(self.success_url)
 
 
-class CustomPageView(ArticleReadMixin, TemplateView):
+class CustomPageView(ArticleReadManagerMixin, TemplateView):
     http_method_names = ['get']
     template_name = 'triage/custom-page.html'
 
@@ -177,15 +176,7 @@ class CustomPageView(ArticleReadMixin, TemplateView):
                 kwargs={'step': TriageWizardFormView.SECTOR}
             )
             return redirect(url)
-        response = super().dispatch(request, *args, **kwargs)
-        response.set_cookie(
-            key=settings.TRIAGE_COMPLETED_COOKIE_NAME,
-            value='true',
-            max_age=settings.SESSION_COOKIE_AGE,
-            path=settings.SESSION_COOKIE_PATH,
-            domain=settings.SESSION_COOKIE_DOMAIN,
-        )
-        return response
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -199,7 +190,7 @@ class CustomPageView(ArticleReadMixin, TemplateView):
             casestudies.YORK,
         ]
         context['article_group_read_progress'] = (
-            self.request.article_read_manager.get_group_read_progress()
+            self.article_read_manager.get_group_read_progress()
         )
         sector_code = self.triage_answers['sector']
         # harmonised system codes begin with HS. Service codes begin with EB

@@ -15,7 +15,9 @@ from article import structure
 
 @pytest.fixture(autouse=True)
 def mock_retrive_articles_read():
-    mock = patch('api_client.api_client.exportreadiness.retrieve_article_read')
+    mock = patch(
+        'api_client.api_client.exportreadiness.bulk_create_article_read'
+    )
     mock.return_value = create_response(200, json_body=[])
     yield mock.start()
     mock.stop()
@@ -459,7 +461,6 @@ def test_custom_view(
     mocked_retrieve_answers.return_value = triage_result
     url = reverse('custom-page')
     response = authed_client.get(url)
-    cookie = response.cookies.get(settings.TRIAGE_COMPLETED_COOKIE_NAME)
     assert response.status_code == 200
     assert response.template_name == ['triage/custom-page.html']
     assert response.context_data['triage_result'] == triage_result
@@ -478,7 +479,6 @@ def test_custom_view(
         'custom_persona_occasional': {'read': 0, 'total': 38},
         'custom_persona_regular': {'read': 0, 'total': 18},
     }
-    assert cookie.value == 'true'
 
 
 def test_triage_wizard(client):

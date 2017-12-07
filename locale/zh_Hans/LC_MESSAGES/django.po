@@ -107,7 +107,7 @@ msgstr "https://trade.great.gov.uk/?lang=zh-hans"
 
 #: core/templates/core/landing_page_international.html:21
 msgid "Find a Supplier"
-msgstr ""
+msgstr "查找供应商"
 
 #: core/templates/core/landing_page_international.html:25
 msgid "Invest in the UK"

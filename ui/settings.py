@@ -67,7 +67,6 @@ MIDDLEWARE_CLASSES = [
     'ui.middleware.LocaleQuerystringMiddleware',
     'ui.middleware.PersistLocaleMiddleware',
     'ui.middleware.ForceDefaultLocale',
-    'core.middleware.ArticleReadManagerMiddlware',
 ]
 
 ROOT_URLCONF = 'ui.urls'
@@ -311,7 +310,6 @@ SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'true') == 'true'
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SECURE = True
-TRIAGE_COMPLETED_COOKIE_NAME = 'triage_show_continue_message'
 
 API_CLIENT_CLASSES = {
     'default': 'directory_api_client.client.DirectoryAPIClient',

@@ -19,14 +19,6 @@
     Welcome to great.gov.uk - export guidance and services
 {% endblock %}
 
-{% block header_area %}
-    {% include 'directory_header_footer/header_static.html' %}
-{% endblock %}
-
-{% block footer_area %}
-    {% include 'directory_header_footer/footer_static.html' %}
-{% endblock %}
-
 {% block content %}
   <section role="dialog" data-component="language-selector-dialog" data-lang="en" data-label="UK" data-name="English" class="language-selector-dialog">
     <p id="great-languages-selector">Go to our international site</p>
@@ -63,9 +55,11 @@
                         <li>export statistics to start your market research</li>
                         <li>access to services to help you export</li>
                     </ul>
-                    {# visibility changed by javascript #}
-                    <a id="begin-export-journey" href="{% url 'triage-wizard' step='sector' %}" class="button button-cta">Get started</a>
-                    <a id="continue-export-journey" href="{% url 'custom-page' %}" class="button button-cta" style="display: none;">Continue your export journey</a>
+                    {% if has_completed_triage %}
+                         <a href="{% url 'custom-page' %}" class="button button-cta">Continue your export journey</a>
+                    {% else %}
+                        <a href="{% url 'triage-wizard' step='sector' %}" class="button button-cta">Get started</a>
+                    {% endif %} 
                 </div>
             </div>
         </div>
@@ -138,12 +132,4 @@
 
 {% block bodyScripts %}
    <script src="{% static 'js/geolocation.js' %}"></script>
-   {# performing this operation on the browser instead of the server to allow caching the view's response and performance gains. #}
-    <script type="text/javascript">
-      var hasCompletedTriage = document.cookie.indexOf('{{ TRIAGE_COMPLETED_COOKIE_NAME }}=true') > -1;
-      var continueJourneyStyle = hasCompletedTriage ? 'inline-block' : 'none';
-      var beginJourneyStyle = hasCompletedTriage ? 'none' : 'inline-block';
-      document.getElementById('continue-export-journey').style.display = continueJourneyStyle;
-      document.getElementById('begin-export-journey').style.display = beginJourneyStyle;
-    </script>
 {% endblock bodyScripts %}
