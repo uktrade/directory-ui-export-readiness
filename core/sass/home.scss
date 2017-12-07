@@ -12,26 +12,19 @@
 @import './components/_carousel';
 @import './components/_teaser';
 @import './components/_language-selector-home';
+@import './components/_beta';
 
 
 section {
   padding-bottom: 90px;
 }
 
-.hero-campaign-section {
-  background-image: url('/static/images/hero/export-hp-hero-500.jpg');
+.beta {
+  background-color:  $white;
 }
 
-.beta {
-  padding: 10px 0;
-  @include body-s;
-  span {
-    background-color: $active-blue;
-    text-transform: uppercase;
-    color: $white;
-    padding: 3px 10px;
-    margin-right: $spacing-4;
-  }
+.hero-campaign-section {
+  background-image: url('/static/images/hero/export-hp-hero-500.jpg');
 }
 
 .intro {

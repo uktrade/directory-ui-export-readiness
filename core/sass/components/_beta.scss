@@ -1,0 +1,25 @@
+.beta {
+  @include body-s;
+  padding: 10px 0;
+  p {
+    margin: 0;
+  }
+  span {
+    background-color: $active-blue;
+    text-transform: uppercase;
+    color: $white;
+    padding: 3px 10px;
+    margin-right: $spacing-4;
+  }
+  .sticker {
+    width: 70px;
+    float: left;
+  }
+  .beta-message {
+    width: calc(100% - 70px);
+    float: left;
+  }
+  .container {
+    overflow: auto;
+  }
+}
