@@ -396,33 +396,30 @@ def test_inferred_return_to_article(client, group):
         assert category_element.text == group.title
 
 
-@patch('article.helpers.DatabaseArticlesReadManager.retrieve_article_uuids',
-       Mock(return_value=set()))
-@patch('article.helpers.DatabaseArticlesReadManager.persist_article')
+@patch('article.helpers.DatabaseArticlesReadManager.'
+       'retrieve_historic_article_uuids', Mock(return_value=set()))
+@patch('article.helpers.DatabaseArticlesReadManager.bulk_persist_article')
 def test_article_view_persist_article_logged_in_user(
-    mocked_persist_articles, authed_client
+    mock_bulk_persist_article, authed_client
 ):
     url = reverse('article-research-market')
     response = authed_client.get(url)
 
     assert response.status_code == 200
-    assert mocked_persist_articles.call_count == 1
-    assert mocked_persist_articles.call_args == call(
-        exred_articles.DO_RESEARCH_FIRST
+    assert mock_bulk_persist_article.call_count == 1
+    assert mock_bulk_persist_article.call_args == call(
+        article_uuids=set([exred_articles.DO_RESEARCH_FIRST]),
     )
 
 
 @patch('article.helpers.SessionArticlesReadManager.persist_article')
-def test_article_view_persist_article_anon_user(
-        mocked_persist_articles,
-        client
-):
+def test_article_view_persist_article_anon_user(mock_persist_articles, client):
     url = reverse('article-research-market')
     response = client.get(url)
 
     assert response.status_code == 200
-    assert mocked_persist_articles.call_count == 1
-    assert mocked_persist_articles.call_args == call(
+    assert mock_persist_articles.call_count == 1
+    assert mock_persist_articles.call_args == call(
         exred_articles.DO_RESEARCH_FIRST
     )
 
@@ -430,14 +427,15 @@ def test_article_view_persist_article_anon_user(
 @pytest.mark.parametrize('url,read_count,total_count,title,time,uuids', [
     (
         reverse('article-research-market'),
-        3,
+        4,
         len(structure.ALL_ARTICLES.articles),
         '',
-        6147,
-        frozenset([
+        6003,
+        set([
            articles.USE_DISTRIBUTOR.uuid,
            articles.GET_EXPORT_FINANCE.uuid,
            articles.GET_MONEY_TO_EXPORT.uuid,
+           articles.DO_RESEARCH_FIRST.uuid,
         ]),
     ),
     (
@@ -476,7 +474,10 @@ def test_article_view_persist_article_anon_user(
     ),
 ])
 @patch('article.helpers.SessionArticlesReadManager.persist_article', Mock)
-@patch('article.helpers.SessionArticlesReadManager.retrieve_article_uuids')
+@patch(
+    'article.helpers.SessionArticlesReadManager.'
+    'retrieve_historic_article_uuids'
+)
 def test_article_group_read_counter_with_source(
     mock_retrieve, client, url, read_count, total_count, title, time, uuids
 ):
