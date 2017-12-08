@@ -2,7 +2,6 @@ from unittest.mock import patch, call
 
 from directory_constants.constants import exred_articles
 import pytest
-import requests
 
 from article import articles, helpers, structure
 from core.tests.helpers import create_response
@@ -35,51 +34,65 @@ def articles_read():
     ]
 
 
-@patch('api_client.api_client.exportreadiness.retrieve_article_read')
-@patch('api_client.api_client.exportreadiness.create_article_read')
+@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
 def test_database_create_article_read_calls_api(
-        mock_create_article_read,
-        mock_retrieve_article_read,
-        sso_request,
-        sso_user
+    mock_bulk_create_article_read, sso_request, sso_user
 ):
-    mock_create_article_read.return_value = create_response(200)
+    mock_bulk_create_article_read.return_value = create_response(200)
 
     manager = helpers.DatabaseArticlesReadManager(sso_request)
-    manager.persist_article(article_uuid='123')
+    manager.bulk_persist_article(article_uuids=['123'])
 
-    assert mock_create_article_read.call_count == 1
-    assert mock_create_article_read.call_args == call(
-        article_uuid='123',
+    assert mock_bulk_create_article_read.call_count == 1
+    assert mock_bulk_create_article_read.call_args == call(
+        article_uuids=['123'],
         sso_session_id=sso_user.session_id,
     )
 
 
-@patch('api_client.api_client.exportreadiness.retrieve_article_read')
-@patch('api_client.api_client.exportreadiness.create_article_read')
-def test_database_create_article_read_handle_exceptions(
-        mock_create_article_read,
-        mock_retrieve_article_read,
-        sso_request,
+@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
+def test_database_bulk_create_article_read_calls_api(
+    mock_bulk_create_article_read, sso_request, sso_user
 ):
-    mock_create_article_read.return_value = create_response(400)
+    mock_bulk_create_article_read.return_value = create_response(200)
+
     manager = helpers.DatabaseArticlesReadManager(sso_request)
+    manager.bulk_persist_article(article_uuids=[1, 2, 3])
 
-    with pytest.raises(requests.HTTPError):
-        manager.persist_article(article_uuid='123')
+    assert mock_bulk_create_article_read.call_count == 1
+    assert mock_bulk_create_article_read.call_args == call(
+        article_uuids=[1, 2, 3],
+        sso_session_id=sso_user.session_id,
+    )
 
 
-@patch('api_client.api_client.exportreadiness.retrieve_article_read')
-def test_database_article_read_count(
-        mock_retrieve_article_read,
-        sso_request,
-        articles_read
+@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
+def test_database_create_article_read_handle_exceptions(
+    mock_bulk_create_article_read, sso_request, caplog
 ):
-    mock_retrieve_article_read.return_value = create_response(
+    mock_bulk_create_article_read.return_value = create_response(
+        400, content='{"error": "bad"}'
+    )
+    manager = helpers.DatabaseArticlesReadManager(sso_request)
+    manager.bulk_persist_article(article_uuids=['123'])
+
+    log = caplog.records[0]
+    assert log.levelname == 'WARNING'
+    assert log.msg == '400 {"error": "bad"}'
+
+
+@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
+def test_database_article_read_count(
+    mock_bulk_create_article_read, sso_request, articles_read
+):
+    mock_bulk_create_article_read.return_value = create_response(
         200, json_body=articles_read
     )
-    group_key = structure.GUIDANCE_GETTING_PAID_ARTICLES.name
     manager = helpers.DatabaseArticlesReadManager(sso_request)
+    # trigger the caching of the articles
+    manager.bulk_persist_article([])
+
+    group_key = structure.GUIDANCE_GETTING_PAID_ARTICLES.name
     count = manager.article_read_count(group_key)
     articles_uuids = manager.read_articles_keys_in_group(group_key)
     assert sorted(list(articles_uuids)) == [
@@ -89,15 +102,18 @@ def test_database_article_read_count(
     assert count == 2
 
 
-@patch('api_client.api_client.exportreadiness.retrieve_article_read')
+@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
 def test_database_get_group_read_progress(
-    mock_retrieve_article_read, sso_request, articles_read
+    mock_bulk_create_article_read, sso_request, articles_read
 ):
-    mock_retrieve_article_read.return_value = create_response(
+    mock_bulk_create_article_read.return_value = create_response(
         200, json_body=articles_read
     )
+    # trigger the caching of the articles
+    sso_request.session[helpers.SessionArticlesReadManager.SESSION_KEY] = [1]
 
     manager = helpers.ArticleReadManager(sso_request)
+
     actual = manager.get_group_read_progress()
     assert actual == {
         'all': {'read': 3, 'total': 45},
@@ -141,101 +157,98 @@ def test_session_get_group_read_progress(anon_request, articles_read):
     }
 
 
-@patch('api_client.api_client.exportreadiness.retrieve_article_read')
-def test_database_remaining_reading_time_in_group(
-    mock_retrieve_article_read, sso_request, articles_read
+@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
+def test_article_read_manager_synchronises_articles(
+    mock_bulk_create_article_read, sso_request, sso_user,
 ):
-    mock_retrieve_article_read.return_value = create_response(
+    session_key = helpers.SessionArticlesReadManager.SESSION_KEY
+    sso_request.session[session_key] = [1, 2, 3]
+    mock_bulk_create_article_read.return_value = create_response(200)
+
+    helpers.ArticleReadManager(sso_request)
+
+    assert mock_bulk_create_article_read.call_count == 1
+    assert mock_bulk_create_article_read.call_args == call(
+        article_uuids=frozenset([1, 2, 3]),
+        sso_session_id=sso_user.session_id,
+    )
+
+    assert sso_request.session[session_key] == []
+
+
+@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
+def test_article_read_manager_handles_no_read_articles_on_synchronisation(
+    mock_bulk_create_article_read, sso_request, sso_user,
+):
+    session_key = helpers.SessionArticlesReadManager.SESSION_KEY
+    sso_request.session[session_key] = []
+    mock_bulk_create_article_read.return_value = create_response(200)
+
+    helpers.ArticleReadManager(sso_request)
+
+    # call the api method anyway - because the response contains the list of
+    # read articles
+    assert mock_bulk_create_article_read.call_count == 1
+
+    assert sso_request.session[session_key] == []
+
+
+@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
+def test_article_read_manager_not_clear_session_on_api_error(
+    mock_bulk_create_article_read, sso_request, sso_user, caplog
+):
+    session_key = helpers.SessionArticlesReadManager.SESSION_KEY
+    sso_request.session[session_key] = [1, 2, 3]
+    mock_bulk_create_article_read.return_value = create_response(
+        400, content='validation error'
+    )
+
+    helpers.ArticleReadManager(sso_request)
+
+    assert sso_request.session[session_key] == [1, 2, 3]
+
+    log = caplog.records[0]
+    assert log.levelname == 'WARNING'
+    assert log.msg == '400 validation error'
+
+
+@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
+def test_database_remaining_reading_time_in_group(
+    mock_bulk_create_article_read, sso_request, articles_read
+):
+    mock_bulk_create_article_read.return_value = create_response(
         200, json_body=articles_read
     )
 
     manager = helpers.DatabaseArticlesReadManager(sso_request)
+    # trigger the caching of the articles
+    manager.bulk_persist_article([])
+
     time_left = manager.remaining_reading_time_in_group(
         structure.PERSONA_OCCASIONAL_ARTICLES.name
     )
 
-    assert time_left == 5400
+    assert time_left == 5397
 
 
-@patch('api_client.api_client.exportreadiness.retrieve_article_read')
-def test_database_retrieve_article_read_api_call(
-    mock_retrieve_article_read, sso_request, sso_user,
+@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
+def test_database_retrieve_article_returns_bulk_create_response(
+    mock_bulk_create_article_read, sso_request, sso_user, articles_read
 ):
-    mock_retrieve_article_read.return_value = create_response(
-        200, json_body=[
-            {
-                'created': '2016-11-23T11:21:10.977518Z',
-                'id': '1',
-                'modified': '2016-11-23T11:21:10.977518Z',
-                'sso_id': '999',
-                'article_uuid': '123'
-            },
-            {
-                'created': '2016-11-23T11:21:10.977518Z',
-                'id': '2',
-                'modified': '2016-11-23T11:21:10.977518Z',
-                'sso_id': '999',
-                'article_uuid': '345'
-            }
-        ]
+    mock_bulk_create_article_read.return_value = create_response(
+        200, json_body=articles_read
     )
 
     manager = helpers.DatabaseArticlesReadManager(sso_request)
-    articles = manager.retrieve_article_uuids()
 
-    assert articles == {'123', '345'}
-    assert mock_retrieve_article_read.call_count == 2
-    assert mock_retrieve_article_read.call_args == call(
-        sso_session_id=sso_user.session_id,
-    )
+    # trigger the caching of the articles
+    manager.bulk_persist_article([])
 
-
-@patch('api_client.api_client.exportreadiness.create_article_read')
-@patch('api_client.api_client.exportreadiness.retrieve_article_read')
-def test_database_retrieve_article_update_from_session(
-        mock_retrieve_article_read,
-        mock_create_article_read,
-        sso_request,
-        sso_user,
-):
-    mock_retrieve_article_read.return_value = create_response(
-        200, json_body=[
-            {
-                'created': '2016-11-23T11:21:10.977518Z',
-                'id': '1',
-                'modified': '2016-11-23T11:21:10.977518Z',
-                'sso_id': '999',
-                'article_uuid': '123'
-            },
-            {
-                'created': '2016-11-23T11:21:10.977518Z',
-                'id': '2',
-                'modified': '2016-11-23T11:21:10.977518Z',
-                'sso_id': '999',
-                'article_uuid': '345'
-            }
-        ]
-    )
-
-    key = helpers.SessionArticlesReadManager.SESSION_KEY
-    sso_request.session[key] = {'678', '123'}
-    helpers.DatabaseArticlesReadManager(sso_request)
-
-    assert mock_create_article_read.call_count == 1
-    assert mock_create_article_read.call_args == call(
-        article_uuid='678', sso_session_id=sso_user.session_id,
-    )
-
-
-@patch('api_client.api_client.exportreadiness.retrieve_article_read')
-def test_database_retrieve_article_read_handle_exceptions(
-    mock_retrieve_article_read, sso_request,
-):
-    mock_retrieve_article_read.return_value = create_response(400)
-
-    with pytest.raises(requests.HTTPError):
-        manager = helpers.DatabaseArticlesReadManager(sso_request)
-        manager.retrieve_article_uuids()
+    assert manager.retrieve_historic_article_uuids() == {
+        articles_read[0]['article_uuid'],
+        articles_read[1]['article_uuid'],
+        articles_read[2]['article_uuid'],
+    }
 
 
 def test_session_article_manager_stores_in_session_no_existing_articles(
@@ -266,7 +279,7 @@ def test_session_article_manager_retrieves_from_session(anon_request):
     assert anon_request.session[key] == ['123']
 
     manager = helpers.SessionArticlesReadManager(anon_request)
-    answers = manager.retrieve_article_uuids()
+    answers = manager.retrieve_historic_article_uuids()
 
     assert answers == {'123'}
 
@@ -311,7 +324,7 @@ def test_session_remaining_reading_time_in_group(anon_request):
         structure.PERSONA_OCCASIONAL_ARTICLES.name
     )
 
-    assert time_left == 5037
+    assert time_left == 5032
 
 
 def test_filter_lines():

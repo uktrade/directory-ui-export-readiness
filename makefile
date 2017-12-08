@@ -10,13 +10,14 @@ test_requirements:
 FLAKE8 := flake8 . --exclude=migrations,.venv,node_modules
 PYTEST := pytest . --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
 COLLECT_STATIC := python manage.py collectstatic --noinput
+COMPILE_TRANSLATIONS := python manage.py compilemessages
 CODECOV := \
 	if [ "$$CODECOV_REPO_TOKEN" != "" ]; then \
 	   codecov --token=$$CODECOV_REPO_TOKEN ;\
 	fi
 
 test:
-	$(COLLECT_STATIC) && $(FLAKE8) && $(PYTEST) && $(CODECOV)
+	$(COLLECT_STATIC) && $(COMPILE_TRANSLATIONS) && $(FLAKE8) && $(PYTEST) && $(CODECOV)
 
 DJANGO_WEBSERVER := \
 	python manage.py collectstatic --noinput && \
@@ -74,6 +75,9 @@ DOCKER_SET_DEBUG_ENV_VARS := \
 	export DIRECTORY_UI_EXPORT_READINESS_SERVICES_FAB=http://buyer.trade.great.dev:8001; \
 	export DIRECTORY_UI_EXPORT_READINESS_SERVICES_GET_FINANCE=/get-finance; \
 	export DIRECTORY_UI_EXPORT_READINESS_SERVICES_SOO=http://soo.trade.great.dev:8008; \
+	export DIRECTORY_UI_EXPORT_READINESS_INFO_ABOUT=/about; \
+	export DIRECTORY_UI_EXPORT_READINESS_INFO_PRIVACY_AND_COOKIES=/privacy-and-cookies; \
+	export DIRECTORY_UI_EXPORT_READINESS_INFO_TERMS_AND_CONDITIONS=/terms-and-conditions; \
 	export DIRECTORY_UI_EXPORT_READINESS_SECURE_SSL_REDIRECT=false
 
 docker_test_env_files:
@@ -149,6 +153,9 @@ DEBUG_SET_ENV_VARS := \
 	export SERVICES_FAB=http://buyer.trade.great.dev:8001; \
 	export SERVICES_GET_FINANCE=/get-finance; \
 	export SERVICES_SOO=http://soo.trade.great.dev:8008; \
+	export INFO_ABOUT=/about; \
+	export INFO_PRIVACY_AND_COOKIES=/privacy-and-cookies; \
+	export INFO_TERMS_AND_CONDITIONS=/terms-and-conditions; \
 	export SECURE_SSL_REDIRECT=false
 
 debug_webserver:
@@ -159,6 +166,9 @@ debug_pytest:
 
 debug_test:
 	$(DEBUG_SET_ENV_VARS) && $(COLLECT_STATIC) && $(FLAKE8) && $(PYTEST) --cov-report=html
+
+debug_test_last_failed:
+	make debug_test pytest_args='--last-failed'
 
 debug_manage:
 	$(DEBUG_SET_ENV_VARS) && ./manage.py $(cmd)

@@ -129,6 +129,7 @@
   left: $spacing-3;
   margin-top: $spacing-3;
   position: absolute;
+  top: $spacing-3;
   width: calc(100% - (#{$spacing-3 * 2}));
 
   .close {
@@ -144,6 +145,10 @@
     text-decoration: underline;
     top: 0;
     z-index: 1;
+
+    &:focus {
+      @include focus;
+    }
   }
 
   .content {

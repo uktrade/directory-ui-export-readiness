@@ -15,7 +15,9 @@ from article import structure
 
 @pytest.fixture(autouse=True)
 def mock_retrive_articles_read():
-    mock = patch('api_client.api_client.exportreadiness.retrieve_article_read')
+    mock = patch(
+        'api_client.api_client.exportreadiness.bulk_create_article_read'
+    )
     mock.return_value = create_response(200, json_body=[])
     yield mock.start()
     mock.stop()
@@ -76,7 +78,7 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
     assert mock_persist_answers.call_count == 1
     assert mock_persist_answers.call_args == call({
         'company_name': 'Example corp',
-        'used_online_marketplace': None,
+        'used_online_marketplace': '',
         'exported_before': True,
         'regular_exporter': True,
         'sector': 'HS01',
@@ -211,7 +213,7 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
         'company_name': 'Example corp',
         'exported_before': False,
         'sector': 'HS01',
-        'used_online_marketplace': None,
+        'used_online_marketplace': '',
         'regular_exporter': False,
     })
 
@@ -459,7 +461,6 @@ def test_custom_view(
     mocked_retrieve_answers.return_value = triage_result
     url = reverse('custom-page')
     response = authed_client.get(url)
-    cookie = response.cookies.get(settings.TRIAGE_COMPLETED_COOKIE_NAME)
     assert response.status_code == 200
     assert response.template_name == ['triage/custom-page.html']
     assert response.context_data['triage_result'] == triage_result
@@ -478,7 +479,6 @@ def test_custom_view(
         'custom_persona_occasional': {'read': 0, 'total': 38},
         'custom_persona_regular': {'read': 0, 'total': 18},
     }
-    assert cookie.value == 'true'
 
 
 def test_triage_wizard(client):
@@ -603,11 +603,8 @@ def test_custom_view_new_exporter(
             casestudies.HELLO_BABY,
             casestudies.YORK,
         ]
-        assert soup.find('h1').text.replace('\n', '') == (
-            'Use your'
-            'potential -'
-            'start'
-            'exporting'
+        assert soup.find('h1').text.strip() == (
+            'Your Export Journey'
         )
 
 
@@ -687,11 +684,8 @@ def test_custom_view_occasional_exporter(
                 casestudies.HELLO_BABY,
                 casestudies.YORK,
             ]
-            assert soup.find('h1').text.replace('\n', '') == (
-                'New customers'
-                'are waiting -'
-                'promote your'
-                'business'
+            assert soup.find('h1').text.strip() == (
+                'Your Export Journey'
             )
 
 
@@ -740,11 +734,8 @@ def test_custom_view_regular_exporter(
             casestudies.HELLO_BABY,
             casestudies.YORK,
         ]
-        assert soup.find('h1').text.replace('\n', '') == (
-            'Choose your'
-            'next market -'
-            'Find new'
-            'customers'
+        assert soup.find('h1').text.strip() == (
+            'Your Export Journey'
         )
 
 
@@ -827,3 +818,18 @@ def test_triage_step_labels(mock_persist_answers, client):
     assert b'Question 3' in response_three_get.content
     assert b'Question 4' in response_four_get.content
     assert b'Question 5' in response_five_get.content
+
+
+def test_get_summary_page_direct_link_should_redirect_to_triage(client):
+    view_class = views.TriageWizardFormView
+    url = reverse('triage-wizard', kwargs={'step': view_class.SUMMARY})
+    view_name = 'triage_wizard_form_view'
+
+    response = client.get(url, {
+        view_name + '-current_step': view_class.SUMMARY,
+    })
+    assert response.status_code == 302
+    assert response.url == reverse(
+        'triage-wizard',
+        kwargs={'step': view_class.SECTOR}
+    )

@@ -58,7 +58,7 @@ class RegularExporterForm(BaseTriageForm):
 
 class OnlineMarketplaceForm(BaseTriageForm):
     used_online_marketplace = forms.TypedChoiceField(
-        label='Do you use online marketplace to sell your products?',
+        label='Do you use online marketplaces to sell your products?',
         label_suffix='',
         coerce=lambda x: x == 'True',
         choices=[(True, 'Yes'), (False, 'No')],
@@ -150,7 +150,7 @@ def serialize_triage_form(data):
         'sector': data['sector'],
         'exported_before': data['exported_before'],
         'regular_exporter': data.get('regular_exporter') or False,
-        'used_online_marketplace': data.get('used_online_marketplace'),
+        'used_online_marketplace': data.get('used_online_marketplace', ''),
         'company_name': data.get('company_name', ''),
         'company_number': data.get('company_number', ''),
         'is_in_companies_house': data['is_in_companies_house'],

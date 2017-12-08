@@ -1,0 +1,166 @@
+// Hero Banner Component Template
+// -------------------------------
+
+.hero-campaign-section {
+  background-color: $grey;
+  background-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
+  background-position: top center;
+  background-repeat: no-repeat;
+  min-height: 500px;
+  padding: 0;
+  position: relative;
+
+  img {
+    float: right;
+    height: 90px;
+  }
+
+  p {
+    width: 50%;
+  }
+
+  .container {
+    position: relative;
+  }
+
+  &:before {
+    background-image: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.7) 100%);
+    content: "";
+    height: 500px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 2000px;
+  }
+}
+
+.hero-campaign-teaser {
+  padding: $spacing-2 0 0 0;
+
+  p {
+    color: $white;
+  }
+
+  .title {
+    @include heading-hero;
+    color: $white;
+    display: inline-block;
+    margin-bottom: $spacing-1;
+    text-transform: uppercase;
+
+    span {
+      background-color: $great-red;
+      display: inline-block;
+      margin: 0 0 5px -#{$spacing-4};
+      padding: 8px $spacing-4 5px $spacing-4;
+
+      // firefox specific styling to fix how background colour is positioned in span tags
+      @-moz-document url-prefix() {
+        & {
+          padding: 13px $spacing-4 0px $spacing-4;
+        }
+      }
+
+      // IE9+ CSS
+      @media screen and (min-width:0\0) and (min-resolution: +72dpi) {
+        & {
+          line-height: 35px;
+          padding: 22px $spacing-4 0px $spacing-4;
+        }
+      }
+    }
+  }
+}
+
+
+// TABLET
+@media (max-width: 1024px) {
+  .hero-campaign-section {
+    p {
+      width: 65%;
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .hero-campaign-section {
+    img {
+      height: 70px;
+    }
+ 
+    p {
+      margin-bottom: $spacing-3;
+      width: 75%;
+    }
+  }
+
+  .hero-campaign-teaser {
+    .title {
+      margin-bottom: $spacing-3;
+    }
+  }
+}
+
+
+// MOBILE
+@media (max-width: 540px) {
+  .hero-campaign-section {
+    padding-top: $spacing-3-m;
+
+    img {
+      bottom: initial;
+      left: 0;
+      position: absolute;
+      right: initial;
+      top: 0;
+    }
+
+    p {
+      margin-bottom: $spacing-3-m;
+      width: 100%;
+    }
+
+    .title {
+      margin-bottom: $spacing-3-m;
+    }
+  }
+
+  .hero-campaign-teaser {
+    padding-top: 90px;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-campaign-section {
+    padding-top: $spacing-2-m;
+  }
+
+  .hero-campaign-teaser {
+    padding-top: 120px;
+
+    .title {
+      @include heading-hero-mob;
+      margin-top: 0;
+      margin-left: 10px;
+      span {
+        margin-bottom: 2px;
+        padding: 5px $spacing-4-m;
+
+        // firefox specific styling to fix how background colour is positioned in span tags
+        @-moz-document url-prefix() {
+          & {
+            padding: 8px $spacing-4 1px $spacing-4;
+          }
+        }
+
+        // IE9+ CSS
+        @media screen and (min-width:0\0) and (min-resolution: +72dpi) {
+          & {
+            line-height: 25px;
+            padding: 15px 10px 0 10px;
+          }
+        }
+      }
+    }
+  }
+}

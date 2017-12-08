@@ -13,6 +13,7 @@
   
   .link {
     @include heading-s;
+    background-color: $white;
     display: block;
     margin: 0;
     padding: $spacing-3;
@@ -41,7 +42,6 @@
     }
     
     .link {
-      background-color: $white;
       position: relative;
     }
   }

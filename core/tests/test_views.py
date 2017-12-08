@@ -1,30 +1,44 @@
 import http
 
+from django.core.urlresolvers import reverse
+from django.conf import settings
+from django.views.generic import TemplateView
+
 from bs4 import BeautifulSoup
 import pytest
 import requests_mock
 
-from django.core.urlresolvers import reverse
-from django.conf import settings
-from django.views.generic import TemplateView
 from core import views
 from casestudy import casestudies
 
 
 def test_landing_page(client, settings):
-    settings.TRIAGE_COMPLETED_COOKIE_NAME = 'the-name'
     url = reverse('landing-page')
 
     response = client.get(url)
 
     assert response.status_code == 200
     assert response.template_name == [views.LandingPageView.template_name]
-    assert response.context_data['TRIAGE_COMPLETED_COOKIE_NAME'] == 'the-name'
     assert response.context_data['casestudies'] == [
         casestudies.MARKETPLACE,
         casestudies.HELLO_BABY,
         casestudies.YORK,
     ]
+    assert response.context_data['article_group_read_progress'] == {
+        'all': {'read': 0, 'total': 45},
+        'business_planning': {'read': 0, 'total': 11},
+        'customer_insights': {'read': 0, 'total': 4},
+        'finance': {'read': 0, 'total': 7},
+        'getting_paid': {'read': 0, 'total': 5},
+        'market_research': {'read': 0, 'total': 5},
+        'operations_and_compliance': {'read': 0, 'total': 10},
+        'persona_new': {'read': 0, 'total': 18},
+        'persona_occasional': {'read': 0, 'total': 38},
+        'persona_regular': {'read': 0, 'total': 18},
+        'custom_persona_new': {'read': 0, 'total': 18},
+        'custom_persona_occasional': {'read': 0, 'total': 38},
+        'custom_persona_regular': {'read': 0, 'total': 18},
+    }
 
 
 def test_interstitial_page_exopps(client):
@@ -63,13 +77,37 @@ def test_robots(client):
 @pytest.mark.parametrize(
     'view,expected_template',
     (
-        ('about', 'core/about.html'),
-        ('privacy-cookies', 'core/privacy_cookies.html'),
-        ('landing-page-international', 'core/landing_page_international.html'),
-        ('sorry', 'core/sorry.html'),
-        ('not-found', 'core/not_found.html'),
-        ('terms-conditions', 'core/terms_conditions.html'),
-        ('get-finance', 'core/get_finance.html')
+        (
+            'about',
+            'core/about.html'
+        ),
+        (
+            'privacy-and-cookies',
+            'core/privacy_cookies-domestic.html'
+        ),
+        (
+            'privacy-and-cookies-international',
+            'core/privacy_cookies-international.html'),
+        (
+            'terms-and-conditions',
+            'core/terms_conditions-domestic.html'
+        ),
+        (
+            'terms-and-conditions-international',
+            'core/terms_conditions-international.html'
+        ),
+        (
+            'landing-page-international',
+            'core/landing_page_international.html'
+        ),
+        (
+            'not-found',
+            'core/not_found.html'
+        ),
+        (
+            'get-finance',
+            'core/get_finance.html'
+        )
     )
 )
 def test_templates(view, expected_template, client):
@@ -90,18 +128,6 @@ def test_international_landing_view_translations(lang, client):
 
     assert response.status_code == http.client.OK
     assert response.cookies['django_language'].value == lang
-
-
-def test_international_landing_view_translations_bidi(client):
-    response = client.get(
-        reverse('landing-page-international'),
-        {'lang': 'ar'}
-    )
-
-    assert response.status_code == http.client.OK
-    assert response.template_name == [
-        views.InternationalLandingPageView.template_name_bidi
-    ]
 
 
 @pytest.mark.parametrize('method,expected', (
@@ -167,22 +193,37 @@ def test_about_view(client):
     assert response.template_name == [views.AboutView.template_name]
 
 
-def test_privacy_view(client):
-    response = client.get(reverse('privacy-cookies'))
+def test_privacy_view_domestic(client):
+    response = client.get(reverse('privacy-and-cookies'))
 
     assert response.status_code == 200
-    assert response.template_name == [views.PrivacyCookies.template_name]
+    assert response.template_name == [
+        views.PrivacyCookiesDomestic.template_name
+    ]
 
 
-def test_terms_and_conditions_view(client):
-    response = client.get(reverse('terms-conditions'))
-
-    assert response.status_code == 200
-    assert response.template_name == [views.TermsConditions.template_name]
-
-
-def test_sorry_view(client):
-    response = client.get(reverse('sorry'))
+def test_terms_and_conditions_view_domestic(client):
+    response = client.get(reverse('terms-and-conditions'))
 
     assert response.status_code == 200
-    assert response.template_name == [views.SorryView.template_name]
+    assert response.template_name == [
+        views.TermsConditionsDomestic.template_name
+    ]
+
+
+def test_privacy_view_international(client):
+    response = client.get(reverse('privacy-and-cookies-international'))
+
+    assert response.status_code == 200
+    assert response.template_name == [
+        views.PrivacyCookiesInternational.template_name
+    ]
+
+
+def test_terms_and_conditions_view_international(client):
+    response = client.get(reverse('terms-and-conditions-international'))
+
+    assert response.status_code == 200
+    assert response.template_name == [
+        views.TermsConditionsInternational.template_name
+    ]

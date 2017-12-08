@@ -48,6 +48,9 @@
   iframe,
   video {
     width: 100%;
+    &:focus {
+      @include focus;
+    }
   }
 
   .close {

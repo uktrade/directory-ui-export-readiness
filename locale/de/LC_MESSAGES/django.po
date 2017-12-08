@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-23 17:31+0000\n"
+"POT-Creation-Date: 2017-12-04 13:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,133 +19,157 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: core/templates/core/base_international.html:13
-msgid "International - GREAT.gov.uk"
+#: core/templates/core/base_international.html:37
+msgid "International"
 msgstr ""
 
-#: core/templates/core/base_international.html:34
+#: core/templates/core/base_international.html:36
 msgid "Skip to main content"
 msgstr ""
 
-#: core/templates/core/base_international.html:37
+#: core/templates/core/base_international.html:39
 msgid "Choose your language"
 msgstr ""
 
-#: core/templates/core/base_international.html:45
+#: core/templates/core/base_international.html:52
 msgid "English (UK)"
 msgstr ""
 
-#: core/templates/core/base_international.html:45
+#: core/templates/core/base_international.html:55
 msgid "Get guidance and services to help you export."
 msgstr ""
 
-#: core/templates/core/base_international.html:51
-msgid "Department for International Trade"
-msgstr ""
-
-#: core/templates/core/base_international.html:58
-#: core/templates/core/base_international.html:70
-msgid "HM Government"
-msgstr ""
-
-#: core/templates/core/base_international.html:59
-msgid "Great Britain and Northern Ireland"
-msgstr ""
-
-#: core/templates/core/base_international.html:75
-msgid "Privacy and cookies"
-msgstr ""
-
-#: core/templates/core/base_international.html:76
-msgid "Terms and Conditions"
-msgstr ""
-
+#: core/templates/core/base_international.html:68
 #: core/templates/core/base_international.html:79
+msgid "UK Government"
+msgstr ""
+
+#: core/templates/core/base_international.html:83
+msgid "Privacy and cookies"
+msgstr "Datenschutz- und Cookies-Richtlinie"
+
+#: core/templates/core/base_international.html:84
+msgid "Terms and Conditions"
+msgstr "GREAT.gov.uk Allgemeine Geschäftsbedingungen"
+
+#: core/templates/core/base_international.html:87
 msgid "Share"
 msgstr ""
 
-#: core/templates/core/base_international.html:80
+#: core/templates/core/base_international.html:88
+#: core/templates/core/base_international.html:92
+#: core/templates/core/base_international.html:93
+#: core/templates/core/landing_page_international.html:8
+msgid "Welcome to the UK"
+msgstr "Willkommen in Großbritannien"
+
+#: core/templates/core/base_international.html:88
 msgid "with Twitter"
 msgstr ""
 
-#: core/templates/core/base_international.html:82
+#: core/templates/core/base_international.html:90
 msgid "with Facebook"
 msgstr ""
 
-#: core/templates/core/base_international.html:84
+#: core/templates/core/base_international.html:92
 msgid "with LinkedIn"
 msgstr ""
 
-#: core/templates/core/base_international.html:85
-#: core/templates/core/landing_page_international.html:8
-msgid "Welcome to the UK"
-msgstr ""
-
-#: core/templates/core/base_international.html:85
+#: core/templates/core/base_international.html:93
 msgid "by email"
 msgstr ""
 
-#: core/templates/core/base_international.html:92
+#: core/templates/core/base_international.html:99
 msgid "Crown copyright 2017. All rights reserved."
 msgstr ""
 
-#: core/templates/core/landing_page_international.html:9
+#: core/templates/core/landing_page_international.html:10
 msgid ""
 "Home to cutting edge innovators, a place that nurtures talent and creates "
 "exceptional products and services. Your future belongs here."
 msgstr ""
+"Die Heimat erstklassiger Innovatoren – ein Land, das Talente fördert und "
+"außergewöhnliche Produkte und Dienstleistungen hervorbringt. Hier liegt Ihre "
+"Zukunft."
 
-#: core/templates/core/landing_page_international.html:16
+#: core/templates/core/landing_page_international.html:18
 msgid "Buy from the UK"
-msgstr ""
+msgstr "Aus Großbritannien importieren"
 
-#: core/templates/core/landing_page_international.html:17
+#: core/templates/core/landing_page_international.html:19
 msgid ""
 "Get exclusive early access to profiles of high quality UK businesses ready "
 "to fulfill your demand."
 msgstr ""
+"Registrieren Sie sich, um frühzeitig exklusiven Zugriff auf die Profile "
+"hochqualifizierter Unternehmen in Großbritannien zu bekommen, die bereit "
+"sind, Ihren Anforderungen zu erfüllen."
 
-#: core/templates/core/landing_page_international.html:19
+#: core/templates/core/landing_page_international.html:21
+msgid "https://trade.great.gov.uk/"
+msgstr "https://trade.great.gov.uk/?lang=de"
+
+#: core/templates/core/landing_page_international.html:21
 msgid "Find a Supplier"
-msgstr ""
+msgstr "Anbieter finden"
 
-#: core/templates/core/landing_page_international.html:23
+#: core/templates/core/landing_page_international.html:25
 msgid "Invest in the UK"
-msgstr ""
+msgstr "In Großbritannien investieren"
 
-#: core/templates/core/landing_page_international.html:24
+#: core/templates/core/landing_page_international.html:26
 msgid ""
 "Discover the UK’s wealth of investment opportunities and how the UK "
 "government will support your global ambition."
 msgstr ""
+"Informieren Sie sich über die vielfältigen Investitions-Chanchen in "
+"Großbritannien und erfahren Sie, wie die Regierung Ihr Vorhaben unterstützen "
+"kann."
 
-#: core/templates/core/landing_page_international.html:26
+#: core/templates/core/landing_page_international.html:28
+msgid "https://invest.great.gov.uk/int/"
+msgstr "https://invest.great.gov.uk/int/de/"
+
+#: core/templates/core/landing_page_international.html:28
 msgid "See the potential"
-msgstr ""
+msgstr "Erkennen Sie das Potenzials"
 
-#: core/templates/core/landing_page_international.html:30
+#: core/templates/core/landing_page_international.html:32
 msgid "Study in the UK"
-msgstr ""
+msgstr "In Großbritannien studieren"
 
-#: core/templates/core/landing_page_international.html:31
+#: core/templates/core/landing_page_international.html:33
 msgid ""
 "Get a headstart from an exceptional British education that will inspire you "
 "to achieve."
 msgstr ""
+"Verschaffen Sie sich einen Karrierevorsprung durch eine außergewöhnliche "
+"Ausbildung, die Sie zu Leistung inspirieren wird."
 
-#: core/templates/core/landing_page_international.html:33
+#: core/templates/core/landing_page_international.html:35
 msgid "Learn more"
-msgstr ""
+msgstr "Erfahren Sie mehr"
 
-#: core/templates/core/landing_page_international.html:37
+#: core/templates/core/landing_page_international.html:39
 msgid "Visit the UK"
-msgstr ""
+msgstr "Besuchen Sie Großbritannien"
 
-#: core/templates/core/landing_page_international.html:38
+#: core/templates/core/landing_page_international.html:40
 msgid ""
 "Take a journey through vibrant cities, breathtaking scenery, unrivalled "
 "heritage and iconic landmarks and discover what makes the UK great."
 msgstr ""
+"Betrachten Sie das unvergleichliche Erbe, die symbolträchtigen Wahrzeichen "
+"und die atemberaubende Landschaft mit eigenen Augen. Besuchen Sie uns und "
+"erleben Sie, was unser Land so großartig macht."
 
-#: core/templates/core/landing_page_international.html:40
+#: core/templates/core/landing_page_international.html:42
+msgid "https://www.visitbritain.com/gb/en"
+msgstr "https://www.visitbritain.com/de/de"
+
+#: core/templates/core/landing_page_international.html:42
 msgid "Plan your trip"
-msgstr ""
+msgstr "Planen Sie Ihre Reise"
+
+#~ msgid "International - GREAT.gov.uk"
+#~ msgstr "International"

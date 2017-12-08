@@ -27,7 +27,7 @@ Online resources for market size include:
 - the [OFFSTATS database](http://www.offstats.auckland.ac.nz/ "OFFSTATS database") for collated statistics from official sources on the web
 - [Nationmaster](http://www.nationmaster.com/ "Nationmaster") for quick country comparisons of world statistics
 - the [World Trade Organisation](https://www.wto.org/ "World Trade Organisation") for economic research and statistics
-- Google&rsquo;s [Global Market Finder](https://translate.google.com/globalmarketfinder/g/index.html?locale=en "Global Market Finder") to find which keyword search terms are popular in different countries and regions
+- Google&rsquo;s [Market Finder](https://marketfinder.thinkwithgoogle.com/intl/en_gb/ "Google Market Finder") for market suggestions based on monthly searches for terms related to the product categories you select
 
 
 Online resources for market attractiveness include:

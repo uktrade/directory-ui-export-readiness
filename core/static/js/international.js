@@ -1,59 +1,3 @@
-// Geo Location Functionality.
-// Uses third-party (AJAX request) data to report the users country, based on IP.
-// Also allows redirect based on country code.
-// 
-// Requires...
-// dit.js
-// 
-dit.geolocation = (new function () {
-  var GEOLOCATION = this;
-  var SUPPORTED_COUNTRIES = ['US', 'CN', 'DE', 'IN'];
-  var LOCATIONS_REDIRECTED_AS_UK = ['GB', 'IE'];
-  var GEO_LOCATION_UPDATE_EVENT = "geoLocationUpdated";
-  
-  this.GEO_LOCATION_UPDATE_EVENT = GEO_LOCATION_UPDATE_EVENT;
-  this.countryCode = "int";
-
-  /* Fetches the users country code (based on IP) and triggers a document event
-   * to allow listeners to take action with updated value in place.
-   * Default value is 'int' for international (ie. no country set).
-   * Supported countries list is taken from existing code but does not have
-   * the full range of countries shown in Language Selector component list.
-   **/  
-  this.fetchCountryCode = function() {
-    var hasCallback = arguments.length && typeof(callback) == "function" ? true: false;
-    $.ajax({
-      url: "//freegeoip.net/json/",
-      async: false,
-      success: function(data) {
-        var country = "int";
-        if ($.inArray(data.country_code, LOCATIONS_REDIRECTED_AS_UK) != "-1") {
-          country = "uk";
-        }
-        else {
-          if ($.inArray(countryCode, SUPPORTED_COUNTRIES) != '-1') {
-            country = country_code.toLowerCase();
-          }
-        }
-        
-        // update available value and trigger event for listeners
-        GEOLOCATION.countryCode = country;
-        $(document).trigger(GEO_LOCATION_UPDATE_EVENT);
-      }
-    });
-  }
-  
-  /* Redirect to specified URL with a root prefix of countryCode.
-   * (e.g. redirect to /<countryCode>/href/goes/here)
-   * @href (String) Page location to put after root /<country>/ prefix.
-   **/
-  this.redirectToCountryUrl = function(href) {
-    location.href = "/" + this.countryCode + href;
-  }
-  
-});
-
-
 // Responsive Functionality.
 // Adds functionality to help control JS responsive code.
 // Needs corresponding CSS (using media queries) to control
@@ -203,365 +147,6 @@ dit.responsive = (new function () {
 });
 
 
-/* Class: Modal
- * -------------------------
- * Create an area to use as popup/modal/lightbox effect. 
- * 
- * REQUIRES:
- * jquery
- * dit.js
- * dit.responsive.js
- *
- **/
-(function($, utils, classes) {
-  
-  var ARIA_EXPANDED = "aria-expanded";
-  var CSS_CLASS_CLOSE_BUTTON = "close";
-  var CSS_CLASS_CONTAINER = "Modal-Container"
-  var CSS_CLASS_CONTENT = "content";
-  var CSS_CLASS_OPEN = "open";
-  var CSS_CLASS_OVERLAY = "Modal-Overlay";
-
-  /* Constructor
-   * @options (Object) Allow some configurations
-   **/
-  classes.Modal = Modal;
-  function Modal($container, options) {
-    var modal = this;
-    var config = $.extend({
-      $activators: $(), // (optional) Element(s) to control the Modal
-      closeOnBuild: true, // Whether intial Modal view is open or closed
-      overlay: true  // Whether it has an overlay or not
-    }, options || {});
-
-    // If no arguments, likely just being inherited
-    if (arguments.length) {
-      // Create the required elements
-      if(config.overlay) {
-        this.$overlay = Modal.createOverlay();
-        Modal.bindResponsiveOverlaySizeListener.call(this);
-      }
-    
-      this.$closeButton = Modal.createCloseButton();
-      this.$content = Modal.createContent();
-      this.$container = Modal.enhanceModalContainer($container);
-    
-      // Add elements to DOM
-      Modal.appendElements.call(this, config.overlay);
-    
-      // Add events
-      Modal.bindCloseEvents.call(this);
-      Modal.bindActivators.call(this, config.$activators);
-    
-      // Initial state
-      if (config.closeOnBuild) {
-        this.close();
-      }
-      else {
-        this.open();
-      }
-    }
-  }
-  
-  Modal.createOverlay = function() {
-    var $overlay = $(document.createElement("div"));
-    $overlay.addClass(CSS_CLASS_OVERLAY);
-    return $overlay;
-  }
-
-  Modal.createCloseButton = function() {
-    var $button = $(document.createElement("button"));
-    $button.text("Close");
-    $button.addClass(CSS_CLASS_CLOSE_BUTTON);
-    return $button;
-  }
-  
-  Modal.createContent = function() {
-    var $content = $(document.createElement("div"));
-    $content.addClass(CSS_CLASS_CONTENT);
-    return $content;
-  }
-
-  Modal.enhanceModalContainer = function($container) {
-    $container.addClass(CSS_CLASS_CONTAINER);
-    return $container;
-  }
-  
-  Modal.appendElements = function(overlay) {
-    this.$container.append(this.$closeButton);
-    this.$container.append(this.$content);
-    
-    if (overlay) {
-      $(document.body).append(this.$overlay);
-    }
-    $(document.body).append(this.$container);
-  }
-  
-  Modal.bindCloseEvents = function() {
-    var self = this;
-    self.$closeButton.on("click", function(e) {
-      e.preventDefault();
-      self.close();
-    });
-    
-    if (self.$overlay && self.$overlay.length) {
-      self.$overlay.on("click", function() {
-        self.close();
-      });
-    }
-  }
-  
-  Modal.bindActivators = function($activators) {
-    var self = this;
-    $activators.on("click", function(e) {
-      e.preventDefault();
-      self.open();
-    });
-  }
-
-  Modal.bindResponsiveOverlaySizeListener = function() {
-    var self = this;
-    // Resets the overlay height (once) on scroll because document
-    // height changes with responsive resizing and the browser
-    // needs a delay to redraw elements. Alternative was to have
-    // a rubbish setTimeout with arbitrary delay. 
-    $(document.body).on(dit.responsive.reset, function(e, mode) {
-      $(window).off("scroll.ModalOverlayResizer");
-      $(window).one("scroll.ModalOverlayResizer", function() {
-        Modal.setOverlayHeight(self.$overlay);
-      });
-    });
-  }
-  
-  Modal.setOverlayHeight = function($overlay) {
-    $overlay.get(0).style.height = ""; // Clear it first
-    $overlay.height($(document).height());
-  }
-  
-  Modal.prototype = {};
-  Modal.prototype.close = function() {
-    var self = this;
-    self.$container.fadeOut(50, function () {
-      self.$container.attr(ARIA_EXPANDED, false);
-      self.$container.removeClass(CSS_CLASS_OPEN);
-    });
-    
-    if (self.$overlay && self.$overlay.length) {
-      self.$overlay.fadeOut(150);
-    }
-  }
-  
-  Modal.prototype.open = function() {
-    var self = this;
-    self.$container.css("top", window.scrollY + "px");
-    self.$container.addClass(CSS_CLASS_OPEN);
-    self.$container.fadeIn(250, function () {
-      self.$container.attr(ARIA_EXPANDED, true);
-    });
-    
-    if (self.$overlay && self.$overlay.length) {
-      Modal.setOverlayHeight(self.$overlay);
-      self.$overlay.fadeIn(0);
-    }
-  }
-  
-  Modal.prototype.setContent = function(content) {
-    var self = this;
-    self.$content.empty();
-    self.$content.append(content);
-  }
-  
-  
-})(jQuery, dit.utils, dit.classes);
-
-
-/* Class: Select Tracker
- * ---------------------
- * Adds a label element to mirror the matched selected option
- * text of a <select> input, for enhanced display purpose.
- *
- * REQUIRES:
- * jquery
- * dit.js
- * dit.classes.js
- *
- **/
-(function($, classes) {
-  
-  /* Constructor
-   * @$select (jQuery node) Target input element
-   **/
-  classes.SelectTracker = SelectTracker;
-  function SelectTracker($select) {
-    var SELECT_TRACKER = this;
-    var button, code, lang;
-    
-    if(arguments.length && $select.length) {
-      this.$node = $(document.createElement("p"));
-      this.$node.attr("aria-hidden", "true");
-      this.$node.addClass("SelectTracker");
-      this.$select = $select;
-      this.$select.addClass("SelectTracker-Select");
-      this.$select.after(this.$node);
-      this.$select.on("change.SelectTracker", function() {
-        SELECT_TRACKER.update();
-      });
-      
-      // Initial value
-      this.update();
-    }
-  }
-  SelectTracker.prototype = {};
-  SelectTracker.prototype.update = function() {
-    this.$node.text(this.$select.find(":selected").text());
-  }
-  
-})(jQuery, dit.classes);
-
-
-// Language Selector Component Functionality.
-//
-// Requires...
-// dit.js
-// dit.utils.js
-// dit.class.modal.js
-
-// Usage
-// --------------------------------------------------------------------
-// To find all Language Selector components and enhance using 
-// the default settings.
-//
-// dit.components.languageSelector.init()  
-//
-// For greater control, use either of the individual enhance functions
-// for Language Selector Control or Language Selector Dialog components.
-// This also allow passing options to customise the output.
-// 
-// dit.components.languageSelector.enhanceControl()
-// dit.components.languageSelector.enhanceDialog()
-//
-dit.components.languageSelector = (new function() {
-
-  var SelectTracker = dit.classes.SelectTracker;
-
-  /* Extends SelectTracker to meet additional display requirement
-   * @$select (jQuery node) Target input element
-   * @options (Object) Configurable options
-   **/
-  function LanguageSelectorControl($select, options) {
-    SelectTracker.call(this, $select);
-    if(this.$node) {
-      this.$node.addClass("SelectTraker-Tracker");
-      $select.parents("form").addClass("enhancedLanguageSelector");
-      $select.on("change", function() {
-        this.form.submit();
-      })
-    }
-  }
-  LanguageSelectorControl.prototype = new SelectTracker;
-  LanguageSelectorControl.prototype.update = function() {
-    var $code = $(document.createElement("span"));
-    var $lang = $(document.createElement("span"));
-    SelectTracker.prototype.update.call(this);
-    $lang.addClass("lang");
-    $code.addClass("code");
-    $lang.text(this.$node.text());
-    $code.text(this.$select.val());
-    this.$node.empty();
-    this.$node.append($code);
-    this.$node.append($lang);
-  }
-
-  /* Contructor
-   * Displays control and dialog enhancement for language-selector-dialog element.
-   * @$dialog (jQuery node) Element displaying list of selective links
-   * @options (Object) Configurable options
-   **/
-  function LanguageSelectorDialog($dialog, options) {
-    var LANGUAGE_SELECTOR_DISPLAY = this;
-    var id = dit.utils.generateUniqueStr("LanguageSelectorDialog_");
-    dit.classes.Modal.call(LANGUAGE_SELECTOR_DISPLAY, $dialog);
-    this.$container.attr("id", id);
-    this.config = $.extend({
-      $controlContainer: $dialog.parent() // Where to append the generated control
-    }, options);
-
-
-    if(arguments.length > 0 && $dialog.length) {
-      this.$dialog = $dialog;
-      this.$dialog.addClass("LanguageSelectorDialog-Modal");
-      
-      this.$control = LanguageSelectorDialog.createControl($dialog, id);
-      this.config.$controlContainer.append(this.$control);
-      this.setContent(this.$dialog.children());
-
-      this.$control.on("click.LanguageSelectorDialog", function(e) {
-        e.preventDefault();
-        LANGUAGE_SELECTOR_DISPLAY.open();
-      });
-    }
-  }
-  
-  LanguageSelectorDialog.createControl = function($node, id) {
-    var $control = $(document.createElement("a"));
-    var $lang = $(document.createElement("span"));
-    var $country = $(document.createElement("span"));
-    $lang.addClass("lang");
-    $lang.text($node.attr("data-lang"));
-    $country.addClass("label");
-    $country.text($node.attr("data-label"));
-    $control.append($lang);
-    $control.append($country);
-    $control.addClass("LanguageSelectorDialog-Tracker");
-    $control.attr("href", ("#" + id));
-    $control.attr("aria-controls", id);
-    return $control;
-  }
-  
-  LanguageSelectorDialog.prototype = new dit.classes.Modal
-  
-  
-  // Just finds all available Language Selector components
-  // and enhances using the any default settings. 
-  this.init = function() {
-    $("[data-component='language-selector-control'] select").each(function() {
-      new LanguageSelectorControl($(this));
-    });
-
-    $("[data-component='language-selector-dialog']").each(function() {
-      new LanguageSelectorDialog($(this));
-    });
-  }
-  
-  // Selective enhancement for individual Language Selector Control views
-  // Allows passing of custom options. 
-  // @$control (jQuery object) Something like this: $("[data-component='language-selector-control'] select")
-  // @options (Object) Configurable options for class used.
-  this.enhanceControl = function($control, options) {
-    if ($control.length) {
-      new LanguageSelectorControl($control, options);
-    }
-    else {
-      console.error("Language Selector Control missing or not passed")
-    }
-  }
-  
-  // Selective enhancement for individual Language Selector Dialog views
-  // Allows passing of custom options. 
-  // @$control (jQuery object) Something like this: $("[data-component='language-selector-dialog']")
-  // @options (Object) Configurable options for class used.
-  this.enhanceDialog = function($dialog , options) {
-    if ($dialog.length) {
-      new LanguageSelectorDialog($dialog, options);
-    }
-    else {
-      console.error("Language Selector Dialog missing or not passed");
-    }
-  }
-
-});
-
-
 // Default (static) page-specific code
 //
 // Requires
@@ -597,10 +182,9 @@ dit.pages.international = (new function () {
     setComponents();
     viewAdjustments(dit.responsive.mode());
     bindResponsiveListener();
-    
+
     delete this.init; // Run once
   }
-  
   
   function setComponents() {
     _cache.teasers_site = $("[data-component='teaser-site']");
@@ -651,24 +235,37 @@ dit.pages.international = (new function () {
     dit.components.languageSelector.enhanceDialog($dialog, {
       $controlContainer: $("#header-bar .container")
     });
+
+    languageSelectorViewInhibitor(false);
+  }
+
+  /* Because non-JS view is to show all, we might see a brief glimpse of 
+   * the open language selector before JS has kicked in to add functionality. 
+   * We are preventing this by immediately calling a view inhibitor function,
+   * and then the enhanceLanguageSelector() function will switch of the
+   * inhibitor by calling when component has been enhanced and is ready.
+   **/
+  languageSelectorViewInhibitor(true);
+  function languageSelectorViewInhibitor(activate) {
+    var rule = "[data-component='language-selector-dialog'] { display: none; }";
+    var style;
+    if (arguments.length && activate) {
+      // Hide it.
+      style = document.createElement("style");
+      style.setAttribute("type", "text/css");
+      style.setAttribute("id", "language-dialog-view-inhibitor");
+      style.appendChild(document.createTextNode(rule));
+      document.head.appendChild(style);
+    }
+    else {
+      // Reveal it.
+      document.head.removeChild(document.getElementById("language-dialog-view-inhibitor"));
+    }
   }
 
 });
 
+
 $(document).ready(function() {
   dit.pages.international.init();
 });
-
-
-/* DO NOT WAIT FOR $(document).ready()
- * THIS SHOULD FIRE BEFORE <body> tag creation
- * Attempts to redirect user based on detected country
- * only if the location is site root (www.great.gov.uk/)
- **/
-var root = location.protocol + "//" + location.host + "/";
-if (location.href == root) {
-  $(document).on(dit.geolocation.GEO_LOCATION_UPDATE_EVENT, function() { 
-    dit.geolocation.redirectToCountryUrl("/"); 
-  });
-  dit.geolocation.fetchCountryCode();
-}

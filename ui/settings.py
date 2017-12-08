@@ -31,6 +31,9 @@ DEBUG = bool(os.getenv("DEBUG", False))
 # PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
 
+# https://docs.djangoproject.com/en/dev/ref/settings/#append-slash
+APPEND_SLASH = True
+
 
 # Application definition
 
@@ -54,13 +57,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE_CLASSES = [
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'sso.middleware.SSOUserMiddleware',
     'core.middleware.NoCacheMiddlware',
-    'core.middleware.ArticleReadManagerMiddlware',
     'ui.middleware.LocaleQuerystringMiddleware',
     'ui.middleware.PersistLocaleMiddleware',
     'ui.middleware.ForceDefaultLocale',
@@ -167,6 +170,16 @@ if DEBUG:
                 'handlers': ['console'],
                 'level': 'ERROR',
                 'propagate': True,
+            },
+            'mohawk': {
+                'handlers': ['console'],
+                'level': 'WARNING',
+                'propagate': False,
+            },
+            'requests': {
+                'handlers': ['console'],
+                'level': 'WARNING',
+                'propagate': False,
             },
             '': {
                 'handlers': ['console'],
@@ -276,6 +289,18 @@ SERVICES_GET_FINANCE = os.getenv(
     'SERVICES_GET_FINANCE', default_urls.SERVICES_GET_FINANCE)
 SERVICES_SOO = os.getenv('SERVICES_SOO', default_urls.SERVICES_SOO)
 
+# FOOTER LINKS
+INFO_ABOUT = os.getenv('INFO_ABOUT', default_urls.INFO_ABOUT)
+INFO_CONTACT_US_DIRECTORY = os.getenv(
+    'INFO_CONTACT_US_DIRECTORY',
+    default_urls.INFO_CONTACT_US_DIRECTORY)
+INFO_PRIVACY_AND_COOKIES = os.getenv(
+    'INFO_PRIVACY_AND_COOKIES',
+    default_urls.INFO_PRIVACY_AND_COOKIES)
+INFO_TERMS_AND_CONDITIONS = os.getenv(
+    'INFO_TERMS_AND_CONDITIONS',
+    default_urls.INFO_TERMS_AND_CONDITIONS)
+
 # Sentry
 RAVEN_CONFIG = {
     "dsn": os.getenv("SENTRY_DSN"),
@@ -285,7 +310,6 @@ SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'true') == 'true'
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SECURE = True
-TRIAGE_COMPLETED_COOKIE_NAME = 'triage_show_continue_message'
 
 API_CLIENT_CLASSES = {
     'default': 'directory_api_client.client.DirectoryAPIClient',
@@ -316,5 +340,5 @@ CORS_ORIGIN_WHITELIST = os.getenv('CORS_ORIGIN_WHITELIST', '').split(',')
 
 EXTERNAL_SERVICE_FEEDBACK_URL = os.getenv(
     'EXTERNAL_SERVICE_FEEDBACK_URL',
-    'https://contact-us.export.great.gov.uk/export_readiness/FeedbackForm',
+    'https://contact-us.export.great.gov.uk/directory/FeedbackForm',
 )
