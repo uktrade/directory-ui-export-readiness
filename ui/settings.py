@@ -343,5 +343,3 @@ EXTERNAL_SERVICE_FEEDBACK_URL = os.getenv(
     'EXTERNAL_SERVICE_FEEDBACK_URL',
     'https://contact-us.export.great.gov.uk/directory/FeedbackForm',
 )
-
-FEATURE_BETA_BANNER_ENABLED = os.getenv('FEATURE_BETA_BANNER_ENABLED', False)

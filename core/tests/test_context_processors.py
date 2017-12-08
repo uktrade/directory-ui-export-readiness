@@ -15,7 +15,6 @@ def test_feature_returns_expected_features(settings):
 
     assert actual == {
         'features': {
-            'FEATURE_BETA_BANNER_ENABLED': settings.FEATURE_BETA_BANNER_ENABLED
         }
     }
 
