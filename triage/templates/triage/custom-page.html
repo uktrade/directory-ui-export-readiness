@@ -8,6 +8,10 @@
     <link href="{% static 'styles/custom-page.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
+{% block head_title %}
+    Your export journey - great.gov.uk
+{% endblock %}
+
 {% block content %}
 <section style="" class="hero-section {% if persona.name == 'NEW_EXPORTER' %}new{% elif persona.name == 'OCCASIONAL_EXPORTER' %}occasional{% elif persona.name == 'REGULAR_EXPORTER'%}regular{% endif %}">
     <div class="container">
