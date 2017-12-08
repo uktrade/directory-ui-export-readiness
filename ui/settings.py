@@ -330,9 +330,8 @@ UTM_COOKIE_DOMAIN = os.environ['UTM_COOKIE_DOMAIN']
 
 HEADER_FOOTER_CONTACT_US_URL = os.getenv(
     'HEADER_FOOTER_CONTACT_US_URL',
-    'https://contact-us.export.great.gov.uk/directory',
+    default_urls.INFO_CONTACT_US_DIRECTORY,
 )
-HEADER_FOOTER_CSS_ACTIVE_CLASSES = {'fab': True}
 
 # CORS
 CORS_ORIGIN_ALLOW_ALL = os.getenv('CORS_ORIGIN_ALLOW_ALL') == 'true'

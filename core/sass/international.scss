@@ -17,6 +17,7 @@
 // Components
 @import './components/_language-selector';
 @import './components/_teaser';
+@import './components/_beta';
 
 h1 {
 	@include heading-l-int;
@@ -33,7 +34,7 @@ section {
     padding-top: 29%;
     position: relative;
   }
-	
+
   img {
     left: 0;
     position: absolute;
@@ -64,6 +65,10 @@ section {
     @include body-s-mob;
     line-height: 1.9em;
   }
+}
+
+#content {
+  background: linear-gradient(to top, #{$white} #{$cols-8}, #{$offwhite} #{$cols-4});
 }
 
 #footer {
@@ -131,26 +136,26 @@ section {
   color: $light-grey;
   min-height: 37px;
   overflow: hidden;
-  
+
   a {
     color: inherit;
     display: inline-block;
     font-weight: bold;
   }
-  
+
   p {
     margin: 0;
     padding: 7px 0 4px 0;
-    
+
     &:before {
       display: none;
     }
   }
-  
+
   .government-links {
     float: left;
-    
-    a, 
+
+    a,
     span {
       vertical-align: top;
     }
@@ -158,7 +163,7 @@ section {
 }
 
 #header-menu {
-  background-color: $white;
+  background-color: $offwhite;
   color: $grey;
   min-height: 138px;
   position: relative;
@@ -172,11 +177,11 @@ section {
 }
 
 #skip-link {
-  background-color: $great-blue;
+  background-color: transparent;
   color: $white;
   display: inline-block;
   padding: $spacing-4;
-  
+
   &:focus {
     background-color: $focus-yellow;
     color: $dark-blue;
@@ -215,10 +220,10 @@ body.bidi {
       display: none;
     }
   }
-  
+
   #header-menu {
     min-height: 100px;
-    
+
     .container {
       margin: 0;
     }
@@ -305,4 +310,3 @@ body.bidi {
     padding-top: $spacing-4;
   }
 }
-

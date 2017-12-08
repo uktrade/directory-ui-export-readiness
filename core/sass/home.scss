@@ -12,10 +12,15 @@
 @import './components/_carousel';
 @import './components/_teaser';
 @import './components/_language-selector-home';
+@import './components/_beta';
 
 
 section {
   padding-bottom: 90px;
+}
+
+.beta {
+  background-color:  $white;
 }
 
 .hero-campaign-section {
