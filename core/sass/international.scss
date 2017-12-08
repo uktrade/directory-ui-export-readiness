@@ -27,10 +27,6 @@ section {
 	padding: 0;
 }
 
-.beta {
-  background-color:  #f4f4f4;
-}
-
 // Language selection
 .international-links {
   .teaser-site-external {
@@ -69,6 +65,10 @@ section {
     @include body-s-mob;
     line-height: 1.9em;
   }
+}
+
+#content {
+  background: linear-gradient(to top, #{$white} #{$cols-8}, #{$offwhite} #{$cols-4});
 }
 
 #footer {
@@ -163,7 +163,7 @@ section {
 }
 
 #header-menu {
-  background-color: $white;
+  background-color: $offwhite;
   color: $grey;
   min-height: 138px;
   position: relative;

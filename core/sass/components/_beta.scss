@@ -1,12 +1,14 @@
 .beta {
   @include body-s;
+  background-color: $white;
   padding: 10px 0;
   p {
     margin: 0;
   }
   span {
-    background-color: $active-blue;
+    background-color: $mid-blue;
     text-transform: uppercase;
+    font-weight: 700;
     color: $white;
     padding: 3px 10px;
     margin-right: $spacing-4;
@@ -18,6 +20,7 @@
   .beta-message {
     width: calc(100% - 70px);
     float: left;
+    color: $mid-grey;
   }
   .container {
     overflow: auto;

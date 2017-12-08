@@ -39,7 +39,9 @@
       </ul>
     </div>
   </section>
-  {% include 'core/widgets/beta.html' %}
+  {% if features.FEATURE_BETA_BANNER_ENABLED %}
+    {% include 'core/widgets/beta.html' %}
+  {% endif %}
     <section class="hero-campaign-section">
         <div class="container">
             <div class="hero-campaign-teaser">

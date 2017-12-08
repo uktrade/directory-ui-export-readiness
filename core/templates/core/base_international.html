@@ -60,7 +60,9 @@
                 <p class="government-links"></p>
             </div>
         </div>
-        {% include 'core/widgets/beta.html' %}
+        {% if features.FEATURE_BETA_BANNER_ENABLED %}
+          {% include 'core/widgets/beta.html' %}
+        {% endif %}
 
         <div id="header-menu" class="bidi-ltr">
             <div class="container">
