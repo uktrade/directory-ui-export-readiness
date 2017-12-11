@@ -21,6 +21,10 @@
     font-weight: bold;
   }
 
+  dl {
+    float: right;
+  }
+
   .chapters {
     clear: both;
     display: block;
@@ -57,6 +61,8 @@
   }
   
   .register {
+    clear: both;
+    float: right;
     margin-left: #{$spacing-4 + 2};
     max-width: 180px;
   }
@@ -90,6 +96,10 @@
   .scope-indicator {
     margin-bottom: $spacing-2;
     
+    dl {
+      float: none;
+    }
+
     .chapters {
       clear: none;
       display: inline-block;
@@ -109,6 +119,7 @@
     }
     
     .register {
+      float: none;
       margin-left: 25px;
       max-width: none;
     }
