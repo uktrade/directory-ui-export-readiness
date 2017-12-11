@@ -1,5 +1,4 @@
 import abc
-import logging
 
 from bs4 import BeautifulSoup
 import markdown2
@@ -12,8 +11,6 @@ from . import structure
 
 
 WORDS_PER_SECOND = 1.5  # Average word per second on screen
-
-log = logging.getLogger(__name__)
 
 
 def markdown_to_html(markdown_file_path, context={}):
@@ -157,8 +154,7 @@ class DatabaseArticlesReadManager(BaseArticleReadManager):
             article_uuids=article_uuids,
             sso_session_id=self.request.sso_user.session_id,
         )
-        log_response(response)
-
+        assert response.ok, response.content
         self.article_uuids = set(
             [article['article_uuid'] for article in response.json()]
         )
@@ -168,8 +164,3 @@ class DatabaseArticlesReadManager(BaseArticleReadManager):
         # for performance gains (ED-2822) the articles are returned by API when
         # bulk_persist_article was called by ArticleReadManager
         return self.article_uuids
-
-
-def log_response(response):
-    if not response.ok:
-        log.warning('{0.status_code} {0.content}'.format(response))
