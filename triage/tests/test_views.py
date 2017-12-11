@@ -78,7 +78,7 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
     assert mock_persist_answers.call_count == 1
     assert mock_persist_answers.call_args == call({
         'company_name': 'Example corp',
-        'used_online_marketplace': '',
+        'used_online_marketplace': None,
         'exported_before': True,
         'regular_exporter': True,
         'sector': 'HS01',
@@ -213,8 +213,8 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
         'company_name': 'Example corp',
         'exported_before': False,
         'sector': 'HS01',
-        'used_online_marketplace': '',
-        'regular_exporter': False,
+        'used_online_marketplace': None,
+        'regular_exporter': None,
     })
 
 
