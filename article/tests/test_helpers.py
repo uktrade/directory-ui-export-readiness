@@ -68,17 +68,17 @@ def test_database_bulk_create_article_read_calls_api(
 
 @patch('api_client.api_client.exportreadiness.bulk_create_article_read')
 def test_database_create_article_read_handle_exceptions(
-    mock_bulk_create_article_read, sso_request, caplog
+    mock_bulk_create_article_read, sso_request
 ):
     mock_bulk_create_article_read.return_value = create_response(
         400, content='{"error": "bad"}'
     )
     manager = helpers.DatabaseArticlesReadManager(sso_request)
-    manager.bulk_persist_article(article_uuids=['123'])
 
-    log = caplog.records[0]
-    assert log.levelname == 'WARNING'
-    assert log.msg == '400 {"error": "bad"}'
+    with pytest.raises(AssertionError) as execinfo:
+        manager.bulk_persist_article(article_uuids=['123'])
+
+    assert str(execinfo.value) == '{"error": "bad"}'
 
 
 @patch('api_client.api_client.exportreadiness.bulk_create_article_read')
@@ -195,7 +195,7 @@ def test_article_read_manager_handles_no_read_articles_on_synchronisation(
 
 @patch('api_client.api_client.exportreadiness.bulk_create_article_read')
 def test_article_read_manager_not_clear_session_on_api_error(
-    mock_bulk_create_article_read, sso_request, sso_user, caplog
+    mock_bulk_create_article_read, sso_request, sso_user
 ):
     session_key = helpers.SessionArticlesReadManager.SESSION_KEY
     sso_request.session[session_key] = [1, 2, 3]
@@ -203,13 +203,11 @@ def test_article_read_manager_not_clear_session_on_api_error(
         400, content='validation error'
     )
 
-    helpers.ArticleReadManager(sso_request)
+    with pytest.raises(AssertionError) as execinfo:
+        helpers.ArticleReadManager(sso_request)
 
     assert sso_request.session[session_key] == [1, 2, 3]
-
-    log = caplog.records[0]
-    assert log.levelname == 'WARNING'
-    assert log.msg == '400 validation error'
+    assert str(execinfo.value) == 'validation error'
 
 
 @patch('api_client.api_client.exportreadiness.bulk_create_article_read')

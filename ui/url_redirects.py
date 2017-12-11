@@ -96,6 +96,15 @@ redirects = [
         name='redirect-export-opportunities'
     ),
     url(
+        r'^opportunities/$',
+        RedirectView.as_view(
+            url='https://opportunities.export.great.gov.uk',
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-opportunities'
+    ),
+    url(
         r'^export/find-a-buyer/$',
         RedirectView.as_view(
             url='https://find-a-buyer.export.great.gov.uk',

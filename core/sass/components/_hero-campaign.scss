@@ -65,6 +65,8 @@
       @media screen and (min-width:0\0) and (min-resolution: +72dpi) {
         & {
           line-height: 1em;
+          padding: 10px;
+          padding-bottom: 0;
         }
       }
     }
@@ -156,6 +158,8 @@
         @media screen and (min-width:0\0) and (min-resolution: +72dpi) {
           & {
             line-height: 1em;
+            padding: 10px;
+            padding-bottom: 0;
           }
         }
       }

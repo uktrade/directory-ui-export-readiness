@@ -148,6 +148,7 @@ redirects = [
     ('/visit/', 'https://www.visitbritain.com/gb/en'),
     ('/export/', 'landing-page'),
     ('/export/opportunities/', 'https://opportunities.export.great.gov.uk'),
+    ('/opportunities/', 'https://opportunities.export.great.gov.uk'),
     ('/export/find-a-buyer/', 'https://find-a-buyer.export.great.gov.uk'),
     (
         '/export/selling-online-overseas/',
