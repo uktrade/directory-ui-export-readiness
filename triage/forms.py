@@ -41,7 +41,7 @@ class ExportExperienceForm(BaseTriageForm):
         label_suffix='',
         coerce=lambda x: x == 'True',
         choices=[(True, 'Yes'), (False, 'No')],
-        widget=RadioSelect()
+        widget=RadioSelect(),
     )
 
 
@@ -53,6 +53,7 @@ class RegularExporterForm(BaseTriageForm):
         choices=[(True, 'Yes'), (False, 'No')],
         widget=RadioSelect(),
         required=False,
+        empty_value=None,
     )
 
 
@@ -64,6 +65,7 @@ class OnlineMarketplaceForm(BaseTriageForm):
         choices=[(True, 'Yes'), (False, 'No')],
         widget=RadioSelect(),
         required=False,
+        empty_value=None,
     )
 
 
@@ -101,6 +103,7 @@ class CompaniesHouseForm(BaseTriageForm):
         choices=[(True, 'Yes'), (False, 'No')],
         widget=RadioSelect(),
         required=False,
+        empty_value=None,
     )
 
 
@@ -149,9 +152,9 @@ def serialize_triage_form(data):
     return {
         'sector': data['sector'],
         'exported_before': data['exported_before'],
-        'regular_exporter': data.get('regular_exporter') or False,
-        'used_online_marketplace': data.get('used_online_marketplace', ''),
+        'regular_exporter': data.get('regular_exporter'),
+        'used_online_marketplace': data.get('used_online_marketplace'),
         'company_name': data.get('company_name', ''),
-        'company_number': data.get('company_number', ''),
+        'company_number': data.get('company_number'),
         'is_in_companies_house': data['is_in_companies_house'],
     }
