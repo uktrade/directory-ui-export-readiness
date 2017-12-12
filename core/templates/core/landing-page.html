@@ -2,40 +2,65 @@
 
 {% load static from staticfiles %}
 
+{% block js %}
+  <script src="{% static 'Dit-Pattern-Styling/public/js/script.js' %}"></script>
+  <script src="{% static 'js/dit.js' %}"></script>
+  <script src="{% static 'js/dit.class.modal.js' %}"></script>
+  <script src="{% static 'js/dit.components.languageSelector.js' %}"></script>
+  <script src="{% static 'js/dit.components.video.js' %}"></script>
+  <script src="{% static 'js/home.js' %}"></script>
+{% endblock %}
+
 {% block css %}
     <link href="{% static 'styles/home.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
+{% block head_title %}
+    Welcome to great.gov.uk - export guidance and services
+{% endblock %}
+
 {% block content %}
-<main id="content" role="main">
-    <section class="hero-section">
+  <section role="dialog" data-component="language-selector-dialog" data-lang="en" data-label="UK" data-name="English" class="language-selector-dialog">
+    <p id="great-languages-selector">Go to our international site</p>
+    <p>The UK supports international trade and investment, and welcomes travellers and students from across the world.</p>
+    <div data-node="languages" class="languages">
+      <ul aria-labelledby="great-languages-selector" class="navigation">
+        {% for code, label in LANGUAGES %}
+          <li><a href="{% url 'landing-page-international' %}?lang={{ code }}">{{ label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+  {% include 'core/widgets/beta.html' %}
+    <section class="hero-campaign-section">
         <div class="container">
-            <div class="hero-teaser">
-                <h1 class="title"><span>Use your</span><br><span>potential -</span><br><span>Start</span><br><span>exporting</span><br>
-                </h1>
-                <p>Selling overseas gives you access to more customers which can lead to increased sales, growth and stability. Explore the potential of exporting with guidance, services and support from the Department for International Trade.</p>
-				<p>It’s never been easier to start your export journey.</p>
-                <img src="{% static 'images/eig-logo-stacked.png' %}">
+            <div class="hero-campaign-teaser">
+                <h1 class="title"><span>If we can,</span><br><span>you can</span></h1>
+                <p>Thousands of businesses like yours have increased their sales, growth and stability by selling overseas. Explore the potential of exporting with guidance, services and support from the Department for International Trade.</p>
+                <img src="{% static 'images/eig-logo-stacked.png' %}" alt="">
+            </div>
+            <div class="video modal">
+                <a href="https://s3-eu-west-1.amazonaws.com/public-directory-api/promo-video_web.mp4" data-node="videoactivator" data-element="video" class="button video-button" target="_blank">Watch video</a>
             </div>
         </div>
     </section>
     <section class="triage triage-section">
         <div class="container">
-            <h2 class="heading">Start your export journey</h2>
+            <h2 class="heading">Create your export journey</h2>
             <img src="{% static 'images/home-triage-world-connections@2x.png' %}" alt="">
             <div class="intro">
                 <div class="content">
                     <p>Answer a few quick questions about what you want to export and your level of experience to get:</p>
                     <ul>
-                        <li>export guidance aimed at your level</li>
+                        <li>guidance aimed at your exporting experience level</li>
                         <li>export statistics to start your market research</li>
-						<li>access to services to help you export</li>
+                        <li>access to services to help you export</li>
                     </ul>
                     {% if has_completed_triage %}
-                        <a href="{% url 'custom-page' %}" class="button button-cta">Continue your export journey</a>
+                         <a href="{% url 'custom-page' %}" class="button button-cta">Continue your export journey</a>
                     {% else %}
-                        <a href="{% url 'triage-wizard' %}" class="button button-cta">Get started</a>
-                    {% endif %}
+                        <a href="{% url 'triage-wizard' step='sector' %}" class="button button-cta">Get started</a>
+                    {% endif %} 
                 </div>
             </div>
         </div>
@@ -46,13 +71,13 @@
             <p class="intro">It can be hard to know where to start if you’re new to exporting. And even if you export regularly, there’s always more to know. Get exporting guidance for your experience level.</p>
             <div class="group">
                 <div class="lg-3 md-1">
-                    <div class="export-status-selector"><img src="{% static 'images/home-new-to-exporting-cta@2x.png' %}"><a href="{% url 'article-list-persona-new' %}" class="link"><span class="status">I'm new to</span><br><span class="status">exporting</span><br></a></div>
+                    <div class="export-status-selector"><img src="{% static 'images/exports-hp-new-to-exporting.jpg' %}" alt=""><a href="{% url 'article-list-persona-new' %}" class="link">I'm new to exporting</a></div>
                 </div>
                 <div class="lg-3 md-1">
-                    <div class="export-status-selector"><img src="{% static 'images/home-occasional-exporter-cta@2x.png' %}"><a href="{% url 'article-list-persona-occasional' %}" class="link"><span class="status">I export</span><br><span class="status">occasionally</span><br></a></div>
+                    <div class="export-status-selector"><img src="{% static 'images/export-hp-occasional.jpg' %}" alt=""><a href="{% url 'article-list-persona-occasional' %}" class="link">I export occasionally</a></div>
                 </div>
                 <div class="lg-3 md-1">
-                    <div class="export-status-selector"><img src="{% static 'images/home-regular-exporter-cta@2x.png' %}"><a href="{% url 'article-list-persona-regular' %}" class="link"><span class="status">I’m a regular</span><br><span class="status">exporter</span><br></a></div>
+                    <div class="export-status-selector"><img src="{% static 'images/export-hp-regular.jpg' %}" alt=""><a href="{% url 'article-list-persona-regular' %}" class="link"><span class="status">I’m a regular exporter</a></div>
                 </div>
             </div>
         </div>
@@ -65,24 +90,24 @@
             <div class="group">
                 <div class="lg-3 md-1">
                     <article data-component="service-teaser" class="service-teaser">
-                        <h3 class="title">Find a buyer</h3>
-                        <p class="text">Create your free trade profile and get promoted on an international level to businesses around the world.</p>
-                        <img src="{% static 'images/home-fab-cta@2x.png' %}"><a href="{{ header_footer_urls.services_fab }}" class="link">Service: Find a buyer</a>
+                        <h3 class="title">Create an export profile</h3>
+                        <p class="text">Create your free trade profile and get promoted to businesses around the world.</p>
+                        <img src="{% static 'images/export-hp-fas-profile.jpg' %}" alt=""><a href="{{ header_footer_urls.services_fab }}" class="link">Service: Find a buyer</a>
 
                     </article>
                 </div>
                 <div class="lg-3 md-1">
                     <article data-component="service-teaser" class="service-teaser">
                         <h3 class="title">Find online marketplaces</h3>
-                        <p class="text">Reach over 2 billion consumers online around the world. Get exclusive deals negotiated on behalf of UK businesses.</p>
-                        <img src="{% static 'images/home-soo-cta@2x.png' %}"><a href="{{ header_footer_urls.services_soo }}" class="link">Service: Find online marketplaces</a>
+                        <p class="text">Reach over 2 billion international consumers online. Get exclusive deals negotiated by government on behalf of UK businesses.</p>
+                        <img src="{% static 'images/export-hp-export-opportunities.jpg' %}" alt=""><a href="{{ header_footer_urls.services_soo }}" class="link">Service: Find online marketplaces</a>
                     </article>
                 </div>
                 <div class="lg-3 md-1">
                     <article data-component="service-teaser" class="service-teaser">
                         <h3 class="title">Find export opportunities</h3>
                         <p class="text">Find and apply for overseas opportunities from businesses looking for products or services like yours.</p>
-                        <img src="{% static 'images/home-export-opps-cta@2x.png' %}"><a href="{% url 'export-opportunities' %}" class="link">Service: Find export opportunities</a>
+                        <img src="{% static 'images/export-hp-online-market.jpg' %}" alt=""><a href="{% url 'export-opportunities' %}" class="link">Service: Find export opportunities</a>
                     </article>
                 </div>
             </div>
@@ -93,5 +118,19 @@
             {% include 'casestudy/carousel.html' %}
         </div>
     </section>
-</main>
+
+    <section id="beis" class="teaser-section">
+        <div class="container">
+            <h2 class="heading">Get support to start or grow your UK business</h2>
+            <img src="{% static 'images/export-hp-beis.jpg' %}" alt=""/>
+            <p class="intro">
+                <span class="text">You can get government support and advice to start or grow a business within the UK. Whatever the size of your business, the Department for Business, Energy &amp; Industrial Strategy can help make it a success.</span>
+                <a href="http://www.greatbusiness.gov.uk" target="_blank">Find out more on www.greatbusiness.gov.uk</a>
+            </p>
+        </div>
+    </section>
 {% endblock %}
+
+{% block bodyScripts %}
+   <script src="{% static 'js/geolocation.js' %}"></script>
+{% endblock bodyScripts %}

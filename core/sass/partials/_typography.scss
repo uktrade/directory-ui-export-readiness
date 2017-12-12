@@ -4,9 +4,9 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
 @import url(https://fonts.googleapis.com/css?family=Overpass:400,800);
 
-$brand-font-standard: 'Roboto', arial, helvetica, sans-serif;
-$brand-font-alternative: 'Overpass', arial, helvetica, sans-serif;
-$brand-font-serif: georgia, serif;
+$brand-font-standard: 'Roboto', arial, helvetica, verdana, sans-serif;
+$brand-font-alternative: 'Overpass', arial, helvetica, verdana, sans-serif;
+$brand-font-serif: georgia, verdana, serif;
 
 
 // HEADING mixins
@@ -22,6 +22,14 @@ $brand-font-serif: georgia, serif;
   font-size: 32px;
   font-weight: 800;
   line-height: 30px;
+}
+
+@mixin heading-l-int {
+  font-family: $brand-font-alternative;
+  font-size:   36px;
+  font-weight: 800;
+  line-height: 1.15em;
+  margin: 0 0 $spacing-4 0;
 }
 
 @mixin heading-l {

@@ -1,4 +1,4 @@
-from formtools.wizard.views import SessionWizardView
+from formtools.wizard.views import NamedUrlSessionWizardView
 from directory_constants.constants.exred_sector_names import CODES_SECTORS_DICT
 
 from django.core.urlresolvers import reverse_lazy
@@ -10,7 +10,7 @@ from django.views.generic import View
 
 from article import structure
 from casestudy import casestudies
-from core.views import ArticleReadMixin
+from core.views import ArticleReadManagerMixin
 from triage import forms, helpers
 
 
@@ -28,15 +28,15 @@ class CompaniesHouseSearchApiView(View):
         return JsonResponse(api_response.json()['items'], safe=False)
 
 
-class TriageWizardFormView(SessionWizardView):
+class TriageWizardFormView(NamedUrlSessionWizardView):
 
-    SECTOR = 'SECTOR'
-    EXPORTED_BEFORE = 'EXPORTED_BEFORE'
-    REGULAR_EXPORTER = 'REGULAR_EXPORTER'
-    ONLINE_MARKETPLACE = 'ONLINE_MARKETPLACE'
-    COMPANY = 'COMPANY'
-    COMPANIES_HOUSE = 'COMPANIES_HOUSE'
-    SUMMARY = 'SUMMARY'
+    SECTOR = 'sector'
+    EXPORTED_BEFORE = 'exported-before'
+    REGULAR_EXPORTER = 'regular-exporter'
+    ONLINE_MARKETPLACE = 'online-marketplace'
+    COMPANY = 'company'
+    COMPANIES_HOUSE = 'companies-house'
+    SUMMARY = 'summary'
 
     form_list = (
         (SECTOR, forms.SectorForm),
@@ -134,6 +134,13 @@ class TriageWizardFormView(SessionWizardView):
             return redirect(self.success_url)
         return super().render_done(form, **kwargs)
 
+    def render(self, form=None, **kwargs):
+        """If summary is called without data, redirect to sector."""
+        data = self.get_all_cleaned_data()
+        if self.steps.current == self.SUMMARY and not data:
+            return self.render_goto_step(self.SECTOR)
+        return super().render(form, **kwargs)
+
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
         if self.steps.current == self.SUMMARY:
@@ -153,7 +160,7 @@ class TriageWizardFormView(SessionWizardView):
         return redirect(self.success_url)
 
 
-class CustomPageView(ArticleReadMixin, TemplateView):
+class CustomPageView(ArticleReadManagerMixin, TemplateView):
     http_method_names = ['get']
     template_name = 'triage/custom-page.html'
 
@@ -164,7 +171,11 @@ class CustomPageView(ArticleReadMixin, TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         if not self.triage_answers:
-            return redirect('triage-wizard')
+            url = reverse_lazy(
+                'triage-wizard',
+                kwargs={'step': TriageWizardFormView.SECTOR}
+            )
+            return redirect(url)
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -179,7 +190,7 @@ class CustomPageView(ArticleReadMixin, TemplateView):
             casestudies.YORK,
         ]
         context['article_group_read_progress'] = (
-            self.request.article_read_manager.get_group_read_progress()
+            self.article_read_manager.get_group_read_progress()
         )
         sector_code = self.triage_answers['sector']
         # harmonised system codes begin with HS. Service codes begin with EB
@@ -194,10 +205,10 @@ class CustomPageView(ArticleReadMixin, TemplateView):
         answers = self.triage_answers
         persona = forms.get_persona(answers)
         if persona == forms.NEW_EXPORTER:
-            return structure.PERSONA_NEW_ARTICLES
+            return structure.CUSTOM_PAGE_NEW_ARTICLES
         elif persona == forms.OCCASIONAL_EXPORTER:
-            return structure.PERSONA_OCCASIONAL_ARTICLES
-        return structure.PERSONA_REGULAR_ARTICLES
+            return structure.CUSTOM_PAGE_OCCASIONAL_ARTICLES
+        return structure.CUSTOM_PAGE_REGULAR_ARTICLES
 
     def get_section_configuration(self):
         answers = self.triage_answers

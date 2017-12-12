@@ -15,7 +15,9 @@ from article import structure
 
 @pytest.fixture(autouse=True)
 def mock_retrive_articles_read():
-    mock = patch('api_client.api_client.exportreadiness.retrieve_article_read')
+    mock = patch(
+        'api_client.api_client.exportreadiness.bulk_create_article_read'
+    )
     mock.return_value = create_response(200, json_body=[])
     yield mock.start()
     mock.stop()
@@ -23,40 +25,49 @@ def mock_retrive_articles_read():
 
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
 def test_submit_triage_regular_exporter(mock_persist_answers, client):
-    url = reverse('triage-wizard')
     view_class = views.TriageWizardFormView
+    url = reverse('triage-wizard', kwargs={'step': view_class.SECTOR})
     view_name = 'triage_wizard_form_view'
-    client.post(url, {
+    response = client.post(url, {
         view_name + '-current_step': view_class.SECTOR,
         view_class.SECTOR + '-sector': 'HS01',
     })
-    client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
         view_class.EXPORTED_BEFORE + '-exported_before': 'True',
     })
-    client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.REGULAR_EXPORTER,
         view_class.REGULAR_EXPORTER + '-regular_exporter': 'True',
     })
-    client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.COMPANIES_HOUSE,
         view_class.COMPANIES_HOUSE + '-is_in_companies_house': True,
     })
-    summary_response = client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.COMPANY,
         view_class.COMPANY + '-company_name': 'Example corp',
     })
+    assert response.status_code == 302
     # skips the "do you use the marketplace" step
-    done_response = client.post(url, {
+    summary_get_response = client.get(response.url)
+    summary_post_response = client.post(response.url, {
+        view_name + '-current_step': view_class.SUMMARY,
+    })
+    finished_response = client.post(summary_post_response.url, {
         view_name + '-current_step': view_class.SUMMARY,
     })
 
-    assert b'Create my export journey' in summary_response.content
-    assert summary_response.context_data['persona'] == (
+    assert b'Create my export journey' in summary_get_response.content
+    assert summary_get_response.context_data['persona'] == (
         forms.REGULAR_EXPORTER
     )
-    assert summary_response.context_data['sector_label'] == 'Animals; live'
-    assert summary_response.context_data['all_cleaned_data'] == {
+    assert summary_get_response.context_data['sector_label'] == 'Animals; live'
+    assert summary_get_response.context_data['all_cleaned_data'] == {
         'is_in_companies_house': True,
         'company_name': 'Example corp',
         'exported_before': True,
@@ -74,52 +85,62 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
         'company_number': None,
         'is_in_companies_house': True,
     })
-    assert done_response.status_code == 302
-    assert done_response.get('Location') == str(view_class.success_url)
+    assert finished_response.status_code == 302
+    assert finished_response.get('Location') == str(view_class.success_url)
 
 
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
 def test_submit_triage_occasional_exporter(mock_persist_answers, client):
-    url = reverse('triage-wizard')
     view_class = views.TriageWizardFormView
+    url = reverse('triage-wizard', kwargs={'step': view_class.SECTOR})
     view_name = 'triage_wizard_form_view'
-    client.post(url, {
+    response = client.post(url, {
         view_name + '-current_step': view_class.SECTOR,
         view_class.SECTOR + '-sector': 'HS01',
     })
-    client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
         view_class.EXPORTED_BEFORE + '-exported_before': 'True',
     })
-    client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.REGULAR_EXPORTER,
         view_class.REGULAR_EXPORTER + '-regular_exporter': 'False',
     })
-    client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.ONLINE_MARKETPLACE,
         view_class.ONLINE_MARKETPLACE + '-used_online_marketplace': 'True',
     })
-    client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.COMPANIES_HOUSE,
         view_class.COMPANIES_HOUSE + '-is_in_companies_house': True,
     })
-    summary_response = client.post(url, {
+    assert response.status_code == 302
+    response = client.post(url, {
         view_name + '-current_step': view_class.COMPANY,
         view_class.COMPANY + '-company_name': 'Example corp',
         view_class.COMPANY + '-company_number': '41231231',
     })
-    done_response = client.post(url, {
+    assert response.status_code == 302
+    summary_get_response = client.get(response.url)
+    summary_post_response = client.post(response.url, {
+        view_name + '-current_step': view_class.SUMMARY,
+    })
+    finished_response = client.post(summary_post_response.url, {
         view_name + '-current_step': view_class.SUMMARY,
     })
 
-    assert done_response.status_code == 302
-    assert done_response.get('Location') == str(view_class.success_url)
-    assert b'Create my export journey' in summary_response.content
-    assert summary_response.context_data['persona'] == (
+    assert finished_response.status_code == 302
+    assert finished_response.url == str(view_class.success_url)
+    assert b'Create my export journey' in summary_get_response.content
+    assert summary_get_response.context_data['persona'] == (
         forms.OCCASIONAL_EXPORTER
     )
-    assert summary_response.context_data['sector_label'] == 'Animals; live'
-    assert summary_response.context_data['all_cleaned_data'] == {
+    assert summary_get_response.context_data['sector_label'] == 'Animals; live'
+    assert summary_get_response.context_data['all_cleaned_data'] == {
         'is_in_companies_house': True,
         'company_name': 'Example corp',
         'exported_before': True,
@@ -142,35 +163,43 @@ def test_submit_triage_occasional_exporter(mock_persist_answers, client):
 
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
 def test_submit_triage_new_exporter(mock_persist_answers, client):
-    url = reverse('triage-wizard')
     view_class = views.TriageWizardFormView
+    url = reverse('triage-wizard', kwargs={'step': view_class.SECTOR})
     view_name = 'triage_wizard_form_view'
-    client.post(url, {
+    response = client.post(url, {
         view_name + '-current_step': view_class.SECTOR,
         view_class.SECTOR + '-sector': 'HS01',
     })
-    client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
         view_class.EXPORTED_BEFORE + '-exported_before': 'False',
     })
-    client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.COMPANIES_HOUSE,
         view_class.COMPANIES_HOUSE + '-is_in_companies_house': True,
     })
-    summary_response = client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.COMPANY,
         view_class.COMPANY + '-company_name': 'Example corp',
     })
-    done_response = client.post(url, {
+    assert response.status_code == 302
+    summary_get_response = client.get(response.url)
+    summary_post_response = client.post(response.url, {
+        view_name + '-current_step': view_class.SUMMARY,
+    })
+    finished_response = client.post(summary_post_response.url, {
         view_name + '-current_step': view_class.SUMMARY,
     })
 
-    assert done_response.status_code == 302
-    assert done_response.get('Location') == str(view_class.success_url)
-    assert b'Create my export journey' in summary_response.content
-    assert summary_response.context_data['persona'] == forms.NEW_EXPORTER
-    assert summary_response.context_data['sector_label'] == 'Animals; live'
-    assert summary_response.context_data['all_cleaned_data'] == {
+    assert finished_response.status_code == 302
+    assert finished_response.url == str(view_class.success_url)
+    assert b'Create my export journey' in summary_get_response.content
+    assert summary_get_response.context_data['persona'] == forms.NEW_EXPORTER
+    assert summary_get_response.context_data['sector_label'] == 'Animals; live'
+    assert summary_get_response.context_data['all_cleaned_data'] == {
         'company_number': None,
         'is_in_companies_house': True,
         'company_name': 'Example corp',
@@ -185,87 +214,104 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
         'exported_before': False,
         'sector': 'HS01',
         'used_online_marketplace': None,
-        'regular_exporter': False,
+        'regular_exporter': None,
     })
 
 
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
 def test_triage_manually_skip_company(mock_persist_answers, client):
-    url = reverse('triage-wizard')
     view_class = views.TriageWizardFormView
+    url = reverse('triage-wizard', kwargs={'step': view_class.SECTOR})
     view_name = 'triage_wizard_form_view'
-    client.post(url, {
+    response = client.post(url, {
         view_name + '-current_step': view_class.SECTOR,
         view_class.SECTOR + '-sector': 'HS01',
     })
-    client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
         view_class.EXPORTED_BEFORE + '-exported_before': 'False',
     })
-    response = client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.COMPANY,
         'wizard_skip_step': True,
     })
 
-    assert response.status_code == 200
-    assert response.template_name == [view_class.templates[view_class.SUMMARY]]
+    assert response.status_code == 302
+    assert response.url == reverse(
+        'triage-wizard',
+        kwargs={'step': view_class.SUMMARY}
+    )
 
 
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
 def test_triage_sole_trader_skip_company(mock_persist_answers, client):
-    url = reverse('triage-wizard')
     view_class = views.TriageWizardFormView
+    url = reverse('triage-wizard', kwargs={'step': view_class.SECTOR})
     view_name = 'triage_wizard_form_view'
-    client.post(url, {
+    response = client.post(url, {
         view_name + '-current_step': view_class.SECTOR,
         view_class.SECTOR + '-sector': 'HS01',
     })
-    client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
         view_class.EXPORTED_BEFORE + '-exported_before': 'False',
     })
-    response = client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.COMPANIES_HOUSE,
         view_class.COMPANIES_HOUSE + '-is_in_companies_house': False,
     })
 
-    assert response.status_code == 200
-    assert response.template_name == [view_class.templates[view_class.SUMMARY]]
+    assert response.status_code == 302
+    assert response.url == reverse(
+        'triage-wizard',
+        kwargs={'step': view_class.SUMMARY}
+    )
 
 
 def test_triage_skip_company_clears_previous_answers(client):
-    url = reverse('triage-wizard')
     view_class = views.TriageWizardFormView
+    url = reverse('triage-wizard', kwargs={'step': view_class.SECTOR})
     view_name = 'triage_wizard_form_view'
-
-    client.post(url, {
+    response = client.post(url, {
         view_name + '-current_step': view_class.SECTOR,
         view_class.SECTOR + '-sector': 'HS01',
     })
-    client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
         view_class.EXPORTED_BEFORE + '-exported_before': 'False',
     })
-    client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.COMPANIES_HOUSE,
         view_class.COMPANIES_HOUSE + '-is_in_companies_house': True,
     })
-    client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.COMPANY,
         view_class.COMPANY + '-company_name': 'Example corp',
     })
-    summary_response = client.post(url, {
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.COMPANY,
         'wizard_skip_step': True,
     })
-    done_response = client.post(url, {
+    summary_get_response = client.get(response.url)
+    summary_post_response = client.post(response.url, {
+        view_name + '-current_step': view_class.SUMMARY,
+    })
+    finished_response = client.post(summary_post_response.url, {
         view_name + '-current_step': view_class.SUMMARY,
     })
 
-    assert done_response.status_code == 302
-    assert done_response.get('Location') == str(view_class.success_url)
-    assert b'Create my export journey' in summary_response.content
-    assert summary_response.context_data['all_cleaned_data'] == {
+    assert finished_response.status_code == 302
+    assert finished_response.url == str(view_class.success_url)
+    assert b'Create my export journey' in summary_get_response.content
+    assert summary_get_response.context_data['all_cleaned_data'] == {
         'company_number': None,
         'is_in_companies_house': True,
         'company_name': '',
@@ -278,8 +324,8 @@ def test_triage_skip_company_clears_previous_answers(client):
 def test_triage_skip_company_clears_previous_answers_summary(
     mocked_retrieve_answers, client
 ):
-    url = reverse('triage-wizard')
     view_class = views.TriageWizardFormView
+    url = reverse('triage-wizard', kwargs={'step': view_class.SUMMARY})
     view_name = 'triage_wizard_form_view'
 
     mocked_retrieve_answers.return_value = {
@@ -292,17 +338,22 @@ def test_triage_skip_company_clears_previous_answers_summary(
         'used_online_marketplace': False,
     }
     client.get(url + '?result')
-    summary_response = client.post(url, {
+    url = reverse('triage-wizard', kwargs={'step': view_class.COMPANY})
+    response = client.post(url, {
         view_name + '-current_step': view_class.COMPANY,
         'wizard_skip_step': True,
     })
-    done_response = client.post(url, {
+    summary_get_response = client.get(response.url)
+    summary_post_response = client.post(response.url, {
         view_name + '-current_step': view_class.SUMMARY,
     })
-    assert done_response.status_code == 302
-    assert done_response.get('Location') == str(view_class.success_url)
-    assert b'Continue my export journey' in summary_response.content
-    assert summary_response.context_data['all_cleaned_data'] == {
+    finished_response = client.post(summary_post_response.url, {
+        view_name + '-current_step': view_class.SUMMARY,
+    })
+    assert finished_response.status_code == 302
+    assert finished_response.url == str(view_class.success_url)
+    assert b'Continue my export journey' in summary_get_response.content
+    assert summary_get_response.context_data['all_cleaned_data'] == {
         'company_number': None,
         'regular_exporter': True,
         'company_name': '',
@@ -317,8 +368,8 @@ def test_triage_skip_company_clears_previous_answers_summary(
 def test_triage_summary_change_answers(
     mocked_retrieve_answers, client
 ):
-    url = reverse('triage-wizard')
     view_class = views.TriageWizardFormView
+    url = reverse('triage-wizard', kwargs={'step': view_class.SUMMARY})
     view_name = 'triage_wizard_form_view'
     mocked_retrieve_answers.return_value = {
         'company_name': 'Acme ltd',
@@ -331,16 +382,21 @@ def test_triage_summary_change_answers(
         'company_name': 'Example corp',
     }
     client.get(url + '?result')
-    summary_response = client.post(url, {
+    url = reverse('triage-wizard', kwargs={'step': view_class.COMPANY})
+    response = client.post(url, {
         view_name + '-current_step': view_class.COMPANY,
         view_class.COMPANY + '-company_name': 'Other Example limited',
     })
-    done_response = client.post(url, {
+    summary_get_response = client.get(response.url)
+    summary_post_response = client.post(response.url, {
+        view_name + '-current_step': view_class.SUMMARY,
+    })
+    finished_response = client.post(summary_post_response.url, {
         view_name + '-current_step': view_class.SUMMARY,
     })
 
-    assert b'Continue my export journey' in summary_response.content
-    assert summary_response.context_data['all_cleaned_data'] == {
+    assert b'Continue my export journey' in summary_get_response.content
+    assert summary_get_response.context_data['all_cleaned_data'] == {
         'company_number': None,
         'is_in_companies_house': True,
         'company_name': 'Other Example limited',
@@ -348,8 +404,8 @@ def test_triage_summary_change_answers(
         'exported_before': True,
         'regular_exporter': True,
     }
-    assert done_response.status_code == 302
-    assert done_response.get('Location') == str(view_class.success_url)
+    assert finished_response.status_code == 302
+    assert finished_response.get('Location') == str(view_class.success_url)
 
 
 def test_companies_house_search_validation_error(client):
@@ -386,7 +442,9 @@ def test_companies_house_search_api_success(
 
 
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers')
-def test_custom_view(mocked_retrieve_answers, authed_client, sso_user):
+def test_custom_view(
+    mocked_retrieve_answers, authed_client, sso_user, settings
+):
     triage_result = {
         'company_name': 'Acme ltd',
         'created': '2016-11-23T11:21:10.977518Z',
@@ -416,12 +474,18 @@ def test_custom_view(mocked_retrieve_answers, authed_client, sso_user):
         'operations_and_compliance': {'read': 0, 'total': 10},
         'persona_new': {'read': 0, 'total': 18},
         'persona_occasional': {'read': 0, 'total': 38},
-        'persona_regular': {'read': 0, 'total': 18}
+        'persona_regular': {'read': 0, 'total': 18},
+        'custom_persona_new': {'read': 0, 'total': 18},
+        'custom_persona_occasional': {'read': 0, 'total': 38},
+        'custom_persona_regular': {'read': 0, 'total': 18},
     }
 
 
 def test_triage_wizard(client):
-    response = client.get(reverse('triage-wizard'))
+    view_class = views.TriageWizardFormView
+    response = client.get(
+        reverse('triage-wizard', kwargs={'step': view_class.SECTOR})
+    )
 
     assert response.status_code == 200
     assert response.template_name == [
@@ -446,21 +510,27 @@ def test_triage_wizard_summary_view(
         'company_name': 'Example corp',
         'is_in_companies_house': True,
     }
-    url = reverse('triage-wizard')
-    summary_response = authed_client.get(url + '?result')
-    done_response = authed_client.post(url, {
+    url = reverse('triage-wizard', kwargs={'step': view_class.SUMMARY})
+    authed_client.get(url + '?result')
+    summary_get_response = authed_client.get(url, {
         view_name + '-current_step': view_class.SUMMARY,
     })
-    assert b'Continue my export journey' in summary_response.content
-    assert summary_response.status_code == 200
-    assert summary_response.template_name == [
+    summary_post_response = authed_client.post(url, {
+        view_name + '-current_step': view_class.SUMMARY,
+    })
+    finished_response = authed_client.post(summary_post_response.url, {
+        view_name + '-current_step': view_class.SUMMARY,
+    })
+    assert b'Continue my export journey' in summary_get_response.content
+    assert summary_get_response.status_code == 200
+    assert summary_get_response.template_name == [
         views.TriageWizardFormView.templates[view_class.SUMMARY]
     ]
-    assert summary_response.context_data['persona'] == (
+    assert summary_get_response.context_data['persona'] == (
         forms.REGULAR_EXPORTER
     )
-    assert summary_response.context_data['sector_label'] == 'Animals; live'
-    assert summary_response.context_data['all_cleaned_data'] == {
+    assert summary_get_response.context_data['sector_label'] == 'Animals; live'
+    assert summary_get_response.context_data['all_cleaned_data'] == {
         'is_in_companies_house': True,
         'company_name': 'Example corp',
         'exported_before': True,
@@ -469,26 +539,30 @@ def test_triage_wizard_summary_view(
         'company_number': '33123445',
         'company_name': 'Example corp',
     }
-    assert done_response.status_code == 302
-    assert done_response.get('Location') == str(view_class.success_url)
+    assert finished_response.status_code == 302
+    assert finished_response.url == str(view_class.success_url)
 
 
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers')
 def test_custom_view_no_triage_result_found(
     mocked_retrieve_answers, authed_client
 ):
+    view_class = views.TriageWizardFormView
     mocked_retrieve_answers.return_value = {}
     url = reverse('custom-page')
     response = authed_client.get(url)
     assert response.status_code == 302
-    assert response.url == reverse('triage-wizard')
+    assert response.url == reverse(
+        'triage-wizard',
+        kwargs={'step': view_class.SECTOR}
+    )
 
 
 @pytest.mark.parametrize('is_in_companies_house,expected', (
     (
         True,
         {
-            'persona_article_group': structure.PERSONA_NEW_ARTICLES,
+            'persona_article_group': structure.CUSTOM_PAGE_NEW_ARTICLES,
             'trade_profile': True,
             'selling_online_overseas': False,
             'selling_online_overseas_and_export_opportunities': False,
@@ -499,7 +573,7 @@ def test_custom_view_no_triage_result_found(
     (
         False,
         {
-            'persona_article_group': structure.PERSONA_NEW_ARTICLES,
+            'persona_article_group': structure.CUSTOM_PAGE_NEW_ARTICLES,
             'trade_profile': False,
             'selling_online_overseas': False,
             'selling_online_overseas_and_export_opportunities': False,
@@ -529,11 +603,8 @@ def test_custom_view_new_exporter(
             casestudies.HELLO_BABY,
             casestudies.YORK,
         ]
-        assert soup.find('h1').text.replace('\n', '') == (
-            'Use your'
-            'potential -'
-            'start'
-            'exporting'
+        assert soup.find('h1').text.strip() == (
+            'Your Export Journey'
         )
 
 
@@ -542,7 +613,7 @@ def test_custom_view_new_exporter(
         True,
         False,
         {
-            'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
+            'persona_article_group': structure.CUSTOM_PAGE_OCCASIONAL_ARTICLES,
             'trade_profile': True,
             'selling_online_overseas': False,
             'selling_online_overseas_and_export_opportunities': False,
@@ -554,7 +625,7 @@ def test_custom_view_new_exporter(
         False,
         False,
         {
-            'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
+            'persona_article_group': structure.CUSTOM_PAGE_OCCASIONAL_ARTICLES,
             'trade_profile': False,
             'selling_online_overseas': False,
             'selling_online_overseas_and_export_opportunities': False,
@@ -566,7 +637,7 @@ def test_custom_view_new_exporter(
         True,
         True,
         {
-            'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
+            'persona_article_group': structure.CUSTOM_PAGE_OCCASIONAL_ARTICLES,
             'trade_profile': True,
             'selling_online_overseas': True,
             'selling_online_overseas_and_export_opportunities': False,
@@ -578,7 +649,7 @@ def test_custom_view_new_exporter(
         False,
         True,
         {
-            'persona_article_group': structure.PERSONA_OCCASIONAL_ARTICLES,
+            'persona_article_group': structure.CUSTOM_PAGE_OCCASIONAL_ARTICLES,
             'trade_profile': False,
             'selling_online_overseas': True,
             'selling_online_overseas_and_export_opportunities': False,
@@ -613,11 +684,8 @@ def test_custom_view_occasional_exporter(
                 casestudies.HELLO_BABY,
                 casestudies.YORK,
             ]
-            assert soup.find('h1').text.replace('\n', '') == (
-                'New customers'
-                'are waiting -'
-                'promote your'
-                'business'
+            assert soup.find('h1').text.strip() == (
+                'Your Export Journey'
             )
 
 
@@ -666,11 +734,8 @@ def test_custom_view_regular_exporter(
             casestudies.HELLO_BABY,
             casestudies.YORK,
         ]
-        assert soup.find('h1').text.replace('\n', '') == (
-            'Choose your'
-            'next market -'
-            'Find new'
-            'customers'
+        assert soup.find('h1').text.strip() == (
+            'Your Export Journey'
         )
 
 
@@ -714,35 +779,57 @@ def test_custom_page_top_markets(sector_code, client):
 
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
 def test_triage_step_labels(mock_persist_answers, client):
-    url = reverse('triage-wizard')
     view_class = views.TriageWizardFormView
+    url = reverse('triage-wizard', kwargs={'step': view_class.SECTOR})
     view_name = 'triage_wizard_form_view'
 
-    response_one = client.get(url)
-    response_two = client.post(url, {
+    response_one_get = client.get(url)
+    response_one = client.post(url, {
         view_name + '-current_step': view_class.SECTOR,
         view_class.SECTOR + '-sector': 'HS01',
     })
-    response_three = client.post(url, {
+
+    response_two_get = client.get(response_one.url)
+    response_two = client.post(response_one.url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
         view_class.EXPORTED_BEFORE + '-exported_before': 'True',
     })
-    response_four = client.post(url, {
+
+    response_three_get = client.get(response_two.url)
+    response_three = client.post(response_two.url, {
         view_name + '-current_step': view_class.REGULAR_EXPORTER,
         view_class.REGULAR_EXPORTER + '-regular_exporter': 'True',
     })
-    response_five = client.post(url, {
+
+    response_four_get = client.get(response_three.url)
+    response_four = client.post(response_three.url, {
         view_name + '-current_step': view_class.COMPANIES_HOUSE,
         view_class.COMPANIES_HOUSE + '-is_in_companies_house': True,
     })
-    response_six = client.post(url, {
+
+    response_five_get = client.get(response_four.url)
+    client.post(response_four.url, {
         view_name + '-current_step': view_class.COMPANY,
         view_class.COMPANY + '-company_name': 'Example corp',
     })
 
-    assert b'Question 1' in response_one.content
-    assert b'Question 2' in response_two.content
-    assert b'Question 3' in response_three.content
-    assert b'Question 4' in response_four.content
-    assert b'Question 5' in response_five.content
-    assert b'Question 6' not in response_six.content
+    assert b'Question 1' in response_one_get.content
+    assert b'Question 2' in response_two_get.content
+    assert b'Question 3' in response_three_get.content
+    assert b'Question 4' in response_four_get.content
+    assert b'Question 5' in response_five_get.content
+
+
+def test_get_summary_page_direct_link_should_redirect_to_triage(client):
+    view_class = views.TriageWizardFormView
+    url = reverse('triage-wizard', kwargs={'step': view_class.SUMMARY})
+    view_name = 'triage_wizard_form_view'
+
+    response = client.get(url, {
+        view_name + '-current_step': view_class.SUMMARY,
+    })
+    assert response.status_code == 302
+    assert response.url == reverse(
+        'triage-wizard',
+        kwargs={'step': view_class.SECTOR}
+    )

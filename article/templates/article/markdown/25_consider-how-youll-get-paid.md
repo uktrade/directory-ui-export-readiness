@@ -1,8 +1,9 @@
 Getting paid for international sales isn&rsquo;t always straightforward. Think about:
 
 - which currency to invoice in
-- at what point you get paid
-- how the money will reach you
+- if you&rsquo;ll get paid in advance or offer credit terms
+- the payment method  
+
 
 These decisions can affect your:
 
@@ -10,3 +11,4 @@ These decisions can affect your:
 - competitiveness
 - cash flow
 - exposure to risk
+- need for finance

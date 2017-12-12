@@ -7,3 +7,5 @@ Think about how to manage language differences including:
 - if you need help to write tenders in a different language
 - how to cope with translating for more than one language and market
 - situations when speaking or writing English is acceptable
+- whether to translate your website
+- translating contract terms and conditions

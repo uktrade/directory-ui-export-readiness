@@ -8,31 +8,17 @@
     <link href="{% static 'styles/custom-page.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
+{% block head_title %}
+    Your export journey - great.gov.uk
+{% endblock %}
+
 {% block content %}
 <section style="" class="hero-section {% if persona.name == 'NEW_EXPORTER' %}new{% elif persona.name == 'OCCASIONAL_EXPORTER' %}occasional{% elif persona.name == 'REGULAR_EXPORTER'%}regular{% endif %}">
     <div class="container">
         <div class="hero-teaser">
-            <h1 class="title">
-            {% if persona.name == 'NEW_EXPORTER' %}
-                <span>Use your</span><br>
-                <span>potential -</span><br>
-                <span>start</span><br>
-                <span>exporting</span><br>
-            {% elif persona.name == 'OCCASIONAL_EXPORTER' %}
-                <span>New customers</span><br>
-                <span>are waiting -</span><br>
-                <span>promote your</span><br>
-                <span>business</span><br>
-            {% elif persona.name == 'REGULAR_EXPORTER'%}
-                <span>Choose your</span><br>
-                <span>next market -</span><br>
-                <span>Find new</span><br>
-                <span>customers</span><br>
-            {% endif %}
-            </h1>
+            <h1 class="title">Your Export Journey</h1>
             <p>We've gathered information, guidance and tools to help your business grow.</p>
-                <a href="{% url 'triage-wizard' %}?result" class="preferences">Update preferences</a>
-            <img src="{% static 'images/eig-logo-stacked.png' %}">
+            <a href="{% url 'triage-wizard' step='summary' %}?result" class="preferences">Update preferences</a>
         </div>
     </div>
 </section>
@@ -40,7 +26,7 @@
 <section class="sector-fact">
     <div class="container">
         <div class="fact">
-          <p class="intro"><span id="top_importer_name">{{ top_importer.partner }}</span> is the largest importer in this sector with a value of <span id="top_importer_global_trade_value">${{ top_importer.global_trade_value|intword|intcomma }}</span></p>
+          <p class="intro"><span id="top_importer_name">{{ top_importer.partner }}</span> is the largest importer in your sector with a value of <span id="top_importer_global_trade_value">${{ top_importer.global_trade_value|intword|intcomma }}</span></p>
           <p class="figure"><strong>${{ top_importer.uk_export_value|intword|intcomma }}</strong><span class="verbose">,&nbsp;</span><span>is the total value of exports in this sector from the UK in 2016</span>
           </p>
         </div>
@@ -52,43 +38,41 @@
     <div class="container">
         <div class="intro" id="largest-importers">
             <h2 class="header">
-                10 largest importers from the UK
+                10 largest importers for your sector from the UK
             </h2>
             <p class="commodity-name">{{ sector_name }}</p>
-            <p><a href="{% url 'triage-wizard' %}">Select a different product category</a></p>
+            <p><a href="{% url 'triage-wizard' step='sector' %}">Select a different product category</a></p>
             <hr>
-            <p>Start your market research with the data shown below. The export data is taken from the <a href="https://comtrade.un.org/">UN Comtrade Database</a>. The gross domestic product and ease of doing business ranking is taken from the World Bank’s <a href="http://www.doingbusiness.org/rankings">Doing Business project</a>.</p>
-            <p>For more import and export data use our  <a href="https://comtrade.un.org/labs/dit-trade-vis/?reporter=826&type=C&year=2016&flow=2&commodity">data visualisation tool.</a></p>
-            <p>Read our guidance on  <a href="{% url 'article-research-market' %}">researching your market.</a></p>
+            <p>Statistics like export values and gross domestic product can show you the potential size of a market. Information like how easy it is to do business in a country will help you decide how attractive the market is.</p>
         </div>
-        <table id="top-of-the-markets">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th>Export value from the UK</th>
-                    <th>Export value from the world</th>
-                    <th>Gross domestic product (GDP)</th>
-                    <th>Ease of Doing<br>Business rank*</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for market in top_markets %}
-                <tr id="row-{{ market.partner }}" {% if not forloop.last %}class="lined"{% endif %}>
-                    <td>{{ forloop.counter }}</td>
-                    <td class="partner">{{ market.partner }}</td>
-                    <td>${{ market.trade_value|intword }}</td>
-                    <td class="cell-global_trade_value">${{ market.global_trade_value|intword }}</td>
-                    <td>${{ market.country.gdp|intword }}</td>
-                    <td>{{ market.country.ease_of_doing_business }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <ol class="top-markets-list">
+            {% for market in top_markets %}
+            <li>
+                <dl>
+                    <dt class="country">Country</dt>
+                    <dd class="country">{{ market.partner }}</dd>
+
+                    <dt class="uk">Export value from the UK</dt>
+                    <dd class="uk">${{ market.trade_value|intword }}</dd>
+
+                    <dt class="world">Export value from the world</dt>
+                    <dd class="world">${{ market.global_trade_value|intword }}</dd>
+
+                    <dt class="gdp">Gross domestic product (GDP)</dt>
+                    <dd class="gdp">${{ market.country.gdp|intword }}
+
+                    <dt class="ease">Ease of doing business rank*</dt>
+                    <dd class="ease">{{ market.country.ease_of_doing_business }}</dd>
+                </dl>
+            </li>
+            {% endfor %}
+        </ol>
+
         <div id="market-source-data">
+			 <p>*The <a href="http://www.doingbusiness.org/rankings" target="_blank">World Bank’s Doing Business project</a> ranks economies from 1 to 190 on the how easy their regulatory environment makes it to start a local business, with 1 being the easiest.</p>
             <p>The data is for 2016. This page was updated on 30 October 2017.</p>
             <p>All import and export values are the value of exports a country has reported to <a href="https://comtrade.un.org" target="_blank">UN Comtrade, DESA/UNSD</a>.</p>
-            <p>*The <a href="http://www.doingbusiness.org/rankings" target="_blank">World Bank’s Doing Business project</a> ranks economies from 1 to 190 on the how easy their regulatory environment makes it to start a business, with 1 being the easiest.</p>
+	    <p>Use our <a href="https://comtrade.un.org/labs/dit-trade-vis/?reporter=826&type=C&year=2016&flow=2&commodity" target="_blank">data visualisation tool</a> to get more import and export data.</p> 
             <p>The UK government takes no responsibility for this data.</p>
         </div>
     </div>
@@ -112,7 +96,7 @@
                     </li>
                 {% endfor %}
                 <div class="buttons">
-                    <a class="button more js-enabled-only" id="js-paginate-list-more">Show more</a>
+                    <a href="#" class="button more js-enabled-only" id="js-paginate-list-more">Show more</a>
                 </div>
             </ol>
         </div>
@@ -153,14 +137,14 @@
                 <article data-component="service-teaser" class="service-teaser">
                     <h3 class="title">Find online marketplaces</h3>
                     <p class="text">Reach over 2 billion consumers online around the world. Get exclusive deals negotiated on behalf of UK businesses.</p>
-                    <img src="{% static 'images/home-soo-cta@2x.png' %}"><a href="https://selling-online-overseas.export.great.gov.uk/" class="link">Service: Find online marketplaces</a>
+                    <img src="{% static 'images/triage-soo-cta@2x.png' %}" alt=""><a href="https://selling-online-overseas.export.great.gov.uk/" class="link">Service: Find online marketplaces</a>
                 </article>
             </div>
             <div class="lg-2 md-1">
                 <article data-component="service-teaser" class="service-teaser">
                     <h3 class="title">Find export opportunities</h3>
                     <p class="text">Find and apply for overseas opportunities from businesses looking for products or services like yours.</p>
-                    <img src="{% static 'images/home-export-opps-cta@2x.png' %}"><a href="https://opportunities.export.great.gov.uk/" class="link">Service: Find export opportunities</a>
+                    <img src="{% static 'images/triage-export-opps-cta@2x.png' %}" alt=""><a href="https://opportunities.export.great.gov.uk/" class="link">Service: Find export opportunities</a>
                 </article>
             </div>
         </div>
@@ -178,7 +162,7 @@
                 Reach over 2 billion consumers around the world
             {% endif %}
         </h2>
-        <img src="{% static 'images/home-soo-cta@2x.png' %}" alt="">
+        <img src="{% static 'images/triage-soo-cta@2x.png' %}" alt="">
         <div class="intro">
             <div class="content">
                 <p>Get promoted internationally with a free trade profile.</p>

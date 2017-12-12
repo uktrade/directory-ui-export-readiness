@@ -1,0 +1,24 @@
+{% extends 'core/base.html' %}
+
+{% load static from staticfiles %}
+
+{% block css %}
+    <link href="{% static 'styles/default.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <h1>Page not found</h1>
+        <ul>
+            <li>If you typed in a web address, check if it was entered correctly.</li>
+            <li>If you followed a link here, <a href="{{ external_services.FEEDBACK_URL }}">report the broken link</a>.</li>
+            <li>Return to the <a href="{% url 'landing-page' %}">home</a> page.</li>
+        </ul>
+        <hr>
+        <p class="page-status">HTTP 404 Error Code - Page not found</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block feedback_reporter %}{% endblock %}

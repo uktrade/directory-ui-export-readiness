@@ -14,4 +14,4 @@ A good agent will:
 
 It can be difficult to manage agents from a different country. Offering them training and marketing support is a good way to motivate them. 
 
-Paying their commission after you&rsquo;ve been paid will encourage them make sure customers pay on time. 
+Paying their commission after you&rsquo;ve been paid will encourage agents to make sure customers pay on time. 

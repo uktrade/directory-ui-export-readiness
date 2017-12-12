@@ -15,7 +15,8 @@ GOVUK.components = (new function() {
         loadMoreButton.className = GOVUK.components.hiddenClass;
       }
     }
-    loadMoreButton.addEventListener('click', function() {
+    loadMoreButton.addEventListener('click', function(event) {
+      event.preventDefault();
       var length = Math.min(hiddenLiElements.length, GOVUK.components.pageSize)
       for (var i=0; i < length; i++ ) {
         hiddenLiElements[0].className = '';

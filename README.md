@@ -1,6 +1,5 @@
 # directory-ui-export-readiness
 
-[![code-climate-image]][code-climate]
 [![circle-ci-image]][circle-ci]
 [![codecov-image]][codecov]
 [![gemnasium-image]][gemnasium]
@@ -96,6 +95,19 @@ You should not edit CSS files directly, instead edit their SCSS counterparts.
 
 Signed cookies are used as the session backend to avoid using a database. We therefore must avoid storing non-trivial data in the session, because the browser will be exposed to the data.
 
+## Translations
+
+Follow the <a href="https://docs.djangoproject.com/en/1.11/topics/i18n/" target="_blank">Django documentation</a>
+
+To create or update `.po` files:
+
+    $ make debug_manage cmd="makemessages"
+
+To compile `.mo` files (no need to add these to source code, as this is done automatically during build):
+
+    $ make debug_manage cmd="compilemessages"
+
+
 
 ## SSO
 To make sso work locally add the following to your machine's `/etc/hosts`:
@@ -118,9 +130,6 @@ Therefore to make cookie sharing work in development we need the apps to be runn
  - `directory-ui-export-readiness` and `directory-sso` must both be running on sibling subdomains (with same parent domain)
  - `directory-sso` must be told to target cookies at the parent domain.
 
-
-[code-climate-image]: https://codeclimate.com/github/uktrade/directory-ui-export-readiness/badges/issue_count.svg
-[code-climate]: https://codeclimate.com/github/uktrade/directory-ui-export-readiness
 
 [circle-ci-image]: https://circleci.com/gh/uktrade/directory-ui-export-readiness/tree/master.svg?style=svg
 [circle-ci]: https://circleci.com/gh/uktrade/directory-ui-export-readiness/tree/master

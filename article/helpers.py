@@ -1,6 +1,7 @@
 import abc
-import markdown2
+
 from bs4 import BeautifulSoup
+import markdown2
 
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
@@ -55,15 +56,12 @@ def total_time_to_read_multiple_articles(articles):
 
 
 class BaseArticleReadManager(abc.ABC):
-    def __init__(self, request):
+    def __init__(self, request, current_article=None):
         self.request = request
+        self.current_article = current_article
 
     @abc.abstractmethod
-    def persist_article(self, article_uuid):
-        pass
-
-    @abc.abstractmethod
-    def retrieve_article_uuids(self):
+    def retrieve_historic_article_uuids(self):
         return
 
     def get_group_read_progress(self):
@@ -106,65 +104,63 @@ class BaseArticleReadManager(abc.ABC):
 
     @cached_property
     def read_article_uuids(self):
-        return self.retrieve_article_uuids()
+        uuids = self.retrieve_historic_article_uuids()
+        if self.current_article:
+            uuids.add(self.current_article.uuid)
+        return uuids
 
 
 class ArticleReadManager:
-    def __new__(cls, request):
+    def __new__(cls, request, current_article=None):
+        session_manager = SessionArticlesReadManager(request, current_article)
+        database_manager = DatabaseArticlesReadManager(
+            request, current_article
+        )
         if request.sso_user is None:
-            return SessionArticlesReadManager(request)
-        return DatabaseArticlesReadManager(request)
+            if current_article:
+                session_manager.persist_article(current_article.uuid)
+            return session_manager
+        response = database_manager.bulk_persist_article(
+            article_uuids=session_manager.read_article_uuids
+        )
+        if response.ok:
+            session_manager.clear()
+        return database_manager
 
 
 class SessionArticlesReadManager(BaseArticleReadManager):
     SESSION_KEY = 'ARTICLES_READ'
 
-    def __init__(self, request):
-        super().__init__(request)
-        self.session = request.session
-
     def persist_article(self, article_uuid):
-        articles = self.session.get(self.SESSION_KEY, [])
+        articles = self.request.session.get(self.SESSION_KEY, [])
         articles.append(article_uuid)
-        self.session[self.SESSION_KEY] = articles
-        self.session.modified = True
+        self.request.session[self.SESSION_KEY] = articles
+        self.request.session.modified = True
 
-    def retrieve_article_uuids(self):
+    def retrieve_historic_article_uuids(self):
         uuids = self.request.session.get(self.SESSION_KEY, [])
-        return frozenset(uuids)
+        return set(uuids)
+
+    def clear(self):
+        self.request.session[self.SESSION_KEY] = []
 
 
 class DatabaseArticlesReadManager(BaseArticleReadManager):
 
-    def __init__(self, request):
-        super().__init__(request)
-        self.transfer_article_progress()
+    article_uuids = set()
 
-    def persist_article(self, article_uuid):
-        response = api_client.exportreadiness.create_article_read(
-            article_uuid=article_uuid,
+    def bulk_persist_article(self, article_uuids):
+        response = api_client.exportreadiness.bulk_create_article_read(
+            article_uuids=article_uuids,
             sso_session_id=self.request.sso_user.session_id,
         )
-        response.raise_for_status()
-
-    def retrieve_article_uuids(self):
-        response = api_client.exportreadiness.retrieve_article_read(
-            sso_session_id=self.request.sso_user.session_id
+        assert response.ok, response.content
+        self.article_uuids = set(
+            [article['article_uuid'] for article in response.json()]
         )
-        response.raise_for_status()
-        uuids = [article['article_uuid'] for article in response.json()]
-        return frozenset(uuids)
+        return response
 
-    def transfer_article_progress(self):
-        """ Get the read articles from session and
-            copies them to db if not there.
-        """
-        articles_uuids_in_db = self.read_article_uuids
-        articles_uuids_in_session = self.get_read_articles_uuids_from_session()
-        articles_uuids = articles_uuids_in_session - articles_uuids_in_db
-        for uuid in articles_uuids:
-            self.persist_article(uuid)
-
-    def get_read_articles_uuids_from_session(self):
-        manager = SessionArticlesReadManager(self.request)
-        return manager.retrieve_article_uuids()
+    def retrieve_historic_article_uuids(self):
+        # for performance gains (ED-2822) the articles are returned by API when
+        # bulk_persist_article was called by ArticleReadManager
+        return self.article_uuids

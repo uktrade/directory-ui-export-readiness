@@ -36,7 +36,7 @@ class ForceDefaultLocale:
     """
     Force translation to English before view is called, then putting the user's
     original language back after the view has been called, laying the ground
-    work for`EnableTranslationsMixin` to turn on the desired locale. This
+    work for`TranslationsMixin` to turn on the desired locale. This
     provides per-view translations.
 
     """
@@ -45,8 +45,10 @@ class ForceDefaultLocale:
         translation.activate(settings.LANGUAGE_CODE)
 
     def process_response(self, request, response):
-        translation.activate(request.LANGUAGE_CODE)
+        if hasattr(request, 'LANGUAGE_CODE') and request.LANGUAGE_CODE:
+            translation.activate(request.LANGUAGE_CODE)
         return response
 
     def process_exception(self, request, exception):
-        translation.activate(request.LANGUAGE_CODE)
+        if hasattr(request, 'LANGUAGE_CODE') and request.LANGUAGE_CODE:
+            translation.activate(request.LANGUAGE_CODE)

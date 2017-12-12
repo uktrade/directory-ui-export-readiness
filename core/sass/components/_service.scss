@@ -32,12 +32,12 @@
     float: right;
     width: calc(50% - #{$spacing-3});
   }
-  
+
   .heading,
   .intro {
     color: inherit;
   }
-  
+
   &:after {
     @include great-red-trim;
     bottom: 0;
@@ -47,22 +47,22 @@
     top: initial;
     width: $cols-6;
   }
-    
-  &.fab   { 
+
+  &.fab   {
     background-color: #1E1248;
     color: $white;
   }
-  
-  &.fas   { 
+
+  &.fas   {
     background-color: #1E1547;
     color: $white;
     .button {
       @include button-ghost($white, #1E1547);
     }
   }
-  
-  &.soo   { 
-    background-color: #DFD5C6; 
+
+  &.soo   {
+    background-color: #DFD5C6;
     .button {
       @include button-ghost($grey, $white);
     }
@@ -70,7 +70,7 @@
       background-color: black;
     }
   }
-  
+
   &.exops {
     background-color: #DFD5C6;
 
@@ -83,15 +83,14 @@
   padding: $spacing-3;
   padding-top: 73%;
   position: relative;
-    
+
   img {
-    border-bottom: $great-red solid 4px;
     left: 0;
     position: absolute;
     top: 0;
     width: 100%;
   }
-  
+
   .link {
     border: none;
     height: 100%;
@@ -102,19 +101,23 @@
     text-indent: -1000px;
     top: 0;
     width: 100%;
+    &:active {
+      background-color: transparent;
+      border: 5px solid $focus-yellow;
+    }
   }
-  
+
   .text {
     @include body-m;
     margin-bottom: 0;
   }
-  
+
   .title {
     @include heading-s;
     color: $active-blue;
     text-decoration: underline;
   }
-  
+
   &:hover {
     .title {
       color: $mid-blue;
@@ -131,26 +134,26 @@
       margin-left: 10%;
       float: left;
     }
-    
+
     &:after {
       max-width: none;
       right: $spacing-3;
       width: calc(100% - #{$spacing-3 * 2});
     }
   }
-  
+
   .service-teaser {
     margin-bottom: $spacing-3;
     overflow: hidden;
     padding-top: $spacing-3;
-    
+
     img {
       float: right;
       margin-bottom: $spacing-3;
       position: static;
       width: calc(50% - #{$spacing-3});
     }
-    
+
     .text,
     .title {
       clear: both;
@@ -169,15 +172,15 @@
       width: calc(100% - #{$spacing-3-m * 2});
     }
   }
-  
+
   .service-teaser {
     padding: $spacing-3-m;
     margin-bottom: $spacing-4-m;
-    
+
     img {
       display: none;
     }
-    
+
     .text {
       @include body-m-mob;
       float: none;
@@ -185,7 +188,7 @@
       margin-right: 0;
       width: auto;
     }
-  
+
     .title {
       @include heading-s-mob;
       float: none;

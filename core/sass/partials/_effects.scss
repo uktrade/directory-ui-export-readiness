@@ -119,3 +119,71 @@
     }
   }
 }
+
+
+.Modal-Container {
+  background-color: $white;
+	border: $light-grey solid 1px;
+  display: none;
+  height: auto;
+  left: $spacing-3;
+  margin-top: $spacing-3;
+  position: absolute;
+  top: $spacing-3;
+  width: calc(100% - (#{$spacing-3 * 2}));
+
+  .close {
+    background-color: transparent;
+    border: none;
+    color: $active-blue;
+    cursor: pointer;
+    cursor: pointer;
+    font-size: inherit;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    text-decoration: underline;
+    top: 0;
+    z-index: 1;
+
+    &:focus {
+      @include focus;
+    }
+  }
+
+  .content {
+    margin-bottom: -10px;
+    padding: $spacing-3;
+    position: relative;
+    z-index: 0;
+  }
+}
+
+.Modal-Overlay {
+  background-color: $black;
+  display: none;
+  height: 100%;
+  left: 0;
+  opacity: 0.4;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+// MOBILE
+@media screen and (max-width: 480px) {
+  .Modal-Container {
+    left: $spacing-4;
+    margin-top: $spacing-4;
+    width: calc(100% - (#{$spacing-4 * 2}));
+
+    .close {
+      right: 0;
+      top: 0;
+    }
+
+    .content {
+      padding: $spacing-4;
+    }
+  }
+}

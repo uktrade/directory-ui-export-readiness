@@ -2,7 +2,7 @@
 // ------------------------------------------------
 
 @import './partials/base';
-@import './components/_hero';
+@import './components/_hero-campaign';
 @import './components/_video';
 @import './components/_triage';
 @import './components/_service';
@@ -10,6 +10,49 @@
 @import './components/_resources';
 @import './components/_exporter-story';
 @import './components/_carousel';
+@import './components/_teaser';
+@import './components/_language-selector-home';
+@import './components/_beta';
+
+
+section {
+  padding-bottom: 90px;
+}
+
+.beta {
+  background-color:  $white;
+}
+
+.hero-campaign-section {
+  background-image: url('/static/images/hero/export-hp-hero-500.jpg');
+}
+
+.intro {
+  ul {
+    margin-bottom: 45px;
+  }
+}
+
+#beis {
+  background-color: $offwhite;
+  margin-bottom: $spacing-2;
+  .intro {
+    margin-bottom: 0;
+  }
+}
+
+#content .triage-section {
+  padding-top: 60px;
+}
+
+#content .triage-section .intro {
+  margin-bottom: 0;
+}
+
+#content section#resource-guidance {
+  // the guidance boxes have margin-bottom of 30px
+  padding-bottom: 60px;
+}
 
 #personas,
 #services {
@@ -22,38 +65,6 @@
   }
 }
 
-.hero-section {
-  background-image: url('/static/images/home-hero-tangerine@2x.png');
-  padding-top: 45px;
-  height: 540px;
-}
-
-
-.intro {
-  ul {
-    margin-bottom: 45px;
-  }
-}
-#content .triage-section {
-  padding-top: 60px;
-}
-
-#content .triage-section .intro {
-  margin-bottom: 0;
-}
-
-#content section {
-  padding-bottom: 90px;
-}
-
-#content section#resource-guidance {
-  // the guidance boxes have margin-bottom of 30px
-  padding-bottom: 60px;
-}
-
-#content section .intro {
-  margin-bottom: 30px;
-}
 
 // TABLET
 @media (min-width: 767px) {
@@ -66,8 +77,13 @@
 // MOBILE
 @media (max-width: 540px) {
 
-  #content section {
+  section {
     padding-bottom: 45px;
+  }
+
+  .hero-campaign-section {
+    background-image: url('/static/images/hero/export-hp-hero-mb.jpg');
+    background-position: top left;
   }
 
   #content section#resource-guidance {
@@ -75,19 +91,12 @@
     padding-bottom: 30px;
   }
 
-  #content section .intro {
-    margin-bottom: 15px;
-  }
-
-  .hero-section {
-    background-image: url('/static/images/home-hero-tangerine-mobile@2x.png');
-    background-position: 50% 30%;
-  }
   .intro {
     ul {
       margin-bottom: 30px;
     }
   }
+
   .triage-section {
     .button {
       width: 100%;
@@ -97,9 +106,9 @@
   }
 }
 
-// LARGE SCREENS
-@media (min-width: 1200px) {
-  .hero-section {
-    background-position: top center;
+
+@media (max-width: 420px) {
+  .hero-campaign-section {
+    background-position: 10% 0%;
   }
 }

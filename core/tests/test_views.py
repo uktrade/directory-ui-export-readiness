@@ -2,15 +2,17 @@ import http
 
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django.views.generic import TemplateView
 
 from bs4 import BeautifulSoup
 import pytest
+import requests_mock
 
 from core import views
 from casestudy import casestudies
 
 
-def test_landing_page(client):
+def test_landing_page(client, settings):
     url = reverse('landing-page')
 
     response = client.get(url)
@@ -33,6 +35,9 @@ def test_landing_page(client):
         'persona_new': {'read': 0, 'total': 18},
         'persona_occasional': {'read': 0, 'total': 38},
         'persona_regular': {'read': 0, 'total': 18},
+        'custom_persona_new': {'read': 0, 'total': 18},
+        'custom_persona_occasional': {'read': 0, 'total': 38},
+        'custom_persona_regular': {'read': 0, 'total': 18},
     }
 
 
@@ -72,13 +77,37 @@ def test_robots(client):
 @pytest.mark.parametrize(
     'view,expected_template',
     (
-        ('about', 'core/about.html'),
-        ('privacy-cookies', 'core/privacy_cookies.html'),
-        ('landing-page-international', 'core/landing_page_international.html'),
-        ('sorry', 'core/sorry.html'),
-        ('not-found', 'core/not_found.html'),
-        ('terms-conditions', 'core/terms_conditions.html'),
-        ('get-finance', 'core/get_finance.html')
+        (
+            'about',
+            'core/about.html'
+        ),
+        (
+            'privacy-and-cookies',
+            'core/privacy_cookies-domestic.html'
+        ),
+        (
+            'privacy-and-cookies-international',
+            'core/privacy_cookies-international.html'),
+        (
+            'terms-and-conditions',
+            'core/terms_conditions-domestic.html'
+        ),
+        (
+            'terms-and-conditions-international',
+            'core/terms_conditions-international.html'
+        ),
+        (
+            'landing-page-international',
+            'core/landing_page_international.html'
+        ),
+        (
+            'not-found',
+            'core/not_found.html'
+        ),
+        (
+            'get-finance',
+            'core/get_finance.html'
+        )
     )
 )
 def test_templates(view, expected_template, client):
@@ -101,13 +130,100 @@ def test_international_landing_view_translations(lang, client):
     assert response.cookies['django_language'].value == lang
 
 
-def test_international_landing_view_translations_bidi(client):
-    response = client.get(
-        reverse('landing-page-international'),
-        {'lang': 'ar'}
-    )
+@pytest.mark.parametrize('method,expected', (
+    ('get', '"aa579dae951f3cc5d696e5359261e123"'),
+    ('post', None),
+    ('patch', None),
+    ('put', None),
+    ('delete', None),
+    ('head', None),
+    ('options', None),
+))
+def test_set_etag_mixin(rf, method, expected):
+    class MyView(views.SetEtagMixin, TemplateView):
 
-    assert response.status_code == http.client.OK
+        template_name = 'core/robots.txt'
+
+        def post(self, *args, **kwargs):
+            return super().get(*args, **kwargs)
+
+        def patch(self, *args, **kwargs):
+            return super().get(*args, **kwargs)
+
+        def put(self, *args, **kwargs):
+            return super().get(*args, **kwargs)
+
+        def delete(self, *args, **kwargs):
+            return super().get(*args, **kwargs)
+
+        def head(self, *args, **kwargs):
+            return super().get(*args, **kwargs)
+
+        def options(self, *args, **kwargs):
+            return super().get(*args, **kwargs)
+
+    request = getattr(rf, method)('/')
+    request.sso_user = None
+    view = MyView.as_view()
+    response = view(request)
+
+    response.render()
+    assert response.get('Etag') == expected
+
+
+@pytest.mark.parametrize('view_class', views.SetEtagMixin.__subclasses__())
+def test_cached_views_not_dynamic(rf, settings, view_class):
+    # exception will be raised if the views perform http request, which are an
+    # indicator that the views rely on dynamic data.
+    with requests_mock.mock():
+        view = view_class.as_view()
+        request = rf.get('/')
+        request.LANGUAGE_CODE = 'en-gb'
+        # highlights if the view tries to interact with the session, which is
+        # also an indicator that the view relies on dynamic data.
+        request.session = None
+        response = view(request)
+        assert response.status_code == 200
+
+
+def test_about_view(client):
+    response = client.get(reverse('about'))
+
+    assert response.status_code == 200
+    assert response.template_name == [views.AboutView.template_name]
+
+
+def test_privacy_view_domestic(client):
+    response = client.get(reverse('privacy-and-cookies'))
+
+    assert response.status_code == 200
     assert response.template_name == [
-        views.InternationalLandingPageView.template_name_bidi
+        views.PrivacyCookiesDomestic.template_name
+    ]
+
+
+def test_terms_and_conditions_view_domestic(client):
+    response = client.get(reverse('terms-and-conditions'))
+
+    assert response.status_code == 200
+    assert response.template_name == [
+        views.TermsConditionsDomestic.template_name
+    ]
+
+
+def test_privacy_view_international(client):
+    response = client.get(reverse('privacy-and-cookies-international'))
+
+    assert response.status_code == 200
+    assert response.template_name == [
+        views.PrivacyCookiesInternational.template_name
+    ]
+
+
+def test_terms_and_conditions_view_international(client):
+    response = client.get(reverse('terms-and-conditions-international'))
+
+    assert response.status_code == 200
+    assert response.template_name == [
+        views.TermsConditionsInternational.template_name
     ]

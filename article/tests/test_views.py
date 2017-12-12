@@ -5,11 +5,10 @@ from bs4 import BeautifulSoup
 import pytest
 from directory_constants.constants import exred_articles
 
-from article import views
-
+from django.template.loader import render_to_string
 from django.urls import reverse
 
-from article import articles, helpers, structure
+from article import articles, helpers, structure, views
 import core.helpers
 
 
@@ -320,10 +319,38 @@ def test_articles_share_links(view_class, url, client):
 
 
 # skip the last group - it does not have a page, it's a list of all articles.
-@pytest.mark.parametrize('group', structure.ALL_GROUPS[:-1])
+# skip CUSTOM_PAGE_* groups - they're tested elsewhere as they need settting up
+@pytest.mark.parametrize('group', structure.ALL_GROUPS[:-4])
 def test_article_links_include_next_param(client, group):
     response = client.get(group.url)
     soup = BeautifulSoup(response.content, 'html.parser')
+
+    article_links = soup.findAll('a', {'class': 'article'})
+
+    assert len(article_links) == len(group.articles)
+
+    for article, article_link_element in zip(group.articles, article_links):
+        assert article_link_element.attrs['href'] == (
+            str(article.url) + '?source=' + group.name
+        )
+
+
+@pytest.mark.parametrize('group', [
+    structure.CUSTOM_PAGE_NEW_ARTICLES,
+    structure.CUSTOM_PAGE_REGULAR_ARTICLES,
+    structure.CUSTOM_PAGE_OCCASIONAL_ARTICLES,
+])
+def test_article_link_custom_page_exporter_articles(group):
+    html = render_to_string('triage/custom-page.html', {
+        'section_configuration': {
+            'persona_article_group': group,
+        },
+        'article_group': group,
+        'article_group_progress': {
+            'time_left_to_read': 0,
+        }
+    })
+    soup = BeautifulSoup(html, 'html.parser')
 
     article_links = soup.findAll('a', {'class': 'article'})
 
@@ -369,33 +396,30 @@ def test_inferred_return_to_article(client, group):
         assert category_element.text == group.title
 
 
-@patch('article.helpers.DatabaseArticlesReadManager.retrieve_article_uuids',
-       Mock(return_value=set()))
-@patch('article.helpers.DatabaseArticlesReadManager.persist_article')
+@patch('article.helpers.DatabaseArticlesReadManager.'
+       'retrieve_historic_article_uuids', Mock(return_value=set()))
+@patch('article.helpers.DatabaseArticlesReadManager.bulk_persist_article')
 def test_article_view_persist_article_logged_in_user(
-    mocked_persist_articles, authed_client
+    mock_bulk_persist_article, authed_client
 ):
     url = reverse('article-research-market')
     response = authed_client.get(url)
 
     assert response.status_code == 200
-    assert mocked_persist_articles.call_count == 1
-    assert mocked_persist_articles.call_args == call(
-        exred_articles.DO_RESEARCH_FIRST
+    assert mock_bulk_persist_article.call_count == 1
+    assert mock_bulk_persist_article.call_args == call(
+        article_uuids=set([exred_articles.DO_RESEARCH_FIRST]),
     )
 
 
 @patch('article.helpers.SessionArticlesReadManager.persist_article')
-def test_article_view_persist_article_anon_user(
-        mocked_persist_articles,
-        client
-):
+def test_article_view_persist_article_anon_user(mock_persist_articles, client):
     url = reverse('article-research-market')
     response = client.get(url)
 
     assert response.status_code == 200
-    assert mocked_persist_articles.call_count == 1
-    assert mocked_persist_articles.call_args == call(
+    assert mock_persist_articles.call_count == 1
+    assert mock_persist_articles.call_args == call(
         exred_articles.DO_RESEARCH_FIRST
     )
 
@@ -403,14 +427,15 @@ def test_article_view_persist_article_anon_user(
 @pytest.mark.parametrize('url,read_count,total_count,title,time,uuids', [
     (
         reverse('article-research-market'),
-        3,
+        4,
         len(structure.ALL_ARTICLES.articles),
         '',
-        6034,
-        frozenset([
+        6003,
+        set([
            articles.USE_DISTRIBUTOR.uuid,
            articles.GET_EXPORT_FINANCE.uuid,
            articles.GET_MONEY_TO_EXPORT.uuid,
+           articles.DO_RESEARCH_FIRST.uuid,
         ]),
     ),
     (
@@ -418,7 +443,7 @@ def test_article_view_persist_article_anon_user(
         2,
         len(structure.GUIDANCE_FINANCE_ARTICLES.articles),
         structure.GUIDANCE_FINANCE_ARTICLES.title,
-        807,
+        852,
         frozenset([
            articles.GET_EXPORT_FINANCE.uuid,
            articles.GET_MONEY_TO_EXPORT.uuid,
@@ -429,7 +454,7 @@ def test_article_view_persist_article_anon_user(
         3,
         len(structure.ALL_ARTICLES.articles),
         '',
-        6034,
+        6147,
         frozenset([
            articles.USE_DISTRIBUTOR.uuid,
            articles.GET_EXPORT_FINANCE.uuid,
@@ -441,7 +466,7 @@ def test_article_view_persist_article_anon_user(
         2,
         len(structure.GUIDANCE_FINANCE_ARTICLES.articles),
         structure.GUIDANCE_FINANCE_ARTICLES.title,
-        807,
+        852,
         frozenset([
            articles.GET_EXPORT_FINANCE.uuid,
            articles.GET_MONEY_TO_EXPORT.uuid,
@@ -449,7 +474,10 @@ def test_article_view_persist_article_anon_user(
     ),
 ])
 @patch('article.helpers.SessionArticlesReadManager.persist_article', Mock)
-@patch('article.helpers.SessionArticlesReadManager.retrieve_article_uuids')
+@patch(
+    'article.helpers.SessionArticlesReadManager.'
+    'retrieve_historic_article_uuids'
+)
 def test_article_group_read_counter_with_source(
     mock_retrieve, client, url, read_count, total_count, title, time, uuids
 ):

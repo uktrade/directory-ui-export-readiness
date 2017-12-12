@@ -1,0 +1,47 @@
+{% extends 'core/base_international.html' %}
+{% load static from staticfiles %}
+{% load trans from i18n %}
+
+{% block content %}
+
+<section class="international-intro">
+    <div class="container">
+        <h1 class="header bidi-rtl">{% trans "Welcome to the UK" %}</h1>
+        <p class="intro bidi-rtl">
+            {% trans "Home to cutting edge innovators, a place that nurtures talent and creates exceptional products and services. Your future belongs here." %}
+        </p>
+    </div>
+</section>
+
+<section class="international-links">
+    <div class="container">
+        <article data-component="teaser-site" class="teaser-site-external bidi-rtl">
+            <h2 class="title">{% trans "Buy from the UK" %}</h2>
+            <p class="text">{% trans "Get exclusive early access to profiles of high quality UK businesses ready to fulfill your demand." %}</p>
+            <img src="{% static 'images/international/great-hp-fas.png' %}" alt=""/>
+            <a href="{% trans "https://trade.great.gov.uk/" %}" target="_blank" class="button button-cta">{% trans "Find a Supplier" %}</a>
+        </article>
+
+        <article data-component="teaser-site" class="teaser-site-external bidi-rtl">
+            <h2 class="title">{% trans "Invest in the UK" %}</h2>
+            <p class="text">{% trans "Discover the UK’s wealth of investment opportunities and how the UK government will support your global ambition." %}</p>
+            <img src="{% static 'images/international/great-hp-invest.png' %}" alt=""/>
+            <a href="{% trans "https://invest.great.gov.uk/int/" %}" target="_blank" class="button button-cta bidi-rtl">{% trans "See the potential" %}</a>
+        </article>
+
+        <article data-component="teaser-site" class="teaser-site-external bidi-rtl">
+            <h2 class="title">{% trans "Study in the UK" %}</h2>
+            <p class="text">{% trans "Get a headstart from an exceptional British education that will inspire you to achieve." %}</p>
+            <img src="{% static 'images/international/great-hp-study.png' %}" alt=""/>
+            <a href="https://study-uk.britishcouncil.org/" target="_blank" class="button button-cta">{% trans "Learn more" %}</a>
+        </article>
+
+        <article data-component="teaser-site" class="teaser-site-external bidi-rtl">
+            <h2 class="title">{% trans "Visit the UK" %}</h2>
+                <p class="text">{% trans "Take a journey through vibrant cities, breathtaking scenery, unrivalled heritage and iconic landmarks and discover what makes the UK great." %}</p>
+                <img src="{% static 'images/international/great-hp-visit.png' %}" alt=""/>
+                <a href="{% trans "https://www.visitbritain.com/gb/en" %}" target="_blank" class="button button-cta">{% trans "Plan your trip" %}</a>
+        </article>
+    </div>
+</section>
+{% endblock %}
