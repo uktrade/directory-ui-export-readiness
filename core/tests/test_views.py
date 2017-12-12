@@ -202,6 +202,16 @@ def test_privacy_view_domestic(client):
     ]
 
 
+def test_privacy_view_domestic_about_cookies_link_correct(client):
+    response = client.get(reverse('privacy-and-cookies'))
+
+    assert response.status_code == 200
+    assert (
+        '<a href="http://www.aboutcookies.org.uk">'
+        'www.aboutcookies.org.uk</a>'
+    ) in str(response.content)
+
+
 def test_terms_and_conditions_view_domestic(client):
     response = client.get(reverse('terms-and-conditions'))
 
