@@ -25,6 +25,7 @@ section {
 
 .hero-campaign-section {
   background-image: url('/static/images/hero/export-hp-hero-500.jpg');
+  background-image: -webkit-image-set(url('/static/images/hero/export-hp-hero-500.webp') 1x);
 }
 
 .intro {
@@ -83,6 +84,7 @@ section {
 
   .hero-campaign-section {
     background-image: url('/static/images/hero/export-hp-hero-mb.jpg');
+    background-image: -webkit-image-set(url('/static/images/hero/export-hp-hero-mb.webp') 1x);
     background-position: top left;
   }
 

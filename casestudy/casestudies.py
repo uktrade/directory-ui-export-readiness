@@ -1,8 +1,6 @@
 from collections import namedtuple
 from django.urls import reverse_lazy
 
-from django.contrib.staticfiles.storage import staticfiles_storage
-
 
 CaseStudy = namedtuple('CaseStudy', [
     'title',
