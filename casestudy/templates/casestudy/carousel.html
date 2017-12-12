@@ -1,3 +1,4 @@
+{% load static from staticfiles %}
 <div class="container">
     <h2 class="heading">Exporters share their story</h2>
     <p class="intro">Read what other UK businesses have to say about their experiences with exporting and the decisions they made to secure the future of their business.</p>
@@ -30,7 +31,7 @@
                         <p>{{ casestudy.description }}</p>
                         <a href="{{ casestudy.url }}" class="carousel-cta" aria-labelledby="Go to {{ casestudy.title }} case study"></a>
                     </div>
-                    <div class="ed-carousel__slide__image lg-2 md-1" style="background-image: url('{{ casestudy.image_url }}');" role="listitem" aria-labelledby="{{ casestudy.image_description }}">
+                    <div class="ed-carousel__slide__image lg-2 md-1" style="background-image: url('{% static casestudy.image_url %}'); background-image: -webkit-image-set(url('{% static casestudy.image_url_webp %}') 1x);" role="listitem" aria-labelledby="{{ casestudy.image_description }}">
                     </div>
                 </div>
                 {% endfor %}
