@@ -12,4 +12,4 @@ Your bank should be able to help you with short-term loans, guarantees and lette
 
 For export insurance, see the government&rsquo;s [list of approved export insurance brokers](https://www.gov.uk/government/publications/uk-export-finance-insurance-list-of-approved-brokers/export-insurance-approved-brokers "UK Export Finance approved insurance brokers").
 
-If you’re exporting to a high-risk country and your bank or insurer can’t help, you may qualify for government-backed finance through [UK Export Finance (UKEF)](https://www.gov.uk/government/organisations/uk-export-finance "Find out more about UKEF"). 
+If you’re exporting and your bank or credit insurer can’t help, you may qualify for government-backed finance or insurance from [UK Export Finance (UKEF)](https://www.gov.uk/government/organisations/uk-export-finance "Find out more about UKEF"). 

@@ -430,7 +430,7 @@ def test_article_view_persist_article_anon_user(mock_persist_articles, client):
         4,
         len(structure.ALL_ARTICLES.articles),
         '',
-        6003,
+        6023,
         set([
            articles.USE_DISTRIBUTOR.uuid,
            articles.GET_EXPORT_FINANCE.uuid,
@@ -443,7 +443,7 @@ def test_article_view_persist_article_anon_user(mock_persist_articles, client):
         2,
         len(structure.GUIDANCE_FINANCE_ARTICLES.articles),
         structure.GUIDANCE_FINANCE_ARTICLES.title,
-        852,
+        872,
         frozenset([
            articles.GET_EXPORT_FINANCE.uuid,
            articles.GET_MONEY_TO_EXPORT.uuid,
@@ -454,7 +454,7 @@ def test_article_view_persist_article_anon_user(mock_persist_articles, client):
         3,
         len(structure.ALL_ARTICLES.articles),
         '',
-        6147,
+        6167,
         frozenset([
            articles.USE_DISTRIBUTOR.uuid,
            articles.GET_EXPORT_FINANCE.uuid,
@@ -466,7 +466,7 @@ def test_article_view_persist_article_anon_user(mock_persist_articles, client):
         2,
         len(structure.GUIDANCE_FINANCE_ARTICLES.articles),
         structure.GUIDANCE_FINANCE_ARTICLES.title,
-        852,
+        872,
         frozenset([
            articles.GET_EXPORT_FINANCE.uuid,
            articles.GET_MONEY_TO_EXPORT.uuid,
