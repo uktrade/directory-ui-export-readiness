@@ -49,9 +49,9 @@ def test_interstitial_page_exopps(client):
     assert response.status_code == 200
     assert context['exopps_url'] == settings.SERVICES_EXOPPS_ACTUAL
 
-    heading = '<h1>Export Opportunities</h1>'
+    heading = '<h1>Export opportunities</h1>'
     expected = str(BeautifulSoup(heading, 'html.parser'))
-    button_text = 'Go to Export Opportunities'
+    button_text = 'Find export opportunities'
     html_page = str(BeautifulSoup(response.content, 'html.parser'))
 
     assert expected in html_page
