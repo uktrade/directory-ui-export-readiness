@@ -5,7 +5,8 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 
 
 CaseStudy = namedtuple(
-    'CaseStudy', ['title', 'description', 'image_url', 'url']
+    'CaseStudy',
+    ['title', 'description', 'image_url', 'url', 'image_description']
 )
 
 HELLO_BABY = CaseStudy(
@@ -17,6 +18,7 @@ HELLO_BABY = CaseStudy(
     ),
     image_url=staticfiles_storage.url('images/stories/hellobaby.jpg'),
     url=reverse_lazy('casestudy-hello-baby'),
+    image_description='A group of people involved with Hello Baby',
 )
 
 MARKETPLACE = CaseStudy(
@@ -27,6 +29,8 @@ MARKETPLACE = CaseStudy(
     ),
     image_url=staticfiles_storage.url('images/stories/freestylextreme.jpg'),
     url=reverse_lazy('casestudy-online-marketplaces'),
+    image_description='A group of fashionable extreme sports aficionados',
+
 )
 
 YORK = CaseStudy(
@@ -38,4 +42,5 @@ YORK = CaseStudy(
     ),
     image_url=staticfiles_storage.url('images/stories/maxwellscottbags.jpg'),
     url=reverse_lazy('casestudy-york-bag'),
+    image_description='A showcase of various models of Maxwell Scott bag',
 )
