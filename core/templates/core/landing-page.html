@@ -1,6 +1,7 @@
 {% extends 'core/base.html' %}
 
 {% load static from staticfiles %}
+{% load progressive_image from image_tags %}
 
 {% block js %}
   <script src="{% static 'Dit-Pattern-Styling/public/js/script.js' %}"></script>
@@ -37,7 +38,7 @@
             <div class="hero-campaign-teaser">
                 <h1 class="title"><span>If we can,</span><br><span>you can</span></h1>
                 <p>Thousands of businesses like yours have increased their sales, growth and stability by selling overseas. Explore the potential of exporting with guidance, services and support from the Department for International Trade.</p>
-                <img src="{% static 'images/eig-logo-stacked.png' %}" alt="">
+                {% progressive_image webp='images/eig-logo-stacked.webp' src='images/eig-logo-stacked.png' %}
             </div>
             <div class="video modal">
                 <a href="https://s3-eu-west-1.amazonaws.com/public-directory-api/promo-video_web.mp4" data-node="videoactivator" data-element="video" class="button video-button" target="_blank">Watch video</a>
@@ -47,7 +48,7 @@
     <section class="triage triage-section">
         <div class="container">
             <h2 class="heading">Create your export journey</h2>
-            <img src="{% static 'images/home-triage-world-connections@2x.png' %}" alt="">
+            {% progressive_image webp='images/home-triage-world-connections@2x.webp' src='images/home-triage-world-connections@2x.png' %}
             <div class="intro">
                 <div class="content">
                     <p>Answer a few quick questions about what you want to export and your level of experience to get:</p>
@@ -71,13 +72,22 @@
             <p class="intro">It can be hard to know where to start if you’re new to exporting. And even if you export regularly, there’s always more to know. Get exporting guidance for your experience level.</p>
             <div class="group">
                 <div class="lg-3 md-1">
-                    <div class="export-status-selector"><img src="{% static 'images/exports-hp-new-to-exporting.jpg' %}" alt=""><a href="{% url 'article-list-persona-new' %}" class="link">I'm new to exporting</a></div>
+                    <div class="export-status-selector">
+                    {% progressive_image webp='images/exports-hp-new-to-exporting.webp' src='images/exports-hp-new-to-exporting.jpg' %}
+                    <a href="{% url 'article-list-persona-new' %}" class="link">I'm new to exporting</a>
+                </div>
                 </div>
                 <div class="lg-3 md-1">
-                    <div class="export-status-selector"><img src="{% static 'images/export-hp-occasional.jpg' %}" alt=""><a href="{% url 'article-list-persona-occasional' %}" class="link">I export occasionally</a></div>
+                    <div class="export-status-selector">
+                        {% progressive_image webp='images/export-hp-occasional.webp' src='images/export-hp-occasional.jpg' %}
+                        <a href="{% url 'article-list-persona-occasional' %}" class="link">I export occasionally</a>
+                    </div>
                 </div>
                 <div class="lg-3 md-1">
-                    <div class="export-status-selector"><img src="{% static 'images/export-hp-regular.jpg' %}" alt=""><a href="{% url 'article-list-persona-regular' %}" class="link"><span class="status">I’m a regular exporter</a></div>
+                    <div class="export-status-selector">
+                        {% progressive_image webp='images/export-hp-regular.webp' src='images/export-hp-regular.jpg' %}
+                        <a href="{% url 'article-list-persona-regular' %}" class="link"><span class="status">I’m a regular exporter</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -122,7 +132,7 @@
     <section id="beis" class="teaser-section">
         <div class="container">
             <h2 class="heading">Get support to start or grow your UK business</h2>
-            <img src="{% static 'images/export-hp-beis.jpg' %}" alt=""/>
+            {% progressive_image webp='images/export-hp-beis.webp' src='images/export-hp-beis.jpg' %}
             <p class="intro">
                 <span class="text">You can get government support and advice to start or grow a business within the UK. Whatever the size of your business, the Department for Business, Energy &amp; Industrial Strategy can help make it a success.</span>
                 <a href="http://www.greatbusiness.gov.uk" target="_blank">Find out more on www.greatbusiness.gov.uk</a>
