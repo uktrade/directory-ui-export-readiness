@@ -56,6 +56,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE_CLASSES = [
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -341,3 +342,8 @@ EXTERNAL_SERVICE_FEEDBACK_URL = os.getenv(
     'EXTERNAL_SERVICE_FEEDBACK_URL',
     'https://contact-us.export.great.gov.uk/directory/FeedbackForm',
 )
+
+# security
+X_FRAME_OPTIONS = 'DENY'
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True

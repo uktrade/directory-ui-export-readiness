@@ -1,6 +1,7 @@
 {% extends 'core/base.html' %}
 
 {% load static from staticfiles %}
+{% load progressive_image from image_tags %}
 
 {% block css %}
     <link href="{% static 'styles/casestudy.css' %}" rel="stylesheet" type="text/css" />
@@ -18,7 +19,7 @@
         <p class="type">Case Study</p>
         <p class="description">{{ casestudy.description }}</p>
         <div class="image">
-            <img src="{{ casestudy.image_url }}" alt="">
+            {% progressive_image webp=casestudy.image_url_webp src=casestudy.image_url alt_text=casestudy.image_description %}
             <blockquote class="quote">
                 <span class="text">{% block quote_one_text %}{% endblock %}</span>
                 <cite>

@@ -1,0 +1,5 @@
+{% load static from staticfiles %}
+<picture>
+    <source srcset="{% static webp %}" type="image/webp">
+    <img src="{% static src %}" alt="{{ alt_text }}">
+</picture>

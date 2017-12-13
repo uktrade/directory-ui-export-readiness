@@ -1,3 +1,4 @@
+{% load static from staticfiles %}
 <div class="container">
     <h2 class="heading">Exporters share their story</h2>
     <p class="intro">Read what other UK businesses have to say about their experiences with exporting and the decisions they made to secure the future of their business.</p>
@@ -7,28 +8,16 @@
             <input class="ed-carousel__activator" type="radio" name="ed-carousel" id="2"/>
             <input class="ed-carousel__activator" type="radio" name="ed-carousel" id="3"/>
             <div class="ed-carousel__controls">
-                <label class="ed-carousel__control ed-carousel__control--backward" for="3">
-                    <span class="screen-reader-only">Go to slide 3</span>
-                </label>
-                <label class="ed-carousel__control ed-carousel__control--forward" for="2">
-                    <span class="screen-reader-only">Go to slide 2</span>
-                </label>
+                <label class="ed-carousel__control ed-carousel__control--backward" for="3" aria-labelledby="Go to slide 3"></label>
+                <label class="ed-carousel__control ed-carousel__control--forward" for="2" aria-labelledby="Go to slide 2"></label>
             </div>
             <div class="ed-carousel__controls">
-                <label class="ed-carousel__control ed-carousel__control--backward" for="1">
-                    <span class="screen-reader-only">Go to slide 1</span>
-                </label>
-                <label class="ed-carousel__control ed-carousel__control--forward" for="3">
-                    <span class="screen-reader-only">Go to slide 3</span>
-                </label>
+                <label class="ed-carousel__control ed-carousel__control--backward" for="1" aria-labelledby="Go to slide 1"></label>
+                <label class="ed-carousel__control ed-carousel__control--forward" for="3" aria-labelledby="Go to slide 3"></label>
             </div>
             <div class="ed-carousel__controls">
-                <label class="ed-carousel__control ed-carousel__control--backward" for="2">
-                    <span class="screen-reader-only">Go to slide 2</span>
-                </label>
-                <label class="ed-carousel__control ed-carousel__control--forward" for="1">
-                    <span class="screen-reader-only">Go to slide 1</span>
-                </label>
+                <label class="ed-carousel__control ed-carousel__control--backward" for="2" aria-labelledby="Go to slide 2"></label>
+                <label class="ed-carousel__control ed-carousel__control--forward" for="1" aria-labelledby="Go to slide 1"></label>
             </div>
             <div class="ed-carousel__track">
                 {% for casestudy in casestudies %}
@@ -40,17 +29,17 @@
                         </a>
                         </h3>
                         <p>{{ casestudy.description }}</p>
-                        <a href="{{ casestudy.url }}" class="carousel-cta" aria-label="{{ casestudy.title }}"></a>
+                        <a href="{{ casestudy.url }}" class="carousel-cta" aria-labelledby="Go to {{ casestudy.title }} case study"></a>
                     </div>
-                    <div class="ed-carousel__slide__image lg-2 md-1" style="background-image: url('{{ casestudy.image_url }}');">
+                    <div class="ed-carousel__slide__image lg-2 md-1" style="background-image: url('{% static casestudy.image_url %}'); background-image: -webkit-image-set(url('{% static casestudy.image_url_webp %}') 1x);" role="listitem" aria-labelledby="{{ casestudy.image_description }}">
                     </div>
                 </div>
                 {% endfor %}
             </div>
             <div class="ed-carousel__indicators">
-                <label class="ed-carousel__indicator" for="1"><span class="screen-reader-only">Go to slide 1</span></label>
-                <label class="ed-carousel__indicator" for="2"><span class="screen-reader-only">Go to slide 2</span></label>
-                <label class="ed-carousel__indicator" for="3"><span class="screen-reader-only">Go to slide 3</span></label>
+                <label class="ed-carousel__indicator" for="1" aria-labelledby="Go to slide 1"></label>
+                <label class="ed-carousel__indicator" for="2" aria-labelledby="Go to slide 2"></label>
+                <label class="ed-carousel__indicator" for="3" aria-labelledby="Go to slide 3"></label>
             </div>
         </div>
         <div style="clear: both;"></div>
