@@ -246,12 +246,7 @@
   // Tries to add focus to the first found element allowed with natural focus ability.
   Modal.prototype.focus = function() {
     var self = this;
-    // If $firstFocusElement didn't find anything
-    // (content was appended after it ran)
-    // find it again here
-    if (!self.$firstFocusElement.length) {
-      self.$container.find("video, a, button, input, select").eq(0).focus();
-    } else self.$firstFocusElement.focus();
+    self.$firstFocusElement.focus();
   }
 
 
