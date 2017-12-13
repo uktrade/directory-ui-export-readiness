@@ -349,6 +349,18 @@ ARTICLE_REDIRECTS_MAPPING = (
     (
         'write-an-export-plan',
         'make-an-export-plan'
+    ),
+    (
+        'clear-goals-for-face-to-face-meetings',
+        'meet-your-customers',
+    ),
+    (
+        'face-to-face-communication',
+        'meet-your-customers',
+    ),
+    (
+        'finance-for-export',
+        'get-export-finance',
     )
 )
 
