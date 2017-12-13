@@ -41,13 +41,15 @@
       this.$closeButton = Modal.createCloseButton();
       this.$content = Modal.createContent();
       this.$container = Modal.enhanceModalContainer($container);
-      this.$firstLink = Modal.findFirstLink($container);
+      this.$firstFocusElement = Modal.findFirstFocusElement($container);
+      this.$lastFocusElement = Modal.findLastFocusElement($container);
 
       // Add elements to DOM
       Modal.appendElements.call(this, config.overlay);
 
       // Add events
       Modal.bindCloseEvents.call(this);
+      Modal.bindKeyboardFocusEvents.call(this);
       Modal.bindActivators.call(this, config.$activators);
 
       // Initial state
@@ -79,8 +81,12 @@
     return $content;
   }
 
-  Modal.findFirstLink = function($container) {
-    return $container.find('ul li a:first');
+  Modal.findFirstFocusElement = function($container) {
+    return $container.find("video, a, button, input, select").eq(0);
+  }
+
+  Modal.findLastFocusElement = function($container) {
+    return $container.find("video, a, button, input, select").last();
   }
 
   Modal.enhanceModalContainer = function($container) {
@@ -89,8 +95,8 @@
   }
 
   Modal.appendElements = function(overlay) {
-    this.$container.append(this.$closeButton);
     this.$container.append(this.$content);
+    this.$container.append(this.$closeButton);
 
     if (overlay) {
       $(document.body).append(this.$overlay);
@@ -137,15 +143,6 @@
       }
     });
 
-    self.$firstLink.on("keydown", function(e) {
-      if (e.shiftKey && e.which === 9) {
-      // Loop around to close button when pressing
-      // shift+tab on first link
-        e.preventDefault();
-        self.$closeButton.focus();
-      }
-    });
-
     self.$closeButton.on("click keydown", function(e) {
       // Close on click or Enter
       if(e.which === 1 || e.which === 13) {
@@ -154,7 +151,7 @@
       } else if (e.which === 9 && !e.shiftKey) {
       // After pressing tab when close button is selected
       // loop back around to the first link
-        self.$firstLink.focus();
+        self.focus();
         e.preventDefault();
       }
     });
@@ -164,6 +161,18 @@
         Modal.deactivate.call(self);
       });
     }
+  }
+
+  Modal.bindKeyboardFocusEvents = function() {
+    var self = this;
+    // Loop around to close button when pressing
+    // shift+tab on first focusable element
+    self.$firstFocusElement.on("keydown", function(e) {
+      if (e.shiftKey && e.which === 9) {
+        e.preventDefault();
+        self.$closeButton.focus();
+      }
+    });
   }
 
   Modal.bindActivators = function($activators) {
@@ -237,10 +246,15 @@
     self.$content.append(content);
   }
 
-  // Tries to add focus to the first found element allowed nwith atural focus ability.
+  // Tries to add focus to the first found element allowed with natural focus ability.
   Modal.prototype.focus = function() {
     var self = this;
-    self.$content.find("video, a, button, input, select").eq(0).focus();
+    // If $firstFocusElement didn't find anything
+    // (content was appended after it ran)
+    // find it again here
+    if (!self.$firstFocusElement.length) {
+      self.$container.find("video, a, button, input, select").eq(0).focus();
+    } else self.$firstFocusElement.focus();
   }
 
 
