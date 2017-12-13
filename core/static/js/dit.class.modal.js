@@ -42,7 +42,6 @@
       this.$content = Modal.createContent();
       this.$container = Modal.enhanceModalContainer($container);
       this.$firstFocusElement = Modal.findFirstFocusElement($container);
-      this.$lastFocusElement = Modal.findLastFocusElement($container);
 
       // Add elements to DOM
       Modal.appendElements.call(this, config.overlay);
@@ -83,10 +82,6 @@
 
   Modal.findFirstFocusElement = function($container) {
     return $container.find("video, a, button, input, select").eq(0);
-  }
-
-  Modal.findLastFocusElement = function($container) {
-    return $container.find("video, a, button, input, select").last();
   }
 
   Modal.enhanceModalContainer = function($container) {
@@ -244,6 +239,8 @@
     var self = this;
     self.$content.empty();
     self.$content.append(content);
+    self.$firstFocusElement = Modal.findFirstFocusElement(self.$container);
+    Modal.bindKeyboardFocusEvents.call(self);
   }
 
   // Tries to add focus to the first found element allowed with natural focus ability.
