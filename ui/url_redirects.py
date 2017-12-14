@@ -176,7 +176,19 @@ redirects = [
             pattern_name='landing-page-international',
         ),
         name='redirect-us'
-    )
+    ),
+    url(
+        r'^innovation/$',
+        RedirectView.as_view(
+            url=(
+                'https://www.events.trade.gov.uk/'
+                'the-great-festival-of-innovation-hong-kong-2018/'
+            ),
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-invest'
+    ),
 ]
 
 

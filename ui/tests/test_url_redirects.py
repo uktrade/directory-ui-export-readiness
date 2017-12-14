@@ -160,7 +160,11 @@ redirects = [
     ('/int/', 'landing-page-international'),
     ('/uk/', 'landing-page'),
     ('/in/', 'landing-page-international'),
-    ('/us/', 'landing-page-international')
+    ('/us/', 'landing-page-international'),
+    ('/innovation/', (
+        'https://www.events.trade.gov.uk/'
+        'the-great-festival-of-innovation-hong-kong-2018/'
+    )),
 ]
 
 # add urls with no trailing slash
