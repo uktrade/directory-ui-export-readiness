@@ -41,14 +41,12 @@
       this.$closeButton = Modal.createCloseButton();
       this.$content = Modal.createContent();
       this.$container = Modal.enhanceModalContainer($container);
-      this.$firstFocusElement = Modal.findFirstFocusElement($container);
 
       // Add elements to DOM
       Modal.appendElements.call(this, config.overlay);
 
       // Add events
       Modal.bindCloseEvents.call(this);
-      Modal.bindKeyboardFocusEvents.call(this);
       Modal.bindActivators.call(this, config.$activators);
 
       // Initial state
@@ -82,6 +80,10 @@
 
   Modal.findFirstFocusElement = function($container) {
     return $container.find("video, a, button, input, select").eq(0);
+  }
+
+  Modal.findLastFocusElement = function($container) {
+    return $container.find("video, a, button, input, select").last();
   }
 
   Modal.enhanceModalContainer = function($container) {
@@ -160,12 +162,20 @@
 
   Modal.bindKeyboardFocusEvents = function() {
     var self = this;
-    // Loop around to close button when pressing
+    // Loop around to last element when pressing
     // shift+tab on first focusable element
     self.$firstFocusElement.on("keydown", function(e) {
       if (e.shiftKey && e.which === 9) {
         e.preventDefault();
-        self.$closeButton.focus();
+        self.$lastFocusElement.focus();
+      }
+    });
+    // Loop around to first element when
+    // pressing tab on last element
+    self.$lastFocusElement.on("keydown", function(e) {
+      if (!e.shiftKey && e.which === 9) {
+        e.preventDefault();
+        self.$firstFocusElement.focus();
       }
     });
   }
@@ -240,6 +250,7 @@
     self.$content.empty();
     self.$content.append(content);
     self.$firstFocusElement = Modal.findFirstFocusElement(self.$container);
+    self.$lastFocusElement = Modal.findLastFocusElement(self.$container);
     Modal.bindKeyboardFocusEvents.call(self);
   }
 
