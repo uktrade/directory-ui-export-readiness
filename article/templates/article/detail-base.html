@@ -11,6 +11,12 @@
     {{ article.title }} export guidance - great.gov.uk
 {% endblock %}
 
+{% block article_og %}
+  <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="{{ article.title }}" />
+{% endblock %}
+
 {% block content %}
 <div class="container">
 
