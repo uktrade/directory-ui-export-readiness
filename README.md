@@ -120,9 +120,8 @@ To make sso work locally add the following to your machine's `/etc/hosts`:
 | 127.0.0.1 | api.trade.great      |
 | 127.0.0.1 | profile.trade.great  |
 | 127.0.0.1 | exred.trade.great    |
-| 127.0.0.1 | ui.trade.great       |
 
-Then log into `directory-sso` via `sso.trade.great:8001`, and use `directory-ui-export-readiness` on `ui.trade.great:8001`
+Then log into `directory-sso` via `sso.trade.great:8001`, and use `directory-ui-export-readiness` on `exred.trade.great:8001`
 
 Note in production, the `directory-sso` session cookie is shared with all subdomains that are on the same parent domain as `directory-sso`. However in development we cannot share cookies between subdomains using `localhost` - that would be like trying to set a cookie for `.com`, which is not supported by any RFC.
 
