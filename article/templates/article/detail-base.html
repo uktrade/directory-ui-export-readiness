@@ -11,11 +11,11 @@
     {{ article.title }} export guidance - great.gov.uk
 {% endblock %}
 
-{% block article_og %}
-  <meta property="og:url" content="{{ request.build_absolute_uri }}" />
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content="{{ article.title }}" />
-{% endblock %}
+{% block share_content_type %}article{% endblock %}
+{% block share_twitter_title %}{{ article.title }}{% endblock %}
+{% block share_facebook_title %}{{ article.title }}{% endblock %}
+{% block share_generic_description %}{% endblock %}
+{% block share_facebook_description %}{% endblock %}
 
 {% block content %}
 <div class="container">
