@@ -178,6 +178,18 @@ redirects = [
         'https://www.events.trade.gov.uk/'
         'the-great-festival-of-innovation-hong-kong-2018/'
     )),
+    ('/uk/cy/', (
+        'https://www.great.gov.uk/?utm_source=Mailing&utm_medium'
+        '=Brochure&utm_campaign=ExportBrochureCY'
+    )),
+    ('/verify/', (
+        'https://find-a-buyer.export.great.gov.uk/'
+        'confirm-company-address/'
+    )),
+    ('/legal/', (
+        'https://trade.great.gov.uk/'
+        'campaign/legal-is-great/singapore/'
+    )),
 ]
 
 # add urls with no trailing slash

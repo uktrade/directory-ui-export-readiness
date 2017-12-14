@@ -295,7 +295,43 @@ redirects = [
             permanent=False,
             query_string=True
         ),
-        name='redirect-invest'
+        name='redirect-innovation'
+    ),
+    url(
+        r'^uk/cy/$',
+        RedirectView.as_view(
+            url=(
+                'https://www.great.gov.uk/?utm_source=Mailing&utm_medium'
+                '=Brochure&utm_campaign=ExportBrochureCY'
+            ),
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-uk-cy'
+    ),
+    url(
+        r'^verify/$',
+        RedirectView.as_view(
+            url=(
+                'https://find-a-buyer.export.great.gov.uk/'
+                'confirm-company-address/'
+            ),
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-verify'
+    ),
+    url(
+        r'^legal/$',
+        RedirectView.as_view(
+            url=(
+                'https://trade.great.gov.uk/'
+                'campaign/legal-is-great/singapore/'
+            ),
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-legal'
     ),
 ]
 
