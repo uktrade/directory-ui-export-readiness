@@ -14,7 +14,7 @@ When you set up your website you need to decide on the website name, also known 
 - describe your business (if the name is not available)
 - be in lowercase
 
-Having a short, accurate domain name will make it easier for buyers to find and remember your website, and improve your site engine optimisation (SEO). Good SEO improves your ranking in search engine results.
+Having a short, accurate domain name will make it easier for buyers to find and remember your website, and improve your search engine optimisation (SEO). Good SEO improves your ranking in search engine results.
 
 ### Choose your domain extension
 
