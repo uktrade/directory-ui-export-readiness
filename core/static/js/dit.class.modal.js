@@ -145,11 +145,6 @@
       if(e.which === 1 || e.which === 13) {
         Modal.deactivate.call(self);
         e.preventDefault();
-      } else if (e.which === 9 && !e.shiftKey) {
-      // After pressing tab when close button is selected
-      // loop back around to the first link
-        self.focus();
-        e.preventDefault();
       }
     });
 
