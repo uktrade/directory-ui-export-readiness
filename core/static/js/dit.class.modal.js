@@ -140,12 +140,10 @@
       }
     });
 
-    self.$closeButton.on("click keydown", function(e) {
-      // Close on click or Enter
-      if(e.which === 1 || e.which === 13) {
-        Modal.deactivate.call(self);
-        e.preventDefault();
-      }
+    self.$closeButton.on("click", function(e) {
+      // Close on click
+      Modal.deactivate.call(self);
+      e.preventDefault();
     });
 
     if (self.$overlay && self.$overlay.length) {
@@ -159,7 +157,8 @@
     var self = this;
     // Loop around to last element when pressing
     // shift+tab on first focusable element
-    self.$firstFocusElement.on("keydown", function(e) {
+    self.$firstFocusElement.off("keydown.modalfocus");
+    self.$firstFocusElement.on("keydown.modalfocus", function(e) {
       if (e.shiftKey && e.which === 9) {
         e.preventDefault();
         self.$lastFocusElement.focus();
@@ -167,7 +166,8 @@
     });
     // Loop around to first element when
     // pressing tab on last element
-    self.$lastFocusElement.on("keydown", function(e) {
+    self.$lastFocusElement.off("keydown.modalfocus");
+    self.$lastFocusElement.on("keydown.modalfocus", function(e) {
       if (!e.shiftKey && e.which === 9) {
         e.preventDefault();
         self.$firstFocusElement.focus();
