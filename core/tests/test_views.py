@@ -49,9 +49,9 @@ def test_interstitial_page_exopps(client):
     assert response.status_code == 200
     assert context['exopps_url'] == settings.SERVICES_EXOPPS_ACTUAL
 
-    heading = '<h1>Export Opportunities</h1>'
+    heading = '<h1>Export opportunities</h1>'
     expected = str(BeautifulSoup(heading, 'html.parser'))
-    button_text = 'Go to Export Opportunities'
+    button_text = 'Find export opportunities'
     html_page = str(BeautifulSoup(response.content, 'html.parser'))
 
     assert expected in html_page
@@ -200,6 +200,16 @@ def test_privacy_view_domestic(client):
     assert response.template_name == [
         views.PrivacyCookiesDomestic.template_name
     ]
+
+
+def test_privacy_view_domestic_about_cookies_link_correct(client):
+    response = client.get(reverse('privacy-and-cookies'))
+
+    assert response.status_code == 200
+    assert (
+        '<a href="http://www.aboutcookies.org.uk">'
+        'www.aboutcookies.org.uk</a>'
+    ) in str(response.content)
 
 
 def test_terms_and_conditions_view_domestic(client):

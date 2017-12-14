@@ -36,5 +36,5 @@ Interest rates are either fixed or lenders bid for a loan based on the interest 
 
 You have to submit accounts, go through credit checks and provide a personal guarentee from a company director to register for a loan on most platforms.
 
-[The Peer-to-Peer Finance Association](http://p2pfa.info/p2pfa-members "Peer-to-Peer Finance Association") has a list of peer-to-peer lending sites, such as [Funding Circle](https://www.fundingcircle.com/uk/businesses/ "Funding Circle").
+[The Peer-to-Peer Finance Association](http://p2pfa.info/platforms/ "Peer-to-Peer Finance Association") has a list of peer-to-peer lending sites, such as [Funding Circle](https://www.fundingcircle.com/uk/businesses/ "Funding Circle").
 

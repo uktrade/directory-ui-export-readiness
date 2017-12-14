@@ -24,7 +24,10 @@ section {
 }
 
 .hero-campaign-section {
-  background-image: url('/static/images/hero/export-hp-hero-500.jpg');
+  background-image: url('/static/images/hero/export-hp-hero-500.png');
+}
+body.webp-enabled .hero-campaign-section {
+  background-image: url('/static/images/hero/export-hp-hero-500.webp');
 }
 
 .intro {
@@ -84,6 +87,10 @@ section {
   .hero-campaign-section {
     background-image: url('/static/images/hero/export-hp-hero-mb.jpg');
     background-position: top left;
+  }
+
+  body.webp-enabled  .hero-campaign-section {
+    background-image: url('/static/images/hero/export-hp-hero-mb.webp');
   }
 
   #content section#resource-guidance {
