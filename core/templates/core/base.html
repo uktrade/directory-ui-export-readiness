@@ -1,5 +1,4 @@
 {% load static from staticfiles %}
-{% load image_tags %}
 
 <!DOCTYPE html>
 <!--[if lt IE 9]><html class="lte-ie8" lang="en"><![endif]-->
@@ -12,25 +11,7 @@
 
         <title>{% block head_title %}Welcome to great.gov.uk{% endblock %}</title>
 
-        {# description should be under 155 characters #}
-        <meta name="description" content="{% block share_generic_description %}{% endblock %}" />
-
-        {# Twitter #}
-        <meta name="twitter:card" content="summary">
-
-        <meta name="twitter:title" content="{% block share_twitter_title %}{% endblock %}">
-
-        {# twitter falls back to og for other data not included here #}
-
-        {# Facebook share data #}
-        <meta property="og:locale" content="en_UK" />
-        <meta property="og:site_name" content="great.gov.uk" />
-        <meta property="og:url" content="{{ request.build_absolute_uri }}" />
-
-        <meta property="og:image" content="{% block share_facebook_image %}{% get_image_absolute_uri 'images/icons/opengraph-image.png' %}{% endblock %}">
-        <meta property="og:title" content="{% block share_facebook_title %}{% endblock %}" />
-        <meta property="og:type" content="{% block share_content_type %}{% endblock %}" />
-        <meta property="og:description" content="{% block share_facebook_description %}{% endblock %}" />
+        {% block sharing_metadata %}{% endblock %}
 
         <link rel="shortcut icon" href="{% static 'images/icons/favicon.ico' %}" type="image/x-icon" />
         <link rel="mask-icon" href="{% static 'images/icons/gov.uk_logotype_crown.svg' %}" color="#0b0c0c">
