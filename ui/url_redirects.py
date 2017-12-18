@@ -33,6 +33,24 @@ redirects = [
         name='redirect-us-invest'
     ),
     url(
+        r'^es/invest/$',
+        RedirectView.as_view(
+            url='https://invest.great.gov.uk/es',
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-es-invest'
+    ),
+    url(
+        r'^int/es/invest/$',
+        RedirectView.as_view(
+            url='https://invest.great.gov.uk/int/es',
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-int-es-invest'
+    ),
+    url(
         r'^cn/invest/$',
         RedirectView.as_view(
             url='https://invest.great.gov.uk/cn',
@@ -40,6 +58,33 @@ redirects = [
             query_string=True
         ),
         name='redirect-cn-invest'
+    ),
+    url(
+        r'^int/zh/invest/$',
+        RedirectView.as_view(
+            url='https://invest.great.gov.uk/int/zh',
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-int-zh-invest'
+    ),
+    url(
+        r'^int/pt/invest/$',
+        RedirectView.as_view(
+            url='https://invest.great.gov.uk/int/pt',
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-int-pt-invest'
+    ),
+    url(
+        r'^br/invest/$',
+        RedirectView.as_view(
+            url='https://invest.great.gov.uk/br',
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-br-invest'
     ),
     url(
         r'^de/invest/$',
@@ -51,6 +96,33 @@ redirects = [
         name='redirect-de-invest'
     ),
     url(
+        r'^int/de/invest/$',
+        RedirectView.as_view(
+            url='https://invest.great.gov.uk/int/de',
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-int-de-invest'
+    ),
+    url(
+        r'^jp/invest/$',
+        RedirectView.as_view(
+            url='https://invest.great.gov.uk/jp',
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-jp-invest'
+    ),
+    url(
+        r'^int/ja/invest/$',
+        RedirectView.as_view(
+            url='https://invest.great.gov.uk/int/ja',
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-int-ja-invest'
+    ),
+    url(
         r'^in/invest/$',
         RedirectView.as_view(
             url='https://invest.great.gov.uk/in',
@@ -58,6 +130,15 @@ redirects = [
             query_string=True
         ),
         name='redirect-in-invest'
+    ),
+    url(
+        r'^int/ar/invest/$',
+        RedirectView.as_view(
+            url='https://invest.great.gov.uk/int/ar',
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-int-ar-invest'
     ),
     url(
         r'^study/$',
@@ -85,6 +166,33 @@ redirects = [
             query_string=True
         ),
         name='redirect-export'
+    ),
+    url(
+        r'^export/new/$',
+        RedirectView.as_view(
+            pattern_name='article-list-persona-new',
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-export-new'
+    ),
+    url(
+        r'^export/occasional/$',
+        RedirectView.as_view(
+            pattern_name='article-list-persona-occasional',
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-export-occasional'
+    ),
+    url(
+        r'^export/regular/$',
+        RedirectView.as_view(
+            pattern_name='article-list-persona-regular',
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-export-regular'
     ),
     url(
         r'^export/opportunities/$',
@@ -187,7 +295,43 @@ redirects = [
             permanent=False,
             query_string=True
         ),
-        name='redirect-invest'
+        name='redirect-innovation'
+    ),
+    url(
+        r'^uk/cy/$',
+        RedirectView.as_view(
+            url=(
+                'https://www.great.gov.uk/?utm_source=Mailing&utm_medium'
+                '=Brochure&utm_campaign=ExportBrochureCY'
+            ),
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-uk-cy'
+    ),
+    url(
+        r'^verify/$',
+        RedirectView.as_view(
+            url=(
+                'https://find-a-buyer.export.great.gov.uk/'
+                'confirm-company-address/'
+            ),
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-verify'
+    ),
+    url(
+        r'^legal/$',
+        RedirectView.as_view(
+            url=(
+                'https://trade.great.gov.uk/'
+                'campaign/legal-is-great/singapore/'
+            ),
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-legal'
     ),
 ]
 
