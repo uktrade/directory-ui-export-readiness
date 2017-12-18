@@ -42,7 +42,7 @@
 
   dt.country { 
     left: $top-table-list-rank-width; 
-    text-indent: -1000px;
+    text-indent: -10000px;
   }
   
   dt.ease    { left: calc((#{$top-table-list-rank-width} + #{$top-table-list-country-width}) + (#{$top-table-list-standard-width} * 3)); }
