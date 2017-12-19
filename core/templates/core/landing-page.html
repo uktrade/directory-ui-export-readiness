@@ -47,9 +47,9 @@
     </section>
     <section class="triage triage-section">
         <div class="container">
-            <h2 class="heading">Create your export journey</h2>
-            {% progressive_image webp='images/home-triage-world-connections@2x.webp' src='images/home-triage-world-connections@2x.png' %}
-            <div class="intro">
+            <h2 id="triage-section-title" class="heading">Create your export journey</h2>
+            {% progressive_image webp='images/home-triage-world-connections@2x.webp' src='images/home-triage-world-connections@2x.png' img_id='triage-section-image' %}
+            <div class="intro" id="triage-section-description">
                 <div class="content">
                     <p>Answer a few quick questions about what you want to export and your level of experience to get:</p>
                     <ul>
@@ -58,9 +58,9 @@
                         <li>access to services to help you export</li>
                     </ul>
                     {% if has_completed_triage %}
-                         <a href="{% url 'custom-page' %}" class="button button-cta">Continue your export journey</a>
+                         <a id="triage-section-continue-your-journey" href="{% url 'custom-page' %}" class="button button-cta">Continue your export journey</a>
                     {% else %}
-                        <a href="{% url 'triage-wizard' step='sector' %}" class="button button-cta">Get started</a>
+                        <a id="triage-section-get-started" href="{% url 'triage-wizard' step='sector' %}" class="button button-cta">Get started</a>
                     {% endif %}
                 </div>
             </div>
