@@ -1,8 +1,8 @@
 
 /* Class: Modal
  * -------------------------
- * Create an area to use as popup/modal/lightbox effect. 
- * 
+ * Create an area to use as popup/modal/lightbox effect.
+ *
  * REQUIRES:
  * jquery
  * dit.js
@@ -10,7 +10,7 @@
  *
  **/
 (function($, utils, classes) {
-  
+
   var ARIA_EXPANDED = "aria-expanded";
   var CSS_CLASS_CLOSE_BUTTON = "close";
   var CSS_CLASS_CONTAINER = "Modal-Container"
@@ -37,18 +37,18 @@
         this.$overlay = Modal.createOverlay();
         Modal.bindResponsiveOverlaySizeListener.call(this);
       }
-    
+
       this.$closeButton = Modal.createCloseButton();
       this.$content = Modal.createContent();
       this.$container = Modal.enhanceModalContainer($container);
-    
+
       // Add elements to DOM
       Modal.appendElements.call(this, config.overlay);
-    
+
       // Add events
       Modal.bindCloseEvents.call(this);
       Modal.bindActivators.call(this, config.$activators);
-    
+
       // Initial state
       if (config.closeOnBuild) {
         this.close();
@@ -58,7 +58,7 @@
       }
     }
   }
-  
+
   Modal.createOverlay = function() {
     var $overlay = $(document.createElement("div"));
     $overlay.addClass(CSS_CLASS_OVERLAY);
@@ -71,28 +71,36 @@
     $button.addClass(CSS_CLASS_CLOSE_BUTTON);
     return $button;
   }
-  
+
   Modal.createContent = function() {
     var $content = $(document.createElement("div"));
     $content.addClass(CSS_CLASS_CONTENT);
     return $content;
   }
 
+  Modal.findFirstFocusElement = function($container) {
+    return $container.find("video, a, button, input, select").eq(0);
+  }
+
+  Modal.findLastFocusElement = function($container) {
+    return $container.find("video, a, button, input, select").last();
+  }
+
   Modal.enhanceModalContainer = function($container) {
     $container.addClass(CSS_CLASS_CONTAINER);
     return $container;
   }
-  
+
   Modal.appendElements = function(overlay) {
-    this.$container.append(this.$closeButton);
     this.$container.append(this.$content);
-    
+    this.$container.append(this.$closeButton);
+
     if (overlay) {
       $(document.body).append(this.$overlay);
     }
     $(document.body).append(this.$container);
   }
-  
+
   // Handles open actions including whether additioal
   // ability to focus and remember activator if using
   // the keyboard for navigation.
@@ -105,13 +113,13 @@
         break;
       case 13: // Enter
         this.shouldReturnFocusToActivator = true;
-        this.focus(); 
+        this.focus();
         break;
     }
   }
 
   // Handles close including whether additional
-  // ability to refocus on original activator 
+  // ability to refocus on original activator
   // (e.g. if using keyboard for navigaiton).
   Modal.deactivate = function() {
     if(this.shouldReturnFocusToActivator) {
@@ -132,19 +140,39 @@
       }
     });
 
-    self.$closeButton.on("click keydown", function(e) {
-      // Close on click or Enter
-      if(e.which === 1 || e.which === 13) {
-        Modal.deactivate.call(self);
-        e.preventDefault();
-      }
+    self.$closeButton.on("click", function(e) {
+      // Close on click
+      Modal.deactivate.call(self);
+      e.preventDefault();
     });
-    
+
     if (self.$overlay && self.$overlay.length) {
       self.$overlay.on("click", function(e) {
         Modal.deactivate.call(self);
       });
     }
+  }
+
+  Modal.bindKeyboardFocusEvents = function() {
+    var self = this;
+    // Loop around to last element when pressing
+    // shift+tab on first focusable element
+    self.$firstFocusElement.off("keydown.modalfocus");
+    self.$firstFocusElement.on("keydown.modalfocus", function(e) {
+      if (e.shiftKey && e.which === 9) {
+        e.preventDefault();
+        self.$lastFocusElement.focus();
+      }
+    });
+    // Loop around to first element when
+    // pressing tab on last element
+    self.$lastFocusElement.off("keydown.modalfocus");
+    self.$lastFocusElement.on("keydown.modalfocus", function(e) {
+      if (!e.shiftKey && e.which === 9) {
+        e.preventDefault();
+        self.$firstFocusElement.focus();
+      }
+    });
   }
 
   Modal.bindActivators = function($activators) {
@@ -163,7 +191,7 @@
     // Resets the overlay height (once) on scroll because document
     // height changes with responsive resizing and the browser
     // needs a delay to redraw elements. Alternative was to have
-    // a rubbish setTimeout with arbitrary delay. 
+    // a rubbish setTimeout with arbitrary delay.
     $(document.body).on(dit.responsive.reset, function(e, mode) {
       $(window).off("scroll.ModalOverlayResizer");
       $(window).one("scroll.ModalOverlayResizer", function() {
@@ -171,12 +199,12 @@
       });
     });
   }
-  
+
   Modal.setOverlayHeight = function($overlay) {
     $overlay.get(0).style.height = ""; // Clear it first
     $overlay.height($(document).height());
   }
-  
+
   Modal.prototype = {};
   Modal.prototype.close = function() {
     var self = this;
@@ -184,12 +212,12 @@
       self.$container.attr(ARIA_EXPANDED, false);
       self.$container.removeClass(CSS_CLASS_OPEN);
     });
-    
+
     if (self.$overlay && self.$overlay.length) {
       self.$overlay.fadeOut(150);
     }
   }
-  
+
   Modal.prototype.open = function() {
     var self = this;
     var top;
@@ -211,19 +239,21 @@
       self.$overlay.fadeIn(0);
     }
   }
-  
+
   Modal.prototype.setContent = function(content) {
     var self = this;
     self.$content.empty();
     self.$content.append(content);
+    self.$firstFocusElement = Modal.findFirstFocusElement(self.$container);
+    self.$lastFocusElement = Modal.findLastFocusElement(self.$container);
+    Modal.bindKeyboardFocusEvents.call(self);
   }
 
-  // Tries to add focus to the first found element allowed nwith atural focus ability.
+  // Tries to add focus to the first found element allowed with natural focus ability.
   Modal.prototype.focus = function() {
     var self = this;
-    self.$content.find("video, a, button, input, select").eq(0).focus();
+    self.$firstFocusElement.focus();
   }
-  
-  
-})(jQuery, dit.utils, dit.classes);
 
+
+})(jQuery, dit.utils, dit.classes);
