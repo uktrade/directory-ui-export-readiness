@@ -10,7 +10,8 @@ def test_build_twitter_link(rf):
 
     assert actual == (
         'https://twitter.com/intent/tweet'
-        '?text=Export Readiness - Do research first http://testserver/'
+        '?text=Export%20Readiness%20-%20Do%20research%20first%20'
+        'http://testserver/'
     )
 
 
@@ -35,7 +36,8 @@ def test_build_linkedin_link(rf):
     assert actual == (
         'https://www.linkedin.com/shareArticle?mini=true&'
         'url=http://testserver/&'
-        'title=Export Readiness - Do research first&source=LinkedIn'
+        'title=Export%20Readiness%20-%20Do%20research%20first%20'
+        '&source=LinkedIn'
     )
 
 
@@ -48,5 +50,5 @@ def test_build_email_link(rf):
 
     assert actual == (
         'mailto:?body=http://testserver/'
-        '&subject=Export Readiness - Do research first'
+        '&subject=Export%20Readiness%20-%20Do%20research%20first%20'
     )
