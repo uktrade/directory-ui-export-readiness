@@ -68,25 +68,25 @@
     </section>
     <section id="personas">
         <div class="container">
-            <h2 class="header">Export readiness</h2>
-            <p class="intro">It can be hard to know where to start if you’re new to exporting. And even if you export regularly, there’s always more to know. Get exporting guidance for your experience level.</p>
+            <h2 id="personas-section-title" class="header">Export readiness</h2>
+            <p id="personas-section-description" class="intro">It can be hard to know where to start if you’re new to exporting. And even if you export regularly, there’s always more to know. Get exporting guidance for your experience level.</p>
             <div class="group">
                 <div class="lg-3 md-1">
                     <div class="export-status-selector">
-                    {% progressive_image webp='images/exports-hp-new-to-exporting.webp' src='images/exports-hp-new-to-exporting.jpg' %}
-                    <a href="{% url 'article-list-persona-new' %}" class="link">I'm new to exporting</a>
+                    {% progressive_image webp='images/exports-hp-new-to-exporting.webp' img_id='personas-section-new-image' src='images/exports-hp-new-to-exporting.jpg' %}
+                    <a href="{% url 'article-list-persona-new' %}" id="personas-section-new" class="link">I'm new to exporting</a>
                 </div>
                 </div>
                 <div class="lg-3 md-1">
                     <div class="export-status-selector">
-                        {% progressive_image webp='images/export-hp-occasional.webp' src='images/export-hp-occasional.jpg' %}
-                        <a href="{% url 'article-list-persona-occasional' %}" class="link">I export occasionally</a>
+                        {% progressive_image webp='images/export-hp-occasional.webp' img_id='personas-section-occasional-image' src='images/export-hp-occasional.jpg' %}
+                        <a href="{% url 'article-list-persona-occasional' %}" id="personas-section-occasional" class="link">I export occasionally</a>
                     </div>
                 </div>
                 <div class="lg-3 md-1">
                     <div class="export-status-selector">
-                        {% progressive_image webp='images/export-hp-regular.webp' src='images/export-hp-regular.jpg' %}
-                        <a href="{% url 'article-list-persona-regular' %}" class="link"><span class="status">I’m a regular exporter</a>
+                        {% progressive_image webp='images/export-hp-regular.webp' src='images/export-hp-regular.jpg' img_id='personas-section-regular-image'%}
+                        <a href="{% url 'article-list-persona-regular' %}" id="personas-section-regular" class="link"><span class="status">I’m a regular exporter</a>
                     </div>
                 </div>
             </div>
