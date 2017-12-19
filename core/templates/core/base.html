@@ -1,4 +1,5 @@
 {% load static from staticfiles %}
+{% load image_tags %}
 
 <!DOCTYPE html>
 <!--[if lt IE 9]><html class="lte-ie8" lang="en"><![endif]-->
@@ -11,7 +12,10 @@
 
         <title>{% block head_title %}Welcome to great.gov.uk{% endblock %}</title>
 
-        {% block sharing_metadata %}{% endblock %}
+        {% block sharing_metadata %}
+          <meta property="og:image" content="{% get_image_absolute_uri 'images/icons/opengraph-image.png' %}">
+          <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+        {% endblock %}
 
         <link rel="shortcut icon" href="{% static 'images/icons/favicon.ico' %}" type="image/x-icon" />
         <link rel="mask-icon" href="{% static 'images/icons/gov.uk_logotype_crown.svg' %}" color="#0b0c0c">
