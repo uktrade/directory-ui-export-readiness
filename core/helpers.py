@@ -1,12 +1,16 @@
+import urllib.parse
+
+
 def build_social_link(template, request, title):
+    text_to_encode = 'Export Readiness - ' + title + ' '
     return template.format(
         url=request.build_absolute_uri(),
-        text='Export Readiness - ' + title,
+        text=urllib.parse.quote(text_to_encode)
     )
 
 
 def build_twitter_link(request, title):
-    template = 'https://twitter.com/intent/tweet?text={text} {url}'
+    template = 'https://twitter.com/intent/tweet?text={text}{url}'
     return build_social_link(template, request, title)
 
 
