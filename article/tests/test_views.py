@@ -340,7 +340,7 @@ def test_article_links_include_next_param(client, group):
     structure.CUSTOM_PAGE_REGULAR_ARTICLES,
     structure.CUSTOM_PAGE_OCCASIONAL_ARTICLES,
 ])
-def test_article_link_custom_page_exporter_articles(group):
+def test_article_link_custom_page_exporter_articles(group, anon_request):
     html = render_to_string('triage/custom-page.html', {
         'section_configuration': {
             'persona_article_group': group,
@@ -348,7 +348,8 @@ def test_article_link_custom_page_exporter_articles(group):
         'article_group': group,
         'article_group_progress': {
             'time_left_to_read': 0,
-        }
+        },
+        'request': anon_request,
     })
     soup = BeautifulSoup(html, 'html.parser')
 
