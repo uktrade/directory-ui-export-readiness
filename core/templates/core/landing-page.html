@@ -95,30 +95,32 @@
     {% include 'core/guidance-resources.html' %}
     <section id="services">
         <div class="container">
-            <h2 class="header">Export services</h2>
-            <p class="intro">Our export services help to connect UK businesses with international buyers.</p>
+            <h2 id="services-section-title" class="header">Export services</h2>
+            <p id="services-section-description" class="intro">Our export services help to connect UK businesses with international buyers.</p>
             <div class="group">
                 <div class="lg-3 md-1">
                     <article data-component="service-teaser" class="service-teaser">
                         <h3 class="title">Create an export profile</h3>
-                        <p class="text">Create your free trade profile and get promoted to businesses around the world.</p>
-                        {% progressive_image webp='images/export-hp-fas-profile.webp' src='images/export-hp-fas-profile.jpg' %}
-                        <a href="{{ header_footer_urls.services_fab }}" class="link">Service: Find a buyer</a>
+                        <p id="services-section-find-a-buyer-description" class="text">Create your free trade profile and get promoted to businesses around the world.</p>
+                        {% progressive_image webp='images/export-hp-fas-profile.webp' img_id='services-section-find-a-buyer-image' src='images/export-hp-fas-profile.jpg' %}
+                        <a id="services-section-find-a-buyer-link" href="{{ header_footer_urls.services_fab }}" class="link">Service: Find a buyer</a>
 
                     </article>
                 </div>
                 <div class="lg-3 md-1">
                     <article data-component="service-teaser" class="service-teaser">
                         <h3 class="title">Find online marketplaces</h3>
-                        <p class="text">Reach over 2 billion international consumers online. Get exclusive deals negotiated by government on behalf of UK businesses.</p>
-                        {% progressive_image webp='images/export-hp-online-market.webp' src='images/export-hp-online-market.jpg' %}<a href="{{ header_footer_urls.services_soo }}" class="link">Service: Find online marketplaces</a>
+                        <p id="services-section-selling-online-overseas-description" class="text">Reach over 2 billion international consumers online. Get exclusive deals negotiated by government on behalf of UK businesses.</p>
+                        {% progressive_image webp='images/export-hp-online-market.webp' img_id='services-section-selling-online-overseas-image' src='images/export-hp-online-market.jpg' %}
+                        <a id="services-section-selling-online-overseas-link" href="{{ header_footer_urls.services_soo }}" class="link">Service: Find online marketplaces</a>
                     </article>
                 </div>
                 <div class="lg-3 md-1">
                     <article data-component="service-teaser" class="service-teaser">
                         <h3 class="title">Find export opportunities</h3>
-                        <p class="text">Find and apply for overseas opportunities from businesses looking for products or services like yours.</p>
-                        {% progressive_image webp='images/export-hp-export-opportunities.webp' src='images/export-hp-export-opportunities.jpg' %}<a href="{% url 'export-opportunities' %}" class="link">Service: Find export opportunities</a>
+                        <p id="services-section-export-opportunities-description" class="text">Find and apply for overseas opportunities from businesses looking for products or services like yours.</p>
+                        {% progressive_image webp='images/export-hp-export-opportunities.webp' img_id='services-section-export-opportunities-image' src='images/export-hp-export-opportunities.jpg' %}
+                        <a id="services-section-export-opportunities-link" href="{% url 'export-opportunities' %}" class="link">Service: Find export opportunities</a>
                     </article>
                 </div>
             </div>
