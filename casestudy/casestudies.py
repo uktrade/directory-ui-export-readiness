@@ -28,7 +28,8 @@ MARKETPLACE = CaseStudy(
     title="Online marketplaces propel FreestyleXtreme",
     description=(
         'Like many businesses, Bristol-based specialist sports retailer '
-        'FreestyleXtreme has seen considerable growth through online sales overseas.'
+        'FreestyleXtreme has seen considerable growth through online '
+        'sales overseas.'
     ),
     image_url='images/stories/freestylextreme.jpg',
     image_url_webp='images/stories/freestylextreme.webp',
