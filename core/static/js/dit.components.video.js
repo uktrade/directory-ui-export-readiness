@@ -2,18 +2,18 @@
 // Requires...
 // dit.js
 // dit.class.Modal.js
- 
+
 dit.components.video = (new function() {
 
   var VIDEO_COMPONENT = this;
-  
+
   // Constants
   var CSS_CLASS_CONTAINER = "video-container";
   var SELECTOR_ACTIVATOR = "[data-node='videoactivator']";
   var TYPE_VIDEO = "video";
   var TYPE_IFRAME = "iframe";
 
-  
+
   /* Contructor
    * Modal dialog enhancement specifically for video display.
    * @$dialog (jQuery node) Element containing video/iframe.
@@ -29,8 +29,10 @@ dit.components.video = (new function() {
     var $source = $("<source src=\"" + src + "\" type=\"video/" + format  + "\">");
     $video.append($source);
     this.setContent($video);
+    // add id to video close button
+    this.$closeButton.attr('id', 'hero-campaign-section-videoplayer-close');
   }
-  
+
   VideoDialog.loadWithIframe = function(src) {
     var $iframe = $("<iframe src=\"" + src + "\"></iframe>");
     this.setContent($iframe);
@@ -74,15 +76,15 @@ dit.components.video = (new function() {
       [1280, 720],
       [1920, 1080]
     ];
-    
+
     var i = 0;
     var size;
-    
+
     do {
       size = sizes[i],
       i++;
     } while (i < sizes.length && sizes[i][0] <= width && sizes[i][1] <= height);
-    
+
     $iframe.attr("width", size[0]);
     $iframe.attr("height", size[1]);
     //t = Math.floor((o - s.height()) / 4),
@@ -101,9 +103,9 @@ dit.components.video = (new function() {
       //VIDEO_COMPONENT.activate(this, e);
     });
   }
-  
 
-  // Public  
+
+  // Public
   this.init = function() {
     var $activators = $(SELECTOR_ACTIVATOR);
     var $container = createContainer();
@@ -113,7 +115,7 @@ dit.components.video = (new function() {
         $activators: $activators
       });
     }
-    
+
     delete self.init; // Run once fuction.
   }
 });
