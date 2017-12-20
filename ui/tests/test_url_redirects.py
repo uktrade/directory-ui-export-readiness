@@ -137,6 +137,7 @@ def test_article_redirects_query_params(url, expected_pattern, client):
     )
 
 
+# the first element needs to end with a slash
 redirects = [
     ('/invest/', 'https://invest.great.gov.uk'),
     ('/int/invest/', 'https://invest.great.gov.uk/int'),
@@ -160,8 +161,85 @@ redirects = [
     ('/export/new/', 'article-list-persona-new'),
     ('/export/occasional/', 'article-list-persona-occasional'),
     ('/export/regular/', 'article-list-persona-regular'),
-    ('/export/opportunities/', 'https://opportunities.export.great.gov.uk'),
-    ('/opportunities/', 'https://opportunities.export.great.gov.uk'),
+    ('/export/opportunities/', 'https://opportunities.export.great.gov.uk/'),
+    (
+        '/opportunities/',
+        'https://opportunities.export.great.gov.uk/'
+    ),
+    (
+        (
+            '/opportunities/usa-'
+            'centre-for-medicare-and-medicaid-services-hospital-improvement'
+            '-innovation-network-hiin-rfp/'
+        ),
+        (
+            'https://opportunities.export.great.gov.uk/opportunities/usa-'
+            'centre-for-medicare-and-medicaid-services-hospital-improvement'
+            '-innovation-network-hiin-rfp/'
+        )
+    ),
+    (
+        (
+            '/opportunities/usa-'
+            'centre-for-medicare-and-medicaid-services-hospital-improvement'
+            '-innovation-network-hiin-rfp/'
+            '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
+        ),
+        (
+            'https://opportunities.export.great.gov.uk/opportunities/usa-'
+            'centre-for-medicare-and-medicaid-services-hospital-improvement'
+            '-innovation-network-hiin-rfp/'
+            '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
+        )
+    ),
+    (
+        (
+            '/opportunities/'
+            'mexico-craft-beer-distributor-looking-for-international-brands/'
+        ),
+        (
+            'https://opportunities.export.great.gov.uk/opportunities/'
+            'mexico-craft-beer-distributor-looking-for-international-brands/'
+        )
+    ),
+    (
+        (
+            '/opportunities/'
+            'mexico-craft-beer-distributor-looking-for-international-brands/'
+            '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
+        ),
+        (
+            'https://opportunities.export.great.gov.uk/opportunities/'
+            'mexico-craft-beer-distributor-looking-for-international-brands/'
+            '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
+        )
+    ),
+    (
+        (
+            '/opportunities/'
+            'taiwan-2018-flora-expo-seeking'
+            '-suppliers-to-help-develop-exhibition/'
+        ),
+        (
+            'https://opportunities.export.great.gov.uk/opportunities/'
+            'taiwan-2018-flora-expo-seeking'
+            '-suppliers-to-help-develop-exhibition/'
+        )
+    ),
+    (
+        (
+            '/opportunities/'
+            'taiwan-2018-flora-expo-seeking'
+            '-suppliers-to-help-develop-exhibition/'
+            '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
+        ),
+        (
+            'https://opportunities.export.great.gov.uk/opportunities/'
+            'taiwan-2018-flora-expo-seeking'
+            '-suppliers-to-help-develop-exhibition/'
+            '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
+        )
+    ),
     ('/export/find-a-buyer/', 'https://find-a-buyer.export.great.gov.uk'),
     (
         '/export/selling-online-overseas/',
@@ -192,16 +270,9 @@ redirects = [
     )),
 ]
 
-# add urls with no trailing slash
-redirects += [
-    (redirect[0][:-1], redirect[1]) for redirect in redirects
-]
-
 
 @pytest.mark.parametrize('url,expected', redirects)
 def test_redirects(url, expected, client):
-    if not url.endswith('/'):
-        url = client.get(url).url
     response = client.get(url)
 
     assert response.status_code == http.client.FOUND
@@ -210,3 +281,16 @@ def test_redirects(url, expected, client):
         expected = reverse(expected)
 
     assert response.url == expected
+
+
+# add urls with no trailing slash
+redirects_no_slash = [
+    (redirect[0].split('?')[0][:-1], redirect[1]) for redirect in redirects
+]
+
+
+@pytest.mark.parametrize('url,expected', redirects_no_slash)
+def test_redirects_no_trailing_slash(url, expected, client):
+    response = client.get(url)
+
+    assert response.status_code == http.client.MOVED_PERMANENTLY
