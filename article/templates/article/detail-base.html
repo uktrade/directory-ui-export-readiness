@@ -2,6 +2,7 @@
 
 {% load static from staticfiles %}
 {% load include_markdown from article_tags %}
+{% load image_tags %}
 
 {% block css %}
     <link href="{% static 'styles/article.css' %}" rel="stylesheet" type="text/css" />
@@ -9,6 +10,22 @@
 
 {% block head_title %}
     {{ article.title }} export guidance - great.gov.uk
+{% endblock %}
+
+{% block sharing_metadata %}
+  <meta name="description" content="" />
+
+  {# Twitter #}
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{ article.title }}">
+  {# twitter falls back to og for other data not included here #}
+
+  {# Facebook share data #}
+  <meta property="og:locale" content="en_UK" />
+  <meta property="og:site_name" content="great.gov.uk" />
+  <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+  <meta property="og:title" content="{{ article.title }}" />
+  <meta property="og:type" content="article" />
 {% endblock %}
 
 {% block content %}

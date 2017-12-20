@@ -9,7 +9,7 @@ Start with:
 
 - [international search engines](http://www.searchenginecolossus.com "international search engines")
 - trade exhibition websites
-- online trade directories like the [International Yellow Pages](http://www.yellow.com/international.html "International Yellow Pages") or [Alibaba.com](https://www.alibaba.com/ "Alibaba")
+- online trade directories like the [One World Yellow Pages](http://www.oneworldyellowpages.com/ "One World Yellow Pages") or [Alibaba.com](https://www.alibaba.com/ "Alibaba")
 - competitor websites, adverts and marketing material
 
 For more specific information try:
