@@ -9,7 +9,7 @@ def test_progressive_image(settings):
     )
 
     expected = """
-        <picture>
+        <picture id="picture">
             <source
                 srcset="/static/images/export-hp-export-opportunities.webp"
                 type="image/webp"
@@ -24,7 +24,8 @@ def test_progressive_image(settings):
     actual = progressive_image(
         webp='images/export-hp-export-opportunities.webp',
         src='images/export-hp-export-opportunities.jpg',
-        alt_text='hello'
+        alt_text='hello',
+        img_id='picture'
     )
 
     assert (
