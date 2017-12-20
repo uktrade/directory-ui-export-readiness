@@ -101,6 +101,26 @@ class TranslationRedirectView(RedirectView):
         return url
 
 
+class OpportunitiesRedirectView(RedirectView):
+    permanent = False
+
+    def get_redirect_url(self, *args, **kwargs):
+        redirect_url = '{export_opportunities_url}{slug}/'.format(
+            export_opportunities_url=(
+                'https://opportunities.export.great.gov.uk/opportunities/'
+            ),
+            slug=kwargs.get('slug', '')
+        )
+
+        query_string = self.request.META.get('QUERY_STRING')
+        if query_string:
+            redirect_url = "{redirect_url}?{query_string}".format(
+                redirect_url=redirect_url, query_string=query_string
+            )
+
+        return redirect_url
+
+
 class InterstitialPageExoppsView(SetEtagMixin, TemplateView):
     template_name = 'core/interstitial_exopps.html'
 
@@ -114,11 +134,15 @@ class InterstitialPageExoppsView(SetEtagMixin, TemplateView):
 
 class StaticViewSitemap(sitemaps.Sitemap):
     changefreq = 'daily'
+    excluded_pattern_names = ['redirect-opportunities-slug']
 
     def items(self):
         # import here to avoid circular import
         from ui import urls
-        return [url.name for url in urls.urlpatterns]
+        return [
+            url.name for url in urls.urlpatterns
+            if url.name not in self.excluded_pattern_names
+        ]
 
     def location(self, item):
         # triage-wizard needs an additional argument to be reversed

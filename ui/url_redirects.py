@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.views.generic.base import RedirectView
 
-import core.views
+from core.views import OpportunitiesRedirectView, TranslationRedirectView
 
 
 redirects = [
@@ -197,7 +197,7 @@ redirects = [
     url(
         r'^export/opportunities/$',
         RedirectView.as_view(
-            url='https://opportunities.export.great.gov.uk',
+            url='https://opportunities.export.great.gov.uk/',
             permanent=False,
             query_string=True
         ),
@@ -206,11 +206,18 @@ redirects = [
     url(
         r'^opportunities/$',
         RedirectView.as_view(
-            url='https://opportunities.export.great.gov.uk',
+            url='https://opportunities.export.great.gov.uk/',
             permanent=False,
             query_string=True
         ),
         name='redirect-opportunities'
+    ),
+    url(
+        r'^opportunities/(?P<slug>[-\w]+)/$',
+        # Redirects to https://opportunities.export.great.gov.uk/opportunities
+        # with the slug and query parameters
+        OpportunitiesRedirectView.as_view(),
+        name='redirect-opportunities-slug'
     ),
     url(
         r'^export/find-a-buyer/$',
@@ -259,28 +266,28 @@ redirects = [
     ),
     url(
         r'^uk/$',
-        core.views.TranslationRedirectView.as_view(
+        TranslationRedirectView.as_view(
             pattern_name='landing-page',
         ),
         name='redirect-uk'
     ),
     url(
         r'^int/$',
-        core.views.TranslationRedirectView.as_view(
+        TranslationRedirectView.as_view(
             pattern_name='landing-page-international',
         ),
         name='redirect-int'
     ),
     url(
         r'^in/$',
-        core.views.TranslationRedirectView.as_view(
+        TranslationRedirectView.as_view(
             pattern_name='landing-page-international',
         ),
         name='redirect-in'
     ),
     url(
         r'^us/$',
-        core.views.TranslationRedirectView.as_view(
+        TranslationRedirectView.as_view(
             pattern_name='landing-page-international',
         ),
         name='redirect-us'
@@ -348,7 +355,7 @@ INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING = [
 international_redirects = [
     url(
         r'^int/{path}/$'.format(path=redirect[0]),
-        core.views.TranslationRedirectView.as_view(
+        TranslationRedirectView.as_view(
             pattern_name='landing-page-international',
             language=redirect[1],
         ),
@@ -364,7 +371,7 @@ INTERNATIONAL_COUNTRY_REDIRECTS_MAPPING = [
 international_redirects += [
     url(
         r'^{path}/$'.format(path=redirect[0]),
-        core.views.TranslationRedirectView.as_view(
+        TranslationRedirectView.as_view(
             pattern_name='landing-page-international',
             language=redirect[1],
         ),
