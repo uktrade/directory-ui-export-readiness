@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     "article",
     "triage",
     "casestudy",
+    "directory_healthcheck",
+    "health_check",
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -347,3 +349,6 @@ EXTERNAL_SERVICE_FEEDBACK_URL = os.getenv(
 X_FRAME_OPTIONS = 'DENY'
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Healthcheck
+HEALTH_CHECK_TOKEN = os.environ['HEALTH_CHECK_TOKEN']

@@ -5,6 +5,7 @@ from django.views.generic import TemplateView
 import article.views
 import casestudy.views
 import core.views
+import healthcheck.views
 import triage.views
 from ui.url_redirects import redirects
 
@@ -375,6 +376,16 @@ urlpatterns = [
         r'^story/york-bag-retailer-goes-global-via-e-commerce/$',
         casestudy.views.CasestudyYorkBagView.as_view(),
         name='casestudy-york-bag'
+    ),
+    url(
+        r'^healthcheck/api/$',
+        healthcheck.views.APIProxyAPIView.as_view(),
+        name='healthcheck-api'
+    ),
+    url(
+        r'^healthcheck/single-sign-on/$',
+        healthcheck.views.SingleSignOnAPIView.as_view(),
+        name='healthcheck-single-sign-on'
     ),
 ]
 
