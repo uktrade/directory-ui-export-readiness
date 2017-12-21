@@ -42,15 +42,18 @@
         <span class="current">{{ article.title }}</span>
     </p>
 
-    <article id="top">
-        <h1>{{ article.title }}</h1>
-        {% include 'article/read-count.html' %}
-        {% include_markdown article.markdown_file_path %}
-        <footer>
+    <div class="article-container">
+      {% include 'core/widgets/social-share-links.html' %}
+      <article id="top">
+          <h1>{{ article.title }}</h1>
+          {% include_markdown article.markdown_file_path %}
+          <footer>
             {% include 'article/useful-feedback.html' %}
-            {% include 'core/social-share-links.html' %}
-        </footer>
-    </article>
+          </footer>
+      </article>
+      {% include 'article/read-count.html' %}
+    </div>
+
     {% if next_article %}
     <div class="link-continuity">
       <p>
