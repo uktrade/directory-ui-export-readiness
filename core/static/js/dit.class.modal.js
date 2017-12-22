@@ -27,7 +27,8 @@
     var config = $.extend({
       $activators: $(), // (optional) Element(s) to control the Modal
       closeOnBuild: true, // Whether intial Modal view is open or closed
-      overlay: true  // Whether it has an overlay or not
+      overlay: true,  // Whether it has an overlay or not
+      closeButtonId: '' // Option to add custom close button id
     }, options || {});
 
     // If no arguments, likely just being inherited
@@ -38,7 +39,7 @@
         Modal.bindResponsiveOverlaySizeListener.call(this);
       }
 
-      this.$closeButton = Modal.createCloseButton();
+      this.$closeButton = Modal.createCloseButton(config.closeButtonId);
       this.$content = Modal.createContent();
       this.$container = Modal.enhanceModalContainer($container);
 
@@ -65,10 +66,11 @@
     return $overlay;
   }
 
-  Modal.createCloseButton = function() {
+  Modal.createCloseButton = function(closeButtonId) {
     var $button = $(document.createElement("button"));
     $button.text("Close");
     $button.addClass(CSS_CLASS_CLOSE_BUTTON);
+    if (closeButtonId) $button.attr('id', closeButtonId);
     return $button;
   }
 
