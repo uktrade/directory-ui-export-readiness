@@ -9,6 +9,7 @@ dit.components.video = (new function() {
 
   // Constants
   var CSS_CLASS_CONTAINER = "video-container";
+  var VIDEO_CLOSE_BUTTON_ID = "hero-campaign-section-videoplayer-close"
   var SELECTOR_ACTIVATOR = "[data-node='videoactivator']";
   var TYPE_VIDEO = "video";
   var TYPE_IFRAME = "iframe";
@@ -29,8 +30,6 @@ dit.components.video = (new function() {
     var $source = $("<source src=\"" + src + "\" type=\"video/" + format  + "\">");
     $video.append($source);
     this.setContent($video);
-    // add id to video close button
-    this.$closeButton.attr('id', 'hero-campaign-section-videoplayer-close');
   }
 
   VideoDialog.loadWithIframe = function(src) {
@@ -112,7 +111,8 @@ dit.components.video = (new function() {
     if($activators.length) {
       $(document.body).append($container);
       new VideoDialog($container, {
-        $activators: $activators
+        $activators: $activators,
+        closeButtonId: VIDEO_CLOSE_BUTTON_ID
       });
     }
 

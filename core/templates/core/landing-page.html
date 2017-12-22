@@ -27,7 +27,7 @@
     <div data-node="languages" class="languages">
       <ul aria-labelledby="great-languages-selector" class="navigation">
         {% for code, label in LANGUAGES %}
-          <li><a href="{% url 'landing-page-international' %}?lang={{ code }}">{{ label }}</a></li>
+          <li><a id="header-language-selector-{{ code }}" href="{% url 'landing-page-international' %}?lang={{ code }}">{{ label }}</a></li>
         {% endfor %}
       </ul>
     </div>
