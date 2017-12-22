@@ -14,7 +14,7 @@ CaseStudy = namedtuple('CaseStudy', [
 HELLO_BABY = CaseStudy(
     title="Hello Baby's rapid online growth",
     description=(
-        'Hello Baby is an online nursery business that gets more than half '
+        'This online nursery business gets over half of '
         'its profits from exporting through online marketplaces such as '
         'Amazon, eBay and Cdiscount.'
     ),
@@ -28,7 +28,8 @@ MARKETPLACE = CaseStudy(
     title="Online marketplaces propel FreestyleXtreme",
     description=(
         'Like many businesses, Bristol-based specialist sports retailer '
-        'FreestyleXtreme has seen big growth through online sales overseas.'
+        'FreestyleXtreme has seen considerable growth through online '
+        'sales overseas.'
     ),
     image_url='images/stories/freestylextreme.jpg',
     image_url_webp='images/stories/freestylextreme.webp',
@@ -38,11 +39,11 @@ MARKETPLACE = CaseStudy(
 )
 
 YORK = CaseStudy(
-    title="York bag retailer goes global via e-commerce",
+    title="York bag retailer goes global with e-commerce",
     description=(
-        'York-based retailer Maxwell Scott Bags was already selling '
-        'internationally from its UK website when its owners made the '
-        'decision to launch a German website.'
+        'Maxwell Scott Bags was already selling '
+        'internationally through its UK website when its owners made the '
+        'decision to launch a German site.'
     ),
     image_url='images/stories/maxwellscottbags.jpg',
     image_url_webp='images/stories/maxwellscottbags.webp',

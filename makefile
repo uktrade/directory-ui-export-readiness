@@ -8,7 +8,7 @@ test_requirements:
 	pip install -r requirements_test.txt
 
 FLAKE8 := flake8 . --exclude=migrations,.venv,node_modules
-PYTEST := pytest . --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
+PYTEST := pytest . -v --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
 COLLECT_STATIC := python manage.py collectstatic --noinput
 COMPILE_TRANSLATIONS := python manage.py compilemessages
 CODECOV := \
@@ -78,7 +78,8 @@ DOCKER_SET_DEBUG_ENV_VARS := \
 	export DIRECTORY_UI_EXPORT_READINESS_INFO_ABOUT=/about; \
 	export DIRECTORY_UI_EXPORT_READINESS_INFO_PRIVACY_AND_COOKIES=/privacy-and-cookies; \
 	export DIRECTORY_UI_EXPORT_READINESS_INFO_TERMS_AND_CONDITIONS=/terms-and-conditions; \
-	export DIRECTORY_UI_EXPORT_READINESS_SECURE_SSL_REDIRECT=false
+	export DIRECTORY_UI_EXPORT_READINESS_SECURE_SSL_REDIRECT=false; \
+	export DIRECTORY_UI_EXPORT_READINESS_HEALTH_CHECK_TOKEN=debug
 
 docker_test_env_files:
 	$(DOCKER_SET_DEBUG_ENV_VARS) && \
@@ -156,7 +157,8 @@ DEBUG_SET_ENV_VARS := \
 	export INFO_ABOUT=/about; \
 	export INFO_PRIVACY_AND_COOKIES=/privacy-and-cookies; \
 	export INFO_TERMS_AND_CONDITIONS=/terms-and-conditions; \
-	export SECURE_SSL_REDIRECT=false
+	export SECURE_SSL_REDIRECT=false; \
+	export HEALTH_CHECK_TOKEN=debug
 
 debug_webserver:
 	$(DEBUG_SET_ENV_VARS) && $(DJANGO_WEBSERVER)
@@ -168,7 +170,7 @@ debug_test:
 	$(DEBUG_SET_ENV_VARS) && $(COLLECT_STATIC) && $(FLAKE8) && $(PYTEST) --cov-report=html
 
 debug_test_last_failed:
-	make debug_test pytest_args='--last-failed'
+	make debug_test pytest_args='-v --last-failed'
 
 debug_manage:
 	$(DEBUG_SET_ENV_VARS) && ./manage.py $(cmd)

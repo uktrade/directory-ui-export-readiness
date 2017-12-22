@@ -16,7 +16,7 @@
     </p>
     <article id="top">
         <h1>{{ casestudy.title }}</h1>
-        <p class="type">Case Study</p>
+        <p class="type">Case study</p>
         <p class="description">{{ casestudy.description }}</p>
         <div class="image">
             {% progressive_image webp=casestudy.image_url_webp src=casestudy.image_url alt_text=casestudy.image_description %}
@@ -42,9 +42,9 @@
                 {% block quote_two_link %}{% endblock %}
             </cite>
         </blockquote>
-        {% include 'core/social-share-links.html' %}
+        {% include 'core/widgets/social-share-links.html' %}
     </article>
-    <p class="footnote">Find out how you can sell through online marketplaces like Amazon and eBay by using the <a href="https://selling-online-overseas.export.great.gov.uk/">Selling Online Overseas Service</a>.
+    <p class="footnote">Find out how our <a href="https://selling-online-overseas.export.great.gov.uk/">Selling online overseas service</a> can help you export through online marketplaces like Amazon and eBay.
     </p>
 </div>
 {% endblock %}
