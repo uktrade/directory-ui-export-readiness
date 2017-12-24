@@ -12,15 +12,21 @@ class ArticleGroup:
         self.title = title
         self.url = url
         self.next_guidance_group = next_guidance_group
-        self.articles_set = frozenset(
+        self.article_uuids = frozenset(
             [article.uuid for article in self.articles]
         )
 
     @cached_property
-    def total_reading_time(self):
+    def read_time(self):
         return round(
             sum((article.time_to_read for article in self.articles))
         )
+
+    def remaining_time_to_read(self, viewed_article_uuids):
+        uuids = viewed_article_uuids & self.article_uuids
+        articles = get_articles_from_uuids(uuids)
+        viewed_time = sum((article.time_to_read for article in articles))
+        return round(self.read_time - viewed_time, 2)
 
 
 PERSONA_NEW_ARTICLES = ArticleGroup(

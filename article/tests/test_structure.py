@@ -28,9 +28,9 @@ def test_get_articles_from_uuids():
     assert list(articles_returned) == articles_list
 
 
-def test_article_group_total_reading_time():
+def test_article_group_read_time():
     group = structure.PERSONA_NEW_ARTICLES
-    assert group.total_reading_time == 2050
+    assert group.read_time == 1625
 
 
 @pytest.mark.parametrize(

@@ -3,14 +3,14 @@ from django.utils.functional import cached_property
 
 from article import articles, helpers, structure
 from core.helpers import build_social_links
-from core.views import ArticleReadManagerMixin
+from core.views import ArticlesViewedManagerMixin
 
 
-class BaseArticleDetailView(ArticleReadManagerMixin, TemplateView):
+class BaseArticleDetailView(ArticlesViewedManagerMixin, TemplateView):
     template_name = 'article/detail-base.html'
 
     def create_article_manager(self, request):
-        return helpers.ArticleReadManager(
+        return helpers.ArticlesViewedManagerFactory(
             request=request, current_article=self.article
         )
 
@@ -68,7 +68,7 @@ class BaseArticleDetailView(ArticleReadManagerMixin, TemplateView):
         return self.article_group.next_guidance_group
 
 
-class BaseArticleListView(ArticleReadManagerMixin, TemplateView):
+class BaseArticleListView(ArticlesViewedManagerMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         return super().get_context_data(
