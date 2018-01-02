@@ -103,6 +103,11 @@ dit.components.video = (new function() {
     });
   }
 
+  function onClose() {
+    this.$container.find('video').each(function(index, video) {
+      video.pause();
+    });
+  }
 
   // Public
   this.init = function() {
@@ -112,7 +117,8 @@ dit.components.video = (new function() {
       $(document.body).append($container);
       new VideoDialog($container, {
         $activators: $activators,
-        closeButtonId: VIDEO_CLOSE_BUTTON_ID
+        closeButtonId: VIDEO_CLOSE_BUTTON_ID,
+        onClose: onClose
       });
     }
 
