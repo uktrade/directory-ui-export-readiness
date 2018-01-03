@@ -28,7 +28,8 @@
       $activators: $(), // (optional) Element(s) to control the Modal
       closeOnBuild: true, // Whether intial Modal view is open or closed
       overlay: true,  // Whether it has an overlay or not
-      closeButtonId: '' // Option to add custom close button id
+      closeButtonId: '', // Option to add custom close button id
+      onClose: function() {} // (optional) Callback called on modal close
     }, options || {});
 
     // If no arguments, likely just being inherited
@@ -42,6 +43,7 @@
       this.$closeButton = Modal.createCloseButton(config.closeButtonId);
       this.$content = Modal.createContent();
       this.$container = Modal.enhanceModalContainer($container);
+      this.onClose = config.onClose;
 
       // Add elements to DOM
       Modal.appendElements.call(this, config.overlay);
@@ -213,11 +215,13 @@
     self.$container.fadeOut(50, function () {
       self.$container.attr(ARIA_EXPANDED, false);
       self.$container.removeClass(CSS_CLASS_OPEN);
+      self.onClose();
     });
 
     if (self.$overlay && self.$overlay.length) {
       self.$overlay.fadeOut(150);
     }
+
   }
 
   Modal.prototype.open = function() {
