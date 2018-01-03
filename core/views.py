@@ -1,22 +1,23 @@
+
 from django.contrib import sitemaps
 from django.core.urlresolvers import reverse
 from django.utils.cache import set_response_etag
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 
-from article.helpers import ArticleReadManager
+from article.helpers import ArticlesViewedManagerFactory
 from article import structure
 from casestudy import casestudies
 from triage.helpers import TriageAnswersManager
 from ui.views import TranslationsMixin
 
 
-class ArticleReadManagerMixin:
+class ArticlesViewedManagerMixin:
 
     article_read_manager = None
 
     def create_article_manager(self, request):
-        return ArticleReadManager(request=request)
+        return ArticlesViewedManagerFactory(request=request)
 
     def dispatch(self, request, *args, **kwargs):
         self.article_read_manager = self.create_article_manager(request)
@@ -25,12 +26,12 @@ class ArticleReadManagerMixin:
     def get_article_group_progress_details(self):
         name = self.article_group.name
         manager = self.article_read_manager
-        read_article_uuids = manager.read_articles_keys_in_group(name)
+        viewed_article_uuids = manager.articles_viewed_for_group(name)
         return {
-            'read_article_uuids': read_article_uuids,
-            'read_count': len(read_article_uuids),
+            'viewed_article_uuids': viewed_article_uuids,
+            'read_count': len(viewed_article_uuids),
             'total_articles_count': len(self.article_group.articles),
-            'time_left_to_read': manager.remaining_reading_time_in_group(name),
+            'time_left_to_read': manager.remaining_read_time_for_group(name),
         }
 
     def get_context_data(self, *args, **kwargs):
@@ -48,7 +49,7 @@ class SetEtagMixin:
         return response
 
 
-class LandingPageView(ArticleReadManagerMixin, TemplateView):
+class LandingPageView(ArticlesViewedManagerMixin, TemplateView):
     template_name = 'core/landing-page.html'
     article_group = structure.ALL_ARTICLES
 
@@ -64,7 +65,7 @@ class LandingPageView(ArticleReadManagerMixin, TemplateView):
                 casestudies.YORK,
             ],
             article_group_read_progress=(
-                self.article_read_manager.get_group_read_progress()
+                self.article_read_manager.get_view_progress_for_groups()
             ),
         )
 

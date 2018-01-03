@@ -10,7 +10,7 @@ from django.views.generic import View
 
 from article import structure
 from casestudy import casestudies
-from core.views import ArticleReadManagerMixin
+from core.views import ArticlesViewedManagerMixin
 from triage import forms, helpers
 
 
@@ -160,7 +160,7 @@ class TriageWizardFormView(NamedUrlSessionWizardView):
         return redirect(self.success_url)
 
 
-class CustomPageView(ArticleReadManagerMixin, TemplateView):
+class CustomPageView(ArticlesViewedManagerMixin, TemplateView):
     http_method_names = ['get']
     template_name = 'triage/custom-page.html'
 
@@ -190,7 +190,7 @@ class CustomPageView(ArticleReadManagerMixin, TemplateView):
             casestudies.YORK,
         ]
         context['article_group_read_progress'] = (
-            self.article_read_manager.get_group_read_progress()
+            self.article_read_manager.get_view_progress_for_groups()
         )
         sector_code = self.triage_answers['sector']
         # harmonised system codes begin with HS. Service codes begin with EB
