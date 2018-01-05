@@ -41,7 +41,7 @@
                 <ul aria-labelledby="great-languages-selector" class="navigation">
                 {% for code, label in LANGUAGES %}
                     <li class="bidi-rtl">
-                        <a href="{% url 'landing-page-international' %}?lang={{ code }}">{{ label }}</a>
+                        <a id="header-language-selector-{{code}}" href="{% url 'landing-page-international' %}?lang={{ code }}">{{ label }}</a>
                     </li>
                 {% endfor %}
                 </ul>
