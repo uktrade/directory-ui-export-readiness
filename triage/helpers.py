@@ -1,9 +1,9 @@
 import abc
-from collections import defaultdict
-import csv
-from functools import partial
 import http
 import itertools
+import csv
+from collections import defaultdict
+from functools import partial
 from operator import itemgetter
 from urllib.parse import urljoin
 
