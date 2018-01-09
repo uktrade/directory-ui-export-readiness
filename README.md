@@ -51,9 +51,10 @@ This requires all host environment variables to be set.
 
     $ make docker_test
 
-### Run JS tests with gulp
+### Run JS tests with gulp or npm
 
     $ gulp test
+    $ npm test
 
 ### Host environment variables for docker-compose
 ``.env`` files will be automatically created (with ``env_writer.py`` based on ``env.json``) by ``make docker_test``, based on host environment variables with ``DIRECTORY_UI_EXPORT_READINESS_`` prefix.
