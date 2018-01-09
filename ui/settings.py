@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     "casestudy",
     "directory_healthcheck",
     "health_check",
+    "contact",
+    "captcha",
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -352,3 +354,14 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # Healthcheck
 HEALTH_CHECK_TOKEN = os.environ['HEALTH_CHECK_TOKEN']
+
+# Google captcha
+RECAPTCHA_PUBLIC_KEY = os.environ['RECAPTCHA_PUBLIC_KEY']
+RECAPTCHA_PRIVATE_KEY = os.environ['RECAPTCHA_PRIVATE_KEY']
+# NOCAPTCHA = True turns on version 2 of recaptcha
+NOCAPTCHA = os.getenv('NOCAPTCHA') != 'false'
+
+
+CONTACT_ZENDESK_URL = os.environ['CONTACT_ZENDESK_URL']
+CONTACT_ZENDESK_TOKEN = os.environ['CONTACT_ZENDESK_TOKEN']
+CONTACT_ZENDESK_USER = os.environ['CONTACT_ZENDESK_USER']

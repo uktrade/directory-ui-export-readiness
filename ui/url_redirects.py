@@ -539,7 +539,31 @@ article_redirects = [
     ) for redirect in ARTICLE_REDIRECTS_MAPPING
 ]
 
+contact_redirects = [
+    url(
+        r'^soo/TriageForm/$',
+        RedirectView.as_view(
+            pattern_name='selling-online-overseas-triage-wizard',
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-soo-triage'
+    ),
+
+    url(
+        r'^feedback/(?P<service>[-\w\d]+)/?$',
+        RedirectView.as_view(
+            pattern_name='selling-online-overseas-triage-wizard',
+            permanent=False,
+            query_string=True
+        ),
+        name='redirect-soo-triage'
+    ),
+]
+
+
 redirects += (
     article_redirects + tos_redirects +
-    privacy_redirects + international_redirects
+    privacy_redirects + international_redirects +
+    contact_redirects
 )

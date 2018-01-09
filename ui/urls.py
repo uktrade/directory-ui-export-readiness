@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 
 import article.views
 import casestudy.views
+import contact.views
 import core.views
 import healthcheck.views
 import triage.views
@@ -387,6 +388,35 @@ urlpatterns = [
         healthcheck.views.SingleSignOnAPIView.as_view(),
         name='healthcheck-single-sign-on'
     ),
+    url(
+        r'^contact-us/intro/$',
+        contact.views.InterstitialView.as_view(
+            service=None
+        ),
+        name='contact-us-interstitial-service-agnostic',
+    ),
+    url(
+        r'^contact-us/(?P<service>[-\w\d]+)/intro/$',
+        contact.views.InterstitialView.as_view(),
+        name='contact-us-interstitial-service-specific',
+    ),
+    url(
+        r'^contact-us/(?P<service>[-\w\d]+)/$',
+        contact.views.FeedbackWizardFormView.as_view(),
+        name='contact-us-service-specific'
+    ),
+    url(
+        r'^contact-us/$',
+        contact.views.FeedbackWizardFormView.as_view(service=None),
+        name='contact-us-service-agnostic'
+    ),
+    url(
+        r'^contact-us/triage/selling-online-overseas/$',
+        contact.views.SellingOnlineOverseasTriageWizardFormView.as_view(),
+        name='contact-us-selling-online-overseas-triage-wizard'
+    ),
+
+    # soo/TriageForm --> 'selling-online-overseas-triage-wizard'
 ]
 
 urlpatterns += redirects
