@@ -10,10 +10,8 @@ from django.core.management import BaseCommand
 from django.utils.functional import cached_property
 
 
-HS_CODES_URL = 'https://comtrade.un.org/data/cache/classificationHS.json'
 REPORTER_AREAS_URL = 'https://comtrade.un.org/data/cache/reporterAreas.json'
-TRADE_REGIME_FLOW = 'https://comtrade.un.org/data/cache/tradeRegimes.json'
-BASE_API_URL = 'http://comtrade.un.org/api/get/bulk/{type}/{freq}/{ps}/{r}/{px}?token={token}'  # NOQA
+API_URL = 'http://comtrade.un.org/api/get/bulk/{type}/{freq}/{ps}/{r}/{px}?token={token}'  # NOQA
 FILE_NAME = 'triage/resources/country_commodity_top_tens.csv'
 TOKEN = settings.COMTRADE_API_TOKEN
 COMTRADE_CSV_FIELD_NAMES = (
@@ -45,20 +43,21 @@ CSV_FIELD_NAMES = (
     'Commodity Code',
     'Trade Value'
 )
+EXCLUDED_COMMODITIES_CODES = (93, )  # Arms
 
 
 @contextmanager
-def open_zipped_csv(fp):
+def open_zipped_csv(file_pointer):
     """
     Enclose all the complicated logic of on-the-fly unzip->csv read in a
     nice context manager.
     """
-    with zipfile.ZipFile(fp) as zf:
+    with zipfile.ZipFile(file_pointer) as zipped_file:
         # get the first file from zip, assuming it's the only one
-        csv_name = zf.filelist[0].filename
-        with zf.open(csv_name) as raw_csv_fp:
+        csv_name = zipped_file.filelist[0].filename
+        with zipped_file.open(csv_name) as raw_csv_file_pointer:
             # We need to read that as a text IO for CSV reader to work
-            csv_fp = io.TextIOWrapper(raw_csv_fp)
+            csv_fp = io.TextIOWrapper(raw_csv_file_pointer)
 
             yield csv.DictReader(csv_fp, fieldnames=COMTRADE_CSV_FIELD_NAMES)
 
@@ -75,16 +74,23 @@ def iter_and_filter_csv_from_url(url, tmp_file_creator):
                 yield from process_row(row)
 
 
-def stream_to_file_pointer(url, fp):
+def stream_to_file_pointer(url, file_pointer):
     """Efficiently stream given url to given file pointer."""
     response = requests.get(url, stream=True)
     for chunk in response.iter_content(chunk_size=4096):
-        fp.write(chunk)
+        file_pointer.write(chunk)
 
 
 def process_row(row):
     """ Process row, yielding a filtered and cleaned row."""
-    if row['Trade Flow'] == 'Export' and len(row['Commodity Code']) <= 2:
+    hs_code = row['Commodity Code']
+    has_partner = row['Partner ISO'] != ''
+    is_export = row['Trade Flow'] == 'Export'
+    is_parent_commodity = len(hs_code) <= 2
+    is_allowed_commodity = hs_code not in EXCLUDED_COMMODITIES_CODES
+    if all(
+            (has_partner, is_export, is_parent_commodity, is_allowed_commodity)
+    ):
         yield {
             'Partner ISO': row['Partner ISO'],
             'Commodity Code': row['Commodity Code'],
@@ -100,7 +106,7 @@ class Command(BaseCommand):
 
     def get_data(self):
         self.stdout.write(
-            self.style.SUCCESS(
+            self.style.WARNING(
                 'Downloading and filtering COMTRADE data this may take a while'
             )
         )
@@ -113,8 +119,7 @@ class Command(BaseCommand):
             'px': 'HS',
             'token': TOKEN
         }
-        url = BASE_API_URL.format(**params)
-        import ipdb; ipdb.set_trace()
+        url = API_URL.format(**params)
         filtered_rows = iter_and_filter_csv_from_url(url, temporary_file)
         return filtered_rows
 
@@ -130,9 +135,14 @@ class Command(BaseCommand):
         area = list(filter(lambda x: x['text'] == 'United Kingdom', countries))
         return area[0]['id']
 
-    @staticmethod
-    def write_csv(data):
-        with open(FILE_NAME, 'w', newline='') as csvfile:
+    def write_csv(self, data):
+        with open(FILE_NAME, 'w') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=CSV_FIELD_NAMES)
             writer.writeheader()
             writer.writerows(data)
+
+        self.stdout.write(
+            self.style.SUCCESS(
+                'CSV file generated'
+            )
+        )
