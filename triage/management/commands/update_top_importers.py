@@ -39,6 +39,7 @@ COMTRADE_CSV_FIELD_NAMES = (
     'Flag'
 )
 CSV_FIELD_NAMES = (
+    'Partner',
     'Partner ISO',
     'Commodity Code',
     'Trade Value'
@@ -88,10 +89,17 @@ def process_row(row):
     is_export = row['Trade Flow'] == 'Export'
     is_parent_commodity = len(hs_code) <= 2
     is_allowed_commodity = hs_code not in EXCLUDED_COMMODITIES_CODES
+    is_a_country = row['Partner ISO'] != 'WLD'  # exclude world
     if all(
-            (has_partner, is_export, is_parent_commodity, is_allowed_commodity)
+            (has_partner,
+             is_export,
+             is_parent_commodity,
+             is_allowed_commodity,
+             is_a_country
+             )
     ):
         yield {
+            'Partner': row['Partner'],
             'Partner ISO': row['Partner ISO'],
             'Commodity Code': row['Commodity Code'],
             'Trade Value': row['Trade Value (US$)']
