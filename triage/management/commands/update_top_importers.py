@@ -95,8 +95,7 @@ def process_row(row):
              is_export,
              is_parent_commodity,
              is_allowed_commodity,
-             is_a_country
-             )
+             is_a_country)
     ):
         yield {
             'Partner': row['Partner'],
