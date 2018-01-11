@@ -1,4 +1,6 @@
 machine:
+  node:
+    version: 8.1.0
   pre:
    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
   services:
@@ -6,11 +8,13 @@ machine:
 
 dependencies:
   override:
+    - npm install
     - sudo pip install docker-compose==1.8.0
 
 test:
   override:
     - make docker_test
+    - npm test
 
 deployment:
   dev:
