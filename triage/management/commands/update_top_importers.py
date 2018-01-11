@@ -105,48 +105,39 @@ def process_row(row):
         }
 
 
+def write_csv(data):
+    with open(FILE_NAME, 'w') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=CSV_FIELD_NAMES)
+        writer.writeheader()
+        writer.writerows(data)
+
+
+def get_comtrade_data():
+    temporary_file = tempfile.TemporaryFile
+    params = {
+        'freq': 'A',
+        'r': 826,  # United Kingdom
+        'ps': 2016,
+        'type': 'C',  # Commodities
+        'px': 'HS',
+        'token': TOKEN
+    }
+    url = API_URL.format(**params)
+    filtered_rows = iter_and_filter_csv_from_url(url, temporary_file)
+    return filtered_rows
+
+
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        data = self.get_data()
-        self.write_csv(data)
-
-    def get_data(self):
         self.stdout.write(
             self.style.WARNING(
                 'Downloading and filtering COMTRADE data this may take a while'
             )
         )
-        temporary_file = tempfile.TemporaryFile
-        params = {
-            'freq': 'A',
-            'r': self.uk_area_code,
-            'ps': 2016,
-            'type': 'C',  # Commodities
-            'px': 'HS',
-            'token': TOKEN
-        }
-        url = API_URL.format(**params)
-        filtered_rows = iter_and_filter_csv_from_url(url, temporary_file)
-        return filtered_rows
 
-    @cached_property
-    def countries(self):
-        response = requests.get(REPORTER_AREAS_URL)
-        results = response.json()['results']
-        return list(filter(lambda x: x['text'] != 'All', results))
-
-    @cached_property
-    def uk_area_code(self):
-        countries = self.countries
-        area = list(filter(lambda x: x['text'] == 'United Kingdom', countries))
-        return area[0]['id']
-
-    def write_csv(self, data):
-        with open(FILE_NAME, 'w') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=CSV_FIELD_NAMES)
-            writer.writeheader()
-            writer.writerows(data)
+        data = get_comtrade_data()
+        write_csv(data)
 
         self.stdout.write(
             self.style.SUCCESS(
