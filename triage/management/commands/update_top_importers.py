@@ -7,7 +7,6 @@ import io
 import requests
 from django.conf import settings
 from django.core.management import BaseCommand
-from django.utils.functional import cached_property
 
 
 REPORTER_AREAS_URL = 'https://comtrade.un.org/data/cache/reporterAreas.json'
