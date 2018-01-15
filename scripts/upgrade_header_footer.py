@@ -19,13 +19,16 @@ req_files = [
     "requirements_test.in",
 ]
 
-# print("Upgrading directory-header-footer dependency in all repos...")
 
 # TODO:
-# check in ./scripts for requirements* files
-# edit makefile command to add git commands
+# navigator has requirements files in ./scripts. need to move
 
 exp = r'(?:directory-header-footer\.git@v)(\d*\.\d*\.\d)'
+
+
+def get_update_info():
+    new_version = input("Version to upgrade to: ")
+    replace_in_dirs(new_version)
 
 
 def get_file_string(filepath):
@@ -41,14 +44,9 @@ def current_version():
     if regex.search(reqs) is not None:
         current_version = regex.search(reqs).group(1)
         print("Current directory-header-footer version:", current_version)
-        upgrade()
+        get_update_info()
     else:
         print("Error finding directory-header-footer version.")
-
-
-def upgrade():
-    new_version = input("Version to upgrade to: ")
-    replace_in_dirs(new_version)
 
 
 def done(version):
@@ -67,15 +65,13 @@ def replace_in_files(dirname, replace):
             replaced = re.sub(exp, replace, get_file_string(filepath))
             with open(filepath, "w") as file:
                 file.write(replaced)
-            # print(replaced)
             print(
                 "Written to file: ",
                 filepath)
-        # else:
-        #     print("Didn't find file: " + filepath + " Moving on.")
 
 
 def replace_in_dirs(version):
+    print("Upgrading directory-header-footer dependency in all repos...")
     for dirname in dirs:
         replace = "directory-header-footer.git@v{}".format(version)
         replace_in_files(dirname, replace)
@@ -83,5 +79,4 @@ def replace_in_dirs(version):
 
 
 if __name__ == '__main__':
-    # main()
     current_version()
