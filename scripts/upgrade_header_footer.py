@@ -19,10 +19,6 @@ req_files = [
     "requirements_test.in",
 ]
 
-
-# TODO:
-# navigator has requirements files in ./scripts. need to move
-
 exp = r'(?:directory-header-footer\.git@v)(\d*\.\d*\.\d)'
 
 
