@@ -66,8 +66,7 @@ def replace_in_files(dirname, replace):
             with open(filepath, "w") as file:
                 file.write(replaced)
             print(
-                "Written to file: ",
-                filepath)
+                "Written to file: ", filepath)
 
 
 def replace_in_dirs(version):
