@@ -1,0 +1,36 @@
+{% extends "core/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block head_title %}
+    Your export journey - great.gov.uk
+{% endblock %}
+
+{% block css %}
+    <link href="{% static 'styles/custom-page.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div  id="start-now-container">
+            <h1>Create your export journey</h1>
+            <br>
+            <p>
+                Answer a few quick questions about what you want to export and your level of experience and get:
+                <ul>
+                    <li>guidance aimed at your experience level</li>
+                    <li>export statistics to start your market research</li>
+                    <li>access to services to help you export</li>
+                </ul>
+            </p>
+            <br>
+            <a href="{% url 'triage-wizard' step='sector' %}" class="button">Start now</a>
+            {% if not sso_is_logged_in %}
+                <div>
+                    <br>
+                    <a href="{{ sso_register_url }}">Register </a> or <a href="{{ sso_login_url }}">sign in</a> to save your progress
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

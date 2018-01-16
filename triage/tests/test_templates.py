@@ -46,3 +46,17 @@ def test_triage_summary_regular_exporer_question(regular_exporter, expected):
         assert element.text == expected
     else:
         assert element is None
+
+
+@pytest.mark.parametrize('sso_is_logged_in,expected', (
+    (True, False),
+    (False, True),
+))
+def test_triage_start_user_state(sso_is_logged_in, expected, rf):
+    context = {
+        'sso_is_logged_in': sso_is_logged_in,
+        'request': rf.get('/'),
+    }
+    html = render_to_string('triage/start-now.html', context)
+
+    assert ('save your progress' in html) is expected
