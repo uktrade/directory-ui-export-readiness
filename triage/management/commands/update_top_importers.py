@@ -4,6 +4,8 @@ import zipfile
 from contextlib import contextmanager
 
 import io
+from itertools import groupby
+
 import requests
 from django.conf import settings
 from django.core.management import BaseCommand
@@ -11,7 +13,8 @@ from django.core.management import BaseCommand
 
 REPORTER_AREAS_URL = 'https://comtrade.un.org/data/cache/reporterAreas.json'
 API_URL = 'http://comtrade.un.org/api/get/bulk/{type}/{freq}/{ps}/{r}/{px}?token={token}'  # NOQA
-FILE_NAME = 'triage/resources/country_commodity_top_tens.csv'
+TOP_TEN_FILE_NAME = 'triage/resources/country_commodity_top_tens.csv'
+EXPORT_TOTALS_FILE_NAME = 'triage/resources/country_commodity_export_totals.csv'  # NOQA
 TOKEN = settings.COMTRADE_API_TOKEN
 COMTRADE_CSV_FIELD_NAMES = (
     'Classification',
@@ -38,12 +41,11 @@ COMTRADE_CSV_FIELD_NAMES = (
     'Flag'
 )
 CSV_FIELD_NAMES = (
-    'Partner',
     'Partner ISO',
     'Commodity Code',
     'Trade Value'
 )
-EXCLUDED_COMMODITIES_CODES = (93, )  # Arms
+EXCLUDED_COMMODITIES_CODES = ('93', )  # Arms
 
 
 @contextmanager
@@ -52,10 +54,10 @@ def open_zipped_csv(file_pointer):
     Enclose all the complicated logic of on-the-fly unzip->csv read in a
     nice context manager.
     """
-    with zipfile.ZipFile(file_pointer) as zipped_file:
+    with zipfile.ZipFile(file_pointer) as zip_file:
         # get the first file from zip, assuming it's the only one
-        csv_name = zipped_file.filelist[0].filename
-        with zipped_file.open(csv_name) as raw_csv_file_pointer:
+        csv_name = zip_file.filelist[0].filename
+        with zip_file.open(csv_name, force_zip64=True) as raw_csv_file_pointer:
             # We need to read that as a text IO for CSV reader to work
             csv_fp = io.TextIOWrapper(raw_csv_file_pointer)
 
@@ -85,27 +87,30 @@ def process_row(row):
     """ Process row, yielding a filtered and cleaned row."""
     hs_code = row['Commodity Code']
     has_partner = row['Partner ISO'] != ''
+    has_reporter = row['Reporter'] != ''
     is_export = row['Trade Flow'] == 'Export'
     is_parent_commodity = len(hs_code) <= 2
     is_allowed_commodity = hs_code not in EXCLUDED_COMMODITIES_CODES
     is_a_country = row['Partner ISO'] != 'WLD'  # exclude world
     if all(
             (has_partner,
+             has_reporter,
              is_export,
              is_parent_commodity,
              is_allowed_commodity,
              is_a_country)
     ):
         yield {
-            'Partner': row['Partner'],
+            'Reporter': row['Reporter'],
+            'Reporter ISO': row['Reporter ISO'],
             'Partner ISO': row['Partner ISO'],
             'Commodity Code': row['Commodity Code'],
             'Trade Value': row['Trade Value (US$)']
         }
 
 
-def write_csv(data):
-    with open(FILE_NAME, 'w') as csvfile:
+def write_csv(data, filename):
+    with open(filename, 'w') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=CSV_FIELD_NAMES)
         writer.writeheader()
         writer.writerows(data)
@@ -115,7 +120,7 @@ def get_comtrade_data():
     temporary_file = tempfile.TemporaryFile
     params = {
         'freq': 'A',
-        'r': 826,  # United Kingdom
+        'r': 'ALL',
         'ps': 2016,
         'type': 'C',  # Commodities
         'px': 'HS',
@@ -131,15 +136,75 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write(
             self.style.WARNING(
-                'Downloading and filtering COMTRADE data this may take a while'
+                'Downloading, unzipping and filtering COMTRADE data. '
+                'Depending on your connection and machine '
+                'this may take a while...'
             )
         )
 
-        data = get_comtrade_data()
-        write_csv(data)
+        data = self.get_data()
+        self.write_top_tens(data)
+        self.write_totals(data)
 
+    def get_data(self):
+        return list(get_comtrade_data())
+
+    def write_top_tens(self, data):
+        data = filter(lambda x: x['Reporter'] == 'United Kingdom', data)
+        write_csv(data, filename=TOP_TEN_FILE_NAME)
         self.stdout.write(
             self.style.SUCCESS(
-                'CSV file generated'
+                'Top ten CSV file generated'
+            )
+        )
+
+    @staticmethod
+    def group_data(data, grouping_key):
+        grouped_data = {}
+        data = sorted(data, key=lambda x: x[grouping_key])
+        for key, group in groupby(data, lambda x: x[grouping_key]):
+            grouped_data[key] = list(group)
+        return grouped_data
+
+    @staticmethod
+    def calculate_totals(data):
+        grouped_data = {}
+        for key, value in data.items():
+            total = sum(
+                [int(i['Trade Value']) for i in value]
+            )
+            grouped_data[key] = total
+        return grouped_data
+
+    @staticmethod
+    def reconstruct_data(data):
+        for partner_iso, hs_codes in data.items():
+            for hs_code, trade_value in hs_codes.items():
+                yield {
+                    'Partner ISO': partner_iso,
+                    'Commodity Code': hs_code,
+                    'Trade Value': trade_value
+                }
+
+    def write_totals(self, data):
+        # group data by partner is
+        data = self.group_data(
+            data,
+            grouping_key='Partner ISO'
+        )
+        # inside partners, group by commodity code and calculate totals
+        grouped_data = {}
+        for key, value in data.items():
+            all_keys_data = self.group_data(
+                value,
+                grouping_key='Commodity Code'
+            )
+            grouped_data[key] = self.calculate_totals(all_keys_data)
+
+        data = self.reconstruct_data(grouped_data)
+        write_csv(data, filename=EXPORT_TOTALS_FILE_NAME)
+        self.stdout.write(
+            self.style.SUCCESS(
+                'Export totals CSV file generated'
             )
         )
