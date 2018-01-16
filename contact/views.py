@@ -1,6 +1,5 @@
 from formtools.wizard.views import SessionWizardView
 
-from django.core.urlresolvers import reverse
 from django.template.response import TemplateResponse
 from django.views.generic import TemplateView
 
@@ -18,7 +17,7 @@ class InterstitialView(TemplateView):
         return super().dispatch(*args, **kwargs)
 
 
-class SellingOnlineOverseasTriageWizardFormView(SessionWizardView):
+class TriageWizardFormView(SessionWizardView):
 
     BUSINESS = 'business'
     DETAILS = 'business_details'
@@ -86,6 +85,7 @@ class FeedbackWizardFormView(SessionWizardView):
         helpers.create_zendesk_ticket(
             cleaned_data=self.get_all_cleaned_data(),
             service=self.kwargs['service'],
+            ingress_url=helpers.get_ingress_url(self.request),
         )
         # need to also save in database?
         return TemplateResponse(self.request, self.templates[self.SUCCESS])

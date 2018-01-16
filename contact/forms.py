@@ -10,8 +10,8 @@ class FeedbackForm(forms.Form):
     use_required_attribute = False
     error_css_class = 'input-field-container has-error'
 
-    name = forms.CharField(label_suffix='')
-    email = forms.EmailField(label_suffix='')
+    contact_name = forms.CharField(label_suffix='')
+    contact_email = forms.EmailField(label_suffix='')
     feedback = forms.CharField(label_suffix='', widget=forms.Textarea)
     captcha = ReCaptchaField()
 

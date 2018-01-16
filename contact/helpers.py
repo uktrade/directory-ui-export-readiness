@@ -59,14 +59,13 @@ def get_ticket_data(cleaned_data, service, ingress_url):
     extra_fields = [('originating_page', ingress_url), ('service', service)]
     fields = form_fields + extra_fields
     body = ['{0}: \n{1}\n'.format(name, value) for name, value in fields]
-
     return {
         'ticket': {
             'comment': {'body': '\n'.join(body)},
             'custom_fields': [{'id': 31281329, 'value': service}],
             'requester': {
-                'name': cleaned_data.get('contact_name'),
-                'email': cleaned_data.get('contact_email')
+                'name': cleaned_data['contact_name'],
+                'email': cleaned_data['contact_email'],
             },
         }
     }

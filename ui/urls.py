@@ -13,6 +13,7 @@ from ui.url_redirects import redirects
 
 sitemaps = {
     'static': core.views.StaticViewSitemap,
+    'contact': core.views.ContactUsSitemap,
 }
 
 
@@ -411,12 +412,10 @@ urlpatterns = [
         name='contact-us-service-agnostic'
     ),
     url(
-        r'^contact-us/triage/selling-online-overseas/$',
-        contact.views.SellingOnlineOverseasTriageWizardFormView.as_view(),
-        name='contact-us-selling-online-overseas-triage-wizard'
+        r'^contact-us/(?P<service>[-\w\d]+)/triage/$',
+        contact.views.TriageWizardFormView.as_view(),
+        name='contact-us-triage-wizard'
     ),
-
-    # soo/TriageForm --> 'selling-online-overseas-triage-wizard'
 ]
 
 urlpatterns += redirects
