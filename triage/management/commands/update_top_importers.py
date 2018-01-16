@@ -141,7 +141,6 @@ class Command(BaseCommand):
                 'this may take a while...'
             )
         )
-
         data = self.get_data()
         self.write_top_tens(data)
         self.write_totals(data)
@@ -177,7 +176,7 @@ class Command(BaseCommand):
         return grouped_data
 
     @staticmethod
-    def reconstruct_data(data):
+    def flatten_data(data):
         for partner_iso, hs_codes in data.items():
             for hs_code, trade_value in hs_codes.items():
                 yield {
@@ -201,7 +200,7 @@ class Command(BaseCommand):
             )
             grouped_data[key] = self.calculate_totals(all_keys_data)
 
-        data = self.reconstruct_data(grouped_data)
+        data = self.flatten_data(grouped_data)
         write_csv(data, filename=EXPORT_TOTALS_FILE_NAME)
         self.stdout.write(
             self.style.SUCCESS(
