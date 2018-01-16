@@ -7,6 +7,7 @@ import io
 from itertools import groupby
 
 import requests
+from clint.textui import progress
 from django.conf import settings
 from django.core.management import BaseCommand
 
@@ -79,7 +80,12 @@ def iter_and_filter_csv_from_url(url, tmp_file_creator):
 def stream_to_file_pointer(url, file_pointer):
     """Efficiently stream given url to given file pointer."""
     response = requests.get(url, stream=True)
-    for chunk in response.iter_content(chunk_size=4096):
+    total_length = int(response.headers.get('content-length'))
+    chuck_size = 4096
+    for chunk in progress.bar(
+            response.iter_content(chunk_size=chuck_size),
+            expected_size=(total_length / chuck_size) + 1
+    ):
         file_pointer.write(chunk)
 
 
