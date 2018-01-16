@@ -201,3 +201,8 @@ compile_test_requirements:
 compile_all_requirements: compile_requirements compile_test_requirements
 
 .PHONY: build clean test_requirements docker_run docker_debug docker_webserver_bash docker_test debug_webserver debug_test debug heroku_deploy_dev heroku_deploy_demo
+
+header_footer:
+	bash ./scripts/header_footer_git_make_branch.sh
+	python ./scripts/upgrade_header_footer.py
+	bash ./scripts/header_footer_git_push_changes.sh
