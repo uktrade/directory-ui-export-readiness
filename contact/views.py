@@ -36,7 +36,7 @@ class TriageWizardFormView(SessionWizardView):
         DETAILS: 'contact/wizard-step-details.html',
         EXPERIENCE: 'contact/wizard-step-experience.html',
         CONTACT: 'contact/wizard-step-contact.html',
-        SUCCESS: 'contact/wizard-step-success.html'
+        SUCCESS: 'contact/triage-success.html'
     }
 
     form_labels = (
