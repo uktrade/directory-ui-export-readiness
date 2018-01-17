@@ -64,7 +64,7 @@ def open_zipped_csv(file_pointer):
     with zipfile.ZipFile(file_pointer) as zip_file:
         # get the first file from zip, assuming it's the only one
         csv_name = zip_file.filelist[0].filename
-        with zip_file.open(csv_name, force_zip64=True) as raw_csv_file_pointer:
+        with zip_file.open(csv_name) as raw_csv_file_pointer:
             # We need to read that as a text IO for CSV reader to work
             csv_fp = io.TextIOWrapper(raw_csv_file_pointer)
 
