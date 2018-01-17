@@ -352,7 +352,7 @@ USE_FREIGHT_FORWARDER = Article(
 )
 USE_INCOTERMS_IN_CONTRACTS = Article(
     uuid=exred_articles.USE_INCOTERMS_IN_CONTRACTS,
-    title='User incoterms in contracts',
+    title='Use incoterms in contracts',
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/32_use-incoterms-in-contracts.md',
