@@ -82,19 +82,23 @@ def test_update_totals_write_csv(
         assert mocked_dictwriter().writeheader.called is True
         data = mocked_dictwriter().writerows.call_args[0][0]
         expected_data = [{
-                             'Commodity Code': '01', 'Partner ISO': 'ATG',
+                             'Commodity Code': '01',
+                             'Partner ISO': 'ATG',
                              'Trade Value': 2703
                          },
                          {
-                             'Commodity Code': '01', 'Partner ISO': 'AUS',
+                             'Commodity Code': '01',
+                             'Partner ISO': 'AUS',
                              'Trade Value': 25153169
                          },
                          {
-                             'Commodity Code': '01', 'Partner ISO': 'AZE',
+                             'Commodity Code': '01',
+                             'Partner ISO': 'AZE',
                              'Trade Value': 148262
                          },
                          {
-                             'Commodity Code': '21', 'Partner ISO': 'ITA',
+                             'Commodity Code': '21',
+                             'Partner ISO': 'ITA',
                              'Trade Value': 455
                          }]
         assert list(data) == expected_data
