@@ -41,7 +41,13 @@ COMTRADE_CSV_FIELD_NAMES = (
     'Trade Value (US$)',
     'Flag'
 )
-CSV_FIELD_NAMES = (
+TOTALS_CSV_FIELD_NAMES = (
+    'Partner ISO',
+    'Commodity Code',
+    'Trade Value'
+)
+TOP_TEN_CSV_FIELD_NAMES = (
+    'Partner',
     'Partner ISO',
     'Commodity Code',
     'Trade Value'
@@ -115,9 +121,9 @@ def process_row(row):
         }
 
 
-def write_csv(data, filename):
+def write_csv(data, filename, fieldnames):
     with open(filename, 'w') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=CSV_FIELD_NAMES)
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(data)
 
@@ -156,7 +162,11 @@ class Command(BaseCommand):
 
     def write_top_tens(self, data):
         data = filter(lambda x: x['Reporter'] == 'United Kingdom', data)
-        write_csv(data, filename=TOP_TEN_FILE_NAME)
+        write_csv(
+            data,
+            filename=TOP_TEN_FILE_NAME,
+            fieldnames=TOP_TEN_CSV_FIELD_NAMES
+        )
         self.stdout.write(
             self.style.SUCCESS(
                 'Top ten CSV file generated'
@@ -207,7 +217,11 @@ class Command(BaseCommand):
             grouped_data[key] = self.calculate_totals(all_keys_data)
 
         data = self.flatten_data(grouped_data)
-        write_csv(data, filename=EXPORT_TOTALS_FILE_NAME)
+        write_csv(
+            data,
+            filename=EXPORT_TOTALS_FILE_NAME,
+            fieldnames=TOTALS_CSV_FIELD_NAMES
+        )
         self.stdout.write(
             self.style.SUCCESS(
                 'Export totals CSV file generated'
