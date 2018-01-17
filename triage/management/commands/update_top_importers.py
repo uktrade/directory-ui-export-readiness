@@ -115,6 +115,7 @@ def process_row(row):
         yield {
             'Reporter': row['Reporter'],
             'Reporter ISO': row['Reporter ISO'],
+            'Partner': row['Partner'],
             'Partner ISO': row['Partner ISO'],
             'Commodity Code': row['Commodity Code'],
             'Trade Value': row['Trade Value (US$)']
@@ -145,6 +146,20 @@ def get_comtrade_data():
 
 class Command(BaseCommand):
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--toptens',
+            action='store_true',
+            dest='top_tens',
+            help='Update top tens only',
+        )
+        parser.add_argument(
+            '--totals',
+            action='store_true',
+            dest='totals',
+            help='Update totals only',
+        )
+
     def handle(self, *args, **options):
         self.stdout.write(
             self.style.WARNING(
@@ -154,8 +169,13 @@ class Command(BaseCommand):
             )
         )
         data = self.get_data()
-        self.write_top_tens(data)
-        self.write_totals(data)
+        if options['top_tens']:
+            self.write_top_tens(data)
+        if options['totals']:
+            self.write_totals(data)
+        if options['top_tens'] is False and options['totals'] is False:
+            self.write_top_tens(data)
+            self.write_totals(data)
 
     def get_data(self):
         return list(get_comtrade_data())
