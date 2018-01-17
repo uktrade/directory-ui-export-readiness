@@ -57,7 +57,11 @@ def test_update_top_importers_write_csv(
                 'Reporter ISO': 'GBR',
                 'Trade Value': '25152614'
             }]
-        assert list(data) == expected_data
+        assert sorted(
+            list(data), key=lambda x: x['Trade Value']
+        ) == sorted(
+            expected_data, key=lambda x: x['Trade Value']
+        )
 
 
 @patch('triage.management.commands.update_top_importers.open', mock_open())
@@ -82,26 +86,30 @@ def test_update_totals_write_csv(
         assert mocked_dictwriter().writeheader.called is True
         data = mocked_dictwriter().writerows.call_args[0][0]
         expected_data = [{
-                             'Commodity Code': '01',
-                             'Partner ISO': 'ATG',
-                             'Trade Value': 2703
-                         },
-                         {
-                             'Commodity Code': '01',
-                             'Partner ISO': 'AUS',
-                             'Trade Value': 25153169
-                         },
-                         {
-                             'Commodity Code': '01',
-                             'Partner ISO': 'AZE',
-                             'Trade Value': 148262
-                         },
-                         {
-                             'Commodity Code': '21',
-                             'Partner ISO': 'ITA',
-                             'Trade Value': 455
-                         }]
-        assert list(data) == expected_data
+            'Commodity Code': '01',
+            'Partner ISO': 'ATG',
+            'Trade Value': 2703
+        },
+            {
+                'Commodity Code': '01',
+                'Partner ISO': 'AUS',
+                'Trade Value': 25153169
+            },
+            {
+                'Commodity Code': '01',
+                'Partner ISO': 'AZE',
+                'Trade Value': 148262
+            },
+            {
+                'Commodity Code': '21',
+                'Partner ISO': 'ITA',
+                'Trade Value': 455
+            }]
+        assert sorted(
+            list(data), key=lambda x: x['Trade Value']
+        ) == sorted(
+            expected_data, key=lambda x: x['Trade Value']
+        )
 
 
 @patch('triage.management.commands.update_top_importers.open', mock_open())
