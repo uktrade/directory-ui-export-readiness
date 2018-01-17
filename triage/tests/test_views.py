@@ -547,15 +547,11 @@ def test_triage_wizard_summary_view(
 def test_custom_view_no_triage_result_found(
     mocked_retrieve_answers, authed_client
 ):
-    view_class = views.TriageWizardFormView
     mocked_retrieve_answers.return_value = {}
     url = reverse('custom-page')
     response = authed_client.get(url)
-    assert response.status_code == 302
-    assert response.url == reverse(
-        'triage-wizard',
-        kwargs={'step': view_class.SECTOR}
-    )
+    assert response.status_code == 200
+    assert response.template_name == views.CustomPageView.start_template_name
 
 
 @pytest.mark.parametrize('is_in_companies_house,expected', (
