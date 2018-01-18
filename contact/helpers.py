@@ -10,7 +10,6 @@ from django.urls import resolve, Resolver404
 
 logger = logging.getLogger(__name__)
 
-DIRECT_REQUEST = 'Direct request'
 INGRESS_URL_SESSION_KEY = 'ingress_url'
 INTERSTITIAL_URL_NAMES = [
     'contact-us-interstitial-service-agnostic',
@@ -75,11 +74,12 @@ def get_ingress_url(request):
     referer_header_url = request.META.get('HTTP_REFERER')
     ingress_url = None
 
-    if referer_header_url is None:
-        ingress_url = DIRECT_REQUEST
-    elif is_url_interstitial(referer_header_url):
-        ingress_url = request.session[INGRESS_URL_SESSION_KEY]
-    return ingress_url or referer_header_url
+    if referer_header_url:
+        if is_url_interstitial(referer_header_url):
+            ingress_url = request.session[INGRESS_URL_SESSION_KEY]
+        else:
+            ingress_url = referer_header_url
+    return ingress_url or 'Direct request'
 
 
 def is_url_internal(url):

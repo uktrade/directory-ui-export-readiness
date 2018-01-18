@@ -148,3 +148,4 @@ class ContactDetailsForm(forms.Form):
         ),
         required=False,
     )
+    captcha = ReCaptchaField()

@@ -391,9 +391,7 @@ urlpatterns = [
     ),
     url(
         r'^contact-us/intro/$',
-        contact.views.InterstitialView.as_view(
-            service=None
-        ),
+        contact.views.InterstitialView.as_view(service=None),
         name='contact-us-interstitial-service-agnostic',
     ),
     url(

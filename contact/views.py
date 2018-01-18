@@ -52,10 +52,9 @@ class TriageWizardFormView(SessionWizardView):
     def done(self, *args, **kwargs):
         helpers.create_zendesk_ticket(
             cleaned_data=self.get_all_cleaned_data(),
-            service='selling-online-overseas',
+            service=self.kwargs['service'],
             ingress_url=helpers.get_ingress_url(self.request),
         )
-        # need to also save in database?
         return TemplateResponse(self.request, self.templates[self.SUCCESS])
 
     def get_context_data(self, *args, **kwargs):
@@ -84,8 +83,7 @@ class FeedbackWizardFormView(SessionWizardView):
     def done(self, *args, **kwargs):
         helpers.create_zendesk_ticket(
             cleaned_data=self.get_all_cleaned_data(),
-            service=self.kwargs['service'],
+            service=self.kwargs.get('service'),
             ingress_url=helpers.get_ingress_url(self.request),
         )
-        # need to also save in database?
         return TemplateResponse(self.request, self.templates[self.SUCCESS])

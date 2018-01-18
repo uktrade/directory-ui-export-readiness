@@ -7,24 +7,24 @@
 {% endblock %}
 
 {% block content %}
-	<div class="container">
-		<div class="lg-2 md-2 sm-1" id="interstitial-container">
-			<div>
-				<br>
-				<h1>Contact us</h1>
+    <div class="container">
+        <div class="lg-2 md-2 sm-1" id="interstitial-container">
+            <div>
+                <br>
+                <h1>Contact us</h1>
 
-				<p>
-					Contact the Department for International Trade for questions about exporting and UKEF for questions about export finance. <a href="https://www.contactus.trade.gov.uk/enquiry/topic" class="link" title="Complete this short form">Complete this short form and we’ll get back to you.</a>
-				</p>
+                <p>
+                    Contact the Department for International Trade for questions about exporting and UKEF for questions about export finance. <a href="https://www.contactus.trade.gov.uk/enquiry/topic" class="link" title="Complete this short form">Complete this short form and we’ll get back to you.</a>
+                </p>
 
-				<p>
-					We have trade advisers at regional offices throughout the country. <a href="https://www.contactus.trade.gov.uk/office-finder" class="link" title="Contact details of your local office">Find the contact details of your local trade office.</a>
-				</p>
+                <p>
+                    We have trade advisers at regional offices throughout the country. <a href="https://www.contactus.trade.gov.uk/office-finder" class="link" title="Contact details of your local office">Find the contact details of your local trade office.</a>
+                </p>
 
-				<h3>Help us improve</h3>
-				<a href="{% if service %}{% url 'contact-us-service-specific' service=service %}{% else %}{% url 'contact-us-service-agnostic' %}{% endif %}" class="link" title="Complete a short feedback">Complete a short feedback form</a> to tell us what you think of our website and services.
-			</div>
-		</div>
-	</div>
+                <h3>Help us improve</h3>
+                <a href="{% if service %}{% url 'contact-us-service-specific' service=service %}{% else %}{% url 'contact-us-service-agnostic' %}{% endif %}" class="link" title="Complete a short feedback">Complete a short feedback form</a> to tell us what you think of our website and services.
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
