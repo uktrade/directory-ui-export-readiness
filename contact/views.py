@@ -1,12 +1,21 @@
 from formtools.wizard.views import SessionWizardView
 
+from django.conf import settings
+from django.http import Http404
 from django.template.response import TemplateResponse
 from django.views.generic import TemplateView
 
 from contact import forms, helpers
 
 
-class InterstitialView(TemplateView):
+class FeatureFlagMixin:
+    def dispatch(self, *args, **kwargs):
+        if not settings.FEATURE_CONTACT_US_ENABLED:
+            raise Http404()
+        return super().dispatch(*args, **kwargs)
+
+
+class InterstitialView(FeatureFlagMixin, TemplateView):
     template_name = 'contact/interstitial.html'
     service = None
 
@@ -17,7 +26,7 @@ class InterstitialView(TemplateView):
         return super().dispatch(*args, **kwargs)
 
 
-class TriageWizardFormView(SessionWizardView):
+class TriageWizardFormView(FeatureFlagMixin, SessionWizardView):
 
     BUSINESS = 'business'
     DETAILS = 'business_details'
@@ -63,7 +72,7 @@ class TriageWizardFormView(SessionWizardView):
         )
 
 
-class FeedbackWizardFormView(SessionWizardView):
+class FeedbackWizardFormView(FeatureFlagMixin, SessionWizardView):
     service = None
 
     FEEDBACK = 'feedback'

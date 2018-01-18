@@ -7,6 +7,24 @@ from django.urls import reverse
 from contact import helpers, views
 
 
+@pytest.mark.parametrize('url', (
+    reverse('contact-us-service-specific', kwargs={'service': 'invest'}),
+    reverse('contact-us-service-agnostic'),
+    reverse('contact-us-interstitial-service-agnostic'),
+    reverse('contact-us-triage-wizard', kwargs={'service': 'directory'}),
+    reverse(
+        'contact-us-interstitial-service-specific',
+        kwargs={'service': 'directory'},
+    ),
+))
+def test_contact_views_feature_flag_off(url, client, settings):
+    settings.FEATURE_CONTACT_US_ENABLED = False
+
+    response = client.get(url)
+
+    assert response.status_code == 404
+
+
 def test_service_agnostic_interstitial_view_remembers_referer(client):
     response = client.get(
         reverse('contact-us-interstitial-service-agnostic'),

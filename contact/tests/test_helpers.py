@@ -26,8 +26,8 @@ def test_create_zendesk_ticket(settings):
             'custom_fields': [{'id': 31281329, 'value': 'directory'}],
             'comment': {
                 'body': (
-                    'contact_name: \nJim example\n\n'
                     'contact_email: \ntest@example.com\n\n'
+                    'contact_name: \nJim example\n\n'
                     'originating_page: \nhttp://google.com\n\n'
                     'service: \ndirectory\n'
                 )

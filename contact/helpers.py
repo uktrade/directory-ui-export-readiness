@@ -56,7 +56,7 @@ def get_ticket_data(cleaned_data, service, ingress_url):
 
     form_fields = list(cleaned_data.items())
     extra_fields = [('originating_page', ingress_url), ('service', service)]
-    fields = form_fields + extra_fields
+    fields = sorted(form_fields + extra_fields)
     body = ['{0}: \n{1}\n'.format(name, value) for name, value in fields]
     return {
         'ticket': {
