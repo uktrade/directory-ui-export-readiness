@@ -246,6 +246,7 @@ def test_persona_views(view_class, url, client):
     assert response.status_code == 200
     assert response.template_name == [view_class.template_name]
     assert response.context_data['article_group'] == view_class.article_group
+    assert response.context_data['paginate_articles'] is True
 
 
 @pytest.mark.parametrize('view_class,url', guidance_views_under_test)
@@ -255,6 +256,7 @@ def test_guidance_views(view_class, url, client):
     assert response.status_code == 200
     assert response.template_name == [view_class.template_name]
     assert response.context_data['article_group'] == view_class.article_group
+    assert response.context_data['paginate_articles'] is False
 
 
 @pytest.mark.parametrize('view_class,url', article_views_under_test)

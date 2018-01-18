@@ -37,9 +37,11 @@
                         <a href="{{ article.url }}?source={{article_group.name}}" class="article{% if article.uuid in article_group_progress.viewed_article_uuids %} article-read{% endif %}">{{ article.title }}</a>
                     </li>
                 {% endfor %}
-                <div class="buttons">
-                    <a href="#" class="button more js-enabled-only" id="js-paginate-list-more">Show more</a>
-                </div>
+                {% if paginate_articles %}
+                    <div class="buttons">
+                        <a href="#" class="button more js-enabled-only" id="js-paginate-list-more">Show more</a>
+                    </div>
+                {% endif %}
             </ol>
         </div>
     </div>
@@ -47,10 +49,12 @@
 {% endblock %}
 
 {% block bodyScripts %}
-    <script src="{% static 'js/article-list.js' %}"></script>
-    <script>
-        var listELement = document.getElementById('js-paginate-list');  
-        var loadMoreButton = document.getElementById('js-paginate-list-more');  
-        new GOVUK.components.ArticlePaginator(listELement, loadMoreButton);
-    </script>
+    {% if paginate_articles %}
+        <script src="{% static 'js/article-list.js' %}"></script>
+        <script>
+            var listELement = document.getElementById('js-paginate-list');
+            var loadMoreButton = document.getElementById('js-paginate-list-more');
+            new GOVUK.components.ArticlePaginator(listELement, loadMoreButton);
+        </script>
+    {% endif %}
 {% endblock %}

@@ -30,6 +30,7 @@ class SectorForm(BaseTriageForm):
     sector = forms.ChoiceField(
         choices=BLANK_CHOICE_DASH + SECTORS_CHOICES,
         label='What do you want to export?',
+        help_text="Type the product or service you want to export.",
         label_suffix='',
         widget=forms.Select(attrs={'id': 'js-sector-select'}),
     )

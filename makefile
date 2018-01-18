@@ -8,7 +8,7 @@ test_requirements:
 	pip install -r requirements_test.txt
 
 FLAKE8 := flake8 . --exclude=migrations,.venv,node_modules
-PYTEST := pytest . -v --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
+PYTEST := pytest . -v --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no -x $(pytest_args)
 COLLECT_STATIC := python manage.py collectstatic --noinput
 COMPILE_TRANSLATIONS := python manage.py compilemessages
 CODECOV := \
@@ -80,11 +80,13 @@ DOCKER_SET_DEBUG_ENV_VARS := \
 	export DIRECTORY_UI_EXPORT_READINESS_INFO_TERMS_AND_CONDITIONS=/terms-and-conditions; \
 	export DIRECTORY_UI_EXPORT_READINESS_SECURE_SSL_REDIRECT=false; \
 	export DIRECTORY_UI_EXPORT_READINESS_HEALTH_CHECK_TOKEN=debug; \
+	export DIRECTORY_UI_EXPORT_READINESS_COMTRADE_API_TOKEN=DEBUG; \
 	export DIRECTORY_UI_EXPORT_READINESS_RECAPTCHA_PUBLIC_KEY=6Lc9EC4UAAAAAOFaExlfAkHhS_l6k_sBFTTNPDPD; \
 	export DIRECTORY_UI_EXPORT_READINESS_RECAPTCHA_PRIVATE_KEY=6Lc9EC4UAAAAAFdtUrYH78fXHNK8QqFoXBDyZDYQ; \
 	export DIRECTORY_UI_EXPORT_READINESS_CONTACT_ZENDESK_USER=debug; \
 	export DIRECTORY_UI_EXPORT_READINESS_CONTACT_ZENDESK_TOKEN=debug; \
 	export DIRECTORY_UI_EXPORT_READINESS_CONTACT_ZENDESK_URL=https://uktrade.zendesk.com/api/v2/tickets.json
+
 
 docker_test_env_files:
 	$(DOCKER_SET_DEBUG_ENV_VARS) && \
@@ -164,11 +166,13 @@ DEBUG_SET_ENV_VARS := \
 	export INFO_TERMS_AND_CONDITIONS=/terms-and-conditions; \
 	export SECURE_SSL_REDIRECT=false; \
 	export HEALTH_CHECK_TOKEN=debug; \
+	export DIRECTORY_UI_EXPORT_READINESS_COMTRADE_API_TOKEN=DEBUG; \
 	export RECAPTCHA_PUBLIC_KEY=6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI; \
 	export RECAPTCHA_PRIVATE_KEY=6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe; \
 	export CONTACT_ZENDESK_USER=debug; \
 	export CONTACT_ZENDESK_TOKEN=debug; \
 	export CONTACT_ZENDESK_URL=https://uktrade.zendesk.com/api/v2/tickets.json
+
 
 debug_webserver:
 	$(DEBUG_SET_ENV_VARS) && $(DJANGO_WEBSERVER)

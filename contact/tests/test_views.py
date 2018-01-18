@@ -39,7 +39,7 @@ def test_service_specific_interstitial_view_remembers_referer(client):
 def test_submit_triage(mock_create_zendesk_ticket, client, captcha_stub):
     view = views.TriageWizardFormView
     view_name = 'triage_wizard_form_view'
-    
+
     url = reverse(
         'contact-us-triage-wizard', kwargs={'service': 'directory'}
     )
