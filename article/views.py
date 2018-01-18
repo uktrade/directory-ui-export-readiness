@@ -69,24 +69,30 @@ class BaseArticleDetailView(ArticlesViewedManagerMixin, TemplateView):
 
 
 class BaseArticleListView(ArticlesViewedManagerMixin, TemplateView):
+    paginate_articles = False
 
     def get_context_data(self, *args, **kwargs):
         return super().get_context_data(
-            *args, **kwargs, article_group=self.article_group,
+            *args, **kwargs,
+            article_group=self.article_group,
+            paginate_articles=self.paginate_articles,
         )
 
 
 class PersonaNewArticleListView(BaseArticleListView):
+    paginate_articles = True
     template_name = 'article/list-new-persona.html'
     article_group = structure.PERSONA_NEW_ARTICLES
 
 
 class PersonaOccasionalArticleListView(BaseArticleListView):
+    paginate_articles = True
     template_name = 'article/list-occasional-persona.html'
     article_group = structure.PERSONA_OCCASIONAL_ARTICLES
 
 
 class PersonaRegularArticleListView(BaseArticleListView):
+    paginate_articles = True
     template_name = 'article/list-regular-persona.html'
     article_group = structure.PERSONA_REGULAR_ARTICLES
 
