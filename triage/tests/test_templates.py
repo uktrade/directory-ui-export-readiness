@@ -10,12 +10,13 @@ import pytest
     (None, None),
 ))
 def test_triage_summary_online_marketplace_question(
-    used_online_marketplace, expected
+    used_online_marketplace, expected, rf,
 ):
     context = {
         'all_cleaned_data': {
             'used_online_marketplace': used_online_marketplace,
         },
+        'request': rf.get('/')
     }
     html = render_to_string('triage/wizard-step-summary.html', context)
     soup = BeautifulSoup(html, 'html.parser')
@@ -32,11 +33,14 @@ def test_triage_summary_online_marketplace_question(
     (False, 'No'),
     (None, None),
 ))
-def test_triage_summary_regular_exporer_question(regular_exporter, expected):
+def test_triage_summary_regular_exporer_question(
+    regular_exporter, expected, rf
+):
     context = {
         'all_cleaned_data': {
             'regular_exporter': regular_exporter,
         },
+        'request': rf.get('.')
     }
     html = render_to_string('triage/wizard-step-summary.html', context)
     soup = BeautifulSoup(html, 'html.parser')

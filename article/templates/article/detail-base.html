@@ -4,7 +4,8 @@
 {% load include_markdown from article_tags %}
 {% load image_tags %}
 
-{% block css %}
+{% block head_css %}
+    {{ block.super }}
     <link href="{% static 'styles/article.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
@@ -68,7 +69,7 @@
 </div>
 {% endblock %}
 
-{% block bodyScripts %}
+{% block body_js %}
     <script src="{% static 'js/useful-feedback.js' %}"></script>
     <script>
         var positiveELement = document.getElementById('js-feedback-positive');

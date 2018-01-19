@@ -8,5 +8,5 @@ import pytest
     '403.html',
     '404.html',
 ))
-def test_error_templates(template_name):
-    assert render_to_string(template_name, {})
+def test_error_templates(template_name, rf):
+    assert render_to_string(template_name, {'request': rf.get('/')})
