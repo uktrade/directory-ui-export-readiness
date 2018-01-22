@@ -16,11 +16,12 @@
     <meta property="og:image" content="{% static 'images/icons/opengraph-image.png' %}">
     <title>{% block head_title %}Welcome to great.gov.uk - buy from or invest in the UK{% endblock %}</title>
 
-    <link href='{% static 'images/favicon-192x192.png' %}' rel='shortcut icon' type='image/png'>
-    <!--[if IE]> <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon" /> <![endif]-->
+    <link href='{% static 'directory_components/images/favicon-192x192.png' %}' rel='shortcut icon' type='image/png'>
+    <!--[if IE]> <link rel="icon" href="{% static 'directory_components/images/favicon.ico' %}" type="image/x-icon" /> <![endif]-->
 
     <link rel="stylesheet" type="text/css" href="{% static 'styles/international.css' %}">
-    {% block css %}{% endblock %}
+    {% block head_css %}
+    {{ block.super }}{% endblock %}
 
     <script src="{% static 'Dit-Pattern-Styling/public/js/third-party.js' %}"></script>
     <script src="{% static 'js/dit.js' %}"></script>

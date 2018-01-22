@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "casestudy",
     "directory_healthcheck",
     "health_check",
+    "directory_components",
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -91,8 +92,7 @@ TEMPLATES = [
                 ('directory_header_footer.context_processors.'
                  'header_footer_context_processor'),
                 'core.context_processors.feature_flags',
-                'core.context_processors.analytics',
-                'core.context_processors.external_service_urls',
+                'directory_components.context_processors.analytics',
             ],
         },
     },

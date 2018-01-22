@@ -3,7 +3,8 @@
 {% load static from staticfiles %}
 {% load progressive_image from image_tags %}
 
-{% block css %}
+{% block head_css %}
+    {{ block.super }}
     <link href="{% static 'styles/casestudy.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
