@@ -19,7 +19,7 @@
 <section style="" class="hero-section {% if persona.name == 'NEW_EXPORTER' %}new{% elif persona.name == 'OCCASIONAL_EXPORTER' %}occasional{% elif persona.name == 'REGULAR_EXPORTER'%}regular{% endif %}">
     <div class="container">
         <div class="hero-teaser">
-            <h1 class="title">Your Export Journey</h1>
+            <h1 class="title heading-xlarge">Your Export Journey</h1>
             <p>We've gathered information, guidance and tools to help your business grow.</p>
             <a href="{% url 'triage-wizard' step='summary' %}?result" class="preferences">Update preferences</a>
         </div>
@@ -40,11 +40,11 @@
 <section class="top-markets">
     <div class="container">
         <div class="intro" id="largest-importers">
-            <h2 class="header">
+            <h2 class="heading-large">
                 10 largest importers for your sector from the UK
             </h2>
             <p class="commodity-name">{{ sector_name }}</p>
-            <p><a href="{% url 'triage-wizard' step='sector' %}">Select a different product category</a></p>
+            <p><a href="{% url 'triage-wizard' step='sector' %}" class="link">Select a different product category</a></p>
             <hr>
             <p>Statistics like export values and gross domestic product can show you the potential size of a market. Information like how easy it is to do business in a country will help you decide how attractive the market is.</p>
         </div>
@@ -72,10 +72,10 @@
         </ol>
 
         <div id="market-source-data">
-			 <p>*The <a href="http://www.doingbusiness.org/rankings" target="_blank">World Bank’s Doing Business project</a> ranks economies from 1 to 190 on the how easy their regulatory environment makes it to start a local business, with 1 being the easiest.</p>
+			 <p>*The <a href="http://www.doingbusiness.org/rankings" target="_blank" class="link">World Bank’s Doing Business project</a> ranks economies from 1 to 190 on the how easy their regulatory environment makes it to start a local business, with 1 being the easiest.</p>
             <p>The data is for 2016. This page was updated on 30 October 2017.</p>
-            <p>All import and export values are the value of exports a country has reported to <a href="https://comtrade.un.org" target="_blank">UN Comtrade, DESA/UNSD</a>.</p>
-	    <p>Use our <a href="https://comtrade.un.org/labs/dit-trade-vis/?reporter=826&type=C&year=2016&flow=2&commodity" target="_blank">data visualisation tool</a> to get more import and export data.</p>
+            <p>All import and export values are the value of exports a country has reported to <a href="https://comtrade.un.org" target="_blank" class="link">UN Comtrade, DESA/UNSD</a>.</p>
+	    <p>Use our <a href="https://comtrade.un.org/labs/dit-trade-vis/?reporter=826&type=C&year=2016&flow=2&commodity" target="_blank" class="link">data visualisation tool</a> to get more import and export data.</p>
             <p>The UK government takes no responsibility for this data.</p>
         </div>
     </div>
@@ -85,9 +85,9 @@
 <section id="articles">
     <div class="container">
         <div class="section-intro">
-            <h2 class="header">Your export guidance</h2>
+            <h2 class="heading-large">Your export guidance</h2>
             <p class="intro">
-                Read the export guidance we've selected for your experience level. You can come back to this page at any time, but you'll need to <a href="{{ sso_register_url }} ">register</a> if you want to save your progress.</p>
+                Read the export guidance we've selected for your experience level. You can come back to this page at any time, but you'll need to <a href="{{ sso_register_url }}" class="link">register</a> if you want to save your progress.</p>
         </div>
         {% include 'article/read-count.html' %}
         <div class="section-content-list">
@@ -95,7 +95,7 @@
                 {% for article in section_configuration.persona_article_group.articles %}
                     <li>
                         <span class="section">{{ article.parent.title }}<span class="verbose">:</span>&nbsp;</span>
-                        <a href="{{ article.url }}?source={{ article_group.name }}" class="article{% if article.uuid in article_group_progress.viewed_article_uuids %} article-read{% endif %}">{{ article.title }}</a>
+                        <a href="{{ article.url }}?source={{ article_group.name }}" class="link article{% if article.uuid in article_group_progress.viewed_article_uuids %} article-read{% endif %}">{{ article.title }}</a>
                     </li>
                 {% endfor %}
                 <div class="buttons">
@@ -109,7 +109,7 @@
 {% if section_configuration.trade_profile %}
 <section class="service-section fas">
     <div class="container">
-        <h2 class="heading">
+        <h2 class="heading heading-large">
             {% if triage_result.company_name %}
                 Connect {{ triage_result.company_name }} directly with international buyers
             {% else %}
@@ -134,7 +134,7 @@
 {% if section_configuration.selling_online_overseas_and_export_opportunities %}
 <section id="other-services">
     <div class="container">
-        <h2 class="header verbose">Other services</h2>
+        <h2 class="verbose heading-large">Other services</h2>
         <div class="group">
             <div class="lg-2 md-1">
                 <article data-component="service-teaser" class="service-teaser">
@@ -158,7 +158,7 @@
 {% if section_configuration.selling_online_overseas %}
 <section class="service-section soo">
     <div class="container">
-        <h2 class="heading">
+        <h2 class="heading-large">
             {% if triage_result.company_name %}
                 Help {{ triage_result.company_name }} reach over 2 billion consumers around the world
             {% else %}
