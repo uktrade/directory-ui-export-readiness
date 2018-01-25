@@ -14,6 +14,20 @@
   @include button-ghost($white, transparent);
   padding: 10px 60px;
   position: relative;
+  border-color: #fff;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: none;
+
+  &:hover,
+  &:focus {
+    background-color: #fff;
+  }
+
+  &:active:before {
+    top: 17px;
+    height: auto;
+  }
 
   &:before {
     border-bottom: 15px solid $white;
@@ -28,8 +42,14 @@
     width: 0px;
   }
 
-  &:hover {
+  &:focus,
+  &:hover,
+  &:link:focus,
+  &:visited {
     color: $grey;
+  }
+
+  &:hover {
     &:before {
       border-bottom-color: $grey;
     }

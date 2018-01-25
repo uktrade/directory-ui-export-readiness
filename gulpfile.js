@@ -20,6 +20,9 @@ gulp.task('sass', function () {
   return gulp.src(SASS_FILES)
     .pipe(sourcemaps.init())
     .pipe(sass({
+      includePaths: [
+        './ui/',
+      ],
       outputStyle: 'compressed'
     }).on('error', sass.logError))
     .pipe(sourcemaps.write('./maps'))

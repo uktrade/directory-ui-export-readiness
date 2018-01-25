@@ -23,10 +23,11 @@
 // heading-m-mob
 
 
-body {
-  @include body-m;
-  background-color: $white;
-  -webkit-font-smoothing: antialiased;
+
+@import 'staticfiles/export_elements/stylesheets/govuk-elements-styles';
+
+#content {
+  max-width: none;
 }
 
 img.placeholder {
@@ -39,7 +40,6 @@ img.placeholder {
 section {
   clear: both;
   overflow: hidden;
-  padding: $spacing-1 0 $spacing-2 0;
   
   .heading {
     @include columns(6);
@@ -88,6 +88,7 @@ section {
 
 .error-reporting {
   padding-top: 0;
+  padding-bottom: 0px;
 }
 // TABLET
 @media (max-width: 767px) {

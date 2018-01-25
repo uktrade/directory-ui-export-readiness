@@ -48,9 +48,32 @@
   @include body-s;
 }
 
+a.button-cta {
+  padding-bottom: 10px;
+  padding-left: 45px;
+  padding-right: 45px;
+  padding-top: 10px;
+  border: 2px solid;
+  box-shadow: none;
+  background-color: #fff;
+  border-color: #006ccc;
+  color: #006ccc;
 
-// TABLET
-@media (max-width: 767px) {
+  &:visited {
+    background-color: #fff;
+  }
+
+  &:visited {
+    color: #006ccc;
+  }
+
+  &:link,
+  &:link:focus,
+  &:hover,
+  &:focus {
+    background-color: #006ccc;
+    color: #fff;
+  }
 }
 
 

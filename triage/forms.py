@@ -5,8 +5,8 @@ from directory_constants.constants import exred_sector_names
 from django import forms
 from django.db.models.fields import BLANK_CHOICE_DASH
 
-from core.fields import PaddedCharField
-from core.widgets import RadioSelect
+from directory_components.fields import PaddedCharField
+from directory_components.widgets import RadioSelect
 
 
 Persona = namedtuple('Persona', ['name', 'label'])

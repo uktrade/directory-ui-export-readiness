@@ -2,8 +2,8 @@ from captcha.fields import ReCaptchaField
 
 from django import forms
 
-from core.widgets import CheckboxWithInlineLabel, RadioSelect
-from core.fields import PaddedCharField
+from directory_components.widgets import CheckboxWithInlineLabel, RadioSelect
+from directory_components.fields import PaddedCharField
 
 
 class FeedbackForm(forms.Form):

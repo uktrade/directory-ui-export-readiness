@@ -1,6 +1,6 @@
 {% load static from staticfiles %}
 <div class="container">
-    <h2 id="case-studies-section-title" class="heading">Exporters share their story</h2>
+    <h2 id="case-studies-section-title" class="heading-large">Exporters share their story</h2>
     <p id="case-studies-section-description" class="intro">Read what other UK businesses have to say about their experiences with exporting and the decisions they made to secure the future of their business.</p>
     <div class="ed-carousel-container">
         <div class="ed-carousel my-ed-carousel ed-carousel--translate">
@@ -37,13 +37,13 @@
                 {% for casestudy in casestudies %}
                 <div class="ed-carousel__slide">
                     <div class="ed-carousel__text lg-3 md-1">
-                        <h3>
-                        <a id="case-studies-section-case-study-{{ forloop.counter }}-link" href="{{ casestudy.url }}">
-                        {{ casestudy.title }}
-                        </a>
+                        <h3 class="heading-medium">
+                          <a id="case-studies-section-case-study-{{ forloop.counter }}-link" href="{{ casestudy.url }}" class="link">
+                          {{ casestudy.title }}
+                          </a>
                         </h3>
                         <p>{{ casestudy.description }}</p>
-                        <a id="case-studies-section-case-study-{{ forloop.counter }}-button" href="{{ casestudy.url }}" class="carousel-cta" aria-labelledby="Go to {{ casestudy.title }} case study"></a>
+                        <a id="case-studies-section-case-study-{{ forloop.counter }}-button" href="{{ casestudy.url }}" class="carousel-cta link" aria-labelledby="Go to {{ casestudy.title }} case study"></a>
                     </div>
                     <div id="case-studies-section-case-study-{{ forloop.counter }}-image" class="ed-carousel__slide__image lg-2 md-1" style="background-image: url('{% static casestudy.image_url %}'); background-image: -webkit-image-set(url('{% static casestudy.image_url_webp %}') 1x);" role="listitem" aria-labelledby="{{ casestudy.image_description }}">
                     </div>
