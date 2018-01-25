@@ -28,6 +28,9 @@ fieldset {
   }
 }
 
+input[type=url],
+input[type=email],
+input[type=number],
 input[type=text] {
   @include body-m;
   border: 2px solid $grey;

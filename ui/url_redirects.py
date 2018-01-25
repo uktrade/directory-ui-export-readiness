@@ -1,214 +1,150 @@
 from django.conf.urls import url
-from django.views.generic.base import RedirectView
+from django.core.urlresolvers import reverse_lazy
 
-from core.views import OpportunitiesRedirectView, TranslationRedirectView
+from core.views import (
+    OpportunitiesRedirectView, TranslationRedirectView, QuerystringRedirectView
+)
 
 
 redirects = [
     url(
         r'^invest/$',
-        RedirectView.as_view(
-            url='https://invest.great.gov.uk',
-            permanent=False,
-            query_string=True
-        ),
+        QuerystringRedirectView.as_view(url='https://invest.great.gov.uk'),
         name='redirect-invest'
     ),
     url(
         r'^int/invest/$',
-        RedirectView.as_view(
-            url='https://invest.great.gov.uk/int',
-            permanent=False,
-            query_string=True
-        ),
+        QuerystringRedirectView.as_view(url='https://invest.great.gov.uk/int'),
         name='redirect-int-invest'
     ),
     url(
         r'^us/invest/$',
-        RedirectView.as_view(
-            url='https://invest.great.gov.uk/us',
-            permanent=False,
-            query_string=True
-        ),
+        QuerystringRedirectView.as_view(url='https://invest.great.gov.uk/us'),
         name='redirect-us-invest'
     ),
     url(
         r'^es/invest/$',
-        RedirectView.as_view(
-            url='https://invest.great.gov.uk/es',
-            permanent=False,
-            query_string=True
-        ),
+        QuerystringRedirectView.as_view(url='https://invest.great.gov.uk/es'),
         name='redirect-es-invest'
     ),
     url(
         r'^int/es/invest/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url='https://invest.great.gov.uk/int/es',
-            permanent=False,
-            query_string=True
         ),
         name='redirect-int-es-invest'
     ),
     url(
         r'^cn/invest/$',
-        RedirectView.as_view(
-            url='https://invest.great.gov.uk/cn',
-            permanent=False,
-            query_string=True
-        ),
+        QuerystringRedirectView.as_view(url='https://invest.great.gov.uk/cn'),
         name='redirect-cn-invest'
     ),
     url(
         r'^int/zh/invest/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url='https://invest.great.gov.uk/int/zh',
-            permanent=False,
-            query_string=True
         ),
         name='redirect-int-zh-invest'
     ),
     url(
         r'^int/pt/invest/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url='https://invest.great.gov.uk/int/pt',
-            permanent=False,
-            query_string=True
         ),
         name='redirect-int-pt-invest'
     ),
     url(
         r'^br/invest/$',
-        RedirectView.as_view(
-            url='https://invest.great.gov.uk/br',
-            permanent=False,
-            query_string=True
-        ),
+        QuerystringRedirectView.as_view(url='https://invest.great.gov.uk/br'),
         name='redirect-br-invest'
     ),
     url(
         r'^de/invest/$',
-        RedirectView.as_view(
-            url='https://invest.great.gov.uk/de',
-            permanent=False,
-            query_string=True
-        ),
+        QuerystringRedirectView.as_view(url='https://invest.great.gov.uk/de'),
         name='redirect-de-invest'
     ),
     url(
         r'^int/de/invest/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url='https://invest.great.gov.uk/int/de',
-            permanent=False,
-            query_string=True
         ),
         name='redirect-int-de-invest'
     ),
     url(
         r'^jp/invest/$',
-        RedirectView.as_view(
-            url='https://invest.great.gov.uk/jp',
-            permanent=False,
-            query_string=True
-        ),
+        QuerystringRedirectView.as_view(url='https://invest.great.gov.uk/jp'),
         name='redirect-jp-invest'
     ),
     url(
         r'^int/ja/invest/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url='https://invest.great.gov.uk/int/ja',
-            permanent=False,
-            query_string=True
         ),
         name='redirect-int-ja-invest'
     ),
     url(
         r'^in/invest/$',
-        RedirectView.as_view(
-            url='https://invest.great.gov.uk/in',
-            permanent=False,
-            query_string=True
-        ),
+        QuerystringRedirectView.as_view(url='https://invest.great.gov.uk/in'),
         name='redirect-in-invest'
     ),
     url(
         r'^int/ar/invest/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url='https://invest.great.gov.uk/int/ar',
-            permanent=False,
-            query_string=True
         ),
         name='redirect-int-ar-invest'
     ),
     url(
         r'^study/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url='https://study-uk.britishcouncil.org',
-            permanent=False,
-            query_string=True
         ),
         name='redirect-study'
     ),
     url(
         r'^visit/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url='https://www.visitbritain.com/gb/en',
-            permanent=False,
-            query_string=True
         ),
         name='redirect-visit'
     ),
     url(
         r'^export/$',
-        RedirectView.as_view(
-            pattern_name='landing-page',
-            permanent=False,
-            query_string=True
-        ),
+        QuerystringRedirectView.as_view(pattern_name='landing-page'),
         name='redirect-export'
     ),
     url(
         r'^export/new/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             pattern_name='article-list-persona-new',
-            permanent=False,
-            query_string=True
         ),
         name='redirect-export-new'
     ),
     url(
         r'^export/occasional/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             pattern_name='article-list-persona-occasional',
-            permanent=False,
-            query_string=True
         ),
         name='redirect-export-occasional'
     ),
     url(
         r'^export/regular/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             pattern_name='article-list-persona-regular',
-            permanent=False,
-            query_string=True
         ),
         name='redirect-export-regular'
     ),
     url(
         r'^export/opportunities/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url='https://opportunities.export.great.gov.uk/',
-            permanent=False,
-            query_string=True
         ),
         name='redirect-export-opportunities'
     ),
     url(
         r'^opportunities/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url='https://opportunities.export.great.gov.uk/',
-            permanent=False,
-            query_string=True
         ),
         name='redirect-opportunities'
     ),
@@ -221,54 +157,36 @@ redirects = [
     ),
     url(
         r'^export/find-a-buyer/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url='https://find-a-buyer.export.great.gov.uk',
-            permanent=False,
-            query_string=True
         ),
         name='redirect-find-a-buyer'
     ),
     url(
         r'^export/selling-online-overseas/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url='https://selling-online-overseas.export.great.gov.uk',
-            permanent=False,
-            query_string=True
         ),
         name='redirect-find-a-buyer'
     ),
     url(
         r'^trade/$',
-        RedirectView.as_view(
-            url='https://trade.great.gov.uk',
-            permanent=False,
-            query_string=True
-        ),
+        QuerystringRedirectView.as_view(url='https://trade.great.gov.uk'),
         name='redirect-trade'
     ),
     url(
         r'^uk/privacy-policy/$',
-        RedirectView.as_view(
-            pattern_name='privacy-and-cookies',
-            permanent=False,
-            query_string=True
-        ),
+        QuerystringRedirectView.as_view(pattern_name='privacy-and-cookies'),
         name='redirect-privacy-policy-uk'
     ),
     url(
         r'^uk/terms-and-conditions/$',
-        RedirectView.as_view(
-            pattern_name='terms-and-conditions',
-            permanent=False,
-            query_string=True
-        ),
+        QuerystringRedirectView.as_view(pattern_name='terms-and-conditions'),
         name='redirect-terms-and-conditions-uk'
     ),
     url(
         r'^uk/$',
-        TranslationRedirectView.as_view(
-            pattern_name='landing-page',
-        ),
+        TranslationRedirectView.as_view(pattern_name='landing-page'),
         name='redirect-uk'
     ),
     url(
@@ -294,49 +212,41 @@ redirects = [
     ),
     url(
         r'^innovation/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url=(
                 'https://www.events.trade.gov.uk/'
                 'the-great-festival-of-innovation-hong-kong-2018/'
             ),
-            permanent=False,
-            query_string=True
         ),
         name='redirect-innovation'
     ),
     url(
         r'^uk/cy/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url=(
                 'https://www.great.gov.uk/?utm_source=Mailing&utm_medium'
                 '=Brochure&utm_campaign=ExportBrochureCY'
             ),
-            permanent=False,
-            query_string=True
         ),
         name='redirect-uk-cy'
     ),
     url(
         r'^verify/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url=(
                 'https://find-a-buyer.export.great.gov.uk/'
                 'confirm-company-address/'
             ),
-            permanent=False,
-            query_string=True
         ),
         name='redirect-verify'
     ),
     url(
         r'^legal/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url=(
                 'https://trade.great.gov.uk/'
                 'campaign/legal-is-great/singapore/'
             ),
-            permanent=False,
-            query_string=True
         ),
         name='redirect-legal'
     ),
@@ -392,10 +302,8 @@ TOS_AND_PRIVACY_REDIRECT_LANGUAGES = (
 tos_redirects = [
     url(
         r'^int/{path}/terms-and-conditions/$'.format(path=language),
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             pattern_name='terms-and-conditions-international',
-            permanent=False,
-            query_string=True
         ),
         name='redirect-terms-and-conditions-{path}'.format(
             path=language
@@ -408,10 +316,8 @@ privacy_redirects = [
         r'^int/{path}/privacy-policy/$'.format(
             path=language
         ),
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             pattern_name='privacy-and-cookies-international',
-            permanent=False,
-            query_string=True
         ),
         name='redirect-privacy-policy-{path}'.format(
             path=language
@@ -530,16 +436,130 @@ ARTICLE_REDIRECTS_MAPPING = (
 article_redirects = [
     url(
         r'^{path}/$'.format(path=redirect[0]),
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             pattern_name=redirect[1],
-            permanent=False,
-            query_string=True
         ),
         name='redirect-{path}'.format(path=redirect[0])
     ) for redirect in ARTICLE_REDIRECTS_MAPPING
 ]
 
+contact_redirects = [
+    url(
+        r'^help/triage/(?P<service>[-\w\d]+)/$',
+        QuerystringRedirectView.as_view(
+            pattern_name='contact-us-triage-wizard',
+        ),
+    ),
+    url(
+        r'^help/(?P<service>[-\w\d]+)/TriageForm/$',
+        QuerystringRedirectView.as_view(
+            pattern_name='contact-us-triage-wizard',
+        ),
+    ),
+    url(
+        r'^help/(?P<service>[-\w\d]+)/Triage/$',
+        QuerystringRedirectView.as_view(
+            pattern_name='contact-us-triage-wizard',
+        ),
+    ),
+    url(
+        r'^help/triage/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-triage-wizard',
+                kwargs={'service': 'selling-online-overseas'}
+            ),
+        ),
+    ),
+    url(
+        r'^help/(?P<service>[-\w\d]+)/FeedbackForm/$',
+        QuerystringRedirectView.as_view(
+            pattern_name='contact-us-service-specific',
+        ),
+    ),
+    url(
+        r'^help/feedback/(?P<service>[-\w\d]+)/$',
+        QuerystringRedirectView.as_view(
+            pattern_name='contact-us-service-specific',
+        ),
+    ),
+    url(
+        r'^help/feedback/$',
+        QuerystringRedirectView.as_view(
+            pattern_name='contact-us-interstitial-service-agnostic',
+        ),
+    ),
+    url(
+        r'^help/(?P<service>[-\w\d]+)/feedback/$',
+        QuerystringRedirectView.as_view(
+            pattern_name='contact-us-service-specific',
+        ),
+    ),
+    url(
+        r'^help/single_sign_on/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-interstitial-service-specific',
+                kwargs={'service': 'single_sign_on'}
+            ),
+        ),
+    ),
+    url(
+        r'^help/selling_online_overseas/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-interstitial-service-specific',
+                kwargs={'service': 'selling_online_overseas'}
+            ),
+        ),
+    ),
+    url(
+        r'^help/export_ops/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-interstitial-service-specific',
+                kwargs={'service': 'export_ops'}
+            ),
+        ),
+    ),
+    url(
+        r'^help/export_opportunities/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-interstitial-service-specific',
+                kwargs={'service': 'export_opportunities'}
+            ),
+        ),
+    ),
+    url(
+        r'^help/eig/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-interstitial-service-specific',
+                kwargs={'service': 'eig'}
+            ),
+        ),
+    ),
+    url(
+        r'^help/directory/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-interstitial-service-specific',
+                kwargs={'service': 'directory'}
+            ),
+        ),
+    ),
+    url(
+        r'^help/contact/$',
+        QuerystringRedirectView.as_view(
+            pattern_name='contact-us-interstitial-service-agnostic',
+        ),
+    ),
+]
+
+
 redirects += (
     article_redirects + tos_redirects +
-    privacy_redirects + international_redirects
+    privacy_redirects + international_redirects +
+    contact_redirects
 )

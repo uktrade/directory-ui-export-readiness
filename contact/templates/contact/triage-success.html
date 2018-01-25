@@ -1,0 +1,50 @@
+{% extends "core/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block sharing_metadata %}{% endblock %}
+
+{% block css %}
+    <link href="{% static 'styles/contact.css' %}" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        body, #content { background-color: #007ea3; }
+    </style>
+
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div id="triage-success-container">
+            <div class="outer-container">
+                <div>
+                    <div>
+                        <br>
+                        <span class="icon form-success-icon"><img src="{% static 'images/submitted.svg' %}" alt="application sent"></span>
+                        <h2>Your application has been sent.</h2>
+                        <h3>What happens next?</h3>
+                        <br>
+                    </div>
+                    <div>
+                        <ul>
+                            <li class="lg-3">
+                                <span class="icon number-icon">1</span>
+                                <p>A member of staff from the Department for International Trade will review your application.</p>
+                            </li>
+                            <li class="lg-3">
+                                <span class="icon number-icon">2</span>
+                                <p>We will respond to you within 5 working days.</p>
+                            </li>
+                            <li class="lg-3">
+                                <span class="icon number-icon">3</span>
+                                <p>Suitable applications will be passed to the marketplace for review.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block feedback_reporter %}{% endblock %}
