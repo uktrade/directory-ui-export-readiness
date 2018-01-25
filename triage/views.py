@@ -161,10 +161,13 @@ class TriageWizardFormView(NamedUrlSessionWizardView):
         return redirect(self.success_url)
 
 
+class TriageStartPageView(TemplateView):
+    template_name = 'triage/start-now.html'
+
+
 class CustomPageView(ArticlesViewedManagerMixin, TemplateView):
     http_method_names = ['get']
     template_name = 'triage/custom-page.html'
-    start_template_name = 'triage/start-now.html'
 
     @cached_property
     def triage_answers(self):
@@ -173,7 +176,7 @@ class CustomPageView(ArticlesViewedManagerMixin, TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         if not self.triage_answers:
-            return TemplateResponse(self.request, self.start_template_name)
+            return redirect('triage-start')
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
