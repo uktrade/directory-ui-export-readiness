@@ -264,6 +264,8 @@ GREAT_EXPORT_HOME = os.getenv(
     'GREAT_EXPORT_HOME', default_urls.GREAT_EXPORT_HOME)
 
 # EXPORTING PERSONAS
+CUSTOM_PAGE = os.getenv(
+    'CUSTOM_PAGE', default_urls.CUSTOM_PAGE)
 EXPORTING_NEW = os.getenv(
     'EXPORTING_NEW', default_urls.EXPORTING_NEW)
 EXPORTING_REGULAR = os.getenv(
