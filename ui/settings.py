@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "casestudy",
     "directory_healthcheck",
     "health_check",
+    "export_elements",
     "directory_components",
 ]
 

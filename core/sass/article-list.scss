@@ -27,6 +27,7 @@
 .section-content-list {
   @include columns(6);
   margin-left: $cols-2;
+  margin-bottom: 60px;
 }
 
 #articles .section-intro {

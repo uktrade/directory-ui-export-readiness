@@ -16,36 +16,38 @@
         <span class="current">{{ casestudy.title }}</span>
     </p>
     <article id="top">
-        <h1>{{ casestudy.title }}</h1>
-        <p class="type">Case study</p>
-        <p class="description">{{ casestudy.description }}</p>
-        <div class="image">
-            {% progressive_image webp=casestudy.image_url_webp src=casestudy.image_url alt_text=casestudy.image_description %}
+        <div class="container">
+            <h1 class="heading-xlarge">{{ casestudy.title }}</h1>
+            <p class="type">Case study</p>
+            <p class="description">{{ casestudy.description }}</p>
+            <div class="image">
+                {% progressive_image webp=casestudy.image_url_webp src=casestudy.image_url alt_text=casestudy.image_description %}
+                <blockquote class="quote">
+                    <span class="text">{% block quote_one_text %}{% endblock %}</span>
+                    <cite>
+                        <span class="name">{% block quote_one_name %}{% endblock %}</span>
+                        <span class="verbose">,</span>
+                        <span class="role">{% block quote_one_job_title %}{% endblock %}</span>
+                        {% block quote_one_link %}{% endblock %}
+                    </cite>
+                </blockquote>
+            </div>
+            <div class="content">
+                {% block main_content %}{% endblock %}
+            </div>
             <blockquote class="quote">
-                <span class="text">{% block quote_one_text %}{% endblock %}</span>
+                <span class="text">{% block quote_two_text %}{% endblock %}</span>
                 <cite>
-                    <span class="name">{% block quote_one_name %}{% endblock %}</span>
+                    <span class="name">{% block quote_two_name %}{% endblock %}</span>
                     <span class="verbose">,</span>
-                    <span class="role">{% block quote_one_job_title %}{% endblock %}</span>
-                    {% block quote_one_link %}{% endblock %}
+                    <span class="role">{% block quote_two_job_title %}{% endblock %}</span>
+                    {% block quote_two_link %}{% endblock %}
                 </cite>
             </blockquote>
         </div>
-        <div class="content">
-            {% block main_content %}{% endblock %}
-        </div>
-        <blockquote class="quote">
-            <span class="text">{% block quote_two_text %}{% endblock %}</span>
-            <cite>
-                <span class="name">{% block quote_two_name %}{% endblock %}</span>
-                <span class="verbose">,</span>
-                <span class="role">{% block quote_two_job_title %}{% endblock %}</span>
-                {% block quote_two_link %}{% endblock %}
-            </cite>
-        </blockquote>
         {% include 'core/widgets/social-share-links.html' %}
     </article>
-    <p class="footnote">Find out how our <a href="https://selling-online-overseas.export.great.gov.uk/">Selling online overseas service</a> can help you export through online marketplaces like Amazon and eBay.
+    <p class="footnote">Find out how our <a href="https://selling-online-overseas.export.great.gov.uk/" class="link">Selling online overseas service</a> can help you export through online marketplaces like Amazon and eBay.
     </p>
 </div>
 {% endblock %}

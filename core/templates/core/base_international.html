@@ -10,7 +10,7 @@
 <!--[if gt IE 8]><!--><html lang="en"><!--<![endif]-->
  <head>
     <meta id="utmCookieDomain" value="{{ analytics.UTM_COOKIE_DOMAIN }}" />
-    {% include 'core/google_tag_manager_head.html' %}
+    {% include 'directory_components/google_tag_manager_head.html' %}
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta property="og:image" content="{% static 'images/icons/opengraph-image.png' %}">
@@ -21,7 +21,8 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'styles/international.css' %}">
     {% block head_css %}
-    {{ block.super }}{% endblock %}
+        {{ block.super }}
+    {% endblock %}
 
     <script src="{% static 'Dit-Pattern-Styling/public/js/third-party.js' %}"></script>
     <script src="{% static 'js/dit.js' %}"></script>
@@ -33,7 +34,7 @@
 
 </head>
 <body id="top" class="{{ LANGUAGE_BIDI|yesno:'bidi,' }}">
-    {% include 'core/google_tag_manager_body.html' %}
+    {% include 'directory_components/google_tag_manager_body.html' %}
     <header id="header">
         <a id="skip-link" href="#content" class="verbose">{% trans "Skip to main content" %}</a>
         <section role="dialog" data-component="language-selector-dialog" data-lang="{{ LANGUAGE_CODE }}" data-label="{% trans "International" %}" class="language-selector-dialog">
