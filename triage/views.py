@@ -4,7 +4,6 @@ from directory_constants.constants.exred_sector_names import CODES_SECTORS_DICT
 from django.core.urlresolvers import reverse_lazy
 from django.http import JsonResponse
 from django.shortcuts import redirect
-from django.template.response import TemplateResponse
 from django.utils.functional import cached_property
 from django.views.generic import TemplateView
 from django.views.generic import View
