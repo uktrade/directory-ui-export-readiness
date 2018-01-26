@@ -4,7 +4,8 @@
 
 {% block step_title %}Your business{% endblock %}
 
-{% block bodyScripts %}
+{% block body_js %}
+    {{ block.super }}
     <script src="{% static 'js/company-lookup.js' %}"></script>
     <script>
         GOVUK.page.init();

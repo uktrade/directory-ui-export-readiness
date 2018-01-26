@@ -4,14 +4,15 @@
 
 {% block sharing_metadata %}{% endblock %}
 
-{% block css %}
+{% block head_css %}
+    {{ block.super }}
     <link href="{% static 'styles/contact.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
     {% if request.GET.market %}
         <div class="container" id="title-area">
-            <h1>{{ request.GET.market }}</h1>
+            <h1 class="heading-xlarge">{{ request.GET.market }}</h1>
             <div>Application via Department for International Trade</div>
         </div>
     {% endif %}
@@ -23,7 +24,7 @@
             <div class="question">
                 <form method="post" enctype="multipart/form-data">
                     <div class="exred-triage-form lg-2">
-                        <h3>{% block step_title %}{% endblock %}</h3>
+                        <h3 class="heading-medium">{% block step_title %}{% endblock %}</h3>
                         {% csrf_token %}
                         {% block extra_contents %}{% endblock %}
                         <div class="input-field-container">
