@@ -355,6 +355,11 @@ urlpatterns = [
         name='triage-wizard'
     ),
     url(
+        r'^triage/$',
+        triage.views.TriageStartPageView.as_view(),
+        name='triage-start'
+    ),
+    url(
         r'^custom/$',
         triage.views.CustomPageView.as_view(),
         name='custom-page'
