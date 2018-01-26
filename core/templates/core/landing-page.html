@@ -26,7 +26,7 @@
     <p id="great-languages-selector">Go to our international site</p>
     <p>The UK supports international trade and investment, and welcomes travellers and students from across the world.</p>
     <div data-node="languages" class="languages">
-      <ul aria-labelledby="great-languages-selector" class="navigation">
+      <ul class="list list-bullet" aria-labelledby="great-languages-selector" class="navigation">
         {% for code, label in LANGUAGES %}
           <li><a id="header-language-selector-{{ code }}" href="{% url 'landing-page-international' %}?lang={{ code }}">{{ label }}</a></li>
         {% endfor %}
@@ -37,7 +37,7 @@
     <section class="hero-campaign-section">
         <div class="container">
             <div class="hero-campaign-teaser">
-                <h1 class="title" id="hero-campaign-section-title"><span>If we can,</span><br><span>you can</span></h1>
+                <h1 class="heading-xlarge title" id="hero-campaign-section-title"><span>If we can,</span><br><span>you can</span></h1>
                 <p id="hero-campaign-section-description">Thousands of businesses like yours have increased their sales, growth and stability by selling overseas. Explore the potential of exporting with guidance, services and support from the Department for International Trade.</p>
                 {% progressive_image webp='images/eig-logo-stacked.webp' img_id='hero-campaign-section-eig-logo' src='images/eig-logo-stacked.png' %}
             </div>
@@ -48,12 +48,12 @@
     </section>
     <section class="triage triage-section">
         <div class="container">
-            <h2 id="triage-section-title" class="heading">Create your export journey</h2>
+            <h2 id="triage-section-title" class="heading-large">Create your export journey</h2>
             {% progressive_image webp='images/home-triage-world-connections@2x.webp' src='images/home-triage-world-connections@2x.png' img_id='triage-section-image' %}
             <div class="intro" id="triage-section-description">
                 <div class="content">
                     <p>Answer a few quick questions about what you want to export and your level of experience to get:</p>
-                    <ul>
+                    <ul class="list list-bullet">
                         <li>guidance aimed at your exporting experience level</li>
                         <li>export statistics to start your market research</li>
                         <li>access to services to help you export</li>
@@ -69,7 +69,7 @@
     </section>
     <section id="personas">
         <div class="container">
-            <h2 id="personas-section-title" class="header">Export readiness</h2>
+            <h2 id="personas-section-title" class="heading-large">Export readiness</h2>
             <p id="personas-section-description" class="intro">It can be hard to know where to start if you’re new to exporting. And even if you export regularly, there’s always more to know. Get exporting guidance for your experience level.</p>
             <div class="group">
                 <div class="lg-3 md-1">
@@ -96,7 +96,7 @@
     {% include 'core/guidance-resources.html' %}
     <section id="services">
         <div class="container">
-            <h2 id="services-section-title" class="header">Export services</h2>
+            <h2 id="services-section-title" class="heading-large">Export services</h2>
             <p id="services-section-description" class="intro">Our export services help to connect UK businesses with international buyers.</p>
             <div class="group">
                 <div class="lg-3 md-1">
@@ -135,7 +135,7 @@
 
     <section id="beis" class="teaser-section">
         <div class="container">
-            <h2 id="business-is-great-title" class="heading">Get support to start or grow your UK business</h2>
+            <h2 id="business-is-great-title" class="heading-large">Get support to start or grow your UK business</h2>
             {% progressive_image webp='images/export-hp-beis.webp' img_id='business-is-great-image' src='images/export-hp-beis.jpg' %}
             <p id="business-is-great-description" class="intro">
                 <span class="text">You can get government support and advice to start or grow a business within the UK. Whatever the size of your business, the Department for Business, Energy &amp; Industrial Strategy can help make it a success.</span>

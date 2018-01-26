@@ -11,12 +11,9 @@ article {
   margin-bottom: $spacing-2;
   padding-top: $spacing-1;
   position: relative;
-
   h1 {
     margin-left: calc(#{$cols-1} + #{$cols-half});
-    width: $cols-7;
   }
-
   p {
     clear: both;
     margin-left: calc(#{$cols-1} + #{$cols-half});

@@ -12,15 +12,10 @@
 @import './components/_carousel';
 @import './components/_teaser';
 @import './components/_language-selector-home';
-@import './components/_beta';
 
 
 section {
   padding-bottom: 90px;
-}
-
-.beta {
-  background-color:  $white;
 }
 
 .hero-campaign-section {
@@ -44,10 +39,6 @@ body.webp-enabled .hero-campaign-section {
   }
 }
 
-#content .triage-section {
-  padding-top: 60px;
-}
-
 #content .triage-section .intro {
   margin-bottom: 0;
 }
@@ -68,6 +59,10 @@ body.webp-enabled .hero-campaign-section {
   }
 }
 
+section {
+  clear: both;
+  overflow: hidden;
+}
 
 // TABLET
 @media (min-width: 767px) {

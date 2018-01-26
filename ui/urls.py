@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 
 import article.views
 import casestudy.views
+import contact.views
 import core.views
 import healthcheck.views
 import triage.views
@@ -12,6 +13,7 @@ from ui.url_redirects import redirects
 
 sitemaps = {
     'static': core.views.StaticViewSitemap,
+    'contact': core.views.ContactUsSitemap,
 }
 
 
@@ -391,6 +393,31 @@ urlpatterns = [
         r'^healthcheck/single-sign-on/$',
         healthcheck.views.SingleSignOnAPIView.as_view(),
         name='healthcheck-single-sign-on'
+    ),
+    url(
+        r'^contact-us/intro/$',
+        contact.views.InterstitialView.as_view(service=None),
+        name='contact-us-interstitial-service-agnostic',
+    ),
+    url(
+        r'^contact-us/(?P<service>[-\w\d]+)/intro/$',
+        contact.views.InterstitialView.as_view(),
+        name='contact-us-interstitial-service-specific',
+    ),
+    url(
+        r'^contact-us/(?P<service>[-\w\d]+)/$',
+        contact.views.FeedbackWizardFormView.as_view(),
+        name='contact-us-service-specific'
+    ),
+    url(
+        r'^contact-us/$',
+        contact.views.FeedbackWizardFormView.as_view(service=None),
+        name='contact-us-service-agnostic'
+    ),
+    url(
+        r'^contact-us/(?P<service>[-\w\d]+)/triage/$',
+        contact.views.TriageWizardFormView.as_view(),
+        name='contact-us-triage-wizard'
     ),
 ]
 
