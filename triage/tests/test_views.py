@@ -493,6 +493,13 @@ def test_triage_wizard(client):
     ]
 
 
+def test_triage_start_page(client):
+    url = reverse('triage-start')
+    response = client.get(url)
+    assert response.status_code == 200
+    assert response.template_name == ['triage/start-now.html']
+
+
 @patch('triage.helpers.DatabaseTriageAnswersManager.persist_answers', Mock)
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers')
 def test_triage_wizard_summary_view(
@@ -544,14 +551,24 @@ def test_triage_wizard_summary_view(
 
 
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers')
-def test_custom_view_no_triage_result_found(
+def test_custom_view_no_triage_result_found_redirects(
     mocked_retrieve_answers, authed_client
 ):
     mocked_retrieve_answers.return_value = {}
     url = reverse('custom-page')
     response = authed_client.get(url)
+    assert response.status_code == 302
+
+
+@patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers')
+def test_custom_view_no_triage_result_found_redirects_to_triage(
+    mocked_retrieve_answers, authed_client
+):
+    mocked_retrieve_answers.return_value = {}
+    url = reverse('custom-page')
+    response = authed_client.get(url, follow=True)
     assert response.status_code == 200
-    assert response.template_name == views.CustomPageView.start_template_name
+    assert response.template_name == ['triage/start-now.html']
 
 
 @pytest.mark.parametrize('is_in_companies_house,expected', (

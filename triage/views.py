@@ -4,7 +4,6 @@ from directory_constants.constants.exred_sector_names import CODES_SECTORS_DICT
 from django.core.urlresolvers import reverse_lazy
 from django.http import JsonResponse
 from django.shortcuts import redirect
-from django.template.response import TemplateResponse
 from django.utils.functional import cached_property
 from django.views.generic import TemplateView
 from django.views.generic import View
@@ -161,10 +160,13 @@ class TriageWizardFormView(NamedUrlSessionWizardView):
         return redirect(self.success_url)
 
 
+class TriageStartPageView(TemplateView):
+    template_name = 'triage/start-now.html'
+
+
 class CustomPageView(ArticlesViewedManagerMixin, TemplateView):
     http_method_names = ['get']
     template_name = 'triage/custom-page.html'
-    start_template_name = 'triage/start-now.html'
 
     @cached_property
     def triage_answers(self):
@@ -173,7 +175,7 @@ class CustomPageView(ArticlesViewedManagerMixin, TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         if not self.triage_answers:
-            return TemplateResponse(self.request, self.start_template_name)
+            return redirect('triage-start')
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

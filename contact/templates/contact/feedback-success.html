@@ -1,0 +1,21 @@
+{% extends "core/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block sharing_metadata %}{% endblock %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'styles/contact.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div id="interstitial-container">
+            <br>
+            <h1 class="heading-xlarge">Your feedback has been sent</h1>
+            <p class="lg-2 md-2 sm-1">Thank you for taking the time and sending us your feedback, we really appreciate it. One of our colleagues will review it and send it to the relevant team.</p>
+        </div>
+
+    </div>
+{% endblock %}

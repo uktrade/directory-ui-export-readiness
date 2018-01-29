@@ -8,6 +8,7 @@ requests==2.13.0
 whitenoise==3.1
 markdown2==2.3.4
 beautifulsoup4==4.6.0
+django_recaptcha==1.2.0
 clint
 -e git+https://github.com/uktrade/directory-validators.git@v4.0.0#egg=directory_validators
 -e git+https://github.com/uktrade/directory-api-client.git@v9.10.0#egg=directory_api_client
@@ -17,4 +18,4 @@ clint
 -e git+https://github.com/uktrade/directory-header-footer.git@v2.12.2#egg=directory_header_footer
 -e git+https://github.com/uktrade/directory-healthcheck.git@v0.3.0#egg=directory_healthcheck
 -e git+https://github.com/uktrade/export-elements.git@v0.3.0#egg=export_elements
--e git+https://github.com/uktrade/directory-components.git@v0.4.0#egg=directory_components
+-e git+https://github.com/uktrade/directory-components.git@v0.4.1#egg=directory_components
