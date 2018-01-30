@@ -148,8 +148,8 @@ h2 {
 }
 
 #start-now-container {
-  @include columns(6);
-  padding: 60px 0 45px 0;
+  padding: 0 0 45px 0;
+  margin-left: 15px;
 }
 
 // DESKTOP

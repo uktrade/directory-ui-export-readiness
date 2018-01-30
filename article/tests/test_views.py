@@ -283,7 +283,7 @@ def test_articles_title_views(view_class, url, client):
     assert response.status_code == 200
     assert response.template_name == [view_class.template_name]
 
-    html = '<h1>' + view_class.article.title + '</h1>'
+    html = '<h1 class="heading-xlarge">' + view_class.article.title + '</h1>'
     expected = str(BeautifulSoup(html, 'html.parser'))
 
     assert expected in str(BeautifulSoup(response.content, 'html.parser'))
