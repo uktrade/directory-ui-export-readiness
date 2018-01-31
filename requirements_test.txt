@@ -11,7 +11,7 @@
 -e git+https://github.com/uktrade/directory-healthcheck.git@v0.3.0#egg=directory_healthcheck
 -e git+https://github.com/uktrade/directory-sso-api-client.git@v2.2.0#egg=directory_sso_api_client
 -e git+https://github.com/uktrade/directory-validators.git@v4.0.0#egg=directory_validators
--e git+https://github.com/uktrade/export-elements.git@v0.3.0#egg=export_elements
+-e git+https://github.com/uktrade/export-elements.git@v0.4.0#egg=export_elements
 -e git+https://github.com/uktrade/directory-signature-auth.git@v2.0.0#egg=sigauth
 args==0.1.0               # via clint
 beautifulsoup4==4.6.0
