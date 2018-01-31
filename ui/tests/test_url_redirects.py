@@ -268,6 +268,7 @@ redirects = [
         'https://trade.great.gov.uk/'
         'campaign/legal-is-great/singapore/'
     )),
+    ('/kr/', 'https://www.events.trade.gov.uk/invest-in-great---korea'),
     ('/help/contact/', reverse('contact-us-interstitial-service-agnostic')),
     (
         '/help/directory/',
