@@ -250,6 +250,13 @@ redirects = [
         ),
         name='redirect-legal'
     ),
+    url(
+        r'^kr/$',
+        QuerystringRedirectView.as_view(
+            url='https://www.events.trade.gov.uk/invest-in-great---korea'
+        ),
+        name='redirect-kr'
+    ),
 ]
 
 
