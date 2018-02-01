@@ -253,7 +253,10 @@ redirects = [
     url(
         r'^kr/$',
         QuerystringRedirectView.as_view(
-            url='https://www.events.trade.gov.uk/invest-in-great---korea'
+            url=(
+                'https://www.events.trade.gov.uk/invest-in-great---korea'
+                '?utm_source=print&utm_campaign=korean_winter_olympics_invest'
+            )
         ),
         name='redirect-kr'
     ),
