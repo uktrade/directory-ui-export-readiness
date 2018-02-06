@@ -64,3 +64,17 @@ def test_triage_start_user_state(sso_is_logged_in, expected, rf):
     html = render_to_string('triage/start-now.html', context)
 
     assert ('save your progress' in html) is expected
+
+
+def test_custom_page_services_links():
+    context = {
+        'header_footer_urls': {
+            'services_soo': 'http://soo.com',
+            'services_fab': 'http://fab.com',
+            'services_exopps': 'http://exopps.com',
+        }
+    }
+    html = render_to_string('triage/custom-page.html', context)
+    assert 'http://soo.com' in html
+    assert 'http://fab.com' in html
+    assert 'http://exopps.com' in html
