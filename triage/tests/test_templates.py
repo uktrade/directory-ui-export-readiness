@@ -1,4 +1,6 @@
 from django.template.loader import render_to_string
+from django.conf import settings
+from directory_header_footer.context_processors import urls_processor
 from bs4 import BeautifulSoup
 
 import pytest
@@ -67,13 +69,10 @@ def test_triage_start_user_state(sso_is_logged_in, expected, rf):
 
 
 def test_custom_page_services_links():
-    context = {
-        'header_footer_urls': {
-            'services_soo': 'http://soo.com',
-            'services_fab': 'http://fab.com',
-            'services_exopps': 'http://exopps.com',
-        }
-    }
+    settings.SERVICES_SOO = 'http://soo.com'
+    settings.SERVICES_FAB = 'http://fab.com'
+    settings.SERVICES_EXOPPS = 'http://exopps.com'
+    context = urls_processor(None)
     html = render_to_string('triage/custom-page.html', context)
     assert 'http://soo.com' in html
     assert 'http://fab.com' in html
