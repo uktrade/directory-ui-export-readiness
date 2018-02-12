@@ -10,11 +10,11 @@
 {% block content %}
 <section>
     <div class="container">
-        <h1>Page not found</h1>
+        <h1 class="heading-xlarge">Page not found</h1>
         <ul>
             <li>If you typed in a web address, check if it was entered correctly.</li>
-            <li>If you followed a link here, <a href="{{ external_services.FEEDBACK_URL }}">report the broken link</a>.</li>
-            <li>Return to the <a href="/">home</a> page.</li>
+            <li>If you followed a link here, <a class="link" href="{{ header_footer_urls.info_contact_us }}">report the broken link</a>.</li>
+            <li>Return to the <a class="link" href="/">home</a> page.</li>
         </ul>
         <hr>
         <p class="page-status">HTTP 404 Error Code - Page not found</p>
@@ -23,4 +23,3 @@
 {% endblock %}
 
 {% block feedback_reporter %}{% endblock %}
-
