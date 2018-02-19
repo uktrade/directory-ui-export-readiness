@@ -170,18 +170,15 @@
 
 #header-bar .LanguageSelectorDialog-Tracker {
   @include body-s;
-  margin-left: $spacing-3;
+  margin-left: 5px;
   background-image: url("/static/icons/eig-world-language-icon.svg");
-  background-position: 0px 8px;
+  background-position: 0px 2px;
   background-repeat: no-repeat;
   background-size: 20px;
   color: $white;
   cursor: pointer;
   display: inline-block;
-  height: 27px;
-  line-height: 27px;
-  min-height: 30px;
-  padding: 5px 3px 3px 25px;
+  padding-left: 25px;
   text-decoration: none;
 
   &:hover {

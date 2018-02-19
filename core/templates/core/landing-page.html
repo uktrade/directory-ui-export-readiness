@@ -26,9 +26,9 @@
     <p id="great-languages-selector">Go to our international site</p>
     <p>The UK supports international trade and investment, and welcomes travellers and students from across the world.</p>
     <div data-node="languages" class="languages">
-      <ul class="list list-bullet" aria-labelledby="great-languages-selector" class="navigation">
+      <ul aria-labelledby="great-languages-selector" class="navigation">
         {% for code, label in LANGUAGES %}
-          <li><a id="header-language-selector-{{ code }}" href="{% url 'landing-page-international' %}?lang={{ code }}">{{ label }}</a></li>
+          <li><a class="link" id="header-language-selector-{{ code }}" href="{% url 'landing-page-international' %}?lang={{ code }}">{{ label }}</a></li>
         {% endfor %}
       </ul>
     </div>
