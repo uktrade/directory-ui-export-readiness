@@ -89,10 +89,9 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.template.context_processors.i18n',
-                'directory_header_footer.context_processors.sso_processor',
+                'directory_components.context_processors.sso_processor',
+                'directory_components.context_processors.urls_processor',
                 'directory_header_footer.context_processors.urls_processor',
-                ('directory_header_footer.context_processors.'
-                 'header_footer_context_processor'),
                 'core.context_processors.feature_flags',
                 'directory_components.context_processors.analytics',
             ],
@@ -262,7 +261,7 @@ SECURE_HSTS_SECONDS = int(os.getenv('SECURE_HSTS_SECONDS', '16070400'))
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 # HEADER/FOOTER URLS
-GREAT_EXPORT_HOME = os.getenv('GREAT_EXPORT_HOME')
+GREAT_HOME = os.getenv('GREAT_HOME')
 
 # EXPORTING PERSONAS
 CUSTOM_PAGE = os.getenv('CUSTOM_PAGE')
