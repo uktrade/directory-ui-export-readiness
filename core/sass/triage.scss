@@ -4,6 +4,9 @@
 @import './partials/base';
 @import './components/_form-wizard';
 
+#content {
+  padding-top: 0;
+}
 
 input[type='text'],
 select {
