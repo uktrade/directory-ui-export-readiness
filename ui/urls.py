@@ -39,7 +39,7 @@ urlpatterns = [
     ),
     url(
         r"^not-found/$",
-        TemplateView.as_view(template_name='core/not_found.html'),
+        TemplateView.as_view(template_name='core/404.html'),
         name='not-found'
     ),
     url(
