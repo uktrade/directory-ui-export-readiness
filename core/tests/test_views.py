@@ -102,7 +102,7 @@ def test_robots(client):
         ),
         (
             'not-found',
-            'core/not_found.html'
+            '404.html'
         ),
         (
             'get-finance',

@@ -13,6 +13,9 @@
 @import './components/_carousel';
 @import './components/_top_markets';
 
+#content {
+  padding-top: 0;
+}
 
 .hero-section {
   background-position: top center;
@@ -154,7 +157,7 @@ h2 {
 
 // DESKTOP
 @media (max-width: 1200px) {
-  .hero-section.new { 
+  .hero-section.new {
     background-position: 60% 0;
   }
 }
@@ -232,7 +235,7 @@ h2 {
         width: calc(100% - #{$spacing-2});
       }
     }
-    
+
     &.occasional {
       background-image: url('/static/images/hero/export-cp-occasional-500-mb.jpg');
 
@@ -241,7 +244,7 @@ h2 {
         width: calc(100% - #{$spacing-2});
       }
     }
-    
+
     &.regular {
       background-image: url('/static/images/hero/export-cp-regular-hero-500-mb.jpg');
 
@@ -278,4 +281,3 @@ h2 {
     width: auto;
   }
 }
-

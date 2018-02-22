@@ -1,16 +1,20 @@
 from django.template.loader import render_to_string
 from directory_header_footer.context_processors import urls_processor
 
-import pytest
 
-
-@pytest.mark.parametrize('template_name', (
-    '400.html',
-    '403.html',
-    '404.html',
-))
-def test_error_templates(template_name, rf):
+def test_error_templates(rf):
+    template_name = '404.html'
     assert render_to_string(template_name, {'request': rf.get('/')})
+
+
+def test_404_custom_template(settings, client):
+    settings.DEBUG = False
+    response = client.get('/this-is-not-a-valid-url/')
+    assert response.status_code == 404
+    expected_text = bytes(
+        'If you entered a web address please check'
+        ' it’s correct.', 'utf8')
+    assert expected_text in response.content
 
 
 def test_about_page_services_links(settings):

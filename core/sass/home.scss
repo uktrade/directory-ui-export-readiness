@@ -13,6 +13,17 @@
 @import './components/_teaser';
 @import './components/_language-selector-home';
 
+#header .account-links li:nth-child(2):after {
+  display: none;
+}
+
+#content {
+  padding-top: 0;
+}
+
+.phase-banner {
+  border-bottom: 0;
+}
 
 .hero-campaign-section {
   background-image: url('/static/images/hero/export-hp-hero-500.png');
