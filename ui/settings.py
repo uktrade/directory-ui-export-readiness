@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     "corsheaders",
     "ui",
     "directory_constants",
-    "directory_header_footer",
     "core",
     "article",
     "triage",
