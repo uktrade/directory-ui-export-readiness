@@ -93,7 +93,6 @@ TEMPLATES = [
                 'directory_components.context_processors.urls_processor',
                 ('directory_components.context_processors.'
                     'header_footer_processor'),
-                'directory_header_footer.context_processors.urls_processor',
                 'core.context_processors.feature_flags',
                 'directory_components.context_processors.analytics',
             ],
