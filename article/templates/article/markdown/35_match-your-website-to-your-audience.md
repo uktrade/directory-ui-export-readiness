@@ -23,3 +23,5 @@ Translating your website will make it:
 
 - easier for customers to use
 - rank higher in search engine results 
+
+[Use SDL’s market reach calculator](https://marketreachcalculator.com/?r=ExportingisGreat "SDL's market reach calculator") to see how many people you can reach in a country by translating your website.

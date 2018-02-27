@@ -433,7 +433,7 @@ def test_article_view_persist_article_anon_user(mock_persist_articles, client):
         3,
         len(structure.ALL_ARTICLES.articles),
         '',
-        4767,
+        4780,
         set([
            articles.USE_DISTRIBUTOR.uuid,
            articles.GET_EXPORT_FINANCE.uuid,
@@ -456,7 +456,7 @@ def test_article_view_persist_article_anon_user(mock_persist_articles, client):
         3,
         len(structure.ALL_ARTICLES.articles),
         '',
-        4767,
+        4780,
         frozenset([
            articles.USE_DISTRIBUTOR.uuid,
            articles.GET_EXPORT_FINANCE.uuid,
