@@ -3,36 +3,39 @@
 {% load static from staticfiles %}
 
 {% block head_title %}
-    Your export journey - great.gov.uk
+Your export journey - great.gov.uk
 {% endblock %}
 
 {% block head_css %}
-    {{ block.super }}
-    <link href="{% static 'styles/custom-page.css' %}" rel="stylesheet" type="text/css" />
+{{ block.super }}
+<link href="{% static 'styles/default.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="grid-row">
-            <div id="start-now-container" class="column-one-half">
-                <h1 class="heading-xlarge">Create your export journey</h1>
-                <p>
-                    Answer a few quick questions about what you want to export and your level of experience and get:
-                    <ul>
-                        <li>guidance aimed at your experience level</li>
-                        <li>export statistics to start your market research</li>
-                        <li>access to services to help you export</li>
-                    </ul>
-                </p>
-                <br>
-                <a href="{% url 'triage-wizard' step='sector' %}" class="button">Start now</a>
-                {% if not sso_is_logged_in %}
-                    <div>
-                        <br>
-                        <a href="{{ sso_register_url }}" class="link">Register</a> or <a href="{{ sso_login_url }}" class="link">sign in</a> to save your progress
-                    </div>
-                {% endif %}
-            </div>
+<section>
+  <div class="container">
+    <div class="grid-row">
+      <div id="start-now-container" class="column-one-half">
+        <h1 class="heading-xlarge">Create your export journey</h1>
+        <p>
+          Answer a few quick questions about what you want to export and your level of experience and get:
+          <ul class="list list-bullet">
+            <li>guidance aimed at your experience level</li>
+            <li>export statistics to start your market research</li>
+            <li>access to services to help you export</li>
+          </ul>
+        </p>
+        <br>
+        <a href="{% url 'triage-wizard' step='sector' %}" class="button">Start now</a>
+        {% if not sso_is_logged_in %}
+        <div>
+          <br>
+          <a href="{{ sso_register_url }}" class="link">Register</a> or <a href="{{ sso_login_url }}" class="link">sign in</a> to save your progress
         </div>
+        {% endif %}
+      </div>
     </div>
+  </div>
+
+</section>
 {% endblock %}
