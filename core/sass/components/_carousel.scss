@@ -3,6 +3,9 @@
 
 .carousel-cta {
     @include continue-arrow;
+    &:focus {
+      @include continue-arrow;
+    }
 }
 
 .ed-carousel {

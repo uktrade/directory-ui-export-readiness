@@ -14,7 +14,7 @@
 // $spacing-3
 //
 // From _typography.scss
-// @mixin body-s 
+// @mixin body-s
 // @mixin body-l
 //
 // From _layout.scss
@@ -25,14 +25,14 @@
   a {
     @include body-l;
   }
-  
+
   li {
     border-bottom: $light-grey solid 1px;
     counter-increment: li;
     padding: $spacing-3 #{$spacing-3 + 52px} $spacing-3 0;
     position: relative;
   }
-  
+
   ol {
     list-style-type: none;
     li:before {
@@ -49,7 +49,7 @@
       width: 100px;
     }
   }
-  
+
   .article {
     &:after {
       @include continue-arrow;
@@ -57,55 +57,60 @@
       right: 0;
       top: calc(50% - 26px);
     }
-    
+
     &.article-read::after {
       background-image: url(/static/images/tick-purple.svg);
     }
   }
-  
+
   .buttons {
     margin-bottom: $spacing-3;
     padding-top: $spacing-3;
     text-align: right;
-    
+
     a {
       @include body-l;
       background-color: transparent;
-      border-width: 0 0 4px 0;
+      border-bottom: 3px solid $active-blue;
+      padding: 10px 45px;
       color: $active-blue;
       padding-bottom: $spacing-3;
       padding-right: 0;
       text-decoration: underline;
-      
+
       &:hover {
         color: $active-blue-alt;
       }
+
+      &:active {
+        background-color: $focus-yellow;
+      }
     }
-    
+
     .previous {
       float: left;
       padding-left: 0;
       padding-right: $spacing-2;
     }
   }
-  
+
   .tasks {
     display: block;
   }
-  
+
   .section {
     @include body-s;
     color: $mid-grey;
     display: block;
   }
 }
-  
+
 
 // MOBILE
 @media (max-width: 420px) {
   .section-content-list {
     width: 100%;
-    
+
     ol {
       li:before {
         font-size: 40px;
@@ -113,7 +118,7 @@
         letter-spacing: -4px;
       }
     }
-    
+
     .article {
       &:after {
         @include continue-arrow-mob;
