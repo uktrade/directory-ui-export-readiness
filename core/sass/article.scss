@@ -68,7 +68,6 @@ h1 {
 
   dt {
     left: $cols-2;
-    position: absolute;
     top: 0;
   }
 }
@@ -138,9 +137,7 @@ article {
     }
 
     dt {
-      left: 0;
-      padding-right: 60px;
-      top: $spacing-3;
+      display: none;
     }
 
     .register {
