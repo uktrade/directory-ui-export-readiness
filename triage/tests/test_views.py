@@ -752,6 +752,7 @@ def test_custom_view_regular_exporter(
         )
 
 
+@pytest.mark.skip(reason="Temporarily hiding table from custom page view")
 @pytest.mark.parametrize('sector_code', exred_sector_names.CODES_SECTORS_DICT)
 def test_custom_page_top_markets(sector_code, client):
     mock_path = 'triage.helpers.SessionTriageAnswersManager.retrieve_answers'
