@@ -1,5 +1,4 @@
 from formtools.wizard.views import NamedUrlSessionWizardView
-from directory_constants.constants.exred_sector_names import CODES_SECTORS_DICT
 
 from django.core.urlresolvers import reverse_lazy
 from django.http import JsonResponse
@@ -192,12 +191,6 @@ class CustomPageView(ArticlesViewedManagerMixin, TemplateView):
         context['article_group_read_progress'] = (
             self.article_read_manager.get_view_progress_for_groups()
         )
-        sector_code = self.triage_answers['sector']
-        # harmonised system codes begin with HS. Service codes begin with EB
-        if sector_code.startswith('HS'):
-            context['top_markets'] = helpers.get_top_markets(sector_code)[:10]
-            context['sector_name'] = CODES_SECTORS_DICT[sector_code]
-            context['top_importer'] = helpers.get_top_importer(sector_code)
         return context
 
     @property
