@@ -5,7 +5,6 @@ import pytest
 import requests
 
 from django.core.urlresolvers import reverse
-from directory_constants.constants import exred_sector_names
 
 from core.tests.helpers import create_response
 from casestudy import casestudies
@@ -26,14 +25,9 @@ def mock_retrive_articles_read():
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
 def test_submit_triage_regular_exporter(mock_persist_answers, client):
     view_class = views.TriageWizardFormView
-    url = reverse('triage-wizard', kwargs={'step': view_class.SECTOR})
+    url = reverse('triage-wizard', kwargs={'step': view_class.EXPORTED_BEFORE})
     view_name = 'triage_wizard_form_view'
     response = client.post(url, {
-        view_name + '-current_step': view_class.SECTOR,
-        view_class.SECTOR + '-sector': 'HS01',
-    })
-    assert response.status_code == 302
-    response = client.post(response.url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
         view_class.EXPORTED_BEFORE + '-exported_before': 'True',
     })
@@ -66,13 +60,11 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
     assert summary_get_response.context_data['persona'] == (
         forms.REGULAR_EXPORTER
     )
-    assert summary_get_response.context_data['sector_label'] == 'Animals; live'
     assert summary_get_response.context_data['all_cleaned_data'] == {
         'is_in_companies_house': True,
         'company_name': 'Example corp',
         'exported_before': True,
         'regular_exporter': True,
-        'sector': 'HS01',
         'company_number': None,
     }
     assert mock_persist_answers.call_count == 1
@@ -81,7 +73,6 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
         'used_online_marketplace': None,
         'exported_before': True,
         'regular_exporter': True,
-        'sector': 'HS01',
         'company_number': None,
         'is_in_companies_house': True,
     })
@@ -92,14 +83,9 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
 def test_submit_triage_occasional_exporter(mock_persist_answers, client):
     view_class = views.TriageWizardFormView
-    url = reverse('triage-wizard', kwargs={'step': view_class.SECTOR})
+    url = reverse('triage-wizard', kwargs={'step': view_class.EXPORTED_BEFORE})
     view_name = 'triage_wizard_form_view'
     response = client.post(url, {
-        view_name + '-current_step': view_class.SECTOR,
-        view_class.SECTOR + '-sector': 'HS01',
-    })
-    assert response.status_code == 302
-    response = client.post(response.url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
         view_class.EXPORTED_BEFORE + '-exported_before': 'True',
     })
@@ -139,14 +125,12 @@ def test_submit_triage_occasional_exporter(mock_persist_answers, client):
     assert summary_get_response.context_data['persona'] == (
         forms.OCCASIONAL_EXPORTER
     )
-    assert summary_get_response.context_data['sector_label'] == 'Animals; live'
     assert summary_get_response.context_data['all_cleaned_data'] == {
         'is_in_companies_house': True,
         'company_name': 'Example corp',
         'exported_before': True,
         'used_online_marketplace': True,
         'regular_exporter': False,
-        'sector': 'HS01',
         'company_number': '41231231',
     }
     assert mock_persist_answers.call_count == 1
@@ -155,7 +139,6 @@ def test_submit_triage_occasional_exporter(mock_persist_answers, client):
         'exported_before': True,
         'used_online_marketplace': True,
         'regular_exporter': False,
-        'sector': 'HS01',
         'company_number': '41231231',
         'is_in_companies_house': True,
     })
@@ -164,14 +147,9 @@ def test_submit_triage_occasional_exporter(mock_persist_answers, client):
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
 def test_submit_triage_new_exporter(mock_persist_answers, client):
     view_class = views.TriageWizardFormView
-    url = reverse('triage-wizard', kwargs={'step': view_class.SECTOR})
+    url = reverse('triage-wizard', kwargs={'step': view_class.EXPORTED_BEFORE})
     view_name = 'triage_wizard_form_view'
     response = client.post(url, {
-        view_name + '-current_step': view_class.SECTOR,
-        view_class.SECTOR + '-sector': 'HS01',
-    })
-    assert response.status_code == 302
-    response = client.post(response.url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
         view_class.EXPORTED_BEFORE + '-exported_before': 'False',
     })
@@ -198,13 +176,11 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
     assert finished_response.url == str(view_class.success_url)
     assert b'Create my export journey' in summary_get_response.content
     assert summary_get_response.context_data['persona'] == forms.NEW_EXPORTER
-    assert summary_get_response.context_data['sector_label'] == 'Animals; live'
     assert summary_get_response.context_data['all_cleaned_data'] == {
         'company_number': None,
         'is_in_companies_house': True,
         'company_name': 'Example corp',
         'exported_before': False,
-        'sector': 'HS01',
     }
     assert mock_persist_answers.call_count == 1
     assert mock_persist_answers.call_args == call({
@@ -212,7 +188,6 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
         'is_in_companies_house': True,
         'company_name': 'Example corp',
         'exported_before': False,
-        'sector': 'HS01',
         'used_online_marketplace': None,
         'regular_exporter': None,
     })
@@ -221,14 +196,9 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
 def test_triage_manually_skip_company(mock_persist_answers, client):
     view_class = views.TriageWizardFormView
-    url = reverse('triage-wizard', kwargs={'step': view_class.SECTOR})
+    url = reverse('triage-wizard', kwargs={'step': view_class.EXPORTED_BEFORE})
     view_name = 'triage_wizard_form_view'
     response = client.post(url, {
-        view_name + '-current_step': view_class.SECTOR,
-        view_class.SECTOR + '-sector': 'HS01',
-    })
-    assert response.status_code == 302
-    response = client.post(response.url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
         view_class.EXPORTED_BEFORE + '-exported_before': 'False',
     })
@@ -248,14 +218,9 @@ def test_triage_manually_skip_company(mock_persist_answers, client):
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
 def test_triage_sole_trader_skip_company(mock_persist_answers, client):
     view_class = views.TriageWizardFormView
-    url = reverse('triage-wizard', kwargs={'step': view_class.SECTOR})
+    url = reverse('triage-wizard', kwargs={'step': view_class.EXPORTED_BEFORE})
     view_name = 'triage_wizard_form_view'
     response = client.post(url, {
-        view_name + '-current_step': view_class.SECTOR,
-        view_class.SECTOR + '-sector': 'HS01',
-    })
-    assert response.status_code == 302
-    response = client.post(response.url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
         view_class.EXPORTED_BEFORE + '-exported_before': 'False',
     })
@@ -274,14 +239,9 @@ def test_triage_sole_trader_skip_company(mock_persist_answers, client):
 
 def test_triage_skip_company_clears_previous_answers(client):
     view_class = views.TriageWizardFormView
-    url = reverse('triage-wizard', kwargs={'step': view_class.SECTOR})
+    url = reverse('triage-wizard', kwargs={'step': view_class.EXPORTED_BEFORE})
     view_name = 'triage_wizard_form_view'
     response = client.post(url, {
-        view_name + '-current_step': view_class.SECTOR,
-        view_class.SECTOR + '-sector': 'HS01',
-    })
-    assert response.status_code == 302
-    response = client.post(response.url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
         view_class.EXPORTED_BEFORE + '-exported_before': 'False',
     })
@@ -315,7 +275,6 @@ def test_triage_skip_company_clears_previous_answers(client):
         'company_number': None,
         'is_in_companies_house': True,
         'company_name': '',
-        'sector': 'HS01',
         'exported_before': False
     }
 
@@ -334,7 +293,6 @@ def test_triage_skip_company_clears_previous_answers_summary(
         'exported_before': True,
         'is_in_companies_house': True,
         'regular_exporter': True,
-        'sector': 'HS01',
         'used_online_marketplace': False,
     }
     client.get(url + '?result')
@@ -357,7 +315,6 @@ def test_triage_skip_company_clears_previous_answers_summary(
         'company_number': None,
         'regular_exporter': True,
         'company_name': '',
-        'sector': 'HS01',
         'exported_before': True,
         'is_in_companies_house': True,
     }
@@ -376,7 +333,6 @@ def test_triage_summary_change_answers(
         'exported_before': True,
         'regular_exporter': True,
         'used_online_marketplace': False,
-        'sector': 'HS01',
         'is_in_companies_house': True,
         'company_number': '123445',
         'company_name': 'Example corp',
@@ -400,7 +356,6 @@ def test_triage_summary_change_answers(
         'company_number': None,
         'is_in_companies_house': True,
         'company_name': 'Other Example limited',
-        'sector': 'HS01',
         'exported_before': True,
         'regular_exporter': True,
     }
@@ -453,8 +408,6 @@ def test_custom_view(
         'used_online_marketplace': False,
         'id': '1',
         'modified': '2016-11-23T11:21:10.977518Z',
-        'sector': exred_sector_names.SECTORS_CHOICES[0][0],
-        'sector_name': exred_sector_names.SECTORS_CHOICES[0][1],
         'sso_id': sso_user.id,
         'company_number': None,
     }
@@ -484,12 +437,13 @@ def test_custom_view(
 def test_triage_wizard(client):
     view_class = views.TriageWizardFormView
     response = client.get(
-        reverse('triage-wizard', kwargs={'step': view_class.SECTOR})
+        reverse('triage-wizard', kwargs={'step': view_class.EXPORTED_BEFORE})
     )
 
     assert response.status_code == 200
     assert response.template_name == [
-        views.TriageWizardFormView.templates[views.TriageWizardFormView.SECTOR]
+        views.TriageWizardFormView.templates[
+            views.TriageWizardFormView.EXPORTED_BEFORE]
     ]
 
 
@@ -512,7 +466,6 @@ def test_triage_wizard_summary_view(
         'exported_before': True,
         'regular_exporter': True,
         'used_online_marketplace': False,
-        'sector': 'HS01',
         'company_number': '33123445',
         'company_name': 'Example corp',
         'is_in_companies_house': True,
@@ -536,13 +489,11 @@ def test_triage_wizard_summary_view(
     assert summary_get_response.context_data['persona'] == (
         forms.REGULAR_EXPORTER
     )
-    assert summary_get_response.context_data['sector_label'] == 'Animals; live'
     assert summary_get_response.context_data['all_cleaned_data'] == {
         'is_in_companies_house': True,
         'company_name': 'Example corp',
         'exported_before': True,
         'regular_exporter': True,
-        'sector': 'HS01',
         'company_number': '33123445',
         'company_name': 'Example corp',
     }
@@ -596,7 +547,7 @@ def test_custom_view_no_triage_result_found_redirects_to_triage(
     ),
 ))
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers',
-       Mock(return_value={'sector': 'HS01'}))
+       Mock(return_value={'exported_before': 'Yes'}))
 @patch('triage.forms.get_persona', Mock(return_value=forms.NEW_EXPORTER))
 def test_custom_view_new_exporter(
     is_in_companies_house, expected, authed_client
@@ -672,7 +623,7 @@ def test_custom_view_new_exporter(
     ),
 ))
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers',
-       Mock(return_value={'sector': 'HS01'}))
+       Mock(return_value={'exported_before': 'Yes'}))
 @patch('triage.forms.get_persona',
        Mock(return_value=forms.OCCASIONAL_EXPORTER))
 def test_custom_view_occasional_exporter(
@@ -727,7 +678,7 @@ def test_custom_view_occasional_exporter(
     ),
 ))
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers',
-       Mock(return_value={'sector': 'HS01'}))
+       Mock(return_value={'exported_before': 'Yes'}))
 @patch('triage.forms.get_persona', Mock(return_value=forms.REGULAR_EXPORTER))
 def test_custom_view_regular_exporter(
     is_in_companies_house, expected, authed_client
@@ -752,85 +703,39 @@ def test_custom_view_regular_exporter(
         )
 
 
-@pytest.mark.parametrize('sector_code', exred_sector_names.CODES_SECTORS_DICT)
-def test_custom_page_top_markets(sector_code, client):
-    mock_path = 'triage.helpers.SessionTriageAnswersManager.retrieve_answers'
-    with patch(mock_path) as mock:
-        mock.return_value = {
-            'company_name': 'Acme ltd',
-            'exported_before': True,
-            'regular_exporter': True,
-            'used_online_marketplace': False,
-            'sector': sector_code,
-            'company_number': '123445',
-            'company_name': 'Example corp',
-        }
-        url = reverse('custom-page')
-        response = client.get(url)
-        assert response.status_code == 200
-
-        soup = BeautifulSoup(response.content, 'html.parser')
-        top_import_name = soup.find(id='top_importer_name')
-
-        # data is not available for service codes, only for Harmonised
-        # System codes.
-        if not sector_code.startswith('HS'):
-            assert top_import_name is None
-        else:
-            top_import_value = soup.find(id='top_importer_global_trade_value')
-            top_country_row = soup.find(id='row-' + top_import_name.text)
-            # there is no guarantee that the "country that imports the most" is
-            # in the "top 10 countries for buying British goods"
-            if top_country_row:
-                top_country_row_import_value = top_country_row.find(
-                    class_='cell-global_trade_value'
-                )
-                assert (
-                    top_country_row_import_value.text == top_import_value.text
-                )
-
-
 @patch('triage.helpers.SessionTriageAnswersManager.persist_answers')
 def test_triage_step_labels(mock_persist_answers, client):
     view_class = views.TriageWizardFormView
-    url = reverse('triage-wizard', kwargs={'step': view_class.SECTOR})
+    url = reverse('triage-wizard', kwargs={'step': view_class.EXPORTED_BEFORE})
     view_name = 'triage_wizard_form_view'
 
-    response_one_get = client.get(url)
-    response_one = client.post(url, {
-        view_name + '-current_step': view_class.SECTOR,
-        view_class.SECTOR + '-sector': 'HS01',
-    })
-
-    response_two_get = client.get(response_one.url)
-    response_two = client.post(response_one.url, {
+    response_two_get = client.get(url)
+    response_two = client.post(url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
         view_class.EXPORTED_BEFORE + '-exported_before': 'True',
     })
+    assert b'Question 1' in response_two_get.content
 
     response_three_get = client.get(response_two.url)
     response_three = client.post(response_two.url, {
         view_name + '-current_step': view_class.REGULAR_EXPORTER,
         view_class.REGULAR_EXPORTER + '-regular_exporter': 'True',
     })
+    assert b'Question 2' in response_three_get.content
 
     response_four_get = client.get(response_three.url)
     response_four = client.post(response_three.url, {
         view_name + '-current_step': view_class.COMPANIES_HOUSE,
         view_class.COMPANIES_HOUSE + '-is_in_companies_house': True,
     })
+    assert b'Question 3' in response_four_get.content
 
     response_five_get = client.get(response_four.url)
     client.post(response_four.url, {
         view_name + '-current_step': view_class.COMPANY,
         view_class.COMPANY + '-company_name': 'Example corp',
     })
-
-    assert b'Question 1' in response_one_get.content
-    assert b'Question 2' in response_two_get.content
-    assert b'Question 3' in response_three_get.content
-    assert b'Question 4' in response_four_get.content
-    assert b'Question 5' in response_five_get.content
+    assert b'Question 4' in response_five_get.content
 
 
 def test_get_summary_page_direct_link_should_redirect_to_triage(client):
@@ -844,5 +749,5 @@ def test_get_summary_page_direct_link_should_redirect_to_triage(client):
     assert response.status_code == 302
     assert response.url == reverse(
         'triage-wizard',
-        kwargs={'step': view_class.SECTOR}
+        kwargs={'step': view_class.EXPORTED_BEFORE}
     )

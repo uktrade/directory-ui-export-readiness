@@ -25,62 +25,6 @@
         </div>
     </div>
 </section>
-{% if top_markets %}
-<section class="sector-fact">
-    <div class="container">
-        <div class="fact">
-          <p class="intro"><span id="top_importer_name">{{ top_importer.partner }}</span> is the largest importer in your sector with a value of <span id="top_importer_global_trade_value">${{ top_importer.global_trade_value|intword|intcomma }}</span></p>
-          <p class="figure"><strong>${{ top_importer.uk_export_value|intword|intcomma }}</strong><span class="verbose">,&nbsp;</span><span>is the total value of exports in this sector from the UK in 2016</span>
-          </p>
-        </div>
-    </div>
-</section>
-{% endif %}
-{% if top_markets %}
-<section class="top-markets">
-    <div class="container">
-        <div class="intro" id="largest-importers">
-            <h2 class="heading-large">
-                10 largest importers for your sector from the UK
-            </h2>
-            <p class="commodity-name">{{ sector_name }}</p>
-            <p><a href="{% url 'triage-wizard' step='sector' %}" class="link">Select a different product category</a></p>
-            <hr>
-            <p>Statistics like export values and gross domestic product can show you the potential size of a market. Information like how easy it is to do business in a country will help you decide how attractive the market is.</p>
-        </div>
-        <ol class="top-markets-list">
-            {% for market in top_markets %}
-            <li>
-                <dl>
-                    <dt class="country">Country</dt>
-                    <dd class="country">{{ market.partner }}</dd>
-
-                    <dt class="uk">Export value from the UK</dt>
-                    <dd class="uk">${{ market.trade_value|intword }}</dd>
-
-                    <dt class="world">Export value from the world</dt>
-                    <dd class="world">${{ market.global_trade_value|intword }}</dd>
-
-                    <dt class="gdp">Gross domestic product (GDP)</dt>
-                    <dd class="gdp">${{ market.country.gdp|intword }}
-
-                    <dt class="ease">Ease of doing business rank*</dt>
-                    <dd class="ease">{{ market.country.ease_of_doing_business }}</dd>
-                </dl>
-            </li>
-            {% endfor %}
-        </ol>
-
-        <div id="market-source-data">
-			 <p>*The <a href="http://www.doingbusiness.org/rankings" target="_blank" class="link">World Bank’s Doing Business project</a> ranks economies from 1 to 190 on the how easy their regulatory environment makes it to start a local business, with 1 being the easiest.</p>
-            <p>The data is for 2016. This page was updated on 30 October 2017.</p>
-            <p>All import and export values are the value of exports a country has reported to <a href="https://comtrade.un.org" target="_blank" class="link">UN Comtrade, DESA/UNSD</a>.</p>
-	    <p>Use our <a href="https://comtrade.un.org/labs/dit-trade-vis/?reporter=826&type=C&year=2016&flow=2&commodity" target="_blank" class="link">data visualisation tool</a> to get more import and export data.</p>
-            <p>The UK government takes no responsibility for this data.</p>
-        </div>
-    </div>
-</section>
-{% endif %}
 {% if section_configuration.persona_article_group %}
 <section id="articles">
     <div class="container">

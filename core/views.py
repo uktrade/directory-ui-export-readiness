@@ -154,7 +154,8 @@ class StaticViewSitemap(sitemaps.Sitemap):
         if item == 'triage-wizard':
             # import here to avoid circular import
             from triage.views import TriageWizardFormView
-            return reverse(item, kwargs={'step': TriageWizardFormView.SECTOR})
+            return reverse(item, kwargs={
+                'step': TriageWizardFormView.EXPORTED_BEFORE})
         return reverse(item)
 
 
