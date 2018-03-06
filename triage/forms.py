@@ -1,9 +1,6 @@
 from collections import namedtuple
 
-from directory_constants.constants import exred_sector_names
-
 from django import forms
-from django.db.models.fields import BLANK_CHOICE_DASH
 
 from directory_components.fields import PaddedCharField
 from directory_components.widgets import RadioSelect
@@ -15,25 +12,11 @@ OCCASIONAL_EXPORTER = Persona(
     name='OCCASIONAL_EXPORTER', label='Occasional exporter'
 )
 NEW_EXPORTER = Persona(name='NEW_EXPORTER', label='New exporter')
-SECTORS_CHOICES = [
-    (value, value + ' ' + label)
-    for value, label in exred_sector_names.SECTORS_CHOICES
-]
 
 
 class BaseTriageForm(forms.Form):
     use_required_attribute = False
     error_css_class = 'input-field-container has-error'
-
-
-class SectorForm(BaseTriageForm):
-    sector = forms.ChoiceField(
-        choices=BLANK_CHOICE_DASH + SECTORS_CHOICES,
-        label='What do you want to export?',
-        help_text="Type the product or service you want to export.",
-        label_suffix='',
-        widget=forms.Select(attrs={'id': 'js-sector-select'}),
-    )
 
 
 class ExportExperienceForm(BaseTriageForm):
@@ -143,15 +126,8 @@ def get_used_marketplace(answers):
     return answers.get('used_online_marketplace') is True
 
 
-def get_sector_label(cleaned_data):
-    for key, label in exred_sector_names.SECTORS_CHOICES:
-        if key == cleaned_data['sector']:
-            return label
-
-
 def serialize_triage_form(data):
     return {
-        'sector': data['sector'],
         'exported_before': data['exported_before'],
         'regular_exporter': data.get('regular_exporter'),
         'used_online_marketplace': data.get('used_online_marketplace'),

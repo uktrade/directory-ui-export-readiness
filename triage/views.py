@@ -1,5 +1,4 @@
 from formtools.wizard.views import NamedUrlSessionWizardView
-from directory_constants.constants.exred_sector_names import CODES_SECTORS_DICT
 
 from django.core.urlresolvers import reverse_lazy
 from django.http import JsonResponse
@@ -30,7 +29,6 @@ class CompaniesHouseSearchApiView(View):
 
 class TriageWizardFormView(NamedUrlSessionWizardView):
 
-    SECTOR = 'sector'
     EXPORTED_BEFORE = 'exported-before'
     REGULAR_EXPORTER = 'regular-exporter'
     ONLINE_MARKETPLACE = 'online-marketplace'
@@ -39,7 +37,6 @@ class TriageWizardFormView(NamedUrlSessionWizardView):
     SUMMARY = 'summary'
 
     form_list = (
-        (SECTOR, forms.SectorForm),
         (EXPORTED_BEFORE, forms.ExportExperienceForm),
         (REGULAR_EXPORTER, forms.RegularExporterForm),
         (ONLINE_MARKETPLACE, forms.OnlineMarketplaceForm),
@@ -48,7 +45,6 @@ class TriageWizardFormView(NamedUrlSessionWizardView):
         (SUMMARY, forms.SummaryForm),
     )
     templates = {
-        SECTOR: 'triage/wizard-step-sector.html',
         EXPORTED_BEFORE: 'triage/wizard-step-exported-before.html',
         REGULAR_EXPORTER: 'triage/wizard-step-regular-exporter.html',
         ONLINE_MARKETPLACE: 'triage/wizard-step-online-marketplace.html',
@@ -135,10 +131,10 @@ class TriageWizardFormView(NamedUrlSessionWizardView):
         return super().render_done(form, **kwargs)
 
     def render(self, form=None, **kwargs):
-        """If summary is called without data, redirect to sector."""
+        """If summary is called without data, redirect to exported_before."""
         data = self.get_all_cleaned_data()
         if self.steps.current == self.SUMMARY and not data:
-            return self.render_goto_step(self.SECTOR)
+            return self.render_goto_step(self.EXPORTED_BEFORE)
         return super().render(form, **kwargs)
 
     def get_context_data(self, form, **kwargs):
@@ -146,7 +142,6 @@ class TriageWizardFormView(NamedUrlSessionWizardView):
         if self.steps.current == self.SUMMARY:
             data = self.get_all_cleaned_data()
             context['all_cleaned_data'] = data
-            context['sector_label'] = forms.get_sector_label(data)
             context['persona'] = forms.get_persona(data)
             context['is_updating_answers'] = (
                 self.persisted_triage_answers != {}
@@ -192,12 +187,6 @@ class CustomPageView(ArticlesViewedManagerMixin, TemplateView):
         context['article_group_read_progress'] = (
             self.article_read_manager.get_view_progress_for_groups()
         )
-        sector_code = self.triage_answers['sector']
-        # harmonised system codes begin with HS. Service codes begin with EB
-        if sector_code.startswith('HS'):
-            context['top_markets'] = helpers.get_top_markets(sector_code)[:10]
-            context['sector_name'] = CODES_SECTORS_DICT[sector_code]
-            context['top_importer'] = helpers.get_top_importer(sector_code)
         return context
 
     @property

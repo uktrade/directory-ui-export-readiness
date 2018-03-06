@@ -7,8 +7,6 @@
 	<div class="answers">
 		<h3 class="title heading-medium">Your answers</h3>
 		<dl>
-			<dt class="answer">What do you want to export?</dt>
-			<dd class="answer">{{ sector_label }}</dd>
 			<dt class="answer">Have you exported before?</dt>
 			<dd class="answer">{{ all_cleaned_data.exported_before|yesno:"Yes,No" }}</dd>
 			{% if all_cleaned_data.regular_exporter is not None %}
@@ -29,7 +27,7 @@
 			{% endif %}
 		</dl>
 	</div>
-</div> 
+</div>
 {% endblock %}
 
 {% block extra_buttons %}
