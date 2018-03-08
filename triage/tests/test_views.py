@@ -38,6 +38,12 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
     })
     assert response.status_code == 302
     response = client.post(response.url, {
+        view_name + '-current_step': view_class.GOODS_SERVICES,
+        view_class.GOODS_SERVICES + '-is_exporting_goods': False,
+        view_class.GOODS_SERVICES + '-is_exporting_services': False,
+    })
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.COMPANIES_HOUSE,
         view_class.COMPANIES_HOUSE + '-is_in_companies_house': True,
     })
@@ -65,6 +71,8 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
         'company_name': 'Example corp',
         'exported_before': True,
         'regular_exporter': True,
+        'is_exporting_goods': False,
+        'is_exporting_services': False,
         'company_number': None,
     }
     assert mock_persist_answers.call_count == 1
@@ -73,6 +81,8 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
         'used_online_marketplace': None,
         'exported_before': True,
         'regular_exporter': True,
+        'is_exporting_goods': False,
+        'is_exporting_services': False,
         'company_number': None,
         'is_in_companies_house': True,
     })
@@ -98,6 +108,12 @@ def test_submit_triage_occasional_exporter(mock_persist_answers, client):
     response = client.post(response.url, {
         view_name + '-current_step': view_class.ONLINE_MARKETPLACE,
         view_class.ONLINE_MARKETPLACE + '-used_online_marketplace': 'True',
+    })
+    assert response.status_code == 302
+    response = client.post(response.url, {
+        view_name + '-current_step': view_class.GOODS_SERVICES,
+        view_class.GOODS_SERVICES + '-is_exporting_goods': False,
+        view_class.GOODS_SERVICES + '-is_exporting_services': False,
     })
     assert response.status_code == 302
     response = client.post(response.url, {
@@ -131,6 +147,8 @@ def test_submit_triage_occasional_exporter(mock_persist_answers, client):
         'exported_before': True,
         'used_online_marketplace': True,
         'regular_exporter': False,
+        'is_exporting_goods': False,
+        'is_exporting_services': False,
         'company_number': '41231231',
     }
     assert mock_persist_answers.call_count == 1
@@ -139,6 +157,8 @@ def test_submit_triage_occasional_exporter(mock_persist_answers, client):
         'exported_before': True,
         'used_online_marketplace': True,
         'regular_exporter': False,
+        'is_exporting_goods': False,
+        'is_exporting_services': False,
         'company_number': '41231231',
         'is_in_companies_house': True,
     })
@@ -152,6 +172,12 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
     response = client.post(url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
         view_class.EXPORTED_BEFORE + '-exported_before': 'False',
+    })
+    assert response.status_code == 302
+    response = client.post(response.url, {
+        view_name + '-current_step': view_class.GOODS_SERVICES,
+        view_class.GOODS_SERVICES + '-is_exporting_goods': False,
+        view_class.GOODS_SERVICES + '-is_exporting_services': False,
     })
     assert response.status_code == 302
     response = client.post(response.url, {
@@ -180,6 +206,8 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
         'company_number': None,
         'is_in_companies_house': True,
         'company_name': 'Example corp',
+        'is_exporting_goods': False,
+        'is_exporting_services': False,
         'exported_before': False,
     }
     assert mock_persist_answers.call_count == 1
@@ -189,6 +217,8 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
         'company_name': 'Example corp',
         'exported_before': False,
         'used_online_marketplace': None,
+        'is_exporting_goods': False,
+        'is_exporting_services': False,
         'regular_exporter': None,
     })
 
@@ -247,6 +277,12 @@ def test_triage_skip_company_clears_previous_answers(client):
     })
     assert response.status_code == 302
     response = client.post(response.url, {
+        view_name + '-current_step': view_class.GOODS_SERVICES,
+        view_class.GOODS_SERVICES + '-is_exporting_goods': False,
+        view_class.GOODS_SERVICES + '-is_exporting_services': False,
+    })
+    assert response.status_code == 302
+    response = client.post(response.url, {
         view_name + '-current_step': view_class.COMPANIES_HOUSE,
         view_class.COMPANIES_HOUSE + '-is_in_companies_house': True,
     })
@@ -275,6 +311,8 @@ def test_triage_skip_company_clears_previous_answers(client):
         'company_number': None,
         'is_in_companies_house': True,
         'company_name': '',
+        'is_exporting_goods': False,
+        'is_exporting_services': False,
         'exported_before': False
     }
 
@@ -291,6 +329,8 @@ def test_triage_skip_company_clears_previous_answers_summary(
         'company_name': 'Example corp',
         'company_number': '123445',
         'exported_before': True,
+        'is_exporting_goods': False,
+        'is_exporting_services': False,
         'is_in_companies_house': True,
         'regular_exporter': True,
         'used_online_marketplace': False,
@@ -316,6 +356,8 @@ def test_triage_skip_company_clears_previous_answers_summary(
         'regular_exporter': True,
         'company_name': '',
         'exported_before': True,
+        'is_exporting_goods': False,
+        'is_exporting_services': False,
         'is_in_companies_house': True,
     }
 
@@ -333,6 +375,8 @@ def test_triage_summary_change_answers(
         'exported_before': True,
         'regular_exporter': True,
         'used_online_marketplace': False,
+        'is_exporting_goods': False,
+        'is_exporting_services': False,
         'is_in_companies_house': True,
         'company_number': '123445',
         'company_name': 'Example corp',
@@ -354,6 +398,8 @@ def test_triage_summary_change_answers(
     assert b'Continue my export journey' in summary_get_response.content
     assert summary_get_response.context_data['all_cleaned_data'] == {
         'company_number': None,
+        'is_exporting_goods': False,
+        'is_exporting_services': False,
         'is_in_companies_house': True,
         'company_name': 'Other Example limited',
         'exported_before': True,
@@ -465,6 +511,8 @@ def test_triage_wizard_summary_view(
         'company_name': 'Acme ltd',
         'exported_before': True,
         'regular_exporter': True,
+        'is_exporting_goods': False,
+        'is_exporting_services': False,
         'used_online_marketplace': False,
         'company_number': '33123445',
         'company_name': 'Example corp',
@@ -494,6 +542,8 @@ def test_triage_wizard_summary_view(
         'company_name': 'Example corp',
         'exported_before': True,
         'regular_exporter': True,
+        'is_exporting_goods': False,
+        'is_exporting_services': False,
         'company_number': '33123445',
         'company_name': 'Example corp',
     }
@@ -709,33 +759,41 @@ def test_triage_step_labels(mock_persist_answers, client):
     url = reverse('triage-wizard', kwargs={'step': view_class.EXPORTED_BEFORE})
     view_name = 'triage_wizard_form_view'
 
-    response_two_get = client.get(url)
-    response_two = client.post(url, {
+    response_one_get = client.get(url)
+    response_one = client.post(url, {
         view_name + '-current_step': view_class.EXPORTED_BEFORE,
         view_class.EXPORTED_BEFORE + '-exported_before': 'True',
     })
-    assert b'Question 1' in response_two_get.content
+    assert b'Question 1' in response_one_get.content
 
-    response_three_get = client.get(response_two.url)
-    response_three = client.post(response_two.url, {
+    response_two_get = client.get(response_one.url)
+    response_two = client.post(response_one.url, {
         view_name + '-current_step': view_class.REGULAR_EXPORTER,
         view_class.REGULAR_EXPORTER + '-regular_exporter': 'True',
     })
-    assert b'Question 2' in response_three_get.content
+    assert b'Question 2' in response_two_get.content
+
+    response_three_get = client.get(response_two.url)
+    response_three = client.post(response_two.url, {
+        view_name + '-current_step': view_class.GOODS_SERVICES,
+        view_class.GOODS_SERVICES + '-is_exporting_goods': False,
+        view_class.GOODS_SERVICES + '-is_exporting_services': False,
+    })
+    assert b'Question 3' in response_three_get.content
 
     response_four_get = client.get(response_three.url)
     response_four = client.post(response_three.url, {
         view_name + '-current_step': view_class.COMPANIES_HOUSE,
         view_class.COMPANIES_HOUSE + '-is_in_companies_house': True,
     })
-    assert b'Question 3' in response_four_get.content
+    assert b'Question 4' in response_four_get.content
 
     response_five_get = client.get(response_four.url)
     client.post(response_four.url, {
         view_name + '-current_step': view_class.COMPANY,
         view_class.COMPANY + '-company_name': 'Example corp',
     })
-    assert b'Question 4' in response_five_get.content
+    assert b'Question 5' in response_five_get.content
 
 
 def test_get_summary_page_direct_link_should_redirect_to_triage(client):
