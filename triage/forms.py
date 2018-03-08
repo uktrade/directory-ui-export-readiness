@@ -148,14 +148,6 @@ def get_used_marketplace(answers):
     return answers.get('used_online_marketplace') is True
 
 
-def get_exporting_goods(answers):
-    return answers.get('is_exporting_goods') is True
-
-
-def get_exporting_services(answers):
-    return answers.get('is_exporting_services') is True
-
-
 def serialize_triage_form(data):
     return {
         'exported_before': data['exported_before'],
