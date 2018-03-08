@@ -4,6 +4,7 @@ from django import forms
 
 from directory_components.fields import PaddedCharField
 from directory_components.widgets import RadioSelect
+from directory_components.widgets import CheckboxWithInlineLabel
 
 
 Persona = namedtuple('Persona', ['name', 'label'])
@@ -50,6 +51,27 @@ class OnlineMarketplaceForm(BaseTriageForm):
         widget=RadioSelect(),
         required=False,
         empty_value=None,
+    )
+
+
+class GoodsServicesForm(BaseTriageForm):
+    is_exporting_services = forms.BooleanField(
+        label='Services',
+        label_suffix='',
+        help_text=(
+            'Services are activities such as design consultancy or '
+            'financial advice.'),
+        required=False,
+        widget=CheckboxWithInlineLabel
+    )
+    is_exporting_goods = forms.BooleanField(
+        label='Goods',
+        label_suffix='',
+        help_text=(
+            'Goods are tangible items. They can be raw materials or parts '
+            'used to make something, or finished products.'),
+        required=False,
+        widget=CheckboxWithInlineLabel
     )
 
 
@@ -126,11 +148,21 @@ def get_used_marketplace(answers):
     return answers.get('used_online_marketplace') is True
 
 
+def get_exporting_goods(answers):
+    return answers.get('is_exporting_goods') is True
+
+
+def get_exporting_services(answers):
+    return answers.get('is_exporting_services') is True
+
+
 def serialize_triage_form(data):
     return {
         'exported_before': data['exported_before'],
         'regular_exporter': data.get('regular_exporter'),
         'used_online_marketplace': data.get('used_online_marketplace'),
+        'is_exporting_goods': data.get('is_exporting_goods'),
+        'is_exporting_services': data.get('is_exporting_services'),
         'company_name': data.get('company_name', ''),
         'company_number': data.get('company_number'),
         'is_in_companies_house': data['is_in_companies_house'],
