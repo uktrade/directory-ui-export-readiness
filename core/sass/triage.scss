@@ -10,34 +10,42 @@ select {
   max-width: 400px;
 }
 
-// question container div
-.question {
-  margin-top: 60px;
-  button {
-    display: block;
-    margin-top: 30px;
-  }
-  select {
-    width: 100%;
-  }
-  .home-link {
-    font-size: 19px;
-    margin-top: $spacing-3;
-    padding-top: $spacing-3;
-    border-top: 1px solid $light-grey;
-    margin-bottom: 50px;
-  }
-  legend {
-    @include body-s;
-    color: $mid-grey;
-  }
-  .input-container {
-      legend {
-      @include body-m;
-      margin-bottom: $spacing-3;
-      color: $black;
+.triage {
+  padding: $spacing-1 0;
+
+  .previous-step {
+    cursor: pointer;
+    text-decoration: underline;
+    background-color: transparent;
+    border-width: 0;
+    padding: 0;
+    font-size: 18px;
+    display: inline-block;
+    &:focus {
+      @include focus;
     }
   }
+
+  // question container div
+  .question {
+    .heading-large {
+      margin-top: 0;
+    }
+    .form-group {
+      padding-bottom: $spacing-3;
+      border-bottom: 1px solid $light-grey;
+    }
+    button {
+      display: block;
+      margin-top: 30px;
+    }
+    legend {
+      font-size: 15px;
+      color: $mid-grey;
+      margin-bottom: $spacing-4;
+    }
+  }
+
 }
 
 #change-answers-button-container {
@@ -56,80 +64,9 @@ select {
   }
 }
 
-.exred-triage-form {
-  .input-field-container li {
-    list-style: none;
-    padding-left: 0;
-    label {
-      margin-bottom: 30px;
-    }
-    .radio label {
-      margin-bottom: 0;
-    }
-    .helptext {
-      margin-top: -30px;
-    }
-  }
-
-  .previous-step {
-    color: #00549f;
-    cursor: pointer;
-    text-decoration: underline;
-    background-color: transparent;
-    border-width: 0;
-    font-size: 18px;
-    display: inline-block;
-    margin-left: 20px;
-  }
-
-  .button {
-    display: inline-block;
-  }
-
-  .radio {
-    &::before {
-      background-color: transparent;
-    }
-    & label {
-      margin-left: 45px;
-    }
-  }
-  .autocomplete__input {
-    margin-bottom: 0;
-    max-width: none;
-  }
-  .autocomplete__option--focused,
-  .autocomplete__option:hover {
-    background: #007ea3 !important;
-  }
-
-  .autocomplete__menu {
-    .autocomplete__option {
-      &::before {
-        background-color: transparent;
-      }
-    }
-    width: 100%;
-  }
-  .autocomplete__hint {
-    height: 50px;
-  }
-
-  .autocomplete__input,
-  .autocomplete__menu .autocomplete__option,
-  .autocomplete__hint {
-    padding: 12px 24px;
-  }
-
-  .autocomplete__dropdown-arrow-down {
-    margin-top: 7px;
-  }
-}
-
 // DESKTOP
 @media (min-width: 768px) {
-  .questions {
-    min-height: 600px;
+  #content {
     background: linear-gradient(to right, #{$white} #{$cols-7}, #{$offwhite} #{$cols-5});
   }
   .question {
@@ -139,6 +76,9 @@ select {
 }
 
 @media (max-width: 767px) {
+  .triage {
+    padding: $spacing-2 0;
+  }
   .questions {
     background: none;
   }

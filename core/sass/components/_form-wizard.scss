@@ -3,20 +3,19 @@
 
 // REQUIRES...
 .answers {
-  margin-bottom: #{$spacing-3 * 3};
-  
+
   dt {
     @include body-s;
     color: $mid-grey;
     margin-bottom: 0;
   }
-  
+
   dd {
     border-bottom: 1px solid $light-grey;
     margin-bottom: 20px;
     padding-top: 5px;
     padding-bottom: $spacing-4;
-    
+
     &:last-child {
       border: none;
     }

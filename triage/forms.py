@@ -16,7 +16,7 @@ NEW_EXPORTER = Persona(name='NEW_EXPORTER', label='New exporter')
 
 class BaseTriageForm(forms.Form):
     use_required_attribute = False
-    error_css_class = 'input-field-container has-error'
+    error_css_class = 'form-group-error'
 
 
 class ExportExperienceForm(BaseTriageForm):
