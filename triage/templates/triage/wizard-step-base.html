@@ -16,7 +16,7 @@
 				<form method="post" enctype="multipart/form-data">
 					<div class="exred-triage-form">
 						{% if wizard.steps.step1 != wizard.steps.count %}
-							<legend>Question {{ wizard.steps.step1 }}</legend>
+							<legend id="triage-question-label">Question {{ wizard.steps.step1 }}</legend>
 						{% endif %}
 						{% csrf_token %}
 						{% block extra_contents %}{% endblock %}
@@ -47,10 +47,10 @@
 							{% if wizard.steps.step1 != wizard.steps.count %}
 								<button type="submit" class="button button">Continue</button>
 							{% else %}
-								<input class="button next" type="submit" value="{% block submit_button_label %}{% endblock %}"/>
+								<input class="button next" id="triage-continue" type="submit" value="{% block submit_button_label %}{% endblock %}"/>
 							{% endif %}
 							{% if wizard.steps.prev %}
-								<button name="wizard_goto_step" class="previous-step" type="submit" value="{{ wizard.steps.prev }}">Previous step</button>
+								<button name="wizard_goto_step" class="previous-step" id="triage-previous-step" type="submit" value="{{ wizard.steps.prev }}">Previous step</button>
 							{% endif %}
 							{% block extra_buttons %}{% endblock %}
 						</div>
