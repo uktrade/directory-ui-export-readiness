@@ -56,22 +56,26 @@ class OnlineMarketplaceForm(BaseTriageForm):
 
 class GoodsServicesForm(BaseTriageForm):
     is_exporting_services = forms.BooleanField(
-        label='Services',
+        label='',
         label_suffix='',
-        help_text=(
-            'Services are activities such as design consultancy or '
-            'financial advice.'),
         required=False,
-        widget=CheckboxWithInlineLabel
+        widget=CheckboxWithInlineLabel(
+            label='Services',
+            help_text=(
+                'Services are activities such as design consultancy or '
+                'financial advice.'),
+        )
     )
     is_exporting_goods = forms.BooleanField(
-        label='Goods',
+        label='',
         label_suffix='',
-        help_text=(
-            'Goods are tangible items. They can be raw materials or parts '
-            'used to make something, or finished products.'),
         required=False,
-        widget=CheckboxWithInlineLabel
+        widget=CheckboxWithInlineLabel(
+            label='Goods',
+            help_text=(
+                'Goods are tangible items. They can be raw materials or parts '
+                'used to make something, or finished products.'),
+        )
     )
 
 

@@ -20,6 +20,14 @@
       <dt>Is your company incorporated in the UK?</dt>
       <dd id="is_in_companies_house">{{ all_cleaned_data.is_in_companies_house|yesno:"Yes,No" }}</dd>
       {% endif %}
+      {% if all_cleaned_data.is_exporting_goods or all_cleaned_data.is_exporting_services %}
+        <dt class="answer">What do you want to export?</dt>
+        <dd class="answer" id="goods_or_services">
+          {% if all_cleaned_data.is_exporting_goods and all_cleaned_data.is_exporting_services %}Goods and services
+          {% elif all_cleaned_data.is_exporting_goods %}Goods
+          {% elif all_cleaned_data.is_exporting_services %}Services{% endif %}
+        </dd>
+      {% endif %}
       {% if all_cleaned_data.company_name %}
       <dt>Company name</dt>
       <dd>{{ all_cleaned_data.company_name }}</dd>

@@ -10,20 +10,30 @@ select {
   max-width: 400px;
 }
 
-.triage {
-  padding: $spacing-1 0;
+#content {
+  padding-bottom: 0;
+}
 
-  .previous-step {
-    cursor: pointer;
-    text-decoration: underline;
-    background-color: transparent;
-    border-width: 0;
-    padding: 0;
-    font-size: 18px;
-    display: inline-block;
-    &:focus {
-      @include focus;
-    }
+// question container div
+.question {
+  margin-top: 60px;
+
+  select {
+    width: 100%;
+  }
+
+  ul {
+    margin-top: $spacing-4;
+  }
+
+  label {
+    @extend .form-label;
+  }
+
+  legend {
+    @include body-s;
+    color: $mid-grey;
+    margin-bottom: $spacing-4;
   }
 
   // question container div
@@ -31,14 +41,16 @@ select {
     .heading-large {
       margin-top: 0;
     }
+
     .form-group {
       padding-bottom: $spacing-3;
-      border-bottom: 1px solid $light-grey;
     }
+
     button {
       display: block;
       margin-top: 30px;
     }
+
     legend {
       font-size: 15px;
       color: $mid-grey;
@@ -46,16 +58,38 @@ select {
     }
   }
 
+  .previous-step, .home-link {
+    margin: 30px 0;
+    padding: 0;
+    @extend .link;
+    cursor: pointer;
+    background-color: transparent;
+    border-width: 0;
+    font-size: 18px;
+
+    &:focus {
+      @include focus;
+    }
+
+    &:active {
+      background: $focus-yellow;
+    }
+  }
+
 }
 
-#change-answers-button-container {
-  margin-top: 30px;
+.exred-triage-form {
+  padding-bottom: $spacing-3;
+  border-bottom: 1px solid $light-grey;
 }
 
 // like question div but specific to resultspage
 #content {
+  padding-top: 0;
+
   .exred-triage-form > .question {
     width: 100%;
+    margin-top: 0;
   }
   .update {
     padding: 0;
@@ -84,5 +118,6 @@ select {
   }
   .question {
     @include columns(12);
+    margin-top: 0;
   }
 }
