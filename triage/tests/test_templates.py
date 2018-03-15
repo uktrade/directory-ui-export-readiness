@@ -34,7 +34,7 @@ def test_triage_summary_online_marketplace_question(
     (False, 'No'),
     (None, None),
 ))
-def test_triage_summary_regular_exporer_question(
+def test_triage_summary_regular_exporter_question(
     regular_exporter, expected, rf
 ):
     context = {
@@ -49,6 +49,32 @@ def test_triage_summary_regular_exporer_question(
 
     if expected:
         assert element.text == expected
+    else:
+        assert element is None
+
+
+@pytest.mark.parametrize('goods,services,expected', (
+    (True, False, 'Goods'),
+    (True, True, 'Goods and services'),
+    (False, True, 'Services'),
+    (False, False, None),
+))
+def test_triage_summary_goods_services(
+    goods, services, expected, rf
+):
+    context = {
+        'all_cleaned_data': {
+            'is_exporting_goods': goods,
+            'is_exporting_services': services,
+        },
+        'request': rf.get('.')
+    }
+    html = render_to_string('triage/wizard-step-summary.html', context)
+    soup = BeautifulSoup(html, 'html.parser')
+    element = soup.find(id='goods_or_services')
+
+    if expected:
+        assert element.text.strip() == expected
     else:
         assert element is None
 

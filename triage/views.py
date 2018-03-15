@@ -32,6 +32,7 @@ class TriageWizardFormView(NamedUrlSessionWizardView):
     EXPORTED_BEFORE = 'exported-before'
     REGULAR_EXPORTER = 'regular-exporter'
     ONLINE_MARKETPLACE = 'online-marketplace'
+    GOODS_SERVICES = 'goods-services'
     COMPANY = 'company'
     COMPANIES_HOUSE = 'companies-house'
     SUMMARY = 'summary'
@@ -40,6 +41,7 @@ class TriageWizardFormView(NamedUrlSessionWizardView):
         (EXPORTED_BEFORE, forms.ExportExperienceForm),
         (REGULAR_EXPORTER, forms.RegularExporterForm),
         (ONLINE_MARKETPLACE, forms.OnlineMarketplaceForm),
+        (GOODS_SERVICES, forms.GoodsServicesForm),
         (COMPANIES_HOUSE, forms.CompaniesHouseForm),
         (COMPANY, forms.CompanyForm),
         (SUMMARY, forms.SummaryForm),
@@ -48,6 +50,7 @@ class TriageWizardFormView(NamedUrlSessionWizardView):
         EXPORTED_BEFORE: 'triage/wizard-step-exported-before.html',
         REGULAR_EXPORTER: 'triage/wizard-step-regular-exporter.html',
         ONLINE_MARKETPLACE: 'triage/wizard-step-online-marketplace.html',
+        GOODS_SERVICES: 'triage/wizard-step-goods-services.html',
         COMPANIES_HOUSE: 'triage/wizard-step-sole-trader.html',
         COMPANY: 'triage/wizard-step-company.html',
         SUMMARY: 'triage/wizard-step-summary.html',
