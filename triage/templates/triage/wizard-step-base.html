@@ -5,8 +5,8 @@
 {% block sharing_metadata %}{% endblock %}
 
 {% block head_css %}
-    {{ block.super }}
-    <link href="{% static 'styles/triage.css' %}" rel="stylesheet" type="text/css" />
+{{ block.super }}
+<link href="{% static 'styles/triage.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
@@ -32,33 +32,31 @@
 								    {{ hidden }}
 								{% endfor %}
 								{% for field in form.visible_fields %}
-									<li class="{{ field.css_classes }}">
+									<div class="form-group {{ field.css_classes }}">
 										{{ field.errors }}
 										{{ field.label_tag }}
 										{% if field.help_text %}
 											<span class="helptext">{{ field.help_text|safe }}</span>
 										{% endif %}
 										{{ field }}
-									</li>
+									</div>
 								{% endfor %}
 							{% endif %}
 						</div>
-						<div>
 							{% if wizard.steps.step1 != wizard.steps.count %}
-								<button type="submit" class="button button">Continue</button>
+								<button type="submit" class="button">Continue</button>
 							{% else %}
 								<input class="button next" id="triage-continue" type="submit" value="{% block submit_button_label %}{% endblock %}"/>
 							{% endif %}
-							{% if wizard.steps.prev %}
-								<button name="wizard_goto_step" class="previous-step" id="triage-previous-step" type="submit" value="{{ wizard.steps.prev }}">Previous step</button>
-							{% endif %}
 							{% block extra_buttons %}{% endblock %}
-						</div>
 					</div>
-					<div class="cf"></div>
-				</form>
-                <div class="home-link"><a href="/">Back to home</a></div>
-            </div>
+        {% if wizard.steps.prev %}
+          <button name="wizard_goto_step" class="previous-step" id="triage-previous-step" type="submit" value="{{ wizard.steps.prev }}">Previous step</button>
+        {% else %}
+          <div class="home-link"><a href="/">Back to home</a></div>
+        {% endif %}
+        </form>
         </div>
-    </section>
+    </div>
+</section>
 {% endblock %}
