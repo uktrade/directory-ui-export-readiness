@@ -78,6 +78,11 @@ select {
 
 }
 
+#start-now-container {
+  padding: $spacing-2 0;
+  margin-left: $spacing-4;
+}
+
 .exred-triage-form {
   padding-bottom: $spacing-3;
   border-bottom: 1px solid $light-grey;
