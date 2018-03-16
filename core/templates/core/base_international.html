@@ -9,6 +9,8 @@
 <!--[if lt IE 9]><html class="lte-ie8" lang="en"><![endif]-->
 <!--[if gt IE 8]><!--><html lang="en"><!--<![endif]-->
  <head>
+
+
     <meta id="utmCookieDomain" value="{{ analytics.UTM_COOKIE_DOMAIN }}" />
     {% include 'directory_components/google_tag_manager_head.html' %}
     <meta charset="utf-8" />
@@ -24,7 +26,7 @@
         {{ block.super }}
     {% endblock %}
 
-    <script src="{% static 'Dit-Pattern-Styling/public/js/third-party.js' %}"></script>
+    <script src="{% static 'directory_components/js/third-party.js' %}"></script>
     <script src="{% static 'js/dit.js' %}"></script>
     <script src="{% static 'js/dit.class.modal.js' %}"></script>
     <script src="{% static 'js/dit.components.languageSelector.js' %}"></script>
@@ -43,14 +45,14 @@
                 <ul aria-labelledby="great-languages-selector" class="navigation">
                 {% for code, label in LANGUAGES %}
                     <li class="bidi-rtl">
-                        <a id="header-language-selector-{{code}}" href="{% url 'landing-page-international' %}?lang={{ code }}">{{ label }}</a>
+                        <a class="link" id="header-language-selector-{{code}}" href="{% url 'landing-page-international' %}?lang={{ code }}">{{ label }}</a>
                     </li>
                 {% endfor %}
                 </ul>
             </div>
             <div data-node="domestic-redirect" class="domestic-redirect">
                 <p lang="en">
-                    <a href="{% url 'landing-page' %}?lang=en-gb" class="bidi-rtl">
+                    <a class="link" href="{% url 'landing-page' %}?lang=en-gb" class="bidi-rtl">
                         {% trans "English (UK)" %}
                     </a>
                     <span class="bidi-rtl">{% trans "Get guidance and services to help you export." %}</span>

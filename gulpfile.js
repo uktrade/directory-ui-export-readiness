@@ -5,7 +5,7 @@ const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
 const Server = require('karma').Server;
 const PROJECT_DIR = path.resolve(__dirname);
-const SASS_FILES = `${PROJECT_DIR}/core/sass/*.scss`;
+const SASS_FILES = `${PROJECT_DIR}/core/sass/**/*.scss`;
 const CSS_DIR = `${PROJECT_DIR}/core/static/styles`;
 
 // Run test once and exit

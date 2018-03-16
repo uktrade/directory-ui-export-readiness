@@ -1,12 +1,10 @@
 from collections import namedtuple
 
-from directory_constants.constants import exred_sector_names
-
 from django import forms
-from django.db.models.fields import BLANK_CHOICE_DASH
 
+from directory_components.fields import PaddedCharField
 from directory_components.widgets import RadioSelect
-from triage import fields
+from directory_components.widgets import CheckboxWithInlineLabel
 
 
 Persona = namedtuple('Persona', ['name', 'label'])
@@ -15,25 +13,11 @@ OCCASIONAL_EXPORTER = Persona(
     name='OCCASIONAL_EXPORTER', label='Occasional exporter'
 )
 NEW_EXPORTER = Persona(name='NEW_EXPORTER', label='New exporter')
-SECTORS_CHOICES = [
-    (value, value + ' ' + label)
-    for value, label in exred_sector_names.SECTORS_CHOICES
-]
 
 
 class BaseTriageForm(forms.Form):
     use_required_attribute = False
-    error_css_class = 'input-field-container has-error'
-
-
-class SectorForm(BaseTriageForm):
-    sector = forms.ChoiceField(
-        choices=BLANK_CHOICE_DASH + SECTORS_CHOICES,
-        label='What do you want to export?',
-        help_text="Type the product or service you want to export.",
-        label_suffix='',
-        widget=forms.Select(attrs={'id': 'js-sector-select'}),
-    )
+    error_css_class = 'form-group-error'
 
 
 class ExportExperienceForm(BaseTriageForm):
@@ -70,6 +54,31 @@ class OnlineMarketplaceForm(BaseTriageForm):
     )
 
 
+class GoodsServicesForm(BaseTriageForm):
+    is_exporting_services = forms.BooleanField(
+        label='',
+        label_suffix='',
+        required=False,
+        widget=CheckboxWithInlineLabel(
+            label='Services',
+            help_text=(
+                'Services are activities such as design consultancy or '
+                'financial advice.'),
+        )
+    )
+    is_exporting_goods = forms.BooleanField(
+        label='',
+        label_suffix='',
+        required=False,
+        widget=CheckboxWithInlineLabel(
+            label='Goods',
+            help_text=(
+                'Goods are tangible items. They can be raw materials or parts '
+                'used to make something, or finished products.'),
+        )
+    )
+
+
 class CompanyForm(BaseTriageForm):
     company_name = forms.CharField(
         label='What is your company name? (optional)',
@@ -81,7 +90,7 @@ class CompanyForm(BaseTriageForm):
         ),
         required=False,
     )
-    company_number = fields.PaddedCharField(
+    company_number = PaddedCharField(
         label='Company number:',
         max_length=8,
         fillchar='0',
@@ -143,18 +152,13 @@ def get_used_marketplace(answers):
     return answers.get('used_online_marketplace') is True
 
 
-def get_sector_label(cleaned_data):
-    for key, label in exred_sector_names.SECTORS_CHOICES:
-        if key == cleaned_data['sector']:
-            return label
-
-
 def serialize_triage_form(data):
     return {
-        'sector': data['sector'],
         'exported_before': data['exported_before'],
         'regular_exporter': data.get('regular_exporter'),
         'used_online_marketplace': data.get('used_online_marketplace'),
+        'is_exporting_goods': data.get('is_exporting_goods'),
+        'is_exporting_services': data.get('is_exporting_services'),
         'company_name': data.get('company_name', ''),
         'company_number': data.get('company_number'),
         'is_in_companies_house': data['is_in_companies_house'],

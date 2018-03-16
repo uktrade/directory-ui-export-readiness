@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-from directory_constants.constants import urls as default_urls
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -50,13 +49,14 @@ INSTALLED_APPS = [
     "corsheaders",
     "ui",
     "directory_constants",
-    "directory_header_footer",
     "core",
     "article",
     "triage",
     "casestudy",
     "directory_healthcheck",
     "health_check",
+    "contact",
+    "captcha",
     "export_elements",
     "directory_components",
 ]
@@ -88,10 +88,10 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.template.context_processors.i18n',
-                'directory_header_footer.context_processors.sso_processor',
-                'directory_header_footer.context_processors.urls_processor',
-                ('directory_header_footer.context_processors.'
-                 'header_footer_context_processor'),
+                'directory_components.context_processors.sso_processor',
+                'directory_components.context_processors.urls_processor',
+                ('directory_components.context_processors.'
+                    'header_footer_processor'),
                 'core.context_processors.feature_flags',
                 'directory_components.context_processors.analytics',
             ],
@@ -261,51 +261,15 @@ SECURE_HSTS_SECONDS = int(os.getenv('SECURE_HSTS_SECONDS', '16070400'))
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 # HEADER/FOOTER URLS
-GREAT_EXPORT_HOME = os.getenv(
-    'GREAT_EXPORT_HOME', default_urls.GREAT_EXPORT_HOME)
+HEADER_FOOTER_URLS_GREAT_HOME = os.getenv("HEADER_FOOTER_URLS_GREAT_HOME")
+HEADER_FOOTER_URLS_FAB = os.getenv("HEADER_FOOTER_URLS_FAB")
+HEADER_FOOTER_URLS_SOO = os.getenv("HEADER_FOOTER_URLS_SOO")
+HEADER_FOOTER_URLS_EVENTS = os.getenv("HEADER_FOOTER_URLS_EVENTS")
+HEADER_FOOTER_URLS_CONTACT_US = os.getenv("HEADER_FOOTER_URLS_CONTACT_US")
+HEADER_FOOTER_URLS_DIT = os.getenv("HEADER_FOOTER_URLS_DIT")
 
-# EXPORTING PERSONAS
-EXPORTING_NEW = os.getenv(
-    'EXPORTING_NEW', default_urls.EXPORTING_NEW)
-EXPORTING_REGULAR = os.getenv(
-    'EXPORTING_REGULAR', default_urls.EXPORTING_REGULAR)
-EXPORTING_OCCASIONAL = os.getenv(
-    'EXPORTING_OCCASIONAL', default_urls.EXPORTING_OCCASIONAL)
-
-# GUIDANCE/ARTICLE SECTIONS
-GUIDANCE_MARKET_RESEARCH = os.getenv(
-    'GUIDANCE_MARKET_RESEARCH', default_urls.GUIDANCE_MARKET_RESEARCH)
-GUIDANCE_CUSTOMER_INSIGHT = os.getenv(
-    'GUIDANCE_CUSTOMER_INSIGHT', default_urls.GUIDANCE_CUSTOMER_INSIGHT)
-GUIDANCE_FINANCE = os.getenv('GUIDANCE_FINANCE', default_urls.GUIDANCE_FINANCE)
-GUIDANCE_BUSINESS_PLANNING = os.getenv(
-    'GUIDANCE_BUSINESS_PLANNING', default_urls.GUIDANCE_BUSINESS_PLANNING)
-GUIDANCE_GETTING_PAID = os.getenv(
-    'GUIDANCE_GETTING_PAID', default_urls.GUIDANCE_GETTING_PAID)
-GUIDANCE_OPERATIONS_AND_COMPLIANCE = os.getenv(
-    'GUIDANCE_OPERATIONS_AND_COMPLIANCE',
-    default_urls.GUIDANCE_OPERATIONS_AND_COMPLIANCE)
-
-# SERVICES
-SERVICES_EXOPPS = os.getenv('SERVICES_EXOPPS', default_urls.SERVICES_EXOPPS)
-SERVICES_EXOPPS_ACTUAL = os.getenv(
-    'SERVICES_EXOPPS_ACTUAL', default_urls.SERVICES_EXOPPS)
-SERVICES_FAB = os.getenv('SERVICES_FAB', default_urls.SERVICES_FAB)
-SERVICES_GET_FINANCE = os.getenv(
-    'SERVICES_GET_FINANCE', default_urls.SERVICES_GET_FINANCE)
-SERVICES_SOO = os.getenv('SERVICES_SOO', default_urls.SERVICES_SOO)
-
-# FOOTER LINKS
-INFO_ABOUT = os.getenv('INFO_ABOUT', default_urls.INFO_ABOUT)
-INFO_CONTACT_US_DIRECTORY = os.getenv(
-    'INFO_CONTACT_US_DIRECTORY',
-    default_urls.INFO_CONTACT_US_DIRECTORY)
-INFO_PRIVACY_AND_COOKIES = os.getenv(
-    'INFO_PRIVACY_AND_COOKIES',
-    default_urls.INFO_PRIVACY_AND_COOKIES)
-INFO_TERMS_AND_CONDITIONS = os.getenv(
-    'INFO_TERMS_AND_CONDITIONS',
-    default_urls.INFO_TERMS_AND_CONDITIONS)
+# Exopps url for interstitial page
+SERVICES_EXOPPS_ACTUAL = os.getenv('SERVICES_EXOPPS_ACTUAL')
 
 # Sentry
 RAVEN_CONFIG = {
@@ -334,10 +298,7 @@ GOOGLE_TAG_MANAGER_ID = os.environ['GOOGLE_TAG_MANAGER_ID']
 GOOGLE_TAG_MANAGER_ENV = os.getenv('GOOGLE_TAG_MANAGER_ENV', '')
 UTM_COOKIE_DOMAIN = os.environ['UTM_COOKIE_DOMAIN']
 
-HEADER_FOOTER_CONTACT_US_URL = os.getenv(
-    'HEADER_FOOTER_CONTACT_US_URL',
-    default_urls.INFO_CONTACT_US_DIRECTORY,
-)
+HEADER_FOOTER_CONTACT_US_URL = os.getenv('HEADER_FOOTER_CONTACT_US_URL')
 
 # CORS
 CORS_ORIGIN_ALLOW_ALL = os.getenv('CORS_ORIGIN_ALLOW_ALL') == 'true'
@@ -358,3 +319,18 @@ HEALTH_CHECK_TOKEN = os.environ['HEALTH_CHECK_TOKEN']
 
 # Comtrade API
 COMTRADE_API_TOKEN = os.getenv('COMTRADE_API_TOKEN')
+
+# Google captcha
+RECAPTCHA_PUBLIC_KEY = os.environ['RECAPTCHA_PUBLIC_KEY']
+RECAPTCHA_PRIVATE_KEY = os.environ['RECAPTCHA_PRIVATE_KEY']
+# NOCAPTCHA = True turns on version 2 of recaptcha
+NOCAPTCHA = os.getenv('NOCAPTCHA') != 'false'
+
+# Zendesk
+CONTACT_ZENDESK_URL = os.environ['CONTACT_ZENDESK_URL']
+CONTACT_ZENDESK_TOKEN = os.environ['CONTACT_ZENDESK_TOKEN']
+CONTACT_ZENDESK_USER = os.environ['CONTACT_ZENDESK_USER']
+
+FEATURE_CONTACT_US_ENABLED = os.getenv(
+    'FEATURE_CONTACT_US_ENABLED', 'false'
+) == 'true'

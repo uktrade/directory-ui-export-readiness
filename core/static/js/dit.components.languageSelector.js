@@ -79,6 +79,7 @@ dit.components.languageSelector = (new function() {
   }
 
   LanguageSelectorDialog.createControl = function($node, id) {
+    var $controlContainer = $(document.createElement("li"));
     var $control = $(document.createElement("a"));
     var $lang = $(document.createElement("span"));
     var $country = $(document.createElement("span"));
@@ -91,7 +92,8 @@ dit.components.languageSelector = (new function() {
     $control.addClass("LanguageSelectorDialog-Tracker bidi-ltr");
     $control.attr("href", ("#" + id));
     $control.attr("aria-controls", id);
-    return $control;
+    $controlContainer.append($control);
+    return $controlContainer;
   }
 
   LanguageSelectorDialog.prototype = new dit.classes.Modal

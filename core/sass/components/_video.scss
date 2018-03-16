@@ -44,8 +44,7 @@
 
   &:focus,
   &:hover,
-  &:link:focus,
-  &:visited {
+  &:link:focus {
     color: $grey;
   }
 

@@ -40,7 +40,7 @@ img.placeholder {
 section {
   clear: both;
   overflow: hidden;
-  
+
   .heading {
     @include columns(6);
     @include heading-m;
@@ -68,7 +68,7 @@ section {
 }
 
 .group {
-  // Use to clear a group of floated elements 
+  // Use to clear a group of floated elements
   // and have the parent recalculate its height.
   clear: both;
   float: none;
@@ -108,7 +108,7 @@ section {
   body {
     @include body-m-mob;
   }
-  
+
   section {
     padding-top: $spacing-3;
     .heading,

@@ -26,9 +26,9 @@
     <p id="great-languages-selector">Go to our international site</p>
     <p>The UK supports international trade and investment, and welcomes travellers and students from across the world.</p>
     <div data-node="languages" class="languages">
-      <ul class="list list-bullet" aria-labelledby="great-languages-selector" class="navigation">
+      <ul aria-labelledby="great-languages-selector" class="navigation">
         {% for code, label in LANGUAGES %}
-          <li><a id="header-language-selector-{{ code }}" href="{% url 'landing-page-international' %}?lang={{ code }}">{{ label }}</a></li>
+          <li><a class="link" id="header-language-selector-{{ code }}" href="{% url 'landing-page-international' %}?lang={{ code }}">{{ label }}</a></li>
         {% endfor %}
       </ul>
     </div>
@@ -61,7 +61,7 @@
                     {% if has_completed_triage %}
                          <a id="triage-section-continue-your-journey" href="{% url 'custom-page' %}" class="button button-cta">Continue your export journey</a>
                     {% else %}
-                        <a id="triage-section-get-started" href="{% url 'triage-wizard' step='sector' %}" class="button button-cta">Get started</a>
+                        <a id="triage-section-get-started" href="{% url 'triage-wizard' step='exported-before' %}" class="button button-cta">Get started</a>
                     {% endif %}
                 </div>
             </div>
@@ -104,7 +104,7 @@
                         <h3 class="title">Create an export profile</h3>
                         <p id="services-section-find-a-buyer-description" class="text">Create your free trade profile and get promoted to businesses around the world.</p>
                         {% progressive_image webp='images/export-hp-fas-profile.webp' img_id='services-section-find-a-buyer-image' src='images/export-hp-fas-profile.jpg' %}
-                        <a id="services-section-find-a-buyer-link" href="{{ header_footer_urls.services_fab }}" class="link">Service: Find a buyer</a>
+                        <a id="services-section-find-a-buyer-link" href="{{ directory_components_urls.fab }}" class="link">Service: Find a buyer</a>
 
                     </article>
                 </div>
@@ -113,7 +113,7 @@
                         <h3 class="title">Find online marketplaces</h3>
                         <p id="services-section-selling-online-overseas-description" class="text">Reach over 2 billion international consumers online. Get exclusive deals negotiated by government on behalf of UK businesses.</p>
                         {% progressive_image webp='images/export-hp-online-market.webp' img_id='services-section-selling-online-overseas-image' src='images/export-hp-online-market.jpg' %}
-                        <a id="services-section-selling-online-overseas-link" href="{{ header_footer_urls.services_soo }}" class="link">Service: Find online marketplaces</a>
+                        <a id="services-section-selling-online-overseas-link" href="{{ directory_components_urls.soo }}" class="link">Service: Find online marketplaces</a>
                     </article>
                 </div>
                 <div class="lg-3 md-1">
@@ -139,7 +139,7 @@
             {% progressive_image webp='images/export-hp-beis.webp' img_id='business-is-great-image' src='images/export-hp-beis.jpg' %}
             <p id="business-is-great-description" class="intro">
                 <span class="text">You can get government support and advice to start or grow a business within the UK. Whatever the size of your business, the Department for Business, Energy &amp; Industrial Strategy can help make it a success.</span>
-                <a id="business-is-great-link" href="http://www.greatbusiness.gov.uk" target="_blank">Find out more on www.greatbusiness.gov.uk</a>
+                <a id="business-is-great-link" class="link" href="http://www.greatbusiness.gov.uk" target="_blank">Find out more on www.greatbusiness.gov.uk</a>
             </p>
         </div>
     </section>

@@ -1,3 +1,4 @@
+import os
 from unittest.mock import patch
 
 import pytest
@@ -42,3 +43,11 @@ def anon_request(rf, client):
     request.sso_user = None
     request.session = client.session
     return request
+
+
+@pytest.fixture()
+def captcha_stub():
+    # https://github.com/praekelt/django-recaptcha#id5
+    os.environ['RECAPTCHA_TESTING'] = 'True'
+    yield 'PASSED'
+    os.environ['RECAPTCHA_TESTING'] = 'False'

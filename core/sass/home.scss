@@ -13,9 +13,16 @@
 @import './components/_teaser';
 @import './components/_language-selector-home';
 
+#header .account-links li:nth-child(2):after {
+  display: none;
+}
 
-section {
-  padding-bottom: 90px;
+#content {
+  padding-top: 0;
+}
+
+.phase-banner {
+  border-bottom: 0;
 }
 
 .hero-campaign-section {

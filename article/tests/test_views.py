@@ -283,7 +283,7 @@ def test_articles_title_views(view_class, url, client):
     assert response.status_code == 200
     assert response.template_name == [view_class.template_name]
 
-    html = '<h1>' + view_class.article.title + '</h1>'
+    html = '<h1 class="heading-xlarge">' + view_class.article.title + '</h1>'
     expected = str(BeautifulSoup(html, 'html.parser'))
 
     assert expected in str(BeautifulSoup(response.content, 'html.parser'))
@@ -433,7 +433,7 @@ def test_article_view_persist_article_anon_user(mock_persist_articles, client):
         3,
         len(structure.ALL_ARTICLES.articles),
         '',
-        4767,
+        4780,
         set([
            articles.USE_DISTRIBUTOR.uuid,
            articles.GET_EXPORT_FINANCE.uuid,
@@ -456,7 +456,7 @@ def test_article_view_persist_article_anon_user(mock_persist_articles, client):
         3,
         len(structure.ALL_ARTICLES.articles),
         '',
-        4767,
+        4780,
         frozenset([
            articles.USE_DISTRIBUTOR.uuid,
            articles.GET_EXPORT_FINANCE.uuid,

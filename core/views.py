@@ -1,3 +1,4 @@
+import itertools
 
 from django.contrib import sitemaps
 from django.core.urlresolvers import reverse
@@ -76,6 +77,10 @@ class InternationalLandingPageView(
     template_name = 'core/landing_page_international.html'
 
 
+class QuerystringRedirectView(RedirectView):
+    query_string = True
+
+
 class TranslationRedirectView(RedirectView):
     language = None
     permanent = False
@@ -135,23 +140,49 @@ class InterstitialPageExoppsView(SetEtagMixin, TemplateView):
 
 class StaticViewSitemap(sitemaps.Sitemap):
     changefreq = 'daily'
-    excluded_pattern_names = ['redirect-opportunities-slug']
 
     def items(self):
         # import here to avoid circular import
         from ui import urls
+        from ui.url_redirects import redirects
         return [
             url.name for url in urls.urlpatterns
-            if url.name not in self.excluded_pattern_names
+            if url not in redirects and url.name not in ContactUsSitemap.names
         ]
 
     def location(self, item):
-        # triage-wizard needs an additional argument to be reversed
         if item == 'triage-wizard':
             # import here to avoid circular import
             from triage.views import TriageWizardFormView
-            return reverse(item, kwargs={'step': TriageWizardFormView.SECTOR})
+            return reverse(item, kwargs={
+                'step': TriageWizardFormView.EXPORTED_BEFORE})
         return reverse(item)
+
+
+class ContactUsSitemap(sitemaps.Sitemap):
+    changefreq = 'daily'
+    names = [
+        'contact-us-interstitial-service-specific',
+        'contact-us-service-specific',
+        'contact-us-triage-wizard',
+    ]
+    services = [
+        'directory',
+        'selling-online-overseas',
+        'export-opportunities',
+        'get-finance',
+        'events',
+        'exporting-is-great',
+    ]
+
+    def items(self):
+        return [
+            reverse(name, kwargs={'service': service})
+            for name, service in itertools.product(self.names, self.services)
+        ]
+
+    def location(self, item):
+        return item
 
 
 class RobotsView(TemplateView):

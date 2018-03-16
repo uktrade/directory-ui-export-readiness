@@ -9,6 +9,10 @@
 @import './components/_article-widgets';
 @import './components/_scope-indicator';
 
+#content {
+  padding-top: 0;
+}
+
 article {
   float: left;
   width: $cols-8;
@@ -64,7 +68,6 @@ h1 {
 
   dt {
     left: $cols-2;
-    position: absolute;
     top: 0;
   }
 }
@@ -83,14 +86,19 @@ h1 {
 article {
   ul {
     @extend .list;
-    li {
-      @extend .list-bullet;
-      margin-bottom: 5px;
-      list-style-type: none;
-    }
+    @extend .list-bullet;
   }
   h1 {
     @extend .heading-xlarge;
+  }
+  h2 {
+    @extend .heading-medium;
+  }
+  h3, h4, h5, h6 {
+    @extend .heading-small;
+  }
+  a {
+    @extend .link;
   }
 }
 
@@ -138,9 +146,7 @@ article {
     }
 
     dt {
-      left: 0;
-      padding-right: 60px;
-      top: $spacing-3;
+      display: none;
     }
 
     .register {

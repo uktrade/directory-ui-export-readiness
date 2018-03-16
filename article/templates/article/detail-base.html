@@ -46,7 +46,7 @@
     <div class="article-container">
       {% include 'core/widgets/social-share-links.html' %}
       <article id="top">
-          <h1>{{ article.title }}</h1>
+          <h1 class="heading-xlarge">{{ article.title }}</h1>
           {% include_markdown article.markdown_file_path %}
           <footer>
             {% include 'article/useful-feedback.html' %}
