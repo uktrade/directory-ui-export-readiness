@@ -1,5 +1,6 @@
 import itertools
 
+from django.conf import settings
 from django.contrib import sitemaps
 from django.core.urlresolvers import reverse
 from django.utils.cache import set_response_etag
@@ -59,6 +60,7 @@ class LandingPageView(ArticlesViewedManagerMixin, TemplateView):
         has_completed_triage = answer_manager.retrieve_answers() != {}
         return super().get_context_data(
             *args, **kwargs,
+            LANDING_PAGE_VIDEO_URL=settings.LANDING_PAGE_VIDEO_URL,
             has_completed_triage=has_completed_triage,
             casestudies=[
                 casestudies.MARKETPLACE,

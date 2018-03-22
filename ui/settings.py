@@ -334,3 +334,11 @@ CONTACT_ZENDESK_USER = os.environ['CONTACT_ZENDESK_USER']
 FEATURE_CONTACT_US_ENABLED = os.getenv(
     'FEATURE_CONTACT_US_ENABLED', 'false'
 ) == 'true'
+
+LANDING_PAGE_VIDEO_URL = os.getenv(
+    'LANDING_PAGE_VIDEO_URL',
+    (
+        'https://s3-eu-west-1.amazonaws.com/public-directory-api/'
+        'promo-video_web.mp4'
+    )
+)

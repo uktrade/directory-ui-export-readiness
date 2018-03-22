@@ -161,7 +161,8 @@ DEBUG_SET_ENV_VARS := \
 	export CONTACT_ZENDESK_USER=debug; \
 	export CONTACT_ZENDESK_TOKEN=debug; \
 	export CONTACT_ZENDESK_URL=https://uktrade.zendesk.com/api/v2/tickets.json; \
-	export FEATURE_CONTACT_US_ENABLED=true
+	export FEATURE_CONTACT_US_ENABLED=true; \
+	export LANDING_PAGE_VIDEO_URL=thing.com
 
 
 debug_webserver:

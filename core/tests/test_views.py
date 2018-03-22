@@ -12,6 +12,18 @@ from core import views
 from casestudy import casestudies
 
 
+def test_landing_page_video_url(client, settings):
+    settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/videp.mp4'
+    url = reverse('landing-page')
+
+    response = client.get(url)
+
+    assert response.context_data['LANDING_PAGE_VIDEO_URL'] == (
+        'https://example.com/videp.mp4'
+    )
+    assert 'https://example.com/videp.mp4' in response.content
+
+
 def test_landing_page(client, settings):
     url = reverse('landing-page')
 
