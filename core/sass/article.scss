@@ -90,6 +90,7 @@ article {
   }
   h1 {
     @extend .heading-xlarge;
+    margin-bottom: 45px;
   }
   h2 {
     @extend .heading-medium;

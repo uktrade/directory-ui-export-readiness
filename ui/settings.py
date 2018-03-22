@@ -267,6 +267,7 @@ HEADER_FOOTER_URLS_SOO = os.getenv("HEADER_FOOTER_URLS_SOO")
 HEADER_FOOTER_URLS_EVENTS = os.getenv("HEADER_FOOTER_URLS_EVENTS")
 HEADER_FOOTER_URLS_CONTACT_US = os.getenv("HEADER_FOOTER_URLS_CONTACT_US")
 HEADER_FOOTER_URLS_DIT = os.getenv("HEADER_FOOTER_URLS_DIT")
+COMPONENTS_URLS_FAS = os.getenv("COMPONENTS_URLS_FAS")
 
 # Exopps url for interstitial page
 SERVICES_EXOPPS_ACTUAL = os.getenv('SERVICES_EXOPPS_ACTUAL')
@@ -334,3 +335,11 @@ CONTACT_ZENDESK_USER = os.environ['CONTACT_ZENDESK_USER']
 FEATURE_CONTACT_US_ENABLED = os.getenv(
     'FEATURE_CONTACT_US_ENABLED', 'false'
 ) == 'true'
+
+LANDING_PAGE_VIDEO_URL = os.getenv(
+    'LANDING_PAGE_VIDEO_URL',
+    (
+        'https://s3-eu-west-1.amazonaws.com/public-directory-api/'
+        'promo-video_web.mp4'
+    )
+)
