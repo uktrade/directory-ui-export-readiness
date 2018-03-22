@@ -26,7 +26,9 @@ class ExportExperienceForm(BaseTriageForm):
         label_suffix='',
         coerce=lambda x: x == 'True',
         choices=[(True, 'Yes'), (False, 'No')],
-        widget=RadioSelect(),
+        widget=RadioSelect(
+            use_nice_ids=True,
+            attrs={'id': 'triage-exported-before'}),
     )
 
 
@@ -36,7 +38,9 @@ class RegularExporterForm(BaseTriageForm):
         label_suffix='',
         coerce=lambda x: x == 'True',
         choices=[(True, 'Yes'), (False, 'No')],
-        widget=RadioSelect(),
+        widget=RadioSelect(
+            use_nice_ids=True,
+            attrs={'id': 'triage-regular-exporter'}),
         required=False,
         empty_value=None,
     )
@@ -48,7 +52,9 @@ class OnlineMarketplaceForm(BaseTriageForm):
         label_suffix='',
         coerce=lambda x: x == 'True',
         choices=[(True, 'Yes'), (False, 'No')],
-        widget=RadioSelect(),
+        widget=RadioSelect(
+            use_nice_ids=True,
+            attrs={'id': 'triage-online-marketplace'}),
         required=False,
         empty_value=None,
     )
@@ -60,6 +66,7 @@ class GoodsServicesForm(BaseTriageForm):
         label_suffix='',
         required=False,
         widget=CheckboxWithInlineLabel(
+            attrs={'id': 'triage-services'},
             label='Services',
             help_text=(
                 'Services are activities such as design consultancy or '
@@ -71,6 +78,7 @@ class GoodsServicesForm(BaseTriageForm):
         label_suffix='',
         required=False,
         widget=CheckboxWithInlineLabel(
+            attrs={'id': 'triage-goods'},
             label='Goods',
             help_text=(
                 'Goods are tangible items. They can be raw materials or parts '
@@ -86,7 +94,7 @@ class CompanyForm(BaseTriageForm):
         label_suffix='',
         max_length=1000,
         widget=forms.TextInput(
-            attrs={'id': 'js-typeahead-company-name'}
+            attrs={'id': 'triage-company-name'}
         ),
         required=False,
     )
@@ -94,7 +102,7 @@ class CompanyForm(BaseTriageForm):
         label='Company number:',
         max_length=8,
         fillchar='0',
-        widget=forms.HiddenInput(attrs={'id': 'js-typeahead-company-number'}),
+        widget=forms.HiddenInput(attrs={'id': 'triage-company-number'}),
         required=False,
     )
 
@@ -111,7 +119,10 @@ class CompaniesHouseForm(BaseTriageForm):
         label_suffix='',
         coerce=lambda x: x == 'True',
         choices=[(True, 'Yes'), (False, 'No')],
-        widget=RadioSelect(),
+        widget=RadioSelect(
+            use_nice_ids=True,
+            attrs={'id': 'triage-is-in-companies-house'}
+        ),
         required=False,
         empty_value=None,
     )
