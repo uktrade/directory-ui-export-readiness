@@ -19,7 +19,7 @@
             <h2 class="title">{% trans "Buy from the UK" %}</h2>
             <p class="text">{% trans "Get exclusive early access to profiles of high quality UK businesses ready to fulfill your demand." %}</p>
             <img src="{% static 'images/international/great-hp-fas.png' %}" alt=""/>
-            <a href="{% trans "https://trade.great.gov.uk/" %}" target="_blank" class="button button-cta">{% trans "Find a Supplier" %}</a>
+            <a href="{{ directory_components_urls.fas }}?lang={{ LANGUAGE_CODE }}" target="_blank" class="button button-cta">{% trans "Find a Supplier" %}</a>
         </article>
 
         <article data-component="teaser-site" class="teaser-site-external bidi-rtl">
