@@ -3,7 +3,7 @@ If you&rsquo;re not sure what intellectual property (IP) you have you can find o
 - hiring an IP lawyer
 - using the [IP Equip service](http://www.ipo.gov.uk/blogs/equip/ "IP Equip service") 
 
-[Read the Intellectual Property Office&rsquo;s business guidance](https://www.gov.uk/government/collections/ip-for-business-events-guidance-tools-and-case-studies#business-guidance "IPO business guidance").
+[Read the Intellectual Property Office's business guidance](https://www.gov.uk/government/collections/ip-for-business-events-guidance-tools-and-case-studies#business-guidance "IPO business guidance").
 
 ### When you should apply for IP protection
 
