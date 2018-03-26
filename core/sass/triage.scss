@@ -10,6 +10,10 @@ select {
   max-width: 400px;
 }
 
+input:focus {
+  @include focus;
+}
+
 #content {
   padding-bottom: 0;
 }
@@ -36,6 +40,11 @@ select {
     margin-bottom: $spacing-4;
   }
 
+  .button {
+    display: block;
+    margin-top: 30px;
+  }
+
   // question container div
   .question {
     .heading-large {
@@ -46,11 +55,6 @@ select {
       padding-bottom: $spacing-3;
     }
 
-    button {
-      display: block;
-      margin-top: 30px;
-    }
-
     legend {
       font-size: 15px;
       color: $mid-grey;
@@ -58,10 +62,21 @@ select {
     }
   }
 
-  .previous-step, .home-link {
+  .home-link {
+    margin: 30px 0;
+    display: block;
+
+    a {
+      @include body-m;
+      @extend .link;
+    }
+  }
+
+  .previous-step {
+    @include body-m;
+    @extend .link;
     margin: 30px 0;
     padding: 0;
-    @extend .link;
     cursor: pointer;
     background-color: transparent;
     border-width: 0;

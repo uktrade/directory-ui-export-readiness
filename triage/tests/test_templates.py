@@ -21,7 +21,7 @@ def test_triage_summary_online_marketplace_question(
     }
     html = render_to_string('triage/wizard-step-summary.html', context)
     soup = BeautifulSoup(html, 'html.parser')
-    element = soup.find(id='used_online_marketplace')
+    element = soup.find(id='triage-do-you-use-online-marketplaces-answer')
 
     if expected:
         assert element.text == expected
@@ -45,7 +45,7 @@ def test_triage_summary_regular_exporter_question(
     }
     html = render_to_string('triage/wizard-step-summary.html', context)
     soup = BeautifulSoup(html, 'html.parser')
-    element = soup.find(id='regular_exporter')
+    element = soup.find(id='triage-are-you-exporting-regularly-answer')
 
     if expected:
         assert element.text == expected
@@ -71,7 +71,7 @@ def test_triage_summary_goods_services(
     }
     html = render_to_string('triage/wizard-step-summary.html', context)
     soup = BeautifulSoup(html, 'html.parser')
-    element = soup.find(id='goods_or_services')
+    element = soup.find(id='triage-what-are-you-exporting-answer')
 
     if expected:
         assert element.text.strip() == expected
