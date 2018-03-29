@@ -93,7 +93,7 @@ GOVUK.components = (new function() {
 
     // Will not have arguments if being inherited for prototype
     if(arguments.length >= 2) {
-      
+
       // Bind lookup event.
       $input.attr("autocomplete", "off"); // Because it interferes with results display.
       $input.on("focus.SelectiveLookup", function() { instance._private.active = true; });
@@ -102,7 +102,7 @@ GOVUK.components = (new function() {
         if(instance._private.timer) {
           clearTimeout(instance._private.timer);
         }
-        
+
         if(this.value.length >= opts.lookupOnCharacter) {
           instance._private.timer = setTimeout(function() {
             instance.search()
@@ -266,7 +266,7 @@ GOVUK.components = (new function() {
       }
     }
     else {
-      $list.append("<li role=\"option\">No results found</li>");
+      $list.append('<li id="triage-company-name-no-results-found" role="option">No results found</li>');
     }
   }
   SelectiveLookup.prototype.setSizeAndPosition = function() {
@@ -310,7 +310,7 @@ GOVUK.components = (new function() {
     this._private.$field = $field || $input; // Allows a different form field to receive value.
     this._private.$form = $input.parents("form");
     this._private.$errors = $(".errors", this._private.$form);
-    
+
     // Custom error handling.
     this._private.$form.on("submit.CompaniesHouseNameLookup", function(e) {
       // If no input or no company selected
@@ -328,7 +328,7 @@ GOVUK.components = (new function() {
     instance._private.$list.off("click.SelectiveLookupContent");
     instance._private.$list.on("click.CompaniesHouseNameLookup", function(event) {
       var $eventTarget = $(event.target);
-      
+
       // Try to set company number value.
       if($eventTarget.attr("data-value")) {
         instance._private.$input.val($eventTarget.text());
@@ -362,10 +362,10 @@ GOVUK.page = (new function() {
   /* Add Companies House name lookup AJAX functionality.
    **/
   function setupCompaniesHouseLookup() {
-    
-    var $companyNumber = $("#js-typeahead-company-number");
-    var $companyName = $("#js-typeahead-company-name");
-    
+
+    var $companyNumber = $("#triage-company-number");
+    var $companyName = $("#triage-company-name");
+
     // Apply JS lookup functionality.
     new GOVUK.components.CompaniesHouseNameLookup($companyName, $companyNumber);
     $(document.body).on(
