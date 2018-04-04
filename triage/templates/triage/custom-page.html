@@ -25,6 +25,21 @@
         </div>
     </div>
 </section>
+{% if persona.name == 'REGULAR_EXPORTER'%}
+<section>
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-half">
+        <h2 class="heading-large">Connect with international buyers</h2>
+        <p>Increase your exporting knowledge and start connecting with overseas buyers.</p>
+        {% if not sso_is_logged_in %}
+          <p><a class="link" href="{{ sso_register_url }}">Register</a> or <a class="link" href="{{ sso_login_url }}">sign in</a> to save your progress.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
 {% if section_configuration.persona_article_group %}
 <section id="articles">
     <div class="container">
@@ -53,13 +68,7 @@
 {% if section_configuration.trade_profile %}
 <section class="service-section fas">
     <div class="container">
-        <h2 class="heading heading-large">
-            {% if triage_result.company_name %}
-                Connect {{ triage_result.company_name }} with international buyers
-            {% else %}
-                Connect with international buyers
-            {% endif %}
-        </h2>
+        <h2 class="heading heading-large">Create a trade profile</h2>
         <div class="intro">
             <div class="content">
                 <p>Create a free export profile to:</p>
