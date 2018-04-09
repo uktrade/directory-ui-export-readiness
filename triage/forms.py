@@ -1,10 +1,12 @@
 from collections import namedtuple
-
+from directory_constants.constants import exred_sector_names
 from django import forms
+from django.db.models.fields import BLANK_CHOICE_DASH
 
 from directory_components.fields import PaddedCharField
 from directory_components.widgets import RadioSelect
 from directory_components.widgets import CheckboxWithInlineLabel
+from triage.helpers import TriageAnswersManager
 
 
 Persona = namedtuple('Persona', ['name', 'label'])
@@ -13,6 +15,10 @@ OCCASIONAL_EXPORTER = Persona(
     name='OCCASIONAL_EXPORTER', label='Occasional exporter'
 )
 NEW_EXPORTER = Persona(name='NEW_EXPORTER', label='New exporter')
+SECTORS_CHOICES = [
+    (value, value + ' ' + label)
+    for value, label in exred_sector_names.SECTORS_CHOICES if value.startswith('HS')
+]
 
 
 class BaseTriageForm(forms.Form):
@@ -94,7 +100,7 @@ class CompanyForm(BaseTriageForm):
         label_suffix='',
         max_length=1000,
         widget=forms.TextInput(
-            attrs={'id': 'triage-company-name'}
+            attrs={'id': 'triage-company-name', 'class': 'form-control form-control-3-4'}
         ),
         required=False,
     )
@@ -134,6 +140,26 @@ class SummaryForm(forms.Form):
 
 class CompaniesHouseSearchForm(forms.Form):
     term = forms.CharField()
+
+
+class SectorForm(forms.Form):
+    sector = forms.ChoiceField(
+        choices=BLANK_CHOICE_DASH + SECTORS_CHOICES,
+        label='',
+        label_suffix='',
+        widget=forms.Select(attrs={'id': 'js-sector-select'}),
+    )
+
+    def update_triage_sector(self, request, answers):
+        answers.update(self.cleaned_data)
+        answer_manager = TriageAnswersManager(request)
+        answer_manager.persist_answers(answers)
+
+
+def get_sector_label(cleaned_data):
+    for key, label in exred_sector_names.SECTORS_CHOICES:
+        if key == cleaned_data['sector']:
+            return label
 
 
 def get_persona(cleaned_data):

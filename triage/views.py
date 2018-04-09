@@ -1,4 +1,5 @@
 from formtools.wizard.views import NamedUrlSessionWizardView
+from directory_constants.constants.exred_sector_names import CODES_SECTORS_DICT
 
 from django.core.urlresolvers import reverse_lazy
 from django.http import JsonResponse
@@ -6,6 +7,7 @@ from django.shortcuts import redirect
 from django.utils.functional import cached_property
 from django.views.generic import TemplateView
 from django.views.generic import View
+from django.views.generic.edit import FormView
 
 from article import structure
 from casestudy import casestudies
@@ -152,7 +154,13 @@ class TriageWizardFormView(NamedUrlSessionWizardView):
         return context
 
     def done(self, *args, **kwargs):
+        completed_triage = self.persisted_triage_answers != {}
+        if completed_triage and self.persisted_triage_answers['sector']:
+            sector = {'sector': self.persisted_triage_answers['sector']}
+        else:
+            sector = {'sector': None}
         answers = forms.serialize_triage_form(self.get_all_cleaned_data())
+        answers.update(sector)
         answer_manager = helpers.TriageAnswersManager(self.request)
         answer_manager.persist_answers(answers)
         return redirect(self.success_url)
@@ -162,24 +170,37 @@ class TriageStartPageView(TemplateView):
     template_name = 'triage/start-now.html'
 
 
-class CustomPageView(ArticlesViewedManagerMixin, TemplateView):
-    http_method_names = ['get']
+class CustomPageView(ArticlesViewedManagerMixin, FormView):
     template_name = 'triage/custom-page.html'
+    success_url = '/custom/'
+    form_class = forms.SectorForm
 
     @cached_property
     def triage_answers(self):
         answer_manager = helpers.TriageAnswersManager(self.request)
         return answer_manager.retrieve_answers()
 
+    def form_valid(self, form):
+        form.update_triage_sector(self.request, self.triage_answers)
+        return super().form_valid(form)
+
     def dispatch(self, request, *args, **kwargs):
         if not self.triage_answers:
             return redirect('triage-start')
+        if self.triage_answers['sector'] is not None:
+            initial_sector = self.triage_answers['sector']
+            self.initial = { 'sector': initial_sector }
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['persona'] = forms.get_persona(self.triage_answers)
         context['triage_result'] = self.triage_answers
+        # for people who selected a service category before the sector
+        # question was removed from triage
+        if self.triage_answers[
+            'sector'] and self.triage_answers['sector'].startswith('EB'):
+            context['service_sector'] = True
         context['section_configuration'] = self.get_section_configuration()
         context['article_group'] = self.article_group
         context['casestudies'] = [
@@ -190,6 +211,14 @@ class CustomPageView(ArticlesViewedManagerMixin, TemplateView):
         context['article_group_read_progress'] = (
             self.article_read_manager.get_view_progress_for_groups()
         )
+        if self.triage_answers['sector'] is not None:
+            sector_code = self.triage_answers['sector']
+            if sector_code.startswith('HS'):
+                context['top_markets'] = helpers.get_top_markets(
+                    sector_code)[:10]
+                context['sector_name'] = CODES_SECTORS_DICT[sector_code]
+                context['top_importer'] = helpers.get_top_importer(
+                    sector_code)
         return context
 
     @property
