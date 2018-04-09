@@ -16,8 +16,8 @@ OCCASIONAL_EXPORTER = Persona(
 )
 NEW_EXPORTER = Persona(name='NEW_EXPORTER', label='New exporter')
 SECTORS_CHOICES = [
-    (value, value + ' ' + label)
-    for value, label in exred_sector_names.SECTORS_CHOICES if value.startswith('HS')
+    (v, v + ' ' + l)
+    for v, l in exred_sector_names.SECTORS_CHOICES if v.startswith('HS')
 ]
 
 
@@ -100,7 +100,10 @@ class CompanyForm(BaseTriageForm):
         label_suffix='',
         max_length=1000,
         widget=forms.TextInput(
-            attrs={'id': 'triage-company-name', 'class': 'form-control form-control-3-4'}
+            attrs={
+                    'id': 'triage-company-name',
+                    'class': 'form-control form-control-3-4'
+                }
         ),
         required=False,
     )

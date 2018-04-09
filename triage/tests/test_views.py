@@ -85,6 +85,7 @@ def test_submit_triage_regular_exporter(mock_persist_answers, client):
         'is_exporting_services': False,
         'company_number': None,
         'is_in_companies_house': True,
+        'sector': None
     })
     assert finished_response.status_code == 302
     assert finished_response.get('Location') == str(view_class.success_url)
@@ -161,6 +162,7 @@ def test_submit_triage_occasional_exporter(mock_persist_answers, client):
         'is_exporting_services': False,
         'company_number': '41231231',
         'is_in_companies_house': True,
+        'sector': None
     })
 
 
@@ -220,6 +222,7 @@ def test_submit_triage_new_exporter(mock_persist_answers, client):
         'is_exporting_goods': False,
         'is_exporting_services': False,
         'regular_exporter': None,
+        'sector': None
     })
 
 
@@ -334,6 +337,7 @@ def test_triage_skip_company_clears_previous_answers_summary(
         'is_in_companies_house': True,
         'regular_exporter': True,
         'used_online_marketplace': False,
+        'sector': None
     }
     client.get(url + '?result')
     url = reverse('triage-wizard', kwargs={'step': view_class.COMPANY})
@@ -380,6 +384,7 @@ def test_triage_summary_change_answers(
         'is_in_companies_house': True,
         'company_number': '123445',
         'company_name': 'Example corp',
+        'sector': None
     }
     client.get(url + '?result')
     url = reverse('triage-wizard', kwargs={'step': view_class.COMPANY})
@@ -456,6 +461,7 @@ def test_custom_view(
         'modified': '2016-11-23T11:21:10.977518Z',
         'sso_id': sso_user.id,
         'company_number': None,
+        'sector': None
     }
     mocked_retrieve_answers.return_value = triage_result
     url = reverse('custom-page')
@@ -517,6 +523,7 @@ def test_triage_wizard_summary_view(
         'company_number': '33123445',
         'company_name': 'Example corp',
         'is_in_companies_house': True,
+        'sector': None
     }
     url = reverse('triage-wizard', kwargs={'step': view_class.SUMMARY})
     authed_client.get(url + '?result')
@@ -597,7 +604,7 @@ def test_custom_view_no_triage_result_found_redirects_to_triage(
     ),
 ))
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers',
-       Mock(return_value={'exported_before': 'Yes'}))
+       Mock(return_value={'exported_before': 'Yes', 'sector': None}))
 @patch('triage.forms.get_persona', Mock(return_value=forms.NEW_EXPORTER))
 def test_custom_view_new_exporter(
     is_in_companies_house, expected, authed_client
@@ -673,7 +680,7 @@ def test_custom_view_new_exporter(
     ),
 ))
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers',
-       Mock(return_value={'exported_before': 'Yes'}))
+       Mock(return_value={'exported_before': 'Yes', 'sector': None}))
 @patch('triage.forms.get_persona',
        Mock(return_value=forms.OCCASIONAL_EXPORTER))
 def test_custom_view_occasional_exporter(
@@ -728,7 +735,7 @@ def test_custom_view_occasional_exporter(
     ),
 ))
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers',
-       Mock(return_value={'exported_before': 'Yes'}))
+       Mock(return_value={'exported_before': 'Yes', 'sector': None}))
 @patch('triage.forms.get_persona', Mock(return_value=forms.REGULAR_EXPORTER))
 def test_custom_view_regular_exporter(
     is_in_companies_house, expected, authed_client

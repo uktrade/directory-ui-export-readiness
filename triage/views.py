@@ -189,7 +189,7 @@ class CustomPageView(ArticlesViewedManagerMixin, FormView):
             return redirect('triage-start')
         if self.triage_answers['sector'] is not None:
             initial_sector = self.triage_answers['sector']
-            self.initial = { 'sector': initial_sector }
+            self.initial = {'sector': initial_sector}
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -199,7 +199,7 @@ class CustomPageView(ArticlesViewedManagerMixin, FormView):
         # for people who selected a service category before the sector
         # question was removed from triage
         if self.triage_answers[
-            'sector'] and self.triage_answers['sector'].startswith('EB'):
+                'sector'] and self.triage_answers['sector'].startswith('EB'):
             context['service_sector'] = True
         context['section_configuration'] = self.get_section_configuration()
         context['article_group'] = self.article_group
