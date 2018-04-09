@@ -28,25 +28,11 @@ fieldset {
   }
 }
 
-input[type=url],
-input[type=email],
-input[type=number],
-input[type=text] {
-  @include body-m;
-  border: 2px solid $grey;
-  height: 50px;
-  display: block;
-  margin-bottom: $spacing-3;
-  padding: 0 5px;
-  text-transform: none;
-  width: 100%;
-}
-
 label {
   @include body-m;
   color: $grey;
   display: inline-block;
-  
+
   .description {
     color: $mid-grey;
     display: block;
@@ -89,7 +75,7 @@ textarea {
   padding: 4px 0 0 45px;
   -ms-touch-action: manipulation;
   touch-action: manipulation;
-  
+
   input {
     cursor: pointer;
     left: 0;
@@ -100,10 +86,10 @@ textarea {
     top: 0;
     width: 36px;
   }
-  
+
   label {
     cursor: pointer;
-    
+
     &:before {
       background: transparent;
       border: 2px solid $mid-grey;
@@ -136,7 +122,7 @@ textarea {
       z-index: 0;
     }
   }
-  
+
   label::before {
     border-radius: 4px;
   }
@@ -156,7 +142,7 @@ textarea {
       z-index: 0;
     }
   }
-  
+
   label::before {
     border-radius: 50%;
   }

@@ -1,3 +1,9 @@
+// Top Markets container (table and sources)
+.top-markets-data {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
 // Top Markets List (table)
 .top-markets-list {
   $top-table-list-standard-width: 16.5%;
@@ -5,18 +11,19 @@
   $top-table-list-rank-width: 50px;
 
   clear: both;
+  overflow: auto;
   margin-bottom: $spacing-3;
   padding-top: 55px;
   position: relative;
-  width: $cols-10;
+  width: 100%;
 
   dd {
     float: left;
     padding: 0 5px;
     text-align: center;
-    width: $top-table-list-standard-width; 
+    width: $top-table-list-standard-width;
 
-    &.rank { 
+    &.rank {
       clear: left;
     }
   }
@@ -30,7 +37,7 @@
     top: 0;
     width: $top-table-list-standard-width;
 
-    &.rank { 
+    &.rank {
       left: 0;
       z-index: -1;
       &:first-child {
@@ -40,11 +47,11 @@
     }
   }
 
-  dt.country { 
-    left: $top-table-list-rank-width; 
+  dt.country {
+    left: $top-table-list-rank-width;
     text-indent: -10000px;
   }
-  
+
   dt.ease    { left: calc((#{$top-table-list-rank-width} + #{$top-table-list-country-width}) + (#{$top-table-list-standard-width} * 3)); }
   dt.gdp     { left: calc((#{$top-table-list-rank-width} + #{$top-table-list-country-width}) + (#{$top-table-list-standard-width} * 2)); }
   dt.uk      { left: calc((#{$top-table-list-rank-width} + #{$top-table-list-country-width})); }
@@ -62,7 +69,6 @@
       content: counter(li) " ";
       float: left;
       padding-right: $spacing-4;
-      text-align: right;
       width: #{$top-table-list-rank-width - $spacing-4};
     }
 
@@ -79,9 +85,24 @@
     width: $top-table-list-country-width;
   }
 
+  .more {
+    display: block;
+    padding: $spacing-3 0 $spacing-4;
+    @include body-l;
+    font-weight: 700;
+    border-bottom: 2px solid $active-blue;
+
+    &:after {
+      content: '+';
+      margin-right: $spacing-2;
+      font-size: 42px;
+      float: right;
+    }
+  }
+
   // A little custom tweak to avoid some issues when
   // the screen gets too small but we don't want to
-  // switch to a tablet/mobile view just yet. 
+  // switch to a tablet/mobile view just yet.
   @media screen and (max-width: 840px) {
     & {
       width: auto;
@@ -90,7 +111,7 @@
 }
 
 
-// TABLET 
+// TABLET
 @media screen and (max-width: 767px) {
   .top-markets-list {
     padding-top: 0;
@@ -116,7 +137,7 @@
       position: static;
       text-align: left;
       width: 70%;
-      
+
       &.country {
         padding: 0;
         width: 1px;
@@ -133,5 +154,5 @@
         width: 15px;
       }
     }
-  }  
+  }
 }
