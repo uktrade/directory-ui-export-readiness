@@ -66,11 +66,11 @@
             {% if triage_result.sector and not service_sector %}
             <p>Select a different product category.</p>
             {% else %}
-            <p>Choose a commodity code to get statistics on the largest importers of the commodity.</p>
+            <p>Type the product you want to export to get statistics on the largest importers.</p>
             {% endif %}
             <div class="form-group{% if service_sector %} form-group-error{% endif %}">
               {% if service_sector %}
-              <p>No data available, please select a different commodity</p>
+              <p>No data available, please select a different commodity.</p>
               {% endif %}
                 {% csrf_token %}
                 {{ form }}
@@ -251,7 +251,9 @@
           selectElement: document.getElementById('js-sector-select'),
           defaultValue: '',
           autoselect: false,
-          showAllValues: true
+          showAllValues: false,
+          placeholder: 'Type here.',
+          minLength: 2
         })
         var listELement = document.getElementById('js-paginate-table');
         var loadMoreButton = document.getElementById('js-paginate-table-more');
