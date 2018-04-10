@@ -172,7 +172,7 @@ class TriageStartPageView(TemplateView):
 
 class CustomPageView(ArticlesViewedManagerMixin, FormView):
     template_name = 'triage/custom-page.html'
-    success_url = '/custom/'
+    success_url = reverse_lazy('custom-page')
     form_class = forms.SectorForm
 
     @cached_property
