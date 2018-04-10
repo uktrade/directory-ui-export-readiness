@@ -940,6 +940,7 @@ def custom_page_show_error_if_service_sector_selected(
     assert custom_page.context_data['service_sector']
 
 
+
 @pytest.mark.parametrize('sector_code', exred_sector_names.CODES_SECTORS_DICT)
 def test_custom_page_top_markets(sector_code, client):
     mock_path = 'triage.helpers.SessionTriageAnswersManager.retrieve_answers'
@@ -960,14 +961,19 @@ def test_custom_page_top_markets(sector_code, client):
         soup = BeautifulSoup(response.content, 'html.parser')
         top_import_name = soup.find(id='top_importer_name')
 
-        top_import_value = soup.find(id='top_importer_global_trade_value')
-        top_country_row = soup.find(id='row-' + top_import_name.text)
-        # there is no guarantee that the "country that imports the most" is
-        # in the "top 10 countries for buying British goods"
-        if top_country_row:
-            top_country_row_import_value = top_country_row.find(
-                class_='cell-global_trade_value'
-            )
-            assert (
-                top_country_row_import_value.text == top_import_value.text
-            )
+        # data is not available for service codes, only for Harmonised
+        # System codes.
+        if not sector_code.startswith('HS'):
+            assert top_import_name is None
+        else:
+            top_import_value = soup.find(id='top_importer_global_trade_value')
+            top_country_row = soup.find(id='row-' + top_import_name.text)
+            # there is no guarantee that the "country that imports the most" is
+            # in the "top 10 countries for buying British goods"
+            if top_country_row:
+                top_country_row_import_value = top_country_row.find(
+                    class_='cell-global_trade_value'
+                )
+                assert (
+                    top_country_row_import_value.text == top_import_value.text
+                )
