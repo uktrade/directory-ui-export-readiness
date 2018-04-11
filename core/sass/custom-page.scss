@@ -93,7 +93,8 @@
 }
 
 #js-sector-select {
-  padding: $spacing-4;
+  height: $spacing-1;
+  width: 100%;
   // use text input carat instead of pointer
   cursor: initial;
   background-color: white;
