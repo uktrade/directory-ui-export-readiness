@@ -940,7 +940,6 @@ def custom_page_show_error_if_service_sector_selected(
     assert custom_page.context_data['service_sector']
 
 
-
 @pytest.mark.parametrize('sector_code', exred_sector_names.CODES_SECTORS_DICT)
 def test_custom_page_top_markets(sector_code, client):
     mock_path = 'triage.helpers.SessionTriageAnswersManager.retrieve_answers'
