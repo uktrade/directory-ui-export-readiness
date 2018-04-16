@@ -262,7 +262,7 @@ redirects = [
     )),
     ('/verify/', (
         'https://find-a-buyer.export.great.gov.uk/'
-        'confirm-company-address/'
+        'verify/letter-confirm/'
     )),
     ('/legal/', (
         'https://trade.great.gov.uk/'
