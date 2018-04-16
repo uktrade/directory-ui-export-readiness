@@ -1,0 +1,8 @@
+{% load add_anchors from cms_tags %}
+
+<section>
+  <div class="container">
+    <h1 class="heading-xlarge">{{ page.title|safe }}</h1>
+    {{ page.body|add_anchors|safe }}
+  </div>
+</section>

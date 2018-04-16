@@ -54,7 +54,7 @@ urlpatterns = [
     ),
     url(
         r"^terms-and-conditions/$",
-        core.views.TermsConditionsDomestic.as_view(),
+        core.views.TermsConditionDomesticViewNegotiator.as_view(),
         name='terms-and-conditions'
     ),
     url(
@@ -64,7 +64,7 @@ urlpatterns = [
     ),
     url(
         r"^international/terms-and-conditions/$",
-        core.views.TermsConditionsInternational.as_view(),
+        core.views.TermsConditionsInternationalViewNegotiator.as_view(),
         name='terms-and-conditions-international'
     ),
     url(
