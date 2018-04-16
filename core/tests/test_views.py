@@ -1,4 +1,5 @@
 import http
+from unittest.mock import patch
 
 from django.core.urlresolvers import reverse
 from django.conf import settings
@@ -9,6 +10,7 @@ import pytest
 import requests_mock
 
 from core import views
+from core.tests import helpers
 from casestudy import casestudies
 
 
@@ -101,14 +103,6 @@ def test_robots(client):
             'privacy-and-cookies-international',
             'core/privacy_cookies-international.html'),
         (
-            'terms-and-conditions',
-            'core/terms_conditions-domestic.html'
-        ),
-        (
-            'terms-and-conditions-international',
-            'core/terms_conditions-international.html'
-        ),
-        (
             'landing-page-international',
             'core/landing_page_international.html'
         ),
@@ -125,6 +119,65 @@ def test_robots(client):
 def test_templates(view, expected_template, client):
     url = reverse(view)
 
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == [expected_template]
+
+
+@pytest.mark.parametrize(
+    'view,expected_template',
+    (
+        (
+            'terms-and-conditions',
+            'core/terms_conditions-domestic.html'
+        ),
+        (
+            'terms-and-conditions-international',
+            'core/terms_conditions-international.html'
+        ),
+    )
+)
+def test_terms_conditions_cms_disabled(
+    view, expected_template, client, settings
+):
+    settings.FEATURE_CMS_ENABLED = False
+    url = reverse(view)
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == [expected_template]
+
+
+@pytest.mark.parametrize(
+    'view,expected_template',
+    (
+        (
+            'terms-and-conditions',
+            'core/terms_conditions-domestic-cms.html'
+        ),
+        (
+            'terms-and-conditions-international',
+            'core/terms_conditions-international-cms.html'
+        ),
+    )
+)
+@patch('core.views.cms_client.export_readiness.get_terms_and_conditions_page')
+def test_terms_conditions_cms_enabled(
+    mock_get_t_and_c_page, view, expected_template, client, settings
+):
+    settings.FEATURE_CMS_ENABLED = True
+    url = reverse(view)
+    page = {
+        'title': 'the page',
+        'industries': [{'title': 'good 1'}],
+        'meta': {'languages': ['en-gb']},
+    }
+    mock_get_t_and_c_page.return_value = helpers.create_response(
+        status_code=200,
+        json_body=page
+    )
     response = client.get(url)
 
     assert response.status_code == 200
@@ -223,28 +276,10 @@ def test_privacy_view_domestic_about_cookies_link_correct(client):
     assert element.string == 'www.aboutcookies.org.uk'
 
 
-def test_terms_and_conditions_view_domestic(client):
-    response = client.get(reverse('terms-and-conditions'))
-
-    assert response.status_code == 200
-    assert response.template_name == [
-        views.TermsConditionsDomestic.template_name
-    ]
-
-
 def test_privacy_view_international(client):
     response = client.get(reverse('privacy-and-cookies-international'))
 
     assert response.status_code == 200
     assert response.template_name == [
         views.PrivacyCookiesInternational.template_name
-    ]
-
-
-def test_terms_and_conditions_view_international(client):
-    response = client.get(reverse('terms-and-conditions-international'))
-
-    assert response.status_code == 200
-    assert response.template_name == [
-        views.TermsConditionsInternational.template_name
     ]
