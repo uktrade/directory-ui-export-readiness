@@ -13,6 +13,7 @@ from article import structure
 from casestudy import casestudies
 from core.views import ArticlesViewedManagerMixin
 from triage import forms, helpers
+from triage.helpers import TriageAnswersManager
 
 
 class CompaniesHouseSearchApiView(View):
@@ -180,8 +181,13 @@ class CustomPageView(ArticlesViewedManagerMixin, FormView):
         answer_manager = helpers.TriageAnswersManager(self.request)
         return answer_manager.retrieve_answers()
 
+    def update_triage_sector(self, request, answers, form):
+        answers.update(form.cleaned_data)
+        answer_manager = TriageAnswersManager(request)
+        answer_manager.persist_answers(answers)
+
     def form_valid(self, form):
-        form.update_triage_sector(self.request, self.triage_answers)
+        self.update_triage_sector(self.request, self.triage_answers, form)
         return super().form_valid(form)
 
     def dispatch(self, request, *args, **kwargs):
@@ -198,9 +204,8 @@ class CustomPageView(ArticlesViewedManagerMixin, FormView):
         context['triage_result'] = self.triage_answers
         # for people who selected a service category before the sector
         # question was removed from triage
-        if self.triage_answers[
-                'sector'] and self.triage_answers['sector'].startswith('EB'):
-            context['service_sector'] = True
+        context['service_sector'] = self.triage_answers[
+            'sector'] and self.triage_answers['sector'].startswith('EB')
         context['section_configuration'] = self.get_section_configuration()
         context['article_group'] = self.article_group
         context['casestudies'] = [
@@ -211,14 +216,16 @@ class CustomPageView(ArticlesViewedManagerMixin, FormView):
         context['article_group_read_progress'] = (
             self.article_read_manager.get_view_progress_for_groups()
         )
-        if self.triage_answers['sector'] is not None:
+        context['sector_label'] = forms.get_sector_label(
+            self.triage_answers['sector'])
+        context['sector_code'] = self.triage_answers['sector']
+
+        if self.triage_answers[
+             'sector'] and self.triage_answers['sector'].startswith('HS'):
             sector_code = self.triage_answers['sector']
-            if sector_code.startswith('HS'):
-                context['top_markets'] = helpers.get_top_markets(
-                    sector_code)[:10]
-                context['sector_name'] = CODES_SECTORS_DICT[sector_code]
-                context['top_importer'] = helpers.get_top_importer(
-                    sector_code)
+            context['top_markets'] = helpers.get_top_markets(sector_code)[:10]
+            context['sector_name'] = CODES_SECTORS_DICT[sector_code]
+            context['top_importer'] = helpers.get_top_importer(sector_code)
         return context
 
     @property

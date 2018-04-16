@@ -4,9 +4,9 @@ from django import forms
 from django.db.models.fields import BLANK_CHOICE_DASH
 
 from directory_components.fields import PaddedCharField
+from directory_components.fields import ChoiceField
 from directory_components.widgets import RadioSelect
 from directory_components.widgets import CheckboxWithInlineLabel
-from triage.helpers import TriageAnswersManager
 
 
 Persona = namedtuple('Persona', ['name', 'label'])
@@ -146,22 +146,16 @@ class CompaniesHouseSearchForm(forms.Form):
 
 
 class SectorForm(forms.Form):
-    sector = forms.ChoiceField(
+    sector = ChoiceField(
         choices=BLANK_CHOICE_DASH + SECTORS_CHOICES,
         label='',
-        label_suffix='',
         widget=forms.Select(attrs={'id': 'js-sector-select'}),
     )
 
-    def update_triage_sector(self, request, answers):
-        answers.update(self.cleaned_data)
-        answer_manager = TriageAnswersManager(request)
-        answer_manager.persist_answers(answers)
 
-
-def get_sector_label(cleaned_data):
+def get_sector_label(sector_code):
     for key, label in exred_sector_names.SECTORS_CHOICES:
-        if key == cleaned_data['sector']:
+        if key == sector_code:
             return label
 
 

@@ -93,5 +93,4 @@ def test_custom_page_sector_form():
 
 def test_get_sector_label():
     for key, label in exred_sector_names.SECTORS_CHOICES:
-        data = {'sector': key}
-        assert forms.get_sector_label(data) == label
+        assert forms.get_sector_label(key) == label
