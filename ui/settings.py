@@ -347,4 +347,4 @@ LANDING_PAGE_VIDEO_URL = os.getenv(
 # directory CMS
 CMS_URL = os.environ['CMS_URL']
 CMS_SIGNATURE_SECRET = os.environ['CMS_SIGNATURE_SECRET']
-FEATURE_CMS_ENABLED = True
+FEATURE_CMS_ENABLED = os.getenv('FEATURE_CMS_ENABLED', 'false') == 'true'
