@@ -1,0 +1,15 @@
+
+// For use with CMS content pages
+
+// so we don't rely on content designers to
+// add our .list and .list-bullet classes
+// kept separate to not pollute any other styles
+
+@import 'staticfiles/export_elements/stylesheets/govuk-elements-styles';
+
+section {
+  ul {
+    @extend .list;
+    @extend .list-bullet;
+  }
+}
