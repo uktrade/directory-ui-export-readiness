@@ -1,8 +1,10 @@
 from collections import namedtuple
-
+from directory_constants.constants import exred_sector_names
 from django import forms
+from django.db.models.fields import BLANK_CHOICE_DASH
 
 from directory_components.fields import PaddedCharField
+from directory_components.fields import ChoiceField
 from directory_components.widgets import RadioSelect
 from directory_components.widgets import CheckboxWithInlineLabel
 
@@ -13,6 +15,10 @@ OCCASIONAL_EXPORTER = Persona(
     name='OCCASIONAL_EXPORTER', label='Occasional exporter'
 )
 NEW_EXPORTER = Persona(name='NEW_EXPORTER', label='New exporter')
+SECTORS_CHOICES = [
+    (v, v + ' ' + l)
+    for v, l in exred_sector_names.SECTORS_CHOICES if v.startswith('HS')
+]
 
 
 class BaseTriageForm(forms.Form):
@@ -94,7 +100,10 @@ class CompanyForm(BaseTriageForm):
         label_suffix='',
         max_length=1000,
         widget=forms.TextInput(
-            attrs={'id': 'triage-company-name'}
+            attrs={
+                    'id': 'triage-company-name',
+                    'class': 'form-control form-control-3-4'
+                }
         ),
         required=False,
     )
@@ -134,6 +143,20 @@ class SummaryForm(forms.Form):
 
 class CompaniesHouseSearchForm(forms.Form):
     term = forms.CharField()
+
+
+class SectorForm(forms.Form):
+    sector = ChoiceField(
+        choices=BLANK_CHOICE_DASH + SECTORS_CHOICES,
+        label='',
+        widget=forms.Select(attrs={'id': 'js-sector-select'}),
+    )
+
+
+def get_sector_label(sector_code):
+    for key, label in exred_sector_names.SECTORS_CHOICES:
+        if key == sector_code:
+            return label
 
 
 def get_persona(cleaned_data):

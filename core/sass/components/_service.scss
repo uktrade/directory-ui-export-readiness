@@ -26,7 +26,7 @@
 .service-section {
   padding: $spacing-3 0 0 0;
   position: relative;
-  padding-bottom: 15px;
+
   img {
     float: right;
     width: calc(50% - #{$spacing-3});
@@ -55,9 +55,6 @@
   &.fas   {
     background-color: #1E1547;
     color: $white;
-    .button {
-      @include button-ghost($white, #1E1547);
-    }
   }
 
   &.soo   {
@@ -65,8 +62,8 @@
     .button {
       @include button-ghost($grey, $white);
     }
-    li::before {
-      background-color: black;
+    ul.list-bullet li::before {
+      background-color: $black;
     }
   }
 
@@ -162,6 +159,22 @@
   }
 }
 
+// DESKTOP
+@media (min-width: 800px) {
+  .service-section {
+    img {
+      max-width: 360px;
+    }
+  }
+}
+
+@media (min-width: 1000px) {
+  .service-section {
+    img {
+      margin-right: 10%;
+    }
+  }
+}
 
 // MOBILE
 @media (max-width: 480px) {

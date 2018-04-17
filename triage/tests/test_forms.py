@@ -1,6 +1,7 @@
 import pytest
 
 from triage import forms
+from directory_constants.constants import exred_sector_names
 
 
 @pytest.mark.parametrize('data', (
@@ -78,3 +79,18 @@ def test_company_form_optional_fields():
 
     assert form.fields['company_name'].required is False
     assert form.fields['company_number'].required is False
+
+
+def test_custom_page_sector_form():
+    form = forms.SectorForm(data={
+        'sector': 'HS01',
+    })
+
+    form.is_valid()
+
+    assert form.cleaned_data['sector'] == 'HS01'
+
+
+def test_get_sector_label():
+    for key, label in exred_sector_names.SECTORS_CHOICES:
+        assert forms.get_sector_label(key) == label
