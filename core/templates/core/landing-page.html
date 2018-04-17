@@ -21,8 +21,12 @@
     Welcome to great.gov.uk - export guidance and services
 {% endblock %}
 
+{% block body_header %}
+  {% include 'core/landing-page-header.html' %}
+{% endblock %}
+
 {% block content %}
-  <section role="dialog" data-component="language-selector-dialog" data-lang="en" data-label="UK" data-name="English" class="language-selector-dialog">
+  <section role="dialog" data-component="language-selector-dialog" data-lang="en" data-label="UK" data-name="English" class="language-selector-dialog js-enabled-only">
     <p id="great-languages-selector">Go to our international site</p>
     <p>The UK supports international trade and investment, and welcomes travellers and students from across the world.</p>
     <div data-node="languages" class="languages">
@@ -33,7 +37,9 @@
       </ul>
     </div>
   </section>
-  {% include 'core/widgets/beta.html' %}
+  <div class="js-enabled-only">
+    {% include 'core/widgets/beta.html' %}
+  </div>
     <section class="hero-campaign-section">
         <div class="container">
             <div class="hero-campaign-teaser">
