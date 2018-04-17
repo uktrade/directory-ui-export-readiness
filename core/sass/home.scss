@@ -18,7 +18,8 @@
 }
 
 #content {
-  padding-top: 0;
+  padding: 0;
+  color: $grey;
 }
 
 .phase-banner {
@@ -39,7 +40,6 @@ body.webp-enabled .hero-campaign-section {
 }
 
 #beis {
-  background-color: $offwhite;
   margin-bottom: $spacing-2;
   .intro {
     margin-bottom: 0;
@@ -56,8 +56,9 @@ body.webp-enabled .hero-campaign-section {
 }
 
 #personas,
-#services {
-  background-color: $offwhite;
+#services,
+#beis {
+  background-color: $stone-20;
 }
 
 #stories {

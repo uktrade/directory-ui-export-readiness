@@ -8,7 +8,7 @@
 // $mid-grey
 // $white
 //
-// @mixin body-s 
+// @mixin body-s
 // @mixin heading-s
 
 .resources-teaser {
@@ -18,19 +18,19 @@
   margin-bottom: $spacing-3;
   padding: 80px $spacing-3 $spacing-3 $spacing-3;
   position: relative;
-  
+
   .count {
     @include body-s;
     color: $mid-grey;
   }
-  
+
   .icon {
     height: 35px;
     left: $spacing-3;
     position: absolute;
     top: $spacing-3;
   }
-  
+
   .more {
     @include heading-s;
     background-color: $white;
@@ -45,17 +45,31 @@
       left: -1000px;
       position: absolute;
     }
-    
+
     &:hover {
       color: $mid-blue;
     }
   }
-  
+
   .title {
     @include heading-s;
     margin-bottom: 0.2em;
     position: relative;
     z-index: -1;
+  }
+}
+
+// prevent text overflowing at smaller screen widths
+
+@media (max-width: 1050px) {
+  .resources-teaser {
+    height: 400px;
+  }
+}
+
+@media (max-width: 900px) {
+  .resources-teaser {
+    height: 500px;
   }
 }
 
