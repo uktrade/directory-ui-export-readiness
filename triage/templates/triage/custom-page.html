@@ -7,6 +7,7 @@
 {% block head_css %}
     {{ block.super }}
     <link href="{% static 'styles/custom-page.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'js/vendor/accessible-autocomplete.min.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block sharing_metadata %}{% endblock %}
@@ -40,6 +41,102 @@
   </div>
 </section>
 {% endif %}
+{% if persona.name == 'OCCASIONAL_EXPORTER'%}
+<section>
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-half">
+        <h2 class="heading-large">Explore new markets</h2>
+        <p>Learn about the best markets for your sector, increase your exporting knowledge and start connecting with overseas buyers.</p>
+        {% if not sso_is_logged_in %}
+          <p><a class="link" href="{{ sso_register_url }}">Register</a> or <a class="link" href="{{ sso_login_url }}">sign in</a> to save your progress.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+{% if triage_result.is_exporting_goods %}
+<section id="sector">
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-half">
+        <form action="{% url 'custom-page' %}" method="post">
+          {% csrf_token %}
+          <h2 class="heading-large">Select the goods you'd like to export</h2>
+            {% if triage_result.sector and not service_sector %}
+            <p>Select a different product category.</p>
+            {% else %}
+            <p>Type the product you want to export to get statistics on the largest importers.</p>
+            {% endif %}
+            <div class="form-group{% if service_sector %} form-group-error{% endif %}">
+              {% if service_sector %}
+              <p>No data available, please select a different commodity.</p>
+              {% endif %}
+                {{ form }}
+            </div>
+          <input class="button button-blue" type="submit" value="Get top markets" />
+        </form>
+      </div>
+    </div>
+  </div>
+  {% if triage_result.sector and not service_sector %}
+  <div class="container sector-fact">
+    <div class="fact">
+      <p class="intro"><span id="top_importer_name">{{ top_importer.partner }}</span> is the largest importer in your sector with a value of <span id="top_importer_global_trade_value">${{ top_importer.global_trade_value|intword|intcomma }}</span></p>
+      <p class="figure"><strong>${{ top_importer.uk_export_value|intword|intcomma }}</strong><span class="verbose">,&nbsp;</span><span>is the total value of exports in this sector from the UK in 2016</span>
+      </p>
+    </div>
+  </div>
+  <div class="container">
+    <div class="intro" id="largest-importers">
+      <h2 class="heading-medium">
+        Largest importers from the UK
+      </h2>
+      <p>Statistics like export values and gross domestic product can show you the potential size of a market. Information like how easy it is to do business in a country will help you decide how attractive the market is.</p>
+    </div>
+    <div class="top-markets-data">
+      <div class="top-markets-list">
+        <ol id="js-paginate-table">
+          {% for market in top_markets %}
+          <li>
+            <dl>
+              <dt class="country">Country</dt>
+              <dd class="country">{{ market.partner }}</dd>
+
+              <dt class="uk">Export value from the UK</dt>
+              <dd class="uk">${{ market.trade_value|intword }}</dd>
+
+              <dt class="world">Export value from the world</dt>
+              <dd class="world">${{ market.global_trade_value|intword }}</dd>
+
+              <dt class="gdp">Gross domestic product (GDP)</dt>
+              <dd class="gdp">${{ market.country.gdp|intword }}
+
+              <dt class="ease">Ease of doing business rank*</dt>
+              <dd class="ease">{{ market.country.ease_of_doing_business }}</dd>
+            </dl>
+          </li>
+          {% endfor %}
+        </ol>
+        <a href="#" class="more link js-enabled-only" id="js-paginate-table-more">Show more importers</a>
+      </div>
+
+        <div id="market-source-data">
+          <p>*The <a href="http://www.doingbusiness.org/rankings" target="_blank" class="link">World Bank’s Doing Business project</a> ranks economies from 1 to 190 on the how easy their regulatory environment makes it to start a local business, with 1 being the easiest.</p>
+          <p>The data is for 2016. This page was updated on 30 October 2017.</p>
+          <p>All import and export values are the value of exports a country has reported to <a href="https://comtrade.un.org" target="_blank" class="link">UN Comtrade, DESA/UNSD</a>.</p>
+          <p>Use our <a href="https://comtrade.un.org/labs/dit-trade-vis/?reporter=826&type=C&year=2016&flow=2&commodity" target="_blank" class="link">data visualisation tool</a> to get more import and export data.</p>
+          <p>The UK government takes no responsibility for this data.</p>
+        </div>
+    </div>
+  </div>
+  {# end of top markets table #}
+  {% endif %}
+</section>
+{# end of sector section #}
+{% endif %}
+
 {% if section_configuration.persona_article_group %}
 <section id="articles">
     <div class="container">
@@ -66,19 +163,17 @@
 </section>
 {% endif %}
 {% if section_configuration.trade_profile %}
-<section class="service-section fas">
+<section class="service-section fas {% if persona.name == 'REGULAR_EXPORTER' %}regular{% endif %}">
     <div class="container">
-        <h2 class="heading heading-large">Create a trade profile</h2>
         <div class="intro">
-            <div class="content">
-                <p>Create a free export profile to:</p>
-                <ul class="list list-bullet">
-                    <li>get promoted to international buyers</li>
-                    <li>showcase your company's projects and experience</li>
-                    <li>be contacted directly by buyers interested in your products or services</li>
-                </ul>
-                <a href="{{ directory_components_urls.fab }}" class="button button-cta">Create an export profile</a>
-            </div>
+          <h2 class="heading-large">Create a trade profile</h2>
+          <p>Get promoted internationally with a free trade profile. Your profile will: </p>
+            <ul class="list list-bullet">
+                <li>let international buyers get in touch with your company's sales team</li>
+                <li>showcase your company's outstanding projects and experience to give buyers insight into what you 	do</li>
+                <li>give companies looking to buy from your industry an easy way to find you</li>
+            </ul>
+            <a href="{{ directory_components_urls.fab }}" class="button button-ghost-white">Create an export profile</a>
         </div>
         <img src="{% static 'images/service-fas-section.png' %}" alt="">
     </div>
@@ -111,21 +206,14 @@
 {% if section_configuration.selling_online_overseas %}
 <section class="service-section soo">
     <div class="container">
-        <h2 class="heading-large">
-            {% if triage_result.company_name %}
-                Help {{ triage_result.company_name }} reach billions of international customers online
-            {% else %}
-                Reach billions of international customers online
-            {% endif %}
-        </h2>
-        <img src="{% static 'images/triage-soo-cta@2x.png' %}" alt="">
+        <img src="{% static 'images/service-soo-section.png' %}" alt="">
         <div class="intro">
             <div class="content">
-                <p>Use this service to:</p>
+              <h2 class="heading-large">Use our selling online overseas service to:</h2>
                 <ul class="list list-bullet">
-                    <li>find international online marketplaces to sell your products</li>
-                    <li>compare online marketplaces by size, fees and support</li>
-                    <li>get special deals negotiated for you by the government</li>
+                    <li>find online marketplaces to sell your products and 	compare them by size, fees and support</li>
+                    <li>find out their details and exclusive deals</li>
+                    <li>join an online marketplace and start selling your 	products to customers across the world</li>
                 </ul>
                 <a href="{{ directory_components_urls.soo }}" class="button button-cta">Find marketplaces</a>
             </div>
@@ -156,4 +244,19 @@
             new GOVUK.components.ArticlePaginator(listELement, loadMoreButton);
         </script>
     {% endif %}
+    <script src="{% static 'js/vendor/accessible-autocomplete.min.js' %}"></script>
+    <script src="{% static 'js/article-list.js' %}"></script>
+    <script>
+        accessibleAutocomplete.enhanceSelectElement({
+          selectElement: document.getElementById('js-sector-select'),
+          defaultValue: '',
+          autoselect: false,
+          showAllValues: false,
+          placeholder: 'Type here.',
+          minLength: 2
+        })
+        var listELement = document.getElementById('js-paginate-table');
+        var loadMoreButton = document.getElementById('js-paginate-table-more');
+        new GOVUK.components.ArticlePaginator(listELement, loadMoreButton);
+    </script>
 {% endblock %}

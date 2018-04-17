@@ -15,6 +15,17 @@
 
 #content {
   padding-top: 0;
+
+  .error-reporting {
+    padding-top: $spacing-2;
+  }
+}
+
+.form-group-error {
+  p {
+    color: $great-red;
+    font-weight: 700;
+  }
 }
 
 .hero-section {
@@ -42,6 +53,12 @@
   background-image: url('/static/images/hero/export-cp-regular-hero-500.jpg');
 }
 
+.regular.service-section.fas {
+  &:after {
+    display: none;
+  }
+}
+
 .hero-teaser {
   width: 43%;
 
@@ -49,7 +66,6 @@
     margin-bottom: $spacing-3;
   }
 }
-
 
 .section-content-list {
   @include columns(6);
@@ -63,12 +79,35 @@
   width: $cols-3;
 }
 
-.sector-fact,
 #other-services,
 #resource-guidance {
   background-color: $offwhite;
 }
 
+#other-services {
+  padding-top: $spacing-1;
+}
+
+#sector {
+  background-color: $stone-20;
+}
+
+#js-sector-select {
+  height: $spacing-1;
+  width: 100%;
+  // use text input carat instead of pointer
+  cursor: initial;
+  background-color: white;
+}
+
+.autocomplete__wrapper {
+  margin: $spacing-4 0 $spacing-3;
+
+  .autocomplete__menu {
+    width: 100%;
+  }
+
+}
 
 #stories {
   .Carousel {
@@ -128,8 +167,10 @@ h2 {
   display: block;
 }
 
-.service-section.fas {
+#fas {
   margin-bottom: 60px;
+  background-color: $great-blue;
+  color: $white;
 
   ul {
     margin-bottom: 45px;
@@ -205,7 +246,7 @@ h2 {
     width: calc(#{$cols-10} - #{$spacing-3});
   }
 
-  .service-section.fas {
+  #fas {
     .content {
       margin-right: 50px;
     }
@@ -255,7 +296,7 @@ h2 {
     min-width: 0;
   }
 
-  .service-section.fas {
+  #fas {
     .button-cta {
       font-weight: bold;
       width: 100%;
