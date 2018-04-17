@@ -41,11 +41,6 @@ section {
   clear: both;
   overflow: hidden;
 
-  ul {
-    @extend .list;
-    @extend .list-bullet;
-  }
-
   h1 {
     @extend .heading-xlarge;
     margin-bottom: 45px;
