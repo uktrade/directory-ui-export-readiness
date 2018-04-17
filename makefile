@@ -73,7 +73,11 @@ DOCKER_SET_DEBUG_ENV_VARS := \
 	export DIRECTORY_UI_EXPORT_READINESS_CONTACT_ZENDESK_USER=debug; \
 	export DIRECTORY_UI_EXPORT_READINESS_CONTACT_ZENDESK_TOKEN=debug; \
 	export DIRECTORY_UI_EXPORT_READINESS_CONTACT_ZENDESK_URL=https://uktrade.zendesk.com/api/v2/tickets.json; \
-	export DIRECTORY_UI_EXPORT_READINESS_FEATURE_CONTACT_US_ENABLED=true
+	export DIRECTORY_UI_EXPORT_READINESS_FEATURE_CONTACT_US_ENABLED=true; \
+	export DIRECTORY_UI_EXPORT_READINESS_CMS_URL=http://cms.trade.great:8010; \
+	export DIRECTORY_UI_EXPORT_READINESS_CMS_SIGNATURE_SECRET=debug; \
+	export DIRECTORY_UI_EXPORT_READINESS_FEATURE_CMS_ENABLED=true
+
 
 
 docker_test_env_files:
@@ -149,7 +153,10 @@ DEBUG_SET_ENV_VARS := \
 	export CONTACT_ZENDESK_TOKEN=debug; \
 	export CONTACT_ZENDESK_URL=https://uktrade.zendesk.com/api/v2/tickets.json; \
 	export FEATURE_CONTACT_US_ENABLED=true; \
-	export LANDING_PAGE_VIDEO_URL=thing.com
+	export LANDING_PAGE_VIDEO_URL=thing.com; \
+	export CMS_URL=http://cms.trade.great:8010; \
+	export CMS_SIGNATURE_SECRET=debug; \
+	export FEATURE_CMS_ENABLED=true
 
 
 debug_webserver:

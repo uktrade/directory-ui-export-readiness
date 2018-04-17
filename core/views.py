@@ -12,6 +12,7 @@ from article import structure
 from casestudy import casestudies
 from triage.helpers import TriageAnswersManager
 from ui.views import TranslationsMixin
+from core.helpers import cms_client
 
 
 class ArticlesViewedManagerMixin:
@@ -204,9 +205,48 @@ class PrivacyCookiesInternational(SetEtagMixin, TemplateView):
     template_name = 'core/privacy_cookies-international.html'
 
 
+class CMSFeatureFlagViewNegotiator(TemplateView):
+    default_view_class = None
+    feature_flagged_view_class = None
+
+    def __new__(self, *args, **kwargs):
+        if settings.FEATURE_CMS_ENABLED:
+            ViewClass = self.feature_flagged_view_class
+        else:
+            ViewClass = self.default_view_class
+        return ViewClass(*args, **kwargs)
+
+
+class TermsConditionsDomesticCMS(TemplateView):
+    template_name = 'core/terms_conditions-domestic-cms.html'
+
+    def get_context_data(self, *args, **kwargs):
+        data = cms_client.export_readiness.get_terms_and_conditions_page()
+        return super().get_context_data(
+            page=data.json(),
+            *args, **kwargs
+        )
+
+
 class TermsConditionsDomestic(SetEtagMixin, TemplateView):
     template_name = 'core/terms_conditions-domestic.html'
 
 
 class TermsConditionsInternational(SetEtagMixin, TemplateView):
     template_name = 'core/terms_conditions-international.html'
+
+
+class TermsConditionsInternationalCMS(
+    TermsConditionsDomesticCMS, TemplateView
+):
+    template_name = 'core/terms_conditions-international-cms.html'
+
+
+class TermsConditionDomesticViewNegotiator(CMSFeatureFlagViewNegotiator):
+    default_view_class = TermsConditionsDomestic
+    feature_flagged_view_class = TermsConditionsDomesticCMS
+
+
+class TermsConditionsInternationalViewNegotiator(CMSFeatureFlagViewNegotiator):
+    default_view_class = TermsConditionsInternational
+    feature_flagged_view_class = TermsConditionsInternationalCMS
