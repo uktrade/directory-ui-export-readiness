@@ -18,4 +18,4 @@ directory-constants==6.5.2
 sigauth==2.1.2
 directory-healthcheck==0.4.2
 export-elements==0.10.2
-directory-components==1.8.1
+directory-components==1.8.2
