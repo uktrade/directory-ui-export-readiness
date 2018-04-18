@@ -13,7 +13,7 @@ contextlib2==0.5.5        # via raven
 directory-api-client==9.15.3
 directory-client-core==0.2.1  # via directory-api-client, directory-cms-client, directory-sso-api-client
 directory-cms-client==0.6.0
-directory-components==1.8.1
+directory-components==1.8.2
 directory-constants==6.5.2
 directory-healthcheck==0.4.2
 directory-sso-api-client==2.5.1
