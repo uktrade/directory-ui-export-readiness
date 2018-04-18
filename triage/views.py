@@ -193,9 +193,15 @@ class CustomPageView(ArticlesViewedManagerMixin, FormView):
     def dispatch(self, request, *args, **kwargs):
         if not self.triage_answers:
             return redirect('triage-start')
+        # for people with a session state from before the new custom page
+        # with the sector dropdown was released
+        if not self.triage_answers.get('sector'):
+            self.triage_answers['sector'] = None
+
         if self.triage_answers['sector'] is not None:
             initial_sector = self.triage_answers['sector']
             self.initial = {'sector': initial_sector}
+
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

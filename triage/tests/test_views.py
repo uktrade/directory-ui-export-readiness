@@ -919,6 +919,35 @@ def test_custom_page_submit_sector_form(
 
 
 @patch('triage.helpers.SessionTriageAnswersManager.retrieve_answers')
+def test_custom_page_submit_no_sector_form(
+    mocked_retrieve_answers, client
+):
+    url = reverse('custom-page')
+    mocked_retrieve_answers.return_value = {
+        'company_name': 'Acme ltd',
+        'exported_before': True,
+        'regular_exporter': True,
+        'used_online_marketplace': False,
+        'is_exporting_goods': True,
+        'is_exporting_services': False,
+        'is_in_companies_house': True,
+        'company_number': '123445',
+    }
+    custom_page = client.get(url)
+    assert (b'Type the product you want to export to get statistics on the '
+            b'largest importers.') in custom_page.content
+    response = client.post(url, {
+        'sector': 'HS01'
+    })
+    assert response.url == reverse('custom-page')
+    updated_page = client.get(response.url)
+    assert updated_page.status_code == 200
+    assert b'Select a different product category.' in updated_page.content
+    assert b'HS01' in updated_page.content
+    assert b'Animals; live' in updated_page.content
+
+
+@patch('triage.helpers.SessionTriageAnswersManager.retrieve_answers')
 def custom_page_show_error_if_service_sector_selected(
     mocked_retrieve_answers, client
 ):
