@@ -96,13 +96,6 @@ def test_robots(client):
             'core/about.html'
         ),
         (
-            'privacy-and-cookies',
-            'core/privacy_cookies-domestic.html'
-        ),
-        (
-            'privacy-and-cookies-international',
-            'core/privacy_cookies-international.html'),
-        (
             'landing-page-international',
             'core/landing_page_international.html'
         ),
@@ -130,20 +123,28 @@ def test_templates(view, expected_template, client):
     (
         (
             'terms-and-conditions',
-            'core/terms_conditions-domestic.html'
+            'core/terms_conditions-domestic-cms.html'
         ),
         (
             'terms-and-conditions-international',
-            'core/terms_conditions-international.html'
+            'core/terms_conditions-international-cms.html'
         ),
     )
 )
-def test_terms_conditions_cms_disabled(
-    view, expected_template, client, settings
+@patch('core.views.cms_client.export_readiness.get_terms_and_conditions_page')
+def test_terms_conditions_cms(
+    mock_get_t_and_c_page, view, expected_template, client
 ):
-    settings.FEATURE_CMS_ENABLED = False
     url = reverse(view)
-
+    page = {
+        'title': 'the page',
+        'industries': [{'title': 'good 1'}],
+        'meta': {'languages': ['en-gb']},
+    }
+    mock_get_t_and_c_page.return_value = helpers.create_response(
+        status_code=200,
+        json_body=page
+    )
     response = client.get(url)
 
     assert response.status_code == 200
@@ -154,27 +155,26 @@ def test_terms_conditions_cms_disabled(
     'view,expected_template',
     (
         (
-            'terms-and-conditions',
-            'core/terms_conditions-domestic-cms.html'
+            'privacy-and-cookies',
+            'core/privacy_cookies-domestic-cms.html'
         ),
         (
-            'terms-and-conditions-international',
-            'core/terms_conditions-international-cms.html'
+            'privacy-and-cookies-international',
+            'core/privacy_cookies-international-cms.html'
         ),
     )
 )
-@patch('core.views.cms_client.export_readiness.get_terms_and_conditions_page')
-def test_terms_conditions_cms_enabled(
-    mock_get_t_and_c_page, view, expected_template, client, settings
+@patch('core.views.cms_client.export_readiness.get_privacy_and_cookies_page')
+def test_privacy_cookies_cms(
+    mock_get_p_and_c_page, view, expected_template, client
 ):
-    settings.FEATURE_CMS_ENABLED = True
     url = reverse(view)
     page = {
         'title': 'the page',
         'industries': [{'title': 'good 1'}],
         'meta': {'languages': ['en-gb']},
     }
-    mock_get_t_and_c_page.return_value = helpers.create_response(
+    mock_get_p_and_c_page.return_value = helpers.create_response(
         status_code=200,
         json_body=page
     )
@@ -256,30 +256,3 @@ def test_about_view(client):
 
     assert response.status_code == 200
     assert response.template_name == [views.AboutView.template_name]
-
-
-def test_privacy_view_domestic(client):
-    response = client.get(reverse('privacy-and-cookies'))
-
-    assert response.status_code == 200
-    assert response.template_name == [
-        views.PrivacyCookiesDomestic.template_name
-    ]
-
-
-def test_privacy_view_domestic_about_cookies_link_correct(client):
-    response = client.get(reverse('privacy-and-cookies'))
-
-    assert response.status_code == 200
-    soup = BeautifulSoup(str(response.content), 'html.parser')
-    element = soup.find(href='http://www.aboutcookies.org.uk')
-    assert element.string == 'www.aboutcookies.org.uk'
-
-
-def test_privacy_view_international(client):
-    response = client.get(reverse('privacy-and-cookies-international'))
-
-    assert response.status_code == 200
-    assert response.template_name == [
-        views.PrivacyCookiesInternational.template_name
-    ]
