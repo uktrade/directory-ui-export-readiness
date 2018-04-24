@@ -1,7 +1,9 @@
 {% extends 'directory_components/header.html' %}
 
 {% block no_js_header_beta_banner %}
-  {% include 'core/widgets/beta.html' %}
+<div id="header-beta-bar-js-disabled" class="header-beta-bar beta bidi-ltr">
+  {% include 'core/widgets/beta_bar_content.html' %}
+</div>
 {% endblock %}
 
 {% block international_link_js_disabled %}
