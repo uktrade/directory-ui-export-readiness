@@ -49,22 +49,22 @@ urlpatterns = [
     ),
     url(
         r"^privacy-and-cookies/$",
-        core.views.PrivacyCookiesDomestic.as_view(),
+        core.views.PrivacyCookiesDomesticCMS.as_view(),
         name='privacy-and-cookies'
     ),
     url(
         r"^terms-and-conditions/$",
-        core.views.TermsConditionDomesticViewNegotiator.as_view(),
+        core.views.TermsConditionsDomesticCMS.as_view(),
         name='terms-and-conditions'
     ),
     url(
         r"^international/privacy-and-cookies/$",
-        core.views.PrivacyCookiesInternational.as_view(),
+        core.views.PrivacyCookiesInternationalCMS.as_view(),
         name='privacy-and-cookies-international'
     ),
     url(
         r"^international/terms-and-conditions/$",
-        core.views.TermsConditionsInternationalViewNegotiator.as_view(),
+        core.views.TermsConditionsInternationalCMS.as_view(),
         name='terms-and-conditions-international'
     ),
     url(
