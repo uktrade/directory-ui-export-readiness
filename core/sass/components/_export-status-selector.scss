@@ -5,18 +5,26 @@
 .export-status-selector {
   border: $light-grey solid 1px;
   position: relative;
-  
+
   img {
     margin-bottom: -8px;
     width: 100%;
   }
-  
+
   .link {
     @include heading-s;
     background-color: $white;
     display: block;
     margin: 0;
     padding: $spacing-3;
+
+    &:focus {
+      outline-offset: -3px;
+    }
+
+    &:active {
+      background: $focus-yellow;
+    }
   }
 }
 
@@ -40,7 +48,7 @@
       position: absolute;
       top: -25px
     }
-    
+
     .link {
       position: relative;
     }

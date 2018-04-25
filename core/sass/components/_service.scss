@@ -76,30 +76,26 @@
 .service-teaser {
   background-color: $white;
   border: $light-grey solid 1px;
-  padding: $spacing-3;
-  padding-top: 73%;
   position: relative;
 
+  article {
+    padding: $spacing-4 $spacing-3;
+    margin-top: -6px;
+    height: 300px;
+  }
+
   img {
-    left: 0;
-    position: absolute;
-    top: 0;
     width: 100%;
   }
 
   .link {
-    border: none;
-    height: 100%;
-    left: 0;
-    overflow: hidden;
-    position: absolute;
     text-decoration: none;
-    text-indent: -1000px;
-    top: 0;
-    width: 100%;
-    &:active {
-      background-color: transparent;
-      border: 5px solid $focus-yellow;
+    color: $grey;
+    display: block;
+
+    &:focus {
+      outline: 3px solid $focus-yellow;
+      outline-offset: -3px;
     }
   }
 
@@ -121,16 +117,16 @@
   }
 }
 
+@media (max-width: 915px) {
+  .service-teaser {
+    height: 540px;
+  }
+}
+
 
 // TABLET
 @media (max-width: 767px) {
   .service-section {
-    img {
-      width: 80%;
-      margin-left: 10%;
-      float: left;
-    }
-
     &:after {
       max-width: none;
       right: $spacing-3;
@@ -139,22 +135,18 @@
   }
 
   .service-teaser {
+    height: auto;
     margin-bottom: $spacing-3;
     overflow: hidden;
-    padding-top: $spacing-3;
 
-    img {
-      float: right;
-      margin-bottom: $spacing-3;
-      position: static;
-      width: calc(50% - #{$spacing-3});
+    article {
+      margin-top: 0;
+      padding: $spacing-3;
+      height: auto;
     }
 
-    .text,
-    .title {
-      clear: both;
-      float: left;
-      width: calc(50% - #{$spacing-3 * 2});
+    img {
+      display: none;
     }
   }
 }
@@ -188,10 +180,6 @@
   .service-teaser {
     padding: $spacing-3-m;
     margin-bottom: $spacing-4-m;
-
-    img {
-      display: none;
-    }
 
     .text {
       @include body-m-mob;

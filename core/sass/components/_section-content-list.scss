@@ -35,10 +35,11 @@
 
   ol {
     list-style-type: none;
+
     li:before {
       @include heading-hero;
       background: none;
-      color: $light-grey;
+      color: $stone;
       content: counter(li) " ";
       display: block;
       font-size: 60px;
@@ -47,6 +48,8 @@
       position: absolute;
       text-align: right;
       width: 100px;
+
+
     }
   }
 
@@ -102,6 +105,15 @@
     @include body-s;
     color: $mid-grey;
     display: block;
+  }
+
+  .show-more {
+    margin-left: -100px;
+    font-weight: 700;
+
+    &:after {
+      margin-right: $spacing-4;
+    }
   }
 }
 
