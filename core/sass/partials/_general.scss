@@ -30,6 +30,14 @@
   max-width: none;
 }
 
+a:active {
+  background-color: $focus-yellow;
+}
+
+a:focus {
+  outline: $focus-yellow solid 3px;
+}
+
 img.placeholder {
   background-color: $light-grey;
   border: $mid-grey solid 1px;
@@ -89,7 +97,6 @@ section {
   // and have the parent recalculate its height.
   clear: both;
   float: none;
-  overflow: auto;
 }
 
 .verbose {

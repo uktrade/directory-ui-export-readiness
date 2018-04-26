@@ -1,0 +1,16 @@
+{% load static %}
+<section class="service-section fas {% if persona.name == 'REGULAR_EXPORTER' %}regular{% endif %}">
+    <div class="container">
+        <div class="intro">
+          <h2 class="heading-large">Create a trade profile</h2>
+          <p>Get promoted internationally with a free trade profile. Your profile will: </p>
+            <ul class="list list-bullet">
+                <li>let international buyers get in touch with your company's sales team</li>
+                <li>showcase your company's outstanding projects and experience to give buyers insight into what you 	do</li>
+                <li>give companies looking to buy from your industry an easy way to find you</li>
+            </ul>
+            <a href="{{ directory_components_urls.fab }}" class="button button-ghost-white">Create an export profile</a>
+        </div>
+        <img src="{% static 'images/service-fas-section.png' %}" alt="">
+    </div>
+</section>

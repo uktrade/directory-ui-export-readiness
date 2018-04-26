@@ -85,21 +85,6 @@
     width: $top-table-list-country-width;
   }
 
-  .more {
-    display: block;
-    padding: $spacing-3 0 $spacing-4;
-    @include body-l;
-    font-weight: 700;
-    border-bottom: 2px solid $active-blue;
-
-    &:after {
-      content: '+';
-      margin-right: $spacing-2;
-      font-size: 42px;
-      float: right;
-    }
-  }
-
   // A little custom tweak to avoid some issues when
   // the screen gets too small but we don't want to
   // switch to a tablet/mobile view just yet.

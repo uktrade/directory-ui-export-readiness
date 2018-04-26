@@ -103,30 +103,29 @@
             <h2 id="services-section-title" class="heading-large">Export services</h2>
             <p id="services-section-description" class="intro">Our export services help to connect UK businesses with international buyers.</p>
             <div class="group">
-                <div class="lg-3 md-1">
-                    <article data-component="service-teaser" class="service-teaser">
+                <div class="lg-3 md-1 service-teaser">
+                  {% progressive_image webp='images/export-hp-fas-profile.webp' img_id='services-section-find-a-buyer-image' src='images/export-hp-fas-profile.jpg' %}
+                  <a id="services-section-find-a-buyer-link" href="{{ directory_components_urls.fab }}" class="link">
+                    <article data-component="service-teaser">
                         <h3 class="title">Create an export profile</h3>
                         <p id="services-section-find-a-buyer-description" class="text">Create your free trade profile and get promoted to businesses around the world.</p>
-                        {% progressive_image webp='images/export-hp-fas-profile.webp' img_id='services-section-find-a-buyer-image' src='images/export-hp-fas-profile.jpg' %}
-                        <a id="services-section-find-a-buyer-link" href="{{ directory_components_urls.fab }}" class="link">Service: Find a buyer</a>
-
-                    </article>
+                    </article></a>
                 </div>
-                <div class="lg-3 md-1">
-                    <article data-component="service-teaser" class="service-teaser">
-                        <h3 class="title">Find online marketplaces</h3>
-                        <p id="services-section-selling-online-overseas-description" class="text">Reach over 2 billion international consumers online. Get exclusive deals negotiated by government on behalf of UK businesses.</p>
-                        {% progressive_image webp='images/export-hp-online-market.webp' img_id='services-section-selling-online-overseas-image' src='images/export-hp-online-market.jpg' %}
-                        <a id="services-section-selling-online-overseas-link" href="{{ directory_components_urls.soo }}" class="link">Service: Find online marketplaces</a>
-                    </article>
+                <div class="lg-3 md-1 service-teaser">
+                    {% progressive_image webp='images/export-hp-online-market.webp' img_id='services-section-selling-online-overseas-image' src='images/export-hp-online-market.jpg' %}
+                    <a id="services-section-selling-online-overseas-link" href="{{ directory_components_urls.soo }}" class="link">
+                      <article data-component="service-teaser">
+                          <h3 class="title">Find online marketplaces</h3>
+                          <p id="services-section-selling-online-overseas-description" class="text">Reach over 2 billion international consumers online. Get exclusive deals negotiated by government on behalf of UK businesses.</p>
+                      </article></a>
                 </div>
-                <div class="lg-3 md-1">
-                    <article data-component="service-teaser" class="service-teaser">
+                <div class="lg-3 md-1 service-teaser">
+                    {% progressive_image webp='images/export-hp-export-opportunities.webp' img_id='services-section-export-opportunities-image' src='images/export-hp-export-opportunities.jpg' %}
+                    <a id="services-section-export-opportunities-link" href="{% url 'export-opportunities' %}" class="link">
+                      <article data-component="service-teaser">
                         <h3 class="title">Find export opportunities</h3>
                         <p id="services-section-export-opportunities-description" class="text">Find and apply for overseas opportunities from businesses looking for products or services like yours.</p>
-                        {% progressive_image webp='images/export-hp-export-opportunities.webp' img_id='services-section-export-opportunities-image' src='images/export-hp-export-opportunities.jpg' %}
-                        <a id="services-section-export-opportunities-link" href="{% url 'export-opportunities' %}" class="link">Service: Find export opportunities</a>
-                    </article>
+                    </article></a>
                 </div>
             </div>
         </div>

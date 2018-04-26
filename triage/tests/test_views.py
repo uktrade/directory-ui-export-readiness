@@ -913,7 +913,7 @@ def test_custom_page_submit_sector_form(
     assert response.url == reverse('custom-page')
     updated_page = client.get(response.url)
     assert updated_page.status_code == 200
-    assert b'Select a different product category.' in updated_page.content
+    assert b'Select a different product category' in updated_page.content
     assert b'HS01' in updated_page.content
     assert b'Animals; live' in updated_page.content
 
@@ -942,7 +942,7 @@ def test_custom_page_submit_no_sector_form(
     assert response.url == reverse('custom-page')
     updated_page = client.get(response.url)
     assert updated_page.status_code == 200
-    assert b'Select a different product category.' in updated_page.content
+    assert b'Select a different product category' in updated_page.content
     assert b'HS01' in updated_page.content
     assert b'Animals; live' in updated_page.content
 

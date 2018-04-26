@@ -15,10 +15,9 @@
 
 .hero-teaser {
   background-color: rgba(0, 82, 157, 0.8);
-  border-bottom: $great-red solid 4px;
+  border-bottom: $great-red solid 7px;
   bottom: 0;
   left: 0;
-  max-width: 530px;
   padding: $spacing-3;
   position: absolute;
 
@@ -28,6 +27,7 @@
 
   .title {
     @include heading-hero;
+    line-height: 1.46;
     color: $white;
     display: inline-block;
     margin: 0;

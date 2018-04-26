@@ -17,17 +17,17 @@
   border-left: 4px solid $active-blue;
   padding: $spacing-4 0 #{$spacing-4 + 20px} $spacing-3;
   margin-bottom: $spacing-2;
-  
+
   fieldset {
     margin-bottom: $spacing-4;
   }
-  
+
   legend {
     @include body-m;
     font-weight: 800;
     margin-bottom: $spacing-4;
   }
-  
+
   .register {
     position: relative;
     top: 20px;
@@ -38,15 +38,40 @@
   border-left: 4px solid $active-blue;
   padding: $spacing-4 0 $spacing-4 $spacing-3;
   margin-bottom: $spacing-2;
-  
+
   p {
     font-weight: 800;
   }
-  
+
   .button {
     margin-right: $spacing-3;
     padding-left: $spacing-1;
     padding-right: $spacing-1;
+  }
+}
+
+.show-more {
+  @extend .link;
+  display: block;
+  padding: $spacing-3 0 $spacing-4;
+  @include body-l;
+  font-weight: 700;
+  border-bottom: 2px solid $active-blue;
+
+  &:after {
+    content: '+';
+    margin-right: $spacing-2;
+    font-size: 42px;
+    float: right;
+  }
+
+  &:hover,
+  &:visited:hover {
+    border-color: $aqua;
+  }
+
+  &:visited {
+    border-color: $purple;
   }
 }
 
@@ -61,17 +86,17 @@
   }
   .to-do-list {
     padding-bottom: $spacing-4;
-    
+
     .register {
       margin-bottom: $spacing-4;
       position: static;
-      
+
       & + span:before {
         content: "";
         display: block;
       }
     }
-  }  
+  }
 }
 
 @media (max-width: 480px) {

@@ -12,6 +12,8 @@
 @import './components/_feedback';
 @import './components/_carousel';
 @import './components/_top_markets';
+@import './components/_breadcrumbs';
+@import './components/_article-widgets';
 
 #content {
   padding-top: 0;
@@ -19,6 +21,17 @@
   .error-reporting {
     padding-top: $spacing-2;
   }
+}
+
+.article-list-container {
+  display: flex;
+  flex-direction: row;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+}
+
+.breadcrumbs {
+  @include body-s;
 }
 
 .form-group-error {
@@ -32,25 +45,22 @@
   background-position: top center;
 
   .container {
-    height: 500px;
+    height: 300px;
   }
 }
 
 .hero-section.new {
   background-image: url('/static/images/hero/export-cp-new-to-exporting-hero-500.jpg');
+  background-position: 60% 50%;
 }
 
 .hero-section.occasional {
   background-image: url('/static/images/hero/export-cp-hero-occasional.jpg');
-
-  .hero-teaser {
-    max-width: none;
-    width: 60%;
-  }
 }
 
 .hero-section.regular {
   background-image: url('/static/images/hero/export-cp-regular-hero-500.jpg');
+  background-position: 50% 35%;
 }
 
 .regular.service-section.fas {
@@ -60,11 +70,9 @@
 }
 
 .hero-teaser {
-  width: 43%;
-
-  .title {
-    margin-bottom: $spacing-3;
-  }
+  width: 50%;
+  max-width: 400px;
+  min-width: 335px;
 }
 
 .section-content-list {
@@ -73,10 +81,9 @@
 }
 
 .scope-indicator {
-  clear: left;
   float: right;
+  margin: 0 $spacing-3 0 $spacing-1;
   padding-top: $spacing-3;
-  width: $cols-3;
 }
 
 #other-services,
@@ -116,9 +123,23 @@
 }
 
 .preferences {
-  color: #ffffff;
-  &:hover {
-    color: #ffffff;
+  @include body-s;
+  @extend .link;
+  float: right;
+  position: relative;
+  margin-top: $spacing-3;
+
+
+  &:before {
+    content: '';
+    position: absolute;
+    background: url(/static/images/icons/preferences.svg);
+    background-size: 20px;
+    background-repeat: no-repeat;
+    left: -26px;
+    top: 2px;
+    height: 20px;
+    width: 20px;
   }
 }
 #articles {
@@ -193,14 +214,6 @@ h2 {
   }
 }
 
-// DESKTOP
-@media (max-width: 1200px) {
-  .hero-section.new {
-    background-position: 60% 0;
-  }
-}
-
-
 // TABLET
 @media (max-width: 840px) {
   .hero-section.new {
@@ -208,11 +221,17 @@ h2 {
   }
 
   .hero-teaser {
-    width: 55%;
+    min-width: 400px;
   }
 }
 
 @media (max-width: 767px) {
+  .article-list-container {
+    flex-direction: column-reverse;
+    -webkit-flex-direction: column-reverse;
+    -ms-flex-direction: column-reverse;
+  }
+
   .hero-section.occasional {
     background-position: 54% 0;
 
@@ -223,10 +242,6 @@ h2 {
 
   .hero-section.regular {
     background-position: 42% 0;
-  }
-
-  .hero-teaser {
-    min-width: 350px;
   }
 
   .section-content-list {
