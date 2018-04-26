@@ -24,3 +24,9 @@ def test_about_page_services_links(settings):
     html = render_to_string('core/about.html', context)
     assert 'http://fab.com' in html
     assert 'http://soo.com' in html
+
+
+def test_international_beta_banner():
+    html = render_to_string('core/landing_page_international.html')
+    assert 'beta' in html
+    assert 'This is a new service' in html
