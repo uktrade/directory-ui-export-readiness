@@ -110,8 +110,11 @@
           placeholder: 'Type here',
           minLength: 2
         })
-        var listELement = document.getElementById('js-paginate-table');
+        var listElement = document.getElementById('js-paginate-table');
         var loadMoreButton = document.getElementById('js-paginate-table-more');
-        new GOVUK.components.ArticlePaginator(listELement, loadMoreButton);
+        // Avoid error when user hasn't selected a sector
+        if (listElement && loadMoreButton) {
+          new GOVUK.components.ArticlePaginator(listELement, loadMoreButton);
+        }
     </script>
 {% endblock %}
