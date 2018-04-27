@@ -11,6 +11,7 @@ chardet==3.0.4            # via requests
 clint==0.5.1
 contextlib2==0.5.5        # via raven
 directory-api-client==9.15.3
+directory-ch-client==0.1.1
 directory-client-core==0.2.1  # via directory-api-client, directory-cms-client, directory-sso-api-client
 directory-cms-client==1.1.0
 directory-components==1.8.2
@@ -30,7 +31,7 @@ gunicorn==19.5.0
 idna==2.6                 # via requests
 markdown2==2.3.4
 mohawk==0.3.4             # via sigauth
-monotonic==1.2            # via directory-client-core
+monotonic==1.2            # via directory-ch-client, directory-client-core
 olefile==0.44             # via directory-validators, pillow
 phonenumberslite==7.7.4   # via directory-validators
 pillow==4.2.1             # via directory-validators

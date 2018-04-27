@@ -7,6 +7,7 @@ from functools import partial
 from operator import itemgetter
 from urllib.parse import urljoin
 
+from directory_ch_client.company import CompanyCHClient
 from django.conf import settings
 import requests
 
@@ -85,8 +86,17 @@ class CompaniesHouseClient:
 
     @classmethod
     def search(cls, term):
-        url = cls.endpoints['search']
-        return cls.get(url, params={'q': term})
+        if settings.FEATURE_USE_INTERNAL_CH_ENABLED:
+            companies_house_client = CompanyCHClient(
+                base_url=settings.INTERNAL_CH_BASE_URL,
+                api_key=settings.INTERNAL_CH_API_KEY
+            )
+            return companies_house_client.search_companies(
+                query=term
+            )
+        else:
+            url = cls.endpoints['search']
+            return cls.get(url, params={'q': term})
 
 
 class BaseCSVComtradeFile(abc.ABC):
