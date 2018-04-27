@@ -454,7 +454,7 @@ def test_companies_house_search_api_success(
 def test_companies_house_search_internal(
         mocked_ch_client, client, settings):
     settings.FEATURE_USE_INTERNAL_CH_ENABLED = True
-    mocked_ch_client().get.return_value = create_response(
+    mocked_ch_client().search_companies.return_value = create_response(
         200, {'items': [{'name': 'Smashing corp'}]}
     )
     url = reverse('api-internal-companies-house-search')
