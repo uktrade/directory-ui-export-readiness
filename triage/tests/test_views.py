@@ -414,7 +414,8 @@ def test_triage_summary_change_answers(
     assert finished_response.get('Location') == str(view_class.success_url)
 
 
-def test_companies_house_search_validation_error(client):
+def test_companies_house_search_validation_error(client, settings):
+    settings.FEATURE_USE_INTERNAL_CH_ENABLED = False
     url = reverse('api-internal-companies-house-search')
     response = client.get(url)  # notice absense of `term`
 
@@ -423,8 +424,9 @@ def test_companies_house_search_validation_error(client):
 
 @patch('triage.helpers.CompaniesHouseClient.search')
 def test_companies_house_search_api_error(
-    mock_search, client
+    mock_search, client, settings
 ):
+    settings.FEATURE_USE_INTERNAL_CH_ENABLED = False
     mock_search.return_value = create_response(400)
     url = reverse('api-internal-companies-house-search')
 
@@ -434,9 +436,25 @@ def test_companies_house_search_api_error(
 
 @patch('triage.helpers.CompaniesHouseClient.search')
 def test_companies_house_search_api_success(
-    mock_search, client
+    mock_search, client, settings
 ):
+    settings.FEATURE_USE_INTERNAL_CH_ENABLED = False
     mock_search.return_value = create_response(
+        200, {'items': [{'name': 'Smashing corp'}]}
+    )
+    url = reverse('api-internal-companies-house-search')
+
+    response = client.get(url, data={'term': 'thing'})
+
+    assert response.status_code == 200
+    assert response.content == b'[{"name": "Smashing corp"}]'
+
+
+@patch('triage.helpers.CompanyCHClient')
+def test_companies_house_search_internal(
+        mocked_ch_client, client, settings):
+    settings.FEATURE_USE_INTERNAL_CH_ENABLED = True
+    mocked_ch_client().search_companies.return_value = create_response(
         200, {'items': [{'name': 'Smashing corp'}]}
     )
     url = reverse('api-internal-companies-house-search')
