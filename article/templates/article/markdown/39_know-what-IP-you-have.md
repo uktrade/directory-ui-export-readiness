@@ -1,7 +1,7 @@
 If you&rsquo;re not sure what intellectual property (IP) you have you can find out by:
 
 - hiring an IP lawyer
-- using the [IP Equip service](http://www.ipo.gov.uk/blogs/equip/ "IP Equip service") 
+- using the [IP Equip service](https://www.gov.uk/government/publications/intellectual-property-for-business/ip-for-business-tools "IP Equip service") 
 
 [Read the Intellectual Property Office's business guidance](https://www.gov.uk/government/collections/ip-for-business-events-guidance-tools-and-case-studies#business-guidance "IPO business guidance").
 
