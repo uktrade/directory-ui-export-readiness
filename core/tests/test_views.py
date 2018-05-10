@@ -1,5 +1,5 @@
 import http
-from unittest.mock import patch
+from unittest.mock import ANY, call, patch
 
 from django.core.urlresolvers import reverse
 from django.conf import settings
@@ -256,3 +256,38 @@ def test_about_view(client):
 
     assert response.status_code == 200
     assert response.template_name == [views.AboutView.template_name]
+
+
+cms_urls = (
+    reverse('privacy-and-cookies'),
+    reverse('terms-and-conditions'),
+    reverse('privacy-and-cookies-international'),
+    reverse('terms-and-conditions-international'),
+)
+
+
+@patch('core.views.cms_client.export_readiness.get')
+@pytest.mark.parametrize('url', cms_urls)
+def test_cms_pages_cms_client_params(mock_get, client, url):
+    mock_get.return_value = helpers.create_response(status_code=200)
+
+    response = client.get(url, {'draft_token': '123'})
+
+    assert response.status_code == 200
+    assert mock_get.call_count == 1
+    assert mock_get.call_args == call(
+        url=ANY,
+        params={'fields': ['*']},
+        draft_token='123',
+        language_code='en-gb'
+    )
+
+
+@patch('core.views.cms_client.export_readiness.get')
+@pytest.mark.parametrize('url', cms_urls)
+def test_cms_pages_cms_page_404(mock_get, client, url):
+    mock_get.return_value = helpers.create_response(status_code=404)
+
+    response = client.get(url)
+
+    assert response.status_code == 404
