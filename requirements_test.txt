@@ -17,7 +17,7 @@ directory-ch-client==0.1.1
 directory-client-core==0.2.1  # via directory-api-client, directory-cms-client, directory-sso-api-client
 directory-cms-client==1.1.0
 directory-components==1.8.2
-directory-constants==6.5.2
+directory-constants==6.7.0
 directory-healthcheck==0.4.2
 directory-sso-api-client==2.5.1
 directory-validators==4.5.1
