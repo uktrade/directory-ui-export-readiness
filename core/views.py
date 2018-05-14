@@ -3,6 +3,7 @@ import itertools
 from django.conf import settings
 from django.contrib import sitemaps
 from django.core.urlresolvers import reverse
+from django.utils import translation
 from django.utils.cache import set_response_etag
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
@@ -12,7 +13,7 @@ from article import structure
 from casestudy import casestudies
 from triage.helpers import TriageAnswersManager
 from ui.views import TranslationsMixin
-from core.helpers import cms_client
+from core.helpers import cms_client, handle_cms_response
 
 
 class ArticlesViewedManagerMixin:
@@ -201,14 +202,17 @@ class PrivacyCookiesDomesticCMS(TemplateView):
     template_name = 'core/privacy_cookies-domestic-cms.html'
 
     def get_context_data(self, *args, **kwargs):
-        data = cms_client.export_readiness.get_privacy_and_cookies_page()
+        response = cms_client.export_readiness.get_privacy_and_cookies_page(
+            language_code=translation.get_language(),
+            draft_token=self.request.GET.get('draft_token'),
+        )
         return super().get_context_data(
-            page=data.json(),
+            page=handle_cms_response(response),
             *args, **kwargs
         )
 
 
-class PrivacyCookiesInternationalCMS(PrivacyCookiesDomesticCMS, TemplateView):
+class PrivacyCookiesInternationalCMS(PrivacyCookiesDomesticCMS):
     template_name = 'core/privacy_cookies-international-cms.html'
 
 
@@ -216,14 +220,15 @@ class TermsConditionsDomesticCMS(TemplateView):
     template_name = 'core/terms_conditions-domestic-cms.html'
 
     def get_context_data(self, *args, **kwargs):
-        data = cms_client.export_readiness.get_terms_and_conditions_page()
+        response = cms_client.export_readiness.get_terms_and_conditions_page(
+            language_code=translation.get_language(),
+            draft_token=self.request.GET.get('draft_token'),
+        )
         return super().get_context_data(
-            page=data.json(),
+            page=handle_cms_response(response),
             *args, **kwargs
         )
 
 
-class TermsConditionsInternationalCMS(
-    TermsConditionsDomesticCMS, TemplateView
-):
+class TermsConditionsInternationalCMS(TermsConditionsDomesticCMS):
     template_name = 'core/terms_conditions-international-cms.html'

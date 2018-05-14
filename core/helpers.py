@@ -1,6 +1,9 @@
 import urllib.parse
+
 from directory_cms_client import DirectoryCMSClient
+
 from django.conf import settings
+from django.shortcuts import Http404
 
 
 cms_client = DirectoryCMSClient(
@@ -48,3 +51,10 @@ def build_social_links(request, title):
         'linkedin': build_linkedin_link(**kwargs),
         'email': build_email_link(**kwargs),
     }
+
+
+def handle_cms_response(response):
+    if response.status_code == 404:
+        raise Http404()
+    response.raise_for_status()
+    return response.json()
