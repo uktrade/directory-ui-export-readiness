@@ -202,7 +202,8 @@ class PrivacyCookiesDomesticCMS(TemplateView):
     template_name = 'core/privacy_cookies-domestic-cms.html'
 
     def get_context_data(self, *args, **kwargs):
-        response = cms_client.export_readiness.get_privacy_and_cookies_page(
+        response = cms_client.lookup_by_slug(
+            slug='privacy-and-cookies',
             language_code=translation.get_language(),
             draft_token=self.request.GET.get('draft_token'),
         )
@@ -220,7 +221,8 @@ class TermsConditionsDomesticCMS(TemplateView):
     template_name = 'core/terms_conditions-domestic-cms.html'
 
     def get_context_data(self, *args, **kwargs):
-        response = cms_client.export_readiness.get_terms_and_conditions_page(
+        response = cms_client.lookup_by_slug(
+            slug='terms-and-conditions',
             language_code=translation.get_language(),
             draft_token=self.request.GET.get('draft_token'),
         )
@@ -232,3 +234,18 @@ class TermsConditionsDomesticCMS(TemplateView):
 
 class TermsConditionsInternationalCMS(TermsConditionsDomesticCMS):
     template_name = 'core/terms_conditions-international-cms.html'
+
+
+class GetFinanceCMS(TemplateView):
+    template_name = 'core/get_finance.html'
+
+    def get_context_data(self, *args, **kwargs):
+        response = cms_client.lookup_by_slug(
+            slug='get-finance',
+            language_code=translation.get_language(),
+            draft_token=self.request.GET.get('draft_token'),
+        )
+        return super().get_context_data(
+            page=handle_cms_response(response),
+            *args, **kwargs
+        )
