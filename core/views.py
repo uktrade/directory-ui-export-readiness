@@ -15,6 +15,12 @@ from triage.helpers import TriageAnswersManager
 from ui.views import TranslationsMixin
 from core.helpers import cms_client, handle_cms_response
 
+from directory_cms_client.constants import (
+    EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
+    EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
+    EXPORT_READINESS_GET_FINANCE_SLUG,
+)
+
 
 class ArticlesViewedManagerMixin:
 
@@ -202,7 +208,8 @@ class PrivacyCookiesDomesticCMS(TemplateView):
     template_name = 'core/privacy_cookies-domestic-cms.html'
 
     def get_context_data(self, *args, **kwargs):
-        response = cms_client.export_readiness.get_privacy_and_cookies_page(
+        response = cms_client.lookup_by_slug(
+            slug=EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
             language_code=translation.get_language(),
             draft_token=self.request.GET.get('draft_token'),
         )
@@ -220,7 +227,8 @@ class TermsConditionsDomesticCMS(TemplateView):
     template_name = 'core/terms_conditions-domestic-cms.html'
 
     def get_context_data(self, *args, **kwargs):
-        response = cms_client.export_readiness.get_terms_and_conditions_page(
+        response = cms_client.lookup_by_slug(
+            slug=EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
             language_code=translation.get_language(),
             draft_token=self.request.GET.get('draft_token'),
         )
@@ -232,3 +240,18 @@ class TermsConditionsDomesticCMS(TemplateView):
 
 class TermsConditionsInternationalCMS(TermsConditionsDomesticCMS):
     template_name = 'core/terms_conditions-international-cms.html'
+
+
+class GetFinanceCMS(TemplateView):
+    template_name = 'core/get_finance.html'
+
+    def get_context_data(self, *args, **kwargs):
+        response = cms_client.lookup_by_slug(
+            slug=EXPORT_READINESS_GET_FINANCE_SLUG,
+            language_code=translation.get_language(),
+            draft_token=self.request.GET.get('draft_token'),
+        )
+        return super().get_context_data(
+            page=handle_cms_response(response),
+            *args, **kwargs
+        )

@@ -69,7 +69,7 @@ urlpatterns = [
     ),
     url(
         r"^get-finance/$",
-        TemplateView.as_view(template_name='core/get_finance.html'),
+        core.views.GetFinanceCMS.as_view(),
         name='get-finance'
     ),
     url(

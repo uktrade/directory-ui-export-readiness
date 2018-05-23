@@ -1,5 +1,5 @@
 import http
-from unittest.mock import ANY, call, patch
+from unittest.mock import call, patch
 
 from django.core.urlresolvers import reverse
 from django.conf import settings
@@ -12,6 +12,12 @@ import requests_mock
 from core import views
 from core.tests import helpers
 from casestudy import casestudies
+
+from directory_cms_client.constants import (
+    EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
+    EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
+    EXPORT_READINESS_GET_FINANCE_SLUG,
+)
 
 
 def test_landing_page_video_url(client, settings):
@@ -103,10 +109,6 @@ def test_robots(client):
             'not-found',
             '404.html'
         ),
-        (
-            'get-finance',
-            'core/get_finance.html'
-        )
     )
 )
 def test_templates(view, expected_template, client):
@@ -131,7 +133,7 @@ def test_templates(view, expected_template, client):
         ),
     )
 )
-@patch('core.views.cms_client.export_readiness.get_terms_and_conditions_page')
+@patch('core.views.cms_client.lookup_by_slug')
 def test_terms_conditions_cms(
     mock_get_t_and_c_page, view, expected_template, client
 ):
@@ -164,7 +166,7 @@ def test_terms_conditions_cms(
         ),
     )
 )
-@patch('core.views.cms_client.export_readiness.get_privacy_and_cookies_page')
+@patch('core.views.cms_client.lookup_by_slug')
 def test_privacy_cookies_cms(
     mock_get_p_and_c_page, view, expected_template, client
 ):
@@ -182,6 +184,24 @@ def test_privacy_cookies_cms(
 
     assert response.status_code == 200
     assert response.template_name == [expected_template]
+
+
+@patch('core.views.cms_client.lookup_by_slug')
+def test_get_finance_cms(mock_get_finance_page, client):
+    url = reverse('get-finance')
+    page = {
+        'title': 'the page',
+        'industries': [{'title': 'good 1'}],
+        'meta': {'languages': ['en-gb']},
+    }
+    mock_get_finance_page.return_value = helpers.create_response(
+        status_code=200,
+        json_body=page
+    )
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == ['core/get_finance.html']
 
 
 @pytest.mark.parametrize("lang", ['ar', 'es', 'zh-hans', 'pt', 'de', 'ja'])
@@ -258,17 +278,33 @@ def test_about_view(client):
     assert response.template_name == [views.AboutView.template_name]
 
 
-cms_urls = (
-    reverse('privacy-and-cookies'),
-    reverse('terms-and-conditions'),
-    reverse('privacy-and-cookies-international'),
-    reverse('terms-and-conditions-international'),
+cms_urls_slugs = (
+    (
+        reverse('privacy-and-cookies'),
+        EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
+    ),
+    (
+        reverse('terms-and-conditions'),
+        EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
+    ),
+    (
+        reverse('privacy-and-cookies-international'),
+        EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
+    ),
+    (
+        reverse('terms-and-conditions-international'),
+        EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
+    ),
+    (
+        reverse('get-finance'),
+        EXPORT_READINESS_GET_FINANCE_SLUG,
+    ),
 )
 
 
-@patch('core.views.cms_client.export_readiness.get')
-@pytest.mark.parametrize('url', cms_urls)
-def test_cms_pages_cms_client_params(mock_get, client, url):
+@patch('core.views.cms_client.lookup_by_slug')
+@pytest.mark.parametrize('url,slug', cms_urls_slugs)
+def test_cms_pages_cms_client_params(mock_get, client, url, slug):
     mock_get.return_value = helpers.create_response(status_code=200)
 
     response = client.get(url, {'draft_token': '123'})
@@ -276,14 +312,22 @@ def test_cms_pages_cms_client_params(mock_get, client, url):
     assert response.status_code == 200
     assert mock_get.call_count == 1
     assert mock_get.call_args == call(
-        url=ANY,
-        params={'fields': ['*']},
+        slug=slug,
         draft_token='123',
         language_code='en-gb'
     )
 
 
-@patch('core.views.cms_client.export_readiness.get')
+cms_urls = (
+    reverse('privacy-and-cookies'),
+    reverse('terms-and-conditions'),
+    reverse('privacy-and-cookies-international'),
+    reverse('terms-and-conditions-international'),
+    reverse('get-finance'),
+)
+
+
+@patch('core.views.cms_client.lookup_by_slug')
 @pytest.mark.parametrize('url', cms_urls)
 def test_cms_pages_cms_page_404(mock_get, client, url):
     mock_get.return_value = helpers.create_response(status_code=404)

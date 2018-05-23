@@ -2,43 +2,76 @@
 
 {% load static from staticfiles %}
 {% load include_markdown from article_tags %}
+{% load add_export_elements_classes from cms_tags %}
 
 {% block head_css %}
-    {{ block.super }}
-    <link href="{% static 'styles/article.css' %}" rel="stylesheet" type="text/css" />
+{{ block.super }}
+<link href="{% static 'styles/article.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'styles/get-finance.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block head_title %}
-    Get finance - great.gov.uk
+Get finance - great.gov.uk
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<section class="get-finance-banner" style="background-image: url({{ page.banner_image.url }})">
+  <div class="container">
 
     <p class="breadcrumbs">
-        <span class="label verbose">You are here:</span>
-        <a href="/">Export</a>
-        <span class="separator">,</span>
-        {% if article_group.url %}
-            <a href="{{ article_group.url }}">{{ article_group.title }}</a>
-            <span class="separator">,</span>
-        {% endif %}
-        <span class="current">Get finance</span>
+      <span class="label verbose">You are here:</span>
+      <a href="/">Export</a>
+      <span class="separator">,</span>
+      {% if article_group.url %}
+      <a href="{{ article_group.url }}">{{ article_group.title }}</a>
+      <span class="separator">,</span>
+      {% endif %}
+      <span class="current">Get finance</span>
     </p>
 
-    <article id="top" class="no-gutter">
-        <h1>Get finance</h1>
-        <p>You can get finance to export from government through UK Export Finance (UKEF). UKEF is the export credit agency for the UK. It can help you get working capital loans, credit insurance or bank guarantees.</p>
-		<p>Use UKEF’s services to:</p>
-            <ul class="list list-bullet">
-                <li>grow your business through exporting</li>
-                <li>make your export business more competitive</li>
-				<li>manage export payment risks</li>
-            </ul>
-        </p>
-        <p><a class="link" href="https://www.contactus.trade.gov.uk/" target="_blank">Complete a short enquiry form</a> to get free, impartial guidance from an export finance manager. Select ‘Get finance’ from the enquiry options. You’ll be asked about your exporting experience, where you work and how you want to be contacted. </p>
-        <p><a class="link" href="https://www.gov.uk/government/organisations/uk-export-finance/about">Find out more about UK Export Finance</a>.</p>
-    </article>
+    <div class="grid-row">
+      <div class="column-two-thirds">
+        {{ page.banner_content|add_export_elements_classes }}
+      </div>
+    </div>
+  </div>
+</section>
+<section class="intro">
+  <div class="container">
 
-</div>
+    <div class="grid-row">
+      <div class="column-two-thirds">
+        <img height="120" class="heading-medium" src="{{ page.ukef_logo.url }}" alt="">
+        {{ page.section1_content|add_export_elements_classes }}
+        <a class="button" href="{{ page.call_to_action_url }}" target="_blank">{{ page.call_to_action_text }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="get-finance-video">
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-two-thirds">
+
+        {{ page.section2_content|add_export_elements_classes }}
+
+        <iframe width="560" height="315" src="{{ page.video_embed }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-two-thirds">
+
+        {{ page.section3_content|add_export_elements_classes }}
+
+      </div>
+    </div>
+  </div>
+</section>
+
 {% endblock %}
