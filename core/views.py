@@ -15,6 +15,12 @@ from triage.helpers import TriageAnswersManager
 from ui.views import TranslationsMixin
 from core.helpers import cms_client, handle_cms_response
 
+from directory_cms_client.constants import (
+    EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
+    EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
+    EXPORT_READINESS_GET_FINANCE_SLUG,
+)
+
 
 class ArticlesViewedManagerMixin:
 
@@ -203,7 +209,7 @@ class PrivacyCookiesDomesticCMS(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         response = cms_client.lookup_by_slug(
-            slug='privacy-and-cookies',
+            slug=EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
             language_code=translation.get_language(),
             draft_token=self.request.GET.get('draft_token'),
         )
@@ -222,7 +228,7 @@ class TermsConditionsDomesticCMS(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         response = cms_client.lookup_by_slug(
-            slug='terms-and-conditions',
+            slug=EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
             language_code=translation.get_language(),
             draft_token=self.request.GET.get('draft_token'),
         )
@@ -241,7 +247,7 @@ class GetFinanceCMS(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         response = cms_client.lookup_by_slug(
-            slug='get-finance',
+            slug=EXPORT_READINESS_GET_FINANCE_SLUG,
             language_code=translation.get_language(),
             draft_token=self.request.GET.get('draft_token'),
         )

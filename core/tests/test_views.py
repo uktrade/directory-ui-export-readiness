@@ -13,6 +13,12 @@ from core import views
 from core.tests import helpers
 from casestudy import casestudies
 
+from directory_cms_client.constants import (
+    EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
+    EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
+    EXPORT_READINESS_GET_FINANCE_SLUG,
+)
+
 
 def test_landing_page_video_url(client, settings):
     settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/videp.mp4'
@@ -275,23 +281,23 @@ def test_about_view(client):
 cms_urls_slugs = (
     (
         reverse('privacy-and-cookies'),
-        'privacy-and-cookies',
+        EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
     ),
     (
         reverse('terms-and-conditions'),
-        'terms-and-conditions',
+        EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
     ),
     (
         reverse('privacy-and-cookies-international'),
-        'privacy-and-cookies',
+        EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
     ),
     (
         reverse('terms-and-conditions-international'),
-        'terms-and-conditions',
+        EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
     ),
     (
         reverse('get-finance'),
-        'get-finance',
+        EXPORT_READINESS_GET_FINANCE_SLUG,
     ),
 )
 

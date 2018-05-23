@@ -15,7 +15,7 @@ coverage==4.4.1           # via codecov, pytest-cov
 directory-api-client==9.15.3
 directory-ch-client==0.1.1
 directory-client-core==0.2.1  # via directory-api-client, directory-cms-client, directory-sso-api-client
-directory-cms-client==1.1.0
+directory-cms-client==2.1.0
 directory-components==1.8.2
 directory-constants==6.5.2
 directory-healthcheck==0.4.2

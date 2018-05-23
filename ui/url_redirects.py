@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from django.core.urlresolvers import reverse_lazy
+from django.views.generic.base import RedirectView
 
 from core.views import (
     OpportunitiesRedirectView, TranslationRedirectView, QuerystringRedirectView
@@ -7,6 +8,11 @@ from core.views import (
 
 
 redirects = [
+    url(
+        r'^exporting-edge/$',
+        RedirectView.as_view(pattern_name='get-finance'),
+        name='redirect-exporting-edge'
+    ),
     url(
         r'^invest/$',
         QuerystringRedirectView.as_view(url='https://invest.great.gov.uk'),
