@@ -5,11 +5,27 @@ section {
 }
 
 .get-finance-banner {
-  background-position: left center;
+  background-position: center top;
   background-repeat: no-repeat;
   background-size: cover;
   color: white;
   position: relative;
+
+  &:after {
+    background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.7) 100%);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: '';
+    z-index: 1;
+  }
+
+  .container {
+    position: relative;
+    z-index: 2;
+  }
 
   .breadcrumbs {
     background-color: transparent;
