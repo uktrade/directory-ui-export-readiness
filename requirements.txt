@@ -6,39 +6,38 @@
 #
 args==0.1.0               # via clint
 beautifulsoup4==4.6.0
-certifi==2018.1.18        # via requests
+certifi==2018.4.16        # via requests
 chardet==3.0.4            # via requests
 clint==0.5.1
-contextlib2==0.5.5        # via raven
-directory-api-client==9.15.3
-directory-ch-client==0.1.1
+directory-api-client==9.16.0
+directory-ch-client==0.2.0
 directory-client-core==0.2.1  # via directory-api-client, directory-cms-client, directory-sso-api-client
 directory-cms-client==2.1.0
-directory-components==1.8.2
-directory-constants==6.5.2
+directory-components==2.2.0
+directory-constants==6.8.0
 directory-healthcheck==0.4.2
 directory-sso-api-client==2.5.1
-directory-validators==4.5.1
-django-cors-headers==2.1.0
-django-formtools==2.0
+directory-validators==5.0.0
+django-cors-headers==2.2.0
+django-extensions==2.0.7
+django-formtools==2.1
 django-health-check==3.0.0  # via directory-healthcheck
-django==1.11.5
-django_extensions==1.9.0
-django_recaptcha==1.2.0
-djangorestframework==3.4.7  # via sigauth
-export-elements==0.10.6
-gunicorn==19.5.0
+django-recaptcha==1.4.0
+django==1.11.13
+djangorestframework==3.8.2  # via sigauth
+export-elements==0.12.2
+gunicorn==19.8.1
 idna==2.6                 # via requests
-markdown2==2.3.4
+markdown2==2.3.5
 mohawk==0.3.4             # via sigauth
-monotonic==1.2            # via directory-ch-client, directory-client-core
+monotonic==1.5            # via directory-ch-client, directory-client-core
 olefile==0.44             # via directory-validators, pillow
 phonenumberslite==7.7.4   # via directory-validators
 pillow==4.2.1             # via directory-validators
 pytz==2017.2              # via directory-constants, directory-healthcheck, directory-validators, django
-raven==5.19.0
+raven==6.9.0
 requests==2.18.4
 sigauth==2.1.2
 six==1.11.0               # via django-extensions, mohawk
 urllib3==1.22             # via requests
-whitenoise==3.1
+whitenoise==3.3.1
