@@ -31,6 +31,7 @@ def get_redirect_mapping_param_values(redirect_mapping, url_patterns):
 
     return param_values
 
+
 # Generate a list of URLs for all paths (e.g. /de and /int/de) with and without
 # trailing slash
 language_redirects = get_redirect_mapping_param_values(
@@ -101,6 +102,7 @@ def test_privacy_international_redirect(path, client):
 
     assert response.status_code == http.client.FOUND
     assert response.url == reverse('privacy-and-cookies-international')
+
 
 # Generate a list of URLs with and without trailing slash
 ARTICLE_REDIRECT_PARAMS = (
