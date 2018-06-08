@@ -8,6 +8,7 @@ Statistics on your market&rsquo;s population size, age and GDP will help to defi
 
 Find out customer preferences, motivations and behaviour by:
 
+- conducting surveys, formal interviews and focus groups
 - having informal conversations at trade shows, events or missions
 - conducting surveys
 - selling small quantities as a test
@@ -20,7 +21,6 @@ You must find out information about your customers and partners. This can be don
 * official websites, social networks and web searches using local language search engines
 * blacklists published by government authorities
 * bribery, PEPs and sanctions databases provided by third parties
-
 
 You can ask for:
 

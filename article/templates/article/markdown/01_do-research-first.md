@@ -26,8 +26,8 @@ The risks of doing business in a particular country, and who you work with both 
 
 Online resources about specific risks in each country include:
 
-* The Corruption Perception Index ranks countries by their perceived levels of public sector corruption
-* The [Global Competitiveness Report](https://www.weforum.org/reports/the-global-competitiveness-report-2017-2018) assesses each country&rsquo;s most problematic factors for doing business
+* [The Corruption Perception Index](https://www.transparency.org/news/feature/corruption_perceptions_index_2017) ranks countries by their perceived levels of public sector corruption
+* [The Global Competitiveness Report](https://www.weforum.org/reports/the-global-competitiveness-report-2017-2018) assesses each country&rsquo;s most problematic factors for doing business
 * [Ease of Doing Business](http://www.doingbusiness.org/rankings) ranks countries according to their regulatory environment
 * [Country Corruption Reports](https://www.business-anti-corruption.com/country-profiles/) provide assessments of corruption risks in key sectors
 

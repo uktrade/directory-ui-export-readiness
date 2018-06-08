@@ -115,19 +115,19 @@ def test_database_get_view_progress_for_groups(
 
     actual = manager.get_view_progress_for_groups()
     assert actual == {
-        'all': {'read': 3, 'total': 45},
+        'all': {'read': 3, 'total': 49},
         'business_planning': {'read': 0, 'total': 11},
         'customer_insights': {'read': 0, 'total': 4},
         'finance': {'read': 0, 'total': 7},
         'getting_paid': {'read': 2, 'total': 5},
-        'market_research': {'read': 0, 'total': 5},
-        'operations_and_compliance': {'read': 1, 'total': 10},
-        'persona_new': {'read': 2, 'total': 18},
-        'persona_occasional': {'read': 2, 'total': 38},
-        'persona_regular': {'read': 0, 'total': 18},
-        'custom_persona_new': {'read': 2, 'total': 18},
-        'custom_persona_occasional': {'read': 2, 'total': 38},
-        'custom_persona_regular': {'read': 0, 'total': 18},
+        'market_research': {'read': 0, 'total': 7},
+        'operations_and_compliance': {'read': 1, 'total': 12},
+        'persona_new': {'read': 2, 'total': 23},
+        'persona_occasional': {'read': 2, 'total': 42},
+        'persona_regular': {'read': 0, 'total': 19},
+        'custom_persona_new': {'read': 2, 'total': 23},
+        'custom_persona_occasional': {'read': 2, 'total': 42},
+        'custom_persona_regular': {'read': 0, 'total': 19},
     }
 
 
@@ -140,19 +140,19 @@ def test_session_get_view_progress_for_groups(anon_request, articles_read):
     actual = manager.get_view_progress_for_groups()
 
     assert actual == {
-        'all': {'read': 3, 'total': 45},
+        'all': {'read': 3, 'total': 49},
         'business_planning': {'read': 0, 'total': 11},
         'customer_insights': {'read': 0, 'total': 4},
         'finance': {'read': 0, 'total': 7},
         'getting_paid': {'read': 2, 'total': 5},
-        'market_research': {'read': 0, 'total': 5},
-        'operations_and_compliance': {'read': 1, 'total': 10},
-        'persona_new': {'read': 2, 'total': 18},
-        'persona_occasional': {'read': 2, 'total': 38},
-        'persona_regular': {'read': 0, 'total': 18},
-        'custom_persona_new': {'read': 2, 'total': 18},
-        'custom_persona_occasional': {'read': 2, 'total': 38},
-        'custom_persona_regular': {'read': 0, 'total': 18},
+        'market_research': {'read': 0, 'total': 7},
+        'operations_and_compliance': {'read': 1, 'total': 12},
+        'persona_new': {'read': 2, 'total': 23},
+        'persona_occasional': {'read': 2, 'total': 42},
+        'persona_regular': {'read': 0, 'total': 19},
+        'custom_persona_new': {'read': 2, 'total': 23},
+        'custom_persona_occasional': {'read': 2, 'total': 42},
+        'custom_persona_regular': {'read': 0, 'total': 19},
     }
 
 
@@ -225,7 +225,7 @@ def test_database_remaining_read_time_for_group(
         structure.PERSONA_OCCASIONAL_ARTICLES.name
     )
 
-    assert time_left == 4207
+    assert time_left == 5246
 
 
 @patch('api_client.api_client.exportreadiness.bulk_create_article_read')
@@ -323,7 +323,7 @@ def test_session_remaining_read_time_for_group(anon_request):
         structure.PERSONA_OCCASIONAL_ARTICLES.name
     )
 
-    assert time_left == 3985
+    assert time_left == 5024
 
 
 def test_time_to_read_in_seconds():

@@ -45,19 +45,19 @@ def test_landing_page(client, settings):
         casestudies.YORK,
     ]
     assert response.context_data['article_group_read_progress'] == {
-        'all': {'read': 0, 'total': 45},
+        'all': {'read': 0, 'total': 49},
         'business_planning': {'read': 0, 'total': 11},
         'customer_insights': {'read': 0, 'total': 4},
         'finance': {'read': 0, 'total': 7},
         'getting_paid': {'read': 0, 'total': 5},
-        'market_research': {'read': 0, 'total': 5},
-        'operations_and_compliance': {'read': 0, 'total': 10},
-        'persona_new': {'read': 0, 'total': 18},
-        'persona_occasional': {'read': 0, 'total': 38},
-        'persona_regular': {'read': 0, 'total': 18},
-        'custom_persona_new': {'read': 0, 'total': 18},
-        'custom_persona_occasional': {'read': 0, 'total': 38},
-        'custom_persona_regular': {'read': 0, 'total': 18},
+        'market_research': {'read': 0, 'total': 7},
+        'operations_and_compliance': {'read': 0, 'total': 12},
+        'persona_new': {'read': 0, 'total': 23},
+        'persona_occasional': {'read': 0, 'total': 42},
+        'persona_regular': {'read': 0, 'total': 19},
+        'custom_persona_new': {'read': 0, 'total': 23},
+        'custom_persona_occasional': {'read': 0, 'total': 42},
+        'custom_persona_regular': {'read': 0, 'total': 19},
     }
 
 

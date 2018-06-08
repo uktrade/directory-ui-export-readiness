@@ -54,6 +54,7 @@ PERSONA_NEW_ARTICLES = ArticleGroup(
         articles.WHAT_INTELLECTUAL_PROPERTY_IS,
         articles.TYPES_OF_INTELLECTUAL_PROPERTY,
         articles.REPORT_CORRUPTION,
+        articles.UNDERSTAND_YOUR_CUSTOMERS_CULTURE,
         articles.NEXT_STEPS_NEW_EXPORTER,
     ],
     url=reverse_lazy('article-list-persona-new'),

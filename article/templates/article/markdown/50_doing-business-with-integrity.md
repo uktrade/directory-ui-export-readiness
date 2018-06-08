@@ -7,7 +7,7 @@ Awareness of integrity considerations around bribery and corruption, human right
 Effective planning and management of potential risks, however, will allow you to:
 
 * capitalise on market opportunities
-* derive both value and commercial benefits from exporting with integrity.
+* derive both value and commercial benefits from exporting with integrity
 
 By operating with integrity you can:
 
@@ -19,5 +19,5 @@ Online resources on how to do business with integrity include:
 
 * [Global Anti-Bribery Guidance](https://www.antibriberyguidance.org/) from Transparency International
 * [Doing Business with Respect for Human Rights](https://www.businessrespecthumanrights.org/) from the Global Perspectives Project
-* [Anti-Corruption Toolkit](http://www.iblfglobal.org/anti-corruption-sme-toolkit) for SMEs from the G20 and B20
+* [Anti-Corruption Toolkit for SMEs](http://www.iblfglobal.org/anti-corruption-sme-toolkit) from the G20 and B20
 * [The relationship between business integrity and commercial success](https://www.u4.no/publications/the-relationship-between-business-integrity-and-commercial-success) from U4
