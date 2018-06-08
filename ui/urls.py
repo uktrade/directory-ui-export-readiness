@@ -125,7 +125,7 @@ urlpatterns = [
     url(
         r"^market-research/doing-business-with-integrity/$",
         article.views.DoBusinessWithIntegrityView.as_view(),
-        name='article-business-integrity',
+        name='business-with-integrity',
     ),
     url(
         r"^market-research/do-research-first/$",

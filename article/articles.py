@@ -68,7 +68,7 @@ DOING_BUSINESS_WITH_INTEGRITY = Article(
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/50_doing-business-with-integrity.md',
-    url=reverse_lazy('article-business-integrity'),
+    url=reverse_lazy('business-with-integrity'),
     parent=GUIDANCE_MARKET_RESEARCH,
 )
 

@@ -235,7 +235,23 @@ article_views_under_test = (
     (
         views.NextStepsRegularExporterView,
         reverse('next-steps-regular-exporter'),
-    )
+    ),
+    (
+        views.DoBusinessWithIntegrityView,
+        reverse('business-with-integrity'),
+    ),
+    (
+        views.AntiBriberyAndCorruptionTrainingView,
+        reverse('anti-bribery-and-corruption-training'),
+    ),
+    (
+        views.ReportCorruptionView,
+        reverse('report-corruption'),
+    ),
+    (
+        views.KnowTheRelevantLegislationView,
+        reverse('know-the-relevant-legislation'),
+    ),
 )
 
 
@@ -433,8 +449,8 @@ def test_article_view_persist_article_anon_user(mock_persist_articles, client):
         3,
         len(structure.ALL_ARTICLES.articles),
         '',
-        4780,
-        set([
+        5714,
+        frozenset([
            articles.USE_DISTRIBUTOR.uuid,
            articles.GET_EXPORT_FINANCE.uuid,
            articles.GET_MONEY_TO_EXPORT.uuid,
@@ -445,7 +461,7 @@ def test_article_view_persist_article_anon_user(mock_persist_articles, client):
         2,
         len(structure.GUIDANCE_FINANCE_ARTICLES.articles),
         structure.GUIDANCE_FINANCE_ARTICLES.title,
-        684,
+        754,
         frozenset([
            articles.GET_EXPORT_FINANCE.uuid,
            articles.GET_MONEY_TO_EXPORT.uuid,
@@ -456,7 +472,7 @@ def test_article_view_persist_article_anon_user(mock_persist_articles, client):
         3,
         len(structure.ALL_ARTICLES.articles),
         '',
-        4780,
+        5714,
         frozenset([
            articles.USE_DISTRIBUTOR.uuid,
            articles.GET_EXPORT_FINANCE.uuid,
