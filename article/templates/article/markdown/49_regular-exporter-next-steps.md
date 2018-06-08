@@ -1,6 +1,6 @@
 {% load url_with_source from article_tags %}
 
-Now you’ve finished the regular exporter journey, you can:
+Now you&rsquo;ve finished the regular exporter journey, you can:
 
 - [apply for export opportunites](https://opportunities.export.great.gov.uk/ "Export opportunities")
 - [contact an international trade adviser](https://www.contactus.trade.gov.uk/office-finder/ "contact an ITA") for one-to-one export support

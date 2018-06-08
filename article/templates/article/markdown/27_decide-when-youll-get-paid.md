@@ -16,7 +16,7 @@ You should ask for payment in advance if customers:
 - are new
 - have poor credit ratings
 - come from a high-risk country
-- can’t be covered by credit insurance or payment guarantees
+- can&rsquo;t be covered by credit insurance or payment guarantees
 
 ### Share the risk
 
@@ -35,7 +35,7 @@ The information and wording in the documents must be consistent. Not meeting the
 
 Bank or documentary collection is when your bank collects payment on your behalf from the buyer&rsquo;s bank. Payment is released when the buyer&rsquo;s bank receives certain documents. Payment isn&rsquo;t guaranteed, but it offers a degree of security for you and the buyer.
 
-For larger contracts, banks can provide a contract bond. This is a guarantee that you’ll complete the work and usually covers contract performance, warranties and maintenance arrangements. Some markets require contract bonds as part of doing business.
+For larger contracts, banks can provide a contract bond. This is a guarantee that you&rsquo;ll complete the work and usually covers contract performance, warranties and maintenance arrangements. Some markets require contract bonds as part of doing business.
 
 ### Get paid after delivery
 

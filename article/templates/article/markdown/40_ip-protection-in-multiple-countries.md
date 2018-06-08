@@ -1,6 +1,6 @@
 You only need to make one application for a trade mark or patent within the EU and can apply through [the European Union Intellectual Property Office](https://euipo.europa.eu/ohimportal/en/ "European Union Intellectual Property Office").
 
-Outside of the EU, you generally have to make an application to every country you want protection in. Although you can apply to the World Intellectual Property Organization for protection in [countries that have signed up to the ‘Madrid Protocol’](http://www.wipo.int/members/en/ "WIPO member states").
+Outside of the EU, you generally have to make an application to every country you want protection in. Although you can apply to the World Intellectual Property Organization for protection in [countries that have signed up to the ‘Madrid Protocol&rsquo;](http://www.wipo.int/members/en/ "WIPO member states").
 
 Depending on the country, you&rsquo;ll need to research how you can apply for intellectual property (IP) protection or you can use an IP lawyer. Using an IP lawyer makes the process easier as they can: 
 

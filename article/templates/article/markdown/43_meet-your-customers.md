@@ -1,8 +1,8 @@
-Meeting a client in person helps:
+Meeting a client, agent or distributor in person helps manage integrity risks by:
 
-- build trust
-- build a relationship
-- set and manage expectations
+* building trust
+* gauging their motivations, values and interest in your business
+* setting and managing expectations
 
 Research the customs and culture in your target market. If face-to-face meetings are expected you should make them a part of your export plan. If you don&rsquo;t you could struggle to win business in that market.
 

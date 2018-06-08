@@ -4,10 +4,10 @@ If your bank can&rsquo;t help, [shop around for a bank](http://www.businessbanki
 
 Business loans come in different shapes and sizes. As with raising any finance, you&rsquo;ll need a well considered plan that shows the growth you expect to achieve and how you&rsquo;ll pay back the debt.
 
-The amount you’re offered will depend on:
+The amount you&rsquo;re offered will depend on:
 
 - how secure your business is
-- your business’s financial and credit history
+- your business&rsquo;s financial and credit history
 - whether the loan is made against a security or guarantee 
 
 If your company is less than 24 months old you could be eligible for a [Start Up Loan](https://www.gov.uk/apply-start-up-loan "Apply for a Start Up Loan").
