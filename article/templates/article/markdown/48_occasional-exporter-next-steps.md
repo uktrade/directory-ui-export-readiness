@@ -1,6 +1,6 @@
 {% load url_with_source from article_tags %}
 
-Now you’ve finished the occasional exporter journey, you can:
+Now you&rsquo;ve finished the occasional exporter journey, you can:
 
 - follow the [regular exporter journey]({% url 'article-list-persona-regular' %} "regular exporter journey") 
 - [set up a company trade profile](https://find-a-buyer.export.great.gov.uk/ "Find a buyer") to be promoted to overseas buyers

@@ -6,10 +6,13 @@ Export finance can refer to specific financial products that reduce the risks th
 * working capital loans to fulfil orders
 * insurance against not being paid
 
-Many [chambers of commerce](http://www.britishchambers.org.uk/find-your-chamber/ "find your local chamber of commerce") offer services to help with letter of credit documentation. 
+Many [chambers of commerce](http://www.britishchambers.org.uk/find-your-chamber/ "find your local chamber of commerce") offer services to help with letter of credit documentation.
 
 Your bank should be able to help you with short-term loans, guarantees and letters of credit.
 
 For export insurance, see the government&rsquo;s [list of approved export insurance brokers](https://www.gov.uk/government/publications/uk-export-finance-insurance-list-of-approved-brokers/export-insurance-approved-brokers "UK Export Finance approved insurance brokers").
 
-If you’re exporting and your bank or credit insurer can’t help, you may qualify for government-backed finance or insurance from [UK Export Finance (UKEF)](https://www.gov.uk/government/organisations/uk-export-finance "Find out more about UKEF"). 
+If you&rsquo;re exporting to a high risk country and your bank or credit insurer can&rsquo;t help, you may qualify for government-backed finance or insurance from [UK Export Finance (UKEF)](https://www.gov.uk/government/organisations/uk-export-finance "Find out more about UKEF"). UKEF is the export credit agency for the UK. It helps exporters by guaranteeing loans and financial products. It also:
+
+* applies internationally-agreed standards in due diligence to deter bribery and corruption in transactions officially supported by export credits
+* applying policies relating to the environment, social and human rights, anti-bribery and corruption and sustainable lending, which are monitored by the Export Guarantees Advisory Council, who can advise the Secretary of State

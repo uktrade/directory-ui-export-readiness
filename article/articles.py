@@ -62,6 +62,16 @@ GUIDANCE_OPERATIONS_AND_COMPLIANCE = ArticleParent(
     title='Operations and compliance',
 )
 
+DOING_BUSINESS_WITH_INTEGRITY = Article(
+    uuid=exred_articles.DOING_BUSINESS_WITH_INTEGRITY,
+    title='Doing business with integrity',
+    keywords=[],
+    tasks=[],
+    markdown_file_path='article/markdown/50_doing-business-with-integrity.md',
+    url=reverse_lazy('article-business-integrity'),
+    parent=GUIDANCE_MARKET_RESEARCH,
+)
+
 DO_RESEARCH_FIRST = Article(
     uuid=exred_articles.DO_RESEARCH_FIRST,
     title='Research your market',
@@ -106,6 +116,15 @@ VISIT_TRADE_SHOW = Article(
     tasks=[],
     markdown_file_path='article/markdown/41_visit-a-trade-show.md',
     url=reverse_lazy('visit-trade-show'),
+    parent=GUIDANCE_MARKET_RESEARCH,
+)
+KNOW_THE_RELEVANT_LEGISLATION = Article(
+    uuid=exred_articles.KNOW_THE_RELEVANT_LEGISLATION,
+    title='Know the relevant legislation',
+    keywords=[],
+    tasks=[],
+    markdown_file_path='article/markdown/53_know-the-relevant-legislation.md',
+    url=reverse_lazy('know-the-relevant-legislation'),
     parent=GUIDANCE_MARKET_RESEARCH,
 )
 KNOW_YOUR_CUSTOMER = Article(
@@ -332,6 +351,16 @@ INSURE_AGAINST_NON_PAYMENT = Article(
     url=reverse_lazy('insure-against-non-payment'),
     parent=GUIDANCE_GETTING_PAID,
 )
+ANTI_BRIBERY_AND_CORRUPTION_TRAINING = Article(
+    uuid=exred_articles.ANTI_BRIBERY_AND_CORRUPTION_TRAINING,
+    title='Anti-bribery and corruption training',
+    keywords=[],
+    tasks=[],
+    markdown_file_path=(
+        'article/markdown/51_anti-bribery-and-corruption-training.md'),
+    url=reverse_lazy('anti-bribery-and-corruption-training'),
+    parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE,
+)
 PLAN_THE_LOGISTICS = Article(
     uuid=exred_articles.PLAN_THE_LOGISTICS,
     title='Plan the logistics',
@@ -430,6 +459,17 @@ INTELLECTUAL_PROPERTY_PROTECTION = Article(
         'article/markdown/40_ip-protection-in-multiple-countries.md'
     ),
     url=reverse_lazy('ip-protection-in-multiple-countries'),
+    parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE
+)
+REPORT_CORRUPTION = Article(
+    uuid=exred_articles.REPORT_CORRUPTION,
+    title='Report corruption and human rights violations',
+    keywords=[],
+    tasks=[],
+    markdown_file_path=(
+        'article/markdown/52_report-corruption-and-human-rights-violations.md'
+    ),
+    url=reverse_lazy('report-corruption'),
     parent=GUIDANCE_OPERATIONS_AND_COMPLIANCE
 )
 MEET_YOUR_CUSTOMER = Article(

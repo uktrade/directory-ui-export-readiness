@@ -123,6 +123,11 @@ urlpatterns = [
         name='article-list-operations-and-compliance',
     ),
     url(
+        r"^market-research/doing-business-with-integrity/$",
+        article.views.DoBusinessWithIntegrityView.as_view(),
+        name='article-business-integrity',
+    ),
+    url(
         r"^market-research/do-research-first/$",
         article.views.DoResearchFirstView.as_view(),
         name='article-research-market',
@@ -146,6 +151,11 @@ urlpatterns = [
         r"^market-research/visit-a-trade-show/$",
         article.views.VisitTradeShowView.as_view(),
         name='visit-trade-show',
+    ),
+    url(
+        r"^market-research/know-the-relevant-legislation/$",
+        article.views.KnowTheRelevantLegislationView.as_view(),
+        name='know-the-relevant-legislation',
     ),
     url(
         r"^customer-insight/know-your-customers/$",
@@ -283,6 +293,11 @@ urlpatterns = [
         name='insure-against-non-payment',
     ),
     url(
+        r"^operations-and-compliance/anti-bribery-and-corruption-training/$",
+        article.views.AntiBriberyAndCorruptionTrainingView.as_view(),
+        name='anti-bribery-and-corruption-training',
+    ),
+    url(
         r"^operations-and-compliance/plan-the-logistics/$",
         article.views.PlanTheLogisticsView.as_view(),
         name='plan-the-logistics',
@@ -331,6 +346,11 @@ urlpatterns = [
         r"^operations-and-compliance/international-ip-protection/$",
         article.views.IntellectualPropertyProtectionView.as_view(),
         name='ip-protection-in-multiple-countries',
+    ),
+    url(
+        r"^operations-and-compliance/report-corruption/$",
+        article.views.ReportCorruptionView.as_view(),
+        name='report-corruption',
     ),
     url(
         r"^new/next-steps/$",

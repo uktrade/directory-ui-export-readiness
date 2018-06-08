@@ -131,6 +131,10 @@ class DoResearchFirstView(BaseArticleDetailView):
     article = articles.DO_RESEARCH_FIRST
 
 
+class DoBusinessWithIntegrityView(BaseArticleDetailView):
+    article = articles.DOING_BUSINESS_WITH_INTEGRITY
+
+
 class DefineMarketPotentialView(BaseArticleDetailView):
     article = articles.DEFINE_MARKET_POTENTIAL
 
@@ -145,6 +149,10 @@ class AnalyseTheCompetitionView(BaseArticleDetailView):
 
 class VisitTradeShowView(BaseArticleDetailView):
     article = articles.VISIT_TRADE_SHOW
+
+
+class KnowTheRelevantLegislationView(BaseArticleDetailView):
+    article = articles.KNOW_THE_RELEVANT_LEGISLATION
 
 
 class KnowYourCustomerView(BaseArticleDetailView):
@@ -243,6 +251,10 @@ class InsureAgainstNonPaymentView(BaseArticleDetailView):
     article = articles.INSURE_AGAINST_NON_PAYMENT
 
 
+class AntiBriberyAndCorruptionTrainingView(BaseArticleDetailView):
+    article = articles.ANTI_BRIBERY_AND_CORRUPTION_TRAINING
+
+
 class PlanTheLogisticsView(BaseArticleDetailView):
     article = articles.PLAN_THE_LOGISTICS
 
@@ -281,6 +293,10 @@ class KnowWhatIntellectualPropertyYouHaveView(BaseArticleDetailView):
 
 class IntellectualPropertyProtectionView(BaseArticleDetailView):
     article = articles.INTELLECTUAL_PROPERTY_PROTECTION
+
+
+class ReportCorruptionView(BaseArticleDetailView):
+    article = articles.REPORT_CORRUPTION
 
 
 class MeetYourCustomerView(BaseArticleDetailView):
