@@ -33,8 +33,8 @@ PERSONA_NEW_ARTICLES = ArticleGroup(
     name='persona_new',
     title='New to exporting',
     articles=[
-        articles.DOING_BUSINESS_WITH_INTEGRITY,
         articles.DO_RESEARCH_FIRST,
+        articles.DOING_BUSINESS_WITH_INTEGRITY,
         articles.KNOW_THE_RELEVANT_LEGISLATION,
         articles.KNOW_YOUR_CUSTOMER,
         articles.MAKE_EXPORTING_PLAN,
@@ -71,11 +71,11 @@ PERSONA_OCCASIONAL_ARTICLES = ArticleGroup(
     name='persona_occasional',
     title='Occasional exporter',
     articles=[
-        articles.DOING_BUSINESS_WITH_INTEGRITY,
         articles.DO_RESEARCH_FIRST,
         articles.DEFINE_MARKET_POTENTIAL,
         articles.DO_FIELD_RESEARCH,
         articles.VISIT_TRADE_SHOW,
+        articles.DOING_BUSINESS_WITH_INTEGRITY,
         articles.KNOW_THE_RELEVANT_LEGISLATION,
         articles.ANALYSE_THE_COMPETITION,
         articles.KNOW_YOUR_CUSTOMER,
@@ -130,6 +130,8 @@ PERSONA_REGULAR_ARTICLES = ArticleGroup(
     articles=[
         articles.DEFINE_MARKET_POTENTIAL,
         articles.DO_FIELD_RESEARCH,
+        articles.DOING_BUSINESS_WITH_INTEGRITY,
+        articles.KNOW_THE_RELEVANT_LEGISLATION,
         articles.ANALYSE_THE_COMPETITION,
         articles.LICENCE_YOUR_PRODUCT_OR_SERVICE,
         articles.FRANCHISE_YOUR_BUSINESS,
