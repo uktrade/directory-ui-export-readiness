@@ -245,12 +245,12 @@ GUIDANCE_MARKET_RESEARCH_ARTICLES = ArticleGroup(
     name='market_research',
     title=articles.GUIDANCE_MARKET_RESEARCH.title,
     articles=[
-        articles.DOING_BUSINESS_WITH_INTEGRITY,
         articles.DO_RESEARCH_FIRST,
         articles.DEFINE_MARKET_POTENTIAL,
         articles.DO_FIELD_RESEARCH,
         articles.ANALYSE_THE_COMPETITION,
         articles.VISIT_TRADE_SHOW,
+        articles.DOING_BUSINESS_WITH_INTEGRITY,
         articles.KNOW_THE_RELEVANT_LEGISLATION,
     ],
     url=reverse_lazy('article-list-market-research'),

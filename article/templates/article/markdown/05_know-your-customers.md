@@ -8,8 +8,8 @@ Statistics on your market&rsquo;s population size, age and GDP will help to defi
 
 Find out customer preferences, motivations and behaviour by:
 
-- conducting surveys, formal interviews and focus groups
 - having informal conversations at trade shows, events or missions
+- conducting surveys, formal interviews and focus groups
 - conducting surveys
 - selling small quantities as a test
 

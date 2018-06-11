@@ -129,7 +129,7 @@ KNOW_THE_RELEVANT_LEGISLATION = Article(
 )
 KNOW_YOUR_CUSTOMER = Article(
     uuid=exred_articles.KNOW_YOUR_CUSTOMER,
-    title='Know your customers',
+    title='Know your customers and partners',
     keywords=[],
     tasks=[],
     markdown_file_path='article/markdown/05_know-your-customers.md',
