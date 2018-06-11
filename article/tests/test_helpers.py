@@ -124,10 +124,10 @@ def test_database_get_view_progress_for_groups(
         'operations_and_compliance': {'read': 1, 'total': 12},
         'persona_new': {'read': 2, 'total': 23},
         'persona_occasional': {'read': 2, 'total': 42},
-        'persona_regular': {'read': 0, 'total': 19},
+        'persona_regular': {'read': 0, 'total': 21},
         'custom_persona_new': {'read': 2, 'total': 23},
         'custom_persona_occasional': {'read': 2, 'total': 42},
-        'custom_persona_regular': {'read': 0, 'total': 19},
+        'custom_persona_regular': {'read': 0, 'total': 21},
     }
 
 
@@ -149,10 +149,10 @@ def test_session_get_view_progress_for_groups(anon_request, articles_read):
         'operations_and_compliance': {'read': 1, 'total': 12},
         'persona_new': {'read': 2, 'total': 23},
         'persona_occasional': {'read': 2, 'total': 42},
-        'persona_regular': {'read': 0, 'total': 19},
+        'persona_regular': {'read': 0, 'total': 21},
         'custom_persona_new': {'read': 2, 'total': 23},
         'custom_persona_occasional': {'read': 2, 'total': 42},
-        'custom_persona_regular': {'read': 0, 'total': 19},
+        'custom_persona_regular': {'read': 0, 'total': 21},
     }
 
 
