@@ -141,7 +141,7 @@ def test_article_redirects_query_params(url, expected_pattern, client):
 
 # the first element needs to end with a slash
 redirects = [
-    ('/ukpavilion2020/', 'https://www.events.trade.gov.uk/dubai-expo-2020'),
+    ('/ukpavilion2020/', 'https://www.events.trade.gov.uk/dubai-expo-2020/'),
     ('/invest/', 'https://invest.great.gov.uk'),
     ('/int/invest/', 'https://invest.great.gov.uk/int'),
     ('/us/invest/', 'https://invest.great.gov.uk/us'),
