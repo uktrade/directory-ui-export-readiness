@@ -14,7 +14,7 @@ directory-validators==4.5.1
 directory-api-client==9.15.3
 directory-cms-client==2.1.0
 directory-sso-api-client==2.5.1
-directory-constants==6.9.0
+directory-constants==7.0.0
 sigauth==2.1.2
 directory-healthcheck==0.4.2
 export-elements==0.10.6
