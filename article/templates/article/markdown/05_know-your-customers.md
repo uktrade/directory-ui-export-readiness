@@ -20,7 +20,7 @@ You must find out information about your customers and partners. This can be don
 * local company registration services (equivalent of Companies House in the UK)
 * official websites, social networks and web searches using local language search engines
 * blacklists published by government authorities
-* bribery, PEPs and sanctions databases provided by third parties
+* bribery, Politically Exposed Person (PEP) and sanctions databases provided by third parties
 
 You can ask for:
 

@@ -1,6 +1,6 @@
 Awareness of integrity considerations around bribery and corruption, human rights, child labour and gender equality are vital to consider, especially when dealing with high risk markets. Bribery is illegal but still widespread in many countries. It sustains a corrupt and hostile business environment and exposes you to risks. Examples of bribery include:
 
-* unofficial payments - known as facilitation payments - to get a faster service
+* unofficial (often known as facilitation) payments to get a faster service
 * offering excessive gifts ahead of an important business decision
 * levels of hospitality disproportionate to a business transaction
 
