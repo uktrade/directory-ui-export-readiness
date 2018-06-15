@@ -225,7 +225,7 @@ def test_database_remaining_read_time_for_group(
         structure.PERSONA_OCCASIONAL_ARTICLES.name
     )
 
-    assert time_left == 5243
+    assert time_left == 5242
 
 
 @patch('api_client.api_client.exportreadiness.bulk_create_article_read')
@@ -323,7 +323,7 @@ def test_session_remaining_read_time_for_group(anon_request):
         structure.PERSONA_OCCASIONAL_ARTICLES.name
     )
 
-    assert time_left == 5021
+    assert time_left == 5020
 
 
 def test_time_to_read_in_seconds():
