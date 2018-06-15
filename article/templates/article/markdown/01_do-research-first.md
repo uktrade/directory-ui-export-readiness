@@ -24,7 +24,7 @@ You need to be aware of potential risks to your business when exporting. You can
 
 The risks of doing business in a particular country, and who you work with both inside and outside your organisation should inform your decision-making.
 
-Online resources about specific risks in each country include:
+There are online resources about specific risks in each country:
 
 * [The Corruption Perception Index](https://www.transparency.org/news/feature/corruption_perceptions_index_2017) ranks countries by their perceived levels of public sector corruption
 * [The Global Competitiveness Report](https://www.weforum.org/reports/the-global-competitiveness-report-2017-2018) assesses each country&rsquo;s most problematic factors for doing business

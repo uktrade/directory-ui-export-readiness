@@ -18,7 +18,7 @@ Your export plan should include:
 
 [Export Savvy](https://www.exportsavvy.co.uk/plan/create-your-plan "Export Savvy - create your plan") and [Open to Export](http://opentoexport.com/info/export-action-plan/ "Open to Export - export action plan") both have interactive step-by-step guides to help you create an export plan.
 
-### Risk prevention planning
+## Risk prevention planning
 
 You need to consider how your business will manage the risk of unethical and illegal practices within your organisation and throughout your supply chain such as:
 
