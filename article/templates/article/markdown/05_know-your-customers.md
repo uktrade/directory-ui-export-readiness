@@ -15,7 +15,7 @@ Find out customer preferences, motivations and behaviour by:
 
 ### Conduct due diligence checks
 
-You must find out information about your customers and partners. This can be done by various service providers, online and partners online and by asking them directly. Useful sources include:
+You must find out information about your customers and partners. This can be done by searching online using various service providers or by asking them directly. Useful sources include:
 
 * local company registration services (equivalent of Companies House in the UK)
 * official websites, social networks and web searches using local language search engines
