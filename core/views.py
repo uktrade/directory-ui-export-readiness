@@ -255,3 +255,48 @@ class GetFinanceCMS(TemplateView):
             page=handle_cms_response(response),
             *args, **kwargs
         )
+
+
+class PerformanceDashboardPageView(TemplateView):
+    template_name = 'core/performance_dashboard.html'
+
+    def get_cms_page(self):
+        if hasattr(self, 'slug'):
+            slug = self.slug
+        else:
+            slug = 'performance-dashboard-' + self.kwargs['slug']
+        response = cms_client.lookup_by_slug(
+            slug=slug,
+            language_code=translation.get_language(),
+            draft_token=self.request.GET.get('draft_token'),
+        )
+        return handle_cms_response(response)
+
+    def get_parent_page(self):
+        response = cms_client.lookup_by_slug(
+            slug='performance-dashboard',
+            language_code=translation.get_language(),
+            draft_token=self.request.GET.get('draft_token'),
+        )
+        return handle_cms_response(response)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(
+            page=self.get_cms_page(),
+            parent_page=self.get_parent_page(),
+            *args,
+            **kwargs
+        )
+        row_names = ['_one', '_two', '_three', '_four']
+        data_rows = []
+        for row in row_names:
+            value = [
+                value for key, value
+                in context['page'].items() if key.endswith(row)]
+            data_rows.append(value)
+        context['data_rows'] = data_rows
+        return context
+
+
+class PerformanceDashboardLandingPageView(PerformanceDashboardPageView):
+    slug = 'performance-dashboard'

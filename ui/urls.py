@@ -43,6 +43,16 @@ urlpatterns = [
         name='not-found'
     ),
     url(
+        r"^performance-dashboard/$",
+        core.views.PerformanceDashboardLandingPageView.as_view(),
+        name='performance-dashboard'
+    ),
+    url(
+        r"^performance-dashboard/(?P<slug>[-\w\d]+)$",
+        core.views.PerformanceDashboardPageView.as_view(),
+        name='performance-dashboard-subpage'
+    ),
+    url(
         r"^about/$",
         core.views.AboutView.as_view(),
         name='about'
