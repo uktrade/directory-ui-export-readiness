@@ -39,7 +39,8 @@ Performance dashboard - great.gov.uk
       <h2 class="heading-large">{{ page.heading }}</h2>
       <div class="grid-row">
         <div class="column-half">
-          <p>{{ page.description|safe }}</p>
+          {{ page.description|safe }}
+          <p>Visit <a href="{{ page.product_link }}">{{ page.heading }}</a></p>
         </div>
       </div>
 
