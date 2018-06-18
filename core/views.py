@@ -257,24 +257,13 @@ class GetFinanceCMS(TemplateView):
         )
 
 
-class PerformanceDashboardPageView(TemplateView):
+class PerformanceDashboardView(TemplateView):
     template_name = 'core/performance_dashboard.html'
 
     def get_cms_page(self):
-        if hasattr(self, 'slug'):
-            slug = self.slug
-        else:
-            slug = 'performance-dashboard-' + self.kwargs['slug']
+        slug = self.slug
         response = cms_client.lookup_by_slug(
             slug=slug,
-            language_code=translation.get_language(),
-            draft_token=self.request.GET.get('draft_token'),
-        )
-        return handle_cms_response(response)
-
-    def get_parent_page(self):
-        response = cms_client.lookup_by_slug(
-            slug='performance-dashboard',
             language_code=translation.get_language(),
             draft_token=self.request.GET.get('draft_token'),
         )
@@ -283,7 +272,6 @@ class PerformanceDashboardPageView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(
             page=self.get_cms_page(),
-            parent_page=self.get_parent_page(),
             *args,
             **kwargs
         )
@@ -298,5 +286,21 @@ class PerformanceDashboardPageView(TemplateView):
         return context
 
 
-class PerformanceDashboardLandingPageView(PerformanceDashboardPageView):
+class PerformanceDashboardGreatView(PerformanceDashboardView):
     slug = 'performance-dashboard'
+
+
+class PerformanceDashboardExportOpportunitiesView(PerformanceDashboardView):
+    slug = 'performance-dashboard-export-opportunities'
+
+
+class PerformanceDashboardSellingOnlineOverseasView(PerformanceDashboardView):
+    slug = 'performance-dashboard-selling-online-overseas'
+
+
+class PerformanceDashboardTradeProfilesView(PerformanceDashboardView):
+    slug = 'performance-dashboard-trade-profiles'
+
+
+class PerformanceDashboardInvestView(PerformanceDashboardView):
+    slug = 'performance-dashboard-invest'

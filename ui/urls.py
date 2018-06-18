@@ -44,13 +44,28 @@ urlpatterns = [
     ),
     url(
         r"^performance-dashboard/$",
-        core.views.PerformanceDashboardLandingPageView.as_view(),
+        core.views.PerformanceDashboardGreatView.as_view(),
         name='performance-dashboard'
     ),
     url(
-        r"^performance-dashboard/(?P<slug>[-\w\d]+)$",
-        core.views.PerformanceDashboardPageView.as_view(),
-        name='performance-dashboard-subpage'
+        r"^performance-dashboard/export-opportunities/$",
+        core.views.PerformanceDashboardExportOpportunitiesView.as_view(),
+        name='performance-dashboard-export-opportunities'
+    ),
+    url(
+        r"^performance-dashboard/selling-online-overseas/$",
+        core.views.PerformanceDashboardSellingOnlineOverseasView.as_view(),
+        name='performance-dashboard-selling-online-overseas'
+    ),
+    url(
+        r"^performance-dashboard/trade-profiles/$",
+        core.views.PerformanceDashboardTradeProfilesView.as_view(),
+        name='performance-dashboard-trade-profiles'
+    ),
+    url(
+        r"^performance-dashboard/invest/$",
+        core.views.PerformanceDashboardInvestView.as_view(),
+        name='performance-dashboard-invest'
     ),
     url(
         r"^about/$",
