@@ -255,3 +255,52 @@ class GetFinanceCMS(TemplateView):
             page=handle_cms_response(response),
             *args, **kwargs
         )
+
+
+class PerformanceDashboardView(TemplateView):
+    template_name = 'core/performance_dashboard.html'
+
+    def get_cms_page(self):
+        slug = self.slug
+        response = cms_client.lookup_by_slug(
+            slug=slug,
+            language_code=translation.get_language(),
+            draft_token=self.request.GET.get('draft_token'),
+        )
+        return handle_cms_response(response)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(
+            page=self.get_cms_page(),
+            *args,
+            **kwargs
+        )
+        row_names = ['_one', '_two', '_three', '_four']
+        data_rows = []
+        for row in row_names:
+            value = [
+                value for key, value
+                in context['page'].items() if key.endswith(row)]
+            data_rows.append(value)
+        context['data_rows'] = data_rows
+        return context
+
+
+class PerformanceDashboardGreatView(PerformanceDashboardView):
+    slug = 'performance-dashboard'
+
+
+class PerformanceDashboardExportOpportunitiesView(PerformanceDashboardView):
+    slug = 'performance-dashboard-export-opportunities'
+
+
+class PerformanceDashboardSellingOnlineOverseasView(PerformanceDashboardView):
+    slug = 'performance-dashboard-selling-online-overseas'
+
+
+class PerformanceDashboardTradeProfilesView(PerformanceDashboardView):
+    slug = 'performance-dashboard-trade-profiles'
+
+
+class PerformanceDashboardInvestView(PerformanceDashboardView):
+    slug = 'performance-dashboard-invest'

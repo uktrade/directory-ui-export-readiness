@@ -335,3 +335,25 @@ def test_cms_pages_cms_page_404(mock_get, client, url):
     response = client.get(url)
 
     assert response.status_code == 404
+
+
+@patch('core.views.cms_client.lookup_by_slug')
+def test_performance_dashboard_cms(mock_get_p_and_c_page, client):
+    url = reverse('performance-dashboard')
+    page = {
+        'title': 'Performance dashboard',
+        'heading': 'Great.gov.uk',
+        'description': 'Lorem ipsum dolor sit amet.',
+    }
+    mock_get_p_and_c_page.return_value = helpers.create_response(
+        status_code=200,
+        json_body=page
+    )
+    response = client.get(url)
+
+    assert page['title'] in str(response.content)
+    assert page['heading'] in str(response.content)
+    assert page['description'] in str(response.content)
+
+    assert response.status_code == 200
+    assert response.template_name == ['core/performance_dashboard.html']
