@@ -45,20 +45,51 @@ Performance dashboard - great.gov.uk
       </div>
 
       <div class="grid-row performance-stats">
-        {% for item in data_rows %}
-        {% if item.0 and item.1 and item.2 and item.3 %}
         <div class="column-quarter">
           <div class="data">
-            <h2 class="heading-small">{{ item.0 }}</h2>
-            <p class="number bold-xlarge">{{ item.1 }}</p>
-            <p class="date font-xsmall">{{ item.2 }}</p>
+            <h2 class="heading-small">{{ page.data_title_row_one }}</h2>
+            <p class="number bold-xlarge">{{ page.data_number_row_one }}</p>
+            <p class="date font-xsmall">{{ page.data_period_row_one }}</p>
             <div class="data-description">
-              {{ item.3|safe }}
+              {{ page.data_description_row_one|safe }}
+            </div>
+          </div>
+        </div>
+
+        <div class="column-quarter">
+          <div class="data">
+            <h2 class="heading-small">{{ page.data_title_row_two }}</h2>
+            <p class="number bold-xlarge">{{ page.data_number_row_two }}</p>
+            <p class="date font-xsmall">{{ page.data_period_row_two }}</p>
+            <div class="data-description">
+              {{ page.data_description_row_two|safe }}
+            </div>
+          </div>
+        </div>
+
+        <div class="column-quarter">
+          <div class="data">
+            <h2 class="heading-small">{{ page.data_title_row_three }}</h2>
+            <p class="number bold-xlarge">{{ page.data_number_row_three }}</p>
+            <p class="date font-xsmall">{{ page.data_period_row_three }}</p>
+            <div class="data-description">
+              {{ page.data_description_row_three|safe }}
+            </div>
+          </div>
+        </div>
+
+        {% if page.data_title_row_four and page.data_number_row_four and page.data_period_row_four and page.data_description_row_four %}
+        <div class="column-quarter">
+          <div class="data">
+            <h2 class="heading-small">{{ page.data_title_row_four }}</h2>
+            <p class="number bold-xlarge">{{ page.data_number_row_four }}</p>
+            <p class="date font-xsmall">{{ page.data_period_row_four }}</p>
+            <div class="data-description">
+              {{ page.data_description_row_four|safe }}
             </div>
           </div>
         </div>
         {% endif %}
-        {% endfor %}
       </div>
 
       {% if page.guidance_notes %}
