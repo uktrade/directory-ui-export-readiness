@@ -30,7 +30,7 @@ def test_get_articles_from_uuids():
 
 def test_article_group_read_time():
     group = structure.PERSONA_NEW_ARTICLES
-    assert group.read_time == 2620
+    assert group.read_time == 2641
 
 
 @pytest.mark.parametrize(
