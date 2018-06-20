@@ -9,12 +9,15 @@ Your export plan is a tool to show banks, investors or partners that you&rsquo;r
 Your export plan should include:
 
 - an explanation of why you want to export including the benefits
+- your product or service offering and what makes you different from the competition
 - your target markets and the reasons for choosing them
+- any changes you need to make to your product or service for the new market/s
 - how you intend to protect your intellectual property
 - how you&rsquo;ll market your product
 - how you intend to resource your plan including staffing and finance
 - your operating model or route to market
 - operational information including transport, distribution, customs and licences
+- targets and how you will measure them
 
 [Export Savvy](https://www.exportsavvy.co.uk/plan/create-your-plan "Export Savvy - create your plan") and [Open to Export](http://opentoexport.com/info/export-action-plan/ "Open to Export - export action plan") both have interactive step-by-step guides to help you create an export plan.
 
