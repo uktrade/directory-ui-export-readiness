@@ -275,14 +275,6 @@ class PerformanceDashboardView(TemplateView):
             *args,
             **kwargs
         )
-        row_names = ['_one', '_two', '_three', '_four']
-        data_rows = []
-        for row in row_names:
-            value = [
-                value for key, value
-                in context['page'].items() if key.endswith(row)]
-            data_rows.append(value)
-        context['data_rows'] = data_rows
         return context
 
 
