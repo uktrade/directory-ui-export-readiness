@@ -156,7 +156,8 @@ DEBUG_SET_ENV_VARS := \
 	export LANDING_PAGE_VIDEO_URL=thing.com; \
 	export CMS_URL=http://cms.trade.great:8010; \
 	export CMS_SIGNATURE_SECRET=debug; \
-	export FEATURE_CMS_ENABLED=true
+	export FEATURE_CMS_ENABLED=true; \
+	export FEATURE_PERFORMANCE_DASHBOARD_ENABLED=true
 
 
 debug_webserver:

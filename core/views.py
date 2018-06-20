@@ -14,6 +14,7 @@ from casestudy import casestudies
 from triage.helpers import TriageAnswersManager
 from ui.views import TranslationsMixin
 from core.helpers import cms_client, handle_cms_response
+from core.mixins import PerformanceDashboardFeatureFlagMixin
 
 from directory_cms_client.constants import (
     EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
@@ -257,7 +258,9 @@ class GetFinanceCMS(TemplateView):
         )
 
 
-class PerformanceDashboardView(TemplateView):
+class PerformanceDashboardView(
+    PerformanceDashboardFeatureFlagMixin, TemplateView
+):
     template_name = 'core/performance_dashboard.html'
 
     def get_cms_page(self):

@@ -338,14 +338,15 @@ def test_cms_pages_cms_page_404(mock_get, client, url):
 
 
 @patch('core.views.cms_client.lookup_by_slug')
-def test_performance_dashboard_cms(mock_get_p_and_c_page, client):
+def test_performance_dashboard_cms(mock_get_page, settings, client):
+    settings.FEATURE_PERFORMANCE_DASHBOARD_ENABLED = True
     url = reverse('performance-dashboard')
     page = {
         'title': 'Performance dashboard',
         'heading': 'Great.gov.uk',
         'description': 'Lorem ipsum dolor sit amet.',
     }
-    mock_get_p_and_c_page.return_value = helpers.create_response(
+    mock_get_page.return_value = helpers.create_response(
         status_code=200,
         json_body=page
     )
@@ -357,3 +358,11 @@ def test_performance_dashboard_cms(mock_get_p_and_c_page, client):
 
     assert response.status_code == 200
     assert response.template_name == ['core/performance_dashboard.html']
+
+
+def test_performance_dashboard_feature_flag_off(client, settings):
+    settings.FEATURE_PERFORMANCE_DASHBOARD_ENABLED = False
+
+    response = client.get('performance-dashboard')
+
+    assert response.status_code == 404
