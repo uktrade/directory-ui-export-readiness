@@ -3,7 +3,6 @@ import itertools
 from django.conf import settings
 from django.contrib import sitemaps
 from django.core.urlresolvers import reverse
-from django.utils import translation
 from django.utils.cache import set_response_etag
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
@@ -13,8 +12,10 @@ from article import structure
 from casestudy import casestudies
 from triage.helpers import TriageAnswersManager
 from ui.views import TranslationsMixin
-from core.helpers import cms_client, handle_cms_response
-from core.mixins import PerformanceDashboardFeatureFlagMixin
+from core.mixins import (
+    PerformanceDashboardFeatureFlagMixin,
+    GetCMSPageMixin,
+)
 
 from directory_cms_client.constants import (
     EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
@@ -205,80 +206,35 @@ class AboutView(SetEtagMixin, TemplateView):
     template_name = 'core/about.html'
 
 
-class PrivacyCookiesDomesticCMS(TemplateView):
-    template_name = 'core/privacy_cookies-domestic-cms.html'
-
-    def get_context_data(self, *args, **kwargs):
-        response = cms_client.lookup_by_slug(
-            slug=EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
-            language_code=translation.get_language(),
-            draft_token=self.request.GET.get('draft_token'),
-        )
-        return super().get_context_data(
-            page=handle_cms_response(response),
-            *args, **kwargs
-        )
+class PrivacyCookiesDomesticCMS(GetCMSPageMixin, TemplateView):
+    template_name = 'core/info_page.html'
+    slug = EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG
 
 
 class PrivacyCookiesInternationalCMS(PrivacyCookiesDomesticCMS):
-    template_name = 'core/privacy_cookies-international-cms.html'
+    template_name = 'core/info_page_international.html'
 
 
-class TermsConditionsDomesticCMS(TemplateView):
-    template_name = 'core/terms_conditions-domestic-cms.html'
-
-    def get_context_data(self, *args, **kwargs):
-        response = cms_client.lookup_by_slug(
-            slug=EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
-            language_code=translation.get_language(),
-            draft_token=self.request.GET.get('draft_token'),
-        )
-        return super().get_context_data(
-            page=handle_cms_response(response),
-            *args, **kwargs
-        )
+class TermsConditionsDomesticCMS(GetCMSPageMixin, TemplateView):
+    template_name = 'core/info_page.html'
+    slug = EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG
 
 
 class TermsConditionsInternationalCMS(TermsConditionsDomesticCMS):
-    template_name = 'core/terms_conditions-international-cms.html'
+    template_name = 'core/info_page_international.html'
 
 
-class GetFinanceCMS(TemplateView):
+class GetFinanceCMS(GetCMSPageMixin, TemplateView):
     template_name = 'core/get_finance.html'
-
-    def get_context_data(self, *args, **kwargs):
-        response = cms_client.lookup_by_slug(
-            slug=EXPORT_READINESS_GET_FINANCE_SLUG,
-            language_code=translation.get_language(),
-            draft_token=self.request.GET.get('draft_token'),
-        )
-        return super().get_context_data(
-            page=handle_cms_response(response),
-            *args, **kwargs
-        )
+    slug = EXPORT_READINESS_GET_FINANCE_SLUG
 
 
 class PerformanceDashboardView(
-    PerformanceDashboardFeatureFlagMixin, TemplateView
+    PerformanceDashboardFeatureFlagMixin,
+    GetCMSPageMixin,
+    TemplateView
 ):
     template_name = 'core/performance_dashboard.html'
-
-    def get_cms_page(self):
-        slug = self.slug
-        response = cms_client.lookup_by_slug(
-            slug=slug,
-            language_code=translation.get_language(),
-            draft_token=self.request.GET.get('draft_token'),
-        )
-        return handle_cms_response(response)
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(
-            page=self.get_cms_page(),
-            *args,
-            **kwargs
-        )
-        return context
 
 
 class PerformanceDashboardGreatView(PerformanceDashboardView):
@@ -299,3 +255,8 @@ class PerformanceDashboardTradeProfilesView(PerformanceDashboardView):
 
 class PerformanceDashboardInvestView(PerformanceDashboardView):
     slug = 'performance-dashboard-invest'
+
+
+class PerformanceDashboardNotesView(PerformanceDashboardView):
+    slug = 'performance-dashboard-notes'
+    template_name = 'core/performance_dashboard_notes.html'

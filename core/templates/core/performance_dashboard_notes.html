@@ -1,0 +1,27 @@
+{% extends 'core/info_page.html' %}
+{% load static from staticfiles %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'styles/article.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'styles/performance-dashboard.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block head_title %}{{ page.title }}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="container">
+  <p class="breadcrumbs">
+    <span class="label verbose">You are here:</span>
+    <a href="/">Great.gov.uk</a>
+    <span class="separator">,</span>
+    {% if page.landing_dashboard %}
+      <span class="current">Performance dashboard</span>
+    {% else %}
+      <a href="{% url 'performance-dashboard' %}">Performance dashboard</a>
+      <span class="separator">,</span>
+      <span class="current">{{ page.title }}</span>
+    {% endif %}
+  </p>
+</div>
+{% endblock %}

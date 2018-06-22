@@ -11,9 +11,6 @@
 {% block head_title %}{{ page.title }}{% endblock %}
 
 {% block content %}
-    <section>
-      <div class="container">
-        {{ page.body|add_anchors|add_export_elements_classes }}
-      </div>
-    </section>
+  {% block breadcrumbs %}{% endblock %}
+  {% include 'core/includes/cms_content.html' %}
 {% endblock %}
