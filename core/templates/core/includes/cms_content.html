@@ -1,0 +1,11 @@
+{% load add_anchors add_export_elements_classes from cms_tags %}
+
+<section>
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-two-thirds">
+        {{ page.body|add_anchors|add_export_elements_classes }}
+      </div>
+    </div>
+  </div>
+</section>

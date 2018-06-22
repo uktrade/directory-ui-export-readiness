@@ -68,6 +68,11 @@ urlpatterns = [
         name='performance-dashboard-invest'
     ),
     url(
+        r"^performance-dashboard/guidance-notes/$",
+        core.views.PerformanceDashboardNotesView.as_view(),
+        name='performance-dashboard-notes'
+    ),
+    url(
         r"^about/$",
         core.views.AboutView.as_view(),
         name='about'
