@@ -358,3 +358,6 @@ FEATURE_USE_INTERNAL_CH_ENABLED = os.getenv(
 ) == 'true'
 INTERNAL_CH_BASE_URL = os.getenv('INTERNAL_CH_BASE_URL')
 INTERNAL_CH_API_KEY = os.getenv('INTERNAL_CH_API_KEY')
+
+# geo location
+GEOIP_PATH = os.path.join(BASE_DIR, 'core/geolocation_data')

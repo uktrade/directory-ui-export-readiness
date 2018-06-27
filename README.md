@@ -113,6 +113,10 @@ To compile `.mo` files (no need to add these to source code, as this is done aut
     $ make debug_manage cmd="compilemessages"
 
 
+## Geolocation
+
+This product includes GeoLite2 data created by MaxMind, available from
+<a href="http://www.maxmind.com">http://www.maxmind.com</a>.
 
 ## SSO
 To make sso work locally add the following to your machine's `/etc/hosts`:
