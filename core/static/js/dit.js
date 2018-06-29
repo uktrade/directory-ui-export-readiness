@@ -85,9 +85,6 @@ dit.utils = (new function () {
     });
   }
 
-
-}
-
 });
 // Responsive Functionality.
 // Adds functionality to help control JS responsive code.
