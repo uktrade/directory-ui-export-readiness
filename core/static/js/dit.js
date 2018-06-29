@@ -29,21 +29,6 @@ dit.utils = (new function () {
     return (str ? str : "") + ((new Date().getTime()) + "_" + Math.random().toString()).replace(/[^\w]*/mig, "");
   }
 
-  /* Attempt to run a namespaced function from passed string.
-  * e.g. dit.utils.executeNamespacedFunction("dit.utils.generateUniqueStr");
-  * @namespace (String) Namespaced function like above example.
-  **/
-  this.executeNamespacedFunction = function (namespace) {
-    var names = arguments.length ? namespace.split('.')  : null;
-    var context = window;
-    if (namespace) {
-      while (names.length > 1) {
-        context = context[names.shift()];
-      }
-      context[names.shift()]();
-    }
-  }
-
   /* Return max height measurement of passed elements
   * @$items (jQuery collection) elements to compare.
   **/
@@ -100,79 +85,7 @@ dit.utils = (new function () {
     });
   }
 
-  /* Take an array of images that support the load event, and runs the passed
-  * function only when each event has fired. Because the load event might have
-  * already triggered before this function is called, we going to do a deep-clone
-  * of the original image, add the load event to that clone, and then replace the
-  * original image with the clone. The load event should fire as expected.
-  *
-  * @elements (Array) Collection of elements with capability of firing a load event.
-  * @action (Function) The callback function to run.
-  * @params (Array) Optional params that can be passed to callback.
-  **/
-  this.whenImagesReady = function($images, action, params) {
-    var loaded = 0;
-    var parameters = arguments.length > 2 ? params : [];
-    var all = $images.length;
 
-    $images.each(function() {
-      var $original = $(this);
-      var $replacement = $original.clone(true, true);
-
-      // Add a load event to keep track of what's in.
-      $replacement.on("load.whenready", function() {
-        if (++loaded == all) {
-          action.apply(window, parameters);
-        }
-
-        // Remove event triggered to prevent re-clone issues.
-        $(this).off("load.whenready");
-      });
-
-      // Replace original
-      $original.css("display", "none");
-      $original.before($replacement);
-    });
-
-    // No longer need the old ones
-    $images.remove();
-  }
-
-  this.getQuerystringParameter = function (name) {
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
-    var results = regex.exec(window.location.href);
-    if (!results) {
-      return null;
-    }
-    if (!results[2]) {
-      return '';
-    }
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-  }
-
-  this.setCookie = function(name, value, days) {
-    if (days) {
-      var date = new Date();
-      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-      value += "; expires=" + date.toGMTString();
-    }
-    document.cookie = name + "=" + value + "; path=/";
-  }
-
-  this.getCookie = function(name) {
-    if (document.cookie.length > 0) {
-      var start = document.cookie.indexOf(name + "=");
-      if (start !== -1) {
-        start = start + name.length + 1;
-        var end = document.cookie.indexOf(";", start);
-        if (end == -1) {
-          end = document.cookie.length;
-        }
-        return unescape(document.cookie.substring(start, end));
-      }
-    }
-    return "";
 }
 
 });

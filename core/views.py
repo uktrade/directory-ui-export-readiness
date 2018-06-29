@@ -1,5 +1,11 @@
 import itertools
 
+from directory_cms_client.constants import (
+    EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
+    EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
+    EXPORT_READINESS_GET_FINANCE_SLUG,
+)
+
 from django.conf import settings
 from django.contrib import sitemaps
 from django.core.urlresolvers import reverse
@@ -10,17 +16,12 @@ from django.views.generic.base import RedirectView
 from article.helpers import ArticlesViewedManagerFactory
 from article import structure
 from casestudy import casestudies
+from core import helpers
 from triage.helpers import TriageAnswersManager
 from ui.views import TranslationsMixin
 from core.mixins import (
     PerformanceDashboardFeatureFlagMixin,
     GetCMSPageMixin,
-)
-
-from directory_cms_client.constants import (
-    EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
-    EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
-    EXPORT_READINESS_GET_FINANCE_SLUG,
 )
 
 
@@ -81,6 +82,12 @@ class LandingPageView(ArticlesViewedManagerMixin, TemplateView):
                 self.article_read_manager.get_view_progress_for_groups()
             ),
         )
+
+    def get(self, request, *args, **kwargs):
+        redirector = helpers.GeoLocationRedirector(self.request)
+        if redirector.should_redirect:
+            return redirector.get_response()
+        return super().get(request, *args, **kwargs)
 
 
 class InternationalLandingPageView(
