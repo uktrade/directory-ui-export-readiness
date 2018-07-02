@@ -1,0 +1,46 @@
+# custom page heroes
+custom-hero-new-to-exporting@2x.png:custom-hero-new-to-exporting@2x.png
+hero-background-new-mobile.png:custom-hero-new-to-exporting-mobile@2x.png
+hero-background-occasional-desktop.png:custom-hero-occasional-exporter@2x.png
+hero-background-occasional-mobile.png:custom-hero-occasional-exporter-mobile@2x.png
+hero-background-regular-desktop.png:custom-hero-regular-exporter@2x.png
+hero-background-regular-mobile.png:custom-hero-regular-exporter-mobile@2x.png
+
+# guidance page heroes
+verical-hero-business-planning.png:verical-hero-business-planning@2x.png
+verical-hero-business-planning-mobile.png:verical-hero-business-planning-mobile@2x.png
+vertical-hero-customer-insight.png:vertical-hero-customer-insight@2x.png
+vertical-hero-customer-insight-mobile.png:vertical-hero-customer-insight-mobile@2x.png
+vertical-hero-finance.png:vertical-hero-finance@2x.png
+vertical-hero-finance-mobile.png:vertical-hero-finance-mobile@2x.png
+vertical-hero-getting-paid.png:vertical-hero-getting-paid@2x.png
+vertical-hero-getting-paid-mobile.png:vertical-hero-getting-paid-mobile@2x.png 
+vertical-hero-market-research.png:vertical-hero-market-research@2x.png
+vertical-hero-market-research-mobile.png:vertical-hero-market-research-mobile@2x.png
+vertical-hero-operations.png:vertical-hero-operations@2x.png
+vertical-hero-operations-mobile.png:vertical-hero-operations-mobile@2x.png
+
+# persona page heroes
+persona-hero-new-to-exporting-desktop.png:persona-hero-new-to-exporting@2x.png
+persona-hero-new-to-exporting-mobile.png:persona-hero-new-to-exporting-mobile@2x.png
+persona-hero-occasional-exporter-desktop.png:persona-hero-occasional-exporter@2x.png
+persona-hero-occasional-exporter-mobile.png:persona-hero-occasional-exporter-mobile@2x.png
+persona-hero-regular-exporter-desktop.png:persona-hero-regular-exporter@2x.png
+persona-hero-regular-exporter-mobile.png:persona-hero-regular-exporter-mobile@2x.png
+
+# services
+service-soo-teaser.png:home-export-opps-cta@2x.png
+service-fab-teaser.png:home-fab-cta@2x.png
+service-exopps-teaser.png:home-soo-cta@2x.png
+
+
+
+# home
+hero-background-home-desktop.png:home-hero-tangerine@2x.png
+hero-background-home-mobile.png:home-hero-tangerine-mobile@2x.png
+triage-section.png:home-triage-world-connections@2x.png
+promo-home-new.png:home-new-to-exporting-cta@2x.png
+promo-home-occasional.png:home-occasional-exporter-cta@2x.png
+
+promo-home-regular.png:home-regular-exporter-cta@2x.png
+

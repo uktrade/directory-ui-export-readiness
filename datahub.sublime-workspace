@@ -1,0 +1,2433 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"get",
+				"getAdviser"
+			],
+			[
+				"ad",
+				"advisers"
+			],
+			[
+				"account",
+				"account_manager"
+			],
+			[
+				"adv",
+				"adviserDataWithMissingName"
+			],
+			[
+				"advs",
+				"adviser"
+			],
+			[
+				"la",
+				"labels"
+			],
+			[
+				"trans",
+				"transformers"
+			],
+			[
+				"stat",
+				"statusCode"
+			],
+			[
+				"form",
+				"formatted"
+			],
+			[
+				"next",
+				"nextSpy"
+			],
+			[
+				"nex",
+				"nextSpy"
+			],
+			[
+				"req",
+				"reqMock"
+			],
+			[
+				"busin",
+				"businessTypeOption"
+			],
+			[
+				"res",
+				"resMock"
+			],
+			[
+				"error",
+				"errorMessages"
+			],
+			[
+				"err",
+				"errors"
+			],
+			[
+				"team",
+				"teamMembers"
+			],
+			[
+				"build",
+				"buildReq"
+			],
+			[
+				"ex",
+				"extra"
+			],
+			[
+				"tre",
+				"true"
+			],
+			[
+				"for",
+				"foreign"
+			],
+			[
+				"margin",
+				"margin-bottom"
+			],
+			[
+				"sour",
+				"sources"
+			],
+			[
+				"grou",
+				"group"
+			],
+			[
+				"art",
+				"article"
+			],
+			[
+				"article",
+				"article_uuid"
+			],
+			[
+				"GUIDANCE",
+				"GUIDANCE_BUSINESS_PLANNING"
+			],
+			[
+				"soup",
+				"BeautifulSoup"
+			],
+			[
+				"sef",
+				"self"
+			],
+			[
+				"app",
+				"app_name"
+			],
+			[
+				"read_art",
+				"read_article_uuids"
+			],
+			[
+				"read_artic",
+				"read_articles_uuids"
+			],
+			[
+				"rettr",
+				"retrieve_read_article_uuids"
+			],
+			[
+				"artic",
+				"article_manager"
+			],
+			[
+				"ar",
+				"article_manager"
+			],
+			[
+				"Artice",
+				"ArticleReadMixin"
+			],
+			[
+				"NEX",
+				"NEXT_STEPS_REGULAR_EXPORTER"
+			],
+			[
+				"arti",
+				"articles"
+			],
+			[
+				"SESS",
+				"SessionArticlesReadManager"
+			],
+			[
+				"l",
+				"label"
+			],
+			[
+				"send",
+				"send_feedback"
+			],
+			[
+				"coyu",
+				"country_code"
+			],
+			[
+				"country",
+				"country_code"
+			],
+			[
+				"co",
+				"commodity_code"
+			],
+			[
+				"mock",
+				"mocked_retrieve_articles"
+			],
+			[
+				"session",
+				"session"
+			],
+			[
+				"persist",
+				"persisted_triage_answers"
+			],
+			[
+				"pers",
+				"persisted_triage_answers"
+			],
+			[
+				"all",
+				"all_cleaned_data"
+			],
+			[
+				"sole",
+				"sole_trader"
+			],
+			[
+				"COMP",
+				"COMPANY"
+			],
+			[
+				"COM",
+				"COMPANY_SKIP"
+			],
+			[
+				"con",
+				"condition_dict"
+			],
+			[
+				"render",
+				"render_goto_step"
+			],
+			[
+				"labe",
+				"label_suffix"
+			],
+			[
+				"hidd",
+				"hiddenClass"
+			],
+			[
+				"hidde",
+				"hiddenLiElements"
+			],
+			[
+				"js-",
+				"js-paginate-list"
+			],
+			[
+				"li",
+				"liElements"
+			],
+			[
+				"page",
+				"pageSize"
+			],
+			[
+				"sector",
+				"sector_code"
+			],
+			[
+				"csv",
+				"csv_rows"
+			],
+			[
+				"coun",
+				"countries_data"
+			],
+			[
+				"gro",
+				"grouped_lines"
+			],
+			[
+				"case",
+				"casestudies"
+			],
+			[
+				"MARK",
+				"MARKETPLACE_TITLE"
+			],
+			[
+				"triage",
+				"triage_answers"
+			],
+			[
+				"ge",
+				"get_context_data"
+			],
+			[
+				"articl",
+				"article_links"
+			],
+			[
+				"expected",
+				"expected_html"
+			],
+			[
+				"cone",
+				"context_data"
+			],
+			[
+				"ALL",
+				"ALL_ARTICLES"
+			],
+			[
+				"group",
+				"group_name"
+			],
+			[
+				"view",
+				"view_class"
+			],
+			[
+				"mark",
+				"used_online_marketplace"
+			],
+			[
+				"sess",
+				"session"
+			],
+			[
+				"path",
+				"patch"
+			],
+			[
+				"Per",
+				"PersistanceManagerSession"
+			],
+			[
+				"conte",
+				"context_data"
+			],
+			[
+				"social_",
+				"social_links_kwargs"
+			],
+			[
+				"linked",
+				"linkedin_template"
+			],
+			[
+				"twitt",
+				"twitter_template"
+			],
+			[
+				"faceb",
+				"facebook_share_template"
+			],
+			[
+				"r",
+				"request"
+			],
+			[
+				"ea",
+				"email_social_link"
+			],
+			[
+				"template",
+				"template_name"
+			],
+			[
+				"case_study",
+				"case_study_index_alias"
+			],
+			[
+				"company_",
+				"company_index_alias"
+			],
+			[
+				"index",
+				"index_name"
+			],
+			[
+				"company_in",
+				"company_index_prefix"
+			],
+			[
+				"create",
+				"create_new_indices"
+			],
+			[
+				"get_",
+				"get_indices"
+			],
+			[
+				"clea",
+				"cleaned"
+			],
+			[
+				"api",
+				"api_response_200"
+			],
+			[
+				"sso_",
+				"sso_email_address"
+			],
+			[
+				"expo",
+				"exportopportunity_views"
+			],
+			[
+				"campa",
+				"campaign"
+			],
+			[
+				"form_list",
+				"form_list_food"
+			],
+			[
+				"RETA",
+				"RETAIL_AND_LUXURY"
+			],
+			[
+				"FOOD_",
+				"FOOD_LEAD_GENERATION_SECTORS"
+			],
+			[
+				"sec",
+				"sectors"
+			],
+			[
+				"has",
+				"has_single_sector"
+			],
+			[
+				"cast",
+				"case_study"
+			],
+			[
+				"dis",
+				"disabled_countries"
+			],
+			[
+				"camp",
+				"campaign_tag"
+			],
+			[
+				"comp",
+				"company"
+			],
+			[
+				"com",
+				"company"
+			],
+			[
+				"CompanyCas",
+				"CompanyCaseStudyFactory"
+			],
+			[
+				"CompanyF",
+				"CompanyFactory"
+			],
+			[
+				"indu",
+				"industry"
+			],
+			[
+				"campaign",
+				"campaign_tag"
+			],
+			[
+				"lead",
+				"lead_generation"
+			],
+			[
+				"val",
+				"validated_data"
+			],
+			[
+				"lea",
+				"lead_generation"
+			],
+			[
+				"djang",
+				"django"
+			],
+			[
+				"class",
+				"class_name"
+			],
+			[
+				"call_",
+				"call_count"
+			],
+			[
+				"inde",
+				"indices"
+			],
+			[
+				"proposition",
+				"proposition_col1_title"
+			],
+			[
+				"mock_get",
+				"mock_get_companies"
+			],
+			[
+				"showcas",
+				"showcase_case_studies"
+			],
+			[
+				"LEGAL",
+				"LEGAL_IS_GREAT"
+			],
+			[
+				"patch",
+				"patch_two"
+			],
+			[
+				"pat",
+				"patch_one"
+			],
+			[
+				"header",
+				"header_name"
+			],
+			[
+				"Req",
+				"RequestSignatureChecker"
+			],
+			[
+				"lang",
+				"language_form"
+			],
+			[
+				"ca",
+				"campaign_email_map"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/home/richtier/workspace/data-hub-frontend/.env",
+			"settings":
+			{
+				"buffer_size": 1129,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "Searching 1435 files for \"favicon\"\n\n/home/richtier/workspace/data-hub-frontend/package-lock.json:\n 14283        }\n 14284      },\n 14285:     \"serve-favicon\": {\n 14286        \"version\": \"2.4.5\",\n 14287:       \"resolved\": \"https://registry.npmjs.org/serve-favicon/-/serve-favicon-2.4.5.tgz\",\n 14288        \"integrity\": \"sha512-s7F8h2NrslMkG50KxvlGdj+ApSwaLex0vexuJ9iFf3GLTIp1ph/l1qZvRe9T9TJEYZgmq72ZwJ2VYiAEtChknw==\",\n 14289        \"requires\": {\n\n/home/richtier/workspace/data-hub-frontend/package.json:\n   85      \"rewire\": \"^2.5.2\",\n   86      \"sass-lint\": \"^1.10.2\",\n   87:     \"serve-favicon\": \"^2.4.3\",\n   88      \"sinon\": \"^3.3.0\",\n   89      \"sinon-chai\": \"^2.13.0\",\n\n/home/richtier/workspace/data-hub-frontend/src/server.js:\n   11  const churchill = require('churchill')\n   12  const enforce = require('express-sslify')\n   13: const favicon = require('serve-favicon')\n   14  const cookieParser = require('cookie-parser')\n   15  const i18n = require('i18n-future').middleware()\n   ..\n   72  \n   73  // Static files\n   74: app.use(favicon(path.join(config.root, 'public/images', 'favicon.ico')))\n   75  app.use(express.static(path.join(config.root, 'public')))\n   76  app.use('/js', express.static(path.join(config.buildDir, 'js')))\n\n/home/richtier/workspace/data-hub-frontend/src/templates/_layouts/dit-base.njk:\n   13  \n   14        {% block head_content %}\n   15:         <!--[if IE]><link rel=\"shortcut icon\" href=\"{{ getAssetPath('images/favicon.ico') }}\" type=\"image/x-icon\"><![endif]-->\n   16          <!-- Touch Icons - iOS and Android 2.1+ 180x180 pixels in size. -->\n   17          <link rel=\"apple-touch-icon\" href=\"{{ getAssetPath('images/apple-touch-icon.png')}}\">\n   18          <!-- Firefox, Chrome, Safari, IE 11+ and Opera. 192x192 pixels in size. -->\n   19:         <link rel=\"icon\" href=\"{{ getAssetPath('images/favicon-192x192.png') }}\" type=\"image/png\">\n   20  \n   21          <!-- opengraph -->\n\n/home/richtier/workspace/data-hub-frontend/yarn.lock:\n 7822      statuses \"~1.3.1\"\n 7823  \n 7824: serve-favicon@^2.4.3:\n 7825    version \"2.4.3\"\n 7826:   resolved \"https://registry.yarnpkg.com/serve-favicon/-/serve-favicon-2.4.3.tgz#5986b17b0502642b641c21f818b1acce32025d23\"\n 7827    dependencies:\n 7828      etag \"~1.8.0\"\n\n13 matches across 5 files\n",
+			"settings":
+			{
+				"buffer_size": 2272,
+				"line_ending": "Unix",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"contents": "const router = require('express').Router()\n\nconst { setLocalNav, setDefaultQuery, redirectToFirstNavItem } = require('../middleware')\nconst { getContactsCollection, getRequestBody } = require('./middleware/collection')\nconst { getCommon, getDetails } = require('./controllers/details')\nconst { renderContactList } = require('./controllers/list')\nconst { postDetails, editDetails } = require('./controllers/edit')\nconst { archiveContact, unarchiveContact } = require('./controllers/archive')\nconst { renderInteractions } = require('./controllers/interactions')\nconst { getAudit } = require('./controllers/audit')\n\nconst { setInteractionsReturnUrl, setInteractionsEntityName, setCompanyDetails } = require('./middleware/interactions')\nconst {\n  getInteractionCollection,\n  getInteractionsRequestBody,\n  getInteractionSortForm,\n} = require('../interactions/middleware/collection')\n\nconst interactionsRouter = require('../interactions/router.sub-app')\n\nconst LOCAL_NAV = [\n  { path: 'details', label: 'Details' },\n  { path: 'interactions', label: 'Interactions' },\n  { path: 'audit', label: 'Audit history' },\n]\n\nconst DEFAULT_COLLECTION_QUERY = {\n  sortby: 'modified_on:desc',\n}\n\nrouter.get('/', setDefaultQuery(DEFAULT_COLLECTION_QUERY), getRequestBody, getContactsCollection, renderContactList)\n\nrouter\n  .route('/create')\n  .get(editDetails)\n  .post(postDetails)\n\nrouter.use('/:contactId', setLocalNav(LOCAL_NAV))\nrouter.get('/:contactId', redirectToFirstNavItem)\nrouter.get('/:contactId/details', getCommon, getDetails)\n\nrouter\n  .route('/:contactId/edit')\n  .get(getCommon, editDetails)\n  .post(getCommon, postDetails)\n\nrouter.post('/:id/archive', archiveContact)\nrouter.get('/:id/unarchive', unarchiveContact)\n\nrouter.get('/:contactId/interactions',\n  getCommon,\n  setInteractionsReturnUrl,\n  getInteractionsRequestBody,\n  getInteractionCollection,\n  getInteractionSortForm,\n  renderInteractions\n)\n\nrouter.get('/:contactId/audit', getCommon, getAudit)\n\nrouter.use('/:contactId', getCommon, setInteractionsReturnUrl, setInteractionsEntityName, setCompanyDetails, interactionsRouter)\n\nmodule.exports = router\n",
+			"file": "/home/richtier/workspace/data-hub-frontend/src/apps/contacts/router.js",
+			"file_size": 1985,
+			"file_write_time": 131571194716435177,
+			"settings":
+			{
+				"buffer_size": 2110,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/richtier/workspace/data-hub-frontend/src/apps/companies/controllers/interactions.js",
+			"settings":
+			{
+				"buffer_size": 318,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/richtier/workspace/data-hub-frontend/src/apps/companies/views/interactions.njk",
+			"settings":
+			{
+				"buffer_size": 934,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/richtier/workspace/data-hub-frontend/test/unit/apps/adviser/repos.test.js",
+			"settings":
+			{
+				"buffer_size": 1117,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/richtier/workspace/staff-sso/config/settings.py",
+			"settings":
+			{
+				"buffer_size": 8716,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/richtier/workspace/staff-sso/sso/samlauth/views.py",
+			"settings":
+			{
+				"buffer_size": 10387,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/richtier/workspace/staff-sso/sso/templates/djangosaml2/wayf.html",
+			"settings":
+			{
+				"buffer_size": 1831,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/richtier/workspace/data-hub-frontend/src/apps/audit/transformers.js",
+			"settings":
+			{
+				"buffer_size": 1229,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/richtier/workspace/data-hub-frontend/src/apps/companies/labels.js",
+			"settings":
+			{
+				"buffer_size": 2506,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/richtier/workspace/data-hub-frontend/src/lib/controller-utils.js",
+			"settings":
+			{
+				"buffer_size": 4147,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/richtier/workspace/data-hub-frontend/test/unit/data/companies/minimal-company.json",
+			"settings":
+			{
+				"buffer_size": 1681,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/richtier/workspace/data-hub-frontend/test/unit/data/advisers/advisers.json",
+			"settings":
+			{
+				"buffer_size": 2706,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/richtier/workspace/data-hub-frontend/test/unit/apps/companies/repos.test.js",
+			"settings":
+			{
+				"buffer_size": 9307,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/richtier/workspace/data-hub-frontend/src/apps/transformers.js",
+			"settings":
+			{
+				"buffer_size": 2935,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 152.0,
+		"last_filter": "reind",
+		"selected_items":
+		[
+			[
+				"reind",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"reindent",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 458.0
+	},
+	"console":
+	{
+		"height": 160.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b79698005270310898eea76'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/richtier/workspace/data-hub-frontend/public",
+		"/home/richtier/workspace/data-hub-frontend/public/images",
+		"/home/richtier/workspace/data-hub-frontend/src",
+		"/home/richtier/workspace/data-hub-frontend/src/apps",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/contacts",
+		"/home/richtier/workspace/data-hub-frontend/test",
+		"/home/richtier/workspace/data-hub-frontend/test/unit",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/data",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/data/advisers"
+	],
+	"file_history":
+	[
+		"/home/richtier/workspace/data-hub-frontend/src/apps/adviser/repos.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/transformers/companies-house-to-list-item.js",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/data/advisers/advisers-with-bad-data.json",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/adviser/repos.test.js",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/data/advisers/adviser-with-bad-data.json",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/companies/middleware/collection.test.js",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/companies/transformers/company-response-to-view-record.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/transformers/company-response-to-view-record.js",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/data/companies/datahub-only-company.json",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/data/api-response-intermediary-company.json",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/audit/transformers.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/labels.js",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/audit/transformers.test.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/transformers.js",
+		"/home/richtier/workspace/staff-sso/govuk_template/static/stylesheets/base.css",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/investment-projects/views/_layout.njk",
+		"/home/richtier/workspace/staff-sso/sso/samlauth/views.py",
+		"/home/richtier/workspace/staff-sso/sso/templates/djangosaml2/wayf.html",
+		"/home/richtier/workspace/staff-sso/sso/emailauth/forms.py",
+		"/home/richtier/workspace/staff-sso/README.rst",
+		"/home/richtier/workspace/staff-sso/sso/templates/emailauth/initiate.html",
+		"/home/richtier/workspace/staff-sso/govuk_template/templates/govuk_template.html",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/investment-projects/middleware/forms/team-members.js",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/investment-projects/middleware/forms/team-members.test.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/investment-projects/controllers/team/edit-team-members.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/investment-projects/views/team/edit-team-members.njk",
+		"/home/richtier/workspace/staff-sso/config/settings.py",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/api/controllers.js",
+		"/home/richtier/workspace/staff-sso/sso/static/stylesheets/sso.css",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/api/controllers.test.js",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/companies/controllers/archive.test.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/investment-projects/views/team/details.njk",
+		"/home/richtier/workspace/data-hub-frontend/assets/javascripts/_deprecated/lookup-address.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/controllers/audit.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/views/audit.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/views/_layout-view.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/templates/_layouts/two-column.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/templates/_layouts/datahub-base.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/templates/_macros/entity/meta-list.njk",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/data/audit/contact-audit.json",
+		"/home/richtier/workspace/data-hub-frontend/src/templates/_layouts/xhr.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/templates/_macros/form/select-box.njk",
+		"/home/richtier/workspace/data-hub-frontend/config/nunjucks/index.js",
+		"/home/richtier/workspace/data-hub-frontend/src/templates/_macros/entity/meta-item.njk",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/omis/apps/list/controllers.test.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/investment-projects/views/audit.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/templates/_layouts/dit-base.njk",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/companies/middleware/form.test.js",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/companies/controllers/exports.test.js",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/companies/controllers/add.test.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/contacts/views/audit.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/templates/_macros/collection/collection.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/contacts/controllers/audit.js",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/contacts/controllers/audit.test.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/views/_layout-edit.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/middleware/form.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/router.js",
+		"/home/richtier/workspace/data-hub-frontend/assets/javascripts/lib/xhr.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/views/edit.njk",
+		"/home/richtier/workspace/data-hub-frontend/.build/js/app.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/contacts/views/edit.njk",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/form-helpers.js",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/contacts/controllers/edit.test.js",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/companies/controllers/edit.test.js",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/assets/javascripts/lib/xhr.test.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/investment-projects/controllers/audit.js",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/investment-projects/controllers/audit.test.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/controllers/edit.js",
+		"/home/richtier/workspace/staff-sso/govuk_template/templates/base.html",
+		"/home/richtier/workspace/data-hub-frontend/src/templates/_macros/collection.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/components/views/collection.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/components/controllers.js",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/companies/controllers/investments.test.js",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/companies/middleware/params.test.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/middleware/params.js",
+		"/home/richtier/workspace/staff-sso/sso/user/static/stylesheets/base.css",
+		"/home/richtier/workspace/staff-sso/govuk_template/static/stylesheets/govuk-elements-styles.css",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/omis/middleware.test.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/repos.js",
+		"/home/richtier/workspace/data-hub-frontend/package.json",
+		"/home/richtier/workspace/data-hub-frontend/yarn.lock",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/contacts/labels.js",
+		"/home/richtier/workspace/data-hub-frontend/.circleci/config.yml",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/controllers/investments.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/controllers/exports.js",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/assets/javascripts/modules/sortable-table.test.js",
+		"/home/richtier/workspace/data-hub-frontend/assets/javascripts/modules/auto-submit.js",
+		"/home/richtier/workspace/staff-sso/config/urls.py",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/views/exports-edit.njk",
+		"/home/richtier/workspace/staff-sso/sso/templates/emailauth/invalid-token.html",
+		"/home/richtier/workspace/staff-sso/sso/localauth/urls.py",
+		"/home/richtier/workspace/staff-sso/sso/localauth/views.py",
+		"/home/richtier/workspace/staff-sso/.env",
+		"/home/richtier/workspace/staff-sso/sso/emailauth/models.py",
+		"/home/richtier/workspace/staff-sso/sso/templates/emailauth/complete.html",
+		"/home/richtier/workspace/staff-sso/sso/templates/emailauth/email.txt",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/options.js",
+		"/home/richtier/workspace/data-hub-frontend/src/lib/metadata.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/middleware/collection.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/middleware/interactions.js",
+		"/home/richtier/workspace/data-hub-frontend/src/templates/_macros/form/error-summary.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/templates/_macros/form.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/templates/_macros/form/form.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/investment-projects/controllers/create/investment-type.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/interactions/controllers/edit.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/investment-projects/views/_details-form.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/investment-projects/middleware/forms/details.js",
+		"/home/richtier/workspace/data-hub-frontend/src/templates/_macros/form/text-field.njk",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/data/search/companiesHouseAndLtdCompanies.json",
+		"/home/richtier/workspace/data-hub-frontend/src/middleware/locals.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/omis/apps/list/views/list-collection.njk",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/apps/companies/repos.test.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/controllers/add.js",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/views/add-step-1.njk",
+		"/home/richtier/workspace/staff-sso/sso/templates/djangosaml2/access_denied.html",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/omis/apps/list/views/list-reconciliation.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/investment-projects/views/list.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/interactions/views/list.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/events/views/list.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/contacts/views/list.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/contacts/views/interactions.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/views/list.njk",
+		"/home/richtier/workspace/data-hub-frontend/src/apps/companies/views/interactions.njk",
+		"/home/richtier/workspace/data-hub-file-browser/dhfb/templates/base.html",
+		"/home/richtier/workspace/data-hub-file-browser/dhfb/templates/govuk_template.html",
+		"/home/richtier/workspace/data-hub-file-browser/dhfb/templates/ls.html",
+		"/home/richtier/workspace/data-hub-frontend/src/templates/_macros/collection/collection-filters.njk",
+		"/home/richtier/workspace/data-hub-frontend/test/unit/macros/form/form.test.js"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 96.0,
+		"where_history":
+		[
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend/test",
+			"/home/richtier/workspace/data-hub-frontend/test/unit",
+			"/home/richtier/workspace/data-hub-frontend/test",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend/test",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/staff-sso/sso",
+			"/home/richtier/workspace/staff-sso",
+			"/home/richtier/workspace/data-hub-frontend/test",
+			"/home/richtier/workspace/data-hub-frontend/test/unit",
+			"/home/richtier/workspace/data-hub-frontend/test",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend/test/unit",
+			"/home/richtier/workspace/data-hub-frontend/test",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend/test",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/test",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend/assets",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/src/apps/companies",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend/src/apps/audit",
+			"/home/richtier/workspace/data-hub-frontend/src/apps/contacts",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/staff-sso",
+			"/home/richtier/workspace/staff-sso/sso",
+			"/home/richtier/workspace/data-hub-frontend/test",
+			"/home/richtier/workspace/data-hub-frontend/src/apps/companies/middleware",
+			"/home/richtier/workspace/data-hub-frontend/src/apps/companies/controllers",
+			"/home/richtier/workspace/data-hub-frontend/src/apps/companies",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/test",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/test",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/test",
+			"/home/richtier/workspace/data-hub-frontend/assets",
+			"/home/richtier/workspace/staff-sso",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/staff-sso",
+			"/home/richtier/workspace/staff-sso/sso",
+			"/home/richtier/workspace/staff-sso",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/test",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend/test",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend/test",
+			"/home/richtier/workspace/data-hub-frontend/test/unit",
+			"/home/richtier/workspace/staff-sso/sso",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend/src/apps",
+			"/home/richtier/workspace/staff-sso",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/assets",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/assets",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/src/apps/companies",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/data-hub-frontend/src",
+			"/home/richtier/workspace/data-hub-frontend",
+			"/home/richtier/workspace/staff-sso/sso",
+			"/home/richtier/workspace/staff-sso",
+			"/home/richtier/workspace/staff-sso/sso",
+			"/home/richtier/workspace/staff-sso",
+			"/home/richtier/workspace/staff-sso/sso",
+			"/home/richtier/workspace/directory-ui-export-readiness/article/templates/article/markdown",
+			"/home/richtier/workspace/directory-ui-export-readiness",
+			"/home/richtier/workspace/directory-ui-export-readiness/article/templates/article/markdown",
+			"/home/richtier/workspace/directory-ui-export-readiness",
+			"/home/richtier/workspace/directory-ui-supplier",
+			"/home/richtier/workspace/directory-ui-buyer",
+			"/home/richtier/workspace/directory-ui-export-readiness",
+			"/home/richtier/workspace/directory-ui-supplier",
+			"/home/richtier/workspace/navigator/app/assets/javascripts",
+			"/home/richtier/workspace/navigator",
+			"/home/richtier/workspace/directory-ui-supplier",
+			"/home/richtier/workspace/navigator/app/assets/javascripts",
+			"/home/richtier/workspace/navigator",
+			"/home/richtier/workspace/directory-ui-export-readiness/core",
+			"/home/richtier/workspace/directory-ui-export-readiness",
+			"/home/richtier/workspace/directory-header-footer/directory_header_footer/static",
+			"/home/richtier/workspace/directory-header-footer",
+			"/home/richtier/workspace/directory-ui-export-readiness",
+			"/home/richtier/workspace/directory-ui-export-readiness/core",
+			"/home/richtier/workspace/directory-ui-export-readiness",
+			"/home/richtier/workspace/directory-api",
+			"/home/richtier/workspace/directory-ui-export-readiness/article",
+			"/home/richtier/workspace/directory-ui-export-readiness",
+			"/home/richtier/workspace/directory-ui-export-readiness/core",
+			"/home/richtier/workspace/directory-ui-export-readiness",
+			"/home/richtier/workspace/directory-ui-export-readiness/core",
+			"/home/richtier/workspace/directory-ui-export-readiness",
+			"/home/richtier/workspace/directory-ui-export-readiness/core",
+			"/home/richtier/workspace/directory-ui-export-readiness",
+			"/home/richtier/workspace/directory-ui-export-readiness/core",
+			"/home/richtier/workspace/directory-ui-export-readiness/core/static/styles",
+			"/home/richtier/workspace/directory-ui-export-readiness/core/static",
+			"/home/richtier/workspace/directory-ui-export-readiness/core/static/styles",
+			"/home/richtier/workspace/directory-ui-export-readiness",
+			"/home/richtier/workspace/directory-ui-export-readiness/article/templates/article",
+			"/home/richtier/workspace/directory-ui-supplier",
+			"/home/richtier/workspace/directory-ui-buyer",
+			"/home/richtier/workspace/directory-ui-supplier"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"favicon",
+			"pick(",
+			"nock",
+			"companyDetailsLabels",
+			"hqLabels",
+			"transformCompanyResponseToViewRecord",
+			"resolve",
+			"getAdvisers",
+			"advisers",
+			"_id",
+			"labels",
+			"transformChanges",
+			"transformAuditLogToListItem",
+			"transformChanges",
+			"companyDetailsLabels",
+			"transformApiResponseToCollection",
+			"transformAuditLogToListItem",
+			"transformAuditLogItem",
+			"transformChanges",
+			"transformAuditLogToListItem",
+			"entityType",
+			"account_manager_id",
+			"edit",
+			".idp",
+			"hr",
+			"Complete this stage to move",
+			"Complete this stage to move to the stage.",
+			"form",
+			"wayf.html",
+			"govuk_template",
+			"govuk_template_base",
+			"error",
+			"context",
+			"await",
+			"transformDataToTeamMemberArray",
+			"formatted",
+			"zipWith",
+			"transformDataToTeamMemberArray",
+			"edit-team-members",
+			".handleFormPost",
+			"team",
+			"handleFormPost",
+			"transformDataToTeamMemberArray",
+			".adviser",
+			"adviser",
+			"transformDataToTeamMemberArray",
+			"await",
+			"meta",
+			"transformAuditLogToListItem",
+			"Adviser",
+			"contactDetailsLabels",
+			"transformAuditLogToListItem",
+			"transformAuditLogItem",
+			"result",
+			"endsafespaceless",
+			"option value=",
+			"safespaceless",
+			"c-meta-list__item-label ",
+			"xhr-outlet",
+			"throws",
+			"raises",
+			"calledWith",
+			"returnsThis",
+			"resMock",
+			".json",
+			"countryOptions",
+			"countryOp",
+			"mockMetadataRepository",
+			"../../lib/metadata",
+			"req",
+			"lookupAddress",
+			"postcodeLookupHandler",
+			"value",
+			";",
+			"loading",
+			"u-loading",
+			"progress",
+			"postcodelookup",
+			"postcode",
+			"Edit company",
+			"setIsEditingCompany",
+			"business and street",
+			"pagination",
+			"c-pagination__label",
+			"c-pagination__label is-current",
+			".username",
+			"username.username",
+			".css",
+			"svg",
+			"var",
+			"timestamp: '9 August 2017',",
+			"timestamp: '2017-08-09T13:25:29.568665Z'",
+			"companyNumber",
+			"getCHCompany",
+			"called",
+			"companiesHouseCategory",
+			"getDitCompany",
+			".only",
+			"getDitCompany",
+			"getCHCompany",
+			"getCompaniesHouseRecord",
+			"getBusinessTypeLabel",
+			"getBusinessTypeLabel(false",
+			"getBusinessTypeLabel",
+			"company_category",
+			"getBusinessTypeLabel",
+			"getCompany",
+			"locals.company = ",
+			"isCompaniesHouse",
+			"getBusinessTypeLabel",
+			"isCompaniesHouse",
+			"companyNumber",
+			"getCompaniesHouseRecord",
+			"companiesHouseRecord",
+			"getBusinessTypeLabel",
+			"isLimitedCompany",
+			";",
+			"spaceless",
+			"endspaceless",
+			"spaceles",
+			"var",
+			"contactDetailsLabels",
+			"formatAuditLog",
+			"longDateFormat",
+			"parseDateString",
+			"longdate",
+			"format(",
+			"longDateFormat"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"timestamp: this.formattedDate,",
+			"timestamp: this.formattedDate",
+			"this.timestamp",
+			"getBusinessTypeLabel(undefined",
+			"",
+			"buildReq",
+			"\"{{ url_for('static', filename='$1') }}\"",
+			"$1",
+			"\"{{ url_for('static', filename='$1') }}\"",
+			"\"{{ url_for('static', filename='$0') }}\"",
+			"{{ url_for('static', filename='$0') }}",
+			"{% url_with_source",
+			"Continue my export journey",
+			"Create my export journey",
+			"Continue my export journey",
+			"Create my export journey",
+			"",
+			"eig-logo-stacked.png",
+			"",
+			".name",
+			"group_name",
+			"name",
+			"retrieve_article_uuids",
+			"retrieve_article_uuids(",
+			"request.article_read_manager",
+			"retrieve_article_uuids",
+			"persist_article",
+			"is_in_companies_house",
+			"persist_article_read",
+			"h3",
+			"'),\\n",
+			", ",
+			"    ('",
+			"custom-hero-new-to-exporting-mobile@2x.png",
+			"custom-hero-new-to-exporting@2x.png",
+			"persona-hero-new-to-exporting-mobile@2x.png",
+			"make_hamronised_system_code_key",
+			"ArticleReadMixin",
+			"article_group_progress",
+			"'casestudy-york-bag'",
+			"is_in_companies_house",
+			"not forms.get_is_sole_trader(answers)",
+			"'-is_limited_company': True,",
+			"'-is_limited_company': False,",
+			"'-is_limited_company': True,",
+			"COMPANIES_HOUSE",
+			"forms.get_is_limited_company(answers)",
+			"get_is_sole_trader",
+			"COMPANIES_HOUSE",
+			"CompaniesHouseForm",
+			"SOLE_TRADER",
+			"is_user_is_reviewing_persisted_answers",
+			"is_reviewing_persisted_answers",
+			"Mock(return_value={'sector': 'HS01'}))",
+			"@patch('triage.helpers.SessionTriageAnswersManager.retrieve_answers', Mock(return_value={1: 2}))",
+			"@patch(\n    'triage.views.CustomPageView.triage_answers',\n    new_callable=PropertyMock(return_value={1: 2})\n)",
+			"@patch('triage.views.CustomPageView.triage_answers',\n    new_callable=PropertyMock(return_value={1: 2})\n)",
+			"@patch(\\n    'triage.views.CustomPageView.triage_answers',\n    new_callable=PropertyMock(return_value={1: 2})\n)",
+			"@patch('triage.views.CustomPageView.triage_answers',\n    new_callable=PropertyMock(return_value={1: 2})\n)",
+			"@patch('triage.views.CustomPageView.triage_answers',\n       new_callable=PropertyMock(return_value={1: 2})\n)",
+			"@patch('triage.views.CustomPageView.triage_answers',\n        new_callable=PropertyMock(return_value={1: 2})\n)",
+			"CountryCommodityCSVComtradeFile",
+			"TopCountryCommodityCSVComtradeFile",
+			"CSVComtradeFile",
+			"CSVFile",
+			"CSV",
+			"intword",
+			"humanize_millions",
+			"humanize_currency",
+			"triage/resources",
+			"load_csv_rows",
+			"triage-result",
+			"assert response.context_data['casestudies'] == [",
+			"346.797",
+			"image_url }}",
+			"{{ casestudies",
+			"article-list-persona-new",
+			"robots",
+			"        assert soup.find('h1').text.replace('\\n', '') == (",
+			"INTELLECTUAL",
+			"custom-page",
+			"custom-landing-page",
+			"persona_article_group",
+			"section_configuration",
+			"ArticleParent",
+			"",
+			"key",
+			"article_group = ",
+			"article_group",
+			"",
+			"LIST_",
+			"SOURCE",
+			"LIST_SOURCE",
+			"understand-your-customers-culture",
+			"Guidance",
+			"guidance_views_under_test",
+			"articles",
+			"BaseArticleListView",
+			"guidance",
+			"GUIDANCE_",
+			"GUIDANCE",
+			"parent",
+			"GuidanceArticle",
+			"article_list=",
+			"",
+			"reverse_lazy",
+			",\\n    url=reverse(),\n)",
+			",\\n    reverse(),\n)",
+			",\\nreverse(''),\n)",
+			"ArticleList",
+			"BaseArticleDetailView",
+			"INTERNATIONALISE_WESBITE",
+			"view_class.article.markdown_file_path",
+			"",
+			"    article = structure.",
+			"",
+			"markdown_file_path=",
+			"\\n",
+			"",
+			"'",
+			"directory-constants.git@v5.2.0",
+			"directory-constants.git@v5.1.0",
+			"",
+			"Persist",
+			"Storage",
+			"",
+			"directory-api-client.git@v9.3.1",
+			"article_views_under_test"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"folders":
+	[
+		{
+			"path": "/home/richtier/workspace/staff-sso"
+		},
+		{
+			"path": "/home/richtier/workspace/data-hub-file-browser"
+		},
+		{
+			"path": "/home/richtier/workspace/data-hub-frontend"
+		}
+	],
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/home/richtier/workspace/data-hub-frontend/.env",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1129,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								704,
+								704
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2272,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										148,
+										155
+									],
+									[
+										254,
+										261
+									],
+									[
+										270,
+										277
+									],
+									[
+										586,
+										593
+									],
+									[
+										839,
+										846
+									],
+									[
+										864,
+										871
+									],
+									[
+										1035,
+										1042
+									],
+									[
+										1084,
+										1091
+									],
+									[
+										1447,
+										1454
+									],
+									[
+										1835,
+										1842
+									],
+									[
+										2026,
+										2033
+									],
+									[
+										2121,
+										2128
+									],
+									[
+										2137,
+										2144
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								1095,
+								1095
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 1,
+							"result_base_dir": "",
+							"result_file_regex": "^([^ \t].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"file": "/home/richtier/workspace/data-hub-frontend/public/images/favicon.ico",
+					"semi_transient": true,
+					"stack_index": 0,
+					"type": "image"
+				},
+				{
+					"buffer": 2,
+					"file": "/home/richtier/workspace/data-hub-frontend/src/apps/contacts/router.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2110,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1888,
+								1888
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 784.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/home/richtier/workspace/data-hub-frontend/src/apps/companies/controllers/interactions.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 318,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								201,
+								201
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/home/richtier/workspace/data-hub-frontend/src/apps/companies/views/interactions.njk",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 934,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								228,
+								228
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/home/richtier/workspace/data-hub-frontend/test/unit/apps/adviser/repos.test.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1117,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/home/richtier/workspace/staff-sso/config/settings.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8716,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1195,
+								1195
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 788.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/home/richtier/workspace/staff-sso/sso/samlauth/views.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10387,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1938,
+								1938
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 729.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "/home/richtier/workspace/staff-sso/sso/templates/djangosaml2/wayf.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1831,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								29,
+								29
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "/home/richtier/workspace/data-hub-frontend/src/apps/audit/transformers.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1229,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								287,
+								287
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "/home/richtier/workspace/data-hub-frontend/src/apps/companies/labels.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2506,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1428,
+								1428
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 14,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "/home/richtier/workspace/data-hub-frontend/src/lib/controller-utils.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4147,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3764,
+								3764
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2425.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "/home/richtier/workspace/data-hub-frontend/test/unit/data/companies/minimal-company.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1681,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								315,
+								315
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "/home/richtier/workspace/data-hub-frontend/test/unit/data/advisers/advisers.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2706,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								14,
+								14
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "/home/richtier/workspace/data-hub-frontend/test/unit/apps/companies/repos.test.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9307,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								9307,
+								9307
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 15,
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "/home/richtier/workspace/data-hub-frontend/src/apps/transformers.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2935,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2681,
+								2681
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1495.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 16,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 36.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 118.0
+	},
+	"pinned_build_system": "",
+	"project": "",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"companies/views/interactions",
+				"data-hub-frontend/src/apps/companies/views/interactions.njk"
+			],
+			[
+				"companiestransformer",
+				"data-hub-frontend/src/apps/companies/transformers/companies-house-to-list-item.js"
+			],
+			[
+				"t/unit/data/advisers/advisers.json",
+				"data-hub-frontend/test/unit/data/advisers/advisers.json"
+			],
+			[
+				"test/unit/apps/adviser/repos.test.js",
+				"data-hub-frontend/test/unit/apps/adviser/repos.test.js"
+			],
+			[
+				"src/apps/adviser/repos.js",
+				"data-hub-frontend/src/apps/adviser/repos.js"
+			],
+			[
+				"djangosaml2/wayf.html",
+				"staff-sso/sso/templates/djangosaml2/wayf.html"
+			],
+			[
+				"companies/minimal-company.json",
+				"data-hub-frontend/test/unit/data/companies/minimal-company.json"
+			],
+			[
+				"datahub-only-company.json",
+				"data-hub-frontend/test/unit/data/companies/datahub-only-company.json"
+			],
+			[
+				"src/apps/audit/transformers.js",
+				"data-hub-frontend/src/apps/audit/transformers.js"
+			],
+			[
+				"test/unit/data/",
+				"data-hub-frontend/test/unit/data/api-response-intermediary-company.json"
+			],
+			[
+				"testrepos.js",
+				"data-hub-frontend/test/unit/apps/companies/repos.test.js"
+			],
+			[
+				"sso/emailauth/forms.py",
+				"staff-sso/sso/emailauth/forms.py"
+			],
+			[
+				"govuk_template/templates/govuk_template.html",
+				"staff-sso/govuk_template/templates/govuk_template.html"
+			],
+			[
+				"sso/templates/emailauth/initiate.html",
+				"staff-sso/sso/templates/emailauth/initiate.html"
+			],
+			[
+				"config/settings.py",
+				"staff-sso/config/settings.py"
+			],
+			[
+				"sso/static/stylesheets/sso.css",
+				"staff-sso/sso/static/stylesheets/sso.css"
+			],
+			[
+				"sso.",
+				"staff-sso/sso/static/stylesheets/sso.css"
+			],
+			[
+				"wayf",
+				"staff-sso/sso/templates/djangosaml2/wayf.html"
+			],
+			[
+				"test/unit/apps/api/controllers.test.js",
+				"data-hub-frontend/test/unit/apps/api/controllers.test.js"
+			],
+			[
+				"src/apps/investment-projects/middleware/forms/team-members.js",
+				"data-hub-frontend/src/apps/investment-projects/middleware/forms/team-members.js"
+			],
+			[
+				"src/apps/api/controllers.js",
+				"data-hub-frontend/src/apps/api/controllers.js"
+			],
+			[
+				"apps/investment-projects/middleware/forms/team-members.js",
+				"data-hub-frontend/src/apps/investment-projects/middleware/forms/team-members.js"
+			],
+			[
+				"testteam-members",
+				"data-hub-frontend/test/unit/apps/investment-projects/middleware/forms/team-members.test.js"
+			],
+			[
+				"edit-team-members.nj",
+				"data-hub-frontend/src/apps/investment-projects/views/team/edit-team-members.njk"
+			],
+			[
+				"investment-projects/middleware/forms/team-members.js",
+				"data-hub-frontend/src/apps/investment-projects/middleware/forms/team-members.js"
+			],
+			[
+				"testapps/api/controllers.js",
+				"data-hub-frontend/test/unit/apps/api/controllers.test.js"
+			],
+			[
+				"test/unit/apps/audit/transformers.test.js",
+				"data-hub-frontend/test/unit/apps/audit/transformers.test.js"
+			],
+			[
+				"metalist.nk",
+				"data-hub-frontend/src/templates/_macros/entity/meta-list.njk"
+			],
+			[
+				"datahub-b",
+				"data-hub-frontend/src/templates/_layouts/datahub-base.njk"
+			],
+			[
+				"two-colu",
+				"data-hub-frontend/src/templates/_layouts/two-column.njk"
+			],
+			[
+				"_layout-view.njk",
+				"data-hub-frontend/src/apps/companies/views/_layout-view.njk"
+			],
+			[
+				"ompanies/views/audit",
+				"data-hub-frontend/src/apps/companies/views/audit.njk"
+			],
+			[
+				"investment-projects/views/audit.njk",
+				"data-hub-frontend/src/apps/investment-projects/views/audit.njk"
+			],
+			[
+				"companies/views/audit.",
+				"data-hub-frontend/src/apps/companies/views/audit.njk"
+			],
+			[
+				"contact-audit.json",
+				"data-hub-frontend/test/unit/data/audit/contact-audit.json"
+			],
+			[
+				"nunjucksindex",
+				"data-hub-frontend/config/nunjucks/index.js"
+			],
+			[
+				"select.nkj",
+				"data-hub-frontend/src/templates/_macros/form/select-box.njk"
+			],
+			[
+				"_deprecated/lookup-address.js",
+				"data-hub-frontend/assets/javascripts/_deprecated/lookup-address.js"
+			],
+			[
+				"apps/api/controllers.js",
+				"data-hub-frontend/src/apps/api/controllers.js"
+			],
+			[
+				"testapi/controllers.js",
+				"data-hub-frontend/test/unit/apps/omis/apps/list/controllers.test.js"
+			],
+			[
+				"testcompanies/edit.",
+				"data-hub-frontend/test/unit/apps/companies/controllers/edit.test.js"
+			],
+			[
+				"test/unit/apps/contacts/controllers/edit.test.js",
+				"data-hub-frontend/test/unit/apps/contacts/controllers/edit.test.js"
+			],
+			[
+				"test/unit/form-helpers.js",
+				"data-hub-frontend/test/unit/form-helpers.js"
+			],
+			[
+				"unit/form-helpers.js",
+				"data-hub-frontend/test/unit/form-helpers.js"
+			],
+			[
+				"apps/contacts/controllers/audit.test.js",
+				"data-hub-frontend/test/unit/apps/contacts/controllers/audit.test.js"
+			],
+			[
+				"collection.njk",
+				"data-hub-frontend/src/templates/_macros/collection/collection.njk"
+			],
+			[
+				"collection",
+				"data-hub-frontend/src/templates/_macros/collection.njk"
+			],
+			[
+				"base.css",
+				"staff-sso/sso/user/static/stylesheets/base.css"
+			],
+			[
+				"forms.py",
+				"staff-sso/sso/emailauth/forms.py"
+			],
+			[
+				"src/apps/companies/controllers/edit.js",
+				"data-hub-frontend/src/apps/companies/controllers/edit.js"
+			],
+			[
+				"config/nunjucks/index.js",
+				"data-hub-frontend/config/nunjucks/index.js"
+			],
+			[
+				"test/unit/apps/investment-projects/controllers/audit.test.js",
+				"data-hub-frontend/test/unit/apps/investment-projects/controllers/audit.test.js"
+			],
+			[
+				"src/apps/investment-projects/views/audit.njk",
+				"data-hub-frontend/src/apps/investment-projects/views/audit.njk"
+			],
+			[
+				"apps/companies/controllers/edit.test.js",
+				"data-hub-frontend/test/unit/apps/companies/controllers/edit.test.js"
+			],
+			[
+				"companiesedit",
+				"data-hub-frontend/src/apps/companies/controllers/edit.js"
+			],
+			[
+				"xhr",
+				"data-hub-frontend/src/templates/_layouts/xhr.njk"
+			],
+			[
+				"src/apps/contacts/labels",
+				"data-hub-frontend/src/apps/contacts/labels.js"
+			],
+			[
+				"apps/audit/transformers.test.js",
+				"data-hub-frontend/test/unit/apps/audit/transformers.test.js"
+			],
+			[
+				"investment-projects/views/audit",
+				"data-hub-frontend/src/apps/investment-projects/views/audit.njk"
+			],
+			[
+				"investment-projects/controllers/audit.js",
+				"data-hub-frontend/test/unit/apps/investment-projects/controllers/audit.test.js"
+			],
+			[
+				"controllers/audit.js",
+				"data-hub-frontend/src/apps/companies/controllers/audit.js"
+			],
+			[
+				"apps/contacts/label",
+				"data-hub-frontend/src/apps/contacts/labels.js"
+			],
+			[
+				"circle.",
+				"data-hub-frontend/.circleci/config.yml"
+			],
+			[
+				"circle",
+				"data-hub-frontend/.circleci/config.yml"
+			],
+			[
+				"src/apps/companies/controllers/investments",
+				"data-hub-frontend/src/apps/companies/controllers/investments.js"
+			],
+			[
+				"testautosubmit",
+				"data-hub-frontend/assets/javascripts/modules/auto-submit.js"
+			],
+			[
+				"assets/javascripts/lib/xhr.js",
+				"data-hub-frontend/assets/javascripts/lib/xhr.js"
+			],
+			[
+				"staffurls.",
+				"staff-sso/config/urls.py"
+			],
+			[
+				"packs",
+				"data-hub-frontend/package.json"
+			],
+			[
+				"xhr.js",
+				"data-hub-frontend/assets/javascripts/lib/xhr.js"
+			],
+			[
+				"datahub-base.njk",
+				"data-hub-frontend/src/templates/_layouts/datahub-base.njk"
+			],
+			[
+				"_layouts/two-column.njk",
+				"data-hub-frontend/src/templates/_layouts/two-column.njk"
+			],
+			[
+				"/_layout-edit.njk",
+				"data-hub-frontend/src/apps/companies/views/_layout-edit.njk"
+			],
+			[
+				"companies/views/exports-edit",
+				"data-hub-frontend/src/apps/companies/views/exports-edit.njk"
+			],
+			[
+				"src/apps/companies/views/edit.njk",
+				"data-hub-frontend/src/apps/companies/views/edit.njk"
+			],
+			[
+				"config/urls.py",
+				"staff-sso/config/urls.py"
+			],
+			[
+				"sso/emailauth/models.py",
+				"staff-sso/sso/emailauth/models.py"
+			],
+			[
+				"test/unit/apps/companies/controllers/edit.test.js",
+				"data-hub-frontend/test/unit/apps/companies/controllers/edit.test.js"
+			],
+			[
+				"src/apps/companies/middleware/form.js",
+				"data-hub-frontend/src/apps/companies/middleware/form.js"
+			],
+			[
+				"testcompaniesedit",
+				"data-hub-frontend/test/unit/apps/companies/controllers/edit.test.js"
+			],
+			[
+				"metaitem",
+				"data-hub-frontend/src/templates/_macros/entity/meta-item.njk"
+			],
+			[
+				"metalist",
+				"data-hub-frontend/src/templates/_macros/entity/meta-list.njk"
+			],
+			[
+				"/src/apps/companies/views/edit.njk",
+				"data-hub-frontend/src/apps/companies/views/edit.njk"
+			],
+			[
+				"src/apps/investment-projects/views/team/edit-team-members.njk",
+				"data-hub-frontend/src/apps/investment-projects/views/team/edit-team-members.njk"
+			],
+			[
+				"error-sum",
+				"data-hub-frontend/src/templates/_macros/form/error-summary.njk"
+			],
+			[
+				"form/form.njk",
+				"data-hub-frontend/src/templates/_macros/form/form.njk"
+			],
+			[
+				"form.njk",
+				"data-hub-frontend/src/templates/_macros/form.njk"
+			],
+			[
+				"middleware/forms/team-members.js",
+				"data-hub-frontend/src/apps/investment-projects/middleware/forms/team-members.js"
+			],
+			[
+				"testmiddleware/forms/team-members.js",
+				"data-hub-frontend/test/unit/apps/investment-projects/middleware/forms/team-members.test.js"
+			],
+			[
+				"textfield",
+				"data-hub-frontend/src/templates/_macros/form/text-field.njk"
+			],
+			[
+				"textfield.",
+				"data-hub-frontend/src/templates/_macros/form/text-field.njk"
+			],
+			[
+				"locals.js",
+				"data-hub-frontend/src/middleware/locals.js"
+			],
+			[
+				"package.js",
+				"data-hub-frontend/package.json"
+			],
+			[
+				"unit/data/",
+				"data-hub-frontend/test/unit/data/api-response-intermediary-company.json"
+			],
+			[
+				"lib/metadata",
+				"data-hub-frontend/src/lib/metadata.js"
+			],
+			[
+				"companies/views/edit",
+				"data-hub-frontend/src/apps/companies/views/edit.njk"
+			],
+			[
+				"testcompanies",
+				"data-hub-frontend/test/unit/apps/companies/repos.test.js"
+			],
+			[
+				"companies/views/add-step-1.njk",
+				"data-hub-frontend/src/apps/companies/views/add-step-1.njk"
+			],
+			[
+				"assets/javascripts/modules/auto-submit.j",
+				"data-hub-frontend/assets/javascripts/modules/auto-submit.js"
+			],
+			[
+				"src/apps/companies/views/list.njk",
+				"data-hub-frontend/src/apps/companies/views/list.njk"
+			],
+			[
+				"collection/collection.njk",
+				"data-hub-frontend/src/templates/_macros/collection/collection.njk"
+			],
+			[
+				"collection.",
+				"data-hub-frontend/src/templates/_macros/collection.njk"
+			],
+			[
+				"auto-",
+				"data-hub-frontend/assets/javascripts/modules/auto-submit.js"
+			],
+			[
+				"stylesheets/base.css",
+				"staff-sso/sso/user/static/stylesheets/base.css"
+			],
+			[
+				"src/templates/_macros/form/form.njk",
+				"data-hub-frontend/src/templates/_macros/form/form.njk"
+			],
+			[
+				"test/unit/macros/form/form.test.js",
+				"data-hub-frontend/test/unit/macros/form/form.test.js"
+			],
+			[
+				"localsjs",
+				"data-hub-frontend/src/middleware/locals.js"
+			],
+			[
+				"collectionfilters",
+				"data-hub-frontend/src/templates/_macros/collection/collection-filters.njk"
+			],
+			[
+				"companies/views/list",
+				"data-hub-frontend/src/apps/companies/views/list.njk"
+			],
+			[
+				"_macros/form/form.njk",
+				"data-hub-frontend/src/templates/_macros/form/form.njk"
+			],
+			[
+				"templates/_macros/form/form.njk",
+				"data-hub-frontend/src/templates/_macros/form/form.njk"
+			],
+			[
+				"apps/companies/middleware/form.js",
+				"data-hub-frontend/src/apps/companies/middleware/form.js"
+			],
+			[
+				"apps/companies/middleware/collection.js",
+				"data-hub-frontend/src/apps/companies/middleware/collection.js"
+			],
+			[
+				"form.nj",
+				"data-hub-frontend/src/templates/_macros/form.njk"
+			],
+			[
+				"form",
+				"data-hub-frontend/src/templates/_macros/form.njk"
+			],
+			[
+				"collection-filter",
+				"data-hub-frontend/test/unit/macros/collection/collection-filters.test.js"
+			],
+			[
+				"readme",
+				"README.rst"
+			],
+			[
+				"requirements.in",
+				"requirements.in"
+			],
+			[
+				"govuk",
+				"govuk_template/templates/govuk_template.html"
+			],
+			[
+				"base.html",
+				"sso/templates/sso/base.html"
+			],
+			[
+				"base.htm",
+				"govuk_template/templates/base.html"
+			],
+			[
+				"settings",
+				"config/settings.py"
+			],
+			[
+				"urls",
+				"config/urls.py"
+			],
+			[
+				"admin",
+				"sso/user/admin.py"
+			],
+			[
+				"settings.py",
+				"config/settings.py"
+			],
+			[
+				"0001_initial",
+				"sso/oauth2/migrations/0001_initial.py"
+			],
+			[
+				"eredurls",
+				"directory-ui-export-readiness/ui/urls.py"
+			],
+			[
+				"article/tests/test_helpers.py",
+				"directory-ui-export-readiness/article/tests/test_helpers.py"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/workspace/edgar.sublime-workspace"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 284.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
