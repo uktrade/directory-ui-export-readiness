@@ -118,6 +118,11 @@ To compile `.mo` files (no need to add these to source code, as this is done aut
 This product includes GeoLite2 data created by MaxMind, available from
 <a href="http://www.maxmind.com">http://www.maxmind.com</a>.
 
+To download the data run the following command:
+
+    $ make debug_manage cmd="download_geolocation_data"
+
+
 ## SSO
 To make sso work locally add the following to your machine's `/etc/hosts`:
 

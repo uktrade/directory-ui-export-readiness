@@ -103,3 +103,5 @@ package-lock.json
 
 # Docker
 .env
+
+core/geolocation_data

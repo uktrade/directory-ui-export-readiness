@@ -361,3 +361,12 @@ INTERNAL_CH_API_KEY = os.getenv('INTERNAL_CH_API_KEY')
 
 # geo location
 GEOIP_PATH = os.path.join(BASE_DIR, 'core/geolocation_data')
+GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'
+
+GEOLOCATION_MAXMIND_DATABASE_FILE_URL = os.getenv(
+    'GEOLOCATION_MAXMIND_DATABASE_FILE_URL',
+    (
+        'http://geolite.maxmind.com/download/geoip/database/'
+        'GeoLite2-Country.tar.gz'
+    )
+)
