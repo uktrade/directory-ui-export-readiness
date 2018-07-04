@@ -103,5 +103,4 @@ package-lock.json
 
 # Docker
 .env
-
-core/geolocation_data
+core/geolocation_data/GeoLite2-Country.mmdb
