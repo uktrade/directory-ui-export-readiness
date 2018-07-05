@@ -1,3 +1,5 @@
+import directory_components.views
+
 from django.conf.urls import url
 from django.contrib.sitemaps.views import sitemap
 from django.views.generic import TemplateView
@@ -24,7 +26,7 @@ urlpatterns = [
     ),
     url(
         r"^robots\.txt$",
-        core.views.RobotsView.as_view(),
+        directory_components.views.RobotsView.as_view(),
         name='robots'
     ),
     url(

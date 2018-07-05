@@ -157,8 +157,8 @@ class StaticViewSitemap(sitemaps.Sitemap):
 
     def items(self):
         # import here to avoid circular import
-        from ui import urls
-        from ui.url_redirects import redirects
+        from conf import urls
+        from conf.url_redirects import redirects
         return [
             url.name for url in urls.urlpatterns
             if url not in redirects and url.name not in ContactUsSitemap.names
@@ -197,11 +197,6 @@ class ContactUsSitemap(sitemaps.Sitemap):
 
     def location(self, item):
         return item
-
-
-class RobotsView(TemplateView):
-    template_name = 'core/robots.txt'
-    content_type = 'text/plain'
 
 
 class AboutView(SetEtagMixin, TemplateView):

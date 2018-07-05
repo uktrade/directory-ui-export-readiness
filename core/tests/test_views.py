@@ -236,7 +236,7 @@ def test_international_landing_view_translations(lang, client):
 
 
 @pytest.mark.parametrize('method,expected', (
-    ('get', '"aa579dae951f3cc5d696e5359261e123"'),
+    ('get', '"b013a413446c5dddaf341792c63a88c4"'),
     ('post', None),
     ('patch', None),
     ('put', None),
@@ -247,7 +247,7 @@ def test_international_landing_view_translations(lang, client):
 def test_set_etag_mixin(rf, method, expected):
     class MyView(views.SetEtagMixin, TemplateView):
 
-        template_name = 'core/robots.txt'
+        template_name = 'robots.txt'
 
         def post(self, *args, **kwargs):
             return super().get(*args, **kwargs)

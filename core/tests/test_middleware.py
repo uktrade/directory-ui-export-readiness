@@ -1,7 +1,3 @@
-from unittest.mock import Mock
-
-import pytest
-
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
@@ -10,54 +6,11 @@ from django.utils import translation
 from core import middleware
 
 
-def test_no_cache_middlware_installed(settings):
-    assert 'core.middleware.NoCacheMiddlware' in settings.MIDDLEWARE_CLASSES
-
-
-def test_no_cache_middlware(rf, settings):
-    settings.MIDDLEWARE_CLASSES = []
-
-    with pytest.raises(AssertionError):
-        middleware.NoCacheMiddlware()
-
-
-def test_no_cache_middlware_sso_user(rf):
-    request = rf.get('/')
-    request.sso_user = Mock()
-    response = HttpResponse()
-
-    output = middleware.NoCacheMiddlware().process_response(request, response)
-
-    assert output == response
-    assert output['Cache-Control'] == 'no-store, no-cache'
-
-
-def test_no_cache_middlware_anon_user(rf):
-    request = rf.get('/')
-    request.sso_user = None
-    response = HttpResponse()
-
-    output = middleware.NoCacheMiddlware().process_response(request, response)
-
-    assert output == response
-    assert 'Cache-Control' not in output
-
-
-def test_no_cache_middleware_sso_user_not_in_request(rf):
-    request = rf.get('/')
-    response = HttpResponse()
-
-    output = middleware.NoCacheMiddlware().process_response(request, response)
-
-    assert output == response
-    assert 'Cache-Control' not in output
-
-
 def test_locale_middleware_installed():
     assert all(setting in settings.MIDDLEWARE_CLASSES for setting in (
-        'ui.middleware.LocaleQuerystringMiddleware',
-        'ui.middleware.PersistLocaleMiddleware',
-        'ui.middleware.ForceDefaultLocale',
+        'core.middleware.LocaleQuerystringMiddleware',
+        'core.middleware.PersistLocaleMiddleware',
+        'core.middleware.ForceDefaultLocale',
     ))
 
 

@@ -61,6 +61,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE_CLASSES = [
+    'directory_components.middleware.MaintenanceModeMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -69,7 +70,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'sso.middleware.SSOUserMiddleware',
-    'core.middleware.NoCacheMiddlware',
+    'directory_components.middleware.NoCacheMiddlware',
     'core.middleware.LocaleQuerystringMiddleware',
     'core.middleware.PersistLocaleMiddleware',
     'core.middleware.ForceDefaultLocale',
@@ -371,4 +372,7 @@ FEATURE_PERFORMANCE_DASHBOARD_ENABLED = os.getenv(
     'FEATURE_PERFORMANCE_DASHBOARD_ENABLED', 'false') == 'true'
 FEATURE_SEARCH_ENGINE_INDEXING_DISABLED = os.getenv(
     'FEATURE_SEARCH_ENGINE_INDEXING_DISABLED'
+) == 'true'
+FEATURE_MAINTENANCE_MODE_ENABLED = os.getenv(
+    'FEATURE_MAINTENANCE_MODE_ENABLED'
 ) == 'true'
