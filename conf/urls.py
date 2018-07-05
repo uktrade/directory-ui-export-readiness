@@ -8,7 +8,7 @@ import contact.views
 import core.views
 import healthcheck.views
 import triage.views
-from ui.url_redirects import redirects
+from conf.url_redirects import redirects
 
 
 sitemaps = {

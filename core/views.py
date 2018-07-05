@@ -16,13 +16,8 @@ from django.views.generic.base import RedirectView
 from article.helpers import ArticlesViewedManagerFactory
 from article import structure
 from casestudy import casestudies
-from core import helpers
+from core import helpers, mixins
 from triage.helpers import TriageAnswersManager
-from ui.views import TranslationsMixin
-from core.mixins import (
-    PerformanceDashboardFeatureFlagMixin,
-    GetCMSPageMixin,
-)
 
 
 class ArticlesViewedManagerMixin:
@@ -91,7 +86,7 @@ class LandingPageView(ArticlesViewedManagerMixin, TemplateView):
 
 
 class InternationalLandingPageView(
-    SetEtagMixin, TranslationsMixin, TemplateView
+    SetEtagMixin, mixins.TranslationsMixin, TemplateView
 ):
     template_name = 'core/landing_page_international.html'
 
@@ -213,7 +208,7 @@ class AboutView(SetEtagMixin, TemplateView):
     template_name = 'core/about.html'
 
 
-class PrivacyCookiesDomesticCMS(GetCMSPageMixin, TemplateView):
+class PrivacyCookiesDomesticCMS(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'core/info_page.html'
     slug = EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG
 
@@ -222,7 +217,7 @@ class PrivacyCookiesInternationalCMS(PrivacyCookiesDomesticCMS):
     template_name = 'core/info_page_international.html'
 
 
-class TermsConditionsDomesticCMS(GetCMSPageMixin, TemplateView):
+class TermsConditionsDomesticCMS(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'core/info_page.html'
     slug = EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG
 
@@ -231,14 +226,14 @@ class TermsConditionsInternationalCMS(TermsConditionsDomesticCMS):
     template_name = 'core/info_page_international.html'
 
 
-class GetFinanceCMS(GetCMSPageMixin, TemplateView):
+class GetFinanceCMS(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'core/get_finance.html'
     slug = EXPORT_READINESS_GET_FINANCE_SLUG
 
 
 class PerformanceDashboardView(
-    PerformanceDashboardFeatureFlagMixin,
-    GetCMSPageMixin,
+    mixins.PerformanceDashboardFeatureFlagMixin,
+    mixins.GetCMSPageMixin,
     TemplateView
 ):
     template_name = 'core/performance_dashboard.html'

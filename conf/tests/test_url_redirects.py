@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 
 import pytest
 
-from ui.url_redirects import (
+from conf.url_redirects import (
     TOS_AND_PRIVACY_REDIRECT_LANGUAGES,
     ARTICLE_REDIRECTS_MAPPING,
     INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING,

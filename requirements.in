@@ -18,7 +18,7 @@ directory-constants==7.0.0
 sigauth==2.1.2
 directory-healthcheck==0.4.2
 export-elements==0.10.6
-directory-components==2.6.0
+directory-components==2.7.1
 directory-ch-client==0.1.1
 geoip2==2.9.0
 django-ipware==2.1.0
