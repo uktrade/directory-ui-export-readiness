@@ -14,7 +14,7 @@ class NotFoundOnDisabledFeature:
 class PerformanceDashboardFeatureFlagMixin(NotFoundOnDisabledFeature):
     @property
     def flag(self):
-        return settings.FEATURE_PERFORMANCE_DASHBOARD_ENABLED
+        return settings.FEATURE_FLAGS['PERFORMANCE_DASHBOARD_ON']
 
 
 class GetCMSPageMixin:

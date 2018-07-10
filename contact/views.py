@@ -10,7 +10,7 @@ from contact import forms, helpers
 
 class FeatureFlagMixin:
     def dispatch(self, *args, **kwargs):
-        if not settings.FEATURE_CONTACT_US_ENABLED:
+        if not settings.FEATURE_FLAGS['CONTACT_US_ON']:
             raise Http404()
         return super().dispatch(*args, **kwargs)
 

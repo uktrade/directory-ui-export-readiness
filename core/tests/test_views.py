@@ -359,7 +359,10 @@ def test_cms_pages_cms_page_404(mock_get, client, url):
 
 @patch('core.helpers.cms_client.lookup_by_slug')
 def test_performance_dashboard_cms(mock_get_page, settings, client):
-    settings.FEATURE_PERFORMANCE_DASHBOARD_ENABLED = True
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'PERFORMANCE_DASHBOARD_ON': True,
+    }
     url = reverse('performance-dashboard')
     page = {
         'title': 'Performance dashboard',
@@ -381,7 +384,10 @@ def test_performance_dashboard_cms(mock_get_page, settings, client):
 
 
 def test_performance_dashboard_feature_flag_off(client, settings):
-    settings.FEATURE_PERFORMANCE_DASHBOARD_ENABLED = False
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'PERFORMANCE_DASHBOARD_ON': False
+    }
 
     response = client.get('performance-dashboard')
 

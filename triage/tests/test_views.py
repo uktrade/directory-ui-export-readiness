@@ -415,7 +415,10 @@ def test_triage_summary_change_answers(
 
 
 def test_companies_house_search_validation_error(client, settings):
-    settings.FEATURE_USE_INTERNAL_CH_ENABLED = False
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'INTERNAL_CH_ON': False
+    }
     url = reverse('api-internal-companies-house-search')
     response = client.get(url)  # notice absense of `term`
 
@@ -426,7 +429,10 @@ def test_companies_house_search_validation_error(client, settings):
 def test_companies_house_search_api_error(
     mock_search, client, settings
 ):
-    settings.FEATURE_USE_INTERNAL_CH_ENABLED = False
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'INTERNAL_CH_ON': False
+    }
     mock_search.return_value = create_response(400)
     url = reverse('api-internal-companies-house-search')
 
@@ -438,7 +444,10 @@ def test_companies_house_search_api_error(
 def test_companies_house_search_api_success(
     mock_search, client, settings
 ):
-    settings.FEATURE_USE_INTERNAL_CH_ENABLED = False
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'INTERNAL_CH_ON': False,
+    }
     mock_search.return_value = create_response(
         200, {'items': [{'name': 'Smashing corp'}]}
     )
@@ -453,7 +462,10 @@ def test_companies_house_search_api_success(
 @patch('triage.helpers.CompanyCHClient')
 def test_companies_house_search_internal(
         mocked_ch_client, client, settings):
-    settings.FEATURE_USE_INTERNAL_CH_ENABLED = True
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'INTERNAL_CH_ON': True
+    }
     mocked_ch_client().search_companies.return_value = create_response(
         200, {'items': [{'name': 'Smashing corp'}]}
     )

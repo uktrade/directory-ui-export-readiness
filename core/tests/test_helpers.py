@@ -7,6 +7,9 @@ from django.shortcuts import Http404
 from django.urls import reverse
 
 from core import helpers
+from core.management.commands.download_geolocation_data import (
+    GeolocationLocalFileArchive
+)
 import core.tests.helpers
 
 
@@ -163,8 +166,14 @@ def test_geolocation_redirector_is_international(
     ('195.12.50.155', 'es'),
     ('110.50.243.6', 'ja'),
 ))
-def test_geolocation_end_to_end(rf, ip_address, language):
+def test_geolocation_end_to_end(rf, ip_address, language, settings):
     request = rf.get('/', {'a': 'b'}, REMOTE_ADDR=ip_address)
+
+    archive = GeolocationLocalFileArchive()
+    archive.decompress(
+        file_name=settings.GEOIP_COUNTRY,
+        destination=settings.GEOIP_PATH
+    )
 
     redirector = helpers.GeoLocationRedirector(request)
 
