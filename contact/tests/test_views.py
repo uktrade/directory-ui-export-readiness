@@ -18,7 +18,10 @@ from contact import helpers, views
     ),
 ))
 def test_contact_views_feature_flag_off(url, client, settings):
-    settings.FEATURE_CONTACT_US_ENABLED = False
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'CONTACT_US_ON': False
+    }
 
     response = client.get(url)
 

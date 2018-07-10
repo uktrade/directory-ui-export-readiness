@@ -86,7 +86,7 @@ class CompaniesHouseClient:
 
     @classmethod
     def search(cls, term):
-        if settings.FEATURE_USE_INTERNAL_CH_ENABLED:
+        if settings.FEATURE_FLAGS['INTERNAL_CH_ON']:
             companies_house_client = CompanyCHClient(
                 base_url=settings.INTERNAL_CH_BASE_URL,
                 api_key=settings.INTERNAL_CH_API_KEY
