@@ -21,7 +21,7 @@ gulp.task('sass', function () {
     .pipe(sourcemaps.init())
     .pipe(sass({
       includePaths: [
-        './ui/',
+        './conf/',
       ],
       outputStyle: 'compressed'
     }).on('error', sass.logError))
