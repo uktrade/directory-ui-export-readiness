@@ -1,16 +1,11 @@
 {% load static from staticfiles %}
-{% load trans from i18n %}
-{% load build_email_link from social_tags %}
-{% load build_linkedin_link from social_tags %}
-{% load build_twitter_link from social_tags %}
-{% load build_facebook_link from social_tags %}
+{% load i18n %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
 
 <!DOCTYPE html>
-<!--[if lt IE 9]><html class="lte-ie8" lang="en"><![endif]-->
-<!--[if gt IE 8]><!--><html lang="en"><!--<![endif]-->
+<!--[if lt IE 9]><html dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr' }}" class="lte-ie8" lang="{{ directory_components_html_lang_attribute|default:'en' }}"><![endif]-->
+<!--[if gt IE 8]><!--><html dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr' }}" lang="{{ directory_components_html_lang_attribute|default:'en' }}"><!--<![endif]-->
  <head>
-
-
     <meta id="utmCookieDomain" value="{{ analytics.UTM_COOKIE_DOMAIN }}" />
     {% include 'directory_components/google_tag_manager_head.html' %}
     <meta charset="utf-8" />
@@ -21,10 +16,9 @@
     <link href='{% static 'directory_components/images/favicon-192x192.png' %}' rel='shortcut icon' type='image/png'>
     <!--[if IE]> <link rel="icon" href="{% static 'directory_components/images/favicon.ico' %}" type="image/x-icon" /> <![endif]-->
 
+    <link href="{% static 'export_elements/stylesheets/govuk-elements-styles.min.css' %}" media="all" rel="stylesheet" />
+    <link href="{% static 'export_elements/stylesheets/elements-components.min.css' %}" media="all" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="{% static 'styles/international.css' %}">
-    {% block head_css %}
-        {{ block.super }}
-    {% endblock %}
 
     <script src="{% static 'directory_components/js/third-party.js' %}"></script>
     <script src="{% static 'js/dit.js' %}"></script>
@@ -37,83 +31,11 @@
 </head>
 <body id="top" class="{{ LANGUAGE_BIDI|yesno:'bidi,' }}">
     {% include 'directory_components/google_tag_manager_body.html' %}
-    <header id="header">
-        <a id="skip-link" href="#content" class="verbose">{% trans "Skip to main content" %}</a>
-        <section role="dialog" data-component="language-selector-dialog" data-lang="{{ LANGUAGE_CODE }}" data-label="{% trans "International" %}" class="language-selector-dialog">
-            <div data-node="languages" class="languages">
-                <p id="great-languages-selector" class="bidi-rtl">{% trans "Choose your language" %}</p>
-                <ul aria-labelledby="great-languages-selector" class="navigation">
-                {% for code, label in LANGUAGES %}
-                    <li class="bidi-rtl">
-                        <a class="link" id="header-language-selector-{{code}}" href="{% url 'landing-page-international' %}?lang={{ code }}">{{ label }}</a>
-                    </li>
-                {% endfor %}
-                </ul>
-            </div>
-            <div data-node="domestic-redirect" class="domestic-redirect">
-                <p lang="en">
-                    <a class="link bidi-rtl" href="{% url 'landing-page' %}?lang=en-gb" class="bidi-rtl">
-                        {% trans "English (UK)" %}
-                    </a>
-                    <span class="bidi-rtl">{% trans "Get guidance and services to help you export." %}</span>
-                </p>
-            </div>
-        </section>
-
-        <div id="header-bar">
-            <div class="container">
-                <p class="government-links"></p>
-            </div>
-        </div>
-        <div id="header-beta-bar" class="header-beta-bar beta bidi-ltr">
-          {% include 'core/widgets/beta_bar_content.html' %}
-        </div>
-
-        <div id="header-menu" class="bidi-ltr">
-            <div class="container">
-                <img id="header-logo" src="{% static 'images/international/great-uk-gov-logo.svg' %}" alt="{% trans "UK Government" %}">
-            </div>
-        </div>
-    </header>
+    {% include 'core/includes/international_header.html' %}
 
     <main id="content" role="main">
         {% block content %}{% endblock %}
     </main>
-
-    <footer id="footer">
-        <div class="container bidi-ltr">
-            <a href="https://www.gov.uk/"><img id="footer-logo" src="{% static 'images/international/great-uk-gov-logo-colour.svg' %}" alt="{% trans "UK Government" %}"></a>
-        </div>
-        <div class="site-links container">
-            <ul class="navigation bidi-rtl">
-                <li><a href="{% url 'privacy-and-cookies-international' %}?lang=en-gb" class="">{% trans "Privacy and cookies" %}</a></li>
-                <li><a href="{% url 'terms-and-conditions-international' %}?lang=en-gb" class="">{% trans "Terms and Conditions" %}</a></li>
-            </ul>
-
-            {# Translate here first so we can pass the text to social_tags #}
-            {% trans "Welcome to the UK" as welcome_to_the_uk %}
-
-            <p data-component="sharing-links" class="sharing-links">
-                <span class="label">{% trans "Share" %} </span>
-                <a href="{% build_twitter_link text=welcome_to_the_uk url=request.build_absolute_uri %}">
-                  <img class="bidi-ltr" src="{% static 'images/international/twitter.svg' %}" width="36px" height="36px" alt="{% trans "with Twitter" %}"/></a>
-                <span class="verbose">, </span>
-                <a href="{% build_facebook_link url=request.build_absolute_uri %}">
-                  <img class="bidi-ltr" src="{% static 'images/international/facebook.svg' %}" width="36px" height="36px" alt="{% trans "with Facebook" %}"/></a>
-                <span class="verbose">, </span>
-                <a href="{% build_linkedin_link text=welcome_to_the_uk url=request.build_absolute_uri %}">
-                  <img class="bidi-ltr" src="{% static 'images/international/linkedin.svg' %}" width="36px" height="36px" alt="{% trans "with LinkedIn" %}"/></a>
-                <span class="verbose">, </span>
-                <a href="{% build_email_link text=welcome_to_the_uk url=request.build_absolute_uri %}">
-                  <img class="bidi-ltr" src="{% static 'images/international/email.svg' %}" width="36px" height="36px" alt="{% trans "by email" %}"/></a>
-            </p>
-        </div>
-
-        <div class="global-footer">
-            <p class="container bidi-ltr">
-                <span>&copy; {% trans "Crown copyright 2017. All rights reserved." %}</span>
-            </p>
-        </div>
-    </footer>
+    {% include 'core/includes/international_footer.html' %}
 </body>
 </html>
