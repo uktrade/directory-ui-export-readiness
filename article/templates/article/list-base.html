@@ -53,9 +53,9 @@
     {% if paginate_articles %}
         <script src="{% static 'js/article-list.js' %}"></script>
         <script>
-            var listELement = document.getElementById('js-paginate-list');
+            var listElement = document.getElementById('js-paginate-list');
             var loadMoreButton = document.getElementById('js-paginate-list-more');
-            new GOVUK.components.ArticlePaginator(listELement, loadMoreButton);
+            new GOVUK.components.ArticlePaginator(listElement, loadMoreButton);
         </script>
     {% endif %}
 {% endblock %}
