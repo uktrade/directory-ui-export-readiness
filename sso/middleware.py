@@ -1,6 +1,6 @@
 import logging
 
-from requests.exceptions import ReadTimeout
+from requests.exceptions import RequestException
 
 from django.conf import settings
 
@@ -15,12 +15,12 @@ class SSOUserMiddleware:
 
     def process_request(self, request):
         request.sso_user = None
-        session_id = request.COOKIES.get(settings.SSO_PROXY_SESSION_COOKIE)
+        session_id = request.COOKIES.get(settings.SSO_SESSION_COOKIE)
 
         if session_id:
             try:
                 sso_response = sso_api_client.user.get_session_user(session_id)
-            except ReadTimeout:
+            except RequestException:
                 logger.error(self.MESSAGE_SSO_UNREACHABLE, exc_info=True)
             else:
                 if sso_response.ok:
