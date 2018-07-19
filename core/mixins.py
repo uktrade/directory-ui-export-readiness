@@ -39,4 +39,6 @@ class TranslationsMixin:
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['LANGUAGE_BIDI'] = translation.get_language_bidi()
+        context['directory_components_html_lang_attribute']\
+            = translation.get_language()
         return context
