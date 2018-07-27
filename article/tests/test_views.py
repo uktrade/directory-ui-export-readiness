@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 
 import pytest
 from directory_constants.constants import exred_articles
+from directory_components.templatetags import directory_components_tags
 
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -288,6 +289,7 @@ def test_articles_views(view_class, url, client):
         markdown_file_path=view_class.article.markdown_file_path,
         context=response.context[-1].flatten(),
     )
+    html = directory_components_tags.add_export_elements_classes(html)
     expected = str(BeautifulSoup(html, 'html.parser'))
     assert expected in str(BeautifulSoup(response.content, 'html.parser'))
 

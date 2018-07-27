@@ -25,7 +25,7 @@
 </section>
 
 <div class="container">
-    <p class="breadcrumbs">
+    <p class="breadcrumbs body-text">
       <span class="label visually-hidden">You are here:</span>
       <a href="{% url 'landing-page' %}">Great.gov.uk</a>
       <span class="visually-hidden separator">,</span>
@@ -40,14 +40,14 @@
 
         {% if persona.name == 'REGULAR_EXPORTER'%}
           <h2 class="heading-large">Connect with international buyers</h2>
-          <p>Increase your exporting knowledge and start connecting with overseas buyers.</p>
+          <p class="body-text">Increase your exporting knowledge and start connecting with overseas buyers.</p>
         {% else %}
           <h2 class="heading-large">Explore new markets</h2>
-          <p>Learn about the best markets for your sector, increase your exporting knowledge and start connecting with overseas buyers.</p>
+          <p class="body-text">Learn about the best markets for your sector, increase your exporting knowledge and start connecting with overseas buyers.</p>
         {% endif %}
 
         {% if not sso_is_logged_in %}
-          <p><a class="link" href="{{ sso_register_url }}">Register</a> or <a class="link" href="{{ sso_login_url }}">sign in</a> to save your custom profile.</p>
+          <p class="body-text"><a class="link" href="{{ sso_register_url }}">Register</a> or <a class="link" href="{{ sso_login_url }}">sign in</a> to save your custom profile.</p>
         {% endif %}
       </div>
       <div class="column-half">

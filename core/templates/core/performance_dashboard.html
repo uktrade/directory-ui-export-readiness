@@ -2,7 +2,7 @@
 
 {% load static from staticfiles %}
 {% load include_markdown from article_tags %}
-{% load add_export_elements_classes from cms_tags %}
+{% load add_export_elements_classes from directory_components_tags %}
 
 {% block head_css %}
 {{ block.super }}
@@ -16,7 +16,7 @@ Performance dashboard - great.gov.uk
 
 {% block content %}
 <div class="container">
-  <p class="breadcrumbs">
+  <p class="breadcrumbs body-text">
     <span class="label verbose">You are here:</span>
     <a href="/">Great.gov.uk</a>
     <span class="separator">,</span>
@@ -95,7 +95,7 @@ Performance dashboard - great.gov.uk
       {% if page.guidance_notes %}
       <div class="grid-row">
         <div class="column-half">
-          {{ page.guidance_notes|add_export_elements_classes|safe }}
+          {{ page.guidance_notes|add_export_elements_classes }}
         </div>
       </div>
       {% endif %}

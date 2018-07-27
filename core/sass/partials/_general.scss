@@ -23,9 +23,6 @@
 // heading-m-mob
 
 
-
-@import 'staticfiles/export_elements/stylesheets/govuk-elements-styles';
-
 #content {
   max-width: none;
 }
@@ -48,22 +45,9 @@ img.placeholder {
 section {
   clear: both;
   overflow: hidden;
-
+  padding-bottom: 90px;
   h1 {
-    @extend .heading-xlarge;
     margin-bottom: 45px;
-  }
-
-  h2 {
-    @extend .heading-medium;
-  }
-
-  h3, h4, h5, h6 {
-    @extend .heading-small;
-  }
-
-  a {
-    @extend .link;
   }
 
   .heading {
