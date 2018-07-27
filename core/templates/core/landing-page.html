@@ -46,7 +46,7 @@
         <div class="container">
             <div class="hero-campaign-teaser">
                 <h1 class="heading-xlarge title" id="hero-campaign-section-title"><span>If we can</span><br><span>you can</span></h1>
-                <p id="hero-campaign-section-description">Thousands of businesses like yours have increased their sales, growth and stability by selling overseas. Explore the potential of exporting with guidance, services and support from the Department for International Trade.</p>
+                <p id="hero-campaign-section-description" class="body-text">Thousands of businesses like yours have increased their sales, growth and stability by selling overseas. Explore the potential of exporting with guidance, services and support from the Department for International Trade.</p>
                 {% progressive_image webp='images/eig-logo-stacked.webp' img_id='hero-campaign-section-eig-logo' src='images/eig-logo-stacked.png' %}
             </div>
             <div class="video modal">
@@ -58,14 +58,14 @@
         <div class="container">
             {% progressive_image webp='images/home-triage-world-connections@2x.webp' src='images/home-triage-world-connections@2x.png' img_id='triage-section-image' %}
             <h2 id="triage-section-title" class="heading-large">Create your export journey</h2>
-            <div class="intro" id="triage-section-description">
+            <div class="intro body-text" id="triage-section-description">
                 <div class="content">
                     <p>Help us give you guidance and services aimed at your exporting experience level by answering a few quick questions.</p>
                     </ul>
                     {% if has_completed_triage %}
                          <a id="triage-section-continue-your-journey" href="{% url 'custom-page' %}" class="button button-cta">Continue your export journey</a>
                     {% else %}
-                        <a id="triage-section-get-started" href="{% url 'triage-wizard' step='exported-before' %}" class="button button-cta">Get started</a>
+                        <a id="triage-section-get-started" href="{% url 'triage-wizard' step='exported-before' %}" class="button button-cta link">Get started</a>
                     {% endif %}
                 </div>
             </div>
@@ -74,7 +74,7 @@
     <section id="personas">
         <div class="container">
             <h2 id="personas-section-title" class="heading-large">Export readiness</h2>
-            <p id="personas-section-description" class="intro">It can be hard to know where to start if you’re new to exporting. And even if you export regularly, there’s always more to know. Get exporting guidance for your experience level.</p>
+            <p id="personas-section-description" class="intro body-text">It can be hard to know where to start if you’re new to exporting. And even if you export regularly, there’s always more to know. Get exporting guidance for your experience level.</p>
             <div class="group">
                 <div class="lg-3 md-1">
                     <div class="export-status-selector">
@@ -101,7 +101,7 @@
     <section id="services">
         <div class="container">
             <h2 id="services-section-title" class="heading-large">Export services</h2>
-            <p id="services-section-description" class="intro">Our export services help to connect UK businesses with international buyers.</p>
+            <p id="services-section-description" class="intro body-text">Our export services help to connect UK businesses with international buyers.</p>
             <div class="group">
                 <div class="lg-3 md-1 service-teaser">
                   {% progressive_image webp='images/export-hp-fas-profile.webp' img_id='services-section-find-a-buyer-image' src='images/export-hp-fas-profile.jpg' %}

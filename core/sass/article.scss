@@ -84,22 +84,8 @@ h1 {
 }
 
 article {
-  ul {
-    @extend .list;
-    @extend .list-bullet;
-  }
   h1 {
-    @extend .heading-xlarge;
     margin-bottom: 45px;
-  }
-  h2 {
-    @extend .heading-medium;
-  }
-  h3, h4, h5, h6 {
-    @extend .heading-small;
-  }
-  a {
-    @extend .link;
   }
 }
 

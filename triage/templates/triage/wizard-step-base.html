@@ -35,7 +35,7 @@
             <div class="form-group {{ field.css_classes }}">
               {{ field.errors }}
               {% if field.label %}
-              <label id="triage-question"{% if field.id %} for="{{ field.id }}"{% endif %}>{{ field.label }}</label>
+              <label id="triage-question" class="form-label"{% if field.id %} for="{{ field.id }}"{% endif %}>{{ field.label }}</label>
               {% endif %}
               {% if field.help_text %}
               <span class="helptext">{{ field.help_text|safe }}</span>
@@ -53,7 +53,7 @@
           {% block extra_buttons %}{% endblock %}
         </div>
         {% if wizard.steps.prev %}
-        <button name="wizard_goto_step" class="previous-step" id="triage-previous-step" type="submit" value="{{ wizard.steps.prev }}">Previous step</button>
+        <button name="wizard_goto_step" class="previous-step link" id="triage-previous-step" type="submit" value="{{ wizard.steps.prev }}">Previous step</button>
         {% else %}
         <div class="home-link"><a class="link" id="triage-question-back-to-home" href="/">Back to home</a></div>
         {% endif %}

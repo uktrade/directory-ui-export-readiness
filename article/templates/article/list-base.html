@@ -19,7 +19,7 @@
     </div>
 </section>
 <div class="container">
-    <p class="breadcrumbs"><span class="label verbose">You are here:</span><a href="{% url 'landing-page' %}">Export</a><span class="separator">,</span><span class="current">
+    <p class="breadcrumbs body-text"><span class="label verbose">You are here:</span><a href="{% url 'landing-page' %}">Export</a><span class="separator">,</span><span class="current">
         {% block breadcrums_title %}{% endblock %}
     </span></p>
 </div>
@@ -27,7 +27,7 @@
     <div class="container">
         <div class="section-intro">
             <h2 class="heading-large">{% block title %}{% endblock %}</h2>
-            <p class="intro">{% block subtitle %}{% endblock %}</p>
+            <p class="intro body-text">{% block subtitle %}{% endblock %}</p>
         </div>
         {% include 'article/read-count.html' %}
         <div class="section-content-list">

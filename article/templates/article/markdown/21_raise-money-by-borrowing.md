@@ -33,6 +33,6 @@ Businesses that want to lend are matched with businesses that want to borrow thr
 
 Interest rates are either fixed or lenders bid for a loan based on the interest rate they are prepared to lend at.
 
-You have to submit accounts, go through credit checks and provide a personal guarentee from a company director to register for a loan on most platforms.
+You have to submit accounts, go through credit checks and provide a personal guarantee from a company director to register for a loan on most platforms.
 
 [The Peer-to-Peer Finance Association](http://p2pfa.info/platforms/ "Peer-to-Peer Finance Association") has a list of peer-to-peer lending sites, such as [Funding Circle](https://www.fundingcircle.com/uk/businesses/ "Funding Circle").

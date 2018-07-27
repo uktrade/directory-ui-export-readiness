@@ -2,7 +2,7 @@
 
 {% load static from staticfiles %}
 {% load include_markdown from article_tags %}
-{% load image_tags %}
+{% load add_export_elements_classes from directory_components_tags %}
 
 {% block head_css %}
     {{ block.super }}
@@ -32,7 +32,7 @@
 {% block content %}
 <div class="container">
 
-    <p class="breadcrumbs">
+    <p class="breadcrumbs body-text">
         <span class="label verbose">You are here:</span>
         <a href="/">Export</a>
         <span class="separator">,</span>
@@ -47,7 +47,8 @@
       {% include 'core/widgets/social-share-links.html' %}
       <article id="top">
           <h1 class="heading-xlarge">{{ article.title }}</h1>
-          {% include_markdown article.markdown_file_path %}
+          {% include_markdown article.markdown_file_path as content %}
+          {{ content|add_export_elements_classes }}
           <footer>
             {% include 'article/useful-feedback.html' %}
           </footer>

@@ -51,7 +51,6 @@
 }
 
 .show-more {
-  @extend .link;
   display: block;
   padding: $spacing-3 0 $spacing-4;
   @include body-l;

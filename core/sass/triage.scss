@@ -29,10 +29,6 @@ input:focus {
     margin-top: $spacing-4;
   }
 
-  label {
-    @extend .form-label;
-  }
-
   legend {
     @include body-s;
     color: $mid-grey;
@@ -67,13 +63,11 @@ input:focus {
 
     a {
       @include body-m;
-      @extend .link;
     }
   }
 
   .previous-step {
     @include body-m;
-    @extend .link;
     margin: 30px 0;
     padding: 0;
     cursor: pointer;
