@@ -46,7 +46,8 @@ def test_triage_manager_anon_user_returns_session(anon_request):
 
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers',
        Mock(return_value={}))
-@patch('api_client.api_client.exportreadiness.create_triage_result')
+@patch('directory_api_client.exportreadiness.'
+       'ExportReadinessAPIClient.create_triage_result')
 def test_database_answer_manager_create_calls_api(
     mock_create_triage_result, sso_request, sso_user
 ):
@@ -65,7 +66,8 @@ def test_database_answer_manager_create_calls_api(
 
 @patch('triage.helpers.DatabaseTriageAnswersManager.retrieve_answers',
        Mock(return_value={1: 2}))
-@patch('api_client.api_client.exportreadiness.update_triage_result')
+@patch('directory_api_client.exportreadiness.'
+       'ExportReadinessAPIClient.update_triage_result')
 def test_database_answer_manager_update_calls_api(
     mock_update_triage_result, sso_request, sso_user
 ):
@@ -82,7 +84,8 @@ def test_database_answer_manager_update_calls_api(
     )
 
 
-@patch('api_client.api_client.exportreadiness.create_triage_result')
+@patch('directory_api_client.exportreadiness.'
+       'ExportReadinessAPIClient.create_triage_result')
 def test_database_create_answer_manager_handles_api_error(
     mock_create_triage_result, sso_request, sso_user
 ):
@@ -95,7 +98,8 @@ def test_database_create_answer_manager_handles_api_error(
         manager.persist_answers(data)
 
 
-@patch('api_client.api_client.exportreadiness.retrieve_triage_result')
+@patch('directory_api_client.exportreadiness.'
+       'ExportReadinessAPIClient.retrieve_triage_result')
 def test_database_retrieve_manager_calls_api(
     mock_retrieve_answers, sso_request, sso_user
 ):
@@ -111,7 +115,8 @@ def test_database_retrieve_manager_calls_api(
     assert answers == {'key': 'value'}
 
 
-@patch('api_client.api_client.exportreadiness.retrieve_triage_result')
+@patch('directory_api_client.exportreadiness.'
+       'ExportReadinessAPIClient.retrieve_triage_result')
 def test_database_retrieve_answer_manager_handles_api_error(
     mock_retrieve_answers, sso_request, sso_user
 ):
@@ -123,7 +128,8 @@ def test_database_retrieve_answer_manager_handles_api_error(
         manager.retrieve_answers()
 
 
-@patch('api_client.api_client.exportreadiness.retrieve_triage_result')
+@patch('directory_api_client.exportreadiness.'
+       'ExportReadinessAPIClient.retrieve_triage_result')
 def test_database_retrieve_answer_manager_handles_404(
     mock_retrieve_answers, sso_request, sso_user
 ):

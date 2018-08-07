@@ -1,15 +1,6 @@
 import urllib.parse
 
-from directory_cms_client import DirectoryCMSClient
-
-from django.conf import settings
 from django.shortcuts import Http404
-
-
-cms_client = DirectoryCMSClient(
-    base_url=settings.CMS_URL,
-    api_key=settings.CMS_SIGNATURE_SECRET,
-)
 
 
 def build_social_link(template, request, title):

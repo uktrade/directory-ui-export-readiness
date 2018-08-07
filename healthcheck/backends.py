@@ -1,10 +1,9 @@
+from directory_api_client.client import api_client
+from directory_sso_api_client.client import sso_api_client
 from health_check.backends import BaseHealthCheckBackend
 from health_check.exceptions import (
     ServiceReturnedUnexpectedResult, ServiceUnavailable
 )
-
-from api_client import api_client
-from sso.utils import sso_api_client
 
 
 class APIProxyBackend(BaseHealthCheckBackend):

@@ -7,11 +7,10 @@ from functools import partial
 from operator import itemgetter
 from urllib.parse import urljoin
 
+from directory_api_client.client import api_client
 from directory_ch_client.company import CompanyCHClient
 from django.conf import settings
 import requests
-
-from api_client import api_client
 
 
 class BaseTriageAnswersManager(abc.ABC):

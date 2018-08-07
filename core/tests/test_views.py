@@ -133,7 +133,7 @@ def test_templates(view, expected_template, client):
         ),
     )
 )
-@patch('core.helpers.cms_client.lookup_by_slug')
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_terms_conditions_cms(
     mock_get_t_and_c_page, view, expected_template, client
 ):
@@ -166,7 +166,7 @@ def test_terms_conditions_cms(
         ),
     )
 )
-@patch('core.helpers.cms_client.lookup_by_slug')
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_privacy_cookies_cms(
     mock_get_p_and_c_page, view, expected_template, client
 ):
@@ -186,7 +186,7 @@ def test_privacy_cookies_cms(
     assert response.template_name == [expected_template]
 
 
-@patch('core.helpers.cms_client.lookup_by_slug')
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_get_finance_cms(mock_get_finance_page, client):
     url = reverse('get-finance')
     page = {
@@ -302,7 +302,7 @@ cms_urls_slugs = (
 )
 
 
-@patch('core.helpers.cms_client.lookup_by_slug')
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @pytest.mark.parametrize('url,slug', cms_urls_slugs)
 def test_cms_pages_cms_client_params(mock_get, client, url, slug):
     mock_get.return_value = helpers.create_response(status_code=200)
@@ -327,7 +327,7 @@ cms_urls = (
 )
 
 
-@patch('core.helpers.cms_client.lookup_by_slug')
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @pytest.mark.parametrize('url', cms_urls)
 def test_cms_pages_cms_page_404(mock_get, client, url):
     mock_get.return_value = helpers.create_response(status_code=404)
@@ -337,7 +337,7 @@ def test_cms_pages_cms_page_404(mock_get, client, url):
     assert response.status_code == 404
 
 
-@patch('core.helpers.cms_client.lookup_by_slug')
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_performance_dashboard_cms(mock_get_page, settings, client):
     settings.FEATURE_PERFORMANCE_DASHBOARD_ENABLED = True
     url = reverse('performance-dashboard')

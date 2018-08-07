@@ -10,15 +10,15 @@ certifi==2018.4.16        # via requests
 chardet==3.0.4            # via requests
 clint==0.5.1
 contextlib2==0.5.5        # via raven
-directory-api-client==9.15.3
-directory-ch-client==0.1.1
-directory-client-core==0.2.1  # via directory-api-client, directory-cms-client, directory-sso-api-client
-directory-cms-client==2.1.0
+directory-api-client==10.0.2
+directory-ch-client==1.0.0
+directory-client-core==4.0.2  # via directory-api-client, directory-ch-client, directory-cms-client, directory-sso-api-client
+directory-cms-client==4.0.1
 directory-components==1.8.2
-directory-constants==7.0.0
+directory-constants==7.1.0
 directory-healthcheck==0.4.2
-directory-sso-api-client==2.5.1
-directory-validators==4.5.1
+directory-sso-api-client==3.0.2
+directory-validators==5.0.1
 django-cors-headers==2.1.0
 django-extensions==1.9.0
 django-formtools==2.0
@@ -38,7 +38,7 @@ pillow==4.2.1             # via directory-validators
 pytz==2017.2              # via directory-constants, directory-healthcheck, directory-validators, django
 raven==5.19.0
 requests==2.18.4
-sigauth==2.1.2
+sigauth==4.0.1
 six==1.11.0               # via django-extensions, mohawk
 urllib3==1.22             # via requests
 whitenoise==3.1

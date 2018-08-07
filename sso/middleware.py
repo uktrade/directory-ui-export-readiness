@@ -1,6 +1,7 @@
+from directory_sso_api_client.client import sso_api_client
 from django.conf import settings
 
-from sso.utils import SSOUser, sso_api_client
+from sso.utils import SSOUser
 
 
 class SSOUserMiddleware:

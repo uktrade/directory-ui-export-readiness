@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 from healthcheck import backends
 
 
-@patch('sso.utils.sso_api_client.ping',
+@patch('directory_sso_api_client.client.sso_api_client.ping',
        Mock(side_effect=Exception('oops')))
 def test_single_sign_on_ping_connection_error():
     backend = backends.SingleSignOnBackend()
@@ -12,7 +12,7 @@ def test_single_sign_on_ping_connection_error():
     assert backend.pretty_status() == 'unavailable: (SSO proxy) oops'
 
 
-@patch('sso.utils.sso_api_client.ping',
+@patch('directory_sso_api_client.client.sso_api_client.ping',
        Mock(return_value=Mock(status_code=500)))
 def test_single_sign_on_ping_not_ok():
     backend = backends.SingleSignOnBackend()
@@ -23,7 +23,7 @@ def test_single_sign_on_ping_not_ok():
     )
 
 
-@patch('sso.utils.sso_api_client.ping',
+@patch('directory_sso_api_client.client.sso_api_client.ping',
        Mock(return_value=Mock(status_code=200)))
 def test_single_sign_on_ping_ok():
     backend = backends.SingleSignOnBackend()
@@ -32,7 +32,8 @@ def test_single_sign_on_ping_ok():
     assert backend.pretty_status() == 'working'
 
 
-@patch('api_client.api_client.ping', Mock(side_effect=Exception('oops')))
+@patch('directory_api_client.client.api_client.ping',
+       Mock(side_effect=Exception('oops')))
 def test_api_ping_connection_error():
     backend = backends.APIProxyBackend()
     backend.run_check()
@@ -40,7 +41,8 @@ def test_api_ping_connection_error():
     assert backend.pretty_status() == 'unavailable: (API proxy) oops'
 
 
-@patch('api_client.api_client.ping', Mock(return_value=Mock(status_code=500)))
+@patch('directory_api_client.client.api_client.ping',
+       Mock(return_value=Mock(status_code=500)))
 def test_api_ping_not_ok():
     backend = backends.APIProxyBackend()
     backend.run_check()
@@ -50,7 +52,7 @@ def test_api_ping_not_ok():
     )
 
 
-@patch('api_client.api_client.ping',
+@patch('directory_api_client.client.api_client.ping',
        Mock(return_value=Mock(status_code=200)))
 def test_api_ping_ok():
     backend = backends.APIProxyBackend()

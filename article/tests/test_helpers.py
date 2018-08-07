@@ -34,7 +34,10 @@ def articles_read():
     ]
 
 
-@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
+@patch(
+    'directory_api_client.exportreadiness.'
+    'ExportReadinessAPIClient.bulk_create_article_read'
+)
 def test_database_create_article_read_calls_api(
     mock_bulk_create_article_read, sso_request, sso_user
 ):
@@ -50,7 +53,8 @@ def test_database_create_article_read_calls_api(
     )
 
 
-@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
+@patch('directory_api_client.exportreadiness.'
+       'ExportReadinessAPIClient.bulk_create_article_read')
 def test_database_bulk_create_article_read_calls_api(
     mock_bulk_create_article_read, sso_request, sso_user
 ):
@@ -66,7 +70,8 @@ def test_database_bulk_create_article_read_calls_api(
     )
 
 
-@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
+@patch('directory_api_client.exportreadiness.'
+       'ExportReadinessAPIClient.bulk_create_article_read')
 def test_database_create_article_read_handle_exceptions(
     mock_bulk_create_article_read, sso_request
 ):
@@ -81,7 +86,8 @@ def test_database_create_article_read_handle_exceptions(
     assert str(execinfo.value) == '{"error": "bad"}'
 
 
-@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
+@patch('directory_api_client.exportreadiness.'
+       'ExportReadinessAPIClient.bulk_create_article_read')
 def test_database_articles_viewed_for_group(
     mock_bulk_create_article_read, sso_request, articles_read
 ):
@@ -101,7 +107,8 @@ def test_database_articles_viewed_for_group(
     assert len(articles_uuids) == 2
 
 
-@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
+@patch('directory_api_client.exportreadiness.'
+       'ExportReadinessAPIClient.bulk_create_article_read')
 def test_database_get_view_progress_for_groups(
     mock_bulk_create_article_read, sso_request, articles_read
 ):
@@ -156,7 +163,8 @@ def test_session_get_view_progress_for_groups(anon_request, articles_read):
     }
 
 
-@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
+@patch('directory_api_client.exportreadiness.'
+       'ExportReadinessAPIClient.bulk_create_article_read')
 def test_article_read_manager_synchronises_articles(
     mock_bulk_create_article_read, sso_request, sso_user,
 ):
@@ -175,7 +183,8 @@ def test_article_read_manager_synchronises_articles(
     assert sso_request.session[session_key] == []
 
 
-@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
+@patch('directory_api_client.exportreadiness.'
+       'ExportReadinessAPIClient.bulk_create_article_read')
 def test_article_read_manager_handles_no_read_articles_on_synchronisation(
     mock_bulk_create_article_read, sso_request, sso_user,
 ):
@@ -192,7 +201,8 @@ def test_article_read_manager_handles_no_read_articles_on_synchronisation(
     assert sso_request.session[session_key] == []
 
 
-@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
+@patch('directory_api_client.exportreadiness.'
+       'ExportReadinessAPIClient.bulk_create_article_read')
 def test_article_read_manager_not_clear_session_on_api_error(
     mock_bulk_create_article_read, sso_request, sso_user
 ):
@@ -209,7 +219,8 @@ def test_article_read_manager_not_clear_session_on_api_error(
     assert str(execinfo.value) == 'validation error'
 
 
-@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
+@patch('directory_api_client.exportreadiness.'
+       'ExportReadinessAPIClient.bulk_create_article_read')
 def test_database_remaining_read_time_for_group(
     mock_bulk_create_article_read, sso_request, articles_read
 ):
@@ -228,7 +239,8 @@ def test_database_remaining_read_time_for_group(
     assert time_left == 5263
 
 
-@patch('api_client.api_client.exportreadiness.bulk_create_article_read')
+@patch('directory_api_client.exportreadiness.'
+       'ExportReadinessAPIClient.bulk_create_article_read')
 def test_database_retrieve_article_returns_bulk_create_response(
     mock_bulk_create_article_read, sso_request, sso_user, articles_read
 ):

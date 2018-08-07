@@ -2,11 +2,11 @@ import abc
 
 from bs4 import BeautifulSoup
 import markdown2
+from directory_api_client.client import api_client
 
 from django.template.loader import render_to_string
 from django.utils.functional import cached_property
 
-from api_client import api_client
 from article import structure
 
 
