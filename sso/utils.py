@@ -5,7 +5,6 @@ from django.http import HttpResponseRedirect, QueryDict
 from django.utils.six.moves.urllib.parse import urlparse, urlunparse
 from django.shortcuts import resolve_url
 
-
 SSOUser = namedtuple('SSOUser', ['id', 'email', 'session_id'])
 
 

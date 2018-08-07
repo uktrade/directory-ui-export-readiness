@@ -2,7 +2,7 @@
 
 [![circle-ci-image]][circle-ci]
 [![codecov-image]][codecov]
-[![gemnasium-image]][gemnasium]
+[![snyk-image]][snyk]
 
 **Export Readiness (Exred) - the Department for International Trade (DIT)**  
 
@@ -113,6 +113,15 @@ To compile `.mo` files (no need to add these to source code, as this is done aut
     $ make debug_manage cmd="compilemessages"
 
 
+## Geolocation
+
+This product includes GeoLite2 data created by MaxMind, available from
+<a href="http://www.maxmind.com">http://www.maxmind.com</a>.
+
+To download the data run the following command:
+
+    $ make debug_manage cmd="download_geolocation_data"
+
 
 ## SSO
 To make sso work locally add the following to your machine's `/etc/hosts`:
@@ -141,5 +150,5 @@ Therefore to make cookie sharing work in development we need the apps to be runn
 [codecov-image]: https://codecov.io/gh/uktrade/directory-ui-export-readiness/branch/master/graph/badge.svg
 [codecov]: https://codecov.io/gh/uktrade/directory-ui-export-readiness
 
-[gemnasium-image]: https://gemnasium.com/badges/github.com/uktrade/directory-ui-export-readiness.svg
-[gemnasium]: https://gemnasium.com/github.com/uktrade/directory-ui-export-readiness
+[snyk-image]: https://snyk.io/test/github/uktrade/directory-ui-export-readiness/badge.svg
+[snyk]: https://snyk.io/test/github/uktrade/directory-ui-export-readiness

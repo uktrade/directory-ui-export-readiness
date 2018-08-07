@@ -7,6 +7,7 @@
 @import './partials/typography';
 @import './partials/mixins';
 @import './partials/layout';
+@import './partials/fonts';
 
 // Global style
 @import './partials/general';
@@ -18,42 +19,34 @@
 @import './components/_language-selector';
 @import './components/_teaser';
 
-h1 {
-	@include heading-l-int;
-}
-
-section {
-	padding: 0;
+body {
+  margin: 0;
 }
 
 li {
   list-style: none;
 }
 
-.phase-banner {
-  border-bottom: 0;
+.intro {
+  padding-bottom: 30px;
 }
 
-// Language selection
-.international-links {
-  .teaser-site-external {
-    @include items(2, $spacing-3);
-    padding-top: 29%;
-    position: relative;
-  }
+// stretch columns and cards so they are aligned in the row
+.grid-row, .column-half {
+  display: flex;
+}
 
-  img {
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-  }
+.column-half, .card {
+  flex-grow: 1;
+}
+
+.phase-banner {
+  border-bottom: 0;
 }
 
 .LanguageSelectorDialog-Tracker {
   float: right;
 }
-
 
 // Footer
 .global-footer {
@@ -78,7 +71,7 @@ li {
   background: linear-gradient(to top, #{$white} #{$cols-8}, #{$offwhite} #{$cols-4});
 }
 
-#footer {
+#international-footer {
   @include body-m;
   background-color: $grey;
   color: $light-grey;
@@ -94,7 +87,6 @@ li {
     float: right;
     margin-top: $spacing-4;
     text-align: right;
-    width: $cols-3;
 
     a {
       margin-left: $spacing-4;
@@ -130,16 +122,16 @@ li {
   }
 }
 
-#footer-logo {
+#international-footer-logo {
   min-width: 250px;
   width: 30%;
 }
 
 
 // Header
-#header-bar {
+#international-header-bar {
   @include body-s;
-	background-color: $grey;
+  background-color: $grey;
   color: $light-grey;
   min-height: 37px;
   overflow: hidden;
@@ -169,14 +161,14 @@ li {
   }
 }
 
-#header-menu {
+#international-header-menu {
   background-color: $offwhite;
   color: $grey;
   min-height: 138px;
   position: relative;
 }
 
-#header-logo {
+#international-header-logo {
   margin-bottom: -6px;
   min-width: 250px;
   padding-top: 30px;
@@ -199,36 +191,15 @@ li {
   }
 }
 
-// bidirectional support
-@mixin mirror_relative_to_parent {
-  -moz-transform: scale(-1,1);
-  -ms-transform: scale(-1,1);
-  -o-transform: scale(-1,1);
-  -webkit-transform: scale(-1,1);
-  transform: scale(-1,1);
-}
-
-body.bidi {
-  @include mirror_relative_to_parent();
-  .bidi-rtl {
-    @include mirror_relative_to_parent();
-    text-align: right;
-  }
-  .bidi-ltr {
-    @include mirror_relative_to_parent();
-    text-align: left;
-  }
-}
-
 // TABLET
 @media (max-width: 768px) {
-  #header-bar {
+  #international-header-bar {
     .partof {
       display: none;
     }
   }
 
-  #header-menu {
+  #international-header-menu {
     min-height: 100px;
 
     .container {
@@ -240,7 +211,7 @@ body.bidi {
     }
   }
 
-  #header-logo {
+  #international-header-logo {
     margin-left: $spacing-3;
   }
 
@@ -255,7 +226,7 @@ body.bidi {
     }
   }
 
-  #footer {
+  #international-footer {
     .sharing-links {
       float: none;
       text-align: center;
@@ -279,9 +250,16 @@ body.bidi {
 
 }
 
+// columns breakpoint
+@media (max-width: 640px) {
+  .grid-row {
+    display: block;
+  }
+}
+
 
 @media (max-width: 600px) {
-  #header-bar {
+  #international-header-bar {
     .profile {
       &:before {
         display: none;
@@ -304,16 +282,31 @@ body.bidi {
 }
 
 @media (max-width: 420px) {
-  #footer {
+  #international-footer {
     .site-links ul {
       padding-left: 0;
       padding-right: 0;
     }
   }
 
-  #header-logo {
+  #international-header-logo {
     margin-bottom: $spacing-4;
     margin-left: $spacing-3-m;
     padding-top: $spacing-4;
+  }
+}
+
+// bidirectional and custom font support for arabic
+:lang(ar) {
+  font-family: 'ge-ss', sans-serif;
+
+  #international-footer .site-links ul {
+    text-align: left;
+  }
+
+  #international-footer .site-links a,
+  .card .card-inner h3,
+  .card .card-inner p {
+    font-family: 'ge-ss', sans-serif;
   }
 }

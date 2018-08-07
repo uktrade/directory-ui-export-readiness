@@ -1,5 +1,11 @@
 import itertools
 
+from directory_cms_client.constants import (
+    EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
+    EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
+    EXPORT_READINESS_GET_FINANCE_SLUG,
+)
+
 from django.conf import settings
 from django.contrib import sitemaps
 from django.core.urlresolvers import reverse
@@ -10,18 +16,8 @@ from django.views.generic.base import RedirectView
 from article.helpers import ArticlesViewedManagerFactory
 from article import structure
 from casestudy import casestudies
+from core import helpers, mixins
 from triage.helpers import TriageAnswersManager
-from ui.views import TranslationsMixin
-from core.mixins import (
-    PerformanceDashboardFeatureFlagMixin,
-    GetCMSPageMixin,
-)
-
-from directory_cms_client.constants import (
-    EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
-    EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
-    EXPORT_READINESS_GET_FINANCE_SLUG,
-)
 
 
 class ArticlesViewedManagerMixin:
@@ -82,9 +78,15 @@ class LandingPageView(ArticlesViewedManagerMixin, TemplateView):
             ),
         )
 
+    def get(self, request, *args, **kwargs):
+        redirector = helpers.GeoLocationRedirector(self.request)
+        if redirector.should_redirect:
+            return redirector.get_response()
+        return super().get(request, *args, **kwargs)
+
 
 class InternationalLandingPageView(
-    SetEtagMixin, TranslationsMixin, TemplateView
+    SetEtagMixin, mixins.TranslationsMixin, TemplateView
 ):
     template_name = 'core/landing_page_international.html'
 
@@ -155,8 +157,8 @@ class StaticViewSitemap(sitemaps.Sitemap):
 
     def items(self):
         # import here to avoid circular import
-        from ui import urls
-        from ui.url_redirects import redirects
+        from conf import urls
+        from conf.url_redirects import redirects
         return [
             url.name for url in urls.urlpatterns
             if url not in redirects and url.name not in ContactUsSitemap.names
@@ -197,16 +199,11 @@ class ContactUsSitemap(sitemaps.Sitemap):
         return item
 
 
-class RobotsView(TemplateView):
-    template_name = 'core/robots.txt'
-    content_type = 'text/plain'
-
-
 class AboutView(SetEtagMixin, TemplateView):
     template_name = 'core/about.html'
 
 
-class PrivacyCookiesDomesticCMS(GetCMSPageMixin, TemplateView):
+class PrivacyCookiesDomesticCMS(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'core/info_page.html'
     slug = EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG
 
@@ -215,7 +212,7 @@ class PrivacyCookiesInternationalCMS(PrivacyCookiesDomesticCMS):
     template_name = 'core/info_page_international.html'
 
 
-class TermsConditionsDomesticCMS(GetCMSPageMixin, TemplateView):
+class TermsConditionsDomesticCMS(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'core/info_page.html'
     slug = EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG
 
@@ -224,14 +221,14 @@ class TermsConditionsInternationalCMS(TermsConditionsDomesticCMS):
     template_name = 'core/info_page_international.html'
 
 
-class GetFinanceCMS(GetCMSPageMixin, TemplateView):
+class GetFinanceCMS(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'core/get_finance.html'
     slug = EXPORT_READINESS_GET_FINANCE_SLUG
 
 
 class PerformanceDashboardView(
-    PerformanceDashboardFeatureFlagMixin,
-    GetCMSPageMixin,
+    mixins.PerformanceDashboardFeatureFlagMixin,
+    mixins.GetCMSPageMixin,
     TemplateView
 ):
     template_name = 'core/performance_dashboard.html'

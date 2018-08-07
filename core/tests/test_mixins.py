@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView
 
-from ui.views import TranslationsMixin
+from core.mixins import TranslationsMixin
 
 
 def test_translate_non_bidi_template(rf):

@@ -1,6 +1,12 @@
 import urllib.parse
 
-from django.shortcuts import Http404
+from ipware import get_client_ip
+
+from django.conf import settings
+from django.contrib.gis.geoip2 import GeoIP2
+from django.urls import reverse
+from django.shortcuts import Http404, redirect
+from django.utils.functional import cached_property
 
 
 def build_social_link(template, request, title):
@@ -49,3 +55,57 @@ def handle_cms_response(response):
         raise Http404()
     response.raise_for_status()
     return response.json()
+
+
+class GeoLocationRedirector:
+    DOMESTIC_COUNTRY_CODES = ['GB', 'IE']
+    COUNTRY_TO_LANGUAGE_MAP = {
+        'CN': 'zh-hans',
+        'DE': 'de',
+        'ES': 'es',
+        'JP': 'ja',
+    }
+    COOKIE_NAME = 'disable_geoloaction'
+    LANGUAGE_PARAM = 'lang'
+
+    def __init__(self, request):
+        self.request = request
+
+    @cached_property
+    def country_code(self):
+        client_ip, is_routable = get_client_ip(self.request)
+        if client_ip and is_routable:
+            response = GeoIP2().country(client_ip)
+            return response['country_code']
+
+    @property
+    def country_language(self):
+        return self.COUNTRY_TO_LANGUAGE_MAP.get(
+            self.country_code, settings.LANGUAGE_CODE
+        )
+
+    @property
+    def should_redirect(self):
+        return (
+            self.COOKIE_NAME not in self.request.COOKIES and
+            self.LANGUAGE_PARAM not in self.request.GET and
+            self.country_code is not None and
+            self.country_code not in self.DOMESTIC_COUNTRY_CODES
+        )
+
+    def get_response(self):
+        params = self.request.GET.dict()
+        params[self.LANGUAGE_PARAM] = self.country_language
+        url = '{url}?{querystring}'.format(
+            url=reverse('landing-page-international'),
+            querystring=urllib.parse.urlencode(params)
+        )
+        response = redirect(url)
+        response.set_cookie(
+            key=self.COOKIE_NAME,
+            value='true',
+            max_age=settings.LANGUAGE_COOKIE_AGE,
+            path=settings.LANGUAGE_COOKIE_PATH,
+            domain=settings.LANGUAGE_COOKIE_DOMAIN
+        )
+        return response

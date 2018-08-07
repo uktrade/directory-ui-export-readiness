@@ -15,7 +15,7 @@ class NotFoundOnDisabledFeature:
 class PerformanceDashboardFeatureFlagMixin(NotFoundOnDisabledFeature):
     @property
     def flag(self):
-        return settings.FEATURE_PERFORMANCE_DASHBOARD_ENABLED
+        return settings.FEATURE_FLAGS['PERFORMANCE_DASHBOARD_ON']
 
 
 class GetCMSPageMixin:
@@ -29,3 +29,17 @@ class GetCMSPageMixin:
             page=handle_cms_response(response),
             *args, **kwargs
         )
+
+
+class TranslationsMixin:
+
+    def dispatch(self, request, *args, **kwargs):
+        translation.activate(request.LANGUAGE_CODE)
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['LANGUAGE_BIDI'] = translation.get_language_bidi()
+        context['directory_components_html_lang_attribute']\
+            = translation.get_language()
+        return context

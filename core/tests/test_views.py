@@ -1,5 +1,5 @@
 import http
-from unittest.mock import call, patch
+from unittest.mock import call, patch, PropertyMock
 
 from django.core.urlresolvers import reverse
 from django.conf import settings
@@ -9,8 +9,8 @@ from bs4 import BeautifulSoup
 import pytest
 import requests_mock
 
-from core import views
-from core.tests import helpers
+from core import helpers, views
+from core.tests.helpers import create_response
 from casestudy import casestudies
 
 from directory_cms_client.constants import (
@@ -30,6 +30,26 @@ def test_landing_page_video_url(client, settings):
         'https://example.com/videp.mp4'
     )
     assert b'https://example.com/videp.mp4' in response.content
+
+
+@patch(
+    'core.helpers.GeoLocationRedirector.should_redirect',
+    PropertyMock(return_value=True)
+)
+@patch(
+    'core.helpers.GeoLocationRedirector.country_language',
+    PropertyMock(return_value='fr')
+)
+def test_landing_page_redirect(client):
+    url = reverse('landing-page')
+
+    response = client.get(url)
+
+    assert response.status_code == 302
+    assert response.url == (
+        reverse('landing-page-international') + '?lang=' + 'fr'
+    )
+    assert response.cookies[helpers.GeoLocationRedirector.COOKIE_NAME].value
 
 
 def test_landing_page(client, settings):
@@ -143,7 +163,7 @@ def test_terms_conditions_cms(
         'industries': [{'title': 'good 1'}],
         'meta': {'languages': ['en-gb']},
     }
-    mock_get_t_and_c_page.return_value = helpers.create_response(
+    mock_get_t_and_c_page.return_value = create_response(
         status_code=200,
         json_body=page
     )
@@ -176,7 +196,7 @@ def test_privacy_cookies_cms(
         'industries': [{'title': 'good 1'}],
         'meta': {'languages': ['en-gb']},
     }
-    mock_get_p_and_c_page.return_value = helpers.create_response(
+    mock_get_p_and_c_page.return_value = create_response(
         status_code=200,
         json_body=page
     )
@@ -194,7 +214,7 @@ def test_get_finance_cms(mock_get_finance_page, client):
         'industries': [{'title': 'good 1'}],
         'meta': {'languages': ['en-gb']},
     }
-    mock_get_finance_page.return_value = helpers.create_response(
+    mock_get_finance_page.return_value = create_response(
         status_code=200,
         json_body=page
     )
@@ -216,7 +236,7 @@ def test_international_landing_view_translations(lang, client):
 
 
 @pytest.mark.parametrize('method,expected', (
-    ('get', '"aa579dae951f3cc5d696e5359261e123"'),
+    ('get', '"b013a413446c5dddaf341792c63a88c4"'),
     ('post', None),
     ('patch', None),
     ('put', None),
@@ -227,7 +247,7 @@ def test_international_landing_view_translations(lang, client):
 def test_set_etag_mixin(rf, method, expected):
     class MyView(views.SetEtagMixin, TemplateView):
 
-        template_name = 'core/robots.txt'
+        template_name = 'robots.txt'
 
         def post(self, *args, **kwargs):
             return super().get(*args, **kwargs)
@@ -305,7 +325,7 @@ cms_urls_slugs = (
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @pytest.mark.parametrize('url,slug', cms_urls_slugs)
 def test_cms_pages_cms_client_params(mock_get, client, url, slug):
-    mock_get.return_value = helpers.create_response(status_code=200)
+    mock_get.return_value = create_response(status_code=200)
 
     response = client.get(url, {'draft_token': '123'})
 
@@ -330,7 +350,7 @@ cms_urls = (
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @pytest.mark.parametrize('url', cms_urls)
 def test_cms_pages_cms_page_404(mock_get, client, url):
-    mock_get.return_value = helpers.create_response(status_code=404)
+    mock_get.return_value = create_response(status_code=404)
 
     response = client.get(url)
 
@@ -339,14 +359,17 @@ def test_cms_pages_cms_page_404(mock_get, client, url):
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_performance_dashboard_cms(mock_get_page, settings, client):
-    settings.FEATURE_PERFORMANCE_DASHBOARD_ENABLED = True
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'PERFORMANCE_DASHBOARD_ON': True,
+    }
     url = reverse('performance-dashboard')
     page = {
         'title': 'Performance dashboard',
         'heading': 'Great.gov.uk',
         'description': 'Lorem ipsum dolor sit amet.',
     }
-    mock_get_page.return_value = helpers.create_response(
+    mock_get_page.return_value = create_response(
         status_code=200,
         json_body=page
     )
@@ -361,7 +384,10 @@ def test_performance_dashboard_cms(mock_get_page, settings, client):
 
 
 def test_performance_dashboard_feature_flag_off(client, settings):
-    settings.FEATURE_PERFORMANCE_DASHBOARD_ENABLED = False
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'PERFORMANCE_DASHBOARD_ON': False
+    }
 
     response = client.get('performance-dashboard')
 

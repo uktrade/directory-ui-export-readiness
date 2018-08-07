@@ -8,7 +8,7 @@ test_requirements:
 	pip install -r requirements_test.txt
 
 FLAKE8 := flake8 . --exclude=migrations,.venv,node_modules
-PYTEST := pytest . -v --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no -x $(pytest_args)
+PYTEST := pytest . -v --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
 COLLECT_STATIC := python manage.py collectstatic --noinput
 COMPILE_TRANSLATIONS := python manage.py compilemessages
 CODECOV := \
@@ -38,14 +38,14 @@ DOCKER_SET_DEBUG_ENV_VARS := \
 	export DIRECTORY_UI_EXPORT_READINESS_API_CLIENT_CLASS_NAME=unit-test; \
 	export DIRECTORY_UI_EXPORT_READINESS_API_SIGNATURE_SECRET=debug; \
 	export DIRECTORY_UI_EXPORT_READINESS_API_CLIENT_BASE_URL=http://api.trade.great:8000; \
-	export DIRECTORY_UI_EXPORT_READINESS_SSO_PROXY_SIGNATURE_SECRET=api_signature_debug; \
-	export DIRECTORY_UI_EXPORT_READINESS_SSO_PROXY_API_CLIENT_BASE_URL=http://sso.trade.great:8004/; \
+	export DIRECTORY_UI_EXPORT_READINESS_SSO_SIGNATURE_SECRET=api_signature_debug; \
+	export DIRECTORY_UI_EXPORT_READINESS_SSO_API_CLIENT_BASE_URL=http://sso.trade.great:8003/; \
 	export DIRECTORY_UI_EXPORT_READINESS_SSO_PROXY_LOGIN_URL=http://sso.trade.great:8004/accounts/login/; \
 	export DIRECTORY_UI_EXPORT_READINESS_SSO_PROXY_LOGOUT_URL=http://sso.trade.great:8004/accounts/logout/?next=http://exred.trade.great:8007; \
 	export DIRECTORY_UI_EXPORT_READINESS_SSO_PROXY_SIGNUP_URL=http://sso.trade.great:8004/accounts/signup/; \
 	export DIRECTORY_UI_EXPORT_READINESS_SSO_PROFILE_URL=http://profile.trade.great:8006/about/; \
 	export DIRECTORY_UI_EXPORT_READINESS_SSO_PROXY_REDIRECT_FIELD_NAME=next; \
-	export DIRECTORY_UI_EXPORT_READINESS_SSO_PROXY_SESSION_COOKIE=debug_sso_session_cookie; \
+	export DIRECTORY_UI_EXPORT_READINESS_SSO_SESSION_COOKIE=debug_sso_session_cookie; \
 	export DIRECTORY_UI_EXPORT_READINESS_SESSION_COOKIE_SECURE=false; \
 	export DIRECTORY_UI_EXPORT_READINESS_PORT=8001; \
 	export DIRECTORY_UI_EXPORT_READINESS_SECRET_KEY=debug; \
@@ -119,14 +119,14 @@ DEBUG_SET_ENV_VARS := \
 	export DEBUG=true ;\
 	export API_SIGNATURE_SECRET=debug; \
 	export API_CLIENT_BASE_URL=http://api.trade.great:8000; \
-	export SSO_PROXY_SIGNATURE_SECRET=proxy_signature_debug; \
-	export SSO_PROXY_API_CLIENT_BASE_URL=http://sso.trade.great:8004/; \
+	export SSO_SIGNATURE_SECRET=api_signature_debug; \
+	export SSO_API_CLIENT_BASE_URL=http://sso.trade.great:8003/; \
 	export SSO_PROXY_LOGIN_URL=http://sso.trade.great:8004/accounts/login/; \
 	export SSO_PROXY_LOGOUT_URL=http://sso.trade.great:8004/accounts/logout/?next=http://exred.trade.great:8007; \
 	export SSO_PROXY_SIGNUP_URL=http://sso.trade.great:8004/accounts/signup/; \
 	export SSO_PROFILE_URL=http://profile.trade.great:8006/about/; \
 	export SSO_PROXY_REDIRECT_FIELD_NAME=next; \
-	export SSO_PROXY_SESSION_COOKIE=debug_sso_session_cookie; \
+	export SSO_SESSION_COOKIE=debug_sso_session_cookie; \
 	export SESSION_COOKIE_SECURE=false; \
 	export COMPANIES_HOUSE_API_KEY=debug; \
 	export GOOGLE_TAG_MANAGER_ID=GTM-NLJP5CL; \
@@ -157,7 +157,8 @@ DEBUG_SET_ENV_VARS := \
 	export CMS_URL=http://cms.trade.great:8010; \
 	export CMS_SIGNATURE_SECRET=debug; \
 	export FEATURE_CMS_ENABLED=true; \
-	export FEATURE_PERFORMANCE_DASHBOARD_ENABLED=true
+	export FEATURE_PERFORMANCE_DASHBOARD_ENABLED=true; \
+	export FEATURE_SEARCH_ENGINE_INDEXING_DISABLED=true
 
 
 debug_webserver:

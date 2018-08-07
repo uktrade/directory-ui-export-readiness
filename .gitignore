@@ -6,7 +6,7 @@ __pycache__/
 .pytest_cache
 .venv/
 enrolment/staticfiles/
-ui/staticfiles/
+*/staticfiles/
 BrowserStackLocal
 node_modules/
 
@@ -103,3 +103,4 @@ package-lock.json
 
 # Docker
 .env
+core/geolocation_data/GeoLite2-Country.mmdb
