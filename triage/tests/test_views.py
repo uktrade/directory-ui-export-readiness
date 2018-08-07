@@ -16,7 +16,8 @@ from article import structure
 @pytest.fixture(autouse=True)
 def mock_retrive_articles_read():
     mock = patch(
-        'api_client.api_client.exportreadiness.bulk_create_article_read'
+        'directory_api_client.exportreadiness.'
+        'ExportReadinessAPIClient.bulk_create_article_read'
     )
     mock.return_value = create_response(200, json_body=[])
     yield mock.start()
