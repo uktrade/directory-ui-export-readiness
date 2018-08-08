@@ -1,6 +1,7 @@
+from directory_cms_client.client import cms_api_client
 from django.http import Http404
 from django.conf import settings
-from core.helpers import cms_client, handle_cms_response
+from core.helpers import handle_cms_response
 from django.utils import translation
 
 
@@ -19,7 +20,7 @@ class PerformanceDashboardFeatureFlagMixin(NotFoundOnDisabledFeature):
 
 class GetCMSPageMixin:
     def get_context_data(self, *args, **kwargs):
-        response = cms_client.lookup_by_slug(
+        response = cms_api_client.lookup_by_slug(
             slug=self.slug,
             language_code=translation.get_language(),
             draft_token=self.request.GET.get('draft_token'),

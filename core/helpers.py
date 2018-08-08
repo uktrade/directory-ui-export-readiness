@@ -1,6 +1,5 @@
 import urllib.parse
 
-from directory_cms_client import DirectoryCMSClient
 from ipware import get_client_ip
 
 from django.conf import settings
@@ -8,12 +7,6 @@ from django.contrib.gis.geoip2 import GeoIP2
 from django.urls import reverse
 from django.shortcuts import Http404, redirect
 from django.utils.functional import cached_property
-
-
-cms_client = DirectoryCMSClient(
-    base_url=settings.CMS_URL,
-    api_key=settings.CMS_SIGNATURE_SECRET,
-)
 
 
 def build_social_link(template, request, title):
