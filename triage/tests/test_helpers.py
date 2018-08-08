@@ -94,8 +94,9 @@ def test_database_create_answer_manager_handles_api_error(
     data = {'field': 'value'}
     manager = helpers.DatabaseTriageAnswersManager(sso_request)
 
-    with pytest.raises(requests.HTTPError):
-        manager.persist_answers(data)
+    with patch.object(manager, 'retrieve_answers', return_value=[]):
+        with pytest.raises(requests.HTTPError):
+            manager.persist_answers(data)
 
 
 @patch('directory_api_client.exportreadiness.'
