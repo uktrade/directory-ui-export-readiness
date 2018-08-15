@@ -122,8 +122,24 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
     }
 }
+
+if env.str('REDIS_URL', ''):
+    CACHES['cms_fallback'] = {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': env.str('REDIS_URL'),
+        'OPTIONS': {
+            'CLIENT_CLASS': "django_redis.client.DefaultClient",
+        }
+    }
+else:
+    CACHES['cms_fallback'] = {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

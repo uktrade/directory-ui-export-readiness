@@ -158,7 +158,8 @@ DEBUG_SET_ENV_VARS := \
 	export CMS_SIGNATURE_SECRET=debug; \
 	export FEATURE_CMS_ENABLED=true; \
 	export FEATURE_PERFORMANCE_DASHBOARD_ENABLED=true; \
-	export FEATURE_SEARCH_ENGINE_INDEXING_DISABLED=true
+	export FEATURE_SEARCH_ENGINE_INDEXING_DISABLED=true; \
+	export REDIS_URL=redis://localhost:6379
 
 
 debug_webserver:

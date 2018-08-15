@@ -13,7 +13,7 @@ django_recaptcha==1.2.0
 clint
 directory-validators==5.0.1
 directory-api-client==10.0.2
-directory-cms-client==4.0.1
+directory-cms-client==4.2.1
 directory-sso-api-client==3.0.2
 directory-constants==7.1.0
 sigauth==4.0.1
@@ -23,3 +23,4 @@ directory_components==2.17.2
 export_elements==0.17.3
 geoip2==2.9.0
 django-ipware==2.1.0
+django-redis==4.8.0
