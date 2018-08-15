@@ -25,12 +25,14 @@
     <script src="{% static 'js/dit.class.modal.js' %}"></script>
     <script src="{% static 'js/dit.components.languageSelector.js' %}"></script>
     <script src="{% static 'js/international.js' %}"></script>
+    <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
     {% include 'core/browser-checks.html' %}
     {% block scripts %}{% endblock %}
 
 </head>
 <body id="top" class="{{ LANGUAGE_BIDI|yesno:'bidi,' }}">
     {% include 'directory_components/google_tag_manager_body.html' %}
+    {% include 'directory_components/cookie_notice.html' %}
     {% include 'core/includes/international_header.html' %}
 
     <main id="content" role="main">
