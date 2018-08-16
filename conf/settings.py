@@ -102,6 +102,7 @@ TEMPLATES = [
                     'header_footer_processor'),
                 'core.context_processors.feature_flags',
                 'directory_components.context_processors.analytics',
+                'directory_components.context_processors.cookie_notice',
             ],
         },
     },
@@ -297,6 +298,7 @@ HEADER_FOOTER_URLS_EVENTS = env.str('HEADER_FOOTER_URLS_EVENTS', '')
 HEADER_FOOTER_URLS_CONTACT_US = env.str('HEADER_FOOTER_URLS_CONTACT_US', '')
 HEADER_FOOTER_URLS_DIT = env.str('HEADER_FOOTER_URLS_DIT', '')
 COMPONENTS_URLS_FAS = env.str('COMPONENTS_URLS_FAS', '')
+PRIVACY_COOKIE_DOMAIN = os.getenv('PRIVACY_COOKIE_DOMAIN')
 
 # Exopps url for interstitial page
 SERVICES_EXOPPS_ACTUAL = env.str('SERVICES_EXOPPS_ACTUAL', '')
