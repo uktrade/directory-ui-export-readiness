@@ -1,7 +1,12 @@
+from directory_cms_client.client import cms_api_client
+from directory_cms_client.constants import (
+    EXPORT_READINESS_HIGH_POTENTIAL_OPPORTUNITY_FORM_SLUG
+)
 from django.conf import settings
 from django.http import Http404
 from django.views.generic.edit import FormView
 
+from core.helpers import handle_cms_response
 from invest import forms
 
 
@@ -19,16 +24,16 @@ class HighPotentialOpportunityFormView(FeatureFlagMixin, FormView):
     #  TODO TT-364: 404 if the opportunity_slug is invalid
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        # TODO TT-364: retrieve from CMS
-        kwargs['field_attributes'] = {
-            'full_name': {
-                'label': 'Your name',
-            },
-            'role_in_company': {
-                'label': 'Position in company'
-            }
-        }
+        kwargs['field_attributes'] = self.get_form_content()
         return kwargs
+
+    def get_form_content(self):
+        response = cms_api_client.lookup_by_slug(
+            slug=EXPORT_READINESS_HIGH_POTENTIAL_OPPORTUNITY_FORM_SLUG,
+            language_code=settings.LANGUAGE_CODE,
+            draft_token=self.request.GET.get('draft_token'),
+        )
+        return handle_cms_response(response)
 
     def form_valid(self, form):
         # TODO T-336: link to thank you page

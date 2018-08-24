@@ -7,8 +7,10 @@ from django.utils.safestring import mark_safe
 
 class HighPotentialOpportunityForm(forms.Form):
     def __init__(self, field_attributes={}, *args, **kwargs):
-        for field_name, attributes in field_attributes.items():
-            self.base_fields[field_name].__dict__.update(attributes)
+        for field_name, field in self.base_fields.items():
+            attributes = field_attributes.get(field_name)
+            if attributes:
+                field.__dict__.update(attributes)
         return super().__init__(*args, **kwargs)
 
     full_name = fields.CharField()
