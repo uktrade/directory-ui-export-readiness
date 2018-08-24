@@ -413,4 +413,7 @@ FEATURE_FLAGS = {
     ),
     # used by directory-components
     'MAINTENANCE_MODE_ON': env.bool('FEATURE_MAINTENANCE_MODE_ENABLED', False),
+    'HIGH_POTENTIAL_OPPORTUNITIES_ON': env.bool(
+        'FEATURE_HIGH_POTENTIAL_OPPORTUNITIES_ENABLED', False
+    )
 }
