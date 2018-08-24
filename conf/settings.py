@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'directory_constants',
     'core',
     'article',
+    'invest',
     'triage',
     'casestudy',
     'directory_healthcheck',
