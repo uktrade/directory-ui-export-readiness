@@ -39,8 +39,8 @@ Performance dashboard - great.gov.uk
       <h2 class="heading-large">{{ page.title }}</h2>
       <div class="grid-row">
         <div class="column-half">
-          {{ page.description|safe }}
-          <p>Visit <a href="{{ page.product_link }}">{{ page.title }}</a></p>
+          {{ page.description|safe|add_export_elements_classes }}
+          <p>Visit <a href="{{ page.product_link }}" class="link">{{ page.title }}</a></p>
         </div>
       </div>
 
@@ -51,7 +51,7 @@ Performance dashboard - great.gov.uk
             <p class="number bold-xlarge">{{ page.data_number_row_one }}</p>
             <p class="date font-xsmall">{{ page.data_period_row_one }}</p>
             <div class="data-description">
-              {{ page.data_description_row_one|safe }}
+              {{ page.data_description_row_one|safe|add_export_elements_classes }}
             </div>
           </div>
         </div>
@@ -62,7 +62,7 @@ Performance dashboard - great.gov.uk
             <p class="number bold-xlarge">{{ page.data_number_row_two }}</p>
             <p class="date font-xsmall">{{ page.data_period_row_two }}</p>
             <div class="data-description">
-              {{ page.data_description_row_two|safe }}
+              {{ page.data_description_row_two|safe|add_export_elements_classes }}
             </div>
           </div>
         </div>
@@ -73,7 +73,7 @@ Performance dashboard - great.gov.uk
             <p class="number bold-xlarge">{{ page.data_number_row_three }}</p>
             <p class="date font-xsmall">{{ page.data_period_row_three }}</p>
             <div class="data-description">
-              {{ page.data_description_row_three|safe }}
+              {{ page.data_description_row_three|safe|add_export_elements_classes }}
             </div>
           </div>
         </div>
@@ -85,7 +85,7 @@ Performance dashboard - great.gov.uk
             <p class="number bold-xlarge">{{ page.data_number_row_four }}</p>
             <p class="date font-xsmall">{{ page.data_period_row_four }}</p>
             <div class="data-description">
-              {{ page.data_description_row_four|safe }}
+              {{ page.data_description_row_four|safe|add_export_elements_classes }}
             </div>
           </div>
         </div>
@@ -107,10 +107,10 @@ Performance dashboard - great.gov.uk
       <p class="subheading">Department for International Trade</p>
       <h2 class="heading-large">Our services</h2>
       <ul class="list">
-        <li><a href="{% url 'performance-dashboard-export-opportunities' %}">Export opportunities</a></li>
-        <li><a href="{% url 'performance-dashboard-selling-online-overseas' %}">Selling online overseas</a></li>
-        <li><a href="{% url 'performance-dashboard-trade-profiles' %}">Trade profiles</a></li>
-        <li><a href="{% url 'performance-dashboard-invest' %}">Invest in Great Britain</a></li>
+        <li><a class="link" href="{% url 'performance-dashboard-export-opportunities' %}">Export opportunities</a></li>
+        <li><a class="link" href="{% url 'performance-dashboard-selling-online-overseas' %}">Selling online overseas</a></li>
+        <li><a class="link" href="{% url 'performance-dashboard-trade-profiles' %}">Business profiles</a></li>
+        <li><a class="link" href="{% url 'performance-dashboard-invest' %}">Invest in Great Britain</a></li>
       </ul>
     </div>
     {% endif %}
