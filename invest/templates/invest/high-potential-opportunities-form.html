@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+
+{% load static from staticfiles %}
+{% load add_export_elements_classes from directory_components_tags %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'styles/high-potential-opportunities-form.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block head_title %}
+    High Potential Opportunities - great.gov.uk
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+    	<div id="heading-container">
+	    	<h2 class="heading-large">Your business details</h2>
+	    	<span class="font-xsmall">The questions below will help us provide the best support for you</span>
+	    </div>
+	    <div id="form-container">
+		    <form>
+		        {{ form.as_p }}
+		        <button type="submit" id="submit-button" class="button">Submit</button>
+		    </form>
+		</div>
+    </div>
+{% endblock %}

@@ -170,6 +170,8 @@ class StaticViewSitemap(sitemaps.Sitemap):
             from triage.views import TriageWizardFormView
             return reverse(item, kwargs={
                 'step': TriageWizardFormView.EXPORTED_BEFORE})
+        if item == 'high-potential-opportunity-details-request-form':
+            return reverse(item, kwargs={'opportunity_slug': 'rail'})
         return reverse(item)
 
 

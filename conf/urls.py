@@ -9,7 +9,9 @@ import casestudy.views
 import contact.views
 import core.views
 import healthcheck.views
+import invest.views
 import triage.views
+
 from conf.url_redirects import redirects
 
 
@@ -471,6 +473,12 @@ urlpatterns = [
         contact.views.TriageWizardFormView.as_view(),
         name='contact-us-triage-wizard'
     ),
+    url(
+        r'^high-potential-opportunities/(?P<opportunity_slug>[-\w\d]+)/$',
+        invest.views.HighPotentialOpportunityFormView.as_view(),
+        name='high-potential-opportunity-details-request-form'
+    ),
+
 ]
 
 urlpatterns += redirects
