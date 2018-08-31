@@ -3,7 +3,6 @@ import itertools
 from directory_cms_client.constants import (
     EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
     EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
-    EXPORT_READINESS_GET_FINANCE_SLUG,
 )
 
 from django.conf import settings
@@ -219,11 +218,6 @@ class TermsConditionsDomesticCMS(mixins.GetCMSPageMixin, TemplateView):
 
 class TermsConditionsInternationalCMS(TermsConditionsDomesticCMS):
     template_name = 'core/info_page_international.html'
-
-
-class GetFinanceCMS(mixins.GetCMSPageMixin, TemplateView):
-    template_name = 'core/get_finance.html'
-    slug = EXPORT_READINESS_GET_FINANCE_SLUG
 
 
 class PerformanceDashboardView(

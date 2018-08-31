@@ -10,6 +10,7 @@ import contact.views
 import core.views
 import healthcheck.views
 import triage.views
+import finance.views
 from conf.url_redirects import redirects
 
 
@@ -98,11 +99,6 @@ urlpatterns = [
         r"^international/terms-and-conditions/$",
         core.views.TermsConditionsInternationalCMS.as_view(),
         name='terms-and-conditions-international'
-    ),
-    url(
-        r"^get-finance/$",
-        core.views.GetFinanceCMS.as_view(),
-        name='get-finance'
     ),
     url(
         r"^export-opportunities/$",
@@ -470,6 +466,26 @@ urlpatterns = [
         r'^contact-us/(?P<service>[-\w\d]+)/triage/$',
         contact.views.TriageWizardFormView.as_view(),
         name='contact-us-triage-wizard'
+    ),
+    url(
+        r"^get-finance/$",
+        finance.views.GetFinanceCMS.as_view(),
+        name='get-finance'
+    ),
+    url(
+        r'^get-finance/start/$',
+        finance.views.GetFinanceStartRedirectView.as_view(),
+        name='uk-export-finance-pardot-funnel-start'
+    ),
+    url(
+        r'^get-finance/contact/$',
+        finance.views.GetFinanceLeadGenerationFormView.as_view(),
+        name='uk-export-finance-lead-generation-form'
+    ),
+    url(
+        r'^get-finance/contact/thanks/$',
+        finance.views.GetFinanceLeadGenerationSuccessView.as_view(),
+        name='uk-export-finance-lead-generation-form-success'
     ),
 ]
 
