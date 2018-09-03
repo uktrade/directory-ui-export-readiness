@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'article',
     'triage',
     'casestudy',
+    'finance',
     'directory_healthcheck',
     'health_check',
     'contact',
@@ -100,7 +101,7 @@ TEMPLATES = [
                 'directory_components.context_processors.urls_processor',
                 ('directory_components.context_processors.'
                     'header_footer_processor'),
-                'core.context_processors.feature_flags',
+                'directory_components.context_processors.feature_flags',
                 'directory_components.context_processors.analytics',
                 'directory_components.context_processors.cookie_notice',
             ],
@@ -404,6 +405,9 @@ GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
 FEATURE_FLAGS = {
     'INTERNAL_CH_ON': env.bool('FEATURE_USE_INTERNAL_CH_ENABLED', False),
     'CONTACT_US_ON': env.bool('FEATURE_CONTACT_US_ENABLED', False),
+    'UKEF_LEAD_GENEATION_ON': env.bool(
+        'FEATURE_UKEF_LEAD_GENEATION_ENABLED', False
+    ),
     'PERFORMANCE_DASHBOARD_ON': env.bool(
         'FEATURE_PERFORMANCE_DASHBOARD_ENABLED', False
     ),
@@ -414,3 +418,13 @@ FEATURE_FLAGS = {
     # used by directory-components
     'MAINTENANCE_MODE_ON': env.bool('FEATURE_MAINTENANCE_MODE_ENABLED', False),
 }
+
+
+# UK Export Finance
+UKEF_PI_TRACKER_JAVASCRIPT_URL = env.str(
+    'UKEF_PI_TRACKER_JAVASCRIPT_URL', 'https://pi.pardot.com/pd.js'
+)
+UKEF_PI_TRACKER_ACCOUNT_ID = env.str('UKEF_PI_TRACKER_ACCOUNT_ID')
+UKEF_PI_TRACKER_CAMPAIGN_ID = env.str('UKEF_PI_TRACKER_CAMPAIGN_ID')
+UKEF_FORM_START_TRACKER_URL = env.str('UKEF_FORM_START_TRACKER_URL')
+UKEF_FORM_SUBMIT_TRACKER_URL = env.str('UKEF_FORM_SUBMIT_TRACKER_URL')

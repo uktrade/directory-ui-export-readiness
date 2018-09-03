@@ -14,6 +14,11 @@
 Get finance - great.gov.uk
 {% endblock %}
 
+{% block head_js %}
+    {% include 'finance/lead-generation-campaign-tracking.html' %}
+    {{ block.super }}
+{% endblock %}
+
 {% block content %}
 <section class="get-finance-banner" style="background-image: url({{ page.banner_image.url }})">
   <div class="container">
@@ -44,7 +49,7 @@ Get finance - great.gov.uk
         <img height="120" class="ukef-logo" src="{{ page.ukef_logo.url }}" alt="">
         {{ page.section_three_content|add_export_elements_classes }}
         {{ page.section_one_content|add_export_elements_classes }}
-        <a class="button" href="{{ page.call_to_action_url }}" target="_blank">{{ page.call_to_action_text }}</a>
+        <a class="button" href="{% if features.UKEF_LEAD_GENEATION_ON %}{% url 'uk-export-finance-pardot-funnel-start' %}{% else %}{{ page.call_to_action_url }}{% endif %}" target="_self">{{ page.call_to_action_text }}</a>
       </div>
     </div>
   </div>

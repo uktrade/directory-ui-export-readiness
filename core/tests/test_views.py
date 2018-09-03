@@ -16,7 +16,6 @@ from casestudy import casestudies
 from directory_cms_client.constants import (
     EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
     EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
-    EXPORT_READINESS_GET_FINANCE_SLUG,
 )
 
 
@@ -206,24 +205,6 @@ def test_privacy_cookies_cms(
     assert response.template_name == [expected_template]
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_get_finance_cms(mock_get_finance_page, client):
-    url = reverse('get-finance')
-    page = {
-        'title': 'the page',
-        'industries': [{'title': 'good 1'}],
-        'meta': {'languages': ['en-gb']},
-    }
-    mock_get_finance_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.template_name == ['core/get_finance.html']
-
-
 @pytest.mark.parametrize("lang", ['ar', 'es', 'zh-hans', 'pt', 'de', 'ja'])
 def test_international_landing_view_translations(lang, client):
     response = client.get(
@@ -315,10 +296,6 @@ cms_urls_slugs = (
         reverse('terms-and-conditions-international'),
         EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
     ),
-    (
-        reverse('get-finance'),
-        EXPORT_READINESS_GET_FINANCE_SLUG,
-    ),
 )
 
 
@@ -343,7 +320,6 @@ cms_urls = (
     reverse('terms-and-conditions'),
     reverse('privacy-and-cookies-international'),
     reverse('terms-and-conditions-international'),
-    reverse('get-finance'),
 )
 
 
