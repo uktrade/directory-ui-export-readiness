@@ -14,7 +14,7 @@ from finance import views
 def test_ukef_lead_generation_feature_flag_on(client, settings):
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
-        'UKEF_LEAD_GENEATION_ON': True
+        'UKEF_LEAD_GENERATION_ON': True
     }
     settings.UKEF_FORM_SUBMIT_TRACKER_URL = 'submit.com'
     settings.UKEF_PI_TRACKER_JAVASCRIPT_URL = 'js.com'
@@ -38,7 +38,7 @@ def test_ukef_lead_generation_feature_flag_on(client, settings):
 def test_ukef_lead_generation_feature_flag_off(client, settings):
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
-        'UKEF_LEAD_GENEATION_ON': False
+        'UKEF_LEAD_GENERATION_ON': False
     }
     url = reverse('uk-export-finance-lead-generation-form')
 
@@ -67,7 +67,7 @@ def test_get_finance_cms(mock_get_finance_page, client, settings):
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == [views.GetFinanceCMS.template_name]
+    assert response.template_name == [views.GetFinance.template_name]
     assert response.context_data['pi_tracker_javascript_url'] == 'js.com'
     assert response.context_data['pi_tracker_account_id'] == 'account'
     assert response.context_data['pi_tracker_campaign_id'] == 'campaign'
@@ -82,19 +82,21 @@ def test_start_redirect_url(client, settings):
     assert response.url == settings.UKEF_FORM_START_TRACKER_URL
 
 
-cms_urls_slugs = (
-    (
-        reverse('get-finance'),
-        EXPORT_READINESS_GET_FINANCE_SLUG,
-    ),
-)
-
-
+@pytest.mark.parametrize('enabled,slug', (
+    (True, EXPORT_READINESS_GET_FINANCE_SLUG),
+    (False, EXPORT_READINESS_GET_FINANCE_SLUG + '-deprecated'),
+))
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@pytest.mark.parametrize('url,slug', cms_urls_slugs)
-def test_cms_pages_cms_client_params(mock_get, client, url, slug):
-    mock_get.return_value = create_response(status_code=200)
+def test_cms_pages_cms_client_params_feature_flag(
+    mock_get, client, settings, enabled, slug
+):
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'UKEF_LEAD_GENERATION_ON': enabled
+    }
 
+    mock_get.return_value = create_response(status_code=200)
+    url = reverse('get-finance')
     response = client.get(url, {'draft_token': '123'})
 
     assert response.status_code == 200
@@ -106,17 +108,11 @@ def test_cms_pages_cms_client_params(mock_get, client, url, slug):
     )
 
 
-cms_urls = (
-    reverse('get-finance'),
-)
-
-
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@pytest.mark.parametrize('url', cms_urls)
-def test_cms_pages_cms_page_404(mock_get, client, url):
+def test_cms_pages_cms_page_404(mock_get, client):
     mock_get.return_value = create_response(status_code=404)
 
-    response = client.get(url)
+    response = client.get(reverse('get-finance'))
 
     assert response.status_code == 404
 
@@ -124,7 +120,7 @@ def test_cms_pages_cms_page_404(mock_get, client, url):
 def test_ukef_lead_generation_success_page(client, settings):
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
-        'UKEF_LEAD_GENEATION_ON': True
+        'UKEF_LEAD_GENERATION_ON': True
     }
     url = reverse('uk-export-finance-lead-generation-form-success')
 

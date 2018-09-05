@@ -78,3 +78,7 @@ $cols-12   : #{($columns * 12)};
   .sm-2 { @include items(2, $spacing-4); }
   .sm-1 { @include items-1; }
 }
+
+.clearfix {
+  clear: both;
+}

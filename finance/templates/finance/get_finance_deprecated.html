@@ -1,0 +1,71 @@
+{% extends 'core/base.html' %}
+
+{% load static from staticfiles %}
+{% load include_markdown from article_tags %}
+{% load add_export_elements_classes from directory_components_tags %}
+
+{% block head_css %}
+{{ block.super }}
+<link href="{% static 'styles/article.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'styles/get-finance.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block head_title %}
+Get finance - great.gov.uk
+{% endblock %}
+
+{% block head_js %}
+    {% include 'finance/lead-generation-campaign-tracking.html' %}
+    {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<section class="get-finance-banner" style="background-image: url({{ page.banner_image.url }})">
+  <div class="container">
+
+    <p class="breadcrumbs body-text">
+      <span class="label verbose">You are here:</span>
+      <a href="/">Export</a>
+      <span class="separator">,</span>
+      {% if article_group.url %}
+      <a href="{{ article_group.url }}">{{ article_group.title }}</a>
+      <span class="separator">,</span>
+      {% endif %}
+      <span class="current">Get finance</span>
+    </p>
+
+    <div class="grid-row">
+      <div class="column-two-thirds">
+        {{ page.banner_content|add_export_elements_classes }}
+      </div>
+    </div>
+  </div>
+</section>
+<section class="intro">
+  <div class="container">
+
+    <div class="grid-row">
+      <div class="column-two-thirds">
+        <img height="120" class="ukef-logo" src="{{ page.ukef_logo.url }}" alt="">
+        {{ page.section_three_content|add_export_elements_classes }}
+        {{ page.section_one_content|add_export_elements_classes }}
+        <a class="button" href="{{ page.call_to_action_url }}" target="_self">{{ page.call_to_action_text }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="get-finance-video">
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-two-thirds">
+
+        {{ page.section_two_content|add_export_elements_classes }}
+
+        <iframe width="560" height="315" src="{{ page.video_embed }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
