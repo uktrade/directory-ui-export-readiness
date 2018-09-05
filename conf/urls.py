@@ -469,7 +469,7 @@ urlpatterns = [
     ),
     url(
         r"^get-finance/$",
-        finance.views.GetFinanceCMS.as_view(),
+        finance.views.GetFinanceNegotiator.as_view(),
         name='get-finance'
     ),
     url(

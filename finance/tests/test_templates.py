@@ -3,32 +3,18 @@ import pytest
 from django.template.loader import render_to_string
 from django.urls import reverse
 
-from directory_components.context_processors import feature_flags
 
-
-def test_get_finance_template_feature_flag_off(settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'UKEF_LEAD_GENEATION_ON': False
-    }
+def test_deprecated_get_finance_template(settings):
     context = {
         'page': {'call_to_action_url': 'cta.com'},
-        **feature_flags(None),
     }
-    html = render_to_string('finance/get_finance.html', context)
+    html = render_to_string('finance/get_finance_deprecated.html', context)
 
     assert 'cta.com' in html
 
 
-def test_get_finance_template_feature_flag_on(settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'UKEF_LEAD_GENEATION_ON': True
-    }
-    context = {
-        'call_to_action_url': 'cta.com',
-        **feature_flags(None),
-    }
+def test_get_finance_template():
+    context = {}
     html = render_to_string('finance/get_finance.html', context)
 
     assert reverse('uk-export-finance-pardot-funnel-start') in html

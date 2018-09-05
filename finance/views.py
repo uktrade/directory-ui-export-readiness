@@ -11,7 +11,7 @@ from finance import forms
 
 class FeatureFlagMixin:
     def dispatch(self, *args, **kwargs):
-        if not settings.FEATURE_FLAGS['UKEF_LEAD_GENEATION_ON']:
+        if not settings.FEATURE_FLAGS['UKEF_LEAD_GENERATION_ON']:
             raise Http404()
         return super().dispatch(*args, **kwargs)
 
@@ -27,11 +27,26 @@ class PiTrackerContextData:
         )
 
 
-class GetFinanceCMS(
+class DeprecatedGetFinance(
+    mixins.GetCMSPageMixin, PiTrackerContextData, TemplateView
+):
+    template_name = 'finance/get_finance_deprecated.html'
+    slug = EXPORT_READINESS_GET_FINANCE_SLUG + '-deprecated'
+
+
+class GetFinance(
     mixins.GetCMSPageMixin, PiTrackerContextData, TemplateView
 ):
     template_name = 'finance/get_finance.html'
     slug = EXPORT_READINESS_GET_FINANCE_SLUG
+
+
+class GetFinanceNegotiator(TemplateView):
+    def __new__(cls, *args, **kwargs):
+        if settings.FEATURE_FLAGS['UKEF_LEAD_GENERATION_ON']:
+            return GetFinance(*args, **kwargs)
+        else:
+            return DeprecatedGetFinance(*args, **kwargs)
 
 
 class GetFinanceLeadGenerationFormView(
@@ -49,6 +64,14 @@ class GetFinanceLeadGenerationFormView(
 
 
 class GetFinanceStartRedirectView(FeatureFlagMixin, RedirectView):
+    """
+    Using a redirect URL here instead of putting a hyperlink directly to Pardot
+    in the html. the reason is go Google links to this page instead of Pardot.
+    The reason that is desirable is in future we may change how we track, or
+    change the Pardot URL, but Google or links in emails will still link to the
+    old Pardot URL.
+    """
+
     url = settings.UKEF_FORM_START_TRACKER_URL
 
 

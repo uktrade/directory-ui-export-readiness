@@ -20,7 +20,7 @@ Get finance - great.gov.uk
 {% endblock %}
 
 {% block content %}
-<section class="get-finance-banner" style="background-image: url({{ page.banner_image.url }})">
+<section class="get-finance-banner" style="background-image: url({{ page.hero_image.url }})">
   <div class="container">
 
     <p class="breadcrumbs body-text">
@@ -36,36 +36,87 @@ Get finance - great.gov.uk
 
     <div class="grid-row">
       <div class="column-two-thirds">
-        {{ page.banner_content|add_export_elements_classes }}
+        {{ page.hero_text|add_export_elements_classes }}
       </div>
     </div>
   </div>
 </section>
-<section class="intro">
-  <div class="container">
 
-    <div class="grid-row">
-      <div class="column-two-thirds">
-        <img height="120" class="ukef-logo" src="{{ page.ukef_logo.url }}" alt="">
-        {{ page.section_three_content|add_export_elements_classes }}
-        {{ page.section_one_content|add_export_elements_classes }}
-        <a class="button" href="{% if features.UKEF_LEAD_GENEATION_ON %}{% url 'uk-export-finance-pardot-funnel-start' %}{% else %}{{ page.call_to_action_url }}{% endif %}" target="_self">{{ page.call_to_action_text }}</a>
-      </div>
+<section id="contact-section">
+    <div class="container">
+        <div class="grid-row">
+            <div class="proposition-container">
+                {{ page.contact_proposition|safe }}
+            </div>
+            <div class="button-container">
+                <a href="{% url 'uk-export-finance-pardot-funnel-start' %}" class="button">{{ page.contact_button }}</a>
+            </div>
+        </div>
     </div>
-  </div>
 </section>
+
+<section id="advantages-section">
+    <div class="container">
+        <div class="grid-row">
+            <div class="column-one-half">
+                <h2 class="heading-large">{{ page.advantages_title }}</h2>
+            </div>
+            <div class="clearfix"></div>
+            <div class="column-one-third service-card">
+                <div class="image-container">
+                    <img src="{{ page.advantages_one_icon.url}}" />
+                </div>
+                <div>
+                    {{ page.advantages_one|add_export_elements_classes }}
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="column-one-third service-card">
+                <div class="image-container">
+                    <img src="{{ page.advantages_two_icon.url }}" />
+                </div>
+                <div>
+                    {{ page.advantages_two|add_export_elements_classes }}
+                </div>
+            </div>
+            <div class="column-one-third service-card">
+                <div class="image-container">
+                    <img src="{{ page.advantages_three_icon.url }}" />
+                </div>
+                <div>
+                    {{ page.advantages_three|add_export_elements_classes }}
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</section>
+
 <section class="get-finance-video">
   <div class="container">
     <div class="grid-row">
-      <div class="column-two-thirds">
-
-        {{ page.section_two_content|add_export_elements_classes }}
-
-        <iframe width="560" height="315" src="{{ page.video_embed }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-
+      <div class="column-one-half">
+        {{ page.evidence|add_export_elements_classes }}
+      </div>
+      <div class="column-one-half">
+        <iframe width="560" height="315" src="{{ page.evidence_video_embed }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       </div>
     </div>
   </div>
+</section>
+
+<section id="contact-section-bottom">
+    <div class="container">
+        <div class="grid-row">
+            <div class="proposition-container">
+                {{ page.contact_proposition|safe }}
+            </div>
+            <div class="button-container">
+                <a href="{% url 'uk-export-finance-pardot-funnel-start' %}" class="button">{{ page.contact_button }}</a>
+            </div>
+        </div>
+    </div>
 </section>
 
 {% endblock %}
