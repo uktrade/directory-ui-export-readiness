@@ -1,12 +1,12 @@
 from directory_cms_client.constants import EXPORT_READINESS_GET_FINANCE_SLUG
+from formtools.wizard.views import NamedUrlSessionWizardView
 
 from django.conf import settings
 from django.http import Http404
-from django.views.generic.edit import FormView
 from django.views.generic.base import RedirectView, TemplateView
 
 from core import mixins
-from finance import forms
+from finance import forms, helpers
 
 
 class FeatureFlagMixin:
@@ -50,17 +50,39 @@ class GetFinanceNegotiator(TemplateView):
 
 
 class GetFinanceLeadGenerationFormView(
-    FeatureFlagMixin, PiTrackerContextData, FormView
+    FeatureFlagMixin, PiTrackerContextData, NamedUrlSessionWizardView
 ):
-    form_class = forms.ExampleForm
-    template_name = 'finance/lead_generation_form.html'
+
+    CATEGORY = 'contact'
+    PERSONAL_DETAILS = 'your-details'
+    COMPANY_DETAILS = 'company-details'
+    HELP = 'help'
+
+    form_list = (
+        (CATEGORY, forms.CategoryForm),
+        (PERSONAL_DETAILS, forms.PersonalDetailsForm),
+        (COMPANY_DETAILS, forms.CompanyDetailsForm),
+        (HELP, forms.HelpForm),
+    )
+    templates = {
+        CATEGORY: 'finance/lead_generation_form/step-category.html',
+        PERSONAL_DETAILS: 'finance/lead_generation_form/step-personal.html',
+        COMPANY_DETAILS: 'finance/lead_generation_form/step-company.html',
+        HELP: 'finance/lead_generation_form/step-help.html',
+    }
+
+    def get_template_names(self):
+        return [self.templates[self.steps.current]]
 
     def get_context_data(self, *args, **kwargs):
-        return super().get_context_data(
-            form_submit_tracker_url=settings.UKEF_FORM_SUBMIT_TRACKER_URL,
-            *args,
-            **kwargs,
-        )
+        context_data = super().get_context_data(*args, **kwargs)
+        if self.steps.current == self.HELP:
+            context_data['form_submit_url'] = (
+                settings.UKEF_FORM_SUBMIT_TRACKER_URL
+            )
+            data = self.get_all_cleaned_data()
+            context_data['all_form_data'] = helpers.flatten_form_data(data)
+        return context_data
 
 
 class GetFinanceStartRedirectView(FeatureFlagMixin, RedirectView):
@@ -76,4 +98,4 @@ class GetFinanceStartRedirectView(FeatureFlagMixin, RedirectView):
 
 
 class GetFinanceLeadGenerationSuccessView(TemplateView):
-    template_name = 'finance/lead_generation_form_success.html'
+    template_name = 'finance/lead_generation_form/success.html'

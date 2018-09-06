@@ -1,0 +1,14 @@
+@import './partials/base';
+@import './components/breadcrumbs';
+
+h1 {
+  background-color: #00A699;
+  color: white;
+  padding: 30px;
+}
+
+
+.breadcrumbs {
+  background-color: transparent;
+  border: 0;
+}

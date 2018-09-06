@@ -11,7 +11,15 @@ from core.tests.helpers import create_response
 from finance import views
 
 
-def test_ukef_lead_generation_feature_flag_on(client, settings):
+@pytest.mark.parametrize('step,submit_url', (
+    ('contact', None),
+    ('your-details', None),
+    ('company-details', None),
+    ('help', 'submit.com'),
+))
+def test_ukef_lead_generation_feature_flag_on(
+    client, settings, step, submit_url
+):
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
         'UKEF_LEAD_GENERATION_ON': True
@@ -20,18 +28,20 @@ def test_ukef_lead_generation_feature_flag_on(client, settings):
     settings.UKEF_PI_TRACKER_JAVASCRIPT_URL = 'js.com'
     settings.UKEF_PI_TRACKER_ACCOUNT_ID = 'account'
     settings.UKEF_PI_TRACKER_CAMPAIGN_ID = 'campaign'
-    url = reverse('uk-export-finance-lead-generation-form')
+    url = reverse(
+        'uk-export-finance-lead-generation-form', kwargs={'step': step}
+    )
 
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.context_data['form_submit_tracker_url'] == 'submit.com'
+    assert response.context_data.get('form_submit_url') == submit_url
     assert response.context_data['pi_tracker_javascript_url'] == 'js.com'
     assert response.context_data['pi_tracker_account_id'] == 'account'
     assert response.context_data['pi_tracker_campaign_id'] == 'campaign'
 
     assert response.template_name == [
-        views.GetFinanceLeadGenerationFormView.template_name
+        views.GetFinanceLeadGenerationFormView.templates[step]
     ]
 
 
@@ -40,7 +50,9 @@ def test_ukef_lead_generation_feature_flag_off(client, settings):
         **settings.FEATURE_FLAGS,
         'UKEF_LEAD_GENERATION_ON': False
     }
-    url = reverse('uk-export-finance-lead-generation-form')
+    url = reverse(
+        'uk-export-finance-lead-generation-form', kwargs={'step': 'contact'}
+    )
 
     response = client.get(url)
 
@@ -123,7 +135,6 @@ def test_ukef_lead_generation_success_page(client, settings):
         'UKEF_LEAD_GENERATION_ON': True
     }
     url = reverse('uk-export-finance-lead-generation-form-success')
-
     response = client.get(url)
 
     assert response.status_code == 200

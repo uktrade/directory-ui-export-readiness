@@ -1,0 +1,25 @@
+{% extends 'finance/lead_generation_form/base.html' %}
+{% load static from staticfiles %}
+
+{% block head_js %}
+    {% include 'finance/lead-generation-campaign-tracking.html' %}
+    {{ block.super }}
+{% endblock %}
+
+{% block extra_contents %}
+    <div id="heading-container">
+        <h2 class="heading-large">Your business details</h2>
+        <span class="font-xsmall">Your answers to the questions below help us decide the best way to support your business</span>
+    </div>
+{% endblock %}
+
+{% block body_js %}
+    <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
+    <script type="text/javascript">
+        var otherInputs = document.getElementsByClassName('js-field-other');
+        var selectBoxes = document.getElementsByTagName('select');
+        for(var i=0; i<otherInputs.length; i++) {
+          GOVUK.utils.toggleOtherOnSelect(otherInputs[i], selectBoxes[i]);
+        }
+    </script>
+{% endblock %}

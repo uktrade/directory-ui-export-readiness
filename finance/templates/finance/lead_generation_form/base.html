@@ -1,0 +1,58 @@
+{% extends "core/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block sharing_metadata %}{% endblock %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'styles/ukef-lead-generation-form.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            {% include 'finance/lead_generation_form/breadcrumbs.html' %}
+            <div class="grid-row">
+                <div class="column-one-half">
+                    <form method="post" {% if form_submit_url%} action="{{ form_submit_url }}"{% endif %}>
+                        <div class="">
+                            <h3 class="heading-medium">{% block step_title %}{% endblock %}</h3>
+                            {% csrf_token %}
+                            {% block extra_contents %}{% endblock %}
+                            <div class="input-field-container">
+                                {{ wizard.management_form }}
+                                {% if wizard.form.forms %}
+                                    {{ wizard.form.management_form }}
+                                    {% for form in wizard.form.forms %}
+                                        {{ form }}
+                                    {% endfor %}
+                                {% else %}
+                                    {% for hidden in form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                    {% for field in form.visible_fields %}
+                                        <li class="{{ field.css_classes }}">
+                                            {{ field.errors }}
+                                            {{ field.label_tag }}
+                                            {% if field.help_text %}
+                                                <span class="form-hint">{{ field.help_text|safe }}</span>
+                                            {% endif %}
+                                            {{ field }}
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <div>
+                                <button type="submit" class="button button">Continue</button>
+                            </div>
+                            {% if wizard.steps.prev %}
+                                <button name="wizard_goto_step" class="link" type="submit" value="{{ wizard.steps.prev }}">Back</button>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
