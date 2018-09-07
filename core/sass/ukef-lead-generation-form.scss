@@ -1,4 +1,26 @@
 @import './partials/base';
+@import './components/form-wizard';
+@import './components/breadcrumbs';
+
+.breadcrumbs {
+  border-bottom-width: 0;
+}
+
+form {
+  li {
+    list-style: none;
+  }
+  button.link {
+    margin-top: 40px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .form-control {
+    width: 100%;
+  }
+}
 
 #heading-container {
     h2 {

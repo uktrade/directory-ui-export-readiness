@@ -169,6 +169,8 @@ class StaticViewSitemap(sitemaps.Sitemap):
             from triage.views import TriageWizardFormView
             return reverse(item, kwargs={
                 'step': TriageWizardFormView.EXPORTED_BEFORE})
+        if item == 'uk-export-finance-lead-generation-form':
+            return reverse(item, kwargs={'step': 'contact'})
         return reverse(item)
 
 

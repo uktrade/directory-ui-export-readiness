@@ -22,7 +22,10 @@ def test_get_finance_template():
 
 @pytest.mark.parametrize('template_name', (
     'finance/get_finance.html',
-    'finance/lead_generation_form.html',
+    'finance/lead_generation_form/step-category.html',
+    'finance/lead_generation_form/step-company.html',
+    'finance/lead_generation_form/step-help.html',
+    'finance/lead_generation_form/step-personal.html',
 ))
 def test_tracking_code(template_name):
     context = {

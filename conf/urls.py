@@ -478,14 +478,17 @@ urlpatterns = [
         name='uk-export-finance-pardot-funnel-start'
     ),
     url(
-        r'^get-finance/contact/$',
-        finance.views.GetFinanceLeadGenerationFormView.as_view(),
-        name='uk-export-finance-lead-generation-form'
-    ),
-    url(
         r'^get-finance/contact/thanks/$',
         finance.views.GetFinanceLeadGenerationSuccessView.as_view(),
         name='uk-export-finance-lead-generation-form-success'
+    ),
+    url(
+        r'^get-finance/(?P<step>.+)/$',
+        finance.views.GetFinanceLeadGenerationFormView.as_view(
+            url_name='uk-export-finance-lead-generation-form',
+            done_step_name='finished'
+        ),
+        name='uk-export-finance-lead-generation-form'
     ),
 ]
 

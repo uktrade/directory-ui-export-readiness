@@ -1,0 +1,13 @@
+{% extends 'finance/lead_generation_form/base.html' %}
+{% load static from staticfiles %}
+
+{% block head_js %}
+    {% include 'finance/lead-generation-campaign-tracking.html' %}
+    {{ block.super }}
+{% endblock %}
+
+{% block extra_contents %}
+    <div id="heading-container">
+        <h2 class="heading-large">Your details</h2>
+    </div>
+{% endblock %}
