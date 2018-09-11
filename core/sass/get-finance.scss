@@ -91,7 +91,8 @@ section {
 }
 
 @media (max-width: 769px) {
-  #contact-section {
+  #contact-section,
+  #contact-section-bottom {
     .proposition-container,
     .button-container {
       width: 100%;

@@ -13,13 +13,13 @@ django_recaptcha==1.2.0
 clint
 directory-validators==5.0.1
 directory-api-client==10.0.2
-directory-cms-client==5.0.0
+directory-cms-client==5.1.0
 directory-sso-api-client==3.0.2
 directory-constants==7.1.0
 sigauth==4.0.1
 directory-healthcheck==0.4.2
 directory-ch-client==1.0.0
-directory_components==2.20.0
+directory_components==2.22.0
 geoip2==2.9.0
 django-ipware==2.1.0
 django-redis==4.8.0
