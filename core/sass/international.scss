@@ -31,15 +31,6 @@ li {
   padding-bottom: 30px;
 }
 
-// stretch columns and cards so they are aligned in the row
-.grid-row, .column-half {
-  display: flex;
-}
-
-.column-half, .card {
-  flex-grow: 1;
-}
-
 .phase-banner {
   border-bottom: 0;
 }
@@ -302,6 +293,10 @@ li {
 
   #international-footer .site-links ul {
     text-align: left;
+  }
+
+  .column-two-thirds {
+    float: right;
   }
 
   #international-footer .site-links a,
