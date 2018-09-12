@@ -32,7 +32,13 @@
 </head>
 <body id="top" class="{{ LANGUAGE_BIDI|yesno:'bidi,' }}">
     {% include 'directory_components/google_tag_manager_body.html' %}
-    {% include 'directory_components/cookie_notice.html' %}
+
+    {% block cookie_notice %}
+      <div dir="ltr">
+        {% include 'directory_components/cookie_notice.html' %}
+      </div>
+    {% endblock %}
+
     {% include 'core/includes/international_header.html' %}
 
     <main id="content" role="main">

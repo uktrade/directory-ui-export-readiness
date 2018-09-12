@@ -14,11 +14,6 @@
 Get finance - great.gov.uk
 {% endblock %}
 
-{% block head_js %}
-    {% include 'finance/lead-generation-campaign-tracking.html' %}
-    {{ block.super }}
-{% endblock %}
-
 {% block content %}
 <section class="get-finance-banner" style="background-image: url({{ page.hero_image.url }})">
   <div class="container">
@@ -49,7 +44,7 @@ Get finance - great.gov.uk
                 {{ page.contact_proposition|safe }}
             </div>
             <div class="button-container">
-                <a href="{% url 'uk-export-finance-pardot-funnel-start' %}" class="button">{{ page.contact_button }}</a>
+                <a href="{% url 'uk-export-finance-lead-generation-form' step='contact' %}" class="button">{{ page.contact_button }}</a>
             </div>
         </div>
     </div>
@@ -113,7 +108,7 @@ Get finance - great.gov.uk
                 {{ page.contact_proposition|safe }}
             </div>
             <div class="button-container">
-                <a href="{% url 'uk-export-finance-pardot-funnel-start' %}" class="button">{{ page.contact_button }}</a>
+                <a href="{% url 'uk-export-finance-lead-generation-form' step='contact' %}" class="button">{{ page.contact_button }}</a>
             </div>
         </div>
     </div>
