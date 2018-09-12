@@ -473,11 +473,6 @@ urlpatterns = [
         name='get-finance'
     ),
     url(
-        r'^get-finance/start/$',
-        finance.views.GetFinanceStartRedirectView.as_view(),
-        name='uk-export-finance-pardot-funnel-start'
-    ),
-    url(
         r'^get-finance/contact/thanks/$',
         finance.views.GetFinanceLeadGenerationSuccessView.as_view(),
         name='uk-export-finance-lead-generation-form-success'

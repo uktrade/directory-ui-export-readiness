@@ -3,7 +3,7 @@ from formtools.wizard.views import NamedUrlSessionWizardView
 
 from django.conf import settings
 from django.http import Http404
-from django.views.generic.base import RedirectView, TemplateView
+from django.views.generic.base import TemplateView
 
 from core import mixins
 from finance import forms, helpers
@@ -27,16 +27,12 @@ class PiTrackerContextData:
         )
 
 
-class DeprecatedGetFinance(
-    mixins.GetCMSPageMixin, PiTrackerContextData, TemplateView
-):
+class DeprecatedGetFinance(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'finance/get_finance_deprecated.html'
     slug = EXPORT_READINESS_GET_FINANCE_SLUG + '-deprecated'
 
 
-class GetFinance(
-    mixins.GetCMSPageMixin, PiTrackerContextData, TemplateView
-):
+class GetFinance(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'finance/get_finance.html'
     slug = EXPORT_READINESS_GET_FINANCE_SLUG
 
@@ -50,7 +46,7 @@ class GetFinanceNegotiator(TemplateView):
 
 
 class GetFinanceLeadGenerationFormView(
-    FeatureFlagMixin, PiTrackerContextData, NamedUrlSessionWizardView
+    FeatureFlagMixin, NamedUrlSessionWizardView
 ):
 
     CATEGORY = 'contact'
@@ -83,18 +79,6 @@ class GetFinanceLeadGenerationFormView(
             data = self.get_all_cleaned_data()
             context_data['all_form_data'] = helpers.flatten_form_data(data)
         return context_data
-
-
-class GetFinanceStartRedirectView(FeatureFlagMixin, RedirectView):
-    """
-    Using a redirect URL here instead of putting a hyperlink directly to Pardot
-    in the html. the reason is go Google links to this page instead of Pardot.
-    The reason that is desirable is in future we may change how we track, or
-    change the Pardot URL, but Google or links in emails will still link to the
-    old Pardot URL.
-    """
-
-    url = settings.UKEF_FORM_START_TRACKER_URL
 
 
 class GetFinanceLeadGenerationSuccessView(TemplateView):

@@ -25,9 +25,7 @@ def test_ukef_lead_generation_feature_flag_on(
         'UKEF_LEAD_GENERATION_ON': True
     }
     settings.UKEF_FORM_SUBMIT_TRACKER_URL = 'submit.com'
-    settings.UKEF_PI_TRACKER_JAVASCRIPT_URL = 'js.com'
-    settings.UKEF_PI_TRACKER_ACCOUNT_ID = 'account'
-    settings.UKEF_PI_TRACKER_CAMPAIGN_ID = 'campaign'
+
     url = reverse(
         'uk-export-finance-lead-generation-form', kwargs={'step': step}
     )
@@ -36,9 +34,6 @@ def test_ukef_lead_generation_feature_flag_on(
 
     assert response.status_code == 200
     assert response.context_data.get('form_submit_url') == submit_url
-    assert response.context_data['pi_tracker_javascript_url'] == 'js.com'
-    assert response.context_data['pi_tracker_account_id'] == 'account'
-    assert response.context_data['pi_tracker_campaign_id'] == 'campaign'
 
     assert response.template_name == [
         views.GetFinanceLeadGenerationFormView.templates[step]
@@ -80,18 +75,6 @@ def test_get_finance_cms(mock_get_finance_page, client, settings):
 
     assert response.status_code == 200
     assert response.template_name == [views.GetFinance.template_name]
-    assert response.context_data['pi_tracker_javascript_url'] == 'js.com'
-    assert response.context_data['pi_tracker_account_id'] == 'account'
-    assert response.context_data['pi_tracker_campaign_id'] == 'campaign'
-
-
-def test_start_redirect_url(client, settings):
-    url = reverse('uk-export-finance-pardot-funnel-start')
-
-    response = client.get(url)
-
-    assert response.status_code == 302
-    assert response.url == settings.UKEF_FORM_START_TRACKER_URL
 
 
 @pytest.mark.parametrize('enabled,slug', (
