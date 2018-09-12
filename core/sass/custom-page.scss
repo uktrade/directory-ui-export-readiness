@@ -93,6 +93,11 @@
 
 #other-services {
   padding-top: $spacing-1;
+
+  .card-image {
+    height: 300px;
+    background-position: center;
+  }
 }
 
 #sector {

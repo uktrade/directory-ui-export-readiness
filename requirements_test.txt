@@ -33,7 +33,7 @@ django-redis==4.8.0
 django==1.11.15
 django_recaptcha==1.2.0
 djangorestframework==3.8.2  # via sigauth
-export-elements==0.19.0   # via directory-components
+export-elements==0.19.1   # via directory-components
 flake8==3.5.0
 freezegun==0.3.10
 geoip2==2.9.0
