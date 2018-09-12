@@ -11,6 +11,7 @@ import core.views
 import healthcheck.views
 import triage.views
 import finance.views
+import invest.views
 from conf.url_redirects import redirects
 
 
@@ -484,6 +485,16 @@ urlpatterns = [
             done_step_name='finished'
         ),
         name='uk-export-finance-lead-generation-form'
+    ),
+    url(
+        r'^high-potential-opportunities/(?P<slug>[-\w\d]+)/contact/$',
+        invest.views.HighPotentialOpportunityFormView.as_view(),
+        name='high-potential-opportunity-request-form'
+    ),
+    url(
+        r'^high-potential-opportunities/(?P<slug>[-\w\d]+)/$',
+        invest.views.HighPotentialOpportunityDetailView.as_view(),
+        name='high-potential-opportunity-details'
     ),
 ]
 
