@@ -1,5 +1,6 @@
-{% load trans from i18n %}
+{% load i18n %}
 {% load static %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
 
 <header id="international-header" dir="ltr">
   <a id="skip-link" href="#content" class="verbose">{% trans "Skip to main content" %}</a>
@@ -33,7 +34,7 @@
     {% include 'core/widgets/beta_bar_content.html' %}
   </div>
 
-  <div id="international-header-menu">
+  <div id="international-header-menu" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr' }}">
     <div class="container">
       <img id="international-header-logo" src="{% static 'images/international/great-uk-gov-logo.svg' %}" alt="{% trans "UK Government" %}">
     </div>

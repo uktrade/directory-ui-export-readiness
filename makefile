@@ -16,6 +16,12 @@ CODECOV := \
 	   codecov --token=$$CODECOV_REPO_TOKEN ;\
 	fi
 
+translations:
+	$(DEBUG_SET_ENV_VARS) && python manage.py makemessages -a
+
+compile_translations:
+	$(DEBUG_SET_ENV_VARS) && python manage.py compilemessages
+
 test:
 	$(COLLECT_STATIC) && $(COMPILE_TRANSLATIONS) && $(FLAKE8) && $(PYTEST) && $(CODECOV)
 
