@@ -1,22 +1,19 @@
 {% load static %}
 <section id="other-services">
-    <div class="container">
-        <h2 class="verbose heading-large">Other services</h2>
-        <div class="group">
-            <div class="lg-2 md-1">
-                <article data-component="service-teaser" class="service-teaser">
-                    <h3 class="title">Find online marketplaces</h3>
-                    <p class="text">Reach over 2 billion consumers online around the world. Get exclusive deals negotiated on behalf of UK businesses.</p>
-                    <img src="{% static 'images/triage-soo-cta@2x.png' %}" alt=""><a href="{{ directory_components_urls.soo }}" class="link">Service: Find online marketplaces</a>
-                </article>
-            </div>
-            <div class="lg-2 md-1">
-                <article data-component="service-teaser" class="service-teaser">
-                    <h3 class="title">Find export opportunities</h3>
-                    <p class="text">Find and apply for overseas opportunities from businesses looking for products or services like yours.</p>
-                    <img src="{% static 'images/triage-export-opps-cta@2x.png' %}" alt=""><a href="{% url 'export-opportunities' %}" class="link">Service: Find export opportunities</a>
-                </article>
-            </div>
-        </div>
+
+  <div class="container">
+    <h2 class="visually-hidden heading-large">Other services</h2>
+    <div class="card-grid">
+      <div class="column-half-m column-full">
+        {% static 'images/triage-soo-cta@2x.png' as soo_image %}
+        {% include 'directory_components/card.html' with img_src=soo_image url=directory_components_urls.soo title='Find online marketplaces' description='Reach over 2 billion consumers online around the world. Get exclusive deals negotiated on behalf of UK businesses.' %}
+      </div>
+      <div class="column-half-m column-full">
+        {% static 'images/triage-export-opps-cta@2x.png' as exopps_image %}
+        {% url 'export-opportunities' as exopps_url %}
+        {% include 'directory_components/card.html' with img_src=exopps_image url=exopps_url title='Find export opportunities' description='Find and apply for overseas opportunities from businesses looking for products or services like yours.' %}
+      </div>
     </div>
+  </div>
+
 </section>
