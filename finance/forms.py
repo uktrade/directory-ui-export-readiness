@@ -41,6 +41,10 @@ class CompanyDetailsForm(forms.Form):
         'I supply UK companies that sell overseas',
         'I don\'t currently export or supply businesses that export',
     )
+    INDUSTRY_CHOICES = [
+        (value.replace('_', ' ').title(), label)
+        for (value, label) in choices.INDUSTRIES
+    ] + [('Other', 'Other')]
 
     error_css_class = 'input-field-container has-error'
 
@@ -59,7 +63,7 @@ class CompanyDetailsForm(forms.Form):
     address_post_code = fields.CharField(label='Postcode')
     industry = fields.ChoiceField(
         initial='thing',
-        choices=choices.INDUSTRIES + (('OTHER', 'Other'),)
+        choices=INDUSTRY_CHOICES
     )
     industry_other = fields.CharField(
         label='Type in your industry',
