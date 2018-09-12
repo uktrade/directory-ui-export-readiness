@@ -1,5 +1,3 @@
-import pytest
-
 from django.template.loader import render_to_string
 from django.urls import reverse
 
@@ -17,25 +15,8 @@ def test_get_finance_template():
     context = {}
     html = render_to_string('finance/get_finance.html', context)
 
-    assert reverse('uk-export-finance-pardot-funnel-start') in html
-
-
-@pytest.mark.parametrize('template_name', (
-    'finance/get_finance.html',
-    'finance/lead_generation_form/step-category.html',
-    'finance/lead_generation_form/step-company.html',
-    'finance/lead_generation_form/step-help.html',
-    'finance/lead_generation_form/step-personal.html',
-))
-def test_tracking_code(template_name):
-    context = {
-        'pi_tracker_account_id': '123',
-        'pi_tracker_campaign_id': '456',
-        'pi_tracker_javascript_url': 'url.com',
-    }
-    tracking_code = render_to_string(
-        'finance/lead-generation-campaign-tracking.html',
-        context
+    expected = reverse(
+        'uk-export-finance-lead-generation-form', kwargs={'step': 'contact'}
     )
 
-    assert tracking_code in render_to_string(template_name, context)
+    assert expected in html

@@ -8,11 +8,6 @@
     <link href="{% static 'styles/ukef-lead-generation-success.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
-{% block head_js %}
-    {% include 'finance/lead-generation-campaign-tracking.html' %}
-    {{ block.super }}
-{% endblock %}
-
 {% block content %}
     <div class="container">
         {% include 'finance/lead_generation_form/breadcrumbs.html' %}
