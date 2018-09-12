@@ -22,7 +22,7 @@ GOVUK.utils.toggleOtherOnSelect = (function() {
     }
 
     function handleSelectboxChange(event) {
-      if (event.target.value === 'OTHER') {
+      if (event.target.value.toUpperCase() === 'OTHER') {
         showInputBox();
       } else {
         hideInputBox();
