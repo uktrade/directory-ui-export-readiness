@@ -1,4 +1,4 @@
-from unittest.mock import patch
+from unittest.mock import call, patch
 
 import pytest
 from requests.exceptions import HTTPError
@@ -14,7 +14,8 @@ def test_high_potential_opportunity_form_feature_flag_on(
     mock_lookup_by_slug, settings, client
 ):
     mock_lookup_by_slug.return_value = create_response(
-        status_code=200, json_body={}
+        status_code=200,
+        json_body={'opportunity_list': []}
     )
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
@@ -61,7 +62,13 @@ def test_high_potential_opportunity_form_cms_retrieval_ok(
             },
             'role_in_company': {
                 'help_text': 'role help text'
-            }
+            },
+            'opportunity_list': [
+                {
+                    'pdf_document_url': 'http://www.example.com/a',
+                    'heading': 'some great opportunity',
+                }
+            ]
         }
     )
     settings.FEATURE_FLAGS = {
@@ -80,6 +87,9 @@ def test_high_potential_opportunity_form_cms_retrieval_ok(
     form = response.context_data['form']
     assert form.fields['full_name'].help_text == 'full name help text'
     assert form.fields['role_in_company'].help_text == 'role help text'
+    assert form.fields['opportunities'].choices == [
+        ('http://www.example.com/a', 'some great opportunity'),
+    ]
 
 
 @patch('invest.helpers.cms_api_client.lookup_by_slug')
@@ -182,3 +192,59 @@ def test_high_potential_opportunity_detail_cms_retrieval_not_ok(
 
     with pytest.raises(HTTPError):
         client.get(url)
+
+
+@patch('invest.forms.HighPotentialOpportunityForm.save')
+@patch('invest.helpers.cms_api_client.lookup_by_slug')
+def test_high_potential_opportunity_form_submmit_cms_retrieval_ok(
+    mock_lookup_by_slug, mock_save, settings, client
+):
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200,
+        json_body={
+            'opportunity_list': [
+                {
+                    'pdf_document_url': 'http://www.example.com/a',
+                    'heading': 'some great opportunity',
+                }
+            ]
+        }
+    )
+    mock_save.return_value = create_response(status_code=200)
+
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'HIGH_POTENTIAL_OPPORTUNITIES_ON': True
+    }
+
+    url = reverse(
+        'high-potential-opportunity-request-form',
+        kwargs={'slug': 'rail'}
+    )
+
+    response = client.post(url, {
+        'full_name': 'Jim Example',
+        'role_in_company': 'Chief chief',
+        'email_address': 'test@example.com',
+        'phone_number': '555',
+        'company_name': 'Example corp',
+        'website_url': 'example.com',
+        'country': 'UK',
+        'company_size': '1 - 10',
+        'opportunities': [
+            'http://www.example.com/a',
+        ],
+        'comment': 'hello',
+        'terms_agreed': True,
+    })
+
+    assert response.status_code == 200
+    assert response.template_name == (
+        views.HighPotentialOpportunityFormView.success_template_name
+    )
+    assert response.context_data['page']
+    assert mock_save.call_count == 1
+    assert mock_save.call_args == call(
+        template_id=settings.HPO_GOV_NOTIFY_TEMPLATE_ID,
+        email_address='test@example.com',
+    )

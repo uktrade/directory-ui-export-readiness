@@ -11,15 +11,15 @@
 {% endblock %}
  {% block content %}
     <div class="container">
-    	<div id="heading-container">
-	    	<h2 class="heading-large">{{ page.heading }}</h2>
-	    	<span class="font-xsmall">{{ page.sub_heading }}</span>
-	    </div>
-	    <div id="form-container">
-		    <form>
-		        {{ form.as_p }}
-		        <button type="submit" id="submit-button" class="button">Submit</button>
-		    </form>
-		</div>
+        <div id="heading-container">
+            <h2 class="heading-large">{{ page.heading }}</h2>
+            <span class="font-xsmall">{{ page.sub_heading }}</span>
+        </div>
+        <div id="form-container">
+            <form method="post">
+                {{ form.as_p }}
+                <button type="submit" id="submit-button" class="button">Submit</button>
+            </form>
+        </div>
     </div>
 {% endblock %}

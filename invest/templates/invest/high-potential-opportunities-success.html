@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+{% load static from staticfiles %}
+
+{% load add_export_elements_classes from directory_components_tags %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'styles/high-potential-opportunities-success.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block head_title %}
+    {{ page.seo_title|default:"High Potential Opportunities - great.gov.uk" }}
+{% endblock %}
+
+{% block content %}
+    <section id="confirmation-section">
+        <div class="container">
+            {% include 'invest/breadcrumbs.html' %}
+            <div class="grid-row">
+                <div class="column-two-thirds">
+                    <div class="heading-container"> 
+                        <h2 class="heading-large">{{ page.heading }}</h1>
+                        <span>{{ page.sub_heading }}</span>
+                    </div>
+                    <h3 class="heading-medium">{{ page.next_steps_title }}</h3>
+                    <span>{{ page.next_steps_body }}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="documents-section">
+        <div class="container">
+            <h2 class="heading-large">{{ page.documents_title }}</h2>
+            <span>{{ page.documents_body }}</span>
+
+            <div class="grid-row documnets-list-container">
+                {% for opportunity in page.opportunity_list %}
+                    <div class="column-two-thirds">
+                        <img src="{{ opportunity.summary_image.url }}" />
+                        <h3 class="heading-medium"><a href="{{ opportunity.pdf_document_url }}">Download {{ opportunity.heading }} executive summary</a></h2>
+                        <span>{{ opportunity.proposition_one|striptags }}</span>
+                    </div>
+                    {% if not forloop.last %}
+                        <div class="clearfix"></div>
+                        <hr />
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
