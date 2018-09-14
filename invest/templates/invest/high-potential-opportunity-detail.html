@@ -87,11 +87,6 @@
                 <div class="proposition-two-container">
                     {{ page.proposition_two|add_export_elements_classes }}
                 </div>
-                <ul class="top-level-list">
-                    <li>{{ page.proposition_two_list_item_one|add_export_elements_classes }}</li>
-                    <li>{{ page.proposition_two_list_item_two|add_export_elements_classes }}</li> 
-                    <li>{{ page.proposition_two_list_item_three|add_export_elements_classes }}</li> 
-                </Ul>
             </div>
             <div class="column-one-half">
                 {% if page.proposition_two_video %}
@@ -100,6 +95,15 @@
                     <img src="{{ page.proposition_two_image.url }}" />
                 {% endif %}
             </div>
+        </div>
+        <div class="grid-row">
+            <div class="column-one-half">
+                <ul class="top-level-list">
+                    <li>{{ page.proposition_two_list_item_one|add_export_elements_classes }}</li>
+                    <li>{{ page.proposition_two_list_item_two|add_export_elements_classes }}</li> 
+                    <li>{{ page.proposition_two_list_item_three|add_export_elements_classes }}</li> 
+                </Ul>
+            </ul>
         </div>
     </div>
 </section>
@@ -147,16 +151,28 @@
             {{ page.companies_list_text|add_export_elements_classes }}
         </div>
         <ul>
-            <li class="company-list-first-line">
+            <li>
                 <img src="{{ page.companies_list_item_image_one.url }}" />
+            </li>
+            <li>
                 <img src="{{ page.companies_list_item_image_two.url }}" />
+            </li>
+            <li>
                 <img src="{{ page.companies_list_item_image_three.url }}" />
+            </li>
+            <li>
                 <img src="{{ page.companies_list_item_image_four.url }}" />
             </li>
             <li>
                 <img src="{{ page.companies_list_item_image_five.url }}" />
+            </li>
+            <li>
                 <img src="{{ page.companies_list_item_image_six.url }}" />
+            </li>
+            <li>
                 <img src="{{ page.companies_list_item_image_seven.url }}" />
+            </li>
+            <li>
                 <img src="{{ page.companies_list_item_image_eight.url }}" />
             </li>
         </ul>
@@ -211,17 +227,20 @@
     </div>
 </section>
 
-<section id="other-opportunities">
-    <div class="container">
-        <h2 class="heading-xlarge">{{ page.other_opportunities_title }}</h2>
-        <div class="grid-row">
-            {% for opportunity in page.other_opportunities %}
-                 <div class="column-one-half">
-                    {% url 'high-potential-opportunity-details' slug=opportunity.meta.slug  as opportunity_url %}
-                    {% include 'directory_components/card.html' with img_src=opportunity.hero_image.url url=opportunity_url title=opportunity.heading %}
-                 </div>
-            {% endfor %}
+{% if page.other_opportunities %}
+    <section id="other-opportunities">
+        <div class="container">
+            <h2 class="heading-xlarge">{{ page.other_opportunities_title }}</h2>
+            <div class="grid-row">
+                {% for opportunity in page.other_opportunities %}
+                     <div class="column-one-half">
+                        {% url 'high-potential-opportunity-details' slug=opportunity.meta.slug  as opportunity_url %}
+                        {% include 'directory_components/card.html' with img_src=opportunity.hero_image.url url=opportunity_url title=opportunity.heading %}
+                     </div>
+                {% endfor %}
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+{% endif %}
+
 {% endblock %}
