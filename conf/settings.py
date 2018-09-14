@@ -18,7 +18,7 @@ import environ
 from directory_constants.constants import cms
 
 env = environ.Env()
-
+env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
@@ -429,3 +429,17 @@ UKEF_PI_TRACKER_JAVASCRIPT_URL = env.str(
     'UKEF_PI_TRACKER_JAVASCRIPT_URL', 'https://pi.pardot.com/pd.js'
 )
 UKEF_FORM_SUBMIT_TRACKER_URL = env.str('UKEF_FORM_SUBMIT_TRACKER_URL')
+
+# Invest High Potential Opportunities
+HPO_GOV_NOTIFY_TEMPLATE_ID = env.str(
+    'HPO_GOV_NOTIFY_TEMPLATE_ID',
+    'a9285cb0-6acf-428f-94f7-2da7248d9ef0'
+)
+
+# directory forms api client
+DIRECTORY_FORMS_API_BASE_URL = env.str('DIRECTORY_FORMS_API_BASE_URL')
+DIRECTORY_FORMS_API_API_KEY = env.str('DIRECTORY_FORMS_API_API_KEY')
+DIRECTORY_FORMS_API_SENDER_ID = env.str('DIRECTORY_FORMS_API_SENDER_ID')
+DIRECTORY_FORMS_API_DEFAULT_TIMEOUT = env.int(
+    'DIRECTORY_API_FORMS_DEFAULT_TIMEOUT', 5
+)

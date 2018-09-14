@@ -1,0 +1,48 @@
+@import './partials/base';
+@import './components/breadcrumbs';
+
+
+#confirmation-section {
+  padding-bottom: 45px;
+  .breadcrumbs {
+    border-bottom: 0;
+    padding-top: 0;
+    margin-top: 0;
+    padding-bottom: 40px;
+  }
+  h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+  .heading-container {
+    background-color: #00A699;
+    color: white;
+    padding: 30px;
+  }
+}
+
+#documents-section {
+  padding-top: 60px;
+  background-color: #f5f2ed;
+  h2 {
+    margin-top: 0;
+  }
+  .documnets-list-container {
+    padding-top: 60px;
+    h3 {
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+  }
+  img {
+    float: left;
+    width: 120px;
+    margin-right: 30px;
+  }
+  hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background: #979797;
+    margin-left: 15px;
+  }
+}
