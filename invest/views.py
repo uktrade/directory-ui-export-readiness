@@ -45,7 +45,7 @@ class HighPotentialOpportunityFormView(FeatureFlagMixin, FormView):
         kwargs = super().get_form_kwargs()
         kwargs['field_attributes'] = self.page
         kwargs['opportunity_choices'] = [
-            (opportunity['pdf_document_url'], opportunity['heading'])
+            (opportunity['pdf_document'], opportunity['heading'])
             for opportunity in self.page['opportunity_list']
         ]
         return kwargs
