@@ -1,3 +1,5 @@
+from directory_constants.constants import choices
+
 from invest import forms
 
 
@@ -38,7 +40,7 @@ def test_high_potential_opportunity_form_serialize_data():
             'phone_number': '555',
             'company_name': 'Example corp',
             'website_url': 'example.com',
-            'country': 'UK',
+            'country': choices.COUNTRY_CHOICES[1][0],
             'company_size': '1 - 10',
             'opportunities': [
                 'http://www.e.com/a',
@@ -62,7 +64,7 @@ def test_high_potential_opportunity_form_serialize_data():
         'phone_number': '555',
         'company_name': 'Example corp',
         'website_url': 'example.com',
-        'country': 'UK',
+        'country': choices.COUNTRY_CHOICES[1][0],
         'company_size': '1 - 10',
         'opportunities': [
             'http://www.e.com/a',

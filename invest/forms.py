@@ -1,8 +1,8 @@
 from directory_components import forms, fields, widgets
-from directory_constants.constants import urls
+from directory_constants.constants import choices, urls
 from directory_forms_api_client.forms import GovNotifyActionMixin
 
-from django.forms import Textarea
+from django.forms import Select, Textarea
 from django.utils.safestring import mark_safe
 
 
@@ -30,7 +30,10 @@ class HighPotentialOpportunityForm(GovNotifyActionMixin, forms.Form):
     phone_number = fields.CharField()
     company_name = fields.CharField()
     website_url = fields.CharField(required=False)
-    country = fields.CharField()
+    country = fields.ChoiceField(
+        choices=[('', 'Please select')] + choices.COUNTRY_CHOICES,
+        widget=Select(attrs={'id': 'js-country-select'}),
+    )
     company_size = fields.ChoiceField(
         choices=COMPANY_SIZE_CHOICES
     )
