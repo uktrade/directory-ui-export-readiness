@@ -1,5 +1,6 @@
 from unittest.mock import call, patch
 
+from directory_constants.constants import choices
 import pytest
 from requests.exceptions import HTTPError
 
@@ -229,7 +230,7 @@ def test_high_potential_opportunity_form_submmit_cms_retrieval_ok(
         'phone_number': '555',
         'company_name': 'Example corp',
         'website_url': 'example.com',
-        'country': 'UK',
+        'country': choices.COUNTRY_CHOICES[1][0],
         'company_size': '1 - 10',
         'opportunities': [
             'http://www.example.com/a',
