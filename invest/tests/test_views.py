@@ -65,7 +65,7 @@ def test_high_potential_opportunity_form_cms_retrieval_ok(
             },
             'opportunity_list': [
                 {
-                    'pdf_document_url': 'http://www.example.com/a',
+                    'pdf_document': 'http://www.example.com/a',
                     'heading': 'some great opportunity',
                 }
             ]
@@ -204,7 +204,7 @@ def test_high_potential_opportunity_form_submmit_cms_retrieval_ok(
         json_body={
             'opportunity_list': [
                 {
-                    'pdf_document_url': 'http://www.example.com/a',
+                    'pdf_document': 'http://www.example.com/a',
                     'heading': 'some great opportunity',
                 }
             ]

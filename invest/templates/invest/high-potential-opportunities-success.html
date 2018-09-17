@@ -43,7 +43,7 @@
                 {% for opportunity in page.opportunity_list %}
                     <div class="column-two-thirds">
                         <img src="{{ opportunity.summary_image.url }}" />
-                        <h3 class="heading-medium"><a class="link" href="{{ opportunity.pdf_document_url }}">Download {{ opportunity.heading }} executive summary</a></h2>
+                        <h3 class="heading-medium"><a class="link" href="{{ opportunity.pdf_document }}">Download {{ opportunity.heading }} executive summary</a></h2>
                         <span>{{ opportunity.proposition_one|striptags }}</span>
                     </div>
                     {% if not forloop.last %}
