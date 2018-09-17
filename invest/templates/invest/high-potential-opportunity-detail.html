@@ -73,8 +73,10 @@
             <div class="column-one-third">
                 <ol class="list list-number">
                     <li>{{ page.opportunity_list_item_one|add_export_elements_classes }}</li>
-                    <li>{{ page.opportunity_list_item_two|add_export_elements_classes }}</li> 
-                    <li>{{ page.opportunity_list_item_three|add_export_elements_classes }}</li> 
+                    <li>{{ page.opportunity_list_item_two|add_export_elements_classes }}</li>
+                    {% if page.opportunity_list_item_three %}
+                        <li>{{ page.opportunity_list_item_three|add_export_elements_classes }}</li>
+                    {% endif %}
                 </ol>
             </div>
             <div class="column-two-thirds">

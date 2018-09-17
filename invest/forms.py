@@ -46,6 +46,7 @@ class HighPotentialOpportunityForm(GovNotifyActionMixin, forms.Form):
     )
     comment = fields.CharField(
         widget=Textarea,
+        required=False,
     )
     terms_agreed = fields.BooleanField(
         label=mark_safe(
