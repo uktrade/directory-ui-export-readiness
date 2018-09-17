@@ -11,6 +11,12 @@
 {% endblock %}
  {% block content %}
     <div class="container">
+        <p class="breadcrumbs body-text">
+            <span class="label verbose">You are here:</span>
+            <a href="/">Home</a>
+            <span class="separator">,</span>
+            <span class="current">{{ page.breadcrumbs_label }}</span>
+        </p>
         <div id="heading-container">
             <h2 class="heading-large">{{ page.heading }}</h2>
             <span class="font-xsmall">{{ page.sub_heading }}</span>
