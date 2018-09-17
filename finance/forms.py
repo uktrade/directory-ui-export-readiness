@@ -59,7 +59,10 @@ class CompanyDetailsForm(forms.Form):
     address_line_one = fields.CharField(label='Building and street')
     address_line_two = fields.CharField(label='', required=False)
     address_town_city = fields.CharField(label='Town or city')
-    address_country = fields.CharField(label='Country')
+    address_country = fields.ChoiceField(
+        label='Country',
+        choices=[('', 'Please select')] + choices.COUNTRY_CHOICES
+    )
     address_post_code = fields.CharField(label='Postcode')
     industry = fields.ChoiceField(
         initial='thing',
