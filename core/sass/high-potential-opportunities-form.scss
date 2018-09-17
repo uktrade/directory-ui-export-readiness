@@ -1,4 +1,16 @@
 @import './partials/base';
+@import './components/breadcrumbs';
+
+
+#content {
+    padding-top: 0;
+}
+
+.breadcrumbs {
+    padding-top: 20px;
+    border-bottom: 0;
+}
+
 #heading-container {
     h2 {
         margin-bottom: 10px;
@@ -9,5 +21,23 @@
     button {
         margin-top: 40px;
         margin-bottom: 40px;
+    }
+    input {
+        line-height: 1.58em;
+        font-size: 19px;
+    }
+}
+
+@media (max-width: 769px) {
+    .breadcrumbs {
+        padding-bottom: 0;
+        padding-top: 20px;
+    }
+
+    #form-container {
+        .button {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
     }
 }
