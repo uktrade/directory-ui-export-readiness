@@ -6,9 +6,17 @@
     {{ block.super }}
     <link href="{% static 'styles/high-potential-opportunities-form.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
- {% block head_title %}
+
+{% block head_title %}
     {{ page.seo_title|default:"High Potential Opportunities - great.gov.uk" }}
 {% endblock %}
+
+{% block head_sharing_metadata %}
+    {{ block.super }}
+    <meta name="description" content="{{ page.search_description }}">
+{% endblock %}
+
+
  {% block content %}
     <div class="container">
         <p class="breadcrumbs body-text">
