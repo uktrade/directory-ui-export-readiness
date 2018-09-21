@@ -216,6 +216,10 @@ class PrivacyCookiesDomesticCMS(mixins.GetCMSPageMixin, TemplateView):
     slug = EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG
 
 
+class PrivacyCookiesDomesticSubpageCMS(mixins.GetCMSPageMixin, TemplateView):
+    template_name = 'core/privacy_subpage.html'
+
+
 class PrivacyCookiesInternationalCMS(PrivacyCookiesDomesticCMS):
     template_name = 'core/info_page_international.html'
 

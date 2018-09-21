@@ -7,11 +7,23 @@
 <link href="{% static 'styles/default.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
-{% block head_title %}
-About - great.gov.uk
-{% endblock %}
+{% block head_title %}About - great.gov.uk{% endblock %}
 
 {% block content %}
+
+{% block breadcrumbs %}
+  <div class="container">
+    <div class="breadcrumbs">
+      <ol>
+        <li>
+          <a href="/">Great.gov.uk</a>
+        </li>
+        <li aria-current="page">About</li>
+      </ol>
+    </div>
+  </div>
+{% endblock %}
+
 <div class="container">
   <section>
     <div class="grid-row">

@@ -9,10 +9,6 @@
 @import './components/_article-widgets';
 @import './components/_scope-indicator';
 
-#content {
-  padding-top: 0;
-}
-
 article {
   float: left;
   width: $cols-8;

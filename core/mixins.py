@@ -20,8 +20,12 @@ class PerformanceDashboardFeatureFlagMixin(NotFoundOnDisabledFeature):
 
 class GetCMSPageMixin:
     def get_context_data(self, *args, **kwargs):
+        if hasattr(self, 'slug'):
+            slug = self.slug
+        else:
+            slug = self.kwargs['slug']
         response = cms_api_client.lookup_by_slug(
-            slug=self.slug,
+            slug=slug,
             language_code=translation.get_language(),
             draft_token=self.request.GET.get('draft_token'),
         )

@@ -15,19 +15,23 @@ Performance dashboard - great.gov.uk
 {% endblock %}
 
 {% block content %}
+
 <div class="container">
-  <p class="breadcrumbs body-text">
-    <span class="label verbose">You are here:</span>
-    <a href="/">Great.gov.uk</a>
-    <span class="separator">,</span>
-    {% if page.landing_dashboard %}
-      <span class="current">Performance dashboard</span>
-    {% else %}
-      <a href="{% url 'performance-dashboard' %}">Performance dashboard</a>
-      <span class="separator">,</span>
-      <span class="current">{{ page.title }}</span>
-    {% endif %}
-  </p>
+  <div class="breadcrumbs">
+    <ol>
+      <li>
+        <a href="/">Great.gov.uk</a>
+      </li>
+      {% if page.landing_dashboard %}
+        <li aria-current="page">Performance dashboard</li>
+      {% else %}
+      <li>
+        <a href="{% url 'performance-dashboard' %}">Performance dashboard</a>
+      </li>
+      <li aria-current="page">{{ page.title }}</li>
+      {% endif %}
+    </ol>
+  </div>
 </div>
 
 <section>
