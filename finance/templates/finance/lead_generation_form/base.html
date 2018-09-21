@@ -44,7 +44,7 @@
                                 {% endif %}
                             </div>
                             <div>
-                                <button type="submit" class="button button">Continue</button>
+                                <button type="submit" class="button button">{% block submit_button_label %}Continue{% endblock %}</button>
                             </div>
                             {% if wizard.steps.prev %}
                                 <button name="wizard_goto_step" class="link" type="submit" value="{{ wizard.steps.prev }}">Back</button>
