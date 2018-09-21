@@ -159,6 +159,10 @@ class StaticViewSitemap(sitemaps.Sitemap):
         'high-potential-opportunity-details',
     ]
 
+    privacy_cookies_url_names = [
+        'privacy-and-cookies-subpage',
+    ]
+
     def items(self):
         # import here to avoid circular import
         from conf import urls
@@ -178,6 +182,9 @@ class StaticViewSitemap(sitemaps.Sitemap):
             return reverse(item, kwargs={'step': 'contact'})
         if item in self.high_potential_opportunity_url_names:
             return reverse(item, kwargs={'slug': 'rail'})
+        if item in self.privacy_cookies_url_names:
+            return reverse(item, kwargs={
+                'slug': 'fair-processing-notice-zendesk'})
         return reverse(item)
 
 
@@ -214,6 +221,14 @@ class AboutView(SetEtagMixin, TemplateView):
 class PrivacyCookiesDomesticCMS(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'core/info_page.html'
     slug = EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG
+
+
+class PrivacyCookiesDomesticSubpageCMS(mixins.GetCMSPageMixin, TemplateView):
+    template_name = 'core/privacy_subpage.html'
+
+    @property
+    def slug(self):
+        return self.kwargs['slug']
 
 
 class PrivacyCookiesInternationalCMS(PrivacyCookiesDomesticCMS):

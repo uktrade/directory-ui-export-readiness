@@ -368,3 +368,25 @@ def test_performance_dashboard_feature_flag_off(client, settings):
     response = client.get('performance-dashboard')
 
     assert response.status_code == 404
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_privacy_cookies_subpage(mock_get_page, client, settings):
+    url = reverse('privacy-and-cookies-subpage', kwargs={
+        'slug': 'fair-processing-notice-zendesk'
+    })
+    page = {
+        'title': 'Fair Processing Notice Zendesk',
+        'body': 'Lorem ipsum dolor sit amet.',
+    }
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=page
+    )
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == ['core/privacy_subpage.html']
+
+    assert page['title'] in str(response.content)
+    assert page['body'] in str(response.content)

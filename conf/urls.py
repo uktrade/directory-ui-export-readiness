@@ -87,6 +87,11 @@ urlpatterns = [
         name='privacy-and-cookies'
     ),
     url(
+        r"^privacy-and-cookies/(?P<slug>[-\w\d]+)/$",
+        core.views.PrivacyCookiesDomesticSubpageCMS.as_view(),
+        name='privacy-and-cookies-subpage'
+    ),
+    url(
         r"^terms-and-conditions/$",
         core.views.TermsConditionsDomesticCMS.as_view(),
         name='terms-and-conditions'
