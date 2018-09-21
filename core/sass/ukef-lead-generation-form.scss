@@ -10,12 +10,10 @@ form {
   li {
     list-style: none;
   }
-  button.link {
+  #previous-button {
     margin-top: 40px;
-    background: none;
-    border: none;
     font-size: 16px;
-    cursor: pointer;
+    display: inline-block;
   }
   .form-control {
     width: 100%;
