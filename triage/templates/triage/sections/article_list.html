@@ -16,7 +16,7 @@
                 {% for article in section_configuration.persona_article_group.articles %}
                     <li>
                         <span class="section">{{ article.parent.title }}<span class="verbose">:</span>&nbsp;</span>
-                        <a href="{{ article.url }}?source={{ article_group.name }}" class="link article{% if article.uuid in article_group_progress.viewed_article_uuids %} article-read{% endif %}">{{ article.title }}</a>
+                        <a href="{{ article.url }}?source={{ article_group.name }}" class="link font-medium article{% if article.uuid in article_group_progress.viewed_article_uuids %} article-read{% endif %}">{{ article.title }}</a>
                     </li>
                 {% endfor %}
                 <a href="#" class="show-more link js-enabled-only" id="js-paginate-list-more">Show more</a>

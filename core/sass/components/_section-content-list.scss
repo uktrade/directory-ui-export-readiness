@@ -22,10 +22,6 @@
 
 
 .section-content-list {
-  a {
-    @include body-l;
-  }
-
   li {
     border-bottom: $light-grey solid 1px;
     counter-increment: li;
@@ -72,22 +68,11 @@
     text-align: right;
 
     a {
-      @include body-l;
       background-color: transparent;
       border-bottom: 3px solid $active-blue;
       padding: 10px 45px;
-      color: $active-blue;
       padding-bottom: $spacing-3;
       padding-right: 0;
-      text-decoration: underline;
-
-      &:hover {
-        color: $active-blue-alt;
-      }
-
-      &:active {
-        background-color: $focus-yellow;
-      }
     }
 
     .previous {
@@ -108,7 +93,7 @@
   }
 
   .show-more {
-    margin-left: -100px;
+    margin-left: -16.66667%;
     font-weight: 700;
 
     &:after {

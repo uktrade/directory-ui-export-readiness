@@ -17,6 +17,10 @@ input:focus {
   padding-bottom: 0;
 }
 
+.questions {
+  padding-bottom: 0;
+}
+
 // question container div
 .question {
   margin-top: 60px;
@@ -112,7 +116,7 @@ input:focus {
 }
 
 // DESKTOP
-@media (min-width: 768px) {
+@media (min-width: 767px) {
   #content {
     background: linear-gradient(to right, #{$white} #{$cols-7}, #{$offwhite} #{$cols-5});
   }
@@ -120,17 +124,18 @@ input:focus {
     @include columns(7);
     padding-right: $spacing-3;
   }
-}
 
-@media (max-width: 767px) {
   .triage {
     padding: $spacing-2 0;
   }
   .questions {
     background: none;
   }
+}
+
+// MOBILE
+@media (max-width: 420px) {
   .question {
-    @include columns(12);
     margin-top: 0;
   }
 }
