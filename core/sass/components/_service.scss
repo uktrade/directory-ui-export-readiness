@@ -171,6 +171,10 @@
 // MOBILE
 @media (max-width: 480px) {
   .service-section {
+    img {
+      display: none;
+    }
+
     &:after {
       right: $spacing-3-m;
       width: calc(100% - #{$spacing-3-m * 2});
