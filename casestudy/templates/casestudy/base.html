@@ -10,11 +10,13 @@
 
 {% block content %}
 <div class="container">
-    <p class="breadcrumbs body-text">
-        <span class="label verbose">You are here:</span>
-        <a href="{% url 'landing-page' %}">Export</a><span class="separator">,</span>
-        <span class="current">{{ casestudy.title }}</span>
-    </p>
+    <div class="breadcrumbs body-text">
+      <ol>
+        <li><a href="{% url 'landing-page' %}">Export</a></li>
+        <li aria-current="page">{{ casestudy.title }}</li>
+      </ol>
+    </div>
+
     <article id="top">
         <div class="container">
             <h1 class="heading-xlarge">{{ casestudy.title }}</h1>
