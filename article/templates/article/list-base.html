@@ -19,9 +19,12 @@
     </div>
 </section>
 <div class="container">
-    <p class="breadcrumbs body-text"><span class="label verbose">You are here:</span><a href="{% url 'landing-page' %}">Export</a><span class="separator">,</span><span class="current">
-        {% block breadcrums_title %}{% endblock %}
-    </span></p>
+  <div class="breadcrumbs body-text">
+    <ol>
+      <li><a href="{% url 'landing-page' %}">Export</a></li>
+      <li aria-current="page">{% block breadcrums_title %}{% endblock %}</li>
+    </ol>
+  </div>
 </div>
 <section id="articles">
     <div class="container">

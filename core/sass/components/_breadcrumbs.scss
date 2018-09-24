@@ -10,4 +10,8 @@
 .breadcrumbs {
   background-color: $white;
   border-bottom: $light-grey solid 2px;
+
+  li:after {
+    left: .2em;
+  }
 }

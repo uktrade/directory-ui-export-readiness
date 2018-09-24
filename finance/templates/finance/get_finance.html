@@ -17,17 +17,12 @@ Get finance - great.gov.uk
 {% block content %}
 <section class="get-finance-banner" style="background-image: url({{ page.hero_image.url }})">
   <div class="container">
-
-    <p class="breadcrumbs body-text">
-      <span class="label verbose">You are here:</span>
-      <a href="/">Export</a>
-      <span class="separator">,</span>
-      {% if article_group.url %}
-      <a href="{{ article_group.url }}">{{ article_group.title }}</a>
-      <span class="separator">,</span>
-      {% endif %}
-      <span class="current">Get finance</span>
-    </p>
+    <div class="breadcrumbs body-text">
+      <ol>
+        <li><a href="{% url 'landing-page' %}">Export</a></li>
+        <li aria-current="page">Get finance</li>
+      </ol>
+    </div>
 
     <div class="grid-row">
       <div class="column-two-thirds">
