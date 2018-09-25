@@ -9,6 +9,12 @@ from core.views import (
 
 redirects = [
     url(
+        r'^expo2020/$',
+        RedirectView.as_view(
+            url='https://www.events.trade.gov.uk/dubai-expo-2020/'),
+        name='redirect-expo2020'
+    ),
+    url(
         r'^ukpavilion2020/$',
         RedirectView.as_view(
             url='https://www.events.trade.gov.uk/dubai-expo-2020/'),
