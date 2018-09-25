@@ -63,7 +63,6 @@ INSTALLED_APPS = [
     'directory_healthcheck',
     'health_check',
     'contact',
-    'invest',
     'captcha',
     'export_elements',
     'directory_components',
