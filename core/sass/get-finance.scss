@@ -41,6 +41,14 @@ section {
       color: white;
     }
   }
+  .container {
+    img {
+      width: 148px;
+      position: absolute;
+      right: 0;
+      bottom: -25px;
+    }
+  }
 }
 
 .ukef-logo {
@@ -119,6 +127,10 @@ section {
   .get-finance-banner {
     padding-top: 0;
     padding-bottom: 0;
+
+    img {
+      display: none;
+    }
   }
 
   #contact-section {
