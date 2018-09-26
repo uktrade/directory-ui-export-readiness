@@ -15,7 +15,8 @@ from finance import views
     ('contact', None),
     ('your-details', None),
     ('company-details', None),
-    ('help', 'submit.com'),
+    ('help', None),
+    ('done', 'submit.com'),
 ))
 def test_ukef_lead_generation_feature_flag_on(
     client, settings, step, submit_url

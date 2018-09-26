@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+    <body onload="document.getElementById('form').submit()">
+        <form id="form" method="post" action="{{ form_submit_url }}">
+            {% for name, value in all_form_data %}<input type="hidden" name="{{ name }}" value="{{ value }}" />
+            {% endfor %}
+        </form>
+    </body>
+</html>
