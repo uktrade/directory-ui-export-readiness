@@ -91,11 +91,48 @@ section {
 }
 
 @media (max-width: 769px) {
+
+  .get-finance-banner {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  #contact-section {
+    margin-top: 0;
+    padding-bottom: 0;
+  }
+
+  #advantages-section {
+    padding-bottom: 10px;
+  }
+
+  .get-finance-video {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 0;
+  }
+
+  #contact-section-bottom {
+    margin-top: 0;
+    padding-top: 20px;
+    padding-bottom: 0;
+  }
   #contact-section,
   #contact-section-bottom {
     .proposition-container,
     .button-container {
       width: 100%;
+    }
+  }
+
+  #contact-section,
+  #contact-section-bottom {
+    .grid-row {
+      display: block;
+      padding: 20px;
+    }
+    .button-container {
+      margin-left: 0;
     }
   }
 }
