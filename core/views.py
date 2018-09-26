@@ -154,11 +154,6 @@ class InterstitialPageExoppsView(SetEtagMixin, TemplateView):
 class StaticViewSitemap(sitemaps.Sitemap):
     changefreq = 'daily'
 
-    high_potential_opportunity_url_names = [
-        'high-potential-opportunity-request-form',
-        'high-potential-opportunity-details',
-    ]
-
     privacy_cookies_url_names = [
         'privacy-and-cookies-subpage',
     ]
@@ -180,8 +175,6 @@ class StaticViewSitemap(sitemaps.Sitemap):
                 'step': TriageWizardFormView.EXPORTED_BEFORE})
         if item == 'uk-export-finance-lead-generation-form':
             return reverse(item, kwargs={'step': 'contact'})
-        if item in self.high_potential_opportunity_url_names:
-            return reverse(item, kwargs={'slug': 'rail'})
         if item in self.privacy_cookies_url_names:
             return reverse(item, kwargs={
                 'slug': 'fair-processing-notice-zendesk'})
