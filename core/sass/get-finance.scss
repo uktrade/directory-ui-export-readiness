@@ -80,6 +80,30 @@ section {
   }
 }
 
+
+#advantages-section {
+  h2 {
+      margin-bottom: 55px;
+  }
+  .grid-row {
+    margin-left: 30px;
+  }
+  .column-one-third {
+    h3 {
+      margin-top: 0;
+    }
+    position: relative;
+    padding-left: 30px;
+  }
+
+  img {
+    position: absolute;
+    height: 40px;
+    left: -20px;
+  }
+}
+
+
 @media (max-width: 560px) {
   iframe {
     width: 100%;
@@ -134,5 +158,22 @@ section {
     .button-container {
       margin-left: 0;
     }
+  }
+
+  #advantages-section {
+    h2 {
+      margin-bottom: 20px;
+    }
+    .grid-row {
+      margin-left: 0;
+    }
+
+    .column-one-third {
+        padding-left: 70px;
+    }
+    img {
+      left: 15px;
+    }
+
   }
 }
