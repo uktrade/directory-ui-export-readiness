@@ -15,7 +15,7 @@
             {% include 'finance/lead_generation_form/breadcrumbs.html' %}
             <div class="grid-row">
                 <div class="column-one-half">
-                    <form method="post" {% if form_submit_url%} action="{{ form_submit_url }}"{% endif %}>
+                    <form method="post">
                         <div class="">
                             <h3 class="heading-medium">{% block step_title %}{% endblock %}</h3>
                             {% csrf_token %}
@@ -53,6 +53,15 @@
                     </form>
                 </div>
             </div>
+        </div>
+    </section>
+{% endblock %}
+
+
+{% block feedback_reporter %}
+    <section class="error-reporting">
+        <div class="container">
+            <a id="error-reporting-section-contact-us" href="{{ directory_components_urls.contact_us }}FeedbackForm" target="_blank">Is there anything wrong with this page?</a>
         </div>
     </section>
 {% endblock %}

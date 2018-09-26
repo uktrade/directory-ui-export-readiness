@@ -92,7 +92,9 @@ Get finance - great.gov.uk
         {{ page.evidence|add_export_elements_classes }}
       </div>
       <div class="column-one-half">
-        <iframe width="560" height="315" src="{{ page.evidence_video_embed }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <video controls controlsList="nodownload">
+          <source src="{{ page.evidence_video.url }}" type="video/{{ page.evidence_video.file_extension|default:'mp4' }}">
+        </video>
       </div>
     </div>
   </div>
