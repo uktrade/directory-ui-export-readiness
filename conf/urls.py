@@ -9,7 +9,6 @@ import article.views
 import casestudy.views
 import contact.views
 import core.views
-import healthcheck.views
 import triage.views
 import finance.views
 from conf.url_redirects import redirects
