@@ -41,7 +41,7 @@ class CompanyDetailsForm(forms.Form):
         'I supply UK companies that sell overseas',
         'I don\'t currently export or supply businesses that export',
     )
-    INDUSTRY_CHOICES = [
+    INDUSTRY_CHOICES = [('', '')] + [
         (value.replace('_', ' ').title(), label)
         for (value, label) in choices.INDUSTRIES
     ] + [('Other', 'Other')]
