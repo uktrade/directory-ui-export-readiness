@@ -1,4 +1,5 @@
 import directory_components.views
+import directory_healthcheck.views
 
 from django.conf.urls import url
 from django.contrib.sitemaps.views import sitemap
@@ -8,7 +9,6 @@ import article.views
 import casestudy.views
 import contact.views
 import core.views
-import healthcheck.views
 import triage.views
 import finance.views
 from conf.url_redirects import redirects
@@ -21,6 +21,26 @@ sitemaps = {
 
 
 urlpatterns = [
+    url(
+        r'^healthcheck/api/$',
+        directory_healthcheck.views.APIHealthcheckView.as_view(),
+        name='healthcheck-api'
+    ),
+    url(
+        r'^healthcheck/single-sign-on/$',
+        directory_healthcheck.views.SingleSignOnHealthcheckView.as_view(),
+        name='healthcheck-single-sign-on'
+    ),
+    url(
+        r'^healthcheck/forms-api/$',
+        directory_healthcheck.views.FormsAPIBackendHealthcheckView.as_view(),
+        name='healthcheck-single-sign-on'
+    ),
+    url(
+        r'^healthcheck/sentry/$',
+        directory_healthcheck.views.SentryHealthcheckView.as_view(),
+        name='healthcheck-sentry'
+    ),
     url(
         r"^sitemap\.xml$", sitemap, {'sitemaps': sitemaps},
         name='sitemap'
@@ -436,16 +456,6 @@ urlpatterns = [
         r'^story/york-bag-retailer-goes-global-via-e-commerce/$',
         casestudy.views.CasestudyYorkBagView.as_view(),
         name='casestudy-york-bag'
-    ),
-    url(
-        r'^healthcheck/api/$',
-        healthcheck.views.APIProxyAPIView.as_view(),
-        name='healthcheck-api'
-    ),
-    url(
-        r'^healthcheck/single-sign-on/$',
-        healthcheck.views.SingleSignOnAPIView.as_view(),
-        name='healthcheck-single-sign-on'
     ),
     url(
         r'^contact-us/intro/$',
