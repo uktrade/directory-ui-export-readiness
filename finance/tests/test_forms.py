@@ -17,6 +17,7 @@ def test_compamy_detail_form_industry_options():
     form = forms.CompanyDetailsForm()
 
     assert form.fields['industry'].choices == [
+        ('', ''),
         ('Aerospace', 'Aerospace'),
         ('Advanced Manufacturing', 'Advanced manufacturing'),
         ('Airports', 'Airports'),
