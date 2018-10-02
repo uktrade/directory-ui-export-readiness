@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'captcha',
     'export_elements',
     'directory_components',
+    'euexit',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -417,6 +418,7 @@ FEATURE_FLAGS = {
     ),
     # used by directory-components
     'MAINTENANCE_MODE_ON': env.bool('FEATURE_MAINTENANCE_MODE_ENABLED', False),
+    'EU_EXIT_FORMS_ON': env.bool('FEATURE_EU_EXIT_FORMS_ENABLED', False),
 }
 
 
