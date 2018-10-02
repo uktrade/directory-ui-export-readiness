@@ -7,11 +7,17 @@ from django.utils.html import mark_safe
 
 
 class InternationalContactForm(forms.Form):
-    first_name = fields.CharField(label='Given name')
-    last_name = fields.CharField(label='Family name')
+    def __init__(self, field_attributes, *args, **kwargs):
+        for field_name, field in self.base_fields.items():
+            attributes = field_attributes.get(field_name)
+            if attributes:
+                field.__dict__.update(attributes)
+        return super().__init__(*args, **kwargs)
+
+    first_name = fields.CharField()
+    last_name = fields.CharField()
     email = fields.EmailField()
     organisation_type = fields.ChoiceField(
-        label='Organisation type',
         label_suffix='',
         widget=widgets.RadioSelect(),
         choices=(
@@ -26,7 +32,6 @@ class InternationalContactForm(forms.Form):
     )
     city = fields.CharField()
     comment = fields.CharField(
-        label='Your question',
         widget=Textarea,
     )
     captcha = ReCaptchaField(

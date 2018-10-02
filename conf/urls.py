@@ -502,7 +502,7 @@ urlpatterns = [
         name='uk-export-finance-lead-generation-form'
     ),
     url(
-        r'^eu-exit/$',
+        r'^eu-exit/contact/$',
         euexit.views.InternationalContactFormView.as_view(),
         name='eu-exit-international-contact-form'
     ),
