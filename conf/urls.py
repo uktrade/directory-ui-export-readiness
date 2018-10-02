@@ -9,6 +9,7 @@ import article.views
 import casestudy.views
 import contact.views
 import core.views
+import euexit.views
 import triage.views
 import finance.views
 from conf.url_redirects import redirects
@@ -500,6 +501,12 @@ urlpatterns = [
         ),
         name='uk-export-finance-lead-generation-form'
     ),
+    url(
+        r'^eu-exit/$',
+        euexit.views.InternationalContactFormView.as_view(),
+        name='eu-exit-international-contact-form'
+    ),
+
 ]
 
 urlpatterns += redirects
