@@ -502,11 +502,25 @@ urlpatterns = [
         name='uk-export-finance-lead-generation-form'
     ),
     url(
-        r'^eu-exit/$',
+        r'^eu-exit/international/contact/$',
         euexit.views.InternationalContactFormView.as_view(),
         name='eu-exit-international-contact-form'
     ),
-
+    url(
+        r'^eu-exit/international/contact/success/$',
+        euexit.views.InternationalContactSuccessView.as_view(),
+        name='eu-exit-international-contact-form-success'
+    ),
+    url(
+        r'^eu-exit/contact/$',
+        euexit.views.DomesticContactFormView.as_view(),
+        name='eu-exit-domestic-contact-form'
+    ),
+    url(
+        r'^eu-exit/contact/success/$',
+        euexit.views.DomesticContactSuccessView.as_view(),
+        name='eu-exit-domestic-contact-form-success'
+    ),
 ]
 
 urlpatterns += redirects
