@@ -506,7 +506,11 @@ urlpatterns = [
         euexit.views.InternationalContactFormView.as_view(),
         name='eu-exit-international-contact-form'
     ),
-
+    url(
+        r'^eu-exit/contact/success/$',
+        euexit.views.InternationalContactSuccessView.as_view(),
+        name='eu-exit-international-contact-form-success'
+    ),
 ]
 
 urlpatterns += redirects

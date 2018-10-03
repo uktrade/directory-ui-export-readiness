@@ -1,12 +1,15 @@
 from captcha.fields import ReCaptchaField
 from directory_constants.constants import choices, urls
 from directory_components import forms, fields, widgets
+from directory_forms_api_client.forms import ZendeskActionMixin
+from directory_validators.common import not_contains_url_or_email
+from directory_validators.company import no_html
 
 from django.forms import Select, Textarea
 from django.utils.html import mark_safe
 
 
-class InternationalContactForm(forms.Form):
+class InternationalContactForm(ZendeskActionMixin, forms.Form):
     def __init__(self, field_attributes, *args, **kwargs):
         for field_name, field in self.base_fields.items():
             attributes = field_attributes.get(field_name)
@@ -33,6 +36,7 @@ class InternationalContactForm(forms.Form):
     city = fields.CharField()
     comment = fields.CharField(
         widget=Textarea,
+        validators=[no_html, not_contains_url_or_email]
     )
     captcha = ReCaptchaField(
         label='',
@@ -46,3 +50,10 @@ class InternationalContactForm(forms.Form):
                 url=urls.INFO_TERMS_AND_CONDITIONS)
         )
     )
+
+    @property
+    def serialized_data(self):
+        data = self.cleaned_data.copy()
+        del data['captcha']
+        del data['terms_agreed']
+        return data
