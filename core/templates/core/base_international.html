@@ -16,9 +16,11 @@
     <link href='{% static 'directory_components/images/favicon-192x192.png' %}' rel='shortcut icon' type='image/png'>
     <!--[if IE]> <link rel="icon" href="{% static 'directory_components/images/favicon.ico' %}" type="image/x-icon" /> <![endif]-->
 
-    <link href="{% static 'export_elements/stylesheets/govuk-elements-styles.min.css' %}" media="all" rel="stylesheet" />
-    <link href="{% static 'export_elements/stylesheets/elements-components.min.css' %}" media="all" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="{% static 'styles/international.css' %}">
+    {% block head_css %}
+        <link href="{% static 'export_elements/stylesheets/govuk-elements-styles.min.css' %}" media="all" rel="stylesheet" />
+        <link href="{% static 'export_elements/stylesheets/elements-components.min.css' %}" media="all" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/international.css' %}">
+    {% endblock %}
 
     <script src="{% static 'directory_components/js/third-party.js' %}"></script>
     <script src="{% static 'js/dit.js' %}"></script>
@@ -43,6 +45,13 @@
 
     <main id="content" role="main">
         {% block content %}{% endblock %}
+        {% block feedback_reporter %}
+            <section class="error-reporting">
+                <div class="container">
+                    <a id="error-reporting-section-contact-us" href="{{ directory_components_urls.contact_us }}" target="_blank">Is there anything wrong with this page?</a>
+                </div>
+            </section>
+        {% endblock %}
     </main>
     {% include 'core/includes/international_footer.html' %}
 </body>

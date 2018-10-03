@@ -77,6 +77,7 @@ class GetFinanceLeadGenerationFormView(
         context_data = super().get_context_data(*args, **kwargs)
         if self.steps.current == self.DONE:
             data = self.get_all_cleaned_data()
+            # from ipdb import set_trace; set_trace()
             context_data['all_form_data'] = helpers.flatten_form_data(data)
             context_data['form_submit_url'] = (
                 settings.UKEF_FORM_SUBMIT_TRACKER_URL
