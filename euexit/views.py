@@ -1,6 +1,7 @@
 from directory_cms_client.client import cms_api_client
 from directory_cms_client.constants import (
-    EXPORT_READINESS_EUEXIT_INTERNATIONAL_FORM
+    EXPORT_READINESS_EUEXIT_DOMESTIC_FORM,
+    EXPORT_READINESS_EUEXIT_INTERNATIONAL_FORM,
 )
 
 from django.conf import settings
@@ -21,10 +22,7 @@ class FeatureFlagMixin:
         return super().dispatch(*args, **kwargs)
 
 
-class InternationalContactFormView(FeatureFlagMixin, FormView):
-    form_class = forms.InternationalContactForm
-    template_name = 'euexit/international-contact-form.html'
-    success_url = reverse_lazy('eu-exit-international-contact-form-success')
+class BaseInternationalContactFormView(FeatureFlagMixin, FormView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -34,7 +32,7 @@ class InternationalContactFormView(FeatureFlagMixin, FormView):
     @cached_property
     def page(self):
         response = cms_api_client.lookup_by_slug(
-            slug=EXPORT_READINESS_EUEXIT_INTERNATIONAL_FORM,
+            slug=self.slug,
             language_code=settings.LANGUAGE_CODE,
             draft_token=self.request.GET.get('draft_token'),
         )
@@ -54,5 +52,23 @@ class InternationalContactFormView(FeatureFlagMixin, FormView):
         return super().form_valid(form)
 
 
-class InternationalContactSuccessView(TemplateView):
+class InternationalContactFormView(BaseInternationalContactFormView):
+    slug = EXPORT_READINESS_EUEXIT_INTERNATIONAL_FORM
+    form_class = forms.InternationalContactForm
+    template_name = 'euexit/international-contact-form.html'
+    success_url = reverse_lazy('eu-exit-international-contact-form-success')
+
+
+class InternationalContactSuccessView(FeatureFlagMixin, TemplateView):
     template_name = 'euexit/international-contact-form-success.html'
+
+
+class DomesticContactFormView(BaseInternationalContactFormView):
+    form_class = forms.DomesticContactForm
+    template_name = 'euexit/domestic-contact-form.html'
+    success_url = reverse_lazy('eu-exit-domestic-contact-form-success')
+    slug = EXPORT_READINESS_EUEXIT_DOMESTIC_FORM
+
+
+class DomesticContactSuccessView(FeatureFlagMixin, TemplateView):
+    template_name = 'euexit/domestic-contact-form-success.html'

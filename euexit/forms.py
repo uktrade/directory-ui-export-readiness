@@ -9,7 +9,21 @@ from django.forms import Select, Textarea
 from django.utils.html import mark_safe
 
 
-class InternationalContactForm(ZendeskActionMixin, forms.Form):
+COMPANY_CHOICES = (
+    ('COMPANY', 'Company'),
+    ('OTHER', 'Other type of organisation'),
+)
+
+
+TERMS_LABEL = mark_safe(
+    'Tick this box to accept the '
+    '<a href="{url}" target="_blank">terms and '
+    'conditions</a> of the great.gov.uk service.'.format(
+        url=urls.INFO_TERMS_AND_CONDITIONS)
+)
+
+
+class FieldsMutationMixin:
     def __init__(self, field_attributes, *args, **kwargs):
         for field_name, field in self.base_fields.items():
             attributes = field_attributes.get(field_name)
@@ -17,16 +31,27 @@ class InternationalContactForm(ZendeskActionMixin, forms.Form):
                 field.__dict__.update(attributes)
         return super().__init__(*args, **kwargs)
 
+
+class SerializeMixin:
+    @property
+    def serialized_data(self):
+        data = self.cleaned_data.copy()
+        del data['captcha']
+        del data['terms_agreed']
+        return data
+
+
+class InternationalContactForm(
+    FieldsMutationMixin, SerializeMixin, ZendeskActionMixin, forms.Form
+):
+
     first_name = fields.CharField()
     last_name = fields.CharField()
     email = fields.EmailField()
     organisation_type = fields.ChoiceField(
         label_suffix='',
         widget=widgets.RadioSelect(),
-        choices=(
-            ('COMPANY', 'Company'),
-            ('OTHER', 'Other type of organisation'),
-        )
+        choices=COMPANY_CHOICES,
     )
     company_name = fields.CharField()
     country = fields.ChoiceField(
@@ -43,17 +68,31 @@ class InternationalContactForm(ZendeskActionMixin, forms.Form):
         label_suffix='',
     )
     terms_agreed = fields.BooleanField(
-        label=mark_safe(
-            'Tick this box to accept the '
-            '<a href="{url}" target="_blank">terms and '
-            'conditions</a> of the great.gov.uk service.'.format(
-                url=urls.INFO_TERMS_AND_CONDITIONS)
-        )
+        label=TERMS_LABEL
     )
 
-    @property
-    def serialized_data(self):
-        data = self.cleaned_data.copy()
-        del data['captcha']
-        del data['terms_agreed']
-        return data
+
+class DomesticContactForm(
+    FieldsMutationMixin, SerializeMixin, ZendeskActionMixin, forms.Form
+):
+
+    first_name = fields.CharField()
+    last_name = fields.CharField()
+    email = fields.EmailField()
+    organisation_type = fields.ChoiceField(
+        label_suffix='',
+        widget=widgets.RadioSelect(),
+        choices=COMPANY_CHOICES
+    )
+    company_name = fields.CharField()
+    comment = fields.CharField(
+        widget=Textarea,
+        validators=[no_html, not_contains_url_or_email]
+    )
+    captcha = ReCaptchaField(
+        label='',
+        label_suffix='',
+    )
+    terms_agreed = fields.BooleanField(
+        label=TERMS_LABEL
+    )
