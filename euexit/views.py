@@ -51,6 +51,9 @@ class BaseInternationalContactFormView(FeatureFlagMixin, FormView):
         response.raise_for_status()
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs, page=self.page)
+
 
 class InternationalContactFormView(BaseInternationalContactFormView):
     slug = EXPORT_READINESS_EUEXIT_INTERNATIONAL_FORM
