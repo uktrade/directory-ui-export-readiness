@@ -1,6 +1,7 @@
 from unittest import mock
 
 from directory_constants.constants import choices
+import pytest
 
 from django.urls import reverse
 
@@ -125,18 +126,32 @@ def test_international_form_submit(
     )
 
 
-def test_international_form_success_page(settings, client):
+@pytest.mark.parametrize('url,template_name', [
+    (
+        reverse('eu-exit-international-contact-form-success'),
+        views.InternationalContactSuccessView.template_name
+    ),
+    (
+        reverse('eu-exit-domestic-contact-form-success'),
+        views.DomesticContactSuccessView.template_name
+    ),
+])
+@mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_form_success_page(
+    mock_lookup_by_slug, settings, client, url, template_name
+):
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200, json_body={'body_text': 'what next'}
+    )
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
         'HIGH_POTENTIAL_OPPORTUNITIES_ON': True
     }
-    url = reverse('eu-exit-international-contact-form-success')
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == [
-        views.InternationalContactSuccessView.template_name
-    ]
+    assert response.template_name == [template_name]
+    assert response.context_data['page'] == {'body_text': 'what next'}
 
 
 def test_domestic_form_feature_flag_off(client, settings):
@@ -252,17 +267,3 @@ def test_domestic_form_submit(
         full_name='test example',
         subject='EU Exit international contact form'
     )
-
-
-def test_domestic_form_success_page(settings, client):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'HIGH_POTENTIAL_OPPORTUNITIES_ON': True
-    }
-    url = reverse('eu-exit-domestic-contact-form-success')
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.template_name == [
-        views.DomesticContactSuccessView.template_name
-    ]

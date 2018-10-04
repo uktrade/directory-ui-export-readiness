@@ -1,4 +1,3 @@
-from directory_cms_client.client import cms_api_client
 from directory_cms_client.constants import (
     EXPORT_READINESS_EUEXIT_DOMESTIC_FORM_SLUG,
     EXPORT_READINESS_EUEXIT_INTERNATIONAL_FORM_SLUG,

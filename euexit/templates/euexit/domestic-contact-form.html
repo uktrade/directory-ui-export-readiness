@@ -1,28 +1,12 @@
 {% extends "core/base.html" %}
 
 {% load static from staticfiles %}
-{% load render_form from directory_components_tags %}
-
-{% block sharing_metadata %}{% endblock %}
 
 {% block head_css %}
     {{ block.super }}
+    <link href="{% static 'styles/euexit-form.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
-    <section>
-        <div class="container">
-            <div class="grid-row">
-                <div class="column-one-half">
-                    <form method="post">
-                        <div>
-                            <h3 class="heading-medium">EU Exit help</h3>
-                            <span class="font-xsmall">If you don't find an anwswer...</span>
-                        </div>
-                        {% render_form form %}
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+    {% include 'euexit/form-contents.html'%}
 {% endblock %}
