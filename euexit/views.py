@@ -1,17 +1,17 @@
 from directory_cms_client.client import cms_api_client
 from directory_cms_client.constants import (
-    EXPORT_READINESS_EUEXIT_DOMESTIC_FORM,
-    EXPORT_READINESS_EUEXIT_INTERNATIONAL_FORM,
+    EXPORT_READINESS_EUEXIT_DOMESTIC_FORM_SLUG,
+    EXPORT_READINESS_EUEXIT_INTERNATIONAL_FORM_SLUG,
+    EXPORT_READINESS_EUEXIT_FORM_SUCCESS_SLUG,
 )
 
 from django.conf import settings
 from django.http import Http404
 from django.urls import reverse_lazy
-from django.utils.functional import cached_property
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
-from core.helpers import handle_cms_response
+from core.mixins import GetCMSPageMixin
 from euexit import forms
 
 
@@ -22,23 +22,13 @@ class FeatureFlagMixin:
         return super().dispatch(*args, **kwargs)
 
 
-class BaseInternationalContactFormView(FeatureFlagMixin, FormView):
-
+class BaseInternationalContactFormView(
+    FeatureFlagMixin, GetCMSPageMixin, FormView
+):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['field_attributes'] = self.page
         return kwargs
-
-    @cached_property
-    def page(self):
-        response = cms_api_client.lookup_by_slug(
-            slug=self.slug,
-            language_code=settings.LANGUAGE_CODE,
-            draft_token=self.request.GET.get('draft_token'),
-        )
-        if response.status_code == 404:
-            raise Http404()
-        return handle_cms_response(response)
 
     def form_valid(self, form):
         cleaned_data = form.serialized_data
@@ -51,27 +41,30 @@ class BaseInternationalContactFormView(FeatureFlagMixin, FormView):
         response.raise_for_status()
         return super().form_valid(form)
 
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs, page=self.page)
-
 
 class InternationalContactFormView(BaseInternationalContactFormView):
-    slug = EXPORT_READINESS_EUEXIT_INTERNATIONAL_FORM
+    slug = EXPORT_READINESS_EUEXIT_INTERNATIONAL_FORM_SLUG
     form_class = forms.InternationalContactForm
     template_name = 'euexit/international-contact-form.html'
     success_url = reverse_lazy('eu-exit-international-contact-form-success')
 
 
-class InternationalContactSuccessView(FeatureFlagMixin, TemplateView):
-    template_name = 'euexit/international-contact-form-success.html'
-
-
 class DomesticContactFormView(BaseInternationalContactFormView):
+    slug = EXPORT_READINESS_EUEXIT_DOMESTIC_FORM_SLUG
     form_class = forms.DomesticContactForm
     template_name = 'euexit/domestic-contact-form.html'
     success_url = reverse_lazy('eu-exit-domestic-contact-form-success')
-    slug = EXPORT_READINESS_EUEXIT_DOMESTIC_FORM
 
 
-class DomesticContactSuccessView(FeatureFlagMixin, TemplateView):
+class InternationalContactSuccessView(
+    FeatureFlagMixin, GetCMSPageMixin, TemplateView
+):
+    template_name = 'euexit/international-contact-form-success.html'
+    slug = EXPORT_READINESS_EUEXIT_FORM_SUCCESS_SLUG
+
+
+class DomesticContactSuccessView(
+    FeatureFlagMixin, GetCMSPageMixin, TemplateView
+):
     template_name = 'euexit/domestic-contact-form-success.html'
+    slug = EXPORT_READINESS_EUEXIT_FORM_SUCCESS_SLUG
