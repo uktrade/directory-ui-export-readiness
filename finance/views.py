@@ -1,12 +1,15 @@
 from directory_cms_client.constants import EXPORT_READINESS_GET_FINANCE_SLUG
 from formtools.wizard.views import NamedUrlSessionWizardView
+import requests
 
 from django.conf import settings
 from django.http import Http404
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
 
 from core import mixins
-from finance import forms, helpers
+from finance import forms
 
 
 class FeatureFlagMixin:
@@ -48,40 +51,48 @@ class GetFinanceNegotiator(TemplateView):
 class GetFinanceLeadGenerationFormView(
     FeatureFlagMixin, NamedUrlSessionWizardView
 ):
+    success_url = reverse_lazy(
+        'uk-export-finance-lead-generation-form-success'
+    )
 
     CATEGORY = 'contact'
     PERSONAL_DETAILS = 'your-details'
     COMPANY_DETAILS = 'company-details'
     HELP = 'help'
-    DONE = 'done'
 
     form_list = (
         (CATEGORY, forms.CategoryForm),
         (PERSONAL_DETAILS, forms.PersonalDetailsForm),
         (COMPANY_DETAILS, forms.CompanyDetailsForm),
         (HELP, forms.HelpForm),
-        (DONE, forms.forms.Form),  # noop
     )
     templates = {
         CATEGORY: 'finance/lead_generation_form/step-category.html',
         PERSONAL_DETAILS: 'finance/lead_generation_form/step-personal.html',
         COMPANY_DETAILS: 'finance/lead_generation_form/step-company.html',
         HELP: 'finance/lead_generation_form/step-help.html',
-        DONE: 'finance/lead_generation_form/step-done.html',
     }
 
     def get_template_names(self):
         return [self.templates[self.steps.current]]
 
-    def get_context_data(self, *args, **kwargs):
-        context_data = super().get_context_data(*args, **kwargs)
-        if self.steps.current == self.DONE:
-            data = self.get_all_cleaned_data()
-            context_data['all_form_data'] = helpers.flatten_form_data(data)
-            context_data['form_submit_url'] = (
-                settings.UKEF_FORM_SUBMIT_TRACKER_URL
-            )
-        return context_data
+    def done(self, form_list, **kwargs):
+        response = requests.post(
+            settings.UKEF_FORM_SUBMIT_TRACKER_URL,
+            self.serialize_form_list(form_list),
+            allow_redirects=False,
+        )
+        response.raise_for_status()
+        return redirect(self.success_url)
+
+    @staticmethod
+    def serialize_form_list(form_list):
+        data = {}
+        for form in form_list:
+            data.update(form.cleaned_data)
+        del data['captcha']
+        del data['terms_agreed']
+        return data
 
 
 class GetFinanceLeadGenerationSuccessView(TemplateView):
