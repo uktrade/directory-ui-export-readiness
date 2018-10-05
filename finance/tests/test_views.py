@@ -64,7 +64,11 @@ def test_ukef_lead_generation_submit(
     assert mock_post.call_count == 1
     assert mock_post.call_args == call(
         settings.UKEF_FORM_SUBMIT_TRACKER_URL,
-        {'categories': ['Securing upfront funding'], 'comment': 'thing'},
+        {
+            'categories': ['Securing upfront funding'],
+            'comment': 'thing',
+            'captcha': captcha_stub,
+        },
         allow_redirects=False,
     )
 

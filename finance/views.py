@@ -37,8 +37,33 @@ class GetFinanceNegotiator(TemplateView):
             return DeprecatedGetFinance(*args, **kwargs)
 
 
+class PreventCaptchaRevalidationMixin:
+    """When get_all_cleaned_data() is called the forms are revalidated,
+    which causes captcha to fail becuase the same captcha response from google
+    is posted to google multiple times. This captcha response is a nonce, and
+    so google complains the second time it's seen.
+
+    This is worked around by removing captcha from the form before the view
+    calls get_all_cleaned_data
+
+    """
+
+    should_ignore_captcha = False
+
+    def render_done(self, *args, **kwargs):
+        self.should_ignore_captcha = True
+        return super().render_done(*args, **kwargs)
+
+    def get_form(self, step=None, *args, **kwargs):
+        form = super().get_form(step=step, *args, **kwargs)
+        if step == self.steps.last and self.should_ignore_captcha:
+            del form.fields['captcha']
+        return form
+
+
 class GetFinanceLeadGenerationFormView(
-    FeatureFlagMixin, NamedUrlSessionWizardView
+    FeatureFlagMixin, PreventCaptchaRevalidationMixin,
+    NamedUrlSessionWizardView
 ):
     success_url = reverse_lazy(
         'uk-export-finance-lead-generation-form-success'
@@ -62,8 +87,6 @@ class GetFinanceLeadGenerationFormView(
         HELP: 'finance/lead_generation_form/step-help.html',
     }
 
-    should_ignore_captcha = False
-
     def get_template_names(self):
         return [self.templates[self.steps.current]]
 
@@ -81,12 +104,9 @@ class GetFinanceLeadGenerationFormView(
         data = {}
         for form in form_list:
             data.update(form.cleaned_data)
-        del data['captcha']
         del data['terms_agreed']
         return data
 
-    def render_done(self, form, **kwargs):
-        self.should_ignore_captcha = True
 
 class GetFinanceLeadGenerationSuccessView(TemplateView):
     template_name = 'finance/lead_generation_form/success.html'
