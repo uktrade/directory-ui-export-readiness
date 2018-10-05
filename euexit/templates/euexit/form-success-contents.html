@@ -1,0 +1,21 @@
+<div class="container">
+    {% include 'euexit/breadcrumbs.html' %}
+    <div class="grid-row">
+        <div class="column-two-thirds">
+            <div id="success-message-container">
+                <h1 class="heading-medium">{{ page.heading }}</h1>
+                <p>{{ page.body_text }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="next-container">
+    <section class="container">
+        <h2 class="heading-large">{{ page.next_title }}</h2>
+        <span>{{ page.next_body_text }}</span>
+        <div>
+            <br/>
+            <a href="{{ header_footer_urls.home }}">Continue to great.gov.uk</a>
+        </div>
+     </div>
+</div>
