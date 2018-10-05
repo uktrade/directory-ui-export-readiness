@@ -1,5 +1,5 @@
 from directory_cms_client.constants import EXPORT_READINESS_GET_FINANCE_SLUG
-from formtools.wizard.views import NamedUrlCookieWizardView
+from formtools.wizard.views import NamedUrlSessionWizardView
 import requests
 
 from django.conf import settings
@@ -38,7 +38,7 @@ class GetFinanceNegotiator(TemplateView):
 
 
 class GetFinanceLeadGenerationFormView(
-    FeatureFlagMixin, NamedUrlCookieWizardView
+    FeatureFlagMixin, NamedUrlSessionWizardView
 ):
     success_url = reverse_lazy(
         'uk-export-finance-lead-generation-form-success'
@@ -62,6 +62,8 @@ class GetFinanceLeadGenerationFormView(
         HELP: 'finance/lead_generation_form/step-help.html',
     }
 
+    should_ignore_captcha = False
+
     def get_template_names(self):
         return [self.templates[self.steps.current]]
 
@@ -83,6 +85,8 @@ class GetFinanceLeadGenerationFormView(
         del data['terms_agreed']
         return data
 
+    def render_done(self, form, **kwargs):
+        self.should_ignore_captcha = True
 
 class GetFinanceLeadGenerationSuccessView(TemplateView):
     template_name = 'finance/lead_generation_form/success.html'
