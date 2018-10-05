@@ -1,5 +1,5 @@
 from directory_cms_client.constants import EXPORT_READINESS_GET_FINANCE_SLUG
-from formtools.wizard.views import NamedUrlSessionWizardView
+from formtools.wizard.views import NamedUrlCookieWizardView
 import requests
 
 from django.conf import settings
@@ -17,17 +17,6 @@ class FeatureFlagMixin:
         if not settings.FEATURE_FLAGS['UKEF_LEAD_GENERATION_ON']:
             raise Http404()
         return super().dispatch(*args, **kwargs)
-
-
-class PiTrackerContextData:
-    def get_context_data(self, *args, **kwargs):
-        return super().get_context_data(
-            pi_tracker_javascript_url=settings.UKEF_PI_TRACKER_JAVASCRIPT_URL,
-            pi_tracker_account_id=settings.UKEF_PI_TRACKER_ACCOUNT_ID,
-            pi_tracker_campaign_id=settings.UKEF_PI_TRACKER_CAMPAIGN_ID,
-            *args,
-            **kwargs,
-        )
 
 
 class DeprecatedGetFinance(mixins.GetCMSPageMixin, TemplateView):
@@ -49,7 +38,7 @@ class GetFinanceNegotiator(TemplateView):
 
 
 class GetFinanceLeadGenerationFormView(
-    FeatureFlagMixin, NamedUrlSessionWizardView
+    FeatureFlagMixin, NamedUrlCookieWizardView
 ):
     success_url = reverse_lazy(
         'uk-export-finance-lead-generation-form-success'
