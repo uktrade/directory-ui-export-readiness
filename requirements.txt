@@ -10,16 +10,17 @@ certifi==2018.4.16        # via requests
 chardet==3.0.4            # via requests
 clint==0.5.1
 contextlib2==0.5.5        # via raven
+dateparser==0.7.0
 directory-api-client==10.0.2
 directory-ch-client==1.0.0
 directory-client-core==4.0.2  # via directory-api-client, directory-ch-client, directory-cms-client, directory-forms-api-client, directory-sso-api-client
-directory-cms-client==5.2.0
+directory-cms-client==5.3.0
 directory-constants==8.0.3
 directory-forms-api-client==2.3.0
 directory-healthcheck==0.4.2
 directory-sso-api-client==3.0.2
 directory-validators==5.0.1
-directory_components==2.22.0
+directory_components==2.24.0
 django-cors-headers==2.1.0
 django-environ==0.4.5
 django-extensions==1.9.0
@@ -30,7 +31,7 @@ django-redis==4.8.0
 django==1.11.15
 django_recaptcha==1.2.0
 djangorestframework==3.8.2  # via sigauth
-export-elements==0.19.1   # via directory-components
+export-elements==0.19.2
 geoip2==2.9.0
 gunicorn==19.5.0
 idna==2.7                 # via requests
@@ -41,12 +42,15 @@ monotonic==1.5            # via directory-ch-client, directory-client-core
 olefile==0.44             # via directory-validators, pillow
 phonenumberslite==7.7.4   # via directory-validators
 pillow==4.2.1             # via directory-validators
-pytz==2017.2              # via directory-healthcheck, directory-validators, django
+python-dateutil==2.7.3    # via dateparser
+pytz==2017.2              # via dateparser, directory-healthcheck, directory-validators, django, tzlocal
 raven==5.19.0
 redis==2.10.6             # via django-redis
+regex==2018.8.29          # via dateparser
 requests==2.19.1
 sigauth==4.0.1
-six==1.11.0               # via django-extensions, mohawk, w3lib
+six==1.11.0               # via django-extensions, mohawk, python-dateutil, w3lib
+tzlocal==1.5.1            # via dateparser
 urllib3==1.23             # via requests
 w3lib==1.19.0             # via directory-cms-client
 whitenoise==3.1

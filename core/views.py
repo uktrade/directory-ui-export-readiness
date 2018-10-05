@@ -11,12 +11,16 @@ from django.core.urlresolvers import reverse
 from django.utils.cache import set_response_etag
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
+from django.utils.functional import cached_property
+
+from directory_cms_client.client import cms_api_client
 
 from article.helpers import ArticlesViewedManagerFactory
 from article import structure
 from casestudy import casestudies
 from core import helpers, mixins
 from triage.helpers import TriageAnswersManager
+from prototype.mixins import GetCMSPageByFullPathMixin
 
 
 class ArticlesViewedManagerMixin:
@@ -56,6 +60,14 @@ class SetEtagMixin:
         return response
 
 
+class LandingPageViewNegotiator(TemplateView):
+    def __new__(cls, *args, **kwargs):
+        if settings.FEATURE_FLAGS['NEWS_SECTION_ON']:
+            return PrototypeLandingPageView(*args, **kwargs)
+        else:
+            return LandingPageView(*args, **kwargs)
+
+
 class LandingPageView(ArticlesViewedManagerMixin, TemplateView):
     template_name = 'core/landing-page.html'
     article_group = structure.ALL_ARTICLES
@@ -82,6 +94,18 @@ class LandingPageView(ArticlesViewedManagerMixin, TemplateView):
         if redirector.should_redirect:
             return redirector.get_response()
         return super().get(request, *args, **kwargs)
+
+
+class PrototypeLandingPageView(GetCMSPageByFullPathMixin, LandingPageView):
+    template_name = 'prototype/landing_page.html'
+
+    @cached_property
+    def page(self):
+        response = cms_api_client.lookup_by_slug(
+            slug='home',
+            draft_token=self.request.GET.get('draft_token'),
+        )
+        return helpers.handle_cms_response(response)
 
 
 class InternationalLandingPageView(
@@ -154,17 +178,23 @@ class InterstitialPageExoppsView(SetEtagMixin, TemplateView):
 class StaticViewSitemap(sitemaps.Sitemap):
     changefreq = 'daily'
 
-    privacy_cookies_url_names = [
-        'privacy-and-cookies-subpage',
-    ]
-
     def items(self):
         # import here to avoid circular import
         from conf import urls
         from conf.url_redirects import redirects
+
+        dynamic_cms_page_url_names = [
+            'privacy-and-cookies-subpage',
+        ]
+
+        dynamic_cms_page_url_names += [url.name for url in urls.prototype_urls]
+        dynamic_cms_page_url_names += [url.name for url in urls.news_urls]
+
         return [
             url.name for url in urls.urlpatterns
-            if url not in redirects and url.name not in ContactUsSitemap.names
+            if url not in redirects and
+            url.name not in dynamic_cms_page_url_names and
+            url.name not in ContactUsSitemap.names
         ]
 
     def location(self, item):
@@ -175,9 +205,6 @@ class StaticViewSitemap(sitemaps.Sitemap):
                 'step': TriageWizardFormView.EXPORTED_BEFORE})
         if item == 'uk-export-finance-lead-generation-form':
             return reverse(item, kwargs={'step': 'contact'})
-        if item in self.privacy_cookies_url_names:
-            return reverse(item, kwargs={
-                'slug': 'fair-processing-notice-zendesk'})
         return reverse(item)
 
 

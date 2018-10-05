@@ -12,6 +12,18 @@ class NotFoundOnDisabledFeature:
         return super().dispatch(*args, **kwargs)
 
 
+class NewsSectionFeatureFlagMixin(NotFoundOnDisabledFeature):
+    @property
+    def flag(self):
+        return settings.FEATURE_FLAGS['NEWS_SECTION_ON']
+
+
+class PrototypeFeatureFlagMixin(NotFoundOnDisabledFeature):
+    @property
+    def flag(self):
+        return settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON']
+
+
 class PerformanceDashboardFeatureFlagMixin(NotFoundOnDisabledFeature):
     @property
     def flag(self):

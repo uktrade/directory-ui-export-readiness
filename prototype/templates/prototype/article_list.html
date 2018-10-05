@@ -1,0 +1,43 @@
+{% extends 'prototype/base.html' %}
+{% load static %}
+{% load add_export_elements_classes from directory_components_tags %}
+{% load parse_date from prototype_tags %}
+
+{% block css_layout_class %}article-list-page{% endblock css_layout_class %}
+
+{% block content %}
+
+{% include 'directory_components/hero.html' with hero_text=page.landing_page_title background_image_url=page.hero_image.url large_title='true' %}
+
+<section id="{% block page_id %}article-list-page{% endblock %}">
+  <div class="container">
+    {% block breadcrumbs %}
+      <div class="breadcrumbs">
+      </div>
+    {% endblock %}
+
+    {% if page.list_teaser %}
+    <div class="grid-row">
+      <div class="column-two-thirds-l column-full">
+        <div class="lede">
+          {{ page.list_teaser|add_export_elements_classes }}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="grid-row">
+      <div class="column-two-thirds-l column-full article-list">
+        <ul class="content-list">
+          {% for article in page.articles %}
+          <li class="article">
+            <h3 class="heading-medium"><a href="{% block article_link %}{{ '/prototype'|add:article.full_path }}{% endblock %}" class="link">{{ article.article_title }}</a></h3>
+            <p class="subheading">Last updated {{ article.last_published_at|parse_date }}</p>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

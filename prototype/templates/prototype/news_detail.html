@@ -1,0 +1,19 @@
+{% extends 'prototype/article_detail.html' %}
+
+{% block css_layout_class %}article-detail-page news-detail-page{% endblock %}
+
+{% block breadcrumbs %}
+  <div class="container">
+    <div class="breadcrumbs">
+      <ol>
+        <li>
+          <a href="{% url 'landing-page' %}">Great.gov.uk</a>
+        </li>
+        <li>
+          <a href="{% url 'news-article-list' %}">News</a>
+        </li>
+        <li aria-current="page">{{ page.article_title }}</li>
+      </ol>
+    </div>
+  </div>
+{% endblock %}

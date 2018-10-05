@@ -37,7 +37,7 @@
     height: 0px;
     position: absolute;
     left: 10px;
-    top: 17px;
+    top: 15px;
     transform: rotate(-45deg);
     width: 0px;
   }
@@ -48,7 +48,9 @@
     color: $grey;
   }
 
-  &:hover {
+  &:hover,
+  &:active,
+  &:focus {
     &:before {
       border-bottom-color: $grey;
     }

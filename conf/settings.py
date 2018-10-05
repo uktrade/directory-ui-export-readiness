@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'captcha',
     'export_elements',
     'directory_components',
+    'prototype',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -403,6 +404,10 @@ GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
 
 # feature flags
 FEATURE_FLAGS = {
+    'PROTOTYPE_PAGES_ON': env.bool(
+        'FEATURE_PROTOTYPE_PAGES_ENABLED', False),
+    'NEWS_SECTION_ON': env.bool(
+        'FEATURE_NEWS_SECTION_ENABLED', False),
     'INTERNAL_CH_ON': env.bool('FEATURE_USE_INTERNAL_CH_ENABLED', False),
     'CONTACT_US_ON': env.bool('FEATURE_CONTACT_US_ENABLED', False),
     'UKEF_LEAD_GENERATION_ON': env.bool(
@@ -418,7 +423,6 @@ FEATURE_FLAGS = {
     # used by directory-components
     'MAINTENANCE_MODE_ON': env.bool('FEATURE_MAINTENANCE_MODE_ENABLED', False),
 }
-
 
 # UK Export Finance
 UKEF_PI_TRACKER_JAVASCRIPT_URL = env.str(

@@ -52,6 +52,11 @@ def test_landing_page_redirect(client):
 
 
 def test_landing_page(client, settings):
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'NEWS_SECTION_ON': False,
+    }
+
     url = reverse('landing-page')
 
     response = client.get(url)
@@ -78,6 +83,53 @@ def test_landing_page(client, settings):
         'custom_persona_occasional': {'read': 0, 'total': 42},
         'custom_persona_regular': {'read': 0, 'total': 21},
     }
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_landing_page_template_news_feature_flag_on(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'NEWS_SECTION_ON': True,
+    }
+
+    page = {
+        'news_title': 'News',
+        'news_description': '<p>Lorem ipsum</p>',
+        'articles': [
+            {'article_title': 'News article 1'},
+            {'article_title': 'News article 2'},
+        ],
+    }
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=page
+    )
+
+    url = reverse('landing-page')
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == [
+        views.PrototypeLandingPageView.template_name]
+
+
+def test_landing_page_template_news_feature_flag_off(client, settings):
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'NEWS_SECTION_ON': False,
+    }
+
+    url = reverse('landing-page')
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == [
+        views.LandingPageView.template_name]
 
 
 def test_interstitial_page_exopps(client):
