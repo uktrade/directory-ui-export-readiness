@@ -1,4 +1,5 @@
 import directory_components.views
+import directory_healthcheck.views
 
 from django.conf.urls import url
 from django.contrib.sitemaps.views import sitemap
@@ -8,7 +9,7 @@ import article.views
 import casestudy.views
 import contact.views
 import core.views
-import healthcheck.views
+import euexit.views
 import triage.views
 import finance.views
 import prototype.views
@@ -23,6 +24,26 @@ sitemaps = {
 
 
 urlpatterns = [
+    url(
+        r'^healthcheck/api/$',
+        directory_healthcheck.views.APIHealthcheckView.as_view(),
+        name='healthcheck-api'
+    ),
+    url(
+        r'^healthcheck/single-sign-on/$',
+        directory_healthcheck.views.SingleSignOnHealthcheckView.as_view(),
+        name='healthcheck-single-sign-on'
+    ),
+    url(
+        r'^healthcheck/forms-api/$',
+        directory_healthcheck.views.FormsAPIBackendHealthcheckView.as_view(),
+        name='healthcheck-single-sign-on'
+    ),
+    url(
+        r'^healthcheck/sentry/$',
+        directory_healthcheck.views.SentryHealthcheckView.as_view(),
+        name='healthcheck-sentry'
+    ),
     url(
         r"^sitemap\.xml$", sitemap, {'sitemaps': sitemaps},
         name='sitemap'
@@ -440,16 +461,6 @@ urlpatterns = [
         name='casestudy-york-bag'
     ),
     url(
-        r'^healthcheck/api/$',
-        healthcheck.views.APIProxyAPIView.as_view(),
-        name='healthcheck-api'
-    ),
-    url(
-        r'^healthcheck/single-sign-on/$',
-        healthcheck.views.SingleSignOnAPIView.as_view(),
-        name='healthcheck-single-sign-on'
-    ),
-    url(
         r'^contact-us/intro/$',
         contact.views.InterstitialView.as_view(service=None),
         name='contact-us-interstitial-service-agnostic',
@@ -491,6 +502,26 @@ urlpatterns = [
             done_step_name='finished'
         ),
         name='uk-export-finance-lead-generation-form'
+    ),
+    url(
+        r'^eu-exit/international/contact/$',
+        euexit.views.InternationalContactFormView.as_view(),
+        name='eu-exit-international-contact-form'
+    ),
+    url(
+        r'^eu-exit/international/contact/success/$',
+        euexit.views.InternationalContactSuccessView.as_view(),
+        name='eu-exit-international-contact-form-success'
+    ),
+    url(
+        r'^eu-exit/contact/$',
+        euexit.views.DomesticContactFormView.as_view(),
+        name='eu-exit-domestic-contact-form'
+    ),
+    url(
+        r'^eu-exit/contact/success/$',
+        euexit.views.DomesticContactSuccessView.as_view(),
+        name='eu-exit-domestic-contact-form-success'
     ),
 ]
 

@@ -8,17 +8,34 @@ import pytest
 from django.urls import reverse
 
 from core.tests.helpers import create_response
-from finance import views
+from finance import forms, views
 
 
-@pytest.mark.parametrize('step,submit_url', (
-    ('contact', None),
-    ('your-details', None),
-    ('company-details', None),
-    ('help', 'submit.com'),
-))
+@pytest.mark.parametrize(
+    'step',
+    ('contact', 'your-details', 'company-details', 'help')
+)
 def test_ukef_lead_generation_feature_flag_on(
-    client, settings, step, submit_url
+    client, settings, step
+):
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'UKEF_LEAD_GENERATION_ON': True
+    }
+    url = reverse(
+        'uk-export-finance-lead-generation-form', kwargs={'step': step}
+    )
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == [
+        views.GetFinanceLeadGenerationFormView.templates[step]
+    ]
+
+
+@patch('requests.post')
+def test_ukef_lead_generation_submit(
+    mock_post, client, settings, captcha_stub
 ):
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
@@ -26,18 +43,30 @@ def test_ukef_lead_generation_feature_flag_on(
     }
     settings.UKEF_FORM_SUBMIT_TRACKER_URL = 'submit.com'
 
-    url = reverse(
-        'uk-export-finance-lead-generation-form', kwargs={'step': step}
+    view = views.GetFinanceLeadGenerationFormView()
+
+    form_one = forms.CategoryForm(data={
+        'categories': ['Securing upfront funding']
+    })
+    form_two = forms.HelpForm(data={
+        'comment': 'thing',
+        'terms_agreed': True,
+        'g-recaptcha-response': captcha_stub,
+    })
+
+    assert form_one.is_valid()
+    assert form_two.is_valid()
+
+    response = view.done([form_one, form_two])
+
+    assert response.status_code == 302
+    assert response.url == str(view.success_url)
+    assert mock_post.call_count == 1
+    assert mock_post.call_args == call(
+        settings.UKEF_FORM_SUBMIT_TRACKER_URL,
+        {'categories': ['Securing upfront funding'], 'comment': 'thing'},
+        allow_redirects=False,
     )
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.context_data.get('form_submit_url') == submit_url
-
-    assert response.template_name == [
-        views.GetFinanceLeadGenerationFormView.templates[step]
-    ]
 
 
 def test_ukef_lead_generation_feature_flag_off(client, settings):

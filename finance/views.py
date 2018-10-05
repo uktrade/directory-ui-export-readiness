@@ -1,12 +1,15 @@
 from directory_cms_client.constants import EXPORT_READINESS_GET_FINANCE_SLUG
-from formtools.wizard.views import NamedUrlSessionWizardView
+from formtools.wizard.views import NamedUrlCookieWizardView
+import requests
 
 from django.conf import settings
 from django.http import Http404
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
 
 from core import mixins
-from finance import forms, helpers
+from finance import forms
 
 
 class FeatureFlagMixin:
@@ -14,17 +17,6 @@ class FeatureFlagMixin:
         if not settings.FEATURE_FLAGS['UKEF_LEAD_GENERATION_ON']:
             raise Http404()
         return super().dispatch(*args, **kwargs)
-
-
-class PiTrackerContextData:
-    def get_context_data(self, *args, **kwargs):
-        return super().get_context_data(
-            pi_tracker_javascript_url=settings.UKEF_PI_TRACKER_JAVASCRIPT_URL,
-            pi_tracker_account_id=settings.UKEF_PI_TRACKER_ACCOUNT_ID,
-            pi_tracker_campaign_id=settings.UKEF_PI_TRACKER_CAMPAIGN_ID,
-            *args,
-            **kwargs,
-        )
 
 
 class DeprecatedGetFinance(mixins.GetCMSPageMixin, TemplateView):
@@ -46,8 +38,11 @@ class GetFinanceNegotiator(TemplateView):
 
 
 class GetFinanceLeadGenerationFormView(
-    FeatureFlagMixin, NamedUrlSessionWizardView
+    FeatureFlagMixin, NamedUrlCookieWizardView
 ):
+    success_url = reverse_lazy(
+        'uk-export-finance-lead-generation-form-success'
+    )
 
     CATEGORY = 'contact'
     PERSONAL_DETAILS = 'your-details'
@@ -70,15 +65,23 @@ class GetFinanceLeadGenerationFormView(
     def get_template_names(self):
         return [self.templates[self.steps.current]]
 
-    def get_context_data(self, *args, **kwargs):
-        context_data = super().get_context_data(*args, **kwargs)
-        if self.steps.current == self.HELP:
-            context_data['form_submit_url'] = (
-                settings.UKEF_FORM_SUBMIT_TRACKER_URL
-            )
-            data = self.get_all_cleaned_data()
-            context_data['all_form_data'] = helpers.flatten_form_data(data)
-        return context_data
+    def done(self, form_list, **kwargs):
+        response = requests.post(
+            settings.UKEF_FORM_SUBMIT_TRACKER_URL,
+            self.serialize_form_list(form_list),
+            allow_redirects=False,
+        )
+        response.raise_for_status()
+        return redirect(self.success_url)
+
+    @staticmethod
+    def serialize_form_list(form_list):
+        data = {}
+        for form in form_list:
+            data.update(form.cleaned_data)
+        del data['captcha']
+        del data['terms_agreed']
+        return data
 
 
 class GetFinanceLeadGenerationSuccessView(TemplateView):

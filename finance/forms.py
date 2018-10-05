@@ -27,7 +27,7 @@ class CategoryForm(forms.Form):
 class PersonalDetailsForm(forms.Form):
     error_css_class = 'input-field-container has-error'
 
-    firstname = fields.CharField(label='Yout first name')
+    firstname = fields.CharField(label='Your first name')
     lastname = fields.CharField(label='Your last name')
     position = fields.CharField(label='Position in company')
     email = fields.EmailField(label='Email address')
@@ -41,7 +41,7 @@ class CompanyDetailsForm(forms.Form):
         'I supply UK companies that sell overseas',
         'I don\'t currently export or supply businesses that export',
     )
-    INDUSTRY_CHOICES = [
+    INDUSTRY_CHOICES = [('', '')] + [
         (value.replace('_', ' ').title(), label)
         for (value, label) in choices.INDUSTRIES
     ] + [('Other', 'Other')]
@@ -72,7 +72,7 @@ class CompanyDetailsForm(forms.Form):
     )
 
     export_status = fields.MultipleChoiceField(
-        label='Do you currently export',
+        label='Do you currently export?',
         help_text='Select all that apply',
         widget=widgets.CheckboxSelectInlineLabelMultiple(
             attrs={'id': 'checkbox-multiple'},
@@ -96,7 +96,11 @@ class CompanyDetailsForm(forms.Form):
 class HelpForm(forms.Form):
     error_css_class = 'input-field-container has-error'
 
-    comment = fields.CharField(label='', widget=Textarea)
+    comment = fields.CharField(
+        label='',
+        help_text='Your export plans and any challenges you are facing',
+        widget=Textarea,
+    )
     terms_agreed = fields.BooleanField(
         label=mark_safe(
             'Tick this box to accept the '

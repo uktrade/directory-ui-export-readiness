@@ -3,6 +3,7 @@ from django.http import Http404
 from django.conf import settings
 from core.helpers import handle_cms_response
 from django.utils import translation
+from django.utils.functional import cached_property
 
 
 class NotFoundOnDisabledFeature:
@@ -31,16 +32,17 @@ class PerformanceDashboardFeatureFlagMixin(NotFoundOnDisabledFeature):
 
 
 class GetCMSPageMixin:
-    def get_context_data(self, *args, **kwargs):
+    @cached_property
+    def page(self):
         response = cms_api_client.lookup_by_slug(
             slug=self.slug,
             language_code=translation.get_language(),
             draft_token=self.request.GET.get('draft_token'),
         )
-        return super().get_context_data(
-            page=handle_cms_response(response),
-            *args, **kwargs
-        )
+        return handle_cms_response(response)
+
+    def get_context_data(self, *args, **kwargs):
+        return super().get_context_data(page=self.page, *args, **kwargs)
 
 
 class TranslationsMixin:

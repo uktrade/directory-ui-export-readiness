@@ -1,14 +1,7 @@
-@import './partials/base';
-@import './components/breadcrumbs';
+@import './partials/form-submission-success.scss';
 
-h1 {
-  background-color: #00A699;
-  color: white;
-  padding: 30px;
-}
-
-
-.breadcrumbs {
-  background-color: transparent;
-  border: 0;
+#content {
+    h1 {
+        margin: 0;
+    }
 }
