@@ -1,0 +1,148 @@
+
+// LANDING PAGE
+// ============
+
+@import 'partials/colours';
+@import 'partials/vars';
+@import 'partials/mixins';
+
+@import 'components/carousel';
+
+#header-bar .account-links li:nth-child(3) {
+  margin-left: 5px;
+}
+
+.landing-page {
+
+  // Hero
+
+  .hero {
+    position: relative;
+    padding: 1em 0;
+
+    .heading-hero-domestic span {
+      padding: 8px 15px 5px;
+      margin: 0 0 5px 0px;
+    }
+
+    .container {
+      position: relative;
+    }
+
+    &:before {
+      background-image: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.7) 100%);
+      content: "";
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+
+    // firefox specific styling to fix how background colour is positioned in span tags
+    @-moz-document url-prefix() {
+      & {
+        padding: 13px $spacing-4 0px $spacing-4;
+      }
+    }
+
+    // IE9+ CSS
+    @media screen and (min-width:0\0) and (min-resolution: +72dpi) {
+      & {
+        line-height: 1em;
+        padding: 10px;
+        padding-bottom: 0;
+      }
+    }
+  }
+}
+
+// Background images
+
+#hero-campaign-section { background-image: url('/static/images/hero/export-hp-hero-500.png') }
+#services-section-find-a-buyer-image { background-image: url('/static/images/export-hp-fas-profile.jpg') }
+#services-section-selling-online-overseas-image { background-image: url('/static/images/export-hp-online-market.jpg') }
+#services-section-export-opportunities-image { background-image: url('/static/images/export-hp-export-opportunities.jpg') }
+#personas-section-new-image { background-image: url('/static/images/exports-hp-new-to-exporting.jpg') }
+#personas-section-occasional-image { background-image: url('/static/images/export-hp-occasional.jpg') }
+#personas-section-regular-image { background-image: url('/static/images/export-hp-regular.jpg') }
+
+body.webp-enabled {
+  #hero-campaign-section { background-image: url('/static/images/hero/export-hp-hero-500.webp') }
+  #services-section-find-a-buyer-image { background-image: url('/static/images/export-hp-fas-profile.webp') }
+  #services-section-selling-online-overseas-image { background-image: url('/static/images/export-hp-online-market.webp') }
+  #services-section-export-opportunities-image { background-image: url('/static/images/export-hp-export-opportunities.webp') }
+  #personas-section-new-image { background-image: url('/static/images/exports-hp-new-to-exporting.webp') }
+  #personas-section-occasional-image { background-image: url('/static/images/export-hp-occasional.webp') }
+  #personas-section-regular-image { background-image: url('/static/images/export-hp-regular.webp') }
+}
+
+// Sections
+
+.landing-page {
+  *[class$="-section"] {
+    padding-top: 1em;
+
+    .intro {
+      padding-bottom: 2em;
+    }
+  }
+
+  .news-section {
+    padding-bottom: 0;
+  }
+
+  .hero .heading-xlarge {
+    margin-bottom: .9375em
+  }
+
+  .triage-section,
+  .beis-section {
+    img {
+      width: 100%;
+    }
+  }
+}
+
+@media (min-width: 640px) {
+  .landing-page {
+    .triage-section,
+    .beis-section {
+      img {
+        margin-top: 45px;
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .landing-page .hero img {
+    height: 70px;
+  }
+}
+
+@media (max-width: 540px) {
+  .landing-page {
+    .hero {
+      background-position: top left;
+      padding-top: 90px;
+      padding-bottom: 2em;
+
+      img {
+        bottom: auto;
+        left: 0;
+        position: absolute;
+        right: auto;
+        top: -85px;
+      }
+    }
+  }
+
+  #hero-campaign-section {
+    background-image: url('/static/images/hero/export-hp-hero-mb.jpg');
+  }
+
+  body.webp-enabled  #hero-campaign-section {
+    background-image: url('/static/images/hero/export-hp-hero-mb.webp');
+  }
+}

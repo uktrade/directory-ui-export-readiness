@@ -1,0 +1,32 @@
+
+// NEWS LIST PAGE
+// =================
+
+
+.article-list-page {
+  padding-top: 0;
+
+  section {
+    padding-top: 0;
+  }
+
+  .list-teaser {
+    padding: 2em 0;
+    line-height: 1.5;
+  }
+
+  .content-list li {
+    margin-bottom: 0;
+    padding-bottom: 1em;
+    border-bottom: 1px solid $light-grey;
+
+    &:last-child {
+      border: 0;
+    }
+
+    a {
+      margin-bottom: .125em;
+      display: inline-block;
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{% extends 'prototype/base.html' %}
+{% load static %}
+{% load parse_date from prototype_tags %}
+
+{% block css_layout_class %}topic-list-page{% endblock css_layout_class %}
+
+{% block content %}
+
+{% include 'directory_components/hero.html' with large_title='true' background_image_url=page.hero_image.url hero_text=page.landing_page_title description=page.hero_teaser %}
+
+<div class="container">
+  <div class="breadcrumbs">
+    <ol>
+      <li>
+        <a href="{% url 'prototype-landing-page' %}">Great.gov.uk</a>
+      </li>
+      <li aria-current="page">{{ page.landing_page_title }}</li>
+    </ol>
+  </div>
+</div>
+
+<section class="topic-list-section">
+    <div class="container">
+      <div class="card-grid">
+        {% for listing in page.article_listing %}
+          {% if listing.articles_count > 0 %}
+            <div class="column-third">
+              <div class="card">
+                <a class="card-link" href="{{ '/prototype'|add:listing.full_path }}">
+                  <div class="card-image" role="image" style="background-image: url('{{ listing.hero_image.url }}');" aria-label="{{ listing.landing_page_title }}" title="{{ listing.landing_page_title }}">
+                    <p class="visually-hidden">{{ listing.landing_page_title }}</p>
+                  </div>
+                  <div class="card-inner">
+                    <h3 class="heading-large">{{ listing.landing_page_title }}</h3>
+                      <p class="description subheading">Updated {{ listing.last_published_at|parse_date }}</p>
+                      <p class="description subheading">{{ listing.articles_count }} guide{{ listing.articles_count|pluralize }}</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+</section>
+{% endblock %}

@@ -12,6 +12,8 @@ import core.views
 import euexit.views
 import triage.views
 import finance.views
+import prototype.views
+
 from conf.url_redirects import redirects
 
 
@@ -53,7 +55,7 @@ urlpatterns = [
     ),
     url(
         r"^$",
-        core.views.LandingPageView.as_view(),
+        core.views.LandingPageViewNegotiator.as_view(),
         name='landing-page',
     ),
     url(
@@ -524,3 +526,53 @@ urlpatterns = [
 ]
 
 urlpatterns += redirects
+
+news_urls = [
+    url(
+        r"^news/$",
+        prototype.views.NewsListPageView.as_view(),
+        name='news-article-list',
+    ),
+    url(
+        r"^news/(?P<slug>[\w-]+)/$",
+        prototype.views.NewsArticleDetailView.as_view(),
+        name='news-article-detail',
+    ),
+]
+
+urlpatterns += news_urls
+
+prototype_urls = [
+    url(
+        r"^prototype/$",
+        core.views.PrototypeLandingPageView.as_view(),
+        name='prototype-landing-page',
+    ),
+    url(
+        r"^prototype/news/$",
+        prototype.views.NewsListPageView.as_view(),
+        name='prototype-news-article-list',
+    ),
+    url(
+        r"^prototype/news/(?P<slug>[\w-]+)/$",
+        prototype.views.NewsArticleDetailView.as_view(),
+        name='prototype-news-article-detail',
+    ),
+    url(
+        r"^prototype/(?P<slug>[\w-]+)/$",
+        prototype.views.TopicListPageView.as_view(),
+        name='topic-list',
+    ),
+    url(
+        r"^prototype/(?P<topic>[\w-]+)/(?P<slug>[\w-]+)/$",
+        prototype.views.ArticleListPageView.as_view(),
+        name='article-list',
+    ),
+    url(
+        r"^prototype/(?P<topic>[\w-]+)/(?P<list>[\w-]+)/(?P<slug>[\w-]+)/$",
+        prototype.views.ArticleDetailView.as_view(),
+        name='article-detail',
+    ),
+]
+
+urlpatterns += prototype_urls

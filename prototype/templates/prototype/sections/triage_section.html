@@ -1,0 +1,24 @@
+{% load progressive_image from image_tags %}
+
+<section id="triage" class="triage-section">
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-half">
+        <h2 id="triage-section-title" class="heading-large">Create your export journey</h2>
+        <div class="body-text" id="triage-section-description">
+          <div class="content">
+            <p class="intro">Help us give you guidance and services aimed at your exporting experience level by answering a few quick questions.</p>
+            {% if has_completed_triage %}
+              <a id="triage-section-continue-your-journey" href="{% url 'custom-page' %}" class="button button-cta">Continue your export journey</a>
+            {% else %}
+              <a id="triage-section-get-started" href="{% url 'triage-wizard' step='exported-before' %}" class="button button-ghost-blue">Get started</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="column-half">
+        {% progressive_image webp='images/home-triage-world-connections@2x.webp' src='images/home-triage-world-connections@2x.png' img_id='triage-section-image' %}
+      </div>
+    </div>
+  </div>
+</section>

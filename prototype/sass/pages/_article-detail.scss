@@ -1,0 +1,47 @@
+
+// ARTICLE DETAIL PAGE
+// ===================
+
+@import 'partials/colours';
+
+.article-detail-page {
+  article.grid-row {
+    margin-bottom: 100px;
+  }
+
+  article header {
+    .column-seven-twelfths {
+      padding-bottom: 1em;
+    }
+
+    .heading-xlarge {
+      margin-top: 0.2em;
+    }
+  }
+
+  .article-content {
+    margin-left: calc(100% / 9 * 2);
+    padding-top: 2em;
+    line-height: 1.75;
+  }
+
+  .content-list li a {
+    display: block;
+  }
+
+  .related-content-cards {
+    background-color: $stone-30;
+    padding-top: 30px;
+  }
+
+  @media (max-width: 640px) {
+    .related-content-cards {
+      display: none;
+    }
+
+    .article-content {
+      margin-left: 0;
+    }
+  }
+
+}

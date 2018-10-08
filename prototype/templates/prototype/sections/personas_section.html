@@ -1,0 +1,55 @@
+{% load static %}
+{% load progressive_image from image_tags %}
+
+<section id="personas" class="personas-section background-stone">
+  <div class="container">
+    <div class="grid-row intro">
+      <div class="column-full column-two-thirds-m column-half-l">
+        <h2 id="personas-section-title" class="heading-large">Export readiness</h2>
+        <p id="personas-section-description">It can be hard to know where to start if you’re new to exporting. And even if you export regularly, there’s always more to know. Get exporting guidance for your experience level.</p>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="column-third-l column-full-m">
+        <div class="card only-title">
+          <a id="personas-section-new" class="card-link" href="{% url 'article-list-persona-new' %}">
+            <div id="personas-section-new-image" class="card-image" role="image" aria-label="I'm new to exporting" title="I'm new to exporting">
+              <p class="visually-hidden">I'm new to exporting</p>
+            </div>
+            <div class="card-inner">
+              <h3 class="heading-large">I'm new to exporting</h3>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="column-third-l column-full-m">
+        <div class="card only-title">
+          <a id="personas-section-occasional" class="card-link" href="{% url 'article-list-persona-occasional' %}">
+            <div id="personas-section-occasional-image" class="card-image" role="image" aria-label="I export occasionally" title="I export occasionally">
+              <p class="visually-hidden">I export occasionally</p>
+            </div>
+            <div class="card-inner">
+              <h3 class="heading-large">I export occasionally</h3>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="column-third-l column-full-m">
+        <div class="card only-title">
+          <a id="personas-section-regular" class="card-link" href="{% url 'article-list-persona-regular' %}">
+            <div id="personas-section-regular-image" class="card-image" role="image" aria-label="I’m a regular exporter" title="I’m a regular exporter">
+              <p class="visually-hidden">I’m a regular exporter</p>
+            </div>
+            <div class="card-inner">
+              <h3 class="heading-large">I’m a regular exporter</h3>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>

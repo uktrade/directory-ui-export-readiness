@@ -14,11 +14,12 @@ clint==0.5.1
 codecov==2.0.15
 contextlib2==0.5.5        # via raven
 coverage==4.5.1           # via codecov, pytest-cov
+dateparser==0.7.0
 directory-api-client==10.0.2
 directory-ch-client==1.0.0
 directory-client-core==4.0.2  # via directory-api-client, directory-ch-client, directory-cms-client, directory-forms-api-client, directory-sso-api-client
 directory-cms-client==6.0.0
-directory-components==2.23.0
+directory-components==2.24.0
 directory-constants==8.0.3
 directory-forms-api-client==2.3.0
 directory-healthcheck==0.5.1
@@ -34,7 +35,7 @@ django-redis==4.8.0
 django==1.11.15
 django_recaptcha==1.2.0
 djangorestframework==3.8.2  # via sigauth
-export-elements==0.19.1   # via directory-components
+export-elements==0.19.2
 flake8==3.5.0
 freezegun==0.3.10
 geoip2==2.9.0
@@ -58,15 +59,17 @@ pytest-cov==2.5.1
 pytest-django==3.3.3
 pytest-sugar==0.9.1
 pytest==3.7.1
-python-dateutil==2.7.3    # via freezegun
-pytz==2017.2              # via directory-healthcheck, directory-validators, django
+python-dateutil==2.7.3    # via dateparser, freezegun
+pytz==2017.2              # via dateparser, directory-healthcheck, directory-validators, django, tzlocal
 raven==5.19.0
 redis==2.10.6             # via django-redis
+regex==2018.8.29          # via dateparser
 requests-mock==1.5.2
 requests==2.19.1
 sigauth==4.0.1
 six==1.11.0               # via django-extensions, freezegun, mohawk, more-itertools, pytest, python-dateutil, requests-mock, w3lib
 termcolor==1.1.0          # via pytest-sugar
+tzlocal==1.5.1            # via dateparser
 urllib3==1.23             # via requests
 w3lib==1.19.0             # via directory-cms-client
 whitenoise==3.1

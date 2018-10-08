@@ -19,8 +19,10 @@ directory-constants==8.0.3
 sigauth==4.0.1
 directory-healthcheck==0.5.1
 directory-ch-client==1.0.0
-directory-components==2.23.0
+directory_components==2.24.0
+export_elements==0.19.2
 geoip2==2.9.0
 django-ipware==2.1.0
 django-redis==4.8.0
 directory-forms-api-client==2.3.0
+dateparser==0.7.0

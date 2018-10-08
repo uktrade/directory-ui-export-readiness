@@ -1,0 +1,18 @@
+{% extends 'prototype/article_list.html' %}
+
+{% block css_layout_class %}article-list-page{% endblock css_layout_class %}
+
+{% block page_id %}news-list-page{% endblock %}
+
+{% block breadcrumbs %}
+  <div class="breadcrumbs">
+    <ol>
+      <li>
+        <a href="{% url 'landing-page' %}">Great.gov.uk</a>
+      </li>
+      <li aria-current="page">{{ page.landing_page_title }}</li>
+    </ol>
+  </div>
+{% endblock %}
+
+{% block article_link %}{{ article.full_path }}{% endblock %}
