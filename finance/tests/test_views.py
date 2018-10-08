@@ -33,6 +33,79 @@ def test_ukef_lead_generation_feature_flag_on(
     ]
 
 
+@patch('captcha.fields.ReCaptchaField.clean')
+@patch('requests.post')
+def test_ukef_lead_generation_captcha_revalidation(
+    mock_post, mock_clean, client, settings, captcha_stub
+):
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'UKEF_LEAD_GENERATION_ON': True
+    }
+
+    url_name = 'uk-export-finance-lead-generation-form'
+    view_name = 'get_finance_lead_generation_form_view'
+
+    response = client.post(
+        reverse(url_name, kwargs={'step': 'contact'}),
+        {
+            view_name + '-current_step': 'contact',
+            'contact-categories': 'Securing upfront funding',
+        }
+    )
+    assert response.status_code == 302
+
+    response = client.post(
+        reverse(url_name, kwargs={'step': 'your-details'}),
+        {
+            view_name + '-current_step': 'your-details',
+            'your-details-firstname': 'test',
+            'your-details-lastname': 'test',
+            'your-details-position': 'test',
+            'your-details-email': 'test@example.com',
+            'your-details-phone': 'test',
+        }
+    )
+    assert response.status_code == 302
+
+    response = client.post(
+        reverse(url_name, kwargs={'step': 'company-details'}),
+        {
+            view_name + '-current_step': 'company-details',
+            'company-details-trading_name': 'test',
+            'company-details-company_number': 'test',
+            'company-details-address_line_one': 'test',
+            'company-details-address_line_two': 'test',
+            'company-details-address_town_city': 'test',
+            'company-details-address_county': 'test',
+            'company-details-address_post_code': 'test',
+            'company-details-industry': 'Other',
+            'company-details-industry_other': 'test',
+            'company-details-export_status': 'I have customers outside the UK',
+        }
+    )
+    assert response.status_code == 302
+
+    response = client.post(
+        reverse(url_name, kwargs={'step': 'help'}),
+        {
+            view_name + '-current_step': 'help',
+            'help-comment': 'test',
+            'help-terms_agreed': True,
+            'g-recaptcha-response': captcha_stub,
+        }
+    )
+    assert response.status_code == 302
+
+    response = client.get(response.url)
+
+    assert response.status_code == 302
+    assert response.url == reverse(
+        'uk-export-finance-lead-generation-form-success'
+    )
+    assert mock_clean.call_count == 1
+
+
 @patch('requests.post')
 def test_ukef_lead_generation_submit(
     mock_post, client, settings, captcha_stub
@@ -64,7 +137,11 @@ def test_ukef_lead_generation_submit(
     assert mock_post.call_count == 1
     assert mock_post.call_args == call(
         settings.UKEF_FORM_SUBMIT_TRACKER_URL,
-        {'categories': ['Securing upfront funding'], 'comment': 'thing'},
+        {
+            'categories': ['Securing upfront funding'],
+            'comment': 'thing',
+            'captcha': captcha_stub,
+        },
         allow_redirects=False,
     )
 
