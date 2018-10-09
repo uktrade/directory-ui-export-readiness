@@ -57,6 +57,13 @@ def handle_cms_response(response):
     return response.json()
 
 
+def handle_cms_response_allow_404(response):
+    if response.status_code == 404:
+        return {}
+    response.raise_for_status()
+    return response.json()
+
+
 class GeoLocationRedirector:
     DOMESTIC_COUNTRY_CODES = ['GB', 'IE']
     COUNTRY_TO_LANGUAGE_MAP = {

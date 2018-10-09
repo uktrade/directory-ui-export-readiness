@@ -85,6 +85,29 @@ def test_handle_cms_response_ok():
     assert helpers.handle_cms_response(response) == {'field': 'value'}
 
 
+@pytest.mark.parametrize('status_code,exception', (
+    (400, requests.exceptions.HTTPError),
+    (500, requests.exceptions.HTTPError),
+))
+def test_handle_cms_response_allow_404_error(status_code, exception):
+    response = core.tests.helpers.create_response(status_code=status_code)
+    with pytest.raises(exception):
+        helpers.handle_cms_response_allow_404(response)
+
+
+def test_handle_cms_response_allow_404_not_found():
+    response = core.tests.helpers.create_response(status_code=404)
+    assert helpers.handle_cms_response_allow_404(response) == {}
+
+
+def test_handle_cms_response_allow_404_ok():
+    response = core.tests.helpers.create_response(
+        status_code=200, json_body={'field': 'value'}
+    )
+    assert helpers.handle_cms_response_allow_404(response) == {
+        'field': 'value'}
+
+
 @patch('core.helpers.get_client_ip', Mock(return_value=(None, False)))
 def test_geolocation_redirector_unroutable(rf):
     request = rf.get('/')
