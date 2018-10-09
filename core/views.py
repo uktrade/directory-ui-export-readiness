@@ -105,7 +105,7 @@ class PrototypeLandingPageView(GetCMSPageByFullPathMixin, LandingPageView):
             slug='home',
             draft_token=self.request.GET.get('draft_token'),
         )
-        return helpers.handle_cms_response(response)
+        return helpers.handle_cms_response_allow_404(response)
 
 
 class InternationalLandingPageView(
