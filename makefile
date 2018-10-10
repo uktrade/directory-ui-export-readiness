@@ -225,4 +225,7 @@ upgrade_requirements:
 	pip-compile --upgrade requirements.in
 	pip-compile --upgrade requirements_test.in
 
+new_redirect:
+	python scripts/add_new_redirect.py
+
 .PHONY: build clean test_requirements docker_run docker_debug docker_webserver_bash docker_test debug_webserver debug_test debug heroku_deploy_dev heroku_deploy_demo
