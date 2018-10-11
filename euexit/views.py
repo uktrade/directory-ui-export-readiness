@@ -14,6 +14,9 @@ from core.mixins import GetCMSPageMixin
 from euexit import forms
 
 
+SESSION_KEY_FORM_INGRESS_URL = 'FORM_INGRESS_URL'
+
+
 class FeatureFlagMixin:
     def dispatch(self, *args, **kwargs):
         if not settings.FEATURE_FLAGS['EU_EXIT_FORMS_ON']:
@@ -24,9 +27,20 @@ class FeatureFlagMixin:
 class BaseInternationalContactFormView(
     FeatureFlagMixin, GetCMSPageMixin, FormView
 ):
+
+    def get(self, *args, **kwargs):
+        self.request.session[SESSION_KEY_FORM_INGRESS_URL] = (
+            self.request.META.get('HTTP_REFERER')
+        )
+        return super().get(*args, **kwargs)
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['field_attributes'] = self.page
+        kwargs['form_url'] = self.request.build_absolute_uri()
+        kwargs['ingress_url'] = (
+            self.request.session.get(SESSION_KEY_FORM_INGRESS_URL)
+        )
         return kwargs
 
     def form_valid(self, form):
@@ -35,7 +49,7 @@ class BaseInternationalContactFormView(
         response = form.save(
             email_address=cleaned_data['email'],
             full_name=name,
-            subject='EU Exit international contact form'
+            subject='EU Exit international contact form',
         )
         response.raise_for_status()
         return super().form_valid(form)

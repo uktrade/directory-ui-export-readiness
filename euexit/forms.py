@@ -33,9 +33,16 @@ class FieldsMutationMixin:
 
 
 class SerializeMixin:
+    def __init__(self, form_url, ingress_url, *args, **kwargs):
+        self.form_url = form_url
+        self.ingress_url = ingress_url
+        super().__init__(*args, **kwargs)
+
     @property
     def serialized_data(self):
         data = self.cleaned_data.copy()
+        data['form_url'] = self.form_url
+        data['ingress_url'] = self.ingress_url
         del data['captcha']
         del data['terms_agreed']
         return data
