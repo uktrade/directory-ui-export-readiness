@@ -49,7 +49,7 @@ class BaseInternationalContactFormView(
         response = form.save(
             email_address=cleaned_data['email'],
             full_name=name,
-            subject='EU Exit international contact form',
+            subject=self.subject,
         )
         response.raise_for_status()
         return super().form_valid(form)
@@ -60,6 +60,7 @@ class InternationalContactFormView(BaseInternationalContactFormView):
     form_class = forms.InternationalContactForm
     template_name = 'euexit/international-contact-form.html'
     success_url = reverse_lazy('eu-exit-international-contact-form-success')
+    subject = 'EU Exit international contact form'
 
 
 class DomesticContactFormView(BaseInternationalContactFormView):
@@ -67,6 +68,7 @@ class DomesticContactFormView(BaseInternationalContactFormView):
     form_class = forms.DomesticContactForm
     template_name = 'euexit/domestic-contact-form.html'
     success_url = reverse_lazy('eu-exit-domestic-contact-form-success')
+    subject = 'EU Exit contact form'
 
 
 class InternationalContactSuccessView(

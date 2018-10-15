@@ -87,10 +87,10 @@ def test_international_form_cms_retrieval_ok(
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @mock.patch.object(
-    views.InternationalContactFormView.form_class.action_class, 'save'
+    views.InternationalContactFormView.form_class, 'action_class'
 )
 def test_international_form_submit(
-    mock_save, mock_lookup_by_slug, settings, client, captcha_stub
+    mock_action_class, mock_lookup_by_slug, settings, client, captcha_stub
 ):
     mock_lookup_by_slug.return_value = create_response(
         status_code=200, json_body={}
@@ -122,8 +122,14 @@ def test_international_form_submit(
         'eu-exit-international-contact-form-success'
     )
 
-    assert mock_save.call_count == 1
-    assert mock_save.call_args == mock.call({
+    assert mock_action_class.call_count == 1
+    assert mock_action_class.call_args == mock.call(
+        email_address='test@example.com',
+        full_name='test example',
+        subject='EU Exit international contact form'
+    )
+    assert mock_action_class().save.call_count == 1
+    assert mock_action_class().save.call_args == mock.call({
         'first_name': 'test',
         'last_name': 'example',
         'email': 'test@example.com',
@@ -241,11 +247,9 @@ def test_domestic_form_cms_retrieval_ok(
 
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@mock.patch.object(
-    views.DomesticContactFormView.form_class.action_class, 'save'
-)
+@mock.patch.object(views.DomesticContactFormView.form_class, 'action_class')
 def test_domestic_form_submit(
-    mock_save, mock_lookup_by_slug, settings, client, captcha_stub
+    mock_action_class, mock_lookup_by_slug, settings, client, captcha_stub
 ):
     mock_lookup_by_slug.return_value = create_response(
         status_code=200, json_body={}
@@ -274,8 +278,14 @@ def test_domestic_form_submit(
     assert response.url == reverse(
         'eu-exit-domestic-contact-form-success'
     )
-    assert mock_save.call_count == 1
-    assert mock_save.call_args == mock.call({
+    assert mock_action_class.call_count == 1
+    assert mock_action_class.call_args == mock.call(
+        email_address='test@example.com',
+        full_name='test example',
+        subject='EU Exit contact form'
+    )
+    assert mock_action_class().save.call_count == 1
+    assert mock_action_class().save.call_args == mock.call({
         'first_name': 'test',
         'last_name': 'example',
         'email': 'test@example.com',
