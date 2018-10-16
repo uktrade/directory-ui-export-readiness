@@ -1,23 +1,19 @@
 // PAGE: INTERNATIONAL
 // ------------------------------------------------
 
-@import './partials/reset';
-@import './partials/colours';
-@import './partials/vars';
-@import './partials/typography';
-@import './partials/mixins';
-@import './partials/layout';
-@import './partials/fonts';
+@import 'partials/colours';
+@import 'partials/vars';
+@import 'partials/typography';
+@import 'partials/mixins';
+@import 'partials/layout';
+@import 'partials/fonts';
 
 // Global style
-@import './partials/general';
-@import './partials/content';
-@import './partials/elements';
-@import './partials/effects';
+@import 'partials/general';
 
 // Components
-@import './components/_language-selector';
-@import './components/_teaser';
+@import 'components/modal';
+@import 'components/language-selector';
 
 body {
   margin: 0;
@@ -25,6 +21,16 @@ body {
 
 li {
   list-style: none;
+}
+
+@media (min-width: 640px) {
+  .hero-generic .hero-title {
+    max-width: 60%;
+
+    h1 {
+      line-height: 1.2;
+    }
+  }
 }
 
 .intro {
