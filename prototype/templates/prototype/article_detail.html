@@ -32,19 +32,21 @@
             <p class="subheading">Last updated {{ page.last_published_at|parse_date }}</p>
           </div>
 
-          <div class="column-quarter">
-            <div class="panel-vertical-narrow">
-              <h2 class="heading-small">Tags</h2>
-              <ul class="tag-list">
-                <li>
-                  <a href="#" class="link">#Placeholder tag one</a>
-                </li>
-                <li>
-                  <a href="#" class="link">#Placeholder tag two</a>
-                </li>
-              </ul>
+          {% if page.tags %}
+            <div class="column-quarter">
+              <div class="panel-vertical-narrow">
+                <h2 class="heading-small">Tags</h2>
+                <ul class="tag-list">
+                  {% for tag in page.tags %}
+                    <li>
+                      <a href="#" class="link">#{{ tag.name }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
             </div>
-          </div>
+          {% endif %}
+
         </div>
       </header>
 
