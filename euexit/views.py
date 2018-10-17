@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
-from core.mixins import GetCMSPageMixin
+from core.mixins import GetCMSPageMixin, TranslationsMixin
 from euexit import forms
 
 
@@ -24,8 +24,16 @@ class FeatureFlagMixin:
         return super().dispatch(*args, **kwargs)
 
 
+class HideLanguageSelectorMixin(TranslationsMixin):
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            hide_language_selector=True,
+            **kwargs,
+        )
+
+
 class BaseInternationalContactFormView(
-    FeatureFlagMixin, GetCMSPageMixin, FormView
+    FeatureFlagMixin, GetCMSPageMixin, HideLanguageSelectorMixin, FormView,
 ):
 
     def get(self, *args, **kwargs):
@@ -55,6 +63,12 @@ class BaseInternationalContactFormView(
         return super().form_valid(form)
 
 
+class BaseContactView(
+    FeatureFlagMixin, GetCMSPageMixin, HideLanguageSelectorMixin, TemplateView
+):
+    pass
+
+
 class InternationalContactFormView(BaseInternationalContactFormView):
     slug = EXPORT_READINESS_EUEXIT_INTERNATIONAL_FORM_SLUG
     form_class = forms.InternationalContactForm
@@ -71,15 +85,11 @@ class DomesticContactFormView(BaseInternationalContactFormView):
     subject = 'EU Exit contact form'
 
 
-class InternationalContactSuccessView(
-    FeatureFlagMixin, GetCMSPageMixin, TemplateView
-):
+class InternationalContactSuccessView(BaseContactView):
     template_name = 'euexit/international-contact-form-success.html'
     slug = EXPORT_READINESS_EUEXIT_FORM_SUCCESS_SLUG
 
 
-class DomesticContactSuccessView(
-    FeatureFlagMixin, GetCMSPageMixin, TemplateView
-):
+class DomesticContactSuccessView(BaseContactView):
     template_name = 'euexit/domestic-contact-form-success.html'
     slug = EXPORT_READINESS_EUEXIT_FORM_SUCCESS_SLUG

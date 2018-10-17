@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-12 09:06+0000\n"
+"POT-Creation-Date: 2018-10-17 08:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #: core/templates/core/includes/international_footer.html:7
-#: core/templates/core/includes/international_header.html:38
+#: core/templates/core/includes/international_header.html:45
 msgid "UK Government"
 msgstr ""
 
@@ -61,25 +61,29 @@ msgstr ""
 msgid "Crown copyright 2017. All rights reserved."
 msgstr ""
 
-#: core/templates/core/includes/international_header.html:5
+#: core/templates/core/includes/international_header.html:6
 msgid "Skip to main content"
 msgstr ""
 
-#: core/templates/core/includes/international_header.html:6
+#: core/templates/core/includes/international_header.html:8
 msgid "International"
 msgstr "دولي"
 
-#: core/templates/core/includes/international_header.html:8
+#: core/templates/core/includes/international_header.html:10
 msgid "Choose your language"
 msgstr ""
 
-#: core/templates/core/includes/international_header.html:20
+#: core/templates/core/includes/international_header.html:22
 msgid "English (UK)"
 msgstr ""
 
-#: core/templates/core/includes/international_header.html:22
+#: core/templates/core/includes/international_header.html:24
 msgid "Get guidance and services to help you export."
 msgstr ""
+
+#: core/templates/core/includes/international_header.html:34
+msgid "Page in English only"
+msgstr "هذه الصفحة باللغة الإنجليزية فقط"
 
 #: core/templates/core/landing_page_international.html:12
 msgid ""
@@ -130,30 +134,30 @@ msgstr "https://invest.great.gov.uk/ar/"
 msgid "See the potential"
 msgstr "معرفة المزيد"
 
+#: core/templates/core/landing_page_international.html:52
+#: core/templates/core/landing_page_international.html:53
 #: core/templates/core/landing_page_international.html:56
-#: core/templates/core/landing_page_international.html:57
-#: core/templates/core/landing_page_international.html:60
 msgid "Study in the UK"
 msgstr "الاستثمار في المملكة المتحدة"
 
-#: core/templates/core/landing_page_international.html:61
+#: core/templates/core/landing_page_international.html:57
 msgid ""
 "Get a headstart from an exceptional British education that will inspire you "
 "to achieve."
 msgstr ""
 "تعرّفوا على فرص استثمار الأموال في المملكة وكيفية دعم الحكومة لمشاريعكم."
 
-#: core/templates/core/landing_page_international.html:62
+#: core/templates/core/landing_page_international.html:58
 msgid "Learn more"
 msgstr "معرفة الإمكانيات"
 
+#: core/templates/core/landing_page_international.html:65
+#: core/templates/core/landing_page_international.html:66
 #: core/templates/core/landing_page_international.html:69
-#: core/templates/core/landing_page_international.html:70
-#: core/templates/core/landing_page_international.html:73
 msgid "Visit the UK"
 msgstr "الشراء من المملكة المتحدة"
 
-#: core/templates/core/landing_page_international.html:74
+#: core/templates/core/landing_page_international.html:70
 msgid ""
 "Take a journey through vibrant cities, breathtaking scenery, unrivalled "
 "heritage and iconic landmarks and discover what makes the UK great."
@@ -161,11 +165,11 @@ msgstr ""
 "احصلوا مبكرا وحصريا على الملفات التعريفية للشركات عالية الجودة بالمملكة "
 "المتحدة المُستعدة لتلبية طلباتكم."
 
-#: core/templates/core/landing_page_international.html:75
+#: core/templates/core/landing_page_international.html:71
 msgid "https://www.visitbritain.com/gb/en"
 msgstr "https://www.visitbritain.com/ae/ar"
 
-#: core/templates/core/landing_page_international.html:75
+#: core/templates/core/landing_page_international.html:71
 msgid "Plan your trip"
 msgstr "التسجيل"
 
