@@ -101,6 +101,7 @@ def test_international_form_submit(
         **settings.FEATURE_FLAGS,
         'HIGH_POTENTIAL_OPPORTUNITIES_ON': True
     }
+    settings.EU_EXIT_ZENDESK_SUBDOMAIN = 'eu-exit-subdomain'
 
     url = reverse('eu-exit-international-contact-form')
 
@@ -128,7 +129,8 @@ def test_international_form_submit(
     assert mock_action_class.call_args == mock.call(
         email_address='test@example.com',
         full_name='test example',
-        subject='EU Exit international contact form'
+        subject='EU Exit international contact form',
+        subdomain='eu-exit-subdomain',
     )
     assert mock_action_class().save.call_count == 1
     assert mock_action_class().save.call_args == mock.call({
@@ -143,7 +145,6 @@ def test_international_form_submit(
         'form_url': 'http://testserver/eu-exit/international/contact/',
         'ingress_url': 'http://www.google.com',
     })
-    assert response.context_data['hide_language_selector'] is True
 
 
 @pytest.mark.parametrize('url,template_name', [
@@ -257,6 +258,7 @@ def test_domestic_form_cms_retrieval_ok(
 def test_domestic_form_submit(
     mock_action_class, mock_lookup_by_slug, settings, client, captcha_stub
 ):
+    settings.EU_EXIT_ZENDESK_SUBDOMAIN = 'eu-exit-subdomain'
     mock_lookup_by_slug.return_value = create_response(
         status_code=200, json_body={}
     )
@@ -288,7 +290,8 @@ def test_domestic_form_submit(
     assert mock_action_class.call_args == mock.call(
         email_address='test@example.com',
         full_name='test example',
-        subject='EU Exit contact form'
+        subject='EU Exit contact form',
+        subdomain='eu-exit-subdomain',
     )
     assert mock_action_class().save.call_count == 1
     assert mock_action_class().save.call_args == mock.call({

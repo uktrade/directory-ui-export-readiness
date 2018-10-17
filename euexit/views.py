@@ -58,6 +58,7 @@ class BaseInternationalContactFormView(
             email_address=cleaned_data['email'],
             full_name=name,
             subject=self.subject,
+            subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
         )
         response.raise_for_status()
         return super().form_valid(form)
