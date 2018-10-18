@@ -10,10 +10,18 @@
           <a href="{% url 'landing-page' %}">Great.gov.uk</a>
         </li>
         <li>
-          <a href="{% url 'news-article-list' %}">News</a>
+          <a href="{% url 'news-article-list' %}">Updates for companies on EU Exit</a>
         </li>
         <li aria-current="page">{{ page.article_title }}</li>
       </ol>
     </div>
   </div>
+{% endblock %}
+
+{% block content %}
+
+<section id="article">
+  {% include 'prototype/domestic_news_detail_content.html' %}
+</section>
+
 {% endblock %}

@@ -15,8 +15,13 @@
 @import 'components/modal';
 @import 'components/language-selector';
 
+// Pages
+@import 'pages/article-detail';
+@import 'pages/article-list';
+
 body {
   margin: 0;
+  color: $grey;
 }
 
 li {
@@ -31,6 +36,15 @@ li {
       line-height: 1.2;
     }
   }
+}
+
+#content.international-news-list-page,
+#content.international-news-detail-page {
+  background: $white;
+}
+
+.information-banner {
+  margin-bottom: 15px;
 }
 
 .intro {
@@ -165,7 +179,7 @@ li {
 #international-header-menu {
   background-color: $offwhite;
   color: $grey;
-  min-height: 138px;
+  min-height: 110px;
   position: relative;
 }
 

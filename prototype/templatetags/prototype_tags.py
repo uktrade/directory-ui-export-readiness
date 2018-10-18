@@ -8,5 +8,5 @@ register = template.Library()
 @register.filter
 def parse_date(date_string):
     if date_string:
-        return dateparser.parse(date_string).strftime('%m %B %Y')
+        return dateparser.parse(date_string).strftime('%d %B %Y')
     return None

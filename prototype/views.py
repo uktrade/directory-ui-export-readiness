@@ -1,11 +1,20 @@
-from directory_components.helpers import SocialLinkBuilder
-
-from prototype.mixins import GetCMSPageByFullPathMixin, SlugFromKwargsMixin
+from prototype.mixins import (
+    GetCMSPageByFullPathMixin,
+    SlugFromKwargsMixin,
+    InternationalNewsCMSPageMixin,
+    SocialLinksMixin,
+)
 from core.mixins import PrototypeFeatureFlagMixin, NewsSectionFeatureFlagMixin
 
 
 class NewsListPageView(NewsSectionFeatureFlagMixin, GetCMSPageByFullPathMixin):
-    template_name = 'prototype/news_list.html'
+    template_name = 'prototype/domestic_news_list.html'
+
+
+class InternationalNewsListPageView(
+    NewsSectionFeatureFlagMixin, InternationalNewsCMSPageMixin
+):
+    template_name = 'prototype/international_news_list.html'
 
 
 class TopicListPageView(
@@ -21,7 +30,10 @@ class ArticleListPageView(
 
 
 class ArticleDetailView(
-    PrototypeFeatureFlagMixin, GetCMSPageByFullPathMixin, SlugFromKwargsMixin
+    PrototypeFeatureFlagMixin,
+    GetCMSPageByFullPathMixin,
+    SlugFromKwargsMixin,
+    SocialLinksMixin,
 ):
     template_name = 'prototype/article_detail.html'
     url_name = 'article-detail'
@@ -53,18 +65,22 @@ class ArticleDetailView(
         self.page['has_related_card_item_two'] = has_related_card_item_two
         self.page['has_related_card_item_three'] = has_related_card_item_three
 
-        social_links_builder = SocialLinkBuilder(
-            self.request.build_absolute_uri(),
-            self.page['title'],
-            'Great.gov.uk')
-
         return super().get_context_data(
-            social_links=social_links_builder.links,
+            social_links=self.social_links,
             *args,
-            **kwargs
-        )
+            **kwargs)
 
 
-class NewsArticleDetailView(NewsSectionFeatureFlagMixin, ArticleDetailView):
-    template_name = 'prototype/news_detail.html'
+class NewsArticleDetailView(
+    NewsSectionFeatureFlagMixin,
+    ArticleDetailView,
+):
+    template_name = 'prototype/domestic_news_detail.html'
     url_name = 'news-article-detail'
+
+
+class InternationalNewsArticleDetailView(
+    NewsArticleDetailView, InternationalNewsCMSPageMixin,
+):
+    template_name = 'prototype/international_news_detail.html'
+    url_name = 'international-news-article-detail'

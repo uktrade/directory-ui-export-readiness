@@ -88,7 +88,7 @@ def test_prototype_topic_list_page(mock_get_page, client, settings):
     assert 'markets.png' in str(response.content)
     assert 'asia.png' in str(response.content)
     assert 'africa.png' not in str(response.content)
-    assert '10 October 2018' in str(response.content)
+    assert '01 October 2018' in str(response.content)
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_full_path')
@@ -282,7 +282,7 @@ def test_news_list_page_feature_flag_on(mock_get_page, client, settings):
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == ['prototype/news_list.html']
+    assert response.template_name == ['prototype/domestic_news_list.html']
 
     assert news_list_page['title'] not in str(response.content)
     assert news_list_page['landing_page_title'] in str(response.content)

@@ -538,6 +538,16 @@ news_urls = [
         prototype.views.NewsArticleDetailView.as_view(),
         name='news-article-detail',
     ),
+    url(
+        r"^international/news/$",
+        prototype.views.InternationalNewsListPageView.as_view(),
+        name='international-news-article-list',
+    ),
+    url(
+        r"^international/news/(?P<slug>[\w-]+)/$",
+        prototype.views.InternationalNewsArticleDetailView.as_view(),
+        name='international-news-article-detail',
+    ),
 ]
 
 urlpatterns += news_urls

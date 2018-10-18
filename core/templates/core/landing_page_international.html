@@ -1,8 +1,13 @@
 {% extends 'core/base_international.html' %}
 {% load static from staticfiles %}
 {% load trans from i18n %}
+{% load banner from directory_components_tags %}
 
 {% block content %}
+
+<div class="container" dir="ltr">
+  {% include 'core/includes/eu-exit-banner.html' %}
+</div>
 
 <section class="intro">
   <div class="container">
