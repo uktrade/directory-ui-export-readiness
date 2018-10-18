@@ -38,6 +38,7 @@ def test_international_form_feature_flag_on(
     assert response.template_name == [
         views.InternationalContactFormView.template_name
     ]
+    assert response.context_data['hide_language_selector'] is True
 
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -83,6 +84,7 @@ def test_international_form_cms_retrieval_ok(
     form = response.context_data['form']
     assert form.fields['first_name'].label == 'Given name'
     assert form.fields['last_name'].label == 'Family name'
+    assert response.context_data['hide_language_selector'] is True
 
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -99,6 +101,7 @@ def test_international_form_submit(
         **settings.FEATURE_FLAGS,
         'HIGH_POTENTIAL_OPPORTUNITIES_ON': True
     }
+    settings.EU_EXIT_ZENDESK_SUBDOMAIN = 'eu-exit-subdomain'
 
     url = reverse('eu-exit-international-contact-form')
 
@@ -126,7 +129,8 @@ def test_international_form_submit(
     assert mock_action_class.call_args == mock.call(
         email_address='test@example.com',
         full_name='test example',
-        subject='EU Exit international contact form'
+        subject='EU Exit international contact form',
+        subdomain='eu-exit-subdomain',
     )
     assert mock_action_class().save.call_count == 1
     assert mock_action_class().save.call_args == mock.call({
@@ -169,6 +173,7 @@ def test_form_success_page(
     assert response.status_code == 200
     assert response.template_name == [template_name]
     assert response.context_data['page'] == {'body_text': 'what next'}
+    assert response.context_data['hide_language_selector'] is True
 
 
 def test_domestic_form_feature_flag_off(client, settings):
@@ -199,6 +204,7 @@ def test_domestic_form_feature_flag_on(
     assert response.template_name == [
         views.DomesticContactFormView.template_name
     ]
+    assert response.context_data['hide_language_selector'] is True
 
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -244,6 +250,7 @@ def test_domestic_form_cms_retrieval_ok(
     form = response.context_data['form']
     assert form.fields['first_name'].label == 'Given name'
     assert form.fields['last_name'].label == 'Family name'
+    assert response.context_data['hide_language_selector'] is True
 
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -251,6 +258,7 @@ def test_domestic_form_cms_retrieval_ok(
 def test_domestic_form_submit(
     mock_action_class, mock_lookup_by_slug, settings, client, captcha_stub
 ):
+    settings.EU_EXIT_ZENDESK_SUBDOMAIN = 'eu-exit-subdomain'
     mock_lookup_by_slug.return_value = create_response(
         status_code=200, json_body={}
     )
@@ -282,7 +290,8 @@ def test_domestic_form_submit(
     assert mock_action_class.call_args == mock.call(
         email_address='test@example.com',
         full_name='test example',
-        subject='EU Exit contact form'
+        subject='EU Exit contact form',
+        subdomain='eu-exit-subdomain',
     )
     assert mock_action_class().save.call_count == 1
     assert mock_action_class().save.call_args == mock.call({
@@ -317,6 +326,7 @@ def test_form_urls(mock_lookup_by_slug, settings, client, url):
     form = response.context_data['form']
     assert form.form_url == urljoin('http://testserver', url)
     assert form.ingress_url == 'http://www.google.com'
+    assert response.context_data['hide_language_selector'] is True
 
 
 @pytest.mark.parametrize('url', (
@@ -339,3 +349,4 @@ def test_form_urls_no_referer(mock_lookup_by_slug, settings, client, url):
     form = response.context_data['form']
     assert form.form_url == urljoin('http://testserver', url)
     assert form.ingress_url is None
+    assert response.context_data['hide_language_selector'] is True

@@ -24,5 +24,5 @@ export_elements==0.22.0
 geoip2==2.9.0
 django-ipware==2.1.0
 django-redis==4.8.0
-directory-forms-api-client==2.3.0
+directory-forms-api-client==2.4.0
 dateparser==0.7.0

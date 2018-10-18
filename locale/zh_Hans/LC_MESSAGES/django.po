@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-12 09:06+0000\n"
+"POT-Creation-Date: 2018-10-17 08:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: core/templates/core/includes/international_footer.html:7
-#: core/templates/core/includes/international_header.html:38
+#: core/templates/core/includes/international_header.html:45
 msgid "UK Government"
 msgstr ""
 
@@ -60,25 +60,29 @@ msgstr ""
 msgid "Crown copyright 2017. All rights reserved."
 msgstr ""
 
-#: core/templates/core/includes/international_header.html:5
+#: core/templates/core/includes/international_header.html:6
 msgid "Skip to main content"
 msgstr ""
 
-#: core/templates/core/includes/international_header.html:6
+#: core/templates/core/includes/international_header.html:8
 msgid "International"
 msgstr "国际"
 
-#: core/templates/core/includes/international_header.html:8
+#: core/templates/core/includes/international_header.html:10
 msgid "Choose your language"
 msgstr ""
 
-#: core/templates/core/includes/international_header.html:20
+#: core/templates/core/includes/international_header.html:22
 msgid "English (UK)"
 msgstr ""
 
-#: core/templates/core/includes/international_header.html:22
+#: core/templates/core/includes/international_header.html:24
 msgid "Get guidance and services to help you export."
 msgstr ""
+
+#: core/templates/core/includes/international_header.html:34
+msgid "Page in English only"
+msgstr "该页仅以英文显示"
 
 #: core/templates/core/landing_page_international.html:12
 msgid ""
@@ -124,39 +128,39 @@ msgstr "https://invest.great.gov.uk/zh-hans/"
 msgid "See the potential"
 msgstr "了解潜在机会"
 
+#: core/templates/core/landing_page_international.html:52
+#: core/templates/core/landing_page_international.html:53
 #: core/templates/core/landing_page_international.html:56
-#: core/templates/core/landing_page_international.html:57
-#: core/templates/core/landing_page_international.html:60
 msgid "Study in the UK"
 msgstr "到英国留学"
 
-#: core/templates/core/landing_page_international.html:61
+#: core/templates/core/landing_page_international.html:57
 msgid ""
 "Get a headstart from an exceptional British education that will inspire you "
 "to achieve."
 msgstr "从卓越的英国教育中抢得先机，激励自己实现理想。"
 
-#: core/templates/core/landing_page_international.html:62
+#: core/templates/core/landing_page_international.html:58
 msgid "Learn more"
 msgstr "了解更多"
 
+#: core/templates/core/landing_page_international.html:65
+#: core/templates/core/landing_page_international.html:66
 #: core/templates/core/landing_page_international.html:69
-#: core/templates/core/landing_page_international.html:70
-#: core/templates/core/landing_page_international.html:73
 msgid "Visit the UK"
 msgstr "计划您的旅行"
 
-#: core/templates/core/landing_page_international.html:74
+#: core/templates/core/landing_page_international.html:70
 msgid ""
 "Take a journey through vibrant cities, breathtaking scenery, unrivalled "
 "heritage and iconic landmarks and discover what makes the UK great."
 msgstr "您是为海外销售寻求支持的英国企业吗？有需求的地方，就应该有您的身影。"
 
-#: core/templates/core/landing_page_international.html:75
+#: core/templates/core/landing_page_international.html:71
 msgid "https://www.visitbritain.com/gb/en"
 msgstr "https://www.visitbritain.com/cn/zhs"
 
-#: core/templates/core/landing_page_international.html:75
+#: core/templates/core/landing_page_international.html:71
 msgid "Plan your trip"
 msgstr "计划您的旅行"
 
