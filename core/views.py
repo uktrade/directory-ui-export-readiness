@@ -109,19 +109,9 @@ class PrototypeLandingPageView(GetCMSPageByFullPathMixin, LandingPageView):
 
 
 class InternationalLandingPageView(
-    GetCMSPageByFullPathMixin,
-    mixins.TranslationsMixin,
-    TemplateView
+    SetEtagMixin, mixins.TranslationsMixin, TemplateView
 ):
     template_name = 'core/landing_page_international.html'
-
-    @cached_property
-    def page(self):
-        response = cms_api_client.lookup_by_full_path(
-            full_path=self.request.path,
-            draft_token=self.request.GET.get('draft_token'),
-        )
-        return helpers.handle_cms_response_allow_404(response)
 
 
 class QuerystringRedirectView(RedirectView):
