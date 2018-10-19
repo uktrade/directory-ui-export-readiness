@@ -29,7 +29,7 @@
               <ul class="tag-list">
                 {% for tag in page.tags %}
                 <li>
-                  <a href="#" class="link">{{ tag.name }}</a>
+                  <a href="{% url 'tag-list' tag.slug %}" class="link">{{ tag.name }}</a>
                 </li>
                 {% endfor %}
               </ul>
@@ -41,7 +41,7 @@
     </header>
 
     <div class="grid-row">
-      <div class="column-seven-twelfths margin-left-2-cols">
+      <div class="column-nine-twelfths">
         {% if page.article_image %}
           <img src="{{ page.article_image.url }}" alt="" width="100%">
         {% endif %}

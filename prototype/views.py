@@ -1,5 +1,6 @@
 from prototype.mixins import (
     GetCMSPageByFullPathMixin,
+    GetCMSTagMixin,
     SocialLinksMixin,
     InternationalNewsCMSLookupPath,
     PrototypeCMSLookupPath,
@@ -22,6 +23,17 @@ class ArticleListPageView(
     GetCMSPageByFullPathMixin,
 ):
     template_name = 'prototype/article_list.html'
+
+
+class TagListPageView(
+    PrototypeFeatureFlagMixin,
+    GetCMSTagMixin,
+):
+    template_name = 'prototype/tag_list.html'
+
+    @property
+    def slug(self):
+        return self.kwargs['slug']
 
 
 class ArticleDetailView(

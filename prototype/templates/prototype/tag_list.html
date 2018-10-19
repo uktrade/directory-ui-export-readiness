@@ -1,0 +1,27 @@
+{% extends 'prototype/article_list.html' %}
+
+{% block hero %}
+<section class="hero hero-generic" id="hero">
+  <div class="container">
+    <div class="hero-title">
+      <h1 class="heading-hero-generic-compact" id="hero-heading">Articles with tag: {{ tag_slug }}</h1>
+      <p class="hero-description" id="hero-description">{{ page.meta.total_count }} article{{ page.meta.total_count|pluralize }}</p>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block breadcrumbs %}
+  <div class="breadcrumbs">
+    <ol>
+      <li>
+        <a href="{% url 'landing-page' %}">Great.gov.uk</a>
+      </li>
+      <li aria-current="page">Articles with tag: {{ tag_slug }}</li>
+    </ol>
+  </div>
+{% endblock %}
+
+{% block content_list %}
+  {% include 'prototype/includes/article_links_list.html' with articles=page.items %}
+{% endblock %}

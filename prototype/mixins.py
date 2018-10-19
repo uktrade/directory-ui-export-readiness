@@ -31,6 +31,25 @@ class GetCMSPageByFullPathMixin(TemplateView):
         )
 
 
+class GetCMSTagMixin(TemplateView):
+
+    @cached_property
+    def page(self):
+        response = cms_api_client.lookup_by_tag(
+            tag_slug=self.slug,
+            draft_token=self.request.GET.get('draft_token'),
+        )
+        return handle_cms_response(response)
+
+    def get_context_data(self, *args, **kwargs):
+        return super().get_context_data(
+            tag_slug=self.slug,
+            page=self.page,
+            *args,
+            **kwargs
+        )
+
+
 class PrototypeCMSLookupPath():
 
     @property
