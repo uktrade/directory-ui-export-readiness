@@ -1,58 +1,47 @@
-{% load static from staticfiles %}
-{% load i18n %}
-{% get_current_language_bidi as LANGUAGE_BIDI %}
+{% extends 'core/base.html' %}
 
-<!DOCTYPE html>
-<!--[if lt IE 9]><html dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr' }}" class="lte-ie8" lang="{{ directory_components_html_lang_attribute|default:'en' }}"><![endif]-->
-<!--[if gt IE 8]><!--><html dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr' }}" lang="{{ directory_components_html_lang_attribute|default:'en' }}"><!--<![endif]-->
- <head>
-    <meta id="utmCookieDomain" value="{{ analytics.UTM_COOKIE_DOMAIN }}" />
-    {% include 'directory_components/google_tag_manager_head.html' %}
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:image" content="{% static 'images/icons/opengraph-image.png' %}">
-    <title>{% block head_title %}Welcome to great.gov.uk - buy from or invest in the UK{% endblock %}</title>
+{% load static %}
 
-    <link href='{% static 'directory_components/images/favicon-192x192.png' %}' rel='shortcut icon' type='image/png'>
-    <!--[if IE]> <link rel="icon" href="{% static 'directory_components/images/favicon.ico' %}" type="image/x-icon" /> <![endif]-->
+{% block head_css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/international.css' %}">
+{% endblock %}
 
-    {% block head_css %}
-        <link href="{% static 'export_elements/stylesheets/govuk-elements-styles.min.css' %}" media="all" rel="stylesheet" />
-        <link href="{% static 'export_elements/stylesheets/elements-components.min.css' %}" media="all" rel="stylesheet" />
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/international.css' %}">
-    {% endblock %}
+{% block head_js %}
+  <script src="{% static 'directory_components/js/third-party.js' %}"></script>
+  <script src="{% static 'js/dit.js' %}"></script>
+  <script src="{% static 'js/dit.class.modal.js' %}"></script>
+  <script src="{% static 'js/dit.components.languageSelector.js' %}"></script>
+  <script src="{% static 'js/international.js' %}"></script>
+  <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
+{% endblock %}
 
-    <script src="{% static 'directory_components/js/third-party.js' %}"></script>
-    <script src="{% static 'js/dit.js' %}"></script>
-    <script src="{% static 'js/dit.class.modal.js' %}"></script>
-    <script src="{% static 'js/dit.components.languageSelector.js' %}"></script>
-    <script src="{% static 'js/international.js' %}"></script>
-    <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
-    {% include 'core/browser-checks.html' %}
-    {% block scripts %}{% endblock %}
+{% block head_other %}
+  {% include 'core/browser-checks.html' %}
+{% endblock %}
 
-</head>
-<body id="top" class="{{ LANGUAGE_BIDI|yesno:'bidi,' }}">
-    {% include 'directory_components/google_tag_manager_body.html' %}
+{% block skip_link %}{% endblock %}
 
-    {% block cookie_notice %}
-      <div dir="ltr">
-        {% include 'directory_components/cookie_notice.html' %}
-      </div>
-    {% endblock %}
+{% block body_header %}
+  {% include 'core/includes/international_header.html' %}
+{% endblock %}
 
-    {% include 'core/includes/international_header.html' %}
+{% block body_footer %}
+  {% include 'core/includes/international_footer.html' %}
+{% endblock %}
 
-    <main id="content" role="main">
-        {% block content %}{% endblock %}
-        {% block feedback_reporter %}
-            <section class="error-reporting">
-                <div class="container">
-                    <a id="error-reporting-section-contact-us" href="{{ directory_components_urls.contact_us }}" target="_blank">Is there anything wrong with this page?</a>
-                </div>
-            </section>
-        {% endblock %}
-    </main>
-    {% include 'core/includes/international_footer.html' %}
-</body>
-</html>
+{% block body_attributes %}id="top"{% endblock %}
+
+{% block cookie_notice %}
+  <div dir="ltr">
+    {% include 'directory_components/cookie_notice.html' %}
+  </div>
+{% endblock %}
+
+{% block feedback_reporter %}
+    <section class="error-reporting" dir="ltr">
+        <div class="container">
+            <a id="error-reporting-section-contact-us" href="{{ directory_components_urls.contact_us }}" target="_blank">Is there anything wrong with this page?</a>
+        </div>
+    </section>
+{% endblock %}

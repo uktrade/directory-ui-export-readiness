@@ -7,7 +7,9 @@
 
 {% block content %}
 
-{% include 'directory_components/hero.html' with hero_text=page.landing_page_title background_image_url=page.hero_image.url large_title='true' %}
+{% block hero %}
+  {% include 'directory_components/hero.html' with hero_text=page.landing_page_title background_image_url=page.hero_image.url large_title='true' %}
+{% endblock %}
 
 <section id="{% block page_id %}article-list-page{% endblock %}">
   <div class="container">

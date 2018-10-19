@@ -1,5 +1,81 @@
-// Carousel
-// -------------------------------
+
+// CAROUSEL
+// =========
+
+.Carousel {
+  padding: 0 $spacing-1;
+
+  .controls {
+    bottom: 0;
+    left: 25%;
+    position: absolute;
+    text-align: center;
+    width: 50%;
+  }
+
+  .indicator {
+    background-color: $light-grey;
+    border-radius: 10px;
+    cursor: pointer;
+    height: 10px;
+    margin: 0 5px;
+    overflow: hidden;
+    padding: 0;
+    text-indent: -1000px;
+    width: 10px;
+
+    &.active {
+      background-color: $active-blue;
+      cursor: default;
+    }
+  }
+
+  .indicators {
+    text-align: center;
+  }
+
+  .item {
+    padding: 0 $spacing-2;
+  }
+
+  .next {
+    background: none;
+    border: none;
+    height: 50px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    text-indent: -1000px;
+    top: 35%;
+    width: 50px;
+    &:after {
+      @include right-chevron-1($active-blue);
+      left: 27px;
+      position: absolute;
+      top: 17px;
+    }
+  }
+
+  .previous {
+    background: none;
+    border: none;
+    height: 50px;
+    left: 0;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    text-indent: -1000px;
+    top: 35%;
+    width: 50px;
+    &:before {
+      @include left-chevron-1($active-blue);
+      left: 4px;
+      position: absolute;
+      top: 17px;
+    }
+  }
+}
 
 .carousel-cta {
     @include continue-arrow;

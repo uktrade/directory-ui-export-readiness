@@ -20,9 +20,16 @@
   }
 
   .article-content {
-    margin-left: calc(100% / 9 * 2);
     padding-top: 2em;
     line-height: 1.75;
+  }
+
+  .margin-left-2-cols {
+    margin-left: calc(100% / 12 * 2);
+  }
+
+  .float-right {
+    float: right;
   }
 
   .content-list li a {

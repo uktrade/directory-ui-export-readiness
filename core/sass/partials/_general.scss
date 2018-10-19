@@ -47,15 +47,6 @@ section {
   clear: both;
   overflow: hidden;
   padding-bottom: 90px;
-  h1 {
-    margin-bottom: 45px;
-  }
-
-  .heading {
-    @include columns(6);
-    @include heading-m;
-    margin-bottom: $spacing-4;
-  }
 
   .intro {
     @include columns(6);
@@ -106,7 +97,6 @@ table {
 // TABLET
 @media (max-width: 767px) {
   section {
-    .heading,
     .section-header,
     .intro,
     .section-intro {
@@ -124,7 +114,6 @@ table {
 
   section {
     padding-top: $spacing-3;
-    .heading,
     .section-header {
       @include heading-m-mob;
     }

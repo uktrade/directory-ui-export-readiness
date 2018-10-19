@@ -1,8 +1,7 @@
 {% extends 'core/base.html' %}
 
 {% load static %}
-{% load add_export_elements_classes card from directory_components_tags %}
-{% load parse_date from prototype_tags %}
+{% load add_export_elements_classes from directory_components_tags %}
 
 {% block head_title %}{{ page.article_title }} - Great.gov.uk{% endblock %}
 
@@ -14,104 +13,13 @@
 {% block css_layout_class %}article-detail-page{% endblock css_layout_class %}
 
 {% block content %}
-<section id="{% block page_id %}article{% endblock %}">
-  {% block breadcrumbs %}
-    <div class="breadcrumbs">
-    </div>
-  {% endblock %}
-  <article>
-    <div class="container">
-      <header>
-        <div class="grid-row">
-          <div class="column-sixth">
-            {% include 'directory_components/social_share_links.html' %}
-          </div>
-          <div class="column-seven-twelfths">
-            <h1 class="heading-xlarge">{{ page.article_title }}</h1>
-            <p class="lede">{{ page.article_teaser }}</p>
-            <p class="subheading">Last updated {{ page.last_published_at|parse_date }}</p>
-          </div>
 
-          {% if page.tags %}
-            <div class="column-quarter">
-              <div class="panel-vertical-narrow">
-                <h2 class="heading-small">Tags</h2>
-                <ul class="tag-list">
-                  {% for tag in page.tags %}
-                    <li>
-                      <a href="#" class="link">#{{ tag.name }}</a>
-                    </li>
-                  {% endfor %}
-                </ul>
-              </div>
-            </div>
-          {% endif %}
-
-        </div>
-      </header>
-
-      <div class="grid-row">
-        <div class="column-three-quarters">
-          {% if page.article_image %}
-            <img src="{{ page.article_image.url }}" alt="" width="100%">
-          {% endif %}
-          <section class="article-content">
-            {{ page.article_body_text|add_export_elements_classes }}
-          </section>
-        </div>
-
-        {% if page.has_related_list_item_one or page.has_related_list_item_two or page.has_related_list_item_three %}
-          <div class="column-quarter">
-            <div class="panel-vertical-narrow content-list">
-              <h2 class="heading heading-small">Related content</h2>
-              <ul>
-                {% if page.has_related_list_item_one %}
-                  <li>
-                    <h3 class="heading-small"><a href="{{ page.related_article_one_url }}" class="link">{{ page.related_article_one_title }}</a></h3>
-                  </li>
-                {% endif %}
-                {% if page.has_related_list_item_two %}
-                  <li>
-                    <h3 class="heading-small"><a href="{{ page.related_article_two_url }}" class="link">{{ page.related_article_two_title }}</a></h3>
-                  </li>
-                {% endif %}
-                {% if page.has_related_list_item_three %}
-                  <li>
-                    <h3 class="heading-small"><a href="{{ page.related_article_three_url }}" class="link">{{ page.related_article_three_title }}</a></h3>
-                  </li>
-                {% endif %}
-              </ul>
-            </div>
-          </div>
-        {% endif %}
-      </div>
-    </div>
-  </article>
+<section id="article">
+  {% include 'prototype/article_detail_content.html' %}
 </section>
 
-{% if page.has_related_card_item_one or page.has_related_card_item_two or page.has_related_card_item_three %}
-  <section class="related-content-cards background-stone">
-      <div class="container">
-        <h2 class="heading-large">Related content</h2>
-        <div class="card-grid">
-          {% if page.has_related_card_item_one %}
-            <div class="column-third-l column-half-m column-full">
-              {% card title=page.related_article_one_title description=page.related_article_one_teaser url=page.related_article_one_url %}
-            </div>
-          {% endif %}
-          {% if page.has_related_card_item_two %}
-            <div class="column-third-l column-half-m column-full">
-              {% card title=page.related_article_three_title description=page.related_article_three_teaser url=page.related_article_three_url %}
-            </div>
-          {% endif %}
-          {% if page.has_related_card_item_three %}
-            <div class="column-third-l column-half-m column-full">
-              {% card title=page.related_article_two_title description=page.related_article_two_teaser url=page.related_article_two_url %}
-            </div>
-          {% endif %}
-        </div>
-      </div>
-  </section>
-{% endif %}
+{% block related_content_cards %}
+  {% include 'prototype/article_related_content_cards.html' %}
+{% endblock %}
 
 {% endblock %}
