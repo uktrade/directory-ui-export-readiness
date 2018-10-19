@@ -113,6 +113,12 @@ class InternationalLandingPageView(
 ):
     template_name = 'core/landing_page_international.html'
 
+    def get_context_data(self, *args, **kwargs):
+        return super().get_context_data(
+            news_section_on=settings.FEATURE_FLAGS['NEWS_SECTION_ON'],
+            *args, **kwargs,
+        )
+
 
 class QuerystringRedirectView(RedirectView):
     query_string = True
@@ -168,7 +174,6 @@ class InterstitialPageExoppsView(SetEtagMixin, TemplateView):
     template_name = 'core/interstitial_exopps.html'
 
     def get_context_data(self, **kwargs):
-        from django.conf import settings
         context = {
             'exopps_url': settings.SERVICES_EXOPPS_ACTUAL
             }
