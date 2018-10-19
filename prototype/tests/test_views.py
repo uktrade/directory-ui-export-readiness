@@ -299,3 +299,111 @@ def test_news_list_page_feature_flag_off(client, settings):
     response = client.get(url)
 
     assert response.status_code == 404
+
+
+test_articles = [
+    {
+        'seo_title': 'SEO title article 1',
+        'search_description': 'Search description article 1',
+        'article_title': 'Article 1 title',
+        'article_teaser': 'Article 1 teaser.',
+        'article_image': {'url': 'article_image1.png'},
+        'article_body_text': '<p>Lorem ipsum 1</p>',
+        'last_published_at': '2018-10-01T15:16:30.583279Z',
+        'full_path': '/topic/list/article-one/',
+        'tags': [
+            {'name': 'New to exporting', 'slug': 'new-to-exporting'},
+            {'name': 'Export tips', 'slug': 'export-tips'}
+        ],
+        'meta': {'slug': 'article-one'}
+    },
+    {
+        'seo_title': 'SEO title article 2',
+        'search_description': 'Search description article 2',
+        'article_title': 'Article 2 title',
+        'article_teaser': 'Article 2 teaser.',
+        'article_image': {'url': 'article_image2.png'},
+        'article_body_text': '<p>Lorem ipsum 2</p>',
+        'last_published_at': '2018-10-02T15:16:30.583279Z',
+        'full_path': '/topic/list/article-two/',
+        'tags': [
+            {'name': 'New to exporting', 'slug': 'new-to-exporting'},
+        ],
+        'meta': {'slug': 'article-two'}
+    },
+]
+
+test_list_page = {
+    'title': 'List CMS admin title',
+    'seo_title': 'SEO title article list',
+    'search_description': 'Article list search description',
+    'landing_page_title': 'Article list landing page title',
+    'hero_image': {'url': 'article_list.png'},
+    'hero_teaser': 'Article list hero teaser',
+    'list_teaser': '<p>Article list teaser</p>',
+    'articles': test_articles,
+}
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_full_path')
+def test_prototype_article_list_page(mock_get_page, client, settings):
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'PROTOTYPE_PAGES_ON': True,
+    }
+
+    url = reverse('article-list', kwargs={
+        'topic': 'topic',
+        'slug': 'list',
+    })
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=test_list_page
+    )
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == ['prototype/article_list.html']
+
+    assert test_list_page['title'] not in str(response.content)
+    assert test_list_page['landing_page_title'] in str(response.content)
+
+    assert '01 October' in str(response.content)
+    assert '02 October' in str(response.content)
+
+
+test_tag_page = {
+    'meta': {'total_count': 2},
+    'items': test_articles,
+}
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_tag')
+def test_prototype_tag_list_page(mock_get_page, client, settings):
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'PROTOTYPE_PAGES_ON': True,
+    }
+
+    url = reverse('tag-list', kwargs={'slug': 'new-to-exporting'})
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=test_tag_page
+    )
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == ['prototype/tag_list.html']
+
+    print(response.content)
+
+    assert '01 October' in str(response.content)
+    assert '02 October' in str(response.content)
+    assert 'Article 1 title' in str(response.content)
+    assert 'Article 2 title' in str(response.content)
+    assert 'Articles with tag: new-to-exporting' in str(response.content)
+    assert '2 articles' in str(response.content)

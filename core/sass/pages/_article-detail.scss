@@ -19,13 +19,16 @@
     }
   }
 
-  .article-content {
-    padding-top: 2em;
-    line-height: 1.75;
+  .column-nine-twelfths {
+    width: calc(100% / 12 * 9);
+    float: left;
+    padding-bottom: 1em;
   }
 
-  .margin-left-2-cols {
-    margin-left: calc(100% / 12 * 2);
+  .article-content {
+    padding-top: 1em;
+    line-height: 1.75;
+    margin-left: calc(100% / 9 * 2);
   }
 
   .float-right {
@@ -44,6 +47,11 @@
   @media (max-width: 640px) {
     .related-content-cards {
       display: none;
+    }
+
+    .column-nine-twelfths {
+      width: 100%;
+      float: none;
     }
 
     .article-content {

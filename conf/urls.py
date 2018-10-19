@@ -569,6 +569,11 @@ prototype_urls = [
         name='prototype-news-article-detail',
     ),
     url(
+        r"^prototype/tagged/(?P<slug>[\w-]+)/$",
+        prototype.views.TagListPageView.as_view(),
+        name='tag-list',
+    ),
+    url(
         r"^prototype/(?P<slug>[\w-]+)/$",
         prototype.views.TopicListPageView.as_view(),
         name='topic-list',

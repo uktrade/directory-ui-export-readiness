@@ -1,4 +1,3 @@
-from django.views.generic import TemplateView
 from django.utils.functional import cached_property
 
 from directory_cms_client.client import cms_api_client
@@ -9,7 +8,7 @@ from prototype.helpers import (
     unprefix_prototype_url, prefix_international_news_url)
 
 
-class GetCMSPageByFullPathMixin(TemplateView):
+class GetCMSPageByFullPathMixin():
 
     @property
     def cms_lookup_path(self):
@@ -25,6 +24,25 @@ class GetCMSPageByFullPathMixin(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         return super().get_context_data(
+            page=self.page,
+            *args,
+            **kwargs
+        )
+
+
+class GetCMSTagMixin():
+
+    @cached_property
+    def page(self):
+        response = cms_api_client.lookup_by_tag(
+            tag_slug=self.slug,
+            draft_token=self.request.GET.get('draft_token'),
+        )
+        return handle_cms_response(response)
+
+    def get_context_data(self, *args, **kwargs):
+        return super().get_context_data(
+            tag_slug=self.slug,
             page=self.page,
             *args,
             **kwargs
