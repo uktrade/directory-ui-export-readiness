@@ -1,17 +1,18 @@
 // PAGE: HOME
 // ------------------------------------------------
 
-@import './partials/base';
-@import './components/_hero-campaign';
-@import './components/_video';
-@import './components/_triage';
-@import './components/_service';
-@import './components/_export-status-selector';
-@import './components/_resources';
-@import './components/_exporter-story';
-@import './components/_carousel';
-@import './components/_teaser';
-@import './components/_language-selector-home';
+@import 'partials/base';
+@import 'components/hero-campaign';
+@import 'components/video';
+@import 'components/triage';
+@import 'components/service';
+@import 'components/export-status-selector';
+@import 'components/resources';
+@import 'components/exporter-story';
+@import 'components/carousel';
+@import 'components/teaser';
+@import 'components/modal';
+@import 'components/language-selector-home';
 
 #header .account-links li:nth-child(2):after {
   display: none;
