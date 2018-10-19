@@ -3,10 +3,11 @@
 {% load trans from i18n %}
 
 {% block content %}
-
-<div class="container" dir="ltr">
-  {% include 'core/includes/eu-exit-banner.html' %}
-</div>
+{% if features.NEWS_SECTION_ON %}
+  <div class="container" dir="ltr">
+    {% include 'core/includes/eu-exit-banner.html' %}
+  </div>
+{% endif %}
 
 <section class="intro">
   <div class="container">

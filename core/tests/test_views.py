@@ -257,6 +257,28 @@ def test_privacy_cookies_cms(
     assert response.template_name == [expected_template]
 
 
+def test_international_landing_page_news_section_on(client, settings):
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'NEWS_SECTION_ON': True,
+    }
+    url = reverse('landing-page-international')
+    response = client.get(url)
+
+    assert 'EU Exit updates' in str(response.content)
+
+
+def test_international_landing_page_news_section_off(client, settings):
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'NEWS_SECTION_ON': False,
+    }
+    url = reverse('landing-page-international')
+    response = client.get(url)
+
+    assert 'EU Exit updates' not in str(response.content)
+
+
 @pytest.mark.parametrize("lang", ['ar', 'es', 'zh-hans', 'pt', 'de', 'ja'])
 def test_international_landing_view_translations(lang, client):
     response = client.get(
