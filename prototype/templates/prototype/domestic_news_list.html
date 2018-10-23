@@ -1,5 +1,7 @@
 {% extends 'prototype/article_list.html' %}
 
+{% load cta_box from directory_components_tags %}
+
 {% block css_layout_class %}article-list-page{% endblock css_layout_class %}
 
 {% block page_id %}news-list-page{% endblock %}
@@ -27,3 +29,11 @@
 {% endblock %}
 
 {% block article_link %}{{ article.full_path }}{% endblock %}
+
+
+{% block list_footer %}
+  <div class="container">
+    {% url 'eu-exit-domestic-contact-form' as contact_url %}
+    {% cta_box description='If you still have a question about EU Exit, contact Department for International Trade and one of our experts will try to help you.' button_text='Contact us' button_url=contact_url %}
+  </div>
+{% endblock %}
