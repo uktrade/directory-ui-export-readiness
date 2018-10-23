@@ -1,8 +1,11 @@
 {% extends 'article/list-base-guidance.html' %}
 
 {% load static from staticfiles %}
+{% load static_absolute from directory_components_tags %}
 
 {% block header_class %}business-planning{% endblock %}
+
+{% block og_image %}{% static_absolute 'images/hero/export-g-business-planning-hero-300.jpg' %}{% endblock %}
 
 {% block hero_title %}
 <span>Business</span><br>

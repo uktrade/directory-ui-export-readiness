@@ -2,6 +2,7 @@
 
 {% load static from staticfiles %}
 {% load progressive_image from image_tags %}
+{% load static_absolute from directory_components_tags %}
 
 {% block head_js %}
   {{ block.super }}
@@ -13,6 +14,8 @@
   <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
   <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}
+
+{% block og_image %}{% static_absolute 'images/hero/export-hp-hero-500.png' %}{% endblock %}
 
 {% block head_css %}
     {{ block.super }}
