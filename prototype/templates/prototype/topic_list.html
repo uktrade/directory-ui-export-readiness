@@ -23,20 +23,22 @@
     <div class="container">
       <div class="card-grid">
         {% for listing in page.article_listing %}
-          <div class="column-third">
-            <div class="card">
-              <a class="card-link" href="{{ '/prototype'|add:listing.full_path }}">
-                <div class="card-image" role="image" style="background-image: url('{{ listing.hero_image.url }}');" aria-label="{{ listing.landing_page_title }}" title="{{ listing.landing_page_title }}">
-                  <p class="visually-hidden">{{ listing.landing_page_title }}</p>
-                </div>
-                <div class="card-inner">
-                  <h3 class="heading-large">{{ listing.landing_page_title }}</h3>
-                    <p class="description subheading">Updated {{ listing.last_published_at|parse_date }}</p>
-                    <p class="description subheading">{{ listing.articles_count }} guide{{ listing.articles_count|pluralize }}</p>
-                </div>
-              </a>
+          {% if listing.articles_count > 0 %}
+            <div class="column-third">
+              <div class="card">
+                <a class="card-link" href="{{ '/prototype'|add:listing.full_path }}">
+                  <div class="card-image" role="image" style="background-image: url('{{ listing.hero_image.url }}');" aria-label="{{ listing.landing_page_title }}" title="{{ listing.landing_page_title }}">
+                    <p class="visually-hidden">{{ listing.landing_page_title }}</p>
+                  </div>
+                  <div class="card-inner">
+                    <h3 class="heading-large">{{ listing.landing_page_title }}</h3>
+                      <p class="description subheading">Updated {{ listing.last_published_at|parse_date }}</p>
+                      <p class="description subheading">{{ listing.articles_count }} guide{{ listing.articles_count|pluralize }}</p>
+                  </div>
+                </a>
+              </div>
             </div>
-          </div>
+          {% endif %}
         {% endfor %}
       </div>
     </div>
