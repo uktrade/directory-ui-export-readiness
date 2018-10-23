@@ -8,6 +8,7 @@ from prototype.mixins import (
     RelatedContentMixin,
 )
 from core.mixins import PrototypeFeatureFlagMixin, NewsSectionFeatureFlagMixin
+from euexit.mixins import HideLanguageSelectorMixin
 
 
 class TopicListPageView(
@@ -74,6 +75,7 @@ class InternationalNewsListPageView(
     NewsSectionFeatureFlagMixin,
     InternationalNewsCMSLookupPath,
     GetCMSPageByFullPathMixin,
+    HideLanguageSelectorMixin,
     TemplateView,
 ):
     template_name = 'prototype/international_news_list.html'
