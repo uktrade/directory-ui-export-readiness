@@ -106,6 +106,7 @@ TEMPLATES = [
                 'directory_components.context_processors.feature_flags',
                 'directory_components.context_processors.analytics',
                 'directory_components.context_processors.cookie_notice',
+                'prototype.context_processors.prototype_home_link',
             ],
         },
     },
@@ -407,6 +408,8 @@ GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
 FEATURE_FLAGS = {
     'PROTOTYPE_PAGES_ON': env.bool(
         'FEATURE_PROTOTYPE_PAGES_ENABLED', False),
+    'PROTOTYPE_HEADER_FOOTER_ON': env.bool(
+        'FEATURE_PROTOTYPE_HEADER_FOOTER_ENABLED', False),
     'NEWS_SECTION_ON': env.bool(
         'FEATURE_NEWS_SECTION_ENABLED', False),
     'INTERNAL_CH_ON': env.bool('FEATURE_USE_INTERNAL_CH_ENABLED', False),
@@ -425,6 +428,11 @@ FEATURE_FLAGS = {
     'MAINTENANCE_MODE_ON': env.bool('FEATURE_MAINTENANCE_MODE_ENABLED', False),
     'EU_EXIT_FORMS_ON': env.bool('FEATURE_EU_EXIT_FORMS_ENABLED', False),
 }
+
+PROTOTYPE_HOME_LINK = env.str(
+    'PROTOTYPE_HOME_LINK', 'https://invis.io/GROOBO8PYQV')
+PROTOTYPE_ADVICE_LINK = env.str(
+    'PROTOTYPE_ADVICE_LINK', '/prototype/advice-and-guidance/')
 
 # UK Export Finance
 UKEF_PI_TRACKER_JAVASCRIPT_URL = env.str(

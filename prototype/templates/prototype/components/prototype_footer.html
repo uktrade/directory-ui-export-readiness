@@ -1,0 +1,133 @@
+{% load static %}
+<footer id="footer">
+  <div class="container logo-container">
+    <img class="float-left" id="footer-dit-logo" src="{% static 'directory_components/images/dfit-logo-white.png' %}" alt="Department for International Trade"/>
+    <img class="float-right" id="footer-eig-logo" src="{% static 'directory_components/images/eig-logo-stacked.svg' %}" alt="Exporting is Great"/>
+  </div>
+  <nav class="container">
+    <div class="grid-row">
+      <div class="column-fifth">
+        <h2 class="heading heading-small" id="footer-advice-links">Advice</h2>
+        <ul aria-labelledby="footer-advice-links" class="footer-links-list">
+          <li>
+            <a href="#footer">How to start exporting</a>
+          </li>
+          <li>
+            <a href="#footer">Prepare for exiting the EU</a>
+          </li>
+          <li>
+            <a href="#footer">Strategy</a>
+          </li>
+          <li>
+            <a href="#footer">Tax and customs</a>
+          </li>
+          <li>
+            <a href="#footer">Finance</a>
+          </li>
+          <li>
+            <a href="#footer">Understand your market</a>
+          </li>
+          <li>
+            <a id="footer-advice-link" href="{{ prototype_advice_link }}">View all topics</a>
+          </li>
+        </ul>
+      </div>
+      <div class="column-fifth">
+        <h2 class="heading heading-small" id="footer-markets-links">Markets</h2>
+        <ul aria-labelledby="footer-markets-links" class="footer-links-list">
+          <li>
+            <a href="#footer">Asia Pacific</a>
+          </li>
+          <li>
+            <a href="#footer">Africa</a>
+          </li>
+          <li>
+            <a href="#footer">China and Hong Kong</a>
+          </li>
+          <li>
+            <a href="#footer">Europe</a>
+          </li>
+          <li>
+            <a href="#footer">North America</a>
+          </li>
+          <li>
+            <a href="#footer">Middle East</a>
+          </li>
+          <li>
+            <a href="#footer">View all markets</a>
+          </li>
+        </ul>
+      </div>
+      <div class="column-fifth">
+        <h2 class="heading heading-small" id="footer-industries-links">Industries</h2>
+        <ul aria-labelledby="footer-industries-links" class="footer-links-list">
+          <li>
+            <a href="#footer">Creative and media</a>
+          </li>
+          <li>
+            <a href="#footer">Education and training</a>
+          </li>
+          <li>
+            <a href="#footer">Food and drink</a>
+          </li>
+          <li>
+            <a href="#footer">Oil and gas</a>
+          </li>
+          <li>
+            <a href="#footer">Retail and luxury</a>
+          </li>
+          <li>
+            <a href="#footer">Security</a>
+          </li>
+          <li>
+            <a href="#footer">View all industries</a>
+          </li>
+        </ul>
+      </div>
+      <div class="column-fifth">
+        <h2 class="heading heading-small" id="footer-services-links">Services</h2>
+        <ul aria-labelledby="footer-services-links" class="footer-links-list-services">
+          <li>
+            <a href="#footer">Create a business profile</a>
+          </li>
+          <li>
+            <a href="#footer">Sell online overseas</a>
+          </li>
+          <li>
+            <a href="#footer">Find export opportunities</a>
+          </li>
+          <li>
+            <a href="#footer">Get finance</a>
+          </li>
+          <li>
+            <a href="#footer">Find events and visits</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+  <div class="container site-links">
+    <ul>
+      <li>
+        <a id="footer-site-links-about" href="#footer">About</a>
+      </li>
+      <li>
+        <a id="footer-site-links-contact" href="#footer">Contact us</a>
+      </li>
+      <li>
+        <a id="footer-site-links-privacy-and-cookies" href="#footer">Privacy and cookies</a>
+      </li>
+      <li>
+        <a id="footer-site-links-t-and-c" href="#footer">Terms and conditions</a>
+      </li>
+      <li>
+        <a id="footer-site-links-performance" href="#footer">Performance</a>
+      </li>
+      <li>
+        <a id="footer-site-links-dit" href="#footer">Department for International Trade on GOV.UK</a>
+      </li>
+    </ul>
+    <p id="footer-copyright-text" class="float-right">&copy; Crown copyright {% now "Y" %}. All rights reserved.</p>
+  </div>
+</footer>
