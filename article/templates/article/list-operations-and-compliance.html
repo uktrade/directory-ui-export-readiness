@@ -1,8 +1,11 @@
 {% extends 'article/list-base-guidance.html' %}
 
 {% load static from staticfiles %}
+{% load static_absolute from directory_components_tags %}
 
 {% block header_class %}operations{% endblock %}
+
+{% block og_image %}{% static_absolute 'images/hero/export-g-operations-and-compliance-hero-300.jpg' %}{% endblock %}
 
 {% block head_title %}
     Operations and compliance export guidance - great.gov.uk
