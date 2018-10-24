@@ -1,5 +1,4 @@
 from django.conf.urls import url
-from django.core.urlresolvers import reverse_lazy
 from django.views.generic.base import RedirectView
 
 from core.views import (
@@ -477,123 +476,8 @@ article_redirects = [
     ) for redirect in ARTICLE_REDIRECTS_MAPPING
 ]
 
-contact_redirects = [
-    url(
-        r'^help/triage/(?P<service>[-\w\d]+)/$',
-        QuerystringRedirectView.as_view(
-            pattern_name='contact-us-triage-wizard',
-        ),
-    ),
-    url(
-        r'^help/(?P<service>[-\w\d]+)/TriageForm/$',
-        QuerystringRedirectView.as_view(
-            pattern_name='contact-us-triage-wizard',
-        ),
-    ),
-    url(
-        r'^help/(?P<service>[-\w\d]+)/Triage/$',
-        QuerystringRedirectView.as_view(
-            pattern_name='contact-us-triage-wizard',
-        ),
-    ),
-    url(
-        r'^help/triage/$',
-        QuerystringRedirectView.as_view(
-            url=reverse_lazy(
-                'contact-us-triage-wizard',
-                kwargs={'service': 'selling-online-overseas'}
-            ),
-        ),
-    ),
-    url(
-        r'^help/(?P<service>[-\w\d]+)/FeedbackForm/$',
-        QuerystringRedirectView.as_view(
-            pattern_name='contact-us-service-specific',
-        ),
-    ),
-    url(
-        r'^help/feedback/(?P<service>[-\w\d]+)/$',
-        QuerystringRedirectView.as_view(
-            pattern_name='contact-us-service-specific',
-        ),
-    ),
-    url(
-        r'^help/feedback/$',
-        QuerystringRedirectView.as_view(
-            pattern_name='contact-us-interstitial-service-agnostic',
-        ),
-    ),
-    url(
-        r'^help/(?P<service>[-\w\d]+)/feedback/$',
-        QuerystringRedirectView.as_view(
-            pattern_name='contact-us-service-specific',
-        ),
-    ),
-    url(
-        r'^help/single_sign_on/$',
-        QuerystringRedirectView.as_view(
-            url=reverse_lazy(
-                'contact-us-interstitial-service-specific',
-                kwargs={'service': 'single_sign_on'}
-            ),
-        ),
-    ),
-    url(
-        r'^help/selling_online_overseas/$',
-        QuerystringRedirectView.as_view(
-            url=reverse_lazy(
-                'contact-us-interstitial-service-specific',
-                kwargs={'service': 'selling_online_overseas'}
-            ),
-        ),
-    ),
-    url(
-        r'^help/export_ops/$',
-        QuerystringRedirectView.as_view(
-            url=reverse_lazy(
-                'contact-us-interstitial-service-specific',
-                kwargs={'service': 'export_ops'}
-            ),
-        ),
-    ),
-    url(
-        r'^help/export_opportunities/$',
-        QuerystringRedirectView.as_view(
-            url=reverse_lazy(
-                'contact-us-interstitial-service-specific',
-                kwargs={'service': 'export_opportunities'}
-            ),
-        ),
-    ),
-    url(
-        r'^help/eig/$',
-        QuerystringRedirectView.as_view(
-            url=reverse_lazy(
-                'contact-us-interstitial-service-specific',
-                kwargs={'service': 'eig'}
-            ),
-        ),
-    ),
-    url(
-        r'^help/directory/$',
-        QuerystringRedirectView.as_view(
-            url=reverse_lazy(
-                'contact-us-interstitial-service-specific',
-                kwargs={'service': 'directory'}
-            ),
-        ),
-    ),
-    url(
-        r'^help/contact/$',
-        QuerystringRedirectView.as_view(
-            pattern_name='contact-us-interstitial-service-agnostic',
-        ),
-    ),
-]
-
 
 redirects += (
     article_redirects + tos_redirects +
-    privacy_redirects + international_redirects +
-    contact_redirects
+    privacy_redirects + international_redirects
 )
