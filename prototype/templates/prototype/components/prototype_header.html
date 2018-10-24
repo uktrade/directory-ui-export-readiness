@@ -1,0 +1,61 @@
+{% load static %}
+<header id="header">
+  <div id="header-bar">
+    <div class="container">
+      {% block login_state %}
+      <ul aria-label="Account links" class="account-links">
+        {% if not sso_is_logged_in %}
+        <li class="anonymous">
+          <a id="header-sign-in-link" href="{{ sso_login_url }}" class="signin">Sign in</a>
+        </li>
+        {% else %}
+        <li class="authenticated">
+          <a id="header-profile-link" href="{{ sso_profile_url }}" class="profile">{% block profile_label %}Account{% endblock %}</a>
+        </li>
+        <li class="authenticated">
+          <a id="header-sign-out-link" href="{{ sso_logout_url }}" class="signout">Sign out</a>
+        </li>
+        {% endif %}
+
+        {% block international_link_js_disabled %}
+        {% endblock %}
+
+      </ul>
+      {% endblock %}
+      <span id="header-greeting"></span>
+
+      <a id="header-dit-logo" href="{{ prototype_home_link }}">
+        <img src="{% static 'directory_components/images/dfit-logo-white.png' %}" alt="Home">
+      </a>
+    </div>
+  </div>
+
+  <div class="js-disabled-only">
+  {% block no_js_header_beta_banner %}
+  {% endblock %}
+  </div>
+
+  <div id="header-menu">
+    <div class="container">
+      <nav id="menu">
+        <ul>
+          <li>
+            <a class="navigation" href="{{ prototype_advice_link }}" id="header-advice-link">Advice</a>
+          </li>
+          <li>
+            <a class="navigation" href="#" id="header-markets-link">Markets</a>
+          </li>
+          <li>
+            <a class="navigation" href="#" id="header-industries-link">Industries</a>
+          </li>
+          <li>
+            <a class="navigation" href="#" id="header-services-link">Services</a>
+          </li>
+          <li>
+            <a class="navigation" href="#" id="header-about-link">About</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
