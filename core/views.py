@@ -1,5 +1,3 @@
-import itertools
-
 from directory_cms_client.constants import (
     EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
     EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
@@ -192,8 +190,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
         return [
             url.name for url in urls.urlpatterns
             if url not in redirects and
-            url.name not in dynamic_cms_page_url_names and
-            url.name not in ContactUsSitemap.names
+            url.name not in dynamic_cms_page_url_names
         ]
 
     def location(self, item):
@@ -205,32 +202,6 @@ class StaticViewSitemap(sitemaps.Sitemap):
         if item == 'uk-export-finance-lead-generation-form':
             return reverse(item, kwargs={'step': 'contact'})
         return reverse(item)
-
-
-class ContactUsSitemap(sitemaps.Sitemap):
-    changefreq = 'daily'
-    names = [
-        'contact-us-interstitial-service-specific',
-        'contact-us-service-specific',
-        'contact-us-triage-wizard',
-    ]
-    services = [
-        'directory',
-        'selling-online-overseas',
-        'export-opportunities',
-        'get-finance',
-        'events',
-        'exporting-is-great',
-    ]
-
-    def items(self):
-        return [
-            reverse(name, kwargs={'service': service})
-            for name, service in itertools.product(self.names, self.services)
-        ]
-
-    def location(self, item):
-        return item
 
 
 class AboutView(SetEtagMixin, TemplateView):

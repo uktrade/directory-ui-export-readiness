@@ -62,7 +62,6 @@ INSTALLED_APPS = [
     'finance',
     'directory_healthcheck',
     'health_check',
-    'contact',
     'captcha',
     'export_elements',
     'directory_components',
@@ -362,11 +361,6 @@ RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY')
 # NOCAPTCHA = True turns on version 2 of recaptcha
 NOCAPTCHA = env.bool('NOCAPTCHA', True)
 
-# Zendesk
-CONTACT_ZENDESK_URL = env.str('CONTACT_ZENDESK_URL')
-CONTACT_ZENDESK_TOKEN = env.str('CONTACT_ZENDESK_TOKEN')
-CONTACT_ZENDESK_USER = env.str('CONTACT_ZENDESK_USER')
-
 LANDING_PAGE_VIDEO_URL = env.str(
     'LANDING_PAGE_VIDEO_URL',
     (
@@ -413,7 +407,6 @@ FEATURE_FLAGS = {
     'NEWS_SECTION_ON': env.bool(
         'FEATURE_NEWS_SECTION_ENABLED', False),
     'INTERNAL_CH_ON': env.bool('FEATURE_USE_INTERNAL_CH_ENABLED', False),
-    'CONTACT_US_ON': env.bool('FEATURE_CONTACT_US_ENABLED', False),
     'UKEF_LEAD_GENERATION_ON': env.bool(
         'FEATURE_UKEF_LEAD_GENERATION_ENABLED', False
     ),
