@@ -10,6 +10,9 @@
     <link href="{% static 'styles/prototype.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
+{% block og_image %}{% if page.article_image %}{{ page.article_image.url }}{% else %}{{ block.super }}{% endif %}
+{% endblock %}
+
 {% block css_layout_class %}article-detail-page{% endblock css_layout_class %}
 
 {% block content %}
