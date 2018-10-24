@@ -5,35 +5,24 @@ from directory_cms_client.constants import (
 )
 
 from django.conf import settings
-from django.http import Http404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
-from core.mixins import GetCMSPageMixin, TranslationsMixin
+from core.mixins import GetCMSPageMixin
 from euexit import forms
+from euexit.mixins import (
+    EUExitFormsFeatureFlagMixin, HideLanguageSelectorMixin)
 
 
 SESSION_KEY_FORM_INGRESS_URL = 'FORM_INGRESS_URL'
 
 
-class FeatureFlagMixin:
-    def dispatch(self, *args, **kwargs):
-        if not settings.FEATURE_FLAGS['EU_EXIT_FORMS_ON']:
-            raise Http404()
-        return super().dispatch(*args, **kwargs)
-
-
-class HideLanguageSelectorMixin(TranslationsMixin):
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            hide_language_selector=True,
-            **kwargs,
-        )
-
-
 class BaseInternationalContactFormView(
-    FeatureFlagMixin, GetCMSPageMixin, HideLanguageSelectorMixin, FormView,
+    EUExitFormsFeatureFlagMixin,
+    GetCMSPageMixin,
+    HideLanguageSelectorMixin,
+    FormView,
 ):
 
     def get(self, *args, **kwargs):
@@ -66,7 +55,10 @@ class BaseInternationalContactFormView(
 
 
 class BaseContactView(
-    FeatureFlagMixin, GetCMSPageMixin, HideLanguageSelectorMixin, TemplateView
+    EUExitFormsFeatureFlagMixin,
+    GetCMSPageMixin,
+    HideLanguageSelectorMixin,
+    TemplateView
 ):
     pass
 
