@@ -8,6 +8,8 @@ from directory_validators.company import no_html
 from django.forms import Select, Textarea
 from django.utils.html import mark_safe
 
+from euexit.helpers import eu_exit_forms_api_client
+
 
 COMPANY_CHOICES = (
     ('COMPANY', 'Company'),
@@ -50,8 +52,16 @@ class SerializeMixin:
         return data
 
 
+class EuExitZendeskActionMixin(ZendeskActionMixin):
+    """Submit the ticket to the eu-exit zendesk account."""
+
+    def action_class(self, *args, **kwargs):
+        action_class = super().action_class
+        return action_class(client=eu_exit_forms_api_client, *args, **kwargs)
+
+
 class InternationalContactForm(
-    FieldsMutationMixin, SerializeMixin, ZendeskActionMixin, forms.Form
+    FieldsMutationMixin, SerializeMixin, EuExitZendeskActionMixin, forms.Form
 ):
     first_name = fields.CharField()
     last_name = fields.CharField()
@@ -81,7 +91,7 @@ class InternationalContactForm(
 
 
 class DomesticContactForm(
-    FieldsMutationMixin, SerializeMixin, ZendeskActionMixin, forms.Form
+    FieldsMutationMixin, SerializeMixin, EuExitZendeskActionMixin, forms.Form
 ):
 
     first_name = fields.CharField()
