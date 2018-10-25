@@ -1,5 +1,6 @@
 {% extends 'directory_components/base.html' %}
 {% load static %}
+{% load static_absolute from directory_components_tags %}
 
 {% block head_title %}Welcome to great.gov.uk{% endblock %}
 
@@ -13,4 +14,15 @@
     {% block cookie_js %}
       <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
     {% endblock %}
+{% endblock %}
+
+{% block head_sharing_metadata %}
+  {% if request %}
+      {% if page.hero_image %}
+        <meta property="og:image" content="{{ page.hero_image.url }}">
+      {% else %}
+        <meta property="og:image" content="{% block og_image %}{% static_absolute 'directory_components/images/opengraph-image.png' %}{% endblock %}">
+      {% endif %}
+      <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+  {% endif %}
 {% endblock %}

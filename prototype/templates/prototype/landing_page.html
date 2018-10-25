@@ -25,7 +25,9 @@
 
 {% block content %}
 
-{% include 'prototype/components/language_selector.html' %}
+{% if not features.PROTOTYPE_HEADER_FOOTER_ON %}
+  {% include 'prototype/components/language_selector.html' %
+{% endif %}
 
 <div class="js-enabled-only">
   <div id="header-beta-bar" class="header-beta-bar beta">

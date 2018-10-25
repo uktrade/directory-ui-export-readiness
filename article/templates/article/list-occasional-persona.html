@@ -1,8 +1,11 @@
 {% extends 'article/list-base-persona.html' %}
 
 {% load static from staticfiles %}
+{% load static_absolute from directory_components_tags %}
 
 {% block header_class %}occasional{% endblock %}
+
+{% block og_image %}{% static_absolute 'images/hero/export-oe-hero-300.jpg' %}{% endblock %}
 
 {% block head_title %}
     Guidance for occasional exporters - great.gov.uk
@@ -21,7 +24,7 @@
 	Continue your exporting journey
 {% endblock %}
 {% block subtitle %}
-	If you’re already exporting, you’ll know the potential benefits. Becoming more strategic in your activity could lead to sustainable growth and higher returns on your investment.  
+	If you’re already exporting, you’ll know the potential benefits. Becoming more strategic in your activity could lead to sustainable growth and higher returns on your investment.
 <br><br>
 Read our guidance for occasional exporters to research and plan how to grow your exporting activities.
 {% endblock %}

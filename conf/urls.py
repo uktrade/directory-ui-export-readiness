@@ -7,7 +7,6 @@ from django.views.generic import TemplateView
 
 import article.views
 import casestudy.views
-import contact.views
 import core.views
 import euexit.views
 import triage.views
@@ -19,7 +18,6 @@ from conf.url_redirects import redirects
 
 sitemaps = {
     'static': core.views.StaticViewSitemap,
-    'contact': core.views.ContactUsSitemap,
 }
 
 
@@ -459,31 +457,6 @@ urlpatterns = [
         r'^story/york-bag-retailer-goes-global-via-e-commerce/$',
         casestudy.views.CasestudyYorkBagView.as_view(),
         name='casestudy-york-bag'
-    ),
-    url(
-        r'^contact-us/intro/$',
-        contact.views.InterstitialView.as_view(service=None),
-        name='contact-us-interstitial-service-agnostic',
-    ),
-    url(
-        r'^contact-us/(?P<service>[-\w\d]+)/intro/$',
-        contact.views.InterstitialView.as_view(),
-        name='contact-us-interstitial-service-specific',
-    ),
-    url(
-        r'^contact-us/(?P<service>[-\w\d]+)/$',
-        contact.views.FeedbackWizardFormView.as_view(),
-        name='contact-us-service-specific'
-    ),
-    url(
-        r'^contact-us/$',
-        contact.views.FeedbackWizardFormView.as_view(service=None),
-        name='contact-us-service-agnostic'
-    ),
-    url(
-        r'^contact-us/(?P<service>[-\w\d]+)/triage/$',
-        contact.views.TriageWizardFormView.as_view(),
-        name='contact-us-triage-wizard'
     ),
     url(
         r"^get-finance/$",
