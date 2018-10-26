@@ -7,11 +7,12 @@ from django.views.generic import TemplateView
 
 import article.views
 import casestudy.views
+import contact.views
 import core.views
 import euexit.views
-import triage.views
 import finance.views
 import prototype.views
+import triage.views
 
 from conf.url_redirects import redirects
 
@@ -476,6 +477,10 @@ urlpatterns = [
         ),
         name='uk-export-finance-lead-generation-form'
     ),
+]
+
+
+euexit_urls = [
     url(
         r'^eu-exit/international/contact/$',
         euexit.views.InternationalContactFormView.as_view(),
@@ -498,7 +503,6 @@ urlpatterns = [
     ),
 ]
 
-urlpatterns += redirects
 
 news_urls = [
     url(
@@ -523,7 +527,6 @@ news_urls = [
     ),
 ]
 
-urlpatterns += news_urls
 
 prototype_urls = [
     url(
@@ -563,4 +566,19 @@ prototype_urls = [
     ),
 ]
 
+
+contact_urls = [
+    url(
+        r'^contact/$',
+        contact.views.RoutingFormView.as_view(),
+        name='contact-us-routing-form'
+    ),
+
+]
+
+
+urlpatterns += euexit_urls
+urlpatterns += redirects
+urlpatterns += news_urls
 urlpatterns += prototype_urls
+urlpatterns += contact_urls

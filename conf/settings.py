@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'directory_components',
     'prototype',
     'euexit',
+    'contact',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -413,6 +414,7 @@ FEATURE_FLAGS = {
     'PERFORMANCE_DASHBOARD_ON': env.bool(
         'FEATURE_PERFORMANCE_DASHBOARD_ENABLED', False
     ),
+    'CONTACT_US_ON': env.bool('FEATURE_CONTACT_US_ENABLED', False),
     # used by directory-components
     'SEARCH_ENGINE_INDEXING_OFF': env.bool(
         'FEATURE_SEARCH_ENGINE_INDEXING_DISABLED', False
