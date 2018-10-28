@@ -36,9 +36,12 @@ INDUSTRY_CHOICES = (
 
 
 class LocationRoutingForm(forms.Form):
+    DOMESTIC = 'domestic'
+    INTERNATIONAL = 'international'
+
     CHOICES = (
-        ('DOMESTIC', 'The UK'),
-        ('INTERNATIONAL', 'Outside the UK'),
+        (DOMESTIC, 'The UK'),
+        (INTERNATIONAL, 'Outside the UK'),
     )
     choice = fields.ChoiceField(
         label='',
@@ -47,14 +50,22 @@ class LocationRoutingForm(forms.Form):
     )
 
 class DomesticRoutingForm(forms.Form):
+    TRADE_OFFICE = 'TRADE_OFFICE'
+    EXPORT_ADVICE = 'export-advice'
+    GREAT_SERVICES = 'great-services'
+    FINANCE = 'FINANCE'
+    EVENTS = 'EVENTS'
+    DSO = 'DSO'
+    OTHER = 'OTHER'
+
     CHOICES = (
-        ('TRADE_OFFICE', 'Find your local trade office'),
-        ('EXPORT_ADVICE', 'Advice to export from the UK'),
-        ('GREAT_SERVICES', 'Great.gov.uk services'),
-        ('FINANCE', 'Finance'),
-        ('EVENTS', 'Events'),
-        ('DSO', 'Defence and Security Organisation (DSO)'),
-        ('OTHER', 'Other'),
+        (TRADE_OFFICE, 'Find your local trade office'),
+        (EXPORT_ADVICE, '[x] Advice to export from the UK'),
+        (GREAT_SERVICES, '[x] Great.gov.uk services'),
+        (FINANCE, '[x] Finance'),
+        (EVENTS, '[x] Events'),
+        (DSO, '[x] Defence and Security Organisation (DSO)'),
+        (OTHER, '[x] Other'),
     )
     choice = fields.ChoiceField(
         label='',
@@ -64,9 +75,12 @@ class DomesticRoutingForm(forms.Form):
 
 
 class GreatServicesRoutingForm(forms.Form):
+
+    EXPORT_OPPORTUNITIES = 'export-opportunities'
+    GREAT_ACCOUNT = 'great-account'
     CHOICES = (
-        ('EXPORT_OPPORTUNITIES', 'Export opportunities service'),
-        ('YOUR_ACCOUNT', 'Your account on great.gov.uk'),
+        (EXPORT_OPPORTUNITIES, 'Export opportunities service'),
+        (GREAT_ACCOUNT, 'Your account on great.gov.uk'),
     )
     choice = fields.ChoiceField(
         label='',
@@ -115,11 +129,15 @@ class GreatAccountRoutingForm(forms.Form):
 
 
 class InternationalRoutingForm(forms.Form):
+    INVESTING = 'investing'
+    BUYING = 'buying'
+    EUEXIT = 'euexit'
+    OTHER = 'other'
     CHOICES = (
-        ('INVEST', 'Invest in the UK'),
-        ('BUYING', 'Buying from the UK'),
-        ('EUEXIT', 'EU Exit'),
-        ('OTHER', 'Other'),
+        (INVESTING, 'Investing in the UK'),
+        (BUYING, 'Buying from the UK'),
+        (EUEXIT, 'EU Exit'),
+        (OTHER, 'Other'),
     )
     choice = fields.ChoiceField(
         label='',
@@ -209,7 +227,7 @@ class FinanceBusinessDetailsForm(forms.Form):
     )
 
 
-class CommentContactForm(forms.Form):
+class ExportAdviceContactForm(forms.Form):
     comment = fields.CharField(
         widget=Textarea,
         validators=[no_html, not_contains_url_or_email]

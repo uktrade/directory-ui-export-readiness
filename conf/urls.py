@@ -573,7 +573,31 @@ contact_urls = [
         contact.views.RoutingFormView.as_view(),
         name='contact-us-routing-form'
     ),
-
+    url(
+        r'^contact/finance/$',
+        contact.views.FinanceFormView.as_view(),
+        name='contact-us-finance-form'
+    ),
+    url(
+        r'^contact/export-advice/$',
+        contact.views.ExportAdviceFormView.as_view(),
+        name='contact-us-export-advice'
+    ),
+    url(
+        r'^contact/find-uk-companies/$',
+        contact.views.BuyingFromUKCompaniesFormView.as_view(),
+        name='contact-us-find-uk-companies'
+    ),
+    url(
+        r'^contact/international/$',
+        contact.views.InternationalFormView.as_view(),
+        name='contact-us-international'
+    ),
+    url(
+        r'^contact/domestic/$',
+        contact.views.DomesticFormView.as_view(),
+        name='contact-us-domestic'
+    ),
 ]
 
 

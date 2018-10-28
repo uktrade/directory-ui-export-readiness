@@ -445,3 +445,8 @@ DIRECTORY_FORMS_API_DEFAULT_TIMEOUT = env.int(
 
 # EU Exit
 EU_EXIT_ZENDESK_SUBDOMAIN = env.str('EU_EXIT_ZENDESK_SUBDOMAIN')
+
+# Contact
+INVEST_CONTACT_URL = env.str(
+    'INVEST_CONTACT_URL', 'https://invest.great.gov.uk/contact/'
+)
