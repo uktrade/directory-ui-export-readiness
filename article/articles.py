@@ -10,8 +10,7 @@ ArticleParent = namedtuple('ArticleParent', ['uuid', 'title'])
 
 class Article:
 
-    def __init__(self, uuid, title, keywords, tasks,
-                 markdown_file_path, url, parent):
+    def __init__(self, uuid, title, markdown_file_path, url, parent):
         self.uuid = uuid
         self.title = title
         self.markdown_file_path = markdown_file_path
