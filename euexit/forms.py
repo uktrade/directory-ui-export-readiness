@@ -1,11 +1,13 @@
 from captcha.fields import ReCaptchaField
 from directory_constants.constants import choices, urls
 from directory_components import forms, fields, widgets
-from directory_forms_api_client.forms import ZendeskActionMixin
+from directory_forms_api_client.forms import EmailActionMixin
 from directory_validators.common import not_contains_url_or_email
 from directory_validators.company import no_html
 
+from django.conf import settings
 from django.forms import Select, Textarea
+from django.template.loader import render_to_string
 from django.utils.html import mark_safe
 
 from euexit.helpers import eu_exit_forms_api_client
@@ -35,9 +37,10 @@ class FieldsMutationMixin:
 
 
 class SerializeMixin:
-    def __init__(self, form_url, ingress_url, *args, **kwargs):
+    def __init__(self, form_url, ingress_url, subject, *args, **kwargs):
         self.form_url = form_url
         self.ingress_url = ingress_url
+        self.subject = subject
         super().__init__(*args, **kwargs)
 
     @property
@@ -50,16 +53,49 @@ class SerializeMixin:
         return data
 
 
-class EuExitZendeskActionMixin(ZendeskActionMixin):
+class EuExitEmailActionMixin(EmailActionMixin):
     """Submit the ticket to the eu-exit zendesk account."""
 
     def action_class(self, *args, **kwargs):
         action_class = super().action_class
         return action_class(client=eu_exit_forms_api_client, *args, **kwargs)
 
+    def render_email(self, template_name):
+        context = {'form_data': self.serialized_data}
+        return render_to_string(template_name, context)
+
+    def send_user_email(self):
+        action = self.action_class(
+            recipients=[settings.EUEXIT_AGENT_EMAIL],
+            subject=self.subject,
+            reply_to=[settings.DEFAULT_FROM_EMAIL],
+        )
+        email_body = self.render_email('euexit/email-confirmation-user.txt')
+        response = action.save({
+            'text_body': email_body, 'html_body': email_body,
+        })
+        response.raise_for_status()
+
+    def send_agent_email(self):
+        action = self.action_class(
+            recipients=[self.cleaned_data['email']],
+            subject=self.subject,
+            reply_to=[settings.DEFAULT_FROM_EMAIL],
+        )
+        text_body = self.render_email('euexit/email-confirmation-agent.txt')
+        html_body = self.render_email('euexit/email-confirmation-agent.html')
+        response = action.save({
+            'text_body': text_body, 'html_body': html_body,
+        })
+        response.raise_for_status()
+
+    def save(self):
+        self.send_agent_email()
+        self.send_user_email()
+
 
 class InternationalContactForm(
-    FieldsMutationMixin, SerializeMixin, EuExitZendeskActionMixin, forms.Form
+    FieldsMutationMixin, SerializeMixin, EuExitEmailActionMixin, forms.Form
 ):
 
     first_name = fields.CharField()
@@ -90,7 +126,7 @@ class InternationalContactForm(
 
 
 class DomesticContactForm(
-    FieldsMutationMixin, SerializeMixin, EuExitZendeskActionMixin, forms.Form
+    FieldsMutationMixin, SerializeMixin, EuExitEmailActionMixin, forms.Form
 ):
 
     first_name = fields.CharField()

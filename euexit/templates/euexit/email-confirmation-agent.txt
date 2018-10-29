@@ -1,0 +1,7 @@
+Hello,
+
+An EU exit form was submitted:
+
+{% for key, value in form_data.items %}
+	{{ key }}: {{ value }}
+{% endfor %}

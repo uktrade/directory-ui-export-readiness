@@ -4,7 +4,6 @@ from directory_cms_client.constants import (
     EXPORT_READINESS_EUEXIT_FORM_SUCCESS_SLUG,
 )
 
-from django.conf import settings
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -38,18 +37,11 @@ class BaseInternationalContactFormView(
         kwargs['ingress_url'] = (
             self.request.session.get(SESSION_KEY_FORM_INGRESS_URL)
         )
+        kwargs['subject'] = self.subject
         return kwargs
 
     def form_valid(self, form):
-        cleaned_data = form.serialized_data
-        name = cleaned_data['first_name'] + ' ' + cleaned_data['last_name']
-        response = form.save(
-            email_address=cleaned_data['email'],
-            full_name=name,
-            subject=self.subject,
-            subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
-        )
-        response.raise_for_status()
+        form.save()
         return super().form_valid(form)
 
 
