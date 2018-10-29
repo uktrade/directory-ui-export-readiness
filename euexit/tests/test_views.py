@@ -26,7 +26,9 @@ def test_international_form_feature_flag_off(client, settings):
 def test_international_form_feature_flag_on(
     mock_lookup_by_slug, client, settings
 ):
-    mock_lookup_by_slug.return_value = create_response(status_code=200)
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200, json_body={'disclaimer': 'disclaim'}
+    )
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
         'EU_EXIT_FORMS_ON': True
@@ -69,6 +71,7 @@ def test_international_form_cms_retrieval_ok(
             'last_name': {
                 'label': 'Family name'
             },
+            'disclaimer': 'disclaim',
         }
     )
     settings.FEATURE_FLAGS = {
@@ -84,6 +87,7 @@ def test_international_form_cms_retrieval_ok(
     form = response.context_data['form']
     assert form.fields['first_name'].label == 'Given name'
     assert form.fields['last_name'].label == 'Family name'
+    assert form.fields['terms_agreed'].widget.label.endswith('disclaim')
     assert response.context_data['hide_language_selector'] is True
 
 
@@ -95,7 +99,7 @@ def test_international_form_submit(
     mock_action_class, mock_lookup_by_slug, settings, client, captcha_stub
 ):
     mock_lookup_by_slug.return_value = create_response(
-        status_code=200, json_body={}
+        status_code=200, json_body={'disclaimer': 'disclaim'}
     )
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
@@ -162,7 +166,11 @@ def test_form_success_page(
     mock_lookup_by_slug, settings, client, url, template_name
 ):
     mock_lookup_by_slug.return_value = create_response(
-        status_code=200, json_body={'body_text': 'what next'}
+        status_code=200,
+        json_body={
+            'body_text': 'what next',
+            'disclaimer': 'disclaim',
+        }
     )
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
@@ -172,7 +180,10 @@ def test_form_success_page(
 
     assert response.status_code == 200
     assert response.template_name == [template_name]
-    assert response.context_data['page'] == {'body_text': 'what next'}
+    assert response.context_data['page'] == {
+        'body_text': 'what next',
+        'disclaimer': 'disclaim',
+    }
     assert response.context_data['hide_language_selector'] is True
 
 
@@ -192,7 +203,9 @@ def test_domestic_form_feature_flag_off(client, settings):
 def test_domestic_form_feature_flag_on(
     mock_lookup_by_slug, client, settings
 ):
-    mock_lookup_by_slug.return_value = create_response(status_code=200)
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200, json_body={'disclaimer': 'disclaim'}
+    )
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
         'EU_EXIT_FORMS_ON': True
@@ -235,6 +248,7 @@ def test_domestic_form_cms_retrieval_ok(
             'last_name': {
                 'label': 'Family name'
             },
+            'disclaimer': 'disclaim',
         }
     )
     settings.FEATURE_FLAGS = {
@@ -250,6 +264,7 @@ def test_domestic_form_cms_retrieval_ok(
     form = response.context_data['form']
     assert form.fields['first_name'].label == 'Given name'
     assert form.fields['last_name'].label == 'Family name'
+    assert form.fields['terms_agreed'].widget.label.endswith('disclaim')
     assert response.context_data['hide_language_selector'] is True
 
 
@@ -260,7 +275,7 @@ def test_domestic_form_submit(
 ):
     settings.EU_EXIT_ZENDESK_SUBDOMAIN = 'eu-exit-subdomain'
     mock_lookup_by_slug.return_value = create_response(
-        status_code=200, json_body={}
+        status_code=200, json_body={'disclaimer': 'disclaim'}
     )
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
@@ -313,7 +328,7 @@ def test_domestic_form_submit(
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_form_urls(mock_lookup_by_slug, settings, client, url):
     mock_lookup_by_slug.return_value = create_response(
-        status_code=200, json_body={}
+        status_code=200, json_body={'disclaimer': 'disclaim'}
     )
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
@@ -324,6 +339,7 @@ def test_form_urls(mock_lookup_by_slug, settings, client, url):
 
     assert response.status_code == 200
     form = response.context_data['form']
+    assert form.fields['terms_agreed'].widget.label.endswith('disclaim')
     assert form.form_url == urljoin('http://testserver', url)
     assert form.ingress_url == 'http://www.google.com'
     assert response.context_data['hide_language_selector'] is True
@@ -336,7 +352,8 @@ def test_form_urls(mock_lookup_by_slug, settings, client, url):
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_form_urls_no_referer(mock_lookup_by_slug, settings, client, url):
     mock_lookup_by_slug.return_value = create_response(
-        status_code=200, json_body={}
+        status_code=200,
+        json_body={'disclaimer': 'disclaim'}
     )
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
