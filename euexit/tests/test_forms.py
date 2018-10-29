@@ -14,6 +14,7 @@ def test_contact_form_set_field_attributes(form_class):
         field_attributes={},
         form_url='http://www.form.com',
         ingress_url='http://www.ingress.com',
+        disclaimer='disclaim',
     )
     form_two = form_class(
         field_attributes={
@@ -26,12 +27,15 @@ def test_contact_form_set_field_attributes(form_class):
         },
         form_url='http://www.form.com',
         ingress_url='http://www.ingress.com',
+        disclaimer='disclaim',
     )
 
     assert form_one.fields['first_name'].label is None
     assert form_one.fields['last_name'].label is None
+    assert form_one.fields['terms_agreed'].widget.label.endswith('disclaim')
     assert form_two.fields['first_name'].label == 'Your given name'
     assert form_two.fields['last_name'].label == 'Your family name'
+    assert form_two.fields['terms_agreed'].widget.label.endswith('disclaim')
 
 
 def test_domestic_contact_form_serialize(captcha_stub):
@@ -39,6 +43,7 @@ def test_domestic_contact_form_serialize(captcha_stub):
         field_attributes={},
         form_url='http://www.form.com',
         ingress_url='http://www.ingress.com',
+        disclaimer='disclaim',
         data={
             'first_name': 'test',
             'last_name': 'example',
@@ -68,6 +73,7 @@ def test_international_contact_form_serialize(captcha_stub):
         field_attributes={},
         form_url='http://www.form.com',
         ingress_url='http://www.ingress.com',
+        disclaimer='disclaim',
         data={
             'first_name': 'test',
             'last_name': 'example',
@@ -105,6 +111,7 @@ def test_international_contact_form_uses_eu_exit_client(
         field_attributes={},
         form_url='http://www.form.com',
         ingress_url='http://www.ingress.com',
+        disclaimer='disclaim!',
         data={
             'first_name': 'test',
             'last_name': 'example',
@@ -144,6 +151,7 @@ def test_domestic_contact_form_uses_eu_exit_client(
         field_attributes={},
         form_url='http://www.form.com',
         ingress_url='http://www.ingress.com',
+        disclaimer='disclaim!',
         data={
             'first_name': 'test',
             'last_name': 'example',
