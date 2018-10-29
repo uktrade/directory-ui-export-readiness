@@ -283,8 +283,7 @@ def test_international_landing_page_news_section_on(
     assert '<p class="body-text">Lorem ipsum.</p>' in str(response.content)
 
 
-@patch('core.views.InternationalLandingPageView.cms_component',
-       new_callable=PropertyMock)
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('core.views.InternationalLandingPageView.page',
        new_callable=PropertyMock)
 def test_international_landing_page_news_section_off(
@@ -299,11 +298,14 @@ def test_international_landing_page_news_section_off(
         'articles_count': 1,
         'meta': {'languages': ['en-gb', 'English']},
     }
-    mock_get_component.return_value = {
-        'banner_label': 'EU Exit updates',
-        'banner_content': '<p>Lorem ipsum.</p>',
-        'meta': {'languages': ['en-gb', 'English']},
-    }
+    mock_get_component.return_value = create_response(
+        status_code=200,
+        json_body={
+            'banner_label': 'EU Exit updates',
+            'banner_content': '<p>Lorem ipsum.</p>',
+            'meta': {'languages': ['en-gb', 'English']},
+        }
+    )
 
     url = reverse('landing-page-international')
     response = client.get(url)
