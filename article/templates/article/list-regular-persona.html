@@ -1,8 +1,11 @@
 {% extends 'article/list-base-persona.html' %}
 
 {% load static from staticfiles %}
+{% load static_absolute from directory_components_tags %}
 
 {% block header_class %}regular{% endblock %}
+
+{% block og_image %}{% static_absolute 'images/hero/export-re-hero-300.jpg' %}{% endblock %}
 
 {% block head_title %}
     Guidance for regular exporters - great.gov.uk
@@ -21,7 +24,7 @@
 	Grow your export business
 {% endblock %}
 {% block subtitle %}
-	Step up your activity in a market you’re already established in or break into a new one. There are always ways to expand your exporting activities. 
+	Step up your activity in a market you’re already established in or break into a new one. There are always ways to expand your exporting activities.
 <br><br>
 Markets can change quickly so it pays to be a step ahead. Refresh your approach with our guidance for regular exporters.
 {% endblock %}
