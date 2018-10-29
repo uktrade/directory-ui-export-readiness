@@ -10,7 +10,7 @@
 <section class="hero hero-generic" id="hero">
   <div class="container">
     <div class="hero-title">
-      <h1 class="heading-hero-generic" id="hero-heading">{{ page.landing_page_title }}</h1>
+      <h1 class="heading-hero-generic-compact" id="hero-heading">{{ page.landing_page_title }}</h1>
       <p class="hero-description" id="hero-description">{{ page.articles_count }} article{{ page.articles_count|pluralize }}</p>
     </div>
   </div>
@@ -35,7 +35,7 @@
   {% if features.EU_EXIT_FORMS_ON %}
     <div class="container">
       {% url 'eu-exit-domestic-contact-form' as contact_url %}
-      {% cta_box description='If you still have a question about EU Exit, contact Department for International Trade and one of our experts will try to help you.' button_text='Contact us' button_url=contact_url %}
+      {% cta_box box_id='eu-exit-cta-box' description='If you still have a question about EU Exit, contact Department for International Trade and one of our experts will try to help you.' button_text='Contact us' button_url=contact_url %}
     </div>
   {% endif %}
 {% endblock %}
