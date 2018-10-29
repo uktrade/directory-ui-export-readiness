@@ -5,7 +5,7 @@ from directory_cms_client.constants import (
 
 from django.conf import settings
 from django.contrib import sitemaps
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.cache import set_response_etag
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
@@ -107,9 +107,14 @@ class PrototypeLandingPageView(GetCMSPageByFullPathMixin, LandingPageView):
 
 
 class InternationalLandingPageView(
-    SetEtagMixin, mixins.TranslationsMixin, TemplateView
+    mixins.TranslationsMixin,
+    mixins.GetCMSPageMixin,
+    mixins.GetCMSComponentMixin,
+    TemplateView,
 ):
     template_name = 'core/landing_page_international.html'
+    component_slug = 'eu-exit-banner-international'
+    slug = 'international-news'
 
 
 class QuerystringRedirectView(RedirectView):
