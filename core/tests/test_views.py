@@ -176,10 +176,6 @@ def test_robots(client):
             'core/about.html'
         ),
         (
-            'landing-page-international',
-            'core/landing_page_international.html'
-        ),
-        (
             'not-found',
             '404.html'
         ),
@@ -260,34 +256,116 @@ def test_privacy_cookies_cms(
     assert response.template_name == [expected_template]
 
 
-def test_international_landing_page_news_section_on(client, settings):
+@patch('core.views.InternationalLandingPageView.cms_component',
+       new_callable=PropertyMock)
+@patch('core.views.InternationalLandingPageView.page',
+       new_callable=PropertyMock)
+def test_international_landing_page_news_section_on(
+    mock_get_page, mock_get_component, client, settings
+):
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
         'NEWS_SECTION_ON': True,
     }
+    mock_get_page.return_value = {
+        'title': 'the page',
+        'articles_count': 1,
+        'meta': {'languages': ['en-gb', 'English']},
+    }
+    mock_get_component.return_value = {
+        'banner_label': 'EU Exit updates',
+        'banner_content': '<p>Lorem ipsum.</p>',
+        'meta': {'languages': ['en-gb', 'English']},
+    }
+
     url = reverse('landing-page-international')
     response = client.get(url)
 
+    assert response.template_name == ['core/landing_page_international.html']
     assert 'EU Exit updates' in str(response.content)
+    assert '<p class="body-text">Lorem ipsum.</p>' in str(response.content)
 
 
-def test_international_landing_page_news_section_off(client, settings):
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+@patch('core.views.InternationalLandingPageView.page',
+       new_callable=PropertyMock)
+def test_international_landing_page_news_section_off(
+    mock_get_page, mock_get_component, client, settings
+):
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
         'NEWS_SECTION_ON': False,
     }
+    mock_get_page.return_value = {
+        'title': 'the page',
+        'articles_count': 1,
+        'meta': {'languages': ['en-gb', 'English']},
+    }
+    mock_get_component.return_value = create_response(
+        status_code=200,
+        json_body={
+            'banner_label': 'EU Exit updates',
+            'banner_content': '<p>Lorem ipsum.</p>',
+            'meta': {'languages': ['en-gb', 'English']},
+        }
+    )
+
     url = reverse('landing-page-international')
     response = client.get(url)
 
     assert 'EU Exit updates' not in str(response.content)
 
 
+@patch('core.views.InternationalLandingPageView.cms_component',
+       new_callable=PropertyMock)
+@patch('core.views.InternationalLandingPageView.page',
+       new_callable=PropertyMock)
+def test_international_landing_page_no_articles(
+    mock_get_page, mock_get_component, client, settings
+):
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'NEWS_SECTION_ON': False,
+    }
+    mock_get_page.return_value = {
+        'title': 'the page',
+        'articles_count': 0,
+        'meta': {'languages': ['en-gb', 'English']},
+    }
+    mock_get_component.return_value = {
+        'banner_label': 'EU Exit updates',
+        'banner_content': '<p>Lorem ipsum.</p>',
+        'meta': {'languages': ['en-gb', 'English']},
+    }
+
+    url = reverse('landing-page-international')
+    response = client.get(url)
+
+    assert 'EU Exit updates' not in str(response.content)
+
+
+@patch('core.views.InternationalLandingPageView.cms_component',
+       new_callable=PropertyMock)
+@patch('core.views.InternationalLandingPageView.page',
+       new_callable=PropertyMock)
 @pytest.mark.parametrize("lang", ['ar', 'es', 'zh-hans', 'pt', 'de', 'ja'])
-def test_international_landing_view_translations(lang, client):
+def test_international_landing_view_translations(
+    mock_get_page, mock_get_component, lang, client
+):
     response = client.get(
         reverse('landing-page-international'),
         {'lang': lang}
     )
+    mock_get_page.return_value = {
+        'title': 'the page',
+        'articles_count': 0,
+        'meta': {'languages': ['en-gb', 'English']},
+    }
+    mock_get_component.return_value = {
+        'banner_label': 'EU Exit updates',
+        'banner_content': '<p>Lorem ipsum.</p>',
+        'meta': {'languages': ['en-gb', 'English']},
+    }
 
     assert response.status_code == http.client.OK
     assert response.cookies['django_language'].value == lang

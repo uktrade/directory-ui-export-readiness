@@ -8,7 +8,7 @@ test_requirements:
 	pip install -r requirements_test.txt
 
 FLAKE8 := flake8 . --exclude=migrations,.venv,node_modules
-PYTEST := pytest . -v --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
+PYTEST := pytest . -vv --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
 COLLECT_STATIC := python manage.py collectstatic --noinput
 COMPILE_TRANSLATIONS := python manage.py compilemessages
 CODECOV := \
@@ -178,10 +178,12 @@ DEBUG_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
 	export FEATURE_PROTOTYPE_PAGES_ENABLED=true; \
 	export FEATURE_NEWS_SECTION_ENABLED=true; \
-	export FEATURE_EU_EXIT_FORMS_ENABLED=true
+	export FEATURE_EU_EXIT_FORMS_ENABLED=true; \
 	export FEATURE_PROTOTYPE_HEADER_FOOTER_ENABLED=true; \
 	export FEATURE_EU_EXIT_FORMS_ENABLED=true; \
-	export EU_EXIT_ZENDESK_SUBDOMAIN=debug
+	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
+	export DIRECTORY_FORMS_API_API_KEY_EUEXIT=debug; \
+	export DIRECTORY_FORMS_API_SENDER_ID_EUEXIT=debug
 
 TEST_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
