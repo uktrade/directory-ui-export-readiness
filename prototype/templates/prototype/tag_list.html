@@ -1,11 +1,12 @@
 {% extends 'prototype/article_list.html' %}
 
+{% block css_layout_class %}article-list-page tag-list-page{% endblock css_layout_class %}
+
 {% block hero %}
 <section class="hero hero-generic" id="hero">
   <div class="container">
     <div class="hero-title">
-      <h1 class="heading-hero-generic-compact" id="hero-heading">Articles with tag: {{ tag_slug }}</h1>
-      <p class="hero-description" id="hero-description">{{ page.meta.total_count }} article{{ page.meta.total_count|pluralize }}</p>
+      <h1 class="hero-description" id="hero-heading">{{ page.meta.total_count }} article{{ page.meta.total_count|pluralize }} with tag: <span class="heading-hero-generic-compact tag-name">{{ tag_slug }}</span></h1>
     </div>
   </div>
 </section>
