@@ -20,11 +20,14 @@ from directory_cms_client.constants import (
 
 
 def test_landing_page_video_url(client, settings):
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'NEWS_SECTION_ON': False,
+    }
     settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/videp.mp4'
     url = reverse('landing-page')
 
     response = client.get(url)
-
     assert response.context_data['LANDING_PAGE_VIDEO_URL'] == (
         'https://example.com/videp.mp4'
     )
