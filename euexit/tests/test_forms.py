@@ -111,6 +111,7 @@ def test_international_contact_form_uses_eu_exit_client(
         field_attributes={},
         form_url='http://www.form.com',
         ingress_url='http://www.ingress.com',
+        disclaimer='disclaim!',
         data={
             'first_name': 'test',
             'last_name': 'example',
@@ -150,6 +151,7 @@ def test_domestic_contact_form_uses_eu_exit_client(
         field_attributes={},
         form_url='http://www.form.com',
         ingress_url='http://www.ingress.com',
+        disclaimer='disclaim!',
         data={
             'first_name': 'test',
             'last_name': 'example',
