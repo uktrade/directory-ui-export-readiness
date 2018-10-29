@@ -3,7 +3,9 @@ import directory_healthcheck.views
 
 from django.conf.urls import url
 from django.contrib.sitemaps.views import sitemap
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+from django.views.generic.base import RedirectView
 
 import article.views
 import casestudy.views
@@ -477,6 +479,11 @@ urlpatterns = [
         ),
         name='uk-export-finance-lead-generation-form'
     ),
+    url(
+        r'^triage/$',
+        triage.views.TriageStartPageView.as_view(),
+        name='triage-start'
+    ),
 ]
 
 
@@ -570,7 +577,18 @@ prototype_urls = [
 contact_urls = [
     url(
         r'^contact/$',
-        contact.views.RoutingFormView.as_view(),
+        RedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-routing-form', kwargs={'step': 'location'}
+            )
+        ),
+        name='contact-us-routing-form'
+    ),
+    url(
+        r'^contact/(?P<step>.+)/$',
+        contact.views.RoutingFormView.as_view(
+            url_name='contact-us-routing-form', done_step_name='finished'
+        ),
         name='contact-us-routing-form'
     ),
     url(

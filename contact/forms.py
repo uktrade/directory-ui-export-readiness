@@ -59,13 +59,13 @@ class DomesticRoutingForm(forms.Form):
     OTHER = 'OTHER'
 
     CHOICES = (
-        (TRADE_OFFICE, 'Find your local trade office'),
-        (EXPORT_ADVICE, '[x] Advice to export from the UK'),
-        (GREAT_SERVICES, '[x] Great.gov.uk services'),
-        (FINANCE, '[x] Finance'),
-        (EVENTS, '[x] Events'),
-        (DSO, '[x] Defence and Security Organisation (DSO)'),
-        (OTHER, '[x] Other'),
+        (TRADE_OFFICE, 'Find your local trade office'),  # not supported yet
+        (EXPORT_ADVICE, 'Advice to export from the UK'),
+        (GREAT_SERVICES, 'Great.gov.uk services'),
+        (FINANCE, 'Finance'),
+        (EVENTS, 'Events'),
+        (DSO, 'Defence and Security Organisation (DSO)'),
+        (OTHER, 'Other'),
     )
     choice = fields.ChoiceField(
         label='',
@@ -236,9 +236,11 @@ class ExportAdviceContactForm(forms.Form):
 
 class DomesticContactForm(forms.Form):
     given_name = fields.CharField(
+        label='First name',
         validators=[no_html, not_contains_url_or_email]
     )
     family_name = fields.CharField(
+        label='Last name',
         validators=[no_html, not_contains_url_or_email]
     )
     email = fields.EmailField()

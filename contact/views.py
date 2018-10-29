@@ -1,11 +1,11 @@
 from directory_constants.constants import urls
 from formtools.wizard.views import SessionWizardView
-
-
+from formtools.wizard.views import NamedUrlSessionWizardView
 from django.conf import settings
 from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.views.generic.edit import FormView
 
 from contact import forms
 
@@ -17,7 +17,7 @@ class FeatureFlagMixin:
         return super().dispatch(*args, **kwargs)
 
 
-class RoutingFormView(SessionWizardView):
+class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
     LOCATION = 'location'
     INTERNATIONAL = 'international'
     DOMESTIC = 'domestic'
@@ -100,73 +100,21 @@ class FinanceFormView(FeatureFlagMixin, SessionWizardView):
         pass
 
 
-class ExportAdviceFormView(FeatureFlagMixin, SessionWizardView):
-    ADVICE = 'export-advice'
-
-    form_list = (
-        (ADVICE, forms.ExportAdviceContactForm),
-    )
-    templates = {
-        ADVICE: 'contact/export-advice/step.html',
-    }
-
-    def get_template_names(self):
-        return [self.templates[self.steps.current]]
-
-    def done(self, *args, **kwargs):
-        #  ¯\_(ツ)_/¯
-        pass
+class ExportAdviceFormView(FeatureFlagMixin, FormView):
+    form_class = forms.ExportAdviceContactForm
+    template_name = 'contact/export-advice/step.html'
 
 
-class BuyingFromUKCompaniesFormView(FeatureFlagMixin, SessionWizardView):
-    COMPANIES = 'companies'
-
-    form_list = (
-        (COMPANIES, forms.BuyingFromUKContactForm),
-    )
-    templates = {
-        COMPANIES: 'contact/buying/step.html',
-    }
-
-    def get_template_names(self):
-        return [self.templates[self.steps.current]]
-
-    def done(self, *args, **kwargs):
-        #  ¯\_(ツ)_/¯
-        pass
+class BuyingFromUKCompaniesFormView(FeatureFlagMixin, FormView):
+    form_class = forms.BuyingFromUKContactForm
+    template_name = 'contact/buying/step.html'
 
 
-class InternationalFormView(FeatureFlagMixin, SessionWizardView):
-    CONTACT = 'contact'
-
-    form_list = (
-        (CONTACT, forms.InternationalContactForm),
-    )
-    templates = {
-        CONTACT: 'contact/international/step.html',
-    }
-
-    def get_template_names(self):
-        return [self.templates[self.steps.current]]
-
-    def done(self, *args, **kwargs):
-        #  ¯\_(ツ)_/¯
-        pass
+class InternationalFormView(FeatureFlagMixin, FormView):
+    form_class = forms.InternationalContactForm
+    template_name = 'contact/international/step.html'
 
 
-class DomesticFormView(FeatureFlagMixin, SessionWizardView):
-    CONTACT = 'contact'
-
-    form_list = (
-        (CONTACT, forms.DomesticContactForm),
-    )
-    templates = {
-        CONTACT: 'contact/domestic/step.html',
-    }
-
-    def get_template_names(self):
-        return [self.templates[self.steps.current]]
-
-    def done(self, *args, **kwargs):
-        #  ¯\_(ツ)_/¯
-        pass
+class DomesticFormView(FeatureFlagMixin, FormView):
+    form_class = forms.DomesticContactForm
+    template_name = 'contact/domestic/step.html'
