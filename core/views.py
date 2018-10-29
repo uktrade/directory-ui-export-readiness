@@ -107,9 +107,14 @@ class PrototypeLandingPageView(GetCMSPageByFullPathMixin, LandingPageView):
 
 
 class InternationalLandingPageView(
-    SetEtagMixin, mixins.TranslationsMixin, TemplateView
+    mixins.TranslationsMixin,
+    mixins.GetCMSPageMixin,
+    mixins.GetCMSComponentMixin,
+    TemplateView,
 ):
     template_name = 'core/landing_page_international.html'
+    component_slug = 'eu-exit-banner-international'
+    slug = 'international-news'
 
 
 class QuerystringRedirectView(RedirectView):

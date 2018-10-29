@@ -7,7 +7,11 @@ from prototype.mixins import (
     PrototypeCMSLookupPath,
     RelatedContentMixin,
 )
-from core.mixins import PrototypeFeatureFlagMixin, NewsSectionFeatureFlagMixin
+from core.mixins import (
+    PrototypeFeatureFlagMixin,
+    NewsSectionFeatureFlagMixin,
+    GetCMSComponentMixin,
+)
 from euexit.mixins import HideLanguageSelectorMixin
 
 
@@ -75,10 +79,12 @@ class InternationalNewsListPageView(
     NewsSectionFeatureFlagMixin,
     InternationalNewsCMSLookupPath,
     GetCMSPageByFullPathMixin,
+    GetCMSComponentMixin,
     HideLanguageSelectorMixin,
     TemplateView,
 ):
     template_name = 'prototype/international_news_list.html'
+    component_slug = 'eu-exit-banner-domestic'
 
 
 class InternationalNewsArticleDetailView(
