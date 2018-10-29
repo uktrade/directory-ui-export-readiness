@@ -18,11 +18,18 @@
 
 {% block head_sharing_metadata %}
   {% if request %}
-      {% if page.hero_image %}
-        <meta property="og:image" content="{{ page.hero_image.url }}">
-      {% else %}
-        <meta property="og:image" content="{% block og_image %}{% static_absolute 'directory_components/images/opengraph-image.png' %}{% endblock %}">
-      {% endif %}
-      <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    {% if page.hero_image %}
+      <meta property="og:image" content="{{ page.hero_image.url }}">
+    {% else %}
+      <meta property="og:image" content="{% block og_image %}{% static_absolute 'directory_components/images/opengraph-image.png' %}{% endblock %}">
+    {% endif %}
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
   {% endif %}
+
+  {% if page.search_description or page.seo_title %}
+    <meta name="description" content="{{ page.search_description|default:page.seo_title }}">
+  {% else %}
+    <meta name="description" content="{% block meta_description %}{% endblock %}">
+  {% endif %}
+
 {% endblock %}
