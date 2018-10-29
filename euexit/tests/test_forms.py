@@ -45,6 +45,7 @@ def test_contact_form_set_field_attributes(form_class):
         form_url='http://www.form.com',
         subject='subject',
         ingress_url='http://www.ingress.com',
+        disclaimer='disclaim',
     )
     form_two = form_class(
         field_attributes={
@@ -58,12 +59,15 @@ def test_contact_form_set_field_attributes(form_class):
         form_url='http://www.form.com',
         subject='subject',
         ingress_url='http://www.ingress.com',
+        disclaimer='disclaim',
     )
 
     assert form_one.fields['first_name'].label is None
     assert form_one.fields['last_name'].label is None
+    assert form_one.fields['terms_agreed'].widget.label.endswith('disclaim')
     assert form_two.fields['first_name'].label == 'Your given name'
     assert form_two.fields['last_name'].label == 'Your family name'
+    assert form_two.fields['terms_agreed'].widget.label.endswith('disclaim')
 
 
 def test_domestic_contact_form_serialize(captcha_stub):
@@ -72,6 +76,7 @@ def test_domestic_contact_form_serialize(captcha_stub):
         form_url='http://www.form.com',
         ingress_url='http://www.ingress.com',
         subject='domestic subject',
+        disclaimer='disclaim',
         data={
             'first_name': 'test',
             'last_name': 'example',
@@ -102,6 +107,7 @@ def test_international_contact_form_serialize(captcha_stub):
         form_url='http://www.form.com',
         ingress_url='http://www.ingress.com',
         subject='international subject',
+        disclaimer='disclaim',
         data={
             'first_name': 'test',
             'last_name': 'example',
@@ -142,6 +148,7 @@ def test_international_form_save_calls_send_email(
         form_url='http://www.form.com',
         ingress_url='http://www.ingress.com',
         subject='international subject',
+        disclaimer='disclaim!',
         data=international_contact_form_data
     )
     assert form.is_valid()
@@ -162,6 +169,7 @@ def test_domestic_form_save_calls_send_email(
         form_url='http://www.form.com',
         ingress_url='http://www.ingress.com',
         subject='domestic subject',
+        disclaimer='disclaim!',
         data=domestic_contact_form_data
     )
 
@@ -186,7 +194,8 @@ def test_international_send_agent_email(
         form_url='http://www.form.com',
         ingress_url='http://www.ingress.com',
         subject='international subject',
-        data=international_contact_form_data
+        data=international_contact_form_data,
+        disclaimer='disclaim!',
     )
 
     assert form.is_valid()
@@ -223,6 +232,7 @@ def test_domestic_send_agent_email(
         form_url='http://www.form.com',
         ingress_url='http://www.ingress.com',
         subject='domestic subject',
+        disclaimer='disclaim!',
         data=domestic_contact_form_data
     )
 
@@ -254,6 +264,7 @@ def test_render_agent_email_context(international_contact_form_data):
         form_url='http://www.form.com',
         ingress_url='http://www.ingress.com',
         subject='international subject',
+        disclaimer='disclaim!',
         data=international_contact_form_data
     )
 
@@ -278,6 +289,7 @@ def test_international_send_user_email(
         form_url='http://www.form.com',
         ingress_url='http://www.ingress.com',
         subject='international subject',
+        disclaimer='disclaim!',
         data=international_contact_form_data
     )
 
@@ -315,6 +327,7 @@ def test_domestic_send_user_email(
         form_url='http://www.form.com',
         ingress_url='http://www.ingress.com',
         subject='domestic subject',
+        disclaimer='disclaim!',
         data=domestic_contact_form_data
     )
 
