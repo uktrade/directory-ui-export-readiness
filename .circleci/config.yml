@@ -25,7 +25,7 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
-            make debug_test
+            make debug_test pytest_args="-n auto --dist=loadfile"
             codecov
 
   flake8:
