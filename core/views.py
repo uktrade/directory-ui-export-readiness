@@ -61,7 +61,7 @@ class SetEtagMixin:
 class LandingPageViewNegotiator(TemplateView):
     def __new__(cls, *args, **kwargs):
         if settings.FEATURE_FLAGS['NEWS_SECTION_ON']:
-            return PrototypeLandingPageView(*args, **kwargs)
+            return NewsSectionLandingPageView(*args, **kwargs)
         else:
             return LandingPageView(*args, **kwargs)
 
@@ -94,7 +94,7 @@ class LandingPageView(ArticlesViewedManagerMixin, TemplateView):
         return super().get(request, *args, **kwargs)
 
 
-class PrototypeLandingPageView(GetCMSPageByFullPathMixin, LandingPageView):
+class NewsSectionLandingPageView(GetCMSPageByFullPathMixin, LandingPageView):
     template_name = 'prototype/landing_page.html'
 
     @cached_property
@@ -104,6 +104,13 @@ class PrototypeLandingPageView(GetCMSPageByFullPathMixin, LandingPageView):
             draft_token=self.request.GET.get('draft_token'),
         )
         return helpers.handle_cms_response_allow_404(response)
+
+
+class PrototypeLandingPageView(
+    mixins.PrototypeFeatureFlagMixin,
+    NewsSectionLandingPageView,
+):
+    pass
 
 
 class InternationalLandingPageView(
