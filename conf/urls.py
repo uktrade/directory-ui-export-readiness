@@ -477,22 +477,22 @@ urlpatterns = [
         name='uk-export-finance-lead-generation-form'
     ),
     url(
-        r'^eu-exit/international/contact/$',
+        r'^international/eu-exit-news/contact/$',
         euexit.views.InternationalContactFormView.as_view(),
         name='eu-exit-international-contact-form'
     ),
     url(
-        r'^eu-exit/international/contact/success/$',
+        r'^international/eu-exit-news/contact/success/$',
         euexit.views.InternationalContactSuccessView.as_view(),
         name='eu-exit-international-contact-form-success'
     ),
     url(
-        r'^eu-exit/contact/$',
+        r'^eu-exit-news/contact/$',
         euexit.views.DomesticContactFormView.as_view(),
         name='eu-exit-domestic-contact-form'
     ),
     url(
-        r'^eu-exit/contact/success/$',
+        r'^eu-exit-news/contact/success/$',
         euexit.views.DomesticContactSuccessView.as_view(),
         name='eu-exit-domestic-contact-form-success'
     ),
@@ -502,22 +502,22 @@ urlpatterns += redirects
 
 news_urls = [
     url(
-        r"^news/$",
+        r"^eu-exit-news/$",
         prototype.views.NewsListPageView.as_view(),
         name='news-article-list',
     ),
     url(
-        r"^news/(?P<slug>[\w-]+)/$",
+        r"^eu-exit-news/(?P<slug>[\w-]+)/$",
         prototype.views.NewsArticleDetailView.as_view(),
         name='news-article-detail',
     ),
     url(
-        r"^international/news/$",
+        r"^international/eu-exit-news/$",
         prototype.views.InternationalNewsListPageView.as_view(),
         name='international-news-article-list',
     ),
     url(
-        r"^international/news/(?P<slug>[\w-]+)/$",
+        r"^international/eu-exit-news/(?P<slug>[\w-]+)/$",
         prototype.views.InternationalNewsArticleDetailView.as_view(),
         name='international-news-article-detail',
     ),

@@ -146,7 +146,7 @@ def test_international_form_submit(
         'country': 'AL',
         'city': 'London',
         'comment': 'hello',
-        'form_url': 'http://testserver/eu-exit/international/contact/',
+        'form_url': 'http://testserver/international/eu-exit-news/contact/',
         'ingress_url': 'http://www.google.com',
     })
 
@@ -316,7 +316,7 @@ def test_domestic_form_submit(
         'organisation_type': 'COMPANY',
         'company_name': 'thing',
         'comment': 'hello',
-        'form_url': 'http://testserver/eu-exit/contact/',
+        'form_url': 'http://testserver/eu-exit-news/contact/',
         'ingress_url': 'http://www.google.com',
     })
 
