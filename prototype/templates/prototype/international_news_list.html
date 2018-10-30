@@ -1,14 +1,21 @@
 {% extends 'core/base_international.html' %}
 
-{% load hero cta_box add_export_elements_classes from directory_components_tags %}
+{% load banner hero cta_box add_export_elements_classes from directory_components_tags %}
 {% load parse_date from prototype_tags %}
 {% load static %}
+
+{% block head_js %}
+  {{ block.super }}
+  {% if cms_component %}
+    <script src="{% static 'directory_components/js/dit.components.dismissible-banner.js' %}"></script>
+  {% endif %}
+{% endblock %}
 
 {% block css_layout_class %}article-list-page international-news-list-page{% endblock %}
 
 {% block content %}
 
-<section class="hero hero-generic" id="hero">
+<section class="hero hero-generic" id="hero" dir="ltr">
   <div class="container">
     <div class="hero-title">
       <h1 class="heading-hero-generic" id="hero-heading">{{ page.landing_page_title }}</h1>
@@ -20,7 +27,7 @@
 <section id="article-list-page">
   <div class="container">
     {% block breadcrumbs %}
-      <div class="breadcrumbs">
+      <div class="breadcrumbs" dir="ltr">
         <ol>
           <li>
             <a href="{% url 'landing-page-international' %}">Great.gov.uk</a>
@@ -28,6 +35,11 @@
           <li aria-current="page">{{ page.landing_page_title }}</li>
         </ol>
       </div>
+      {% if cms_component %}
+        <div class="banner-container" dir="{{ component_is_rtl|yesno:'rtl,ltr' }}">
+          {% banner banner_content=cms_component.banner_content badge_content=cms_component.banner_label %}
+        </div>
+      {% endif %}
     {% endblock %}
 
     {% if page.articles %}
@@ -48,7 +60,7 @@
 </section>
 
 {% if features.EU_EXIT_FORMS_ON %}
-  <div class="container">
+  <div class="container" dir="ltr">
     {% url 'eu-exit-international-contact-form' as contact_url %}
     {% cta_box box_id='eu-exit-cta-box' description='If you still have a question about EU Exit, contact Department for International Trade and one of our experts will try to help you.' button_text='Contact us' button_url=contact_url %}
   </div>
