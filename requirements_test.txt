@@ -25,7 +25,7 @@ directory-forms-api-client==2.4.0
 directory-healthcheck==0.5.1
 directory-sso-api-client==3.0.2
 directory-validators==5.0.1
-directory_components==2.26.1
+directory_components==2.29.0
 django-cors-headers==2.1.0
 django-environ==0.4.5
 django-extensions==1.9.0
@@ -60,7 +60,6 @@ pytest-catchlog==1.2.2
 pytest-cov==2.5.1
 pytest-django==3.3.3
 pytest-forked==0.2        # via pytest-xdist
-pytest-parallel==0.0.9
 pytest-sugar==0.9.1
 pytest-xdist==1.23.2
 pytest==3.7.1
