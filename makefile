@@ -192,7 +192,6 @@ TEST_SET_ENV_VARS := \
 	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
 	export DEBUG=false
 
-
 debug_webserver:
 	$(DEBUG_SET_ENV_VARS) && $(DJANGO_WEBSERVER)
 
@@ -212,18 +211,6 @@ debug_shell:
 	$(DEBUG_SET_ENV_VARS) && ./manage.py shell
 
 debug: test_requirements debug_test
-
-heroku_deploy_dev:
-	./docker/install_heroku_cli.sh
-	docker login --username=$$HEROKU_EMAIL --password=$$HEROKU_TOKEN registry.heroku.com
-	~/bin/heroku-cli/bin/heroku container:push web --app directory-ui-exp-readiness-dev
-	~/bin/heroku-cli/bin/heroku container:release web --app directory-ui-exp-readiness-dev
-
-integration_tests:
-	cd $(mktemp -d) && \
-	git clone https://github.com/uktrade/directory-tests && \
-	cd directory-tests && \
-	make docker_integration_tests
 
 compile_requirements:
 	pip-compile requirements.in
