@@ -47,4 +47,4 @@ workflows:
   test_and_flake8:
     jobs:
       - test
-      - flake
+      - flake8
