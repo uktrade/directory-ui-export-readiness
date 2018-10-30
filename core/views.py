@@ -114,7 +114,7 @@ class InternationalLandingPageView(
 ):
     template_name = 'core/landing_page_international.html'
     component_slug = 'eu-exit-banner-international'
-    slug = 'international-news'
+    slug = 'international-eu-exit-news'
 
 
 class QuerystringRedirectView(RedirectView):
