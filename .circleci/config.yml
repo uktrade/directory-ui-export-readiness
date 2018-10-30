@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: circleci/python:3.6.6
     steps:
@@ -41,3 +41,10 @@ jobs:
           . venv/bin/activate
           pip install flake8
           flake8 . --exclude=migrations,venv
+
+workflows:
+  version: 2
+  test_and_flake8:
+    jobs:
+      - test
+      - flake
