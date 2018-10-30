@@ -1,4 +1,5 @@
 {% extends 'prototype/article_list.html' %}
+{% load parse_date from prototype_tags %}
 
 {% block css_layout_class %}article-list-page tag-list-page{% endblock css_layout_class %}
 
@@ -24,5 +25,10 @@
 {% endblock %}
 
 {% block content_list %}
-  {% include 'prototype/includes/article_links_list.html' with articles=page.items %}
+  {% for article in page.items %}
+    <li class="article">
+      <h3 class="heading-medium"><a href="{{ article.full_path }}" class="link">{{ article.article_title }}</a></h3>
+      <p class="subheading">Last updated {{ article.last_published_at|parse_date }}</p>
+    </li>
+  {% endfor %}
 {% endblock %}

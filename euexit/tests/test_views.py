@@ -128,7 +128,6 @@ def test_international_form_submit(
     assert response.url == reverse(
         'eu-exit-international-contact-form-success'
     )
-
     assert mock_save.call_count == 1
 
 

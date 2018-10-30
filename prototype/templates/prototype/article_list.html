@@ -39,7 +39,14 @@
       <div class="column-two-thirds-l column-full article-list">
         <ul class="content-list">
           {% block content_list %}
-            {% include 'prototype/includes/article_links_list.html' with articles=page.articles %}
+
+            {% for article in page.articles %}
+              <li class="article">
+                <h3 class="heading-medium"><a href="{{ '/prototype'|add:article.full_path }}" class="link">{{ article.article_title }}</a></h3>
+                <p class="subheading">Last updated {{ article.last_published_at|parse_date }}</p>
+              </li>
+            {% endfor %}
+
           {% endblock %}
         </ul>
       </div>
