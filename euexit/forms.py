@@ -26,12 +26,14 @@ TERMS_LABEL = mark_safe(
 
 
 class FieldsMutationMixin:
-    def __init__(self, field_attributes, *args, **kwargs):
+    def __init__(self, field_attributes, disclaimer, *args, **kwargs):
         for field_name, field in self.base_fields.items():
             attributes = field_attributes.get(field_name)
             if attributes:
                 field.__dict__.update(attributes)
-        return super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
+        widget = self.fields['terms_agreed'].widget
+        widget.label = mark_safe(f'{widget.label}  {disclaimer}')
 
 
 class SerializeMixin:
@@ -61,7 +63,6 @@ class EuExitZendeskActionMixin(ZendeskActionMixin):
 class InternationalContactForm(
     FieldsMutationMixin, SerializeMixin, EuExitZendeskActionMixin, forms.Form
 ):
-
     first_name = fields.CharField()
     last_name = fields.CharField()
     email = fields.EmailField()

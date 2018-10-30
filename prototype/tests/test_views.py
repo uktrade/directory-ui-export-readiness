@@ -44,14 +44,14 @@ test_topic_page = {
     'hero_image': {'url': 'markets.png'},
     'article_listing': [
         {
-            'landing_page_title': 'Africa',
+            'landing_page_title': 'Africa market information',
             'full_path': '/markets/africa/',
             'hero_image': {'url': 'africa.png'},
             'articles_count': 0,
             'last_published_at': '2018-10-01T15:15:53.927833Z'
         },
         {
-            'landing_page_title': 'Asia',
+            'landing_page_title': 'Asia market information',
             'full_path': '/markets/asia/',
             'hero_image': {'url': 'asia.png'},
             'articles_count': 3,
@@ -66,6 +66,7 @@ def test_prototype_topic_list_page(mock_get_page, client, settings):
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
         'PROTOTYPE_PAGES_ON': True,
+        'PROTOTYPE_HEADER_FOOTER_ON': False,
     }
 
     url = reverse('topic-list', kwargs={'slug': 'markets'})
@@ -83,8 +84,8 @@ def test_prototype_topic_list_page(mock_get_page, client, settings):
     assert test_topic_page['title'] not in str(response.content)
     assert test_topic_page['landing_page_title'] in str(response.content)
 
-    assert 'Asia' in str(response.content)
-    assert 'Africa' not in str(response.content)
+    assert 'Asia market information' in str(response.content)
+    assert 'Africa market information' not in str(response.content)
     assert 'markets.png' in str(response.content)
     assert 'asia.png' in str(response.content)
     assert 'africa.png' not in str(response.content)
@@ -398,8 +399,6 @@ def test_prototype_tag_list_page(mock_get_page, client, settings):
 
     assert response.status_code == 200
     assert response.template_name == ['prototype/tag_list.html']
-
-    print(response.content)
 
     assert '01 October' in str(response.content)
     assert '02 October' in str(response.content)
