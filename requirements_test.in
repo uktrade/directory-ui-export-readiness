@@ -4,6 +4,7 @@ pytest
 pytest-cov
 pytest-django
 pytest-sugar
+pytest-xdist
 flake8
 pytest-catchlog
 requests_mock

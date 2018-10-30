@@ -8,7 +8,7 @@ test_requirements:
 	pip install -r requirements_test.txt
 
 FLAKE8 := flake8 . --exclude=migrations,.venv,node_modules
-PYTEST := pytest . -v --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
+PYTEST := pytest . -vv --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
 COLLECT_STATIC := python manage.py collectstatic --noinput
 COMPILE_TRANSLATIONS := python manage.py compilemessages
 CODECOV := \
@@ -185,6 +185,17 @@ DEBUG_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_API_KEY_EUEXIT=debug; \
 	export DIRECTORY_FORMS_API_SENDER_ID_EUEXIT=debug
 
+TEST_SET_ENV_VARS := \
+	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
+	export DIRECTORY_FORMS_API_API_KEY=debug; \
+	export DIRECTORY_FORMS_API_SENDER_ID=debug; \
+	export DIRECTORY_FORMS_API_API_KEY_EUEXIT=debug; \
+	export DIRECTORY_FORMS_API_SENDER_ID_EUEXIT=debug; \
+	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
+	export DEBUG=false
+
+
+
 debug_webserver:
 	$(DEBUG_SET_ENV_VARS) && $(DJANGO_WEBSERVER)
 
@@ -192,7 +203,7 @@ debug_pytest:
 	$(DEBUG_SET_ENV_VARS) && $(COLLECT_STATIC) && $(PYTEST)
 
 debug_test:
-	$(DEBUG_SET_ENV_VARS) && $(COLLECT_STATIC) && $(FLAKE8) && $(PYTEST) --cov-report=html
+	$(DEBUG_SET_ENV_VARS) && $(TEST_SET_ENV_VARS) && $(COLLECT_STATIC) && $(PYTEST) --cov-report=html
 
 debug_test_last_failed:
 	make debug_test pytest_args='-v --last-failed'
