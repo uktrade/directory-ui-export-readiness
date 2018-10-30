@@ -3,7 +3,7 @@ from unittest import mock
 from directory_constants.constants import choices
 import pytest
 
-from euexit import forms
+from euexit import forms, helpers
 
 
 @pytest.fixture
@@ -181,7 +181,7 @@ def test_domestic_form_save_calls_send_email(
     assert mock_send_agent_email.call_count == 1
 
 
-@mock.patch.object(forms.InternationalContactForm, 'action_class')
+@mock.patch('directory_forms_api_client.actions.EmailAction')
 @mock.patch.object(
     forms.InternationalContactForm, 'render_email', return_value='something'
 )
@@ -204,6 +204,7 @@ def test_international_send_agent_email(
 
     assert mock_email_action.call_count == 1
     assert mock_email_action.call_args == mock.call(
+        client=helpers.eu_exit_forms_api_client,
         recipients=[settings.EUEXIT_AGENT_EMAIL],
         subject='international subject',
         reply_to=[settings.DEFAULT_FROM_EMAIL],
@@ -220,7 +221,7 @@ def test_international_send_agent_email(
     )
 
 
-@mock.patch.object(forms.DomesticContactForm, 'action_class')
+@mock.patch('directory_forms_api_client.actions.EmailAction')
 @mock.patch.object(
     forms.DomesticContactForm, 'render_email', return_value='something'
 )
@@ -238,19 +239,21 @@ def test_domestic_send_agent_email(
 
     assert form.is_valid()
 
-    form.send_user_email()
+    form.send_agent_email()
 
     assert mock_email_action.call_count == 1
     assert mock_email_action.call_args == mock.call(
-        recipients=[domestic_contact_form_data['email']],
+        client=helpers.eu_exit_forms_api_client,
+        recipients=[settings.EUEXIT_AGENT_EMAIL],
         subject='domestic subject',
         reply_to=[settings.DEFAULT_FROM_EMAIL],
     )
 
-    assert mock_render_email.call_count == 1
-    assert mock_render_email.call_args == mock.call(
-        'euexit/email-confirmation-user.txt'
-    )
+    assert mock_render_email.call_count == 2
+    assert mock_render_email.call_args_list == [
+        mock.call('euexit/email-confirmation-agent.txt'),
+        mock.call('euexit/email-confirmation-agent.html'),
+    ]
 
     assert mock_email_action().save.call_count == 1
     assert mock_email_action().save.call_args == mock.call(
@@ -276,15 +279,11 @@ def test_render_agent_email_context(international_contact_form_data):
     assert 'http://www.form.com' in html
 
 
-@mock.patch.object(forms.InternationalContactForm, 'action_class')
-@mock.patch.object(
-    forms.InternationalContactForm, 'render_email', return_value='something'
-)
+@mock.patch('directory_forms_api_client.actions.GovNotifyAction')
 def test_international_send_user_email(
-    mock_render_email, mock_email_action, settings,
-    international_contact_form_data
+    mock_notify_action, settings, international_contact_form_data
 ):
-    form = forms.InternationalContactForm(
+    form = forms.DomesticContactForm(
         field_attributes={},
         form_url='http://www.form.com',
         ingress_url='http://www.ingress.com',
@@ -297,30 +296,24 @@ def test_international_send_user_email(
 
     form.send_user_email()
 
-    assert mock_email_action.call_count == 1
-    assert mock_email_action.call_args == mock.call(
-        recipients=[international_contact_form_data['email']],
-        subject='international subject',
-        reply_to=[settings.DEFAULT_FROM_EMAIL],
+    assert mock_notify_action.call_count == 1
+    assert mock_notify_action.call_args == mock.call(
+        client=helpers.eu_exit_forms_api_client,
+        template_id=settings.EUEXIT_GOV_NOTIFY_TEMPLATE_ID,
+        email_address=international_contact_form_data['email'],
+        email_reply_to_id=settings.EUEXIT_GOV_NOTIFY_REPLY_TO_ID,
     )
 
-    assert mock_render_email.call_count == 1
-    assert mock_render_email.call_args == mock.call(
-        'euexit/email-confirmation-user.txt'
-    )
+    assert mock_notify_action().save.call_count == 1
 
-    assert mock_email_action().save.call_count == 1
-    assert mock_email_action().save.call_args == mock.call(
-        {'text_body':  'something', 'html_body': 'something'}
+    assert mock_notify_action().save.call_args == mock.call(
+        form.serialized_data
     )
 
 
-@mock.patch.object(forms.DomesticContactForm, 'action_class')
-@mock.patch.object(
-    forms.DomesticContactForm, 'render_email', return_value='something'
-)
+@mock.patch('directory_forms_api_client.actions.GovNotifyAction')
 def test_domestic_send_user_email(
-    mock_render_email, mock_email_action, settings, domestic_contact_form_data
+    mock_notify_action, settings, domestic_contact_form_data
 ):
     form = forms.DomesticContactForm(
         field_attributes={},
@@ -335,19 +328,16 @@ def test_domestic_send_user_email(
 
     form.send_user_email()
 
-    assert mock_email_action.call_count == 1
-    assert mock_email_action.call_args == mock.call(
-        recipients=[domestic_contact_form_data['email']],
-        subject='domestic subject',
-        reply_to=[settings.DEFAULT_FROM_EMAIL],
+    assert mock_notify_action.call_count == 1
+    assert mock_notify_action.call_args == mock.call(
+        client=helpers.eu_exit_forms_api_client,
+        template_id=settings.EUEXIT_GOV_NOTIFY_TEMPLATE_ID,
+        email_address=domestic_contact_form_data['email'],
+        email_reply_to_id=settings.EUEXIT_GOV_NOTIFY_REPLY_TO_ID,
     )
 
-    assert mock_render_email.call_count == 1
-    assert mock_render_email.call_args == mock.call(
-        'euexit/email-confirmation-user.txt'
-    )
+    assert mock_notify_action().save.call_count == 1
 
-    assert mock_email_action().save.call_count == 1
-    assert mock_email_action().save.call_args == mock.call(
-        {'text_body':  'something', 'html_body': 'something'}
+    assert mock_notify_action().save.call_args == mock.call(
+        form.serialized_data
     )

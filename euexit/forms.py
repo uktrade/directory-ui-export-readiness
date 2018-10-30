@@ -1,7 +1,7 @@
 from captcha.fields import ReCaptchaField
 from directory_constants.constants import choices, urls
 from directory_components import forms, fields, widgets
-from directory_forms_api_client.forms import EmailActionMixin
+from directory_forms_api_client import actions
 from directory_validators.common import not_contains_url_or_email
 from directory_validators.company import no_html
 
@@ -55,32 +55,27 @@ class SerializeMixin:
         return data
 
 
-class EuExitEmailActionMixin(EmailActionMixin):
+class EuExitActionMixin:
     """Submit the ticket to the eu-exit zendesk account."""
-
-    def action_class(self, *args, **kwargs):
-        action_class = super().action_class
-        return action_class(client=eu_exit_forms_api_client, *args, **kwargs)
 
     def render_email(self, template_name):
         context = {'form_data': self.serialized_data}
         return render_to_string(template_name, context)
 
     def send_user_email(self):
-        action = self.action_class(
-            recipients=[settings.EUEXIT_AGENT_EMAIL],
-            subject=self.subject,
-            reply_to=[settings.DEFAULT_FROM_EMAIL],
+        action = actions.GovNotifyAction(
+            client=eu_exit_forms_api_client,
+            template_id=settings.EUEXIT_GOV_NOTIFY_TEMPLATE_ID,
+            email_address=self.cleaned_data['email'],
+            email_reply_to_id=settings.EUEXIT_GOV_NOTIFY_REPLY_TO_ID,
         )
-        email_body = self.render_email('euexit/email-confirmation-user.txt')
-        response = action.save({
-            'text_body': email_body, 'html_body': email_body,
-        })
+        response = action.save(self.serialized_data)
         response.raise_for_status()
 
     def send_agent_email(self):
-        action = self.action_class(
-            recipients=[self.cleaned_data['email']],
+        action = actions.EmailAction(
+            client=eu_exit_forms_api_client,
+            recipients=[settings.EUEXIT_AGENT_EMAIL],
             subject=self.subject,
             reply_to=[settings.DEFAULT_FROM_EMAIL],
         )
@@ -97,7 +92,7 @@ class EuExitEmailActionMixin(EmailActionMixin):
 
 
 class InternationalContactForm(
-    FieldsMutationMixin, SerializeMixin, EuExitEmailActionMixin, forms.Form
+    FieldsMutationMixin, SerializeMixin, EuExitActionMixin, forms.Form
 ):
     first_name = fields.CharField()
     last_name = fields.CharField()
@@ -127,7 +122,7 @@ class InternationalContactForm(
 
 
 class DomesticContactForm(
-    FieldsMutationMixin, SerializeMixin, EuExitEmailActionMixin, forms.Form
+    FieldsMutationMixin, SerializeMixin, EuExitActionMixin, forms.Form
 ):
 
     first_name = fields.CharField()
