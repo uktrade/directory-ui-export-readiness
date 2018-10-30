@@ -620,3 +620,39 @@ def test_prototype_landing_page_header_footer(mock_get_page, client, settings):
 
     footer_advice_link = soup.find(id="footer-advice-link")
     assert footer_advice_link['href'] == '/advice'
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_prototype_url_feature_flag_off(mock_get_page, client, settings):
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'PROTOTYPE_PAGES_ON': False,
+    }
+
+    url = reverse('prototype-landing-page')
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body={}
+    )
+    response = client.get(url)
+
+    assert response.status_code == 404
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_prototype_url_feature_flag_on(mock_get_page, client, settings):
+    settings.FEATURE_FLAGS = {
+        **settings.FEATURE_FLAGS,
+        'PROTOTYPE_PAGES_ON': True,
+    }
+
+    url = reverse('prototype-landing-page')
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body={}
+    )
+    response = client.get(url)
+
+    assert response.status_code == 200
