@@ -187,9 +187,7 @@ DEBUG_SET_ENV_VARS := \
 	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
 	export EUEXIT_AGENT_EMAIL=test@example.com; \
 	export EUEXIT_GOV_NOTIFY_TEMPLATE_ID=debug; \
-	export EUEXIT_GOV_NOTIFY_REPLY_TO_ID=debug; \
-	export DIRECTORY_FORMS_API_API_KEY_EUEXIT=debug; \
-	export DIRECTORY_FORMS_API_SENDER_ID_EUEXIT=debug
+	export EUEXIT_GOV_NOTIFY_REPLY_TO_ID=debug
 
 TEST_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
