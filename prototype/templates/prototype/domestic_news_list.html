@@ -1,6 +1,7 @@
 {% extends 'prototype/article_list.html' %}
 
 {% load cta_box from directory_components_tags %}
+{% load parse_date from prototype_tags %}
 
 {% block css_layout_class %}article-list-page{% endblock css_layout_class %}
 
@@ -28,7 +29,17 @@
   </div>
 {% endblock %}
 
-{% block article_link %}{{ article.full_path }}{% endblock %}
+
+{% block content_list %}
+
+  {% for article in page.articles %}
+    <li class="article">
+      <h3 class="heading-medium"><a href="{{ article.full_path }}" class="link">{{ article.article_title }}</a></h3>
+      <p class="subheading">Last updated {{ article.last_published_at|parse_date }}</p>
+    </li>
+  {% endfor %}
+
+{% endblock %}
 
 
 {% block list_footer %}
