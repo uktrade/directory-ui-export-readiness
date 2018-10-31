@@ -63,14 +63,19 @@ class GetCMSComponentMixin:
         activated_language_is_bidi = translation.get_language_info(
             activated_language)['bidi']
 
-        component_supports_activated_language = activated_language in \
-            self.cms_component['meta']['languages']
-        component_is_bidi = activated_language_is_bidi and \
-            component_supports_activated_language
+        cms_component = None
+        component_is_bidi = activated_language_is_bidi
+
+        if self.cms_component:
+            cms_component = self.cms_component
+            component_supports_activated_language = activated_language in \
+                self.cms_component['meta']['languages']
+            component_is_bidi = activated_language_is_bidi and \
+                component_supports_activated_language
 
         return super().get_context_data(
             component_is_bidi=component_is_bidi,
-            cms_component=self.cms_component,
+            cms_component=cms_component,
             *args, **kwargs)
 
 
