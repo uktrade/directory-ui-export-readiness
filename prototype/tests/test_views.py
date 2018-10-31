@@ -352,6 +352,9 @@ def test_domestic_news_article_detail_page(mock_get_page, client, settings):
         "meta": {
             "slug": "foo",
         },
+        "tags": [
+            {"name": "Test tag", "slug": "test-tag-slug"}
+        ]
     }
 
     url = reverse('news-article-detail', kwargs={'slug': 'foo'})
@@ -369,6 +372,7 @@ def test_domestic_news_article_detail_page(mock_get_page, client, settings):
 
     assert 'Test news title' in str(response.content)
     assert 'Test news teaser' in str(response.content)
+    assert 'Test tag' not in str(response.content)
     assert '<p class="body-text">Lorem ipsum</p>' in str(response.content)
 
 
