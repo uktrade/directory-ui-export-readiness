@@ -196,7 +196,9 @@ TEST_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_API_KEY_EUEXIT=debug; \
 	export DIRECTORY_FORMS_API_SENDER_ID_EUEXIT=debug; \
 	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
-	export DEBUG=false
+	export DEBUG=false; \
+	export EUEXIT_GOV_NOTIFY_TEMPLATE_ID=debug; \
+	export EUEXIT_GOV_NOTIFY_REPLY_TO_ID=debug
 
 debug_webserver:
 	$(DEBUG_SET_ENV_VARS) && $(DJANGO_WEBSERVER)

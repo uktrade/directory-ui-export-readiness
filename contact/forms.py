@@ -1,5 +1,3 @@
-import abc
-
 from captcha.fields import ReCaptchaField
 from directory_components import forms, fields, widgets
 from directory_constants.constants import choices, urls
@@ -37,6 +35,13 @@ INDUSTRY_CHOICES = (
 )
 
 
+anti_phising_validators = [no_html, not_contains_url_or_email]
+
+
+class NoOpForm(forms.Form):
+    pass
+
+
 class LocationRoutingForm(forms.Form):
     CHOICES = (
         (constants.DOMESTIC, 'The UK'),
@@ -48,12 +53,14 @@ class LocationRoutingForm(forms.Form):
         choices=CHOICES,
     )
 
+
 class DomesticRoutingForm(forms.Form):
     CHOICES = (
         (constants.TRADE_OFFICE, 'Find your local trade office'),
         (constants.EXPORT_ADVICE, 'Advice to export from the UK'),
         (constants.GREAT_SERVICES, 'Great.gov.uk services'),
         (constants.FINANCE, 'Finance'),
+        (constants.EUEXIT, 'EU Exit'),
         (constants.EVENTS, 'Events'),
         (constants.DSO, 'Defence and Security Organisation (DSO)'),
         (constants.OTHER, 'Other'),
@@ -148,19 +155,19 @@ class FinanceInfomationChoicesForm(forms.Form):
 class FinancePersonalDetailsForm(forms.Form):
     given_name = fields.CharField(
         label='First name',
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     family_name = fields.CharField(
         label='Last name',
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     position = fields.CharField(
         label='Position in organisation',
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     email = fields.EmailField()
     phone = fields.CharField(
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
 
 
@@ -183,22 +190,22 @@ class FinanceBusinessDetailsForm(forms.Form):
         required=False,
     )
     organisation_name = fields.CharField(
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     address_line_one = fields.CharField(
         label='Address and street',
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     address_line_two = fields.CharField(
         label='',
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     city = fields.CharField(
         label='Town or city',
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     postcode = fields.CharField(
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     industry = fields.ChoiceField(
         choices=INDUSTRY_CHOICES,
@@ -215,18 +222,18 @@ class FinanceBusinessDetailsForm(forms.Form):
 class ExportAdviceContactForm(forms.Form):
     comment = fields.CharField(
         widget=Textarea,
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
 
 
 class DomesticContactForm(forms.Form):
     given_name = fields.CharField(
         label='First name',
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     family_name = fields.CharField(
         label='Last name',
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     email = fields.EmailField()
     company_type = fields.ChoiceField(
@@ -241,10 +248,10 @@ class DomesticContactForm(forms.Form):
         required=False,
     )
     organisation_name = fields.CharField(
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     postcode = fields.CharField(
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     comment = fields.CharField(
         label='Tell us how we can help',
@@ -252,7 +259,7 @@ class DomesticContactForm(forms.Form):
             'If something is wrong, please give as much details as you can'
         ),
         widget=Textarea,
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     captcha = ReCaptchaField(
         label='',
@@ -271,10 +278,10 @@ class BuyingFromUKContactForm(forms.Form):
     )
 
     given_name = fields.CharField(
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     family_name = fields.CharField(
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     email = fields.EmailField(label='Email address')
     industry = fields.ChoiceField(
@@ -282,14 +289,14 @@ class BuyingFromUKContactForm(forms.Form):
         widget=Select(attrs={'id': 'js-country-select'}),
     )
     organisation_name = fields.CharField(
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     country_name = fields.CharField(
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     comment = fields.CharField(
         widget=Textarea,
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     source = fields.ChoiceField(
         label='Where did you hear about great.gov.uk?',
@@ -312,10 +319,10 @@ class InternationalContactForm(forms.Form):
     )
 
     given_name = fields.CharField(
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     family_name = fields.CharField(
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     email = fields.EmailField(label='Email address')
     organisation_type = fields.ChoiceField(
@@ -324,18 +331,18 @@ class InternationalContactForm(forms.Form):
         choices=ORGANISATION_TYPE_CHOICES
     )
     organisation_name = fields.CharField(
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     country_name = fields.ChoiceField(
         choices=[('', 'Please select')] + choices.COUNTRY_CHOICES,
     )
     city = fields.CharField(
         label='City',
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     comment = fields.CharField(
         widget=Textarea,
-        validators=[no_html, not_contains_url_or_email]
+        validators=anti_phising_validators
     )
     captcha = ReCaptchaField(
         label='',
@@ -344,4 +351,3 @@ class InternationalContactForm(forms.Form):
     terms_agreed = fields.BooleanField(
         label=TERMS_LABEL
     )
-

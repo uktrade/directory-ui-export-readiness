@@ -19,14 +19,16 @@ class FeatureFlagMixin:
 
 class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
 
-    domestic_form_destination_url_mapping = {
+    redirect_list_domestic = {
+        constants.TRADE_OFFICE: settings.FIND_TRADE_OFFICE_URL,
         constants.EXPORT_ADVICE: reverse_lazy('contact-us-export-advice'),
         constants.FINANCE: reverse_lazy('contact-us-finance-form'),
+        constants.EUEXIT: reverse_lazy('eu-exit-domestic-contact-form'),
         constants.EVENTS: urls.SERVICES_EVENTS,
         constants.DSO: reverse_lazy('contact-us-domestic'),
         constants.OTHER: reverse_lazy('contact-us-domestic'),
     }
-    international_form_destination_url_mapping = {
+    redirect_list_international = {
         constants.INVESTING: settings.INVEST_CONTACT_URL,
         constants.BUYING: reverse_lazy('contact-us-find-uk-companies'),
         constants.EUEXIT: reverse_lazy('eu-exit-international-contact-form'),
@@ -40,7 +42,7 @@ class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
         (constants.GREAT_ACCOUNT, forms.GreatAccountRoutingForm),
         (constants.EXPORT_OPPORTUNITIES, forms.ExportOpportunitiesRoutingForm),
         (constants.INTERNATIONAL, forms.InternationalRoutingForm),
-        ('BLANK', forms.InternationalRoutingForm), # should never be reached
+        ('NO-OPERATION', forms.NoOpForm),  # should never be reached
     )
     templates = {
         constants.LOCATION: 'contact/routing/step-location.html',
@@ -56,24 +58,19 @@ class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
     def get_template_names(self):
         return [self.templates[self.steps.current]]
 
-    def done(self, *args, **kwargs):
-        #  ¯\_(ツ)_/¯
-        pass
-
-    def get_target_url_for_choice(self, choice):
-        # determines where to send the used given their form option selected 
+    def get_redirect_url(self, choice):
         mapping = {}
         if self.steps.current == constants.DOMESTIC:
-            mapping = self.domestic_form_destination_url_mapping
+            mapping = self.redirect_list_domestic
         elif self.steps.current == constants.INTERNATIONAL:
-            mapping = self.international_form_destination_url_mapping
+            mapping = self.redirect_list_international
         return mapping.get(choice)
 
     def render_next_step(self, form):
         choice = form.cleaned_data['choice']
-        url = self.get_target_url_for_choice(choice)
-        if url:
-            return redirect(url)
+        redirect_url = self.get_redirect_url(choice)
+        if redirect_url:
+            return redirect(redirect_url)
         return self.render_goto_step(choice)
 
 
@@ -95,10 +92,6 @@ class FinanceFormView(FeatureFlagMixin, SessionWizardView):
 
     def get_template_names(self):
         return [self.templates[self.steps.current]]
-
-    def done(self, *args, **kwargs):
-        #  ¯\_(ツ)_/¯
-        pass
 
 
 class ExportAdviceFormView(FeatureFlagMixin, FormView):
