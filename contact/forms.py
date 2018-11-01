@@ -9,6 +9,8 @@ from directory_validators.company import no_html
 from django.forms import Select, Textarea
 from django.utils.html import mark_safe
 
+from contact import constants
+
 
 TERMS_LABEL = mark_safe(
     'Tick this box to accept the '
@@ -36,12 +38,9 @@ INDUSTRY_CHOICES = (
 
 
 class LocationRoutingForm(forms.Form):
-    DOMESTIC = 'domestic'
-    INTERNATIONAL = 'international'
-
     CHOICES = (
-        (DOMESTIC, 'The UK'),
-        (INTERNATIONAL, 'Outside the UK'),
+        (constants.DOMESTIC, 'The UK'),
+        (constants.INTERNATIONAL, 'Outside the UK'),
     )
     choice = fields.ChoiceField(
         label='',
@@ -50,22 +49,14 @@ class LocationRoutingForm(forms.Form):
     )
 
 class DomesticRoutingForm(forms.Form):
-    TRADE_OFFICE = 'TRADE_OFFICE'
-    EXPORT_ADVICE = 'export-advice'
-    GREAT_SERVICES = 'great-services'
-    FINANCE = 'FINANCE'
-    EVENTS = 'EVENTS'
-    DSO = 'DSO'
-    OTHER = 'OTHER'
-
     CHOICES = (
-        (TRADE_OFFICE, 'Find your local trade office'),  # not supported yet
-        (EXPORT_ADVICE, 'Advice to export from the UK'),
-        (GREAT_SERVICES, 'Great.gov.uk services'),
-        (FINANCE, 'Finance'),
-        (EVENTS, 'Events'),
-        (DSO, 'Defence and Security Organisation (DSO)'),
-        (OTHER, 'Other'),
+        (constants.TRADE_OFFICE, 'Find your local trade office'),
+        (constants.EXPORT_ADVICE, 'Advice to export from the UK'),
+        (constants.GREAT_SERVICES, 'Great.gov.uk services'),
+        (constants.FINANCE, 'Finance'),
+        (constants.EVENTS, 'Events'),
+        (constants.DSO, 'Defence and Security Organisation (DSO)'),
+        (constants.OTHER, 'Other'),
     )
     choice = fields.ChoiceField(
         label='',
@@ -76,11 +67,9 @@ class DomesticRoutingForm(forms.Form):
 
 class GreatServicesRoutingForm(forms.Form):
 
-    EXPORT_OPPORTUNITIES = 'export-opportunities'
-    GREAT_ACCOUNT = 'great-account'
     CHOICES = (
-        (EXPORT_OPPORTUNITIES, 'Export opportunities service'),
-        (GREAT_ACCOUNT, 'Your account on great.gov.uk'),
+        (constants.EXPORT_OPPORTUNITIES, 'Export opportunities service'),
+        (constants.GREAT_ACCOUNT, 'Your account on great.gov.uk'),
     )
     choice = fields.ChoiceField(
         label='',
@@ -89,7 +78,7 @@ class GreatServicesRoutingForm(forms.Form):
     )
 
 
-class ExportOpportunitiesServiceRoutingForm(forms.Form):
+class ExportOpportunitiesRoutingForm(forms.Form):
     CHOICES = (
         (
             'RESPONSE',
@@ -129,15 +118,11 @@ class GreatAccountRoutingForm(forms.Form):
 
 
 class InternationalRoutingForm(forms.Form):
-    INVESTING = 'investing'
-    BUYING = 'buying'
-    EUEXIT = 'euexit'
-    OTHER = 'other'
     CHOICES = (
-        (INVESTING, 'Investing in the UK'),
-        (BUYING, 'Buying from the UK'),
-        (EUEXIT, 'EU Exit'),
-        (OTHER, 'Other'),
+        (constants.INVESTING, 'Investing in the UK'),
+        (constants.BUYING, 'Buying from the UK'),
+        (constants.EUEXIT, 'EU Exit'),
+        (constants.OTHER, 'Other'),
     )
     choice = fields.ChoiceField(
         label='',

@@ -4,10 +4,10 @@ from formtools.wizard.views import NamedUrlSessionWizardView
 from django.conf import settings
 from django.http import Http404
 from django.shortcuts import redirect
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 
-from contact import forms
+from contact import constants, forms
 
 
 class FeatureFlagMixin:
@@ -18,29 +18,39 @@ class FeatureFlagMixin:
 
 
 class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
-    LOCATION = 'location'
-    INTERNATIONAL = 'international'
-    DOMESTIC = 'domestic'
-    GREAT_SERVICES = 'great-services'
-    GREAT_ACCOUNT = 'great-account'
-    EXPORT_OPPORTUNITIES = 'export-opportunities'
+
+    domestic_form_destination_url_mapping = {
+        constants.EXPORT_ADVICE: reverse_lazy('contact-us-export-advice'),
+        constants.FINANCE: reverse_lazy('contact-us-finance-form'),
+        constants.EVENTS: urls.SERVICES_EVENTS,
+        constants.DSO: reverse_lazy('contact-us-domestic'),
+        constants.OTHER: reverse_lazy('contact-us-domestic'),
+    }
+    international_form_destination_url_mapping = {
+        constants.INVESTING: settings.INVEST_CONTACT_URL,
+        constants.BUYING: reverse_lazy('contact-us-find-uk-companies'),
+        constants.EUEXIT: reverse_lazy('eu-exit-international-contact-form'),
+        constants.OTHER: reverse_lazy('contact-us-international'),
+    }
 
     form_list = (
-        (LOCATION, forms.LocationRoutingForm),
-        (DOMESTIC, forms.DomesticRoutingForm),
-        (GREAT_SERVICES, forms.GreatServicesRoutingForm),
-        (GREAT_ACCOUNT, forms.GreatAccountRoutingForm),
-        (EXPORT_OPPORTUNITIES, forms.ExportOpportunitiesServiceRoutingForm),
-        (INTERNATIONAL, forms.InternationalRoutingForm),
+        (constants.LOCATION, forms.LocationRoutingForm),
+        (constants.DOMESTIC, forms.DomesticRoutingForm),
+        (constants.GREAT_SERVICES, forms.GreatServicesRoutingForm),
+        (constants.GREAT_ACCOUNT, forms.GreatAccountRoutingForm),
+        (constants.EXPORT_OPPORTUNITIES, forms.ExportOpportunitiesRoutingForm),
+        (constants.INTERNATIONAL, forms.InternationalRoutingForm),
         ('BLANK', forms.InternationalRoutingForm), # should never be reached
     )
     templates = {
-        LOCATION: 'contact/routing/step-location.html',
-        DOMESTIC: 'contact/routing/step-domestic.html',
-        GREAT_SERVICES: 'contact/routing/step-great-services.html',
-        GREAT_ACCOUNT: 'contact/routing/step-great-account.html',
-        EXPORT_OPPORTUNITIES: 'contact/routing/step-export-opportunities-service.html',
-        INTERNATIONAL: 'contact/routing/step-international.html',
+        constants.LOCATION: 'contact/routing/step-location.html',
+        constants.DOMESTIC: 'contact/routing/step-domestic.html',
+        constants.GREAT_SERVICES: 'contact/routing/step-great-services.html',
+        constants.GREAT_ACCOUNT: 'contact/routing/step-great-account.html',
+        constants.EXPORT_OPPORTUNITIES: (
+            'contact/routing/step-export-opportunities-service.html'
+        ),
+        constants.INTERNATIONAL: 'contact/routing/step-international.html',
     }
 
     def get_template_names(self):
@@ -50,30 +60,21 @@ class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
         #  ¯\_(ツ)_/¯
         pass
 
+    def get_target_url_for_choice(self, choice):
+        # determines where to send the used given their form option selected 
+        mapping = {}
+        if self.steps.current == constants.DOMESTIC:
+            mapping = self.domestic_form_destination_url_mapping
+        elif self.steps.current == constants.INTERNATIONAL:
+            mapping = self.international_form_destination_url_mapping
+        return mapping.get(choice)
+
     def render_next_step(self, form):
         choice = form.cleaned_data['choice']
-        if self.steps.current == self.DOMESTIC:
-            if choice == form.EXPORT_ADVICE:
-                return redirect(reverse('contact-us-export-advice'))
-            elif choice == form.FINANCE:
-                return redirect(reverse('contact-us-finance-form'))
-            elif choice == form.EVENTS:
-                return redirect(urls.SERVICES_EVENTS)
-            elif choice == form.DSO:
-                return redirect(reverse('contact-us-domestic'))
-            elif choice == form.OTHER:
-                return redirect(reverse('contact-us-domestic'))
-        elif self.steps.current == self.INTERNATIONAL:
-            if choice == form.INVESTING:
-                return redirect(settings.INVEST_CONTACT_URL)
-            elif choice == form.BUYING:
-                return redirect(reverse('contact-us-find-uk-companies'))
-            elif choice == form.EUEXIT:
-                return redirect(reverse('eu-exit-international-contact-form'))
-            elif choice == form.OTHER:
-                return redirect(reverse('contact-us-international'))
+        url = self.get_target_url_for_choice(choice)
+        if url:
+            return redirect(url)
         return self.render_goto_step(choice)
-
 
 
 class FinanceFormView(FeatureFlagMixin, SessionWizardView):

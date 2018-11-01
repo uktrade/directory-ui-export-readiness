@@ -571,22 +571,6 @@ prototype_urls = [
 
 contact_urls = [
     url(
-        r'^contact/$',
-        RedirectView.as_view(
-            url=reverse_lazy(
-                'contact-us-routing-form', kwargs={'step': 'location'}
-            )
-        ),
-        name='contact-us-routing-form'
-    ),
-    url(
-        r'^contact/(?P<step>.+)/$',
-        contact.views.RoutingFormView.as_view(
-            url_name='contact-us-routing-form', done_step_name='finished'
-        ),
-        name='contact-us-routing-form'
-    ),
-    url(
         r'^contact/finance/$',
         contact.views.FinanceFormView.as_view(),
         name='contact-us-finance-form'
@@ -610,6 +594,22 @@ contact_urls = [
         r'^contact/domestic/$',
         contact.views.DomesticFormView.as_view(),
         name='contact-us-domestic'
+    ),
+    url(
+        r'^contact/$',
+        RedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-routing-form', kwargs={'step': 'location'}
+            )
+        ),
+        name='contact-us-routing-form'
+    ),
+    url(
+        r'^contact/triage/(?P<step>.+)/$',
+        contact.views.RoutingFormView.as_view(
+            url_name='contact-us-routing-form', done_step_name='finished'
+        ),
+        name='contact-us-routing-form'
     ),
 ]
 
