@@ -8,7 +8,7 @@
         <a href="{% url 'landing-page-international' %}">Great.gov.uk</a>
       </li>
       <li>
-        <a href="{% url 'international-news-article-list' %}">Updates for non-UK companies on EU exit</a>
+        <a href="{% url 'international-news-article-list' %}">EU Exit news</a>
       </li>
       <li aria-current="page">{{ page.article_title }}</li>
     </ol>
@@ -16,11 +16,13 @@
 </div>
 {% endblock %}
 
+{% block article_tags %}{% endblock %}
+
 {% block article_footer %}
 <footer>
   <nav class="grid-row">
     <div class="column-seven-twelfths margin-left-2-cols">
-      <span class="font-xsmall">Back to <a href="{% url 'international-news-article-list' %}" class="link">Updates for companies on EU Exit</a></span>
+      <span class="font-xsmall">Back to <a href="{% url 'international-news-article-list' %}" class="link">EU Exit news</a></span>
     </div>
     <div class="column-quarter">
       <a class="float-right font-xsmall link" href="#content">Back to top</a>

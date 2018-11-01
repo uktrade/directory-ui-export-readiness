@@ -8,7 +8,7 @@ test_requirements:
 	pip install -r requirements_test.txt
 
 FLAKE8 := flake8 . --exclude=migrations,.venv,node_modules
-PYTEST := pytest . -vv --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
+PYTEST := pytest . -v --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
 COLLECT_STATIC := python manage.py collectstatic --noinput
 COMPILE_TRANSLATIONS := python manage.py compilemessages
 CODECOV := \
@@ -92,7 +92,10 @@ DOCKER_SET_DEBUG_ENV_VARS := \
 	export DIRECTORY_UI_EXPORT_READINESS_FEATURE_EU_EXIT_FORMS_ENABLED=true; \
 	export DIRECTORY_UI_EXPORT_READINESS_EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
 	export DIRECTORY_UI_EXPORT_READINESS_DIRECTORY_FORMS_API_API_KEY_EUEXIT=debug; \
-	export DIRECTORY_UI_EXPORT_READINESS_DIRECTORY_FORMS_API_SENDER_ID_EUEXIT=debug
+	export DIRECTORY_UI_EXPORT_READINESS_DIRECTORY_FORMS_API_SENDER_ID_EUEXIT=debug; \
+	export DIRECTORY_UI_EXPORT_READINESS_EUEXIT_AGENT_EMAIL=test@example.com; \
+	export DIRECTORY_UI_EXPORT_READINESS_EUEXIT_GOV_NOTIFY_TEMPLATE_ID=debug; \
+	export DIRECTORY_UI_EXPORT_READINESS_EUEXIT_GOV_NOTIFY_REPLY_TO_ID=debug
 
 
 docker_test_env_files:
@@ -182,8 +185,9 @@ DEBUG_SET_ENV_VARS := \
 	export FEATURE_PROTOTYPE_HEADER_FOOTER_ENABLED=true; \
 	export FEATURE_EU_EXIT_FORMS_ENABLED=true; \
 	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
-	export DIRECTORY_FORMS_API_API_KEY_EUEXIT=debug; \
-	export DIRECTORY_FORMS_API_SENDER_ID_EUEXIT=debug
+	export EUEXIT_AGENT_EMAIL=test@example.com; \
+	export EUEXIT_GOV_NOTIFY_TEMPLATE_ID=debug; \
+	export EUEXIT_GOV_NOTIFY_REPLY_TO_ID=debug
 
 TEST_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
@@ -193,7 +197,6 @@ TEST_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_SENDER_ID_EUEXIT=debug; \
 	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
 	export DEBUG=false
-
 
 debug_webserver:
 	$(DEBUG_SET_ENV_VARS) && $(DJANGO_WEBSERVER)
@@ -214,18 +217,6 @@ debug_shell:
 	$(DEBUG_SET_ENV_VARS) && ./manage.py shell
 
 debug: test_requirements debug_test
-
-heroku_deploy_dev:
-	./docker/install_heroku_cli.sh
-	docker login --username=$$HEROKU_EMAIL --password=$$HEROKU_TOKEN registry.heroku.com
-	~/bin/heroku-cli/bin/heroku container:push web --app directory-ui-exp-readiness-dev
-	~/bin/heroku-cli/bin/heroku container:release web --app directory-ui-exp-readiness-dev
-
-integration_tests:
-	cd $(mktemp -d) && \
-	git clone https://github.com/uktrade/directory-tests && \
-	cd directory-tests && \
-	make docker_integration_tests
 
 compile_requirements:
 	pip-compile requirements.in
