@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'directory_components',
     'prototype',
     'euexit',
+    'contact',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -413,6 +414,7 @@ FEATURE_FLAGS = {
     'PERFORMANCE_DASHBOARD_ON': env.bool(
         'FEATURE_PERFORMANCE_DASHBOARD_ENABLED', False
     ),
+    'CONTACT_US_ON': env.bool('FEATURE_CONTACT_US_ENABLED', False),
     # used by directory-components
     'SEARCH_ENGINE_INDEXING_OFF': env.bool(
         'FEATURE_SEARCH_ENGINE_INDEXING_DISABLED', False
@@ -452,3 +454,12 @@ DIRECTORY_FORMS_API_SENDER_ID_EUEXIT = env.str(
 EUEXIT_AGENT_EMAIL = env.str('EUEXIT_AGENT_EMAIL')
 EUEXIT_GOV_NOTIFY_TEMPLATE_ID = env.str('EUEXIT_GOV_NOTIFY_TEMPLATE_ID')
 EUEXIT_GOV_NOTIFY_REPLY_TO_ID = env.str('EUEXIT_GOV_NOTIFY_REPLY_TO_ID', None)
+
+# Contact
+INVEST_CONTACT_URL = env.str(
+    'INVEST_CONTACT_URL', 'https://invest.great.gov.uk/contact/'
+)
+FIND_TRADE_OFFICE_URL = env.str(
+    'FIND_TRADE_OFFICE_URL',
+    'https://www.contactus.trade.gov.uk/office-finder'
+)

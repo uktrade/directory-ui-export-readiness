@@ -3,15 +3,18 @@ import directory_healthcheck.views
 
 from django.conf.urls import url
 from django.contrib.sitemaps.views import sitemap
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+from django.views.generic.base import RedirectView
 
 import article.views
 import casestudy.views
+import contact.views
 import core.views
 import euexit.views
-import triage.views
 import finance.views
 import prototype.views
+import triage.views
 
 from conf.url_redirects import redirects
 
@@ -476,6 +479,10 @@ urlpatterns = [
         ),
         name='uk-export-finance-lead-generation-form'
     ),
+]
+
+
+euexit_urls = [
     url(
         r'^international/eu-exit-news/contact/$',
         euexit.views.InternationalContactFormView.as_view(),
@@ -498,7 +505,6 @@ urlpatterns = [
     ),
 ]
 
-urlpatterns += redirects
 
 news_urls = [
     url(
@@ -523,7 +529,6 @@ news_urls = [
     ),
 ]
 
-urlpatterns += news_urls
 
 prototype_urls = [
     url(
@@ -563,4 +568,54 @@ prototype_urls = [
     ),
 ]
 
+
+contact_urls = [
+    url(
+        r'^contact/finance/$',
+        contact.views.FinanceFormView.as_view(),
+        name='contact-us-finance-form'
+    ),
+    url(
+        r'^contact/export-advice/$',
+        contact.views.ExportAdviceFormView.as_view(),
+        name='contact-us-export-advice'
+    ),
+    url(
+        r'^contact/find-uk-companies/$',
+        contact.views.BuyingFromUKCompaniesFormView.as_view(),
+        name='contact-us-find-uk-companies'
+    ),
+    url(
+        r'^contact/international/$',
+        contact.views.InternationalFormView.as_view(),
+        name='contact-us-international'
+    ),
+    url(
+        r'^contact/domestic/$',
+        contact.views.DomesticFormView.as_view(),
+        name='contact-us-domestic'
+    ),
+    url(
+        r'^contact/$',
+        RedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-routing-form', kwargs={'step': 'location'}
+            )
+        ),
+        name='contact-us-routing-form'
+    ),
+    url(
+        r'^contact/triage/(?P<step>.+)/$',
+        contact.views.RoutingFormView.as_view(
+            url_name='contact-us-routing-form', done_step_name='finished'
+        ),
+        name='contact-us-routing-form'
+    ),
+]
+
+
+urlpatterns += euexit_urls
+urlpatterns += redirects
+urlpatterns += news_urls
 urlpatterns += prototype_urls
+urlpatterns += contact_urls

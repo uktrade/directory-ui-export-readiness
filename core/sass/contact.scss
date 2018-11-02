@@ -2,7 +2,7 @@
 // ------------------------------------------------
 
 @import './partials/base';
-@import './components/_form-progress-indicator';
+@import './components/form-wizard';
 
 
 li {
@@ -19,56 +19,14 @@ ul {
   }
 }
 
-h1 {
-  letter-spacing: -1px;
-  line-height: 55px;
-  font-size: 48px;
+#form-step-body-text {
+  margin-bottom: 20px;
 }
 
-h3 {
-  font-size: 24px;
-  font-weight: 500;
-  margin-bottom: 40px;
-}
-
-#title-area {
-  h1 {
-    margin-bottom: 0;
-  }
+button {
   margin-top: 30px;
-  margin-bottom: 0;
 }
 
-.helptext {
-  color: #999999;
-  display: block;
-  font-size: 15px;
-}
-
-
-.input-field-container {
-  &>li {
-    margin-bottom: 60px;
-  }
-  &.has-error {
-    border-left: 5px solid #B00D23;
-    padding-left: 15px;
-
-    ul {
-      &.errorlist {
-        margin: 0 0 10px;
-        padding: 0;
-        li {
-          color: #b10e1e;
-          font-weight: 600;
-        }
-      }
-    }
-    input, select, textarea {
-      border: 3px solid #B00D23;
-    }
-  }
-}
 
 .previous-step {
   color: #00549f;
@@ -79,105 +37,4 @@ h3 {
   font-size: 18px;
   display: inline-block;
   margin-right: 20px;
-}
-
-#interstitial-container {
-  margin-bottom: 20px;
-}
-
-.icon {
-    border: 2px solid #fff;
-    border-radius: 100px;
-    box-sizing: content-box;
-    display: block;
-    margin: auto;
-    padding: 20px 7px;
-    width: 70px;
-}
-
-.number-icon {
-  width: 15px;
-  height: 15px;
-  padding: 15px;
-  line-height: 15px;
-}
-
-.form-success-icon {
-  width: 70px;
-  height: 70px;
-  line-height: 100px;  
-  padding: 0;
-}
-
-#triage-success-container {
-  ul {
-    list-style: none;
-    li {
-      display: inline-block;
-    }
-  }
-  h2 {
-    border-bottom: 1px solid #fff;
-    display: inline-block;
-    padding-bottom: 40px;
-    font-weight: 500;
-    margin-top: 20px;
-  }
-  .form-success-header {
-    border-bottom: 1px solid #fff;
-    display: inline-block;
-    padding-bottom: 40px;
-  }
-
-  color: #fff;
-  padding-bottom: 60px;
-  text-align: center;
-
-  &-icon {
-    border: 2px solid #fff;
-    border-radius: 100px;
-    box-sizing: content-box;
-    display: block;
-    margin: auto;
-    padding: 20px 7px;
-    width: 70px;
-  }
-
-  &-header {
-    border-bottom: 1px solid #fff;
-    display: inline-block;
-    padding-bottom: 40px;
-  }
-
-  &-section p {
-    margin: auto;
-    width: 80%;
-  }
-
-  &-section span {
-    border: 2px solid #fff;
-    border-radius: 100px;
-    box-sizing: initial;
-    display: block;
-    height: 40px;
-    line-height: 40px;
-    margin: 0 auto 15px;
-    width: 40px;
-  }
-
-  a {
-    border-bottom: 1px solid #dce0df;
-    border-bottom-color: rgba(220, 224, 223, 0.5);
-    color: #fff;
-    padding-bottom: 2px;
-    text-decoration: none;
-  }
-
-  a:hover {
-    border-bottom: 1px dashed #fff;
-  }
-}
-
-.clearfix {
-  clear: both
 }
