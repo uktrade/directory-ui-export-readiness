@@ -1,6 +1,6 @@
 from unittest import mock
 
-from directory_constants.constants import urls
+from directory_constants.constants import cms, urls
 import pytest
 
 from django import forms
@@ -19,7 +19,7 @@ class ChoiceForm(forms.Form):
 
 
 @pytest.mark.parametrize('current_step,choice,expected_url', (
-    # location step
+    # location step routing
     (
         constants.LOCATION,
         constants.DOMESTIC,
@@ -30,7 +30,7 @@ class ChoiceForm(forms.Form):
         constants.INTERNATIONAL,
         build_wizard_url(constants.INTERNATIONAL),
     ),
-    # domestic step
+    # domestic step routing
     (
         constants.DOMESTIC,
         constants.TRADE_OFFICE,
@@ -66,20 +66,81 @@ class ChoiceForm(forms.Form):
         constants.OTHER,
         reverse('contact-us-domestic')
     ),
-    # great services
+    # great services guidance routing
     (
         constants.GREAT_SERVICES,
         constants.EXPORT_OPPORTUNITIES,
-        build_wizard_url(constants.EXPORT_OPPORTUNITIES)
+        build_wizard_url(constants.EXPORT_OPPORTUNITIES),
     ),
     (
         constants.GREAT_SERVICES,
         constants.GREAT_ACCOUNT,
-        build_wizard_url(constants.GREAT_ACCOUNT)
+        build_wizard_url(constants.GREAT_ACCOUNT),
     ),
-    # constants.GREAT_ACCOUNT is not supported yet
-    # constants.EXPORT_OPPORTUNITIES is not supported yet
-    # international
+    (
+        constants.GREAT_ACCOUNT,
+        constants.NO_VERIFICATION_EMAIL,
+        views.build_great_account_guidance_url(
+            cms.EXPORT_READINESS_HELP_MISSING_VERIFY_EMAIL_SLUG
+        ),
+    ),
+    (
+        constants.GREAT_ACCOUNT,
+        constants.PASSWORD_RESET,
+        views.build_great_account_guidance_url(
+            cms.EXPORT_READINESS_HELP_PASSWORD_RESET_SLUG
+        ),
+    ),
+    (
+        constants.GREAT_ACCOUNT,
+        constants.COMPANIES_HOUSE_LOGIN,
+        views.build_great_account_guidance_url(
+            cms.EXPORT_READINESS_HELP_COMPANIES_HOUSE_LOGIN_SLUG
+        ),
+    ),
+    (
+        constants.GREAT_ACCOUNT,
+        constants.VERIFICATION_CODE,
+        views.build_great_account_guidance_url(
+            cms.EXPORT_READINESS_HELP_VERIFICATION_CODE_ENTER_SLUG
+        ),
+    ),
+    (
+        constants.GREAT_ACCOUNT,
+        constants.NO_VERIFICATION_LETTER,
+        views.build_great_account_guidance_url(
+            cms.EXPORT_READINESS_HELP_VERIFICATION_CODE_LETTER_SLUG
+        )
+    ),
+    (
+        constants.GREAT_ACCOUNT,
+        constants.OTHER,
+        reverse('contact-us-domestic'),
+    ),
+    # Export opportunities guidance routing
+    (
+        constants.EXPORT_OPPORTUNITIES,
+        constants.NO_RESPONSE,
+        reverse('contact-us-domestic'),
+    ),
+    (
+        constants.EXPORT_OPPORTUNITIES,
+        constants.ALERTS,
+        views.build_export_opportunites_guidance_url(
+            cms.EXPORT_READINESS_HELP_EXOPP_ALERTS_IRRELEVANT_SLUG
+        ),
+    ),
+    (
+        constants.EXPORT_OPPORTUNITIES,
+        constants.MORE_DETAILS,
+        reverse('contact-us-domestic'),
+    ),
+    (
+        constants.EXPORT_OPPORTUNITIES,
+        constants.OTHER,
+        reverse('contact-us-domestic'),
+    ),
+    # international routing
     (
         constants.INTERNATIONAL,
         constants.INVESTING,

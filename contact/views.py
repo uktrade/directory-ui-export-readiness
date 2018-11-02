@@ -1,13 +1,29 @@
-from directory_constants.constants import urls
+from directory_constants.constants import cms, urls
+
 from formtools.wizard.views import SessionWizardView
 from formtools.wizard.views import NamedUrlSessionWizardView
+
 from django.conf import settings
 from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
+from core.mixins import GetCMSPageMixin
 from contact import constants, forms
+
+
+def build_export_opportunites_guidance_url(step_name, ):
+    return reverse_lazy(
+        'contact-us-export-opportunities-guidance', kwargs={'slug': step_name}
+    )
+
+
+def build_great_account_guidance_url(step_name, ):
+    return reverse_lazy(
+        'contact-us-great-account-guidance', kwargs={'slug': step_name}
+    )
 
 
 class FeatureFlagMixin:
@@ -19,20 +35,51 @@ class FeatureFlagMixin:
 
 class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
 
-    redirect_list_domestic = {
-        constants.TRADE_OFFICE: settings.FIND_TRADE_OFFICE_URL,
-        constants.EXPORT_ADVICE: reverse_lazy('contact-us-export-advice'),
-        constants.FINANCE: reverse_lazy('contact-us-finance-form'),
-        constants.EUEXIT: reverse_lazy('eu-exit-domestic-contact-form'),
-        constants.EVENTS: urls.SERVICES_EVENTS,
-        constants.DSO: reverse_lazy('contact-us-domestic'),
-        constants.OTHER: reverse_lazy('contact-us-domestic'),
-    }
-    redirect_list_international = {
-        constants.INVESTING: settings.INVEST_CONTACT_URL,
-        constants.BUYING: reverse_lazy('contact-us-find-uk-companies'),
-        constants.EUEXIT: reverse_lazy('eu-exit-international-contact-form'),
-        constants.OTHER: reverse_lazy('contact-us-international'),
+    # given the current step, based on selected  option, where to redirect.
+    redirect_mapping = {
+        constants.DOMESTIC: {
+            constants.TRADE_OFFICE: settings.FIND_TRADE_OFFICE_URL,
+            constants.EXPORT_ADVICE: reverse_lazy('contact-us-export-advice'),
+            constants.FINANCE: reverse_lazy('contact-us-finance-form'),
+            constants.EUEXIT: reverse_lazy('eu-exit-domestic-contact-form'),
+            constants.EVENTS: urls.SERVICES_EVENTS,
+            constants.DSO: reverse_lazy('contact-us-domestic'),
+            constants.OTHER: reverse_lazy('contact-us-domestic'),
+        },
+        constants.INTERNATIONAL: {
+            constants.INVESTING: settings.INVEST_CONTACT_URL,
+            constants.BUYING: reverse_lazy('contact-us-find-uk-companies'),
+            constants.EUEXIT: reverse_lazy(
+                'eu-exit-international-contact-form'
+            ),
+            constants.OTHER: reverse_lazy('contact-us-international'),
+        },
+        constants.EXPORT_OPPORTUNITIES: {
+            constants.NO_RESPONSE: reverse_lazy('contact-us-domestic'),
+            constants.ALERTS: build_export_opportunites_guidance_url(
+                cms.EXPORT_READINESS_HELP_EXOPP_ALERTS_IRRELEVANT_SLUG
+            ),
+            constants.MORE_DETAILS: reverse_lazy('contact-us-domestic'),
+            constants.OTHER: reverse_lazy('contact-us-domestic'),
+        },
+        constants.GREAT_ACCOUNT: {
+            constants.NO_VERIFICATION_EMAIL: build_great_account_guidance_url(
+                cms.EXPORT_READINESS_HELP_MISSING_VERIFY_EMAIL_SLUG
+            ),
+            constants.PASSWORD_RESET: build_great_account_guidance_url(
+                cms.EXPORT_READINESS_HELP_PASSWORD_RESET_SLUG
+            ),
+            constants.COMPANIES_HOUSE_LOGIN: build_great_account_guidance_url(
+                cms.EXPORT_READINESS_HELP_COMPANIES_HOUSE_LOGIN_SLUG
+            ),
+            constants.VERIFICATION_CODE: build_great_account_guidance_url(
+                cms.EXPORT_READINESS_HELP_VERIFICATION_CODE_ENTER_SLUG,
+            ),
+            constants.NO_VERIFICATION_LETTER: build_great_account_guidance_url(
+                cms.EXPORT_READINESS_HELP_VERIFICATION_CODE_LETTER_SLUG
+            ),
+            constants.OTHER: reverse_lazy('contact-us-domestic'),
+        }
     }
 
     form_list = (
@@ -59,12 +106,9 @@ class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
         return [self.templates[self.steps.current]]
 
     def get_redirect_url(self, choice):
-        mapping = {}
-        if self.steps.current == constants.DOMESTIC:
-            mapping = self.redirect_list_domestic
-        elif self.steps.current == constants.INTERNATIONAL:
-            mapping = self.redirect_list_international
-        return mapping.get(choice)
+        if self.steps.current in self.redirect_mapping:
+            mapping = self.redirect_mapping[self.steps.current]
+            return mapping.get(choice)
 
     def render_next_step(self, form):
         choice = form.cleaned_data['choice']
@@ -112,3 +156,11 @@ class InternationalFormView(FeatureFlagMixin, FormView):
 class DomesticFormView(FeatureFlagMixin, FormView):
     form_class = forms.DomesticContactForm
     template_name = 'contact/domestic/step.html'
+
+
+class GuidanceView(FeatureFlagMixin, GetCMSPageMixin, TemplateView):
+    template_name = 'contact/guidance.html'
+
+    @property
+    def slug(self):
+        return self.kwargs['slug']

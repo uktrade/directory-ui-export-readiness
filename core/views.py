@@ -194,6 +194,8 @@ class StaticViewSitemap(sitemaps.Sitemap):
 
         dynamic_cms_page_url_names = [
             'privacy-and-cookies-subpage',
+            'contact-us-export-opportunities-guidance',
+            'contact-us-great-account-guidance',
         ]
 
         dynamic_cms_page_url_names += [url.name for url in urls.prototype_urls]
