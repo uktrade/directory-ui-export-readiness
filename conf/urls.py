@@ -571,6 +571,16 @@ prototype_urls = [
 
 contact_urls = [
     url(
+        r'^contact/triage/export-opportunities/(?P<slug>[-\w\d]+)/$',
+        contact.views.GuidanceView.as_view(),
+        name='contact-us-export-opportunities-guidance'
+    ),
+    url(
+        r'^contact/triage/great-account/(?P<slug>[-\w\d]+)/$',
+        contact.views.GuidanceView.as_view(),
+        name='contact-us-great-account-guidance'
+    ),
+    url(
         r'^contact/finance/$',
         contact.views.FinanceFormView.as_view(),
         name='contact-us-finance-form'
@@ -611,6 +621,7 @@ contact_urls = [
         ),
         name='contact-us-routing-form'
     ),
+
 ]
 
 

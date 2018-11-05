@@ -26,16 +26,17 @@ def test_domestic_form_routing():
         constants.DSO,
         constants.OTHER,
     }
+    mapping = views.RoutingFormView.redirect_mapping[constants.DOMESTIC]
 
     for choice in choices_expect_redirect:
         assert choice in choices
-        assert choice in views.RoutingFormView.redirect_list_domestic
+        assert choice in mapping
         assert choice not in routing_steps
 
     choices_expect_next_step = (constants.GREAT_SERVICES,)
     for choice in choices_expect_next_step:
         assert choice in choices
-        assert choice not in views.RoutingFormView.redirect_list_domestic
+        assert choice not in mapping
         assert choice in routing_steps
 
     expected_choice_count = (
@@ -54,8 +55,15 @@ def test_great_services_form_routing():
 
 
 def test_export_oppotunities_form_routing():
-    # expect these to route to a FAQ page
-    pass
+    field = forms.ExportOpportunitiesRoutingForm.base_fields['choice']
+
+    mapping = (
+        views.RoutingFormView.redirect_mapping[constants.EXPORT_OPPORTUNITIES]
+    )
+
+    for choice, _ in field.choices:
+        assert choice in mapping
+        assert choice not in routing_steps
 
 
 def test_great_account_form_routing():
@@ -65,6 +73,7 @@ def test_great_account_form_routing():
 
 def test_international_form_routing():
     field = forms.InternationalRoutingForm.base_fields['choice']
+    mapping = views.RoutingFormView.redirect_mapping[constants.INTERNATIONAL]
     for choice, _ in field.choices:
-        assert choice in views.RoutingFormView.redirect_list_international
+        assert choice in mapping
         assert choice not in routing_steps

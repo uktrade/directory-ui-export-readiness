@@ -88,12 +88,12 @@ class GreatServicesRoutingForm(forms.Form):
 class ExportOpportunitiesRoutingForm(forms.Form):
     CHOICES = (
         (
-            'RESPONSE',
+            constants.NO_RESPONSE,
             'I haven\'t had a response from the opportunity I applied for'
         ),
-        ('ALERTS', 'My daily alerts are not relevant to me'),
-        ('OPPORUNITY', 'I need more details about the opportunity'),
-        ('OTHER', 'Other'),
+        (constants.ALERTS, 'My daily alerts are not relevant to me'),
+        (constants.MORE_DETAILS, 'I need more details about the opportunity'),
+        (constants.OTHER, 'Other'),
     )
     choice = fields.ChoiceField(
         label='',
@@ -104,18 +104,24 @@ class ExportOpportunitiesRoutingForm(forms.Form):
 
 class GreatAccountRoutingForm(forms.Form):
     CHOICES = (
-        ('EMAIL_CONFIRMATION', 'I have not received my email confirmation'),
-        ('PASSWORD_RESET', 'I need to reset my password'),
-        ('COMPANIES_HOUSE_LOGIN', 'My Companies House login is not working'),
         (
-            'VERIFICATION_CODE',
+            constants.NO_VERIFICATION_EMAIL,
+            'I have not received my email confirmation'
+        ),
+        (constants.PASSWORD_RESET, 'I need to reset my password'),
+        (
+            constants.COMPANIES_HOUSE_LOGIN,
+            'My Companies House login is not working'
+        ),
+        (
+            constants.VERIFICATION_CODE,
             'I do not know where to enter my verification code'
         ),
         (
-            'VERIFICATION_LETTER',
+            constants.NO_VERIFICATION_LETTER,
             'I have not received my letter containing the verification code'
         ),
-        ('OTHER', 'Other'),
+        (constants.OTHER, 'Other'),
     )
     choice = fields.ChoiceField(
         label='',
