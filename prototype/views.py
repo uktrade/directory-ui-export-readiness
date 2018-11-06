@@ -1,4 +1,7 @@
+from directory_constants.constants import cms
+
 from django.views.generic import TemplateView
+
 from prototype.mixins import (
     GetCMSPageByFullPathMixin,
     GetCMSTagMixin,
@@ -58,7 +61,7 @@ class NewsListPageView(
     TemplateView,
 ):
     template_name = 'prototype/domestic_news_list.html'
-    slug = 'eu-exit-news'
+    slug = cms.EXPORT_READINESS_EU_EXIT_DOMESTIC_NEWS_SLUG
 
 
 class NewsArticleDetailView(
@@ -83,8 +86,8 @@ class InternationalNewsListPageView(
     TemplateView,
 ):
     template_name = 'prototype/international_news_list.html'
-    component_slug = 'eu-exit-banner-domestic'
-    slug = 'international-eu-exit-news'
+    component_slug = cms.COMPONENTS_BANNER_DOMESTIC_SLUG
+    slug = cms.EXPORT_READINESS_EU_EXIT_INTERNATIONAL_NEWS_SLUG
 
 
 class InternationalNewsArticleDetailView(NewsArticleDetailView):

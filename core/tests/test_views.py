@@ -13,10 +13,7 @@ from core import helpers, views
 from core.tests.helpers import create_response
 from casestudy import casestudies
 
-from directory_cms_client.constants import (
-    EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
-    EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
-)
+from directory_constants.constants import cms
 
 
 def test_landing_page_video_url(client, settings):
@@ -437,19 +434,19 @@ def test_about_view(client):
 cms_urls_slugs = (
     (
         reverse('privacy-and-cookies'),
-        EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
+        cms.EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
     ),
     (
         reverse('terms-and-conditions'),
-        EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
+        cms.EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
     ),
     (
         reverse('privacy-and-cookies-international'),
-        EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
+        cms.EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
     ),
     (
         reverse('terms-and-conditions-international'),
-        EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
+        cms.EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
     ),
 )
 
