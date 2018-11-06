@@ -1,7 +1,6 @@
 from directory_constants.constants import cms
 from directory_forms_api_client.actions import PardotAction
 from formtools.wizard.views import NamedUrlSessionWizardView
-import requests
 
 from django.conf import settings
 from django.http import Http404
