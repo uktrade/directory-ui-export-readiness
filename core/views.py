@@ -117,7 +117,7 @@ class InternationalLandingPageView(
 ):
     template_name = 'core/landing_page_international.html'
     component_slug = cms.COMPONENTS_BANNER_INTERNATIONAL_SLUG
-    slug = cms.COMPONENTS_BANNER_INTERNATIONAL_SLUG
+    slug = cms.EXPORT_READINESS_HOME_INTERNATIONAL_SLUG
 
 
 class QuerystringRedirectView(RedirectView):
