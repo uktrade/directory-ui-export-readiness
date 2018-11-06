@@ -78,6 +78,11 @@ class ChoiceForm(forms.Form):
         build_wizard_url(constants.GREAT_ACCOUNT),
     ),
     (
+        constants.GREAT_SERVICES,
+        constants.OTHER,
+        reverse('contact-us-domestic'),
+    ),
+    (
         constants.GREAT_ACCOUNT,
         constants.NO_VERIFICATION_EMAIL,
         views.build_great_account_guidance_url(
