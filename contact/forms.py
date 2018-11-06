@@ -285,7 +285,7 @@ class DomesticContactForm(ZendeskActionMixin, forms.Form):
     @property
     def serialized_data(self):
         data = self.cleaned_data.copy()
-        # del data['captcha']
+        del data['captcha']
         del data['terms_agreed']
         return data
 

@@ -1,8 +1,5 @@
 from unittest.mock import call, patch
 
-from directory_cms_client.constants import (
-    EXPORT_READINESS_GET_FINANCE_SLUG,
-)
 import pytest
 
 from django.urls import reverse
@@ -181,32 +178,6 @@ def test_get_finance_cms(mock_get_finance_page, client, settings):
 
     assert response.status_code == 200
     assert response.template_name == [views.GetFinance.template_name]
-
-
-@pytest.mark.parametrize('enabled,slug', (
-    (True, EXPORT_READINESS_GET_FINANCE_SLUG),
-    (False, EXPORT_READINESS_GET_FINANCE_SLUG + '-deprecated'),
-))
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_cms_pages_cms_client_params_feature_flag(
-    mock_get, client, settings, enabled, slug
-):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'UKEF_LEAD_GENERATION_ON': enabled
-    }
-
-    mock_get.return_value = create_response(status_code=200)
-    url = reverse('get-finance')
-    response = client.get(url, {'draft_token': '123'})
-
-    assert response.status_code == 200
-    assert mock_get.call_count == 1
-    assert mock_get.call_args == call(
-        slug=slug,
-        draft_token='123',
-        language_code='en-gb'
-    )
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
