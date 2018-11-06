@@ -606,6 +606,11 @@ contact_urls = [
         name='contact-us-domestic'
     ),
     url(
+        r'^contact/domestic/success/$',
+        contact.views.DomesticFormSuccessView.as_view(),
+        name='contact-us-domestic-success'
+    ),
+    url(
         r'^contact/$',
         RedirectView.as_view(
             url=reverse_lazy(

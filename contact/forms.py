@@ -1,4 +1,5 @@
 from captcha.fields import ReCaptchaField
+from directory_forms_api_client.forms import ZendeskActionMixin
 from directory_components import forms, fields, widgets
 from directory_constants.constants import choices, urls
 from directory_validators.common import not_contains_url_or_email
@@ -232,7 +233,7 @@ class ExportAdviceContactForm(forms.Form):
     )
 
 
-class DomesticContactForm(forms.Form):
+class DomesticContactForm(ZendeskActionMixin, forms.Form):
     given_name = fields.CharField(
         label='First name',
         validators=anti_phising_validators
@@ -274,6 +275,19 @@ class DomesticContactForm(forms.Form):
     terms_agreed = fields.BooleanField(
         label=TERMS_LABEL
     )
+
+    @property
+    def full_name(self):
+        assert self.is_valid()
+        cleaned_data = self.cleaned_data
+        return f'{cleaned_data["given_name"]} {cleaned_data["family_name"]}'
+
+    @property
+    def serialized_data(self):
+        data = self.cleaned_data.copy()
+        # del data['captcha']
+        del data['terms_agreed']
+        return data
 
 
 class BuyingFromUKContactForm(forms.Form):

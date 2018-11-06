@@ -3,7 +3,13 @@
 
 @import './partials/base';
 @import './components/form-wizard';
+@import './components/breadcrumbs';
 
+
+.breadcrumbs {
+  background-color: transparent;
+  border-bottom: 0;
+}
 
 li {
   list-style: none;

@@ -10,11 +10,11 @@
 {% endblock %}
 
 {% block content %}
-	{% include 'contact/breadcrumbs.html' %}
+    {% include 'contact/breadcrumbs.html' %}
     <div class="container">
-    	<section>
-	    	{{ page.body|add_export_elements_classes }}
-	    </section>
-	    <div id="further-help-link">Still need help? <a class="link" href="{% url 'contact-us-domestic' %}">Submit an enquiry</a></div>
+        <section>
+            {{ page.body|add_export_elements_classes }}
+        </section>
+        <div id="further-help-link">Still need help? <a class="link" href="{% url 'contact-us-domestic' %}">Submit an enquiry</a></div>
     </div>
 {% endblock %}
