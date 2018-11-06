@@ -1,4 +1,4 @@
-from directory_cms_client.constants import EXPORT_READINESS_GET_FINANCE_SLUG
+from directory_constants.constants import cms
 from formtools.wizard.views import NamedUrlSessionWizardView
 import requests
 
@@ -19,22 +19,9 @@ class FeatureFlagMixin:
         return super().dispatch(*args, **kwargs)
 
 
-class DeprecatedGetFinance(mixins.GetCMSPageMixin, TemplateView):
-    template_name = 'finance/get_finance_deprecated.html'
-    slug = EXPORT_READINESS_GET_FINANCE_SLUG + '-deprecated'
-
-
-class GetFinance(mixins.GetCMSPageMixin, TemplateView):
+class GetFinanceView(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'finance/get_finance.html'
-    slug = EXPORT_READINESS_GET_FINANCE_SLUG
-
-
-class GetFinanceNegotiator(TemplateView):
-    def __new__(cls, *args, **kwargs):
-        if settings.FEATURE_FLAGS['UKEF_LEAD_GENERATION_ON']:
-            return GetFinance(*args, **kwargs)
-        else:
-            return DeprecatedGetFinance(*args, **kwargs)
+    slug = cms.EXPORT_READINESS_GET_FINANCE_SLUG
 
 
 class PreventCaptchaRevalidationMixin:

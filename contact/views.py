@@ -138,9 +138,20 @@ class FinanceFormView(FeatureFlagMixin, SessionWizardView):
         return [self.templates[self.steps.current]]
 
 
-class ExportAdviceFormView(FeatureFlagMixin, FormView):
-    form_class = forms.ExportAdviceContactForm
-    template_name = 'contact/export-advice/step.html'
+class FeedbackFormView(FeatureFlagMixin, FormView):
+    form_class = forms.FeedbackForm
+    template_name = 'contact/comment-contact.html'
+
+    success_url = reverse_lazy('contact-us-domestic-success')
+
+    def form_valid(self, form):
+        response = form.save(
+            email_address=form.cleaned_data['email'],
+            full_name=form.cleaned_data['name'],
+            subject=settings.CONTACT_ZENDESK_DOMESTIC_SUBJECT,
+        )
+        response.raise_for_status()
+        return super().form_valid(form)
 
 
 class BuyingFromUKCompaniesFormView(FeatureFlagMixin, FormView):
@@ -156,6 +167,21 @@ class InternationalFormView(FeatureFlagMixin, FormView):
 class DomesticFormView(FeatureFlagMixin, FormView):
     form_class = forms.DomesticContactForm
     template_name = 'contact/domestic/step.html'
+    success_url = reverse_lazy('contact-us-domestic-success')
+
+    def form_valid(self, form):
+        response = form.save(
+            email_address=form.cleaned_data['email'],
+            full_name=form.full_name,
+            subject=settings.CONTACT_ZENDESK_DOMESTIC_SUBJECT,
+        )
+        response.raise_for_status()
+        return super().form_valid(form)
+
+
+class DomesticFormSuccessView(FeatureFlagMixin, GetCMSPageMixin, TemplateView):
+    template_name = 'contact/submit-success.html'
+    slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_SLUG
 
 
 class GuidanceView(FeatureFlagMixin, GetCMSPageMixin, TemplateView):

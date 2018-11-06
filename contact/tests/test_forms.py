@@ -77,3 +77,47 @@ def test_international_form_routing():
     for choice, _ in field.choices:
         assert choice in mapping
         assert choice not in routing_steps
+
+
+def test_domestic_contact_form_serialize_data(captcha_stub):
+    form = forms.DomesticContactForm(data={
+        'given_name': 'Test',
+        'family_name': 'Example',
+        'email': 'test@example.com',
+        'company_type': 'LIMITED',
+        'organisation_name': 'Example corp',
+        'postcode': '**** ***',
+        'comment': 'Help please',
+        'g-recaptcha-response': captcha_stub,
+        'terms_agreed': True,
+    })
+
+    assert form.is_valid()
+    assert form.serialized_data == {
+        'given_name': 'Test',
+        'family_name': 'Example',
+        'email': 'test@example.com',
+        'company_type': 'LIMITED',
+        'company_type_other': '',
+        'organisation_name': 'Example corp',
+        'postcode': '**** ***',
+        'comment': 'Help please',
+    }
+    assert form.full_name == 'Test Example'
+
+
+def test_feedback_form_serialize_data(captcha_stub):
+    form = forms.FeedbackForm(data={
+        'name': 'Test Example',
+        'email': 'test@example.com',
+        'comment': 'Help please',
+        'g-recaptcha-response': captcha_stub,
+        'terms_agreed': True,
+    })
+
+    assert form.is_valid()
+    assert form.serialized_data == {
+        'name': 'Test Example',
+        'email': 'test@example.com',
+        'comment': 'Help please',
+    }

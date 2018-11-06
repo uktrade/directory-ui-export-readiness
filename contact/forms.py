@@ -1,4 +1,5 @@
 from captcha.fields import ReCaptchaField
+from directory_forms_api_client.forms import ZendeskActionMixin
 from directory_components import forms, fields, widgets
 from directory_constants.constants import choices, urls
 from directory_validators.common import not_contains_url_or_email
@@ -40,6 +41,15 @@ anti_phising_validators = [no_html, not_contains_url_or_email]
 
 class NoOpForm(forms.Form):
     pass
+
+
+class SerializeDataMixin:
+    @property
+    def serialized_data(self):
+        data = self.cleaned_data.copy()
+        del data['captcha']
+        del data['terms_agreed']
+        return data
 
 
 class LocationRoutingForm(forms.Form):
@@ -225,14 +235,26 @@ class FinanceBusinessDetailsForm(forms.Form):
     )
 
 
-class ExportAdviceContactForm(forms.Form):
+class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
+    name = fields.CharField(
+        validators=anti_phising_validators
+    )
+    email = fields.EmailField()
     comment = fields.CharField(
+        label='Feedback',
         widget=Textarea,
         validators=anti_phising_validators
     )
+    captcha = ReCaptchaField(
+        label='',
+        label_suffix='',
+    )
+    terms_agreed = fields.BooleanField(
+        label=TERMS_LABEL
+    )
 
 
-class DomesticContactForm(forms.Form):
+class DomesticContactForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
     given_name = fields.CharField(
         label='First name',
         validators=anti_phising_validators
@@ -274,6 +296,12 @@ class DomesticContactForm(forms.Form):
     terms_agreed = fields.BooleanField(
         label=TERMS_LABEL
     )
+
+    @property
+    def full_name(self):
+        assert self.is_valid()
+        cleaned_data = self.cleaned_data
+        return f'{cleaned_data["given_name"]} {cleaned_data["family_name"]}'
 
 
 class BuyingFromUKContactForm(forms.Form):

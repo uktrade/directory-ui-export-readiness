@@ -463,3 +463,6 @@ FIND_TRADE_OFFICE_URL = env.str(
     'FIND_TRADE_OFFICE_URL',
     'https://www.contactus.trade.gov.uk/office-finder'
 )
+CONTACT_ZENDESK_DOMESTIC_SUBJECT = env.str(
+    'CONTACT_ZENDESK_DOMESTIC_SUBJECT', 'Great.gov.uk contact form'
+)

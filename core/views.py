@@ -1,7 +1,5 @@
-from directory_cms_client.constants import (
-    EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
-    EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
-)
+from directory_constants.constants import cms
+from directory_cms_client.client import cms_api_client
 
 from django.conf import settings
 from django.contrib import sitemaps
@@ -10,8 +8,6 @@ from django.utils.cache import set_response_etag
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 from django.utils.functional import cached_property
-
-from directory_cms_client.client import cms_api_client
 
 from article.helpers import ArticlesViewedManagerFactory
 from article import structure
@@ -100,7 +96,7 @@ class NewsSectionLandingPageView(GetCMSPageByFullPathMixin, LandingPageView):
     @cached_property
     def page(self):
         response = cms_api_client.lookup_by_slug(
-            slug='home',
+            slug=cms.EXPORT_READINESS_HOME_SLUG,
             draft_token=self.request.GET.get('draft_token'),
         )
         return helpers.handle_cms_response_allow_404(response)
@@ -120,8 +116,8 @@ class InternationalLandingPageView(
     TemplateView,
 ):
     template_name = 'core/landing_page_international.html'
-    component_slug = 'eu-exit-banner-international'
-    slug = 'international-eu-exit-news'
+    component_slug = cms.COMPONENTS_BANNER_INTERNATIONAL_SLUG
+    slug = cms.COMPONENTS_BANNER_INTERNATIONAL_SLUG
 
 
 class QuerystringRedirectView(RedirectView):
@@ -224,7 +220,7 @@ class AboutView(SetEtagMixin, TemplateView):
 
 class PrivacyCookiesDomesticCMS(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'core/info_page.html'
-    slug = EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG
+    slug = cms.EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG
 
 
 class PrivacyCookiesDomesticSubpageCMS(mixins.GetCMSPageMixin, TemplateView):
@@ -241,7 +237,7 @@ class PrivacyCookiesInternationalCMS(PrivacyCookiesDomesticCMS):
 
 class TermsConditionsDomesticCMS(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'core/info_page.html'
-    slug = EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG
+    slug = cms.EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG
 
 
 class TermsConditionsInternationalCMS(TermsConditionsDomesticCMS):
@@ -257,25 +253,25 @@ class PerformanceDashboardView(
 
 
 class PerformanceDashboardGreatView(PerformanceDashboardView):
-    slug = 'performance-dashboard'
+    slug = cms.EXPORT_READINESS_PERFORMANCE_DASHBOARD_SLUG
 
 
 class PerformanceDashboardExportOpportunitiesView(PerformanceDashboardView):
-    slug = 'performance-dashboard-export-opportunities'
+    slug = cms.EXPORT_READINESS_PERFORMANCE_DASHBOARD_EXOPPS_SLUG
 
 
 class PerformanceDashboardSellingOnlineOverseasView(PerformanceDashboardView):
-    slug = 'performance-dashboard-selling-online-overseas'
+    slug = cms.EXPORT_READINESS_PERFORMANCE_DASHBOARD_SOO_SLUG
 
 
 class PerformanceDashboardTradeProfilesView(PerformanceDashboardView):
-    slug = 'performance-dashboard-trade-profiles'
+    slug = cms.EXPORT_READINESS_PERFORMANCE_DASHBOARD_TRADE_PROFILE_SLUG
 
 
 class PerformanceDashboardInvestView(PerformanceDashboardView):
-    slug = 'performance-dashboard-invest'
+    slug = cms.EXPORT_READINESS_PERFORMANCE_DASHBOARD_INVEST_SLUG
 
 
 class PerformanceDashboardNotesView(PerformanceDashboardView):
-    slug = 'performance-dashboard-notes'
+    slug = cms.EXPORT_READINESS_PERFORMANCE_DASHBOARD_NOTES_SLUG
     template_name = 'core/performance_dashboard_notes.html'

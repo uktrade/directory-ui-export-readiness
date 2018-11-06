@@ -463,7 +463,7 @@ urlpatterns = [
     ),
     url(
         r"^get-finance/$",
-        finance.views.GetFinanceNegotiator.as_view(),
+        finance.views.GetFinanceView.as_view(),
         name='get-finance'
     ),
     url(
@@ -587,8 +587,13 @@ contact_urls = [
     ),
     url(
         r'^contact/export-advice/$',
-        contact.views.ExportAdviceFormView.as_view(),
+        contact.views.FeedbackFormView.as_view(),
         name='contact-us-export-advice'
+    ),
+    url(
+        r'^contact/feedback/$',
+        contact.views.FeedbackFormView.as_view(),
+        name='contact-us-feedback'
     ),
     url(
         r'^contact/find-uk-companies/$',
@@ -604,6 +609,11 @@ contact_urls = [
         r'^contact/domestic/$',
         contact.views.DomesticFormView.as_view(),
         name='contact-us-domestic'
+    ),
+    url(
+        r'^contact/domestic/success/$',
+        contact.views.DomesticFormSuccessView.as_view(),
+        name='contact-us-domestic-success'
     ),
     url(
         r'^contact/$',

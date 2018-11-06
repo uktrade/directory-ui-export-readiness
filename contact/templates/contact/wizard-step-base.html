@@ -44,7 +44,7 @@
                             {% if wizard.steps.step1 != wizard.steps.count %}
                                 <button type="submit" class="button button">Continue</button>
                             {% else %}
-                                <input class="button next" type="submit" value="{% block submit_button_label %}Submit{% endblock %}"/>
+                                <button class="button next" type="submit">{% block submit_button_label %}Submit{% endblock %}</button>
                             {% endif %}
                             {% block extra_buttons %}{% endblock %}
                         </div>
