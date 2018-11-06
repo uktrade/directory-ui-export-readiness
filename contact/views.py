@@ -1,6 +1,5 @@
 from directory_constants.constants import cms, urls
 
-from formtools.wizard.views import SessionWizardView
 from formtools.wizard.views import NamedUrlSessionWizardView
 
 from django.conf import settings

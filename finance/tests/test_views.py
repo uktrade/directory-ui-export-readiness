@@ -31,9 +31,9 @@ def test_ukef_lead_generation_feature_flag_on(
 
 
 @patch('captcha.fields.ReCaptchaField.clean')
-@patch('requests.post')
+@patch('finance.views.PardotAction')
 def test_ukef_lead_generation_captcha_revalidation(
-    mock_post, mock_clean, client, settings, captcha_stub
+    mock_action, mock_clean, client, settings, captcha_stub
 ):
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
@@ -103,9 +103,9 @@ def test_ukef_lead_generation_captcha_revalidation(
     assert mock_clean.call_count == 1
 
 
-@patch('requests.post')
+@patch('finance.views.PardotAction')
 def test_ukef_lead_generation_submit(
-    mock_post, client, settings, captcha_stub
+    mock_action, client, settings, captcha_stub
 ):
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
@@ -131,16 +131,18 @@ def test_ukef_lead_generation_submit(
 
     assert response.status_code == 302
     assert response.url == str(view.success_url)
-    assert mock_post.call_count == 1
-    assert mock_post.call_args == call(
-        settings.UKEF_FORM_SUBMIT_TRACKER_URL,
-        {
-            'categories': ['Securing upfront funding'],
-            'comment': 'thing',
-            'captcha': captcha_stub,
-        },
-        allow_redirects=False,
+
+    assert mock_action.call_count == 1
+    assert mock_action.call_args == call(
+        pardot_url=settings.UKEF_FORM_SUBMIT_TRACKER_URL
     )
+
+    assert mock_action().save.call_count == 1
+    assert mock_action().save.call_args == call({
+        'categories': ['Securing upfront funding'],
+        'comment': 'thing',
+        'captcha': captcha_stub,
+    })
 
 
 def test_ukef_lead_generation_feature_flag_off(client, settings):
