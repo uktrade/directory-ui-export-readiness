@@ -177,7 +177,7 @@ def test_get_finance_cms(mock_get_finance_page, client, settings):
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == [views.GetFinance.template_name]
+    assert response.template_name == [views.GetFinanceView.template_name]
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
