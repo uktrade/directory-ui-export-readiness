@@ -43,6 +43,15 @@ class NoOpForm(forms.Form):
     pass
 
 
+class SerializeDataMixin:
+    @property
+    def serialized_data(self):
+        data = self.cleaned_data.copy()
+        del data['captcha']
+        del data['terms_agreed']
+        return data
+
+
 class LocationRoutingForm(forms.Form):
     CHOICES = (
         (constants.DOMESTIC, 'The UK'),
@@ -226,14 +235,26 @@ class FinanceBusinessDetailsForm(forms.Form):
     )
 
 
-class ExportAdviceContactForm(forms.Form):
+class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
+    name = fields.CharField(
+        validators=anti_phising_validators
+    )
+    email = fields.EmailField()
     comment = fields.CharField(
+        label='Feedback',
         widget=Textarea,
         validators=anti_phising_validators
     )
+    captcha = ReCaptchaField(
+        label='',
+        label_suffix='',
+    )
+    terms_agreed = fields.BooleanField(
+        label=TERMS_LABEL
+    )
 
 
-class DomesticContactForm(ZendeskActionMixin, forms.Form):
+class DomesticContactForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
     given_name = fields.CharField(
         label='First name',
         validators=anti_phising_validators
@@ -281,13 +302,6 @@ class DomesticContactForm(ZendeskActionMixin, forms.Form):
         assert self.is_valid()
         cleaned_data = self.cleaned_data
         return f'{cleaned_data["given_name"]} {cleaned_data["family_name"]}'
-
-    @property
-    def serialized_data(self):
-        data = self.cleaned_data.copy()
-        del data['captcha']
-        del data['terms_agreed']
-        return data
 
 
 class BuyingFromUKContactForm(forms.Form):

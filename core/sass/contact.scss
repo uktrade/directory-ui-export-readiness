@@ -33,6 +33,12 @@ button {
   margin-top: 30px;
 }
 
+#content {
+  input, textarea {
+    width: 100%;
+  }
+}
+
 
 .previous-step {
   color: #00549f;

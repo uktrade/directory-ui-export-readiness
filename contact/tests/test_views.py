@@ -201,3 +201,28 @@ def test_domestic_form_submit_success(
         full_name='Test Example',
         subject=settings.CONTACT_ZENDESK_DOMESTIC_SUBJECT,
     )
+
+
+@mock.patch.object(views.FeedbackFormView.form_class, 'save')
+def test_feedback_form_submit_success(
+    mock_save, client, captcha_stub, settings
+):
+    url = reverse('contact-us-feedback')
+    data = {
+        'name': 'Test Example',
+        'email': 'test@example.com',
+        'comment': 'Help please',
+        'g-recaptcha-response': captcha_stub,
+        'terms_agreed': True,
+    }
+    response = client.post(url, data)
+
+    assert response.status_code == 302
+    assert response.url == reverse('contact-us-domestic-success')
+
+    assert mock_save.call_count == 1
+    assert mock_save.call_args == mock.call(
+        email_address=data['email'],
+        full_name=data['name'],
+        subject=settings.CONTACT_ZENDESK_DOMESTIC_SUBJECT,
+    )

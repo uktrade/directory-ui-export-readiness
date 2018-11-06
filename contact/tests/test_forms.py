@@ -104,3 +104,20 @@ def test_domestic_contact_form_serialize_data(captcha_stub):
         'comment': 'Help please',
     }
     assert form.full_name == 'Test Example'
+
+
+def test_feedback_form_serialize_data(captcha_stub):
+    form = forms.FeedbackForm(data={
+        'name': 'Test Example',
+        'email': 'test@example.com',
+        'comment': 'Help please',
+        'g-recaptcha-response': captcha_stub,
+        'terms_agreed': True,
+    })
+
+    assert form.is_valid()
+    assert form.serialized_data == {
+        'name': 'Test Example',
+        'email': 'test@example.com',
+        'comment': 'Help please',
+    }

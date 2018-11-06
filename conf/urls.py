@@ -587,8 +587,13 @@ contact_urls = [
     ),
     url(
         r'^contact/export-advice/$',
-        contact.views.ExportAdviceFormView.as_view(),
+        contact.views.FeedbackFormView.as_view(),
         name='contact-us-export-advice'
+    ),
+    url(
+        r'^contact/feedback/$',
+        contact.views.FeedbackFormView.as_view(),
+        name='contact-us-feedback'
     ),
     url(
         r'^contact/find-uk-companies/$',
