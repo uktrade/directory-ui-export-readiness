@@ -48,10 +48,32 @@ def test_domestic_form_routing():
 
 def test_great_services_form_routing():
     field = forms.GreatServicesRoutingForm.base_fields['choice']
-    # for each of the choices the form supports
-    for choice, _ in field.choices:
-        # the view supports routing the user to that step
+    choices = set(item for item, _ in field.choices)
+
+    choices_expect_redirect = {
+        constants.OTHER,
+    }
+    mapping = views.RoutingFormView.redirect_mapping[constants.GREAT_SERVICES]
+
+    for choice in choices_expect_redirect:
+        assert choice in choices
+        assert choice in mapping
+        assert choice not in routing_steps
+
+    choices_expect_next_step = {
+        constants.EXPORT_OPPORTUNITIES,
+        constants.GREAT_ACCOUNT,
+    }
+    for choice in choices_expect_next_step:
+        assert choice in choices
+        assert choice not in mapping
         assert choice in routing_steps
+
+    expected_choice_count = (
+        len(choices_expect_next_step) + len(choices_expect_redirect)
+    )
+
+    assert expected_choice_count == len(choices)
 
 
 def test_export_oppotunities_form_routing():

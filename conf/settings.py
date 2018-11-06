@@ -17,6 +17,7 @@ import os
 import environ
 from directory_constants.constants import cms
 
+
 env = environ.Env()
 env.read_env()
 

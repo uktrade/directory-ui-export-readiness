@@ -62,6 +62,9 @@ class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
             constants.MORE_DETAILS: reverse_lazy('contact-us-domestic'),
             constants.OTHER: reverse_lazy('contact-us-domestic'),
         },
+        constants.GREAT_SERVICES: {
+            constants.OTHER: reverse_lazy('contact-us-domestic'),
+        },
         constants.GREAT_ACCOUNT: {
             constants.NO_VERIFICATION_EMAIL: build_great_account_guidance_url(
                 cms.EXPORT_READINESS_HELP_MISSING_VERIFY_EMAIL_SLUG
