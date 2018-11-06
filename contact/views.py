@@ -40,7 +40,10 @@ class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
         constants.DOMESTIC: {
             constants.TRADE_OFFICE: settings.FIND_TRADE_OFFICE_URL,
             constants.EXPORT_ADVICE: reverse_lazy('contact-us-export-advice'),
-            constants.FINANCE: reverse_lazy('contact-us-finance-form'),
+            constants.FINANCE: reverse_lazy(
+                'uk-export-finance-lead-generation-form',
+                kwargs={'step': 'contact'}
+            ),
             constants.EUEXIT: reverse_lazy('eu-exit-domestic-contact-form'),
             constants.EVENTS: urls.SERVICES_EVENTS,
             constants.DSO: reverse_lazy('contact-us-domestic'),
@@ -119,26 +122,6 @@ class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
         if redirect_url:
             return redirect(redirect_url)
         return self.render_goto_step(choice)
-
-
-class FinanceFormView(FeatureFlagMixin, SessionWizardView):
-    SELECT = 'select'
-    PERSONAL = 'personal-details'
-    BUSINESS = 'business-details'
-
-    form_list = (
-        (SELECT, forms.FinanceInfomationChoicesForm),
-        (PERSONAL, forms.FinancePersonalDetailsForm),
-        (BUSINESS, forms.FinanceBusinessDetailsForm),
-    )
-    templates = {
-        SELECT: 'contact/finance/step-select.html',
-        PERSONAL: 'contact/finance/step-personal.html',
-        BUSINESS: 'contact/finance/step-business.html',
-    }
-
-    def get_template_names(self):
-        return [self.templates[self.steps.current]]
 
 
 class FeedbackFormView(FeatureFlagMixin, FormView):
