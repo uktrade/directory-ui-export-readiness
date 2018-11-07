@@ -5,7 +5,6 @@
 @import './components/_section-content-list';
 @import './components/_breadcrumbs';
 @import './components/_sharing-links';
-@import './components/_personas-keywords';
 @import './components/_article-widgets';
 @import './components/_scope-indicator';
 
@@ -37,10 +36,6 @@ article.no-gutter {
 
 h1 {
   margin-bottom: 45px;
-}
-
-.keywords {
-  margin-bottom: $spacing-4;
 }
 
 .link-back-to {

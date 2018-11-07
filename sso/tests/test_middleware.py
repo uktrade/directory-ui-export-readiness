@@ -60,13 +60,13 @@ def test_sso_middleware_bad_response(settings, client):
 
 
 @pytest.mark.parametrize(
-    'excpetion_class', requests.exceptions.RequestException.__subclasses__()
+    'exception_class', requests.exceptions.RequestException.__subclasses__()
 )
 @patch('directory_sso_api_client.client.sso_api_client.user.get_session_user')
 def test_sso_middleware_timeout(
-    mock_get_session_user, settings, client, caplog, excpetion_class
+    mock_get_session_user, settings, client, caplog, exception_class
 ):
-    mock_get_session_user.side_effect = excpetion_class()
+    mock_get_session_user.side_effect = exception_class()
     client.cookies[settings.SSO_SESSION_COOKIE] = '123'
     settings.MIDDLEWARE_CLASSES = [
         'django.contrib.sessions.middleware.SessionMiddleware',
