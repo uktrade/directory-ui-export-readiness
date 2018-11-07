@@ -64,7 +64,6 @@ DOCKER_SET_DEBUG_ENV_VARS := \
 	export DIRECTORY_UI_EXPORT_READINESS_COMPANIES_HOUSE_CLIENT_ID=debug-client-id; \
 	export DIRECTORY_UI_EXPORT_READINESS_COMPANIES_HOUSE_CLIENT_SECRET=debug-client-secret; \
 	export DIRECTORY_UI_EXPORT_READINESS_SECURE_HSTS_SECONDS=0; \
-	export DIRECTORY_UI_EXPORT_READINESS_PYTHONWARNINGS=all; \
 	export DIRECTORY_UI_EXPORT_READINESS_PYTHONDEBUG=true; \
 	export DIRECTORY_UI_EXPORT_READINESS_HEADER_FOOTER_URLS_GREAT_HOME=http://exred.trade.great:8007/; \
 	export DIRECTORY_UI_EXPORT_READINESS_HEADER_FOOTER_URLS_FAB=http://buyer.trade.great:8001; \
@@ -91,8 +90,12 @@ DOCKER_SET_DEBUG_ENV_VARS := \
 	export DIRECTORY_UI_EXPORT_READINESS_FEATURE_PROTOTYPE_HEADER_FOOTER_ENABLED=true; \
 	export DIRECTORY_UI_EXPORT_READINESS_FEATURE_EU_EXIT_FORMS_ENABLED=true; \
 	export DIRECTORY_UI_EXPORT_READINESS_EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
+	export DIRECTORY_UI_EXPORT_READINESS_FEATURE_CONTACT_US_ENABLED=true; \
 	export DIRECTORY_UI_EXPORT_READINESS_DIRECTORY_FORMS_API_API_KEY_EUEXIT=debug; \
-	export DIRECTORY_UI_EXPORT_READINESS_DIRECTORY_FORMS_API_SENDER_ID_EUEXIT=debug
+	export DIRECTORY_UI_EXPORT_READINESS_DIRECTORY_FORMS_API_SENDER_ID_EUEXIT=debug; \
+	export DIRECTORY_UI_EXPORT_READINESS_EUEXIT_AGENT_EMAIL=test@example.com; \
+	export DIRECTORY_UI_EXPORT_READINESS_EUEXIT_GOV_NOTIFY_TEMPLATE_ID=debug; \
+	export DIRECTORY_UI_EXPORT_READINESS_EUEXIT_GOV_NOTIFY_REPLY_TO_ID=debug
 
 
 docker_test_env_files:
@@ -151,12 +154,11 @@ DEBUG_SET_ENV_VARS := \
 	export COMPANIES_HOUSE_CLIENT_ID=debug-client-id; \
 	export COMPANIES_HOUSE_CLIENT_SECRET=debug-client-secret; \
 	export SECURE_HSTS_SECONDS=0; \
-	export PYTHONWARNINGS=all; \
 	export PYTHONDEBUG=true; \
 	export HEADER_FOOTER_URLS_GREAT_HOME=http://exred.trade.great:8007/; \
 	export HEADER_FOOTER_URLS_FAB=http://buyer.trade.great:8001; \
 	export HEADER_FOOTER_URLS_SOO=http://soo.trade.great:8008; \
-	export HEADER_FOOTER_URLS_CONTACT_US=http://contact.trade.great:8009/directory/; \
+	export HEADER_FOOTER_URLS_CONTACT_US=http://exred.trade.great:8007/contact/feedback/; \
 	export COMPONENTS_URLS_FAS=http://supplier.trade.great:8005/; \
 	export SERVICES_EXOPPS_ACTUAL=http://opportunities.export.great.gov.uk; \
 	export SECURE_SSL_REDIRECT=false; \
@@ -181,7 +183,20 @@ DEBUG_SET_ENV_VARS := \
 	export FEATURE_EU_EXIT_FORMS_ENABLED=true; \
 	export FEATURE_PROTOTYPE_HEADER_FOOTER_ENABLED=false; \
 	export FEATURE_EU_EXIT_FORMS_ENABLED=true; \
-	export EU_EXIT_ZENDESK_SUBDOMAIN=debug
+	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
+	export FEATURE_CONTACT_US_ENABLED=true; \
+	export EUEXIT_AGENT_EMAIL=test@example.com
+
+TEST_SET_ENV_VARS := \
+	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
+	export DIRECTORY_FORMS_API_API_KEY=debug; \
+	export DIRECTORY_FORMS_API_SENDER_ID=debug; \
+	export DIRECTORY_FORMS_API_API_KEY_EUEXIT=debug; \
+	export DIRECTORY_FORMS_API_SENDER_ID_EUEXIT=debug; \
+	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
+	export DEBUG=false; \
+	export EUEXIT_GOV_NOTIFY_TEMPLATE_ID=debug; \
+	export EUEXIT_GOV_NOTIFY_REPLY_TO_ID=debug
 
 debug_webserver:
 	$(DEBUG_SET_ENV_VARS) && $(DJANGO_WEBSERVER)
@@ -190,7 +205,7 @@ debug_pytest:
 	$(DEBUG_SET_ENV_VARS) && $(COLLECT_STATIC) && $(PYTEST)
 
 debug_test:
-	$(DEBUG_SET_ENV_VARS) && $(COLLECT_STATIC) && $(FLAKE8) && $(PYTEST) --cov-report=html
+	$(DEBUG_SET_ENV_VARS) && $(TEST_SET_ENV_VARS) && $(COLLECT_STATIC) && $(PYTEST) --cov-report=html
 
 debug_test_last_failed:
 	make debug_test pytest_args='-v --last-failed'
@@ -202,18 +217,6 @@ debug_shell:
 	$(DEBUG_SET_ENV_VARS) && ./manage.py shell
 
 debug: test_requirements debug_test
-
-heroku_deploy_dev:
-	./docker/install_heroku_cli.sh
-	docker login --username=$$HEROKU_EMAIL --password=$$HEROKU_TOKEN registry.heroku.com
-	~/bin/heroku-cli/bin/heroku container:push web --app directory-ui-exp-readiness-dev
-	~/bin/heroku-cli/bin/heroku container:release web --app directory-ui-exp-readiness-dev
-
-integration_tests:
-	cd $(mktemp -d) && \
-	git clone https://github.com/uktrade/directory-tests && \
-	cd directory-tests && \
-	make docker_integration_tests
 
 compile_requirements:
 	pip-compile requirements.in

@@ -1,4 +1,4 @@
-{% extends "core/base.html" %}
+{% extends "euexit/domestic-contact-form.html" %}
 {% load static from staticfiles %}
 
 {% load add_export_elements_classes from directory_components_tags %}
@@ -8,6 +8,7 @@
     <link href="{% static 'styles/euexit-form-success.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
-{% block content %}
-    {% include 'euexit/form-success-contents.html' %}
+{% block form_content %}
+    {% url 'landing-page' as home_url %}
+    {% include 'euexit/form-success-contents.html' with home_url=home_url %}
 {% endblock %}

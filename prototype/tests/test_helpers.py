@@ -7,17 +7,17 @@ unprefix_urls = [
     ('/prototype/markets/', '/markets/'),
     ('/prototype/guidance/', '/guidance/'),
     ('/prototype/prototype-test-page/', '/prototype-test-page/'),
-    ('/news/', '/news/'),
+    ('/eu-exit-news/', '/eu-exit-news/'),
     ('/', '/'),
 ]
 
 news_prefix_urls = [
-    ('/international/news/', '/international/international-news/'),
-    ('/international/news/test-page/',
-        '/international/international-news/test-page/'),
-    ('/international/news/international-news-test/',
-        '/international/international-news/international-news-test/'),
-    ('/news/', '/news/'),
+    ('/international/eu-exit-news/', '/international/international-eu-exit-news/'), # noqa
+    ('/international/eu-exit-news/test-page/',
+        '/international/international-eu-exit-news/test-page/'),
+    ('/international/eu-exit-news/international-eu-exit-news-test/',
+        '/international/international-eu-exit-news/international-eu-exit-news-test/'), # noqa
+    ('/eu-exit-news/', '/eu-exit-news/'),
     ('/international/', '/international/'),
     ('/', '/'),
 ]

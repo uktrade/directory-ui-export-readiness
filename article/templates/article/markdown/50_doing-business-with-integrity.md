@@ -21,3 +21,9 @@ Online resources on how to do business with integrity include:
 * [Doing Business with Respect for Human Rights](https://www.businessrespecthumanrights.org/) from the Global Perspectives Project
 * [Anti-Corruption Toolkit for SMEs](http://www.iblfglobal.org/anti-corruption-sme-toolkit) from the G20 and B20
 * [The relationship between business integrity and commercial success](https://www.u4.no/publications/the-relationship-between-business-integrity-and-commercial-success) from U4
+
+### The Business Integrity Initiative
+
+The Business Integrity Initiative is a new support service funded by the UK government, helping companies doing business in Africa and Asia. It provides specialist anti-corruption expertise for SMEs, including risk mitigation, compliance with the law, and collective action support.
+
+The service operates on a matched-funding basis. View the [eligibility criteria](https://cms.trade.great.gov.uk/documents/15/Eligibility_criteria_for_companies_to_request_support.pdf), and use the [application form](https://cms.trade.great.gov.uk/documents/14/Application_Form_-_Advice_Services_for_SMEs_-_Business_Integrity_Initiatives.pdf) to request support.

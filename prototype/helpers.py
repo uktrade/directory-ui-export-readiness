@@ -6,5 +6,5 @@ def unprefix_prototype_url(path):
 
 def prefix_international_news_url(path):
     return path.replace(
-        '/international/news/',
-        '/international/international-news/', 1)
+        '/international/eu-exit-news/',
+        '/international/international-eu-exit-news/', 1)

@@ -1,10 +1,5 @@
-from directory_cms_client.constants import (
-    EXPORT_READINESS_EUEXIT_DOMESTIC_FORM_SLUG,
-    EXPORT_READINESS_EUEXIT_INTERNATIONAL_FORM_SLUG,
-    EXPORT_READINESS_EUEXIT_FORM_SUCCESS_SLUG,
-)
+from directory_constants.constants import cms
 
-from django.conf import settings
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -38,19 +33,12 @@ class BaseInternationalContactFormView(
         kwargs['ingress_url'] = (
             self.request.session.get(SESSION_KEY_FORM_INGRESS_URL)
         )
+        kwargs['subject'] = self.subject
         kwargs['disclaimer'] = self.page['disclaimer']
         return kwargs
 
     def form_valid(self, form):
-        cleaned_data = form.serialized_data
-        name = cleaned_data['first_name'] + ' ' + cleaned_data['last_name']
-        response = form.save(
-            email_address=cleaned_data['email'],
-            full_name=name,
-            subject=self.subject,
-            subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
-        )
-        response.raise_for_status()
+        form.save()
         return super().form_valid(form)
 
 
@@ -64,7 +52,7 @@ class BaseContactView(
 
 
 class InternationalContactFormView(BaseInternationalContactFormView):
-    slug = EXPORT_READINESS_EUEXIT_INTERNATIONAL_FORM_SLUG
+    slug = cms.EXPORT_READINESS_EUEXIT_INTERNATIONAL_FORM_SLUG
     form_class = forms.InternationalContactForm
     template_name = 'euexit/international-contact-form.html'
     success_url = reverse_lazy('eu-exit-international-contact-form-success')
@@ -72,7 +60,7 @@ class InternationalContactFormView(BaseInternationalContactFormView):
 
 
 class DomesticContactFormView(BaseInternationalContactFormView):
-    slug = EXPORT_READINESS_EUEXIT_DOMESTIC_FORM_SLUG
+    slug = cms.EXPORT_READINESS_EUEXIT_DOMESTIC_FORM_SLUG
     form_class = forms.DomesticContactForm
     template_name = 'euexit/domestic-contact-form.html'
     success_url = reverse_lazy('eu-exit-domestic-contact-form-success')
@@ -81,9 +69,9 @@ class DomesticContactFormView(BaseInternationalContactFormView):
 
 class InternationalContactSuccessView(BaseContactView):
     template_name = 'euexit/international-contact-form-success.html'
-    slug = EXPORT_READINESS_EUEXIT_FORM_SUCCESS_SLUG
+    slug = cms.EXPORT_READINESS_EUEXIT_FORM_SUCCESS_SLUG
 
 
 class DomesticContactSuccessView(BaseContactView):
     template_name = 'euexit/domestic-contact-form-success.html'
-    slug = EXPORT_READINESS_EUEXIT_FORM_SUCCESS_SLUG
+    slug = cms.EXPORT_READINESS_EUEXIT_FORM_SUCCESS_SLUG

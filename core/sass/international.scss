@@ -320,6 +320,13 @@ li {
 :lang(ar) {
   font-family: 'ge-ss', sans-serif;
 
+  .banner-container[dir=rtl] {
+    .information-banner .banner-content>* {
+      padding-left: 0;
+      padding-right: 15px;
+    }
+  }
+
   #international-footer .site-links ul {
     text-align: left;
   }

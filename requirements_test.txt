@@ -4,6 +4,7 @@
 #
 #    pip-compile --output-file requirements_test.txt requirements_test.in
 #
+apipkg==1.5               # via execnet
 args==0.1.0               # via clint
 atomicwrites==1.1.5       # via pytest
 attrs==18.1.0             # via pytest
@@ -18,13 +19,13 @@ dateparser==0.7.0
 directory-api-client==10.0.2
 directory-ch-client==1.0.0
 directory-client-core==4.0.2  # via directory-api-client, directory-ch-client, directory-cms-client, directory-forms-api-client, directory-sso-api-client
-directory-cms-client==6.2.0
-directory-constants==8.0.4
-directory-forms-api-client==2.4.0
+directory-cms-client==8.0.0
+directory-constants==9.1.0
+directory-forms-api-client==2.5.1
 directory-healthcheck==0.5.1
 directory-sso-api-client==3.0.2
 directory-validators==5.0.1
-directory_components==2.26.0
+directory_components==2.29.0
 django-cors-headers==2.1.0
 django-environ==0.4.5
 django-extensions==1.9.0
@@ -35,6 +36,7 @@ django-redis==4.8.0
 django==1.11.15
 django_recaptcha==1.2.0
 djangorestframework==3.8.2  # via sigauth
+execnet==1.5.0            # via pytest-xdist
 export-elements==0.22.0
 flake8==3.5.0
 freezegun==0.3.10
@@ -57,7 +59,9 @@ pyflakes==1.6.0           # via flake8
 pytest-catchlog==1.2.2
 pytest-cov==2.5.1
 pytest-django==3.3.3
+pytest-forked==0.2        # via pytest-xdist
 pytest-sugar==0.9.1
+pytest-xdist==1.23.2
 pytest==3.7.1
 python-dateutil==2.7.3    # via dateparser, freezegun
 pytz==2017.2              # via dateparser, directory-healthcheck, directory-validators, django, tzlocal
@@ -67,7 +71,7 @@ regex==2018.8.29          # via dateparser
 requests-mock==1.5.2
 requests==2.19.1
 sigauth==4.0.1
-six==1.11.0               # via django-extensions, freezegun, mohawk, more-itertools, pytest, python-dateutil, requests-mock, w3lib
+six==1.11.0               # via django-extensions, freezegun, mohawk, more-itertools, pytest, pytest-xdist, python-dateutil, requests-mock, w3lib
 termcolor==1.1.0          # via pytest-sugar
 tzlocal==1.5.1            # via dateparser
 urllib3==1.23             # via requests

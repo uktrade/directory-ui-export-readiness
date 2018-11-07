@@ -1,19 +1,24 @@
+from directory_constants.constants import cms
+
 from django.views.generic import TemplateView
+
 from prototype.mixins import (
     GetCMSPageByFullPathMixin,
     GetCMSTagMixin,
     SocialLinksMixin,
-    InternationalNewsCMSLookupPath,
-    PrototypeCMSLookupPath,
     RelatedContentMixin,
 )
-from core.mixins import PrototypeFeatureFlagMixin, NewsSectionFeatureFlagMixin
+from core.mixins import (
+    PrototypeFeatureFlagMixin,
+    NewsSectionFeatureFlagMixin,
+    GetCMSComponentMixin,
+    GetCMSPageMixin,
+)
 from euexit.mixins import HideLanguageSelectorMixin
 
 
 class TopicListPageView(
     PrototypeFeatureFlagMixin,
-    PrototypeCMSLookupPath,  # must come before GetCMSPageByFullPathMixin
     GetCMSPageByFullPathMixin,
     TemplateView,
 ):
@@ -22,7 +27,6 @@ class TopicListPageView(
 
 class ArticleListPageView(
     PrototypeFeatureFlagMixin,
-    PrototypeCMSLookupPath,
     GetCMSPageByFullPathMixin,
     TemplateView,
 ):
@@ -45,7 +49,6 @@ class ArticleDetailView(
     SocialLinksMixin,
     PrototypeFeatureFlagMixin,
     RelatedContentMixin,
-    PrototypeCMSLookupPath,
     GetCMSPageByFullPathMixin,
     TemplateView,
 ):
@@ -54,39 +57,38 @@ class ArticleDetailView(
 
 class NewsListPageView(
     NewsSectionFeatureFlagMixin,
-    GetCMSPageByFullPathMixin,
+    GetCMSPageMixin,
     TemplateView,
 ):
     template_name = 'prototype/domestic_news_list.html'
+    slug = cms.EXPORT_READINESS_EU_EXIT_DOMESTIC_NEWS_SLUG
 
 
 class NewsArticleDetailView(
     SocialLinksMixin,
     NewsSectionFeatureFlagMixin,
     RelatedContentMixin,
-    PrototypeCMSLookupPath,
-    GetCMSPageByFullPathMixin,
+    GetCMSPageMixin,
     TemplateView,
 ):
     template_name = 'prototype/domestic_news_detail.html'
 
+    @property
+    def slug(self):
+        return self.kwargs['slug']
+
 
 class InternationalNewsListPageView(
     NewsSectionFeatureFlagMixin,
-    InternationalNewsCMSLookupPath,
-    GetCMSPageByFullPathMixin,
+    GetCMSPageMixin,
+    GetCMSComponentMixin,
     HideLanguageSelectorMixin,
     TemplateView,
 ):
     template_name = 'prototype/international_news_list.html'
+    component_slug = cms.COMPONENTS_BANNER_DOMESTIC_SLUG
+    slug = cms.EXPORT_READINESS_EU_EXIT_INTERNATIONAL_NEWS_SLUG
 
 
-class InternationalNewsArticleDetailView(
-    SocialLinksMixin,
-    NewsSectionFeatureFlagMixin,
-    RelatedContentMixin,
-    InternationalNewsCMSLookupPath,
-    GetCMSPageByFullPathMixin,
-    TemplateView,
-):
+class InternationalNewsArticleDetailView(NewsArticleDetailView):
     template_name = 'prototype/international_news_detail.html'

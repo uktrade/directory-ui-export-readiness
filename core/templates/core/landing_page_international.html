@@ -1,11 +1,13 @@
 {% extends 'core/base_international.html' %}
 {% load static from staticfiles %}
 {% load trans from i18n %}
+{% load banner from directory_components_tags %}
 
 {% block content %}
-{% if features.NEWS_SECTION_ON %}
-  <div class="container" dir="ltr">
-    {% include 'core/includes/eu-exit-banner.html' %}
+
+{% if features.NEWS_SECTION_ON and cms_component and page.articles_count > 0 %}
+  <div class="container banner-container" dir="{{ component_is_bidi|yesno:'rtl,ltr' }}">
+    {% banner banner_content=cms_component.banner_content badge_content=cms_component.banner_label %}
   </div>
 {% endif %}
 
