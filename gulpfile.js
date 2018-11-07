@@ -7,6 +7,18 @@ const Server = require('karma').Server;
 const PROJECT_DIR = path.resolve(__dirname);
 const SASS_FILES = `${PROJECT_DIR}/core/sass/**/*.scss`;
 const CSS_DIR = `${PROJECT_DIR}/core/static/styles`;
+const CSS_FILES = `${PROJECT_DIR}/core/static/styles/**/*.css`;
+const HTML_JS_FILES = [
+  `${PROJECT_DIR}/article/templates/article/**/*.html`,
+  `${PROJECT_DIR}/casestudy/templates/casestudy/**/*.html`,
+  `${PROJECT_DIR}/core/templates/core/**/*.html`,
+  `${PROJECT_DIR}/euexit/templates/euexit/**/*.html`,
+  `${PROJECT_DIR}/finance/templates/finance/**/*.html`,
+  `${PROJECT_DIR}/prototype/templates/prototype/**/*.html`,
+  `${PROJECT_DIR}/triage/templates/triage/**/*.html`,
+  `${PROJECT_DIR}/core/static/js/**/*.js`,
+];
+const purgecss = require('gulp-purgecss');
 
 // Run test once and exit
 gulp.task('test', function (done) {
@@ -14,6 +26,14 @@ gulp.task('test', function (done) {
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
   }, done).start();
+});
+
+gulp.task('purgecss', function() {
+  return gulp.src(CSS_FILES)
+    .pipe(purgecss({
+      content: HTML_JS_FILES
+    }))
+    .pipe(gulp.dest(CSS_DIR));
 });
 
 gulp.task('sass', function () {
@@ -25,6 +45,9 @@ gulp.task('sass', function () {
       ],
       outputStyle: 'compressed'
     }).on('error', sass.logError))
+    .pipe(purgecss({
+      content: HTML_JS_FILES
+    }))
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest(CSS_DIR));
 });
