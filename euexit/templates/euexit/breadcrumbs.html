@@ -3,9 +3,11 @@
     <li>
       <a href="{{ home_breadcrumbs_url }}">Great.gov.uk</a>
     </li>
-    <li>
-      <a href="{{ news_breadcrumbs_url }}">EU Exit news</a>
-    </li>
+    {% if features.NEWS_SECTION_ON %}
+      <li>
+        <a href="{{ news_breadcrumbs_url }}">EU Exit news</a>
+      </li>
+    {% endif %}
     <li aria-current="page">
         <span class="current">{{ page.breadcrumbs_label }}</span>
     </li>
