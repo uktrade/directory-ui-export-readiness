@@ -1,5 +1,7 @@
 from captcha.fields import ReCaptchaField
-from directory_forms_api_client.forms import ZendeskActionMixin
+from directory_forms_api_client.forms import (
+    GovNotifyActionMixin, ZendeskActionMixin
+)
 from directory_components import forms, fields, widgets
 from directory_constants.constants import choices, urls
 from directory_validators.common import not_contains_url_or_email
@@ -255,7 +257,7 @@ class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
     )
 
 
-class DomesticContactForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
+class BaseDomesticContactForm(forms.Form):
     given_name = fields.CharField(
         label='First name',
         validators=anti_phising_validators
@@ -303,6 +305,18 @@ class DomesticContactForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
         assert self.is_valid()
         cleaned_data = self.cleaned_data
         return f'{cleaned_data["given_name"]} {cleaned_data["family_name"]}'
+
+
+class DomesticContactZendeskForm(
+    SerializeDataMixin, ZendeskActionMixin, BaseDomesticContactForm
+):
+    pass
+
+
+class DomesticContactNotifyForm(
+    SerializeDataMixin, GovNotifyActionMixin, BaseDomesticContactForm
+):
+    pass
 
 
 class BuyingFromUKContactForm(forms.Form):

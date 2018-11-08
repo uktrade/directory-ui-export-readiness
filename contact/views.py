@@ -1,4 +1,4 @@
-from directory_constants.constants import cms, urls
+from directory_constants.constants import cms
 
 from formtools.wizard.views import SessionWizardView
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -42,7 +42,7 @@ class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
             constants.EXPORT_ADVICE: reverse_lazy('contact-us-export-advice'),
             constants.FINANCE: reverse_lazy('contact-us-finance-form'),
             constants.EUEXIT: reverse_lazy('eu-exit-domestic-contact-form'),
-            constants.EVENTS: urls.SERVICES_EVENTS,
+            constants.EVENTS: reverse_lazy('contact-us-events-form'),
             constants.DSO: reverse_lazy('contact-us-domestic'),
             constants.OTHER: reverse_lazy('contact-us-domestic'),
         },
@@ -151,7 +151,7 @@ class FeedbackFormView(FeatureFlagMixin, FormView):
         response = form.save(
             email_address=form.cleaned_data['email'],
             full_name=form.cleaned_data['name'],
-            subject=settings.CONTACT_ZENDESK_DOMESTIC_SUBJECT,
+            subject=settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
         )
         response.raise_for_status()
         return super().form_valid(form)
@@ -168,7 +168,7 @@ class InternationalFormView(FeatureFlagMixin, FormView):
 
 
 class DomesticFormView(FeatureFlagMixin, FormView):
-    form_class = forms.DomesticContactForm
+    form_class = forms.DomesticContactZendeskForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-domestic-success')
 
@@ -176,9 +176,36 @@ class DomesticFormView(FeatureFlagMixin, FormView):
         response = form.save(
             email_address=form.cleaned_data['email'],
             full_name=form.full_name,
-            subject=settings.CONTACT_ZENDESK_DOMESTIC_SUBJECT,
+            subject=settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
         )
         response.raise_for_status()
+        return super().form_valid(form)
+
+
+class EventsFormView(FeatureFlagMixin, FormView):
+    form_class = forms.DomesticContactNotifyForm
+    template_name = 'contact/domestic/step.html'
+    success_url = reverse_lazy('contact-us-domestic-success')
+
+    @staticmethod
+    def send_agent_message(form):
+        response = form.save(
+            template_id=settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
+            email_address=settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
+        )
+        response.raise_for_status()
+
+    @staticmethod
+    def send_user_message(form):
+        response = form.save(
+            template_id=settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
+            email_address=form.cleaned_data['email'],
+        )
+        response.raise_for_status()
+
+    def form_valid(self, form):
+        self.send_agent_message(form)
+        self.send_user_message(form)
         return super().form_valid(form)
 
 
