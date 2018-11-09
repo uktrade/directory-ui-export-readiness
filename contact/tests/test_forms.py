@@ -102,7 +102,7 @@ def test_international_form_routing():
 
 
 def test_domestic_contact_form_serialize_data(captcha_stub):
-    form = forms.DomesticContactZendeskForm(data={
+    form = forms.DomesticContactForm(data={
         'given_name': 'Test',
         'family_name': 'Example',
         'email': 'test@example.com',

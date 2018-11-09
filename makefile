@@ -201,7 +201,10 @@ TEST_SET_ENV_VARS := \
 	export CONTACT_EVENTS_AGENT_EMAIL_ADDRESS=events@example.com; \
 	export CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID=debug; \
 	export CONTACT_DSO_AGENT_EMAIL_ADDRESS=dso@example.com; \
-	export CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID=debug
+	export CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID=debug; \
+	export CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID=debug; \
+	export CONTACT_DIT_AGENT_EMAIL_ADDRESS=dit@example.com; \
+	export CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID=debug
 
 
 debug_webserver:

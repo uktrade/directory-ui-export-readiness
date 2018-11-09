@@ -176,7 +176,9 @@ class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
     )
 
 
-class BaseDomesticContactForm(forms.Form):
+class DomesticContactForm(
+    SerializeDataMixin, GovNotifyActionMixin, forms.Form
+):
     given_name = fields.CharField(
         label='First name',
         validators=anti_phising_validators
@@ -224,18 +226,6 @@ class BaseDomesticContactForm(forms.Form):
         assert self.is_valid()
         cleaned_data = self.cleaned_data
         return f'{cleaned_data["given_name"]} {cleaned_data["family_name"]}'
-
-
-class DomesticContactZendeskForm(
-    SerializeDataMixin, ZendeskActionMixin, BaseDomesticContactForm
-):
-    pass
-
-
-class DomesticContactNotifyForm(
-    SerializeDataMixin, GovNotifyActionMixin, BaseDomesticContactForm
-):
-    pass
 
 
 class BuyingFromUKContactForm(forms.Form):

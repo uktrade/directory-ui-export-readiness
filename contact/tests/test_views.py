@@ -197,28 +197,8 @@ def test_render_next_step(current_step, choice, expected_url):
     assert view.render_next_step(form).url == expected_url
 
 
-@mock.patch.object(views.DomesticFormView.form_class, 'save')
-def test_domestic_form_submit_success(
-    mock_save, client, captcha_stub, settings, domestic_form_data
-):
-    url = reverse('contact-us-domestic')
-    response = client.post(url, domestic_form_data)
-
-    assert response.status_code == 302
-    assert response.url == reverse('contact-us-domestic-success')
-
-    assert mock_save.call_count == 1
-    assert mock_save.call_args == mock.call(
-        email_address=domestic_form_data['email'],
-        full_name='Test Example',
-        subject=settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
-    )
-
-
 @mock.patch.object(views.FeedbackFormView.form_class, 'save')
-def test_feedback_form_submit_success(
-    mock_save, client, captcha_stub, settings
-):
+def test_feedback_form_submit_success(mock_save, client, captcha_stub):
     url = reverse('contact-us-feedback')
     data = {
         'name': 'Test Example',
@@ -240,11 +220,31 @@ def test_feedback_form_submit_success(
     )
 
 
+@pytest.mark.parametrize('url,agent_template,user_template,agent_email', (
+    (
+        reverse('contact-us-events-form'),
+        settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
+        settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
+        settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
+    ),
+    (
+        reverse('contact-us-dso-form'),
+        settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID,
+        settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
+        settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
+    ),
+    (
+        reverse('contact-us-domestic'),
+        settings.CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID,
+        settings.CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID,
+        settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
+    ),
+))
 @mock.patch.object(views.EventsFormView.form_class, 'save')
-def test_events_form_submit_success(
-    mock_save, client, captcha_stub, settings, domestic_form_data
+def test_generic_domestic_form_submit_success(
+    mock_save, client, captcha_stub, settings, domestic_form_data,
+    url, agent_template, user_template, agent_email
 ):
-    url = reverse('contact-us-events-form')
     response = client.post(url, domestic_form_data)
 
     assert response.status_code == 302
@@ -253,34 +253,11 @@ def test_events_form_submit_success(
     assert mock_save.call_count == 2
     assert mock_save.call_args_list == [
         mock.call(
-            template_id=settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
-            email_address=settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
+            template_id=agent_template,
+            email_address=agent_email,
         ),
         mock.call(
-            template_id=settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
-            email_address=domestic_form_data['email'],
-        )
-    ]
-
-
-@mock.patch.object(views.EventsFormView.form_class, 'save')
-def test_dso_form_submit_success(
-    mock_save, client, captcha_stub, settings, domestic_form_data
-):
-    url = reverse('contact-us-dso-form')
-    response = client.post(url, domestic_form_data)
-
-    assert response.status_code == 302
-    assert response.url == reverse('contact-us-domestic-success')
-
-    assert mock_save.call_count == 2
-    assert mock_save.call_args_list == [
-        mock.call(
-            template_id=settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID,
-            email_address=settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
-        ),
-        mock.call(
-            template_id=settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
+            template_id=user_template,
             email_address=domestic_form_data['email'],
         )
     ]
