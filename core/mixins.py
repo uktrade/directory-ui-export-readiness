@@ -69,7 +69,7 @@ class GetCMSComponentMixin:
         if self.cms_component:
             cms_component = self.cms_component
             component_supports_activated_language = activated_language in \
-                self.cms_component['meta']['languages']
+                dict(self.cms_component['meta']['languages'])
             component_is_bidi = activated_language_is_bidi and \
                 component_supports_activated_language
 
