@@ -43,6 +43,9 @@ class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
                 'uk-export-finance-lead-generation-form',
                 kwargs={'step': 'contact'}
             ),
+            constants.INVESTING: (
+                reverse_lazy('eu-exit-invest-overseas-contact-form')
+            ),
             constants.EUEXIT: reverse_lazy('eu-exit-domestic-contact-form'),
             constants.EVENTS: reverse_lazy('contact-us-events-form'),
             constants.DSO: reverse_lazy('contact-us-domestic'),
@@ -201,6 +204,18 @@ class DefenceAndSecurityOrganisationFormView(
     notify_template_id_agent = settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID
     notify_email_address_agent = settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS
     notify_template_id_user = settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID
+
+
+class InvestOverseasFormView(
+    FeatureFlagMixin, SendNotifyMessagesMixin, FormView
+):
+    form_class = forms.DomesticContactForm
+    template_name = 'contact/domestic/step.html'
+    success_url = reverse_lazy('contact-us-domestic-success')
+
+    notify_template_id_agent = settings.CONTACT_INVEST_AGENT_NOTIFY_TEMPLATE_ID
+    notify_email_address_agent = settings.CONTACT_INVEST_AGENT_EMAIL_ADDRESS
+    notify_template_id_user = settings.CONTACT_INVEST_USER_NOTIFY_TEMPLATE_ID
 
 
 class DomesticFormSuccessView(FeatureFlagMixin, GetCMSPageMixin, TemplateView):

@@ -21,6 +21,7 @@ def test_domestic_form_routing():
         constants.TRADE_OFFICE,
         constants.EXPORT_ADVICE,
         constants.FINANCE,
+        constants.INVESTING,
         constants.EUEXIT,
         constants.EVENTS,
         constants.DSO,
