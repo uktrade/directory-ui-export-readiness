@@ -44,7 +44,10 @@ class ChoiceForm(forms.Form):
     (
         constants.DOMESTIC,
         constants.FINANCE,
-        reverse('contact-us-finance-form'),
+        reverse(
+            'uk-export-finance-lead-generation-form',
+            kwargs={'step': 'contact'},
+        )
     ),
     (
         constants.DOMESTIC,

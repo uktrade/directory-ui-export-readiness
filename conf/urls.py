@@ -581,16 +581,10 @@ contact_urls = [
         name='contact-us-great-account-guidance'
     ),
     url(
-        r'^contact/finance/$',
-        contact.views.FinanceFormView.as_view(),
-        name='contact-us-finance-form'
-    ),
-    url(
         r'^contact/events/$',
         contact.views.EventsFormView.as_view(),
         name='contact-us-events-form'
     ),
-
     url(
         r'^contact/export-advice/$',
         contact.views.FeedbackFormView.as_view(),

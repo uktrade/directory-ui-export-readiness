@@ -1,6 +1,6 @@
 from directory_constants.constants import cms
+from directory_forms_api_client.actions import PardotAction
 from formtools.wizard.views import NamedUrlSessionWizardView
-import requests
 
 from django.conf import settings
 from django.http import Http404
@@ -78,11 +78,8 @@ class GetFinanceLeadGenerationFormView(
         return [self.templates[self.steps.current]]
 
     def done(self, form_list, **kwargs):
-        response = requests.post(
-            settings.UKEF_FORM_SUBMIT_TRACKER_URL,
-            self.serialize_form_list(form_list),
-            allow_redirects=False,
-        )
+        action = PardotAction(pardot_url=settings.UKEF_FORM_SUBMIT_TRACKER_URL)
+        response = action.save(self.serialize_form_list(form_list))
         response.raise_for_status()
         return redirect(self.success_url)
 
