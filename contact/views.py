@@ -164,23 +164,18 @@ class DomesticFormView(FeatureFlagMixin, FormView):
         return super().form_valid(form)
 
 
-class EventsFormView(FeatureFlagMixin, FormView):
-    form_class = forms.DomesticContactNotifyForm
-    template_name = 'contact/domestic/step.html'
-    success_url = reverse_lazy('contact-us-domestic-success')
+class SendNotifyMessagesMixin:
 
-    @staticmethod
-    def send_agent_message(form):
+    def send_agent_message(self, form):
         response = form.save(
-            template_id=settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
-            email_address=settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
+            template_id=self.notify_template_id_agent,
+            email_address=self.notify_email_address_agent,
         )
         response.raise_for_status()
 
-    @staticmethod
-    def send_user_message(form):
+    def send_user_message(self, form):
         response = form.save(
-            template_id=settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
+            template_id=self.notify_template_id_user,
             email_address=form.cleaned_data['email'],
         )
         response.raise_for_status()
@@ -189,6 +184,28 @@ class EventsFormView(FeatureFlagMixin, FormView):
         self.send_agent_message(form)
         self.send_user_message(form)
         return super().form_valid(form)
+
+
+class EventsFormView(FeatureFlagMixin, SendNotifyMessagesMixin, FormView):
+    form_class = forms.DomesticContactNotifyForm
+    template_name = 'contact/domestic/step.html'
+    success_url = reverse_lazy('contact-us-domestic-success')
+
+    notify_template_id_agent = settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID
+    notify_email_address_agent = settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS
+    notify_template_id_user = settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID
+
+
+class DefenceAndSecurityOrganisationFormView(
+    FeatureFlagMixin, SendNotifyMessagesMixin, FormView
+):
+    form_class = forms.DomesticContactNotifyForm
+    template_name = 'contact/domestic/step.html'
+    success_url = reverse_lazy('contact-us-domestic-success')
+
+    notify_template_id_agent = settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID
+    notify_email_address_agent = settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS
+    notify_template_id_user = settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID
 
 
 class DomesticFormSuccessView(FeatureFlagMixin, GetCMSPageMixin, TemplateView):

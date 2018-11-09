@@ -586,6 +586,11 @@ contact_urls = [
         name='contact-us-events-form'
     ),
     url(
+        r'^contact/defence-and-security-organisation/$',
+        contact.views.DefenceAndSecurityOrganisationFormView.as_view(),
+        name='contact-us-dso-form'
+    ),
+    url(
         r'^contact/export-advice/$',
         contact.views.FeedbackFormView.as_view(),
         name='contact-us-export-advice'
