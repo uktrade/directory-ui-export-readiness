@@ -591,6 +591,11 @@ contact_urls = [
         name='contact-us-dso-form'
     ),
     url(
+        r'^contact/investing-overseas/$',
+        contact.views.InvestOverseasFormView.as_view(),
+        name='eu-exit-invest-overseas-contact-form'
+    ),
+    url(
         r'^contact/export-advice/$',
         contact.views.FeedbackFormView.as_view(),
         name='contact-us-export-advice'
