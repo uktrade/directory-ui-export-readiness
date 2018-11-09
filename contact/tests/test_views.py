@@ -1,6 +1,6 @@
 from unittest import mock
 
-from directory_constants.constants import cms, urls
+from directory_constants.constants import cms
 import pytest
 
 from django import forms
@@ -16,6 +16,21 @@ def build_wizard_url(step):
 
 class ChoiceForm(forms.Form):
     choice = forms.CharField()
+
+
+@pytest.fixture
+def domestic_form_data(captcha_stub):
+    return {
+        'given_name': 'Test',
+        'family_name': 'Example',
+        'email': 'test@example.com',
+        'company_type': 'LIMITED',
+        'organisation_name': 'Example corp',
+        'postcode': '**** ***',
+        'comment': 'Help please',
+        'g-recaptcha-response': captcha_stub,
+        'terms_agreed': True,
+    }
 
 
 @pytest.mark.parametrize('current_step,choice,expected_url', (
@@ -57,7 +72,7 @@ class ChoiceForm(forms.Form):
     (
         constants.DOMESTIC,
         constants.EVENTS,
-        urls.SERVICES_EVENTS,
+        reverse('contact-us-events-form'),
     ),
     (
         constants.DOMESTIC,
@@ -184,30 +199,19 @@ def test_render_next_step(current_step, choice, expected_url):
 
 @mock.patch.object(views.DomesticFormView.form_class, 'save')
 def test_domestic_form_submit_success(
-    mock_save, client, captcha_stub, settings
+    mock_save, client, captcha_stub, settings, domestic_form_data
 ):
     url = reverse('contact-us-domestic')
-    data = {
-        'given_name': 'Test',
-        'family_name': 'Example',
-        'email': 'test@example.com',
-        'company_type': 'LIMITED',
-        'organisation_name': 'Example corp',
-        'postcode': '**** ***',
-        'comment': 'Help please',
-        'g-recaptcha-response': captcha_stub,
-        'terms_agreed': True,
-    }
-    response = client.post(url, data)
+    response = client.post(url, domestic_form_data)
 
     assert response.status_code == 302
     assert response.url == reverse('contact-us-domestic-success')
 
     assert mock_save.call_count == 1
     assert mock_save.call_args == mock.call(
-        email_address=data['email'],
+        email_address=domestic_form_data['email'],
         full_name='Test Example',
-        subject=settings.CONTACT_ZENDESK_DOMESTIC_SUBJECT,
+        subject=settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
     )
 
 
@@ -232,5 +236,51 @@ def test_feedback_form_submit_success(
     assert mock_save.call_args == mock.call(
         email_address=data['email'],
         full_name=data['name'],
-        subject=settings.CONTACT_ZENDESK_DOMESTIC_SUBJECT,
+        subject=settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
     )
+
+
+@mock.patch.object(views.EventsFormView.form_class, 'save')
+def test_events_form_submit_success(
+    mock_save, client, captcha_stub, settings, domestic_form_data
+):
+    url = reverse('contact-us-events-form')
+    response = client.post(url, domestic_form_data)
+
+    assert response.status_code == 302
+    assert response.url == reverse('contact-us-domestic-success')
+
+    assert mock_save.call_count == 2
+    assert mock_save.call_args_list == [
+        mock.call(
+            template_id=settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
+            email_address=settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
+        ),
+        mock.call(
+            template_id=settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
+            email_address=domestic_form_data['email'],
+        )
+    ]
+
+
+@mock.patch.object(views.EventsFormView.form_class, 'save')
+def test_dso_form_submit_success(
+    mock_save, client, captcha_stub, settings, domestic_form_data
+):
+    url = reverse('contact-us-dso-form')
+    response = client.post(url, domestic_form_data)
+
+    assert response.status_code == 302
+    assert response.url == reverse('contact-us-domestic-success')
+
+    assert mock_save.call_count == 2
+    assert mock_save.call_args_list == [
+        mock.call(
+            template_id=settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID,
+            email_address=settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
+        ),
+        mock.call(
+            template_id=settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
+            email_address=domestic_form_data['email'],
+        )
+    ]
