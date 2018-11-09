@@ -15,6 +15,7 @@ from casestudy import casestudies
 from core import helpers, mixins
 from triage.helpers import TriageAnswersManager
 from prototype.mixins import GetCMSPageByFullPathMixin
+from euexit.mixins import HideLanguageSelectorMixin
 
 
 class ArticlesViewedManagerMixin:
@@ -118,6 +119,13 @@ class InternationalLandingPageView(
     template_name = 'core/landing_page_international.html'
     component_slug = cms.COMPONENTS_BANNER_INTERNATIONAL_SLUG
     slug = cms.EXPORT_READINESS_HOME_INTERNATIONAL_SLUG
+
+
+class InternationalContactPageView(
+    HideLanguageSelectorMixin,
+    TemplateView,
+):
+    template_name = 'core/contact_page_international.html'
 
 
 class QuerystringRedirectView(RedirectView):
