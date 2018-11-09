@@ -65,6 +65,11 @@ urlpatterns = [
         name='landing-page-international'
     ),
     url(
+        r"^international/contact-us/$",
+        core.views.InternationalContactPageView.as_view(),
+        name='contact-page-international'
+    ),
+    url(
         r"^not-found/$",
         TemplateView.as_view(template_name='404.html'),
         name='not-found'
@@ -510,22 +515,22 @@ news_urls = [
     url(
         r"^eu-exit-news/$",
         prototype.views.NewsListPageView.as_view(),
-        name='news-article-list',
+        name='eu-exit-news-list',
     ),
     url(
         r"^eu-exit-news/(?P<slug>[\w-]+)/$",
         prototype.views.NewsArticleDetailView.as_view(),
-        name='news-article-detail',
+        name='eu-exit-news-detail',
     ),
     url(
         r"^international/eu-exit-news/$",
         prototype.views.InternationalNewsListPageView.as_view(),
-        name='international-news-article-list',
+        name='international-eu-exit-news-list',
     ),
     url(
         r"^international/eu-exit-news/(?P<slug>[\w-]+)/$",
         prototype.views.InternationalNewsArticleDetailView.as_view(),
-        name='international-news-article-detail',
+        name='international-eu-exit-news-detail',
     ),
 ]
 
@@ -537,14 +542,14 @@ prototype_urls = [
         name='prototype-landing-page',
     ),
     url(
-        r"^prototype/news/$",
+        r"^prototype/eu-exit-news/$",
         prototype.views.NewsListPageView.as_view(),
-        name='prototype-news-article-list',
+        name='prototype-eu-exit-news-list',
     ),
     url(
-        r"^prototype/news/(?P<slug>[\w-]+)/$",
+        r"^prototype/eu-exit-news/(?P<slug>[\w-]+)/$",
         prototype.views.NewsArticleDetailView.as_view(),
-        name='prototype-news-article-detail',
+        name='prototype-eu-exit-news-detail',
     ),
     url(
         r"^prototype/tagged/(?P<slug>[\w-]+)/$",

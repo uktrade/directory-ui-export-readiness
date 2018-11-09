@@ -273,7 +273,7 @@ def test_news_list_page_feature_flag_on(mock_get_page, client, settings):
         'NEWS_SECTION_ON': True,
     }
 
-    url = reverse('news-article-list')
+    url = reverse('eu-exit-news-list')
 
     mock_get_page.return_value = create_response(
         status_code=200,
@@ -302,7 +302,7 @@ def test_international_news_list_page(
         'NEWS_SECTION_ON': True,
     }
 
-    url = reverse('international-news-article-list')
+    url = reverse('international-eu-exit-news-list')
 
     mock_get_page.return_value = create_response(
         status_code=200,
@@ -357,7 +357,7 @@ def test_domestic_news_article_detail_page(mock_get_page, client, settings):
         ]
     }
 
-    url = reverse('news-article-detail', kwargs={'slug': 'foo'})
+    url = reverse('eu-exit-news-detail', kwargs={'slug': 'foo'})
 
     mock_get_page.return_value = create_response(
         status_code=200,
@@ -407,7 +407,7 @@ def test_international_news_article_detail_page(
         },
     }
 
-    url = reverse('international-news-article-detail', kwargs={'slug': 'foo'})
+    url = reverse('international-eu-exit-news-detail', kwargs={'slug': 'foo'})
 
     mock_get_page.return_value = create_response(
         status_code=200,
@@ -431,7 +431,7 @@ def test_news_list_page_feature_flag_off(client, settings):
         'NEWS_SECTION_ON': False,
     }
 
-    url = reverse('news-article-list')
+    url = reverse('eu-exit-news-list')
 
     response = client.get(url)
 
