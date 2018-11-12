@@ -170,7 +170,7 @@ def test_get_finance_cms(mock_get_finance_page, client, settings):
     page = {
         'title': 'the page',
         'industries': [{'title': 'good 1'}],
-        'meta': {'languages': ['en-gb']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
     mock_get_finance_page.return_value = create_response(
         status_code=200,

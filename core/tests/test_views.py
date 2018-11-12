@@ -253,12 +253,27 @@ def test_privacy_cookies_cms(
     assert response.template_name == [expected_template]
 
 
+@pytest.mark.parametrize(
+    'activated_language,component_languages,direction',
+    (
+        (
+            'ar', [['ar', 'العربيّة'], ['en-gb', 'English']], 'rtl'
+        ),
+        (
+            'en-gb', [['ar', 'العربيّة'], ['en-gb', 'English']], 'ltr'
+        ),
+        (
+            'zh-hans', [['ar', 'العربيّة'], ['en-gb', 'English']], 'ltr'
+        ),
+    )
+)
 @patch('core.views.InternationalLandingPageView.cms_component',
        new_callable=PropertyMock)
 @patch('core.views.InternationalLandingPageView.page',
        new_callable=PropertyMock)
 def test_international_landing_page_news_section_on(
-    mock_get_page, mock_get_component, client, settings
+    mock_get_page, mock_get_component, activated_language,
+    component_languages, direction, client, settings
 ):
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
@@ -267,20 +282,24 @@ def test_international_landing_page_news_section_on(
     mock_get_page.return_value = {
         'title': 'the page',
         'articles_count': 1,
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
     mock_get_component.return_value = {
         'banner_label': 'EU Exit updates',
         'banner_content': '<p>Lorem ipsum.</p>',
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': component_languages},
     }
 
     url = reverse('landing-page-international')
-    response = client.get(url)
+    response = client.get(url, {'lang': activated_language})
 
     assert response.template_name == ['core/landing_page_international.html']
     assert 'EU Exit updates' in str(response.content)
     assert '<p class="body-text">Lorem ipsum.</p>' in str(response.content)
+
+    soup = BeautifulSoup(response.content, 'html.parser')
+    component = soup.select('.banner-container')[0]
+    assert component.attrs['dir'] == direction
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -296,14 +315,14 @@ def test_international_landing_page_news_section_off(
     mock_get_page.return_value = {
         'title': 'the page',
         'articles_count': 1,
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
     mock_get_component.return_value = create_response(
         status_code=200,
         json_body={
             'banner_label': 'EU Exit updates',
             'banner_content': '<p>Lorem ipsum.</p>',
-            'meta': {'languages': ['en-gb', 'English']},
+            'meta': {'languages': [['en-gb', 'English']]},
         }
     )
 
@@ -327,12 +346,12 @@ def test_international_landing_page_no_articles(
     mock_get_page.return_value = {
         'title': 'the page',
         'articles_count': 0,
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
     mock_get_component.return_value = {
         'banner_label': 'EU Exit updates',
         'banner_content': '<p>Lorem ipsum.</p>',
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
 
     url = reverse('landing-page-international')
@@ -356,12 +375,12 @@ def test_international_landing_view_translations(
     mock_get_page.return_value = {
         'title': 'the page',
         'articles_count': 0,
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
     mock_get_component.return_value = {
         'banner_label': 'EU Exit updates',
         'banner_content': '<p>Lorem ipsum.</p>',
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
 
     assert response.status_code == http.client.OK

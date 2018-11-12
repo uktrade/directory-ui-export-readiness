@@ -47,9 +47,6 @@ gulp.task('sass', function () {
       ],
       outputStyle: 'compressed'
     }).on('error', sass.logError))
-    .pipe(purgecss({
-      content: HTML_JS_FILES
-    }))
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest(CSS_DIR));
 });

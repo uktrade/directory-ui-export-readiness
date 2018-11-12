@@ -10,7 +10,7 @@
 {% block content %}
   {% block breascrumbs %}
     {% url 'landing-page' as landing_page %}
-    {% url 'news-article-list' as news_list %}
+    {% url 'eu-exit-news-list' as news_list %}
     {% include 'euexit/breadcrumbs.html' with home_breadcrumbs_url=landing_page news_breadcrumbs_url=news_list %}
   {% endblock %}
 
