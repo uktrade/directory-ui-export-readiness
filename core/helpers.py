@@ -7,6 +7,7 @@ from django.contrib.gis.geoip2 import GeoIP2
 from django.urls import reverse
 from django.shortcuts import Http404, redirect
 from django.utils.functional import cached_property
+from django.utils import translation
 
 
 def build_social_link(template, request, title):
@@ -15,6 +16,18 @@ def build_social_link(template, request, title):
         url=request.build_absolute_uri(),
         text=urllib.parse.quote(text_to_encode)
     )
+
+
+def cms_component_supports_activated_language(activated_language, languages):
+    for language in languages:
+        if language[0] == activated_language:
+            return True
+
+
+def cms_component_is_bidi(activated_language, languages):
+    if cms_component_supports_activated_language(
+     activated_language, languages):
+        return translation.get_language_info(activated_language)['bidi']
 
 
 def build_twitter_link(request, title):
