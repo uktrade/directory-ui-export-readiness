@@ -43,6 +43,9 @@ class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
                 'uk-export-finance-lead-generation-form',
                 kwargs={'step': 'contact'}
             ),
+            constants.INVESTING: (
+                reverse_lazy('eu-exit-invest-overseas-contact-form')
+            ),
             constants.EUEXIT: reverse_lazy('eu-exit-domestic-contact-form'),
             constants.EVENTS: reverse_lazy('contact-us-events-form'),
             constants.DSO: reverse_lazy('contact-us-domestic'),
@@ -149,21 +152,6 @@ class InternationalFormView(FeatureFlagMixin, FormView):
     template_name = 'contact/international/step.html'
 
 
-class DomesticFormView(FeatureFlagMixin, FormView):
-    form_class = forms.DomesticContactZendeskForm
-    template_name = 'contact/domestic/step.html'
-    success_url = reverse_lazy('contact-us-domestic-success')
-
-    def form_valid(self, form):
-        response = form.save(
-            email_address=form.cleaned_data['email'],
-            full_name=form.full_name,
-            subject=settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
-        )
-        response.raise_for_status()
-        return super().form_valid(form)
-
-
 class SendNotifyMessagesMixin:
 
     def send_agent_message(self, form):
@@ -186,8 +174,18 @@ class SendNotifyMessagesMixin:
         return super().form_valid(form)
 
 
+class DomesticFormView(FeatureFlagMixin, SendNotifyMessagesMixin, FormView):
+    form_class = forms.DomesticContactForm
+    template_name = 'contact/domestic/step.html'
+    success_url = reverse_lazy('contact-us-domestic-success')
+
+    notify_template_id_agent = settings.CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID
+    notify_email_address_agent = settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS
+    notify_template_id_user = settings.CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID
+
+
 class EventsFormView(FeatureFlagMixin, SendNotifyMessagesMixin, FormView):
-    form_class = forms.DomesticContactNotifyForm
+    form_class = forms.DomesticContactForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-domestic-success')
 
@@ -199,13 +197,25 @@ class EventsFormView(FeatureFlagMixin, SendNotifyMessagesMixin, FormView):
 class DefenceAndSecurityOrganisationFormView(
     FeatureFlagMixin, SendNotifyMessagesMixin, FormView
 ):
-    form_class = forms.DomesticContactNotifyForm
+    form_class = forms.DomesticContactForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-domestic-success')
 
     notify_template_id_agent = settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID
     notify_email_address_agent = settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS
     notify_template_id_user = settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID
+
+
+class InvestOverseasFormView(
+    FeatureFlagMixin, SendNotifyMessagesMixin, FormView
+):
+    form_class = forms.DomesticContactForm
+    template_name = 'contact/domestic/step.html'
+    success_url = reverse_lazy('contact-us-domestic-success')
+
+    notify_template_id_agent = settings.CONTACT_INVEST_AGENT_NOTIFY_TEMPLATE_ID
+    notify_email_address_agent = settings.CONTACT_INVEST_AGENT_EMAIL_ADDRESS
+    notify_template_id_user = settings.CONTACT_INVEST_USER_NOTIFY_TEMPLATE_ID
 
 
 class DomesticFormSuccessView(FeatureFlagMixin, GetCMSPageMixin, TemplateView):
