@@ -253,12 +253,27 @@ def test_privacy_cookies_cms(
     assert response.template_name == [expected_template]
 
 
+@pytest.mark.parametrize(
+    'activated_language,component_languages,dir',
+    (
+        (
+            'ar', [['ar', 'العربيّة'], ('en-gb', 'English')], 'rtl'
+        ),
+        (
+            'en-gb', [['ar', 'العربيّة'], ('en-gb', 'English')], 'ltr'
+        ),
+        (
+            'zh-hans', [['ar', 'العربيّة'], ('en-gb', 'English')], 'ltr'
+        ),
+    )
+)
 @patch('core.views.InternationalLandingPageView.cms_component',
        new_callable=PropertyMock)
 @patch('core.views.InternationalLandingPageView.page',
        new_callable=PropertyMock)
 def test_international_landing_page_news_section_on(
-    mock_get_page, mock_get_component, client, settings
+    mock_get_page, mock_get_component, activated_language,
+    component_languages, dir, client, settings
 ):
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
@@ -272,15 +287,19 @@ def test_international_landing_page_news_section_on(
     mock_get_component.return_value = {
         'banner_label': 'EU Exit updates',
         'banner_content': '<p>Lorem ipsum.</p>',
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': component_languages},
     }
 
     url = reverse('landing-page-international')
-    response = client.get(url)
+    response = client.get(url, {'lang': activated_language})
 
     assert response.template_name == ['core/landing_page_international.html']
     assert 'EU Exit updates' in str(response.content)
     assert '<p class="body-text">Lorem ipsum.</p>' in str(response.content)
+
+    soup = BeautifulSoup(response.content, 'html.parser')
+    component = soup.select('.banner-container')[0]
+    assert component.attrs['dir'] == dir
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
