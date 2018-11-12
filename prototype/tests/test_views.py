@@ -311,7 +311,7 @@ def test_international_news_list_page(
     mock_get_component.return_value = {
         'banner_label': 'EU Exit updates',
         'banner_content': '<p>Lorem ipsum.</p>',
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
 
     response = client.get(url)

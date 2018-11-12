@@ -257,13 +257,13 @@ def test_privacy_cookies_cms(
     'activated_language,component_languages,direction',
     (
         (
-            'ar', [['ar', 'العربيّة'], ('en-gb', 'English')], 'rtl'
+            'ar', [['ar', 'العربيّة'], ['en-gb', 'English']], 'rtl'
         ),
         (
-            'en-gb', [['ar', 'العربيّة'], ('en-gb', 'English')], 'ltr'
+            'en-gb', [['ar', 'العربيّة'], ['en-gb', 'English']], 'ltr'
         ),
         (
-            'zh-hans', [['ar', 'العربيّة'], ('en-gb', 'English')], 'ltr'
+            'zh-hans', [['ar', 'العربيّة'], ['en-gb', 'English']], 'ltr'
         ),
     )
 )
@@ -282,7 +282,7 @@ def test_international_landing_page_news_section_on(
     mock_get_page.return_value = {
         'title': 'the page',
         'articles_count': 1,
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
     mock_get_component.return_value = {
         'banner_label': 'EU Exit updates',
@@ -315,14 +315,14 @@ def test_international_landing_page_news_section_off(
     mock_get_page.return_value = {
         'title': 'the page',
         'articles_count': 1,
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
     mock_get_component.return_value = create_response(
         status_code=200,
         json_body={
             'banner_label': 'EU Exit updates',
             'banner_content': '<p>Lorem ipsum.</p>',
-            'meta': {'languages': ['en-gb', 'English']},
+            'meta': {'languages': [['en-gb', 'English']]},
         }
     )
 
@@ -346,12 +346,12 @@ def test_international_landing_page_no_articles(
     mock_get_page.return_value = {
         'title': 'the page',
         'articles_count': 0,
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
     mock_get_component.return_value = {
         'banner_label': 'EU Exit updates',
         'banner_content': '<p>Lorem ipsum.</p>',
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
 
     url = reverse('landing-page-international')
@@ -375,12 +375,12 @@ def test_international_landing_view_translations(
     mock_get_page.return_value = {
         'title': 'the page',
         'articles_count': 0,
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
     mock_get_component.return_value = {
         'banner_label': 'EU Exit updates',
         'banner_content': '<p>Lorem ipsum.</p>',
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
 
     assert response.status_code == http.client.OK
