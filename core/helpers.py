@@ -18,15 +18,8 @@ def build_social_link(template, request, title):
     )
 
 
-def cms_component_supports_activated_language(activated_language, languages):
-    for language in languages:
-        if language[0] == activated_language:
-            return True
-
-
 def cms_component_is_bidi(activated_language, languages):
-    if cms_component_supports_activated_language(
-     activated_language, languages):
+    if any(code == activated_language for code, _ in languages):
         return translation.get_language_info(activated_language)['bidi']
 
 

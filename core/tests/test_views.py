@@ -254,7 +254,7 @@ def test_privacy_cookies_cms(
 
 
 @pytest.mark.parametrize(
-    'activated_language,component_languages,dir',
+    'activated_language,component_languages,direction',
     (
         (
             'ar', [['ar', 'العربيّة'], ('en-gb', 'English')], 'rtl'
@@ -273,7 +273,7 @@ def test_privacy_cookies_cms(
        new_callable=PropertyMock)
 def test_international_landing_page_news_section_on(
     mock_get_page, mock_get_component, activated_language,
-    component_languages, dir, client, settings
+    component_languages, direction, client, settings
 ):
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
@@ -299,7 +299,7 @@ def test_international_landing_page_news_section_on(
 
     soup = BeautifulSoup(response.content, 'html.parser')
     component = soup.select('.banner-container')[0]
-    assert component.attrs['dir'] == dir
+    assert component.attrs['dir'] == direction
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
