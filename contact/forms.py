@@ -7,7 +7,7 @@ from directory_constants.constants import choices, urls
 from directory_validators.common import not_contains_url_or_email
 from directory_validators.company import no_html
 
-from django.forms import Select, Textarea
+from django.forms import Select, Textarea, TextInput
 from django.utils.html import mark_safe
 
 from contact import constants
@@ -39,6 +39,23 @@ INDUSTRY_CHOICES = (
 
 
 anti_phising_validators = [no_html, not_contains_url_or_email]
+
+
+
+class ExtraCssClassesBoundField(fields.DirectoryComponentsBoundField):
+
+    def css_classes(self):
+        return super().css_classes() + ' ' + self.field.extra_css_classes
+
+
+class ExtraCssClassesCharField(fields.CharField):
+
+    def __init__(self, extra_css_classes, *args, **kwargs):
+        self.extra_css_classes = extra_css_classes
+        super().__init__(*args, **kwargs)
+
+    def get_bound_field(self, form, field_name):
+        return ExtraCssClassesBoundField(form, self, field_name)
 
 
 class NoOpForm(forms.Form):
@@ -180,9 +197,17 @@ class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
 class DomesticContactForm(
     SerializeDataMixin, GovNotifyActionMixin, forms.Form
 ):
-    given_name = fields.CharField(
-        label='First name',
+    comment = fields.CharField(
+        label=(
+            'If something is wrong, please give as much details as you can'
+        ),
+        widget=Textarea,
         validators=anti_phising_validators
+    )
+    given_name = ExtraCssClassesCharField(
+        label='First name',
+        validators=anti_phising_validators,
+        extra_css_classes='your-details-container'
     )
     family_name = fields.CharField(
         label='Last name',
@@ -204,14 +229,6 @@ class DomesticContactForm(
         validators=anti_phising_validators
     )
     postcode = fields.CharField(
-        validators=anti_phising_validators
-    )
-    comment = fields.CharField(
-        label='Tell us how we can help',
-        help_text=(
-            'If something is wrong, please give as much details as you can'
-        ),
-        widget=Textarea,
         validators=anti_phising_validators
     )
     captcha = ReCaptchaField(
