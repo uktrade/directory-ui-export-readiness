@@ -144,3 +144,11 @@ def test_feedback_form_serialize_data(captcha_stub):
         'email': 'test@example.com',
         'comment': 'Help please',
     }
+
+
+def test_extra_css_classes_field():
+    expected = ' form-group your-details-container'
+
+    form = forms.DomesticContactForm()
+
+    assert form['given_name'].css_classes() == expected
