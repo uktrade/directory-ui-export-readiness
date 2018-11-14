@@ -88,7 +88,6 @@ class DomesticRoutingForm(forms.Form):
         (constants.EXPORT_ADVICE, 'Advice to export from the UK'),
         (constants.GREAT_SERVICES, 'Great.gov.uk services'),
         (constants.FINANCE, 'Finance'),
-        (constants.INVESTING, 'Investing overseas'),
         (constants.EUEXIT, 'EU Exit'),
         (constants.EVENTS, 'Events'),
         (constants.DSO, 'Defence and Security Organisation (DSO)'),
