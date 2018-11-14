@@ -15,7 +15,8 @@ from casestudy import casestudies
 from core import helpers, mixins
 from triage.helpers import TriageAnswersManager
 from prototype.mixins import GetCMSPageByFullPathMixin
-from euexit.mixins import HideLanguageSelectorMixin
+from euexit.mixins import (
+    HideLanguageSelectorMixin, EUExitFormsFeatureFlagMixin)
 
 
 class ArticlesViewedManagerMixin:
@@ -122,6 +123,7 @@ class InternationalLandingPageView(
 
 
 class InternationalContactPageView(
+    EUExitFormsFeatureFlagMixin,
     HideLanguageSelectorMixin,
     TemplateView,
 ):
