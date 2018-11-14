@@ -7,7 +7,7 @@ from directory_constants.constants import choices, urls
 from directory_validators.common import not_contains_url_or_email
 from directory_validators.company import no_html
 
-from django.forms import Select, Textarea, TextInput
+from django.forms import Select, Textarea
 from django.utils.html import mark_safe
 
 from contact import constants
@@ -39,7 +39,6 @@ INDUSTRY_CHOICES = (
 
 
 anti_phising_validators = [no_html, not_contains_url_or_email]
-
 
 
 class ExtraCssClassesBoundField(fields.DirectoryComponentsBoundField):
