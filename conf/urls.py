@@ -65,7 +65,7 @@ urlpatterns = [
         name='landing-page-international'
     ),
     url(
-        r"^international/contact-us/$",
+        r"^international/contact/$",
         core.views.InternationalContactPageView.as_view(),
         name='contact-page-international'
     ),
