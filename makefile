@@ -8,7 +8,7 @@ test_requirements:
 	pip install -r requirements_test.txt
 
 FLAKE8 := flake8 . --exclude=migrations,.venv,node_modules
-PYTEST := pytest . -vv --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
+PYTEST := pytest . -v --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
 COLLECT_STATIC := python manage.py collectstatic --noinput
 COMPILE_TRANSLATIONS := python manage.py compilemessages
 CODECOV := \
@@ -64,7 +64,6 @@ DOCKER_SET_DEBUG_ENV_VARS := \
 	export DIRECTORY_UI_EXPORT_READINESS_COMPANIES_HOUSE_CLIENT_ID=debug-client-id; \
 	export DIRECTORY_UI_EXPORT_READINESS_COMPANIES_HOUSE_CLIENT_SECRET=debug-client-secret; \
 	export DIRECTORY_UI_EXPORT_READINESS_SECURE_HSTS_SECONDS=0; \
-	export DIRECTORY_UI_EXPORT_READINESS_PYTHONWARNINGS=all; \
 	export DIRECTORY_UI_EXPORT_READINESS_PYTHONDEBUG=true; \
 	export DIRECTORY_UI_EXPORT_READINESS_HEADER_FOOTER_URLS_GREAT_HOME=http://exred.trade.great:8007/; \
 	export DIRECTORY_UI_EXPORT_READINESS_HEADER_FOOTER_URLS_FAB=http://buyer.trade.great:8001; \
@@ -91,12 +90,12 @@ DOCKER_SET_DEBUG_ENV_VARS := \
 	export DIRECTORY_UI_EXPORT_READINESS_FEATURE_PROTOTYPE_HEADER_FOOTER_ENABLED=true; \
 	export DIRECTORY_UI_EXPORT_READINESS_FEATURE_EU_EXIT_FORMS_ENABLED=true; \
 	export DIRECTORY_UI_EXPORT_READINESS_EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
+	export DIRECTORY_UI_EXPORT_READINESS_FEATURE_CONTACT_US_ENABLED=true; \
 	export DIRECTORY_UI_EXPORT_READINESS_DIRECTORY_FORMS_API_API_KEY_EUEXIT=debug; \
 	export DIRECTORY_UI_EXPORT_READINESS_DIRECTORY_FORMS_API_SENDER_ID_EUEXIT=debug; \
 	export DIRECTORY_UI_EXPORT_READINESS_EUEXIT_AGENT_EMAIL=test@example.com; \
 	export DIRECTORY_UI_EXPORT_READINESS_EUEXIT_GOV_NOTIFY_TEMPLATE_ID=debug; \
 	export DIRECTORY_UI_EXPORT_READINESS_EUEXIT_GOV_NOTIFY_REPLY_TO_ID=debug
-
 
 docker_test_env_files:
 	$(DOCKER_SET_DEBUG_ENV_VARS) && \
@@ -154,12 +153,12 @@ DEBUG_SET_ENV_VARS := \
 	export COMPANIES_HOUSE_CLIENT_ID=debug-client-id; \
 	export COMPANIES_HOUSE_CLIENT_SECRET=debug-client-secret; \
 	export SECURE_HSTS_SECONDS=0; \
-	export PYTHONWARNINGS=all; \
 	export PYTHONDEBUG=true; \
 	export HEADER_FOOTER_URLS_GREAT_HOME=http://exred.trade.great:8007/; \
 	export HEADER_FOOTER_URLS_FAB=http://buyer.trade.great:8001; \
 	export HEADER_FOOTER_URLS_SOO=http://soo.trade.great:8008; \
-	export HEADER_FOOTER_URLS_CONTACT_US=http://contact.trade.great:8009/directory/; \
+	export HEADER_FOOTER_URLS_CONTACT_US=http://exred.trade.great:8007/contact/; \
+	export HEADER_FOOTER_URLS_FEEDBACK=http://exred.trade.great:8007/contact/feedback/; \
 	export COMPONENTS_URLS_FAS=http://supplier.trade.great:8005/; \
 	export SERVICES_EXOPPS_ACTUAL=http://opportunities.export.great.gov.uk; \
 	export SECURE_SSL_REDIRECT=false; \
@@ -182,12 +181,10 @@ DEBUG_SET_ENV_VARS := \
 	export FEATURE_PROTOTYPE_PAGES_ENABLED=true; \
 	export FEATURE_NEWS_SECTION_ENABLED=true; \
 	export FEATURE_EU_EXIT_FORMS_ENABLED=true; \
-	export FEATURE_PROTOTYPE_HEADER_FOOTER_ENABLED=true; \
-	export FEATURE_EU_EXIT_FORMS_ENABLED=true; \
+	export FEATURE_PROTOTYPE_HEADER_FOOTER_ENABLED=false; \
 	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
-	export EUEXIT_AGENT_EMAIL=test@example.com; \
-	export EUEXIT_GOV_NOTIFY_TEMPLATE_ID=debug; \
-	export EUEXIT_GOV_NOTIFY_REPLY_TO_ID=debug
+	export FEATURE_CONTACT_US_ENABLED=true; \
+	export EUEXIT_AGENT_EMAIL=test@example.com
 
 TEST_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
@@ -196,7 +193,22 @@ TEST_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_API_KEY_EUEXIT=debug; \
 	export DIRECTORY_FORMS_API_SENDER_ID_EUEXIT=debug; \
 	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
-	export DEBUG=false
+	export DEBUG=false; \
+	export EUEXIT_GOV_NOTIFY_TEMPLATE_ID=debug; \
+	export EUEXIT_GOV_NOTIFY_REPLY_TO_ID=debug; \
+	export CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID=debug; \
+	export CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID=debug; \
+	export CONTACT_EVENTS_AGENT_EMAIL_ADDRESS=events@example.com; \
+	export CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID=debug; \
+	export CONTACT_DSO_AGENT_EMAIL_ADDRESS=dso@example.com; \
+	export CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID=debug; \
+	export CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID=debug; \
+	export CONTACT_DIT_AGENT_EMAIL_ADDRESS=dit@example.com; \
+	export CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID=debug; \
+	export CONTACT_INVEST_AGENT_NOTIFY_TEMPLATE_ID=debug; \
+	export CONTACT_INVEST_AGENT_EMAIL_ADDRESS=invest-overseas@example.com; \
+	export CONTACT_INVEST_USER_NOTIFY_TEMPLATE_ID=debug
+
 
 debug_webserver:
 	$(DEBUG_SET_ENV_VARS) && $(DJANGO_WEBSERVER)

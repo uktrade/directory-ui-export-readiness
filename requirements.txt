@@ -13,14 +13,14 @@ contextlib2==0.5.5        # via raven
 dateparser==0.7.0
 directory-api-client==10.0.2
 directory-ch-client==1.0.0
-directory-client-core==4.0.2  # via directory-api-client, directory-ch-client, directory-cms-client, directory-forms-api-client, directory-sso-api-client
-directory-cms-client==7.0.0
-directory-constants==8.1.0
-directory-forms-api-client==2.5.1
+directory-client-core==4.2.0  # via directory-api-client, directory-ch-client, directory-cms-client, directory-forms-api-client, directory-sso-api-client
+directory-cms-client==8.1.0
+directory-components==2.31.0
+directory-constants==9.1.0
+directory-forms-api-client==2.6.0
 directory-healthcheck==0.5.1
 directory-sso-api-client==3.0.2
 directory-validators==5.0.1
-directory_components==2.29.0
 django-cors-headers==2.1.0
 django-environ==0.4.5
 django-extensions==1.9.0

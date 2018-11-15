@@ -1,6 +1,6 @@
-from directory_cms_client.constants import EXPORT_READINESS_GET_FINANCE_SLUG
+from directory_constants.constants import cms
+from directory_forms_api_client.actions import PardotAction
 from formtools.wizard.views import NamedUrlSessionWizardView
-import requests
 
 from django.conf import settings
 from django.http import Http404
@@ -19,22 +19,9 @@ class FeatureFlagMixin:
         return super().dispatch(*args, **kwargs)
 
 
-class DeprecatedGetFinance(mixins.GetCMSPageMixin, TemplateView):
-    template_name = 'finance/get_finance_deprecated.html'
-    slug = EXPORT_READINESS_GET_FINANCE_SLUG + '-deprecated'
-
-
-class GetFinance(mixins.GetCMSPageMixin, TemplateView):
+class GetFinanceView(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'finance/get_finance.html'
-    slug = EXPORT_READINESS_GET_FINANCE_SLUG
-
-
-class GetFinanceNegotiator(TemplateView):
-    def __new__(cls, *args, **kwargs):
-        if settings.FEATURE_FLAGS['UKEF_LEAD_GENERATION_ON']:
-            return GetFinance(*args, **kwargs)
-        else:
-            return DeprecatedGetFinance(*args, **kwargs)
+    slug = cms.EXPORT_READINESS_GET_FINANCE_SLUG
 
 
 class PreventCaptchaRevalidationMixin:
@@ -91,11 +78,8 @@ class GetFinanceLeadGenerationFormView(
         return [self.templates[self.steps.current]]
 
     def done(self, form_list, **kwargs):
-        response = requests.post(
-            settings.UKEF_FORM_SUBMIT_TRACKER_URL,
-            self.serialize_form_list(form_list),
-            allow_redirects=False,
-        )
+        action = PardotAction(pardot_url=settings.UKEF_FORM_SUBMIT_TRACKER_URL)
+        response = action.save(self.serialize_form_list(form_list))
         response.raise_for_status()
         return redirect(self.success_url)
 

@@ -1,8 +1,5 @@
 from unittest.mock import call, patch
 
-from directory_cms_client.constants import (
-    EXPORT_READINESS_GET_FINANCE_SLUG,
-)
 import pytest
 
 from django.urls import reverse
@@ -34,9 +31,9 @@ def test_ukef_lead_generation_feature_flag_on(
 
 
 @patch('captcha.fields.ReCaptchaField.clean')
-@patch('requests.post')
+@patch('finance.views.PardotAction')
 def test_ukef_lead_generation_captcha_revalidation(
-    mock_post, mock_clean, client, settings, captcha_stub
+    mock_action, mock_clean, client, settings, captcha_stub
 ):
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
@@ -106,9 +103,9 @@ def test_ukef_lead_generation_captcha_revalidation(
     assert mock_clean.call_count == 1
 
 
-@patch('requests.post')
+@patch('finance.views.PardotAction')
 def test_ukef_lead_generation_submit(
-    mock_post, client, settings, captcha_stub
+    mock_action, client, settings, captcha_stub
 ):
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
@@ -134,16 +131,18 @@ def test_ukef_lead_generation_submit(
 
     assert response.status_code == 302
     assert response.url == str(view.success_url)
-    assert mock_post.call_count == 1
-    assert mock_post.call_args == call(
-        settings.UKEF_FORM_SUBMIT_TRACKER_URL,
-        {
-            'categories': ['Securing upfront funding'],
-            'comment': 'thing',
-            'captcha': captcha_stub,
-        },
-        allow_redirects=False,
+
+    assert mock_action.call_count == 1
+    assert mock_action.call_args == call(
+        pardot_url=settings.UKEF_FORM_SUBMIT_TRACKER_URL
     )
+
+    assert mock_action().save.call_count == 1
+    assert mock_action().save.call_args == call({
+        'categories': ['Securing upfront funding'],
+        'comment': 'thing',
+        'captcha': captcha_stub,
+    })
 
 
 def test_ukef_lead_generation_feature_flag_off(client, settings):
@@ -171,7 +170,7 @@ def test_get_finance_cms(mock_get_finance_page, client, settings):
     page = {
         'title': 'the page',
         'industries': [{'title': 'good 1'}],
-        'meta': {'languages': ['en-gb']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
     mock_get_finance_page.return_value = create_response(
         status_code=200,
@@ -180,33 +179,7 @@ def test_get_finance_cms(mock_get_finance_page, client, settings):
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == [views.GetFinance.template_name]
-
-
-@pytest.mark.parametrize('enabled,slug', (
-    (True, EXPORT_READINESS_GET_FINANCE_SLUG),
-    (False, EXPORT_READINESS_GET_FINANCE_SLUG + '-deprecated'),
-))
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_cms_pages_cms_client_params_feature_flag(
-    mock_get, client, settings, enabled, slug
-):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'UKEF_LEAD_GENERATION_ON': enabled
-    }
-
-    mock_get.return_value = create_response(status_code=200)
-    url = reverse('get-finance')
-    response = client.get(url, {'draft_token': '123'})
-
-    assert response.status_code == 200
-    assert mock_get.call_count == 1
-    assert mock_get.call_args == call(
-        slug=slug,
-        draft_token='123',
-        language_code='en-gb'
-    )
+    assert response.template_name == [views.GetFinanceView.template_name]
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')

@@ -1,5 +1,8 @@
-from django.template.loader import render_to_string
 from directory_components.context_processors import urls_processor
+import pytest
+
+from django.template.loader import render_to_string
+from django.urls import reverse
 
 
 def test_error_templates(rf):
@@ -30,3 +33,15 @@ def test_international_beta_banner():
     html = render_to_string('core/landing_page_international.html')
     assert 'beta' in html
     assert 'This is a new service' in html
+
+
+@pytest.mark.parametrize('is_enabled', (True, False))
+def test_international_footer_feature_flaged_link(is_enabled, settings):
+    template_name = 'core/includes/international_footer.html'
+    context = {
+        'features': {'EU_EXIT_FORMS_ON': is_enabled}
+    }
+
+    html = render_to_string(template_name, context)
+
+    assert (reverse('contact-page-international') in html) is is_enabled

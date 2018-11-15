@@ -2,7 +2,9 @@ from directory_cms_client.client import cms_api_client
 from directory_constants.constants import cms
 from django.http import Http404
 from django.conf import settings
-from core.helpers import handle_cms_response, handle_cms_response_allow_404
+from directory_cms_client.helpers import (
+    handle_cms_response, handle_cms_response_allow_404)
+from core.helpers import cms_component_is_bidi
 from django.utils import translation
 from django.utils.functional import cached_property
 
@@ -57,26 +59,21 @@ class GetCMSComponentMixin:
         )
         return handle_cms_response_allow_404(response)
 
-    def get_context_data(self, *args, **kwargs):
-
-        activated_language = translation.get_language()
-        activated_language_is_bidi = translation.get_language_info(
-            activated_language)['bidi']
-
-        cms_component = None
-        component_is_bidi = activated_language_is_bidi
-
+    @property
+    def component_is_bidi(self):
         if self.cms_component:
-            cms_component = self.cms_component
-            component_supports_activated_language = activated_language in \
+            return cms_component_is_bidi(
+                translation.get_language(),
                 self.cms_component['meta']['languages']
-            component_is_bidi = activated_language_is_bidi and \
-                component_supports_activated_language
+            )
+        return False
 
+    def get_context_data(self, *args, **kwargs):
         return super().get_context_data(
-            component_is_bidi=component_is_bidi,
-            cms_component=cms_component,
-            *args, **kwargs)
+            component_is_bidi=self.component_is_bidi,
+            cms_component=self.cms_component,
+            *args, **kwargs
+        )
 
 
 class TranslationsMixin:
