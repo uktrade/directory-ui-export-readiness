@@ -561,3 +561,12 @@ def test_privacy_cookies_subpage(mock_get_page, client, settings):
 
     assert page['title'] in str(response.content)
     assert page['body'] in str(response.content)
+
+
+def test_international_contact_page_context(client, settings):
+    url = reverse('contact-page-international')
+    response = client.get(url)
+
+    assert response.context_data['invest_contact_us_url'] == (
+        'https://invest.great.gov.uk/contact/'
+    )
