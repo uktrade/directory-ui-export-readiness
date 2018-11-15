@@ -21,6 +21,7 @@ def build_social_link(template, request, title):
 def cms_component_is_bidi(activated_language, languages):
     if any(code == activated_language for code, _ in languages):
         return translation.get_language_info(activated_language)['bidi']
+    return False
 
 
 def build_twitter_link(request, title):
