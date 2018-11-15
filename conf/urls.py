@@ -596,9 +596,20 @@ contact_urls = [
         name='contact-us-dso-form'
     ),
     url(
-        r'^contact/export-advice/$',
-        contact.views.FeedbackFormView.as_view(),
+        r'^contact/export-advice/(?P<step>.+)/$',
+        contact.views.ExortingFromUKFormView.as_view(
+            url_name='contact-us-export-advice', done_step_name='finished'
+        ),
         name='contact-us-export-advice'
+    ),
+    url(
+        r'^contact/export-advice/$',
+        RedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-export-advice', kwargs={'step': 'comment'}
+            )
+        ),
+        name='export-advice-routing-form'
     ),
     url(
         r'^contact/feedback/$',
