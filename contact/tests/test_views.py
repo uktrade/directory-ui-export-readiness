@@ -66,11 +66,6 @@ def domestic_form_data(captcha_stub):
     ),
     (
         constants.DOMESTIC,
-        constants.INVESTING,
-        reverse('eu-exit-invest-overseas-contact-form'),
-    ),
-    (
-        constants.DOMESTIC,
         constants.EUEXIT,
         reverse('eu-exit-domestic-contact-form'),
     ),
@@ -244,13 +239,6 @@ def test_feedback_form_submit_success(mock_save, client, captcha_stub):
         settings.CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID,
         settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
     ),
-    (
-        reverse('eu-exit-invest-overseas-contact-form'),
-        settings.CONTACT_INVEST_AGENT_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_INVEST_USER_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_INVEST_AGENT_EMAIL_ADDRESS,
-    )
-
 ))
 @mock.patch.object(views.EventsFormView.form_class, 'save')
 def test_generic_domestic_form_submit_success(

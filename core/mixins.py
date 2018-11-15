@@ -59,19 +59,21 @@ class GetCMSComponentMixin:
         )
         return handle_cms_response_allow_404(response)
 
-    def get_context_data(self, *args, **kwargs):
-        cms_component = None
-
+    @property
+    def component_is_bidi(self):
         if self.cms_component:
-            activated_language = translation.get_language()
-            cms_component = self.cms_component
-            component_is_bidi = cms_component_is_bidi(
-                activated_language, self.cms_component['meta']['languages'])
+            return cms_component_is_bidi(
+                translation.get_language(),
+                self.cms_component['meta']['languages']
+            )
+        return False
 
+    def get_context_data(self, *args, **kwargs):
         return super().get_context_data(
-            component_is_bidi=component_is_bidi,
-            cms_component=cms_component,
-            *args, **kwargs)
+            component_is_bidi=self.component_is_bidi,
+            cms_component=self.cms_component,
+            *args, **kwargs
+        )
 
 
 class TranslationsMixin:
