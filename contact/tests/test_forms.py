@@ -1,3 +1,5 @@
+import pytest
+
 from contact import constants, forms, views
 
 
@@ -151,3 +153,17 @@ def test_extra_css_classes_field():
     form = forms.DomesticContactForm()
 
     assert form['given_name'].css_classes() == expected
+
+
+@pytest.mark.parametrize('form_class,value', (
+    (forms.DomesticRoutingForm, True),
+    (forms.DomesticRoutingForm, False),
+    (forms.InternationalRoutingForm, True),
+    (forms.InternationalRoutingForm, False),
+))
+def test_routing_forms_feature_flag(form_class, value, feature_flags):
+    feature_flags['EU_EXIT_FORMS_ON'] = value
+
+    choices = form_class().fields['choice'].choices
+
+    assert any(value == constants.EUEXIT for value, label in choices) is value

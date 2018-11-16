@@ -17,13 +17,10 @@ from directory_constants.constants import cms
 
 
 def test_landing_page_video_url(client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': False,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
     settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/videp.mp4'
-    url = reverse('landing-page')
 
+    url = reverse('landing-page')
     response = client.get(url)
     assert response.context_data['LANDING_PAGE_VIDEO_URL'] == (
         'https://example.com/videp.mp4'
@@ -52,10 +49,7 @@ def test_landing_page_redirect(client):
 
 
 def test_landing_page(client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': False,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
 
     url = reverse('landing-page')
 
@@ -89,10 +83,7 @@ def test_landing_page(client, settings):
 def test_landing_page_template_news_feature_flag_on(
     mock_get_page, client, settings
 ):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': True,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
 
     page = {
         'news_title': 'News',
@@ -118,13 +109,9 @@ def test_landing_page_template_news_feature_flag_on(
 
 
 def test_landing_page_template_news_feature_flag_off(client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': False,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
 
     url = reverse('landing-page')
-
     response = client.get(url)
 
     assert response.status_code == 200
@@ -275,10 +262,7 @@ def test_international_landing_page_news_section_on(
     mock_get_page, mock_get_component, activated_language,
     component_languages, direction, client, settings
 ):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': True,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
     mock_get_page.return_value = {
         'title': 'the page',
         'articles_count': 1,
@@ -308,10 +292,7 @@ def test_international_landing_page_news_section_on(
 def test_international_landing_page_news_section_off(
     mock_get_page, mock_get_component, client, settings
 ):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': False,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
     mock_get_page.return_value = {
         'title': 'the page',
         'articles_count': 1,
@@ -339,10 +320,7 @@ def test_international_landing_page_news_section_off(
 def test_international_landing_page_no_articles(
     mock_get_page, mock_get_component, client, settings
 ):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': False,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
     mock_get_page.return_value = {
         'title': 'the page',
         'articles_count': 0,
@@ -506,10 +484,7 @@ def test_cms_pages_cms_page_404(mock_get, client, url):
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_performance_dashboard_cms(mock_get_page, settings, client):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'PERFORMANCE_DASHBOARD_ON': True,
-    }
+    settings.FEATURE_FLAGS['PERFORMANCE_DASHBOARD_ON'] = True
     url = reverse('performance-dashboard')
     page = {
         'title': 'Performance dashboard',
@@ -531,10 +506,7 @@ def test_performance_dashboard_cms(mock_get_page, settings, client):
 
 
 def test_performance_dashboard_feature_flag_off(client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'PERFORMANCE_DASHBOARD_ON': False
-    }
+    settings.FEATURE_FLAGS['PERFORMANCE_DASHBOARD_ON'] = False
 
     response = client.get('performance-dashboard')
 
