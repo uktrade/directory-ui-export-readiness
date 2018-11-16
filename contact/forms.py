@@ -98,8 +98,11 @@ class DomesticRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
     CHOICES = (
         (constants.TRADE_OFFICE, 'Find your local trade office'),
         (constants.EXPORT_ADVICE, 'Advice to export from the UK'),
-        (constants.GREAT_SERVICES, 'Great.gov.uk services'),
-        (constants.FINANCE, 'Finance'),
+        (
+            constants.GREAT_SERVICES,
+            'Great.gov.uk account and services support'
+        ),
+        (constants.FINANCE, 'UK Export Finance (UKEF)'),
         (constants.EUEXIT, 'EU Exit'),  # possibly removed by mixin
         (constants.EVENTS, 'Events'),
         (constants.DSO, 'Defence and Security Organisation (DSO)'),
