@@ -237,9 +237,15 @@ class InternationalFormView(BaseNotifyFormView):
     template_name = 'contact/international/step.html'
     success_url = reverse_lazy('contact-us-international-success')
 
-    notify_template_id_agent = settings.CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID
-    notify_email_address_agent = settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS
-    notify_template_id_user = settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID
+    notify_template_id_agent = (
+        settings.CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID
+    )
+    notify_email_address_agent = (
+        settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS
+    )
+    notify_template_id_user = (
+        settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID
+    )
 
 
 class BuyingFromUKCompaniesFormView(BaseNotifyFormView):

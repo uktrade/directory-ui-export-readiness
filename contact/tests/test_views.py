@@ -202,56 +202,50 @@ def test_render_next_step(current_step, choice, expected_url):
 
 
 @pytest.mark.parametrize(
-    'url,success_url,view_class,agent_template,user_template,agent_email', (
+    'url,success_url,view_class,agent_template,user_template,agent_email',
     (
-        reverse('contact-us-events-form'),
-        reverse('contact-us-events-success'),
-        views.EventsFormView,
-        settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
-    ),
-    (
-        reverse('contact-us-dso-form'),
-        reverse('contact-us-dso-success'),
-        views.DefenceAndSecurityOrganisationFormView,
-        settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
-    ),
-    (
-        reverse('contact-us-domestic'),
-        reverse('contact-us-domestic-success'),
-        views.DomesticFormView,
-        settings.CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
-    ),
-    (
-        reverse('contact-us-international'),
-        reverse('contact-us-international-success'),
-        views.InternationalFormView,
-        settings.CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS,
-    ),
-    (
-        reverse('contact-us-find-uk-companies'),
-        reverse('contact-us-find-uk-companies-success'),
-        views.BuyingFromUKCompaniesFormView,
-        settings.CONTACT_BUYING_AGENT_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_BUYING_AGENT_EMAIL_ADDRESS,
-    ),
-    (
-        reverse('contact-us-export-advice'),
-        reverse('contact-us-export-advice-success'),
-        views.ExportingAdviceFormView,
-        settings.CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
-    ),
-))
+        (
+            reverse('contact-us-events-form'),
+            reverse('contact-us-events-success'),
+            views.EventsFormView,
+            settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
+        ),
+        (
+            reverse('contact-us-dso-form'),
+            reverse('contact-us-dso-success'),
+            views.DefenceAndSecurityOrganisationFormView,
+            settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
+        ),
+        (
+            reverse('contact-us-domestic'),
+            reverse('contact-us-domestic-success'),
+            views.DomesticFormView,
+            settings.CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
+        ),
+        (
+            reverse('contact-us-international'),
+            reverse('contact-us-international-success'),
+            views.InternationalFormView,
+            settings.CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS,
+        ),
+        (
+            reverse('contact-us-find-uk-companies'),
+            reverse('contact-us-find-uk-companies-success'),
+            views.BuyingFromUKCompaniesFormView,
+            settings.CONTACT_BUYING_AGENT_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_BUYING_AGENT_EMAIL_ADDRESS,
+        ),
+    )
+)
 def test_notify_form_submit_success(
     client, url, agent_template, user_template, view_class, agent_email,
     success_url
@@ -339,7 +333,7 @@ def test_exporting_from_uk_contact_form_submission(
     }
 
     url_name = 'contact-us-export-advice'
-    view_name = 'exorting_from_uk_form_view'
+    view_name = 'exporting_advice_form_view'
 
     response = client.post(
         reverse(url_name, kwargs={'step': 'comment'}),

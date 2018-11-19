@@ -601,6 +601,16 @@ contact_urls = [
         name='contact-us-dso-form'
     ),
     url(
+        r'^contact/defence-and-security-organisation/success/$',
+        contact.views.DefenceAndSecurityOrganisationSuccessView.as_view(),
+        name='contact-us-dso-success'
+    ),
+    url(
+        r'^contact/export-advice/success/$',
+        contact.views.ExportingAdviceSuccessView.as_view(),
+        name='contact-us-export-advice-success'
+    ),
+    url(
         r'^contact/export-advice/$',
         RedirectView.as_view(
             url=reverse_lazy(
@@ -615,11 +625,6 @@ contact_urls = [
             url_name='contact-us-export-advice', done_step_name='finished'
         ),
         name='contact-us-export-advice'
-    ),
-    url(
-        r'^contact/export-advice/success/$',
-        contact.views.ExportingAdviceSuccessView.as_view(),
-        name='contact-us-export-advice-success'
     ),
     url(
         r'^contact/feedback/$',
