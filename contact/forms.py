@@ -8,7 +8,7 @@ from directory_validators.common import not_contains_url_or_email
 from directory_validators.company import no_html
 
 from django.conf import settings
-from django.forms import Select, Textarea
+from django.forms import Select, Textarea, TextInput
 from django.utils.html import mark_safe
 
 from contact import constants
@@ -37,7 +37,6 @@ COMPANY_TYPE_OTHER_CHOICES = (
 INDUSTRY_CHOICES = (
     (('', 'Please select'),) + choices.INDUSTRIES + (('OTHER', 'Other'),)
 )
-
 
 anti_phising_validators = [no_html, not_contains_url_or_email]
 
@@ -332,6 +331,79 @@ class InternationalContactForm(forms.Form):
     comment = fields.CharField(
         widget=Textarea,
         validators=anti_phising_validators
+    )
+    captcha = ReCaptchaField(
+        label='',
+        label_suffix='',
+    )
+    terms_agreed = fields.BooleanField(
+        label=TERMS_LABEL
+    )
+
+
+class CommentForm(forms.Form):
+    comment = fields.CharField(
+        label='',
+        widget=Textarea,
+        validators=anti_phising_validators
+    )
+
+
+class PersonalDetailsForm(forms.Form):
+
+    first_name = fields.CharField(label='First name')
+    last_name = fields.CharField(label='Last name')
+    position = fields.CharField(label='Position in organisation')
+    email = fields.EmailField(label='Email address')
+    phone = fields.CharField(label='Phone')
+
+
+class BusinessDetailsForm(forms.Form):
+    TURNOVER_OPTIONS = (
+        ('', 'Please select'),
+        ('0-25k', 'under £25,000'),
+        ('25k-100k', '£25,000 - £100,000'),
+        ('100k-1m', '£100,000 - £1,000,000'),
+        ('1m-5m', '£1,000,000 - £5,000,000'),
+        ('5m-25m', '£5,000,000 - £25,000,000'),
+        ('25m-50m', '£25,000,000 - £50,000,000'),
+        ('50m+', '£50,000,000+')
+    )
+
+    company_type = fields.ChoiceField(
+        label_suffix='',
+        widget=widgets.RadioSelect(),
+        choices=COMPANY_TYPE_CHOICES,
+    )
+    companies_house_number = fields.CharField(label='Companies House number')
+    company_type_other = fields.ChoiceField(
+        label_suffix='',
+        widget=widgets.RadioSelect(),
+        choices=COMPANY_TYPE_OTHER_CHOICES,
+        required=False,
+    )
+    organisation_name = fields.CharField(
+        validators=anti_phising_validators
+    )
+    postcode = fields.CharField(
+        validators=anti_phising_validators
+    )
+    industry = fields.ChoiceField(
+        choices=INDUSTRY_CHOICES,
+        widget=Select(attrs={'id': 'js-country-select'}),
+    )
+    industry_other = fields.CharField(
+        label='Type in your industry',
+        widget=TextInput(attrs={'class': 'js-field-other'}),
+        required=False,
+    )
+    turnover = fields.ChoiceField(
+        label='Annual turnover (optional)',
+        choices=TURNOVER_OPTIONS,
+    )
+    employees = fields.ChoiceField(
+        label='Number of employees (optional)',
+        choices=(('', 'Please select'),) + choices.EMPLOYEES,
     )
     captcha = ReCaptchaField(
         label='',
