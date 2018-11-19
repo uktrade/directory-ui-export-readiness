@@ -7,6 +7,7 @@ from directory_constants.constants import choices, urls
 from directory_validators.common import not_contains_url_or_email
 from directory_validators.company import no_html
 
+from django.conf import settings
 from django.forms import Select, Textarea, TextInput
 from django.utils.html import mark_safe
 
@@ -38,6 +39,16 @@ INDUSTRY_CHOICES = (
 )
 
 anti_phising_validators = [no_html, not_contains_url_or_email]
+
+
+class EuExitOptionFeatureFlagMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not settings.FEATURE_FLAGS['EU_EXIT_FORMS_ON']:
+            self.fields['choice'].choices = [
+                (value, label) for value, label in self.CHOICES
+                if value != constants.EUEXIT
+            ]
 
 
 class ExtraCssClassesBoundField(fields.DirectoryComponentsBoundField):
@@ -81,13 +92,17 @@ class LocationRoutingForm(forms.Form):
     )
 
 
-class DomesticRoutingForm(forms.Form):
+class DomesticRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
+
     CHOICES = (
         (constants.TRADE_OFFICE, 'Find your local trade office'),
         (constants.EXPORT_ADVICE, 'Advice to export from the UK'),
-        (constants.GREAT_SERVICES, 'Great.gov.uk services'),
-        (constants.FINANCE, 'Finance'),
-        (constants.EUEXIT, 'EU Exit'),
+        (
+            constants.GREAT_SERVICES,
+            'Great.gov.uk account and services support'
+        ),
+        (constants.FINANCE, 'UK Export Finance (UKEF)'),
+        (constants.EUEXIT, 'EU Exit'),  # possibly removed by mixin
         (constants.EVENTS, 'Events'),
         (constants.DSO, 'Defence and Security Organisation (DSO)'),
         (constants.OTHER, 'Other'),
@@ -95,7 +110,7 @@ class DomesticRoutingForm(forms.Form):
     choice = fields.ChoiceField(
         label='',
         widget=widgets.RadioSelect(),
-        choices=CHOICES,
+        choices=CHOICES,  # possibly update by mixin
     )
 
 
@@ -158,17 +173,17 @@ class GreatAccountRoutingForm(forms.Form):
     )
 
 
-class InternationalRoutingForm(forms.Form):
+class InternationalRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
     CHOICES = (
         (constants.INVESTING, 'Investing in the UK'),
         (constants.BUYING, 'Buying from the UK'),
-        (constants.EUEXIT, 'EU Exit'),
+        (constants.EUEXIT, 'EU Exit'),  # possibly removed by mixin
         (constants.OTHER, 'Other'),
     )
     choice = fields.ChoiceField(
         label='',
         widget=widgets.RadioSelect(),
-        choices=CHOICES,
+        choices=CHOICES,  # possibly updated by mixin
     )
 
 

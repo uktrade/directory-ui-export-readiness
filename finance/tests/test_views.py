@@ -12,13 +12,8 @@ from finance import forms, views
     'step',
     ('contact', 'your-details', 'company-details', 'help')
 )
-def test_ukef_lead_generation_feature_flag_on(
-    client, settings, step
-):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'UKEF_LEAD_GENERATION_ON': True
-    }
+def test_ukef_lead_generation_feature_flag_on(client, settings, step):
+    settings.FEATURE_FLAGS['UKEF_LEAD_GENERATION_ON'] = True
     url = reverse(
         'uk-export-finance-lead-generation-form', kwargs={'step': step}
     )
@@ -35,10 +30,7 @@ def test_ukef_lead_generation_feature_flag_on(
 def test_ukef_lead_generation_captcha_revalidation(
     mock_action, mock_clean, client, settings, captcha_stub
 ):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'UKEF_LEAD_GENERATION_ON': True
-    }
+    settings.FEATURE_FLAGS['UKEF_LEAD_GENERATION_ON'] = True
 
     url_name = 'uk-export-finance-lead-generation-form'
     view_name = 'get_finance_lead_generation_form_view'
@@ -107,10 +99,7 @@ def test_ukef_lead_generation_captcha_revalidation(
 def test_ukef_lead_generation_submit(
     mock_action, client, settings, captcha_stub
 ):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'UKEF_LEAD_GENERATION_ON': True
-    }
+    settings.FEATURE_FLAGS['UKEF_LEAD_GENERATION_ON'] = True
     settings.UKEF_FORM_SUBMIT_TRACKER_URL = 'submit.com'
 
     view = views.GetFinanceLeadGenerationFormView()
@@ -146,10 +135,7 @@ def test_ukef_lead_generation_submit(
 
 
 def test_ukef_lead_generation_feature_flag_off(client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'UKEF_LEAD_GENERATION_ON': False
-    }
+    settings.FEATURE_FLAGS['UKEF_LEAD_GENERATION_ON'] = False
     url = reverse(
         'uk-export-finance-lead-generation-form', kwargs={'step': 'contact'}
     )
@@ -192,10 +178,7 @@ def test_cms_pages_cms_page_404(mock_get, client):
 
 
 def test_ukef_lead_generation_success_page(client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'UKEF_LEAD_GENERATION_ON': True
-    }
+    settings.FEATURE_FLAGS['UKEF_LEAD_GENERATION_ON'] = True
     url = reverse('uk-export-finance-lead-generation-form-success')
     response = client.get(url)
 
