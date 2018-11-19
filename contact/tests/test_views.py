@@ -8,6 +8,7 @@ from django.conf import settings
 from django.urls import reverse
 
 from contact import constants, views
+from core.tests.helpers import create_response
 
 
 def build_wizard_url(step):
@@ -197,67 +198,126 @@ def test_render_next_step(current_step, choice, expected_url):
     assert view.render_next_step(form).url == expected_url
 
 
-@mock.patch.object(views.FeedbackFormView.form_class, 'save')
-def test_feedback_form_submit_success(mock_save, client, captcha_stub):
-    url = reverse('contact-us-feedback')
-    data = {
-        'name': 'Test Example',
-        'email': 'test@example.com',
-        'comment': 'Help please',
-        'g-recaptcha-response': captcha_stub,
-        'terms_agreed': True,
-    }
-    response = client.post(url, data)
-
-    assert response.status_code == 302
-    assert response.url == reverse('contact-us-domestic-success')
-
-    assert mock_save.call_count == 1
-    assert mock_save.call_args == mock.call(
-        email_address=data['email'],
-        full_name=data['name'],
-        subject=settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
-    )
-
-
-@pytest.mark.parametrize('url,agent_template,user_template,agent_email', (
+@pytest.mark.parametrize(
+    'url,success_url,view_class,agent_template,user_template,agent_email', (
     (
         reverse('contact-us-events-form'),
+        reverse('contact-us-events-success'),
+        views.EventsFormView,
         settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
         settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
         settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
     ),
     (
         reverse('contact-us-dso-form'),
+        reverse('contact-us-dso-success'),
+        views.DefenceAndSecurityOrganisationFormView,
         settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID,
         settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
         settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
     ),
     (
         reverse('contact-us-domestic'),
+        reverse('contact-us-domestic-success'),
+        views.DomesticFormView,
+        settings.CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID,
+        settings.CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID,
+        settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
+    ),
+    (
+        reverse('contact-us-international'),
+        reverse('contact-us-international-success'),
+        views.InternationalFormView,
+        settings.CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID,
+        settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
+        settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS,
+    ),
+    (
+        reverse('contact-us-find-uk-companies'),
+        reverse('contact-us-find-uk-companies-success'),
+        views.BuyingFromUKCompaniesFormView,
+        settings.CONTACT_BUYING_AGENT_NOTIFY_TEMPLATE_ID,
+        settings.CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID,
+        settings.CONTACT_BUYING_AGENT_EMAIL_ADDRESS,
+    ),
+    (
+        reverse('contact-us-export-advice'),
+        reverse('contact-us-export-advice-success'),
+        views.ExportingAdviceFormView,
         settings.CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID,
         settings.CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID,
         settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
     ),
 ))
-@mock.patch.object(views.EventsFormView.form_class, 'save')
-def test_generic_domestic_form_submit_success(
-    mock_save, client, captcha_stub, settings, domestic_form_data,
-    url, agent_template, user_template, agent_email
+def test_notify_form_submit_success(
+    client, url, agent_template, user_template, view_class, agent_email,
+    success_url
 ):
-    response = client.post(url, domestic_form_data)
+    class Form(forms.Form):
+        email = forms.EmailField()
+        save = mock.Mock()
+
+    with mock.patch.object(view_class, 'form_class', Form):
+        response = client.post(url, {'email': 'test@example.com'})
 
     assert response.status_code == 302
-    assert response.url == reverse('contact-us-domestic-success')
+    assert response.url == success_url
 
-    assert mock_save.call_count == 2
-    assert mock_save.call_args_list == [
+    assert Form.save.call_count == 2
+    assert Form.save.call_args_list == [
         mock.call(
             template_id=agent_template,
             email_address=agent_email,
         ),
         mock.call(
             template_id=user_template,
-            email_address=domestic_form_data['email'],
+            email_address='test@example.com',
         )
     ]
+
+
+@pytest.mark.parametrize('url,slug', (
+    (
+        reverse('contact-us-events-success'),
+        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_EVENTS_SLUG,
+    ),
+    (
+        reverse('contact-us-dso-success'),
+        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_DSO_SLUG,
+    ),
+    (
+        reverse('contact-us-export-advice-success'),
+        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_EXPORT_ADVICE_SLUG,
+    ),
+    (
+        reverse('contact-us-feedback-success'),
+        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_FEEDBACK_SLUG,
+    ),
+    (
+        reverse('contact-us-find-uk-companies-success'),
+        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_FIND_COMPANIES_SLUG,
+    ),
+    (
+        reverse('contact-us-domestic-success'),
+        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_SLUG,
+    ),
+    (
+        reverse('contact-us-international-success'),
+        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_INTERNATIONAL_SLUG,
+    )
+))
+@mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_success_view_cms(mock_lookup_by_slug, url, slug, client):
+
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200,
+        json_body={}
+    )
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert mock_lookup_by_slug.call_count == 1
+    assert mock_lookup_by_slug.call_args == mock.call(
+        draft_token=None, language_code='en-gb', slug=slug
+    )

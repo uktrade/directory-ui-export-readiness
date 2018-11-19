@@ -139,16 +139,6 @@ class FeedbackFormView(FeatureFlagMixin, FormView):
         return super().form_valid(form)
 
 
-class BuyingFromUKCompaniesFormView(FeatureFlagMixin, FormView):
-    form_class = forms.BuyingFromUKContactForm
-    template_name = 'contact/buying/step.html'
-
-
-class InternationalFormView(FeatureFlagMixin, FormView):
-    form_class = forms.InternationalContactForm
-    template_name = 'contact/international/step.html'
-
-
 class SendNotifyMessagesMixin:
 
     def send_agent_message(self, form):
@@ -171,7 +161,31 @@ class SendNotifyMessagesMixin:
         return super().form_valid(form)
 
 
-class DomesticFormView(FeatureFlagMixin, SendNotifyMessagesMixin, FormView):
+class BaseNotifyFormView(FeatureFlagMixin, SendNotifyMessagesMixin, FormView):
+    pass
+
+
+class InternationalFormView(BaseNotifyFormView):
+    form_class = forms.InternationalContactForm
+    template_name = 'contact/international/step.html'
+    success_url = reverse_lazy('contact-us-international-success')
+
+    notify_template_id_agent = settings.CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID
+    notify_email_address_agent = settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS
+    notify_template_id_user = settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID
+
+
+class BuyingFromUKCompaniesFormView(BaseNotifyFormView):
+    form_class = forms.BuyingFromUKContactForm
+    template_name = 'contact/comment-contact.html'
+    success_url = reverse_lazy('contact-us-find-uk-companies-success')
+
+    notify_template_id_agent = settings.CONTACT_BUYING_AGENT_NOTIFY_TEMPLATE_ID
+    notify_email_address_agent = settings.CONTACT_BUYING_AGENT_EMAIL_ADDRESS
+    notify_template_id_user = settings.CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID
+
+
+class DomesticFormView(BaseNotifyFormView):
     form_class = forms.DomesticContactForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-domestic-success')
@@ -181,34 +195,76 @@ class DomesticFormView(FeatureFlagMixin, SendNotifyMessagesMixin, FormView):
     notify_template_id_user = settings.CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID
 
 
-class EventsFormView(FeatureFlagMixin, SendNotifyMessagesMixin, FormView):
+class ExportingAdviceFormView(BaseNotifyFormView):
     form_class = forms.DomesticContactForm
     template_name = 'contact/domestic/step.html'
-    success_url = reverse_lazy('contact-us-domestic-success')
+    success_url = reverse_lazy('contact-us-export-advice-success')
+
+    notify_template_id_agent = settings.CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID
+    notify_email_address_agent = settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS
+    notify_template_id_user = settings.CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID
+
+
+class EventsFormView(BaseNotifyFormView):
+    form_class = forms.DomesticContactForm
+    template_name = 'contact/domestic/step.html'
+    success_url = reverse_lazy('contact-us-events-success')
 
     notify_template_id_agent = settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID
     notify_email_address_agent = settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS
     notify_template_id_user = settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID
 
 
-class DefenceAndSecurityOrganisationFormView(
-    FeatureFlagMixin, SendNotifyMessagesMixin, FormView
-):
+class DefenceAndSecurityOrganisationFormView(BaseNotifyFormView):
     form_class = forms.DomesticContactForm
     template_name = 'contact/domestic/step.html'
-    success_url = reverse_lazy('contact-us-domestic-success')
+    success_url = reverse_lazy('contact-us-dso-success')
 
     notify_template_id_agent = settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID
     notify_email_address_agent = settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS
     notify_template_id_user = settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID
 
 
-class DomesticFormSuccessView(FeatureFlagMixin, GetCMSPageMixin, TemplateView):
+class BaseSuccessView(FeatureFlagMixin, GetCMSPageMixin, TemplateView):
+    pass
+
+
+class InternationalSuccessView(BaseSuccessView):
+    template_name = 'contact/submit-success.html'
+    slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_INTERNATIONAL_SLUG
+
+
+class DomesticSuccessView(BaseSuccessView):
     template_name = 'contact/submit-success.html'
     slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_SLUG
 
 
-class GuidanceView(FeatureFlagMixin, GetCMSPageMixin, TemplateView):
+class EventsSuccessView(BaseSuccessView):
+    template_name = 'contact/submit-success.html'
+    slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_EVENTS_SLUG
+
+
+class DefenceAndSecurityOrganisationSuccessView(BaseSuccessView):
+    template_name = 'contact/submit-success.html'
+    slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_DSO_SLUG
+
+
+class ExportingAdviceSuccessView(BaseSuccessView):
+    template_name = 'contact/submit-success.html'
+    slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_EXPORT_ADVICE_SLUG
+
+
+class FeedbackSuccessView(BaseSuccessView):
+    template_name = 'contact/submit-success.html'
+    slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_FEEDBACK_SLUG
+
+
+class BuyingFromUKCompaniesSuccessView(BaseSuccessView):
+    template_name = 'contact/submit-success.html'
+    slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_FIND_COMPANIES_SLUG
+
+
+class GuidanceView(BaseSuccessView):
     template_name = 'contact/guidance.html'
 
     @property

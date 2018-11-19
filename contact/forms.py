@@ -259,8 +259,9 @@ class DomesticContactForm(
         return f'{cleaned_data["given_name"]} {cleaned_data["family_name"]}'
 
 
-class BuyingFromUKContactForm(forms.Form):
-
+class BuyingFromUKContactForm(
+    SerializeDataMixin, GovNotifyActionMixin, forms.Form
+):
     SOURCE_CHOICES = (
         ('', 'Please select'),
         ('OTHER', 'Other'),
@@ -300,7 +301,9 @@ class BuyingFromUKContactForm(forms.Form):
     )
 
 
-class InternationalContactForm(forms.Form):
+class InternationalContactForm(
+        SerializeDataMixin, GovNotifyActionMixin, forms.Form
+):
 
     ORGANISATION_TYPE_CHOICES = (
         ('COMPANY', 'Company'),

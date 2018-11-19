@@ -591,14 +591,29 @@ contact_urls = [
         name='contact-us-events-form'
     ),
     url(
+        r'^contact/events/success/$',
+        contact.views.EventsSuccessView.as_view(),
+        name='contact-us-events-success'
+    ),
+    url(
         r'^contact/defence-and-security-organisation/$',
         contact.views.DefenceAndSecurityOrganisationFormView.as_view(),
         name='contact-us-dso-form'
     ),
     url(
+        r'^contact/defence-and-security-organisation/success/$',
+        contact.views.DefenceAndSecurityOrganisationSuccessView.as_view(),
+        name='contact-us-dso-success'
+    ),
+    url(
         r'^contact/export-advice/$',
-        contact.views.FeedbackFormView.as_view(),
+        contact.views.ExportingAdviceFormView.as_view(),
         name='contact-us-export-advice'
+    ),
+    url(
+        r'^contact/export-advice/success/$',
+        contact.views.ExportingAdviceSuccessView.as_view(),
+        name='contact-us-export-advice-success'
     ),
     url(
         r'^contact/feedback/$',
@@ -606,14 +621,19 @@ contact_urls = [
         name='contact-us-feedback'
     ),
     url(
+        r'^contact/feedback/success/$',
+        contact.views.FeedbackSuccessView.as_view(),
+        name='contact-us-feedback-success'
+    ),
+    url(
         r'^contact/find-uk-companies/$',
         contact.views.BuyingFromUKCompaniesFormView.as_view(),
         name='contact-us-find-uk-companies'
     ),
     url(
-        r'^contact/international/$',
-        contact.views.InternationalFormView.as_view(),
-        name='contact-us-international'
+        r'^contact/find-uk-companies/success/$',
+        contact.views.BuyingFromUKCompaniesSuccessView.as_view(),
+        name='contact-us-find-uk-companies-success'
     ),
     url(
         r'^contact/domestic/$',
@@ -622,8 +642,18 @@ contact_urls = [
     ),
     url(
         r'^contact/domestic/success/$',
-        contact.views.DomesticFormSuccessView.as_view(),
+        contact.views.DomesticSuccessView.as_view(),
         name='contact-us-domestic-success'
+    ),
+    url(
+        r'^contact/international/$',
+        contact.views.InternationalFormView.as_view(),
+        name='contact-us-international'
+    ),
+    url(
+        r'^contact/international/success/$',
+        contact.views.InternationalSuccessView.as_view(),
+        name='contact-us-international-success'
     ),
     url(
         r'^contact/$',
