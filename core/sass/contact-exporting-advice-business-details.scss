@@ -1,0 +1,46 @@
+@import './contact';
+
+body.js-enabled {
+
+  #id_business-company_type_other-container {
+    label {
+      display: none;
+    }
+  }
+
+  #id_business-company_type_other-container,
+  #id_business-industry_other-container {
+    position: relative;
+    margin-left: 10px;
+    top: -20px;
+    border-left: 4px solid #D7D7D7;
+    padding-left: 20px;
+    margin-bottom: 10px;
+
+    @media (max-width: 769px) {
+      top: 0;
+    }
+  }
+
+  fieldset {
+    &.unchecked {
+      #id_business-company_type li:last-child {
+        position: relative;
+        top: 85px;
+      }
+
+      #id_business-companies_house_number-container {
+        position: relative;
+        top: -70px;
+        margin-left: 10px;
+        border-left: 4px solid #D7D7D7;
+        padding-left: 20px;
+
+        @media (max-width: 769px) {
+          top: -50px;
+        }
+      }
+    }
+  }
+}
+

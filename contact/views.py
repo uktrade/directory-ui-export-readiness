@@ -193,8 +193,7 @@ class ExportingAdviceFormView(
 class FeedbackFormView(FeatureFlagMixin, FormView):
     form_class = forms.FeedbackForm
     template_name = 'contact/comment-contact.html'
-
-    success_url = reverse_lazy('contact-us-domestic-success')
+    success_url = reverse_lazy('contact-us-feedback-success')
 
     def form_valid(self, form):
         response = form.save(

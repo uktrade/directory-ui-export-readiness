@@ -378,11 +378,13 @@ class BusinessDetailsForm(forms.Form):
         widget=widgets.RadioSelect(),
         choices=COMPANY_TYPE_CHOICES,
     )
-    companies_house_number = fields.CharField(label='Companies House number')
+    companies_house_number = ExtraCssClassesCharField(
+        label='Companies House number',
+        extra_css_classes='companies-house-number-container'
+    )
     company_type_other = fields.ChoiceField(
         label_suffix='',
-        widget=widgets.RadioSelect(),
-        choices=COMPANY_TYPE_OTHER_CHOICES,
+        choices=(('', 'Please select'),) + COMPANY_TYPE_OTHER_CHOICES,
         required=False,
     )
     organisation_name = fields.CharField(
@@ -393,7 +395,6 @@ class BusinessDetailsForm(forms.Form):
     )
     industry = fields.ChoiceField(
         choices=INDUSTRY_CHOICES,
-        widget=Select(attrs={'id': 'js-country-select'}),
     )
     industry_other = fields.CharField(
         label='Type in your industry',

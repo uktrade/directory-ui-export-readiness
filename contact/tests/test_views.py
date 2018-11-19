@@ -250,6 +250,7 @@ def test_notify_form_submit_success(
     client, url, agent_template, user_template, view_class, agent_email,
     success_url
 ):
+
     class Form(forms.Form):
         email = forms.EmailField()
         save = mock.Mock()
@@ -408,3 +409,46 @@ def test_exporting_from_uk_contact_form_submission(
     assert mock_email_action().save.call_args == mock.call({
         'text_body': mock.ANY, 'html_body': mock.ANY
     })
+
+
+@mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_guidance_view_cms_retrieval(mock_lookup_by_slug, client):
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200,
+        json_body={}
+    )
+
+    url = reverse(
+        'contact-us-export-opportunities-guidance', kwargs={'slug': 'the-slug'}
+    )
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert mock_lookup_by_slug.call_count == 1
+    assert mock_lookup_by_slug.call_args == mock.call(
+        draft_token=None, language_code='en-gb', slug='the-slug'
+    )
+
+
+def test_feedback_submit_success(client, settings):
+    class Form(forms.Form):
+        email = forms.EmailField()
+        name = forms.CharField()
+        save = mock.Mock()
+
+    url = reverse('contact-us-feedback')
+
+    with mock.patch.object(views.FeedbackFormView, 'form_class', Form):
+        response = client.post(url, {'email': 'foo@bar.com', 'name': 'Foo Bar'})
+
+    assert response.status_code == 302
+    assert response.url == reverse('contact-us-feedback-success')
+
+    assert Form.save.call_count == 1
+    assert Form.save.call_args == mock.call(
+        email_address='foo@bar.com',
+        full_name='Foo Bar',
+        subject=settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
+
+    )

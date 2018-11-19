@@ -11,6 +11,9 @@
 
 {% block content %}
      <section class="questions">
+        {% block breadcrumbs %}
+            {% include 'contact/breadcrumbs.html' %}
+        {% endblock %}
         <div class="container">
             <div class="question">
                 <form method="post" enctype="multipart/form-data">
