@@ -1,15 +1,17 @@
 from directory_constants.constants import cms
+from directory_forms_api_client.actions import EmailAction, GovNotifyAction
 
 from formtools.wizard.views import NamedUrlSessionWizardView
 
 from django.conf import settings
 from django.http import Http404
 from django.shortcuts import redirect
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
-from core.mixins import GetCMSPageMixin
+from core import mixins
 from contact import constants, forms
 
 
@@ -38,7 +40,10 @@ class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
     redirect_mapping = {
         constants.DOMESTIC: {
             constants.TRADE_OFFICE: settings.FIND_TRADE_OFFICE_URL,
-            constants.EXPORT_ADVICE: reverse_lazy('contact-us-export-advice'),
+            constants.EXPORT_ADVICE: reverse_lazy(
+                'contact-us-export-advice',
+                kwargs={'step': 'comment'}
+            ),
             constants.FINANCE: reverse_lazy(
                 'uk-export-finance-lead-generation-form',
                 kwargs={'step': 'contact'}
@@ -123,6 +128,68 @@ class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
         return self.render_goto_step(choice)
 
 
+class ExportingAdviceFormView(
+    FeatureFlagMixin, mixins.PreventCaptchaRevalidationMixin,
+    NamedUrlSessionWizardView
+):
+    success_url = reverse_lazy('contact-us-domestic-success')
+
+    COMMENT = 'comment'
+    PERSONAL = 'personal'
+    BUSINESS = 'business'
+
+    form_list = (
+        (COMMENT, forms.CommentForm),
+        (PERSONAL, forms.PersonalDetailsForm),
+        (BUSINESS, forms.BusinessDetailsForm),
+    )
+
+    templates = {
+        COMMENT: 'contact/exporting/step-comment.html',
+        PERSONAL: 'contact/exporting/step-personal.html',
+        BUSINESS: 'contact/exporting/step-business.html',
+    }
+
+    def get_template_names(self):
+        return [self.templates[self.steps.current]]
+
+    @staticmethod
+    def send_user_message(form_data):
+        action = GovNotifyAction(
+            template_id=settings.CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID,
+            email_address=form_data['email'],
+        )
+        response = action.save(form_data)
+        response.raise_for_status()
+
+    @staticmethod
+    def send_agent_message(form_data):
+        action = EmailAction(
+            # todo: retrieve email from office finder
+            recipients=['text@example.com'],
+            subject=settings.CONTACT_EXPORTING_AGENT_SUBJECT,
+            reply_to=[settings.DEFAULT_FROM_EMAIL],
+        )
+        template_name = 'contact/exporting-from-uk-agent-email.html'
+        text = render_to_string(template_name, {'form_data': form_data})
+        response = action.save({'text_body': text, 'html_body': text})
+        response.raise_for_status()
+
+    def done(self, form_list, **kwargs):
+        form_data = self.serialize_form_list(form_list)
+        self.send_agent_message(form_data)
+        self.send_user_message(form_data)
+        return redirect(self.success_url)
+
+    @staticmethod
+    def serialize_form_list(form_list):
+        data = {}
+        for form in form_list:
+            data.update(form.cleaned_data)
+        del data['terms_agreed']
+        return data
+
+
 class FeedbackFormView(FeatureFlagMixin, FormView):
     form_class = forms.FeedbackForm
     template_name = 'contact/comment-contact.html'
@@ -195,16 +262,6 @@ class DomesticFormView(BaseNotifyFormView):
     notify_template_id_user = settings.CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID
 
 
-class ExportingAdviceFormView(BaseNotifyFormView):
-    form_class = forms.DomesticContactForm
-    template_name = 'contact/domestic/step.html'
-    success_url = reverse_lazy('contact-us-export-advice-success')
-
-    notify_template_id_agent = settings.CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID
-    notify_email_address_agent = settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS
-    notify_template_id_user = settings.CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID
-
-
 class EventsFormView(BaseNotifyFormView):
     form_class = forms.DomesticContactForm
     template_name = 'contact/domestic/step.html'
@@ -225,7 +282,7 @@ class DefenceAndSecurityOrganisationFormView(BaseNotifyFormView):
     notify_template_id_user = settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID
 
 
-class BaseSuccessView(FeatureFlagMixin, GetCMSPageMixin, TemplateView):
+class BaseSuccessView(FeatureFlagMixin, mixins.GetCMSPageMixin, TemplateView):
     pass
 
 

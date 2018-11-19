@@ -601,13 +601,19 @@ contact_urls = [
         name='contact-us-dso-form'
     ),
     url(
-        r'^contact/defence-and-security-organisation/success/$',
-        contact.views.DefenceAndSecurityOrganisationSuccessView.as_view(),
-        name='contact-us-dso-success'
+        r'^contact/export-advice/$',
+        RedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-export-advice', kwargs={'step': 'comment'}
+            )
+        ),
+        name='export-advice-routing-form'
     ),
     url(
-        r'^contact/export-advice/$',
-        contact.views.ExportingAdviceFormView.as_view(),
+        r'^contact/export-advice/(?P<step>.+)/$',
+        contact.views.ExportingAdviceFormView.as_view(
+            url_name='contact-us-export-advice', done_step_name='finished'
+        ),
         name='contact-us-export-advice'
     ),
     url(
