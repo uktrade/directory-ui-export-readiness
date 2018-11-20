@@ -440,7 +440,7 @@ def test_feedback_submit_success(client, settings):
     url = reverse('contact-us-feedback')
 
     with mock.patch.object(views.FeedbackFormView, 'form_class', Form):
-        response = client.post(url, {'email': 'foo@bar.com', 'name': 'Foo Bar'})
+        response = client.post(url, {'email': 'foo@bar.com', 'name': 'Foo B'})
 
     assert response.status_code == 302
     assert response.url == reverse('contact-us-feedback-success')
@@ -448,7 +448,7 @@ def test_feedback_submit_success(client, settings):
     assert Form.save.call_count == 1
     assert Form.save.call_args == mock.call(
         email_address='foo@bar.com',
-        full_name='Foo Bar',
+        full_name='Foo B',
         subject=settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
 
     )

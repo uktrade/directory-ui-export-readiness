@@ -8,7 +8,7 @@ from directory_validators.common import not_contains_url_or_email
 from directory_validators.company import no_html
 
 from django.conf import settings
-from django.forms import Select, Textarea, TextInput
+from django.forms import Textarea, TextInput
 from django.utils.html import mark_safe
 
 from contact import constants
@@ -261,11 +261,6 @@ class DomesticContactForm(
 class BuyingFromUKContactForm(
     SerializeDataMixin, GovNotifyActionMixin, forms.Form
 ):
-    SOURCE_CHOICES = (
-        ('', 'Please select'),
-        ('OTHER', 'Other'),
-    )
-
     given_name = fields.CharField(
         validators=anti_phising_validators
     )
@@ -295,7 +290,12 @@ class BuyingFromUKContactForm(
     )
     source = fields.ChoiceField(
         label='Where did you hear about great.gov.uk?',
-        choices=SOURCE_CHOICES,
+        choices=(('', 'Please select'),) + constants.MARKETING_SOURCES,
+    )
+    source_other = fields.CharField(
+        label='Other source (optional)',
+        required=False,
+        validators=anti_phising_validators,
     )
     captcha = ReCaptchaField(
         label='',
