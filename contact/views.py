@@ -48,7 +48,7 @@ class FormIngressURLMixin:
         return self.request.build_absolute_uri()
 
     def clear_ingress_url(self):
-        del self.request.session[SESSION_KEY_FORM_INGRESS_URL]
+        self.request.session.pop(SESSION_KEY_FORM_INGRESS_URL, None)
 
 
 class FeatureFlagMixin:
@@ -98,7 +98,6 @@ class BaseNotifyFormView(
 
 class BaseSuccessView(FeatureFlagMixin, mixins.GetCMSPageMixin, TemplateView):
     pass
-
 
 
 class RoutingFormView(

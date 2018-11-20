@@ -459,7 +459,9 @@ def test_feedback_submit_success(client, settings):
 
 
 class IngressULRView(views.FormIngressURLMixin, TemplateView):
+
     template_name = 'core/about.html'
+
     def get_context_data(self, *args, **kwargs):
         return {
             'ingress_url': self.ingress_url,
@@ -503,4 +505,3 @@ def test_form_ingress_url_referer_header_missing(rf, client):
         'ingress_url': None,
         'form_url': 'http://testserver/foo/bar/',
     }
-

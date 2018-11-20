@@ -383,6 +383,7 @@ class BusinessDetailsForm(forms.Form):
     )
     companies_house_number = fields.CharField(
         label='Companies House number',
+        required=False,
     )
     company_type_other = fields.ChoiceField(
         label_suffix='',
