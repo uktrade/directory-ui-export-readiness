@@ -15,6 +15,9 @@ from core import mixins
 from contact import constants, forms
 
 
+SESSION_KEY_FORM_INGRESS_URL = 'CONTACT_FORM_INGRESS_URL'
+
+
 def build_export_opportunites_guidance_url(step_name, ):
     return reverse_lazy(
         'contact-us-export-opportunities-guidance', kwargs={'slug': step_name}
@@ -27,6 +30,27 @@ def build_great_account_guidance_url(step_name, ):
     )
 
 
+class FormIngressURLMixin:
+
+    def get(self, *args, **kwargs):
+        if SESSION_KEY_FORM_INGRESS_URL not in self.request.session:
+            self.request.session[SESSION_KEY_FORM_INGRESS_URL] = (
+                self.request.META.get('HTTP_REFERER')
+            )
+        return super().get(*args, **kwargs)
+
+    @property
+    def ingress_url(self):
+        return self.request.session.get(SESSION_KEY_FORM_INGRESS_URL)
+
+    @property
+    def form_url(self):
+        return self.request.build_absolute_uri()
+
+    def clear_ingress_url(self):
+        del self.request.session[SESSION_KEY_FORM_INGRESS_URL]
+
+
 class FeatureFlagMixin:
     def dispatch(self, *args, **kwargs):
         if not settings.FEATURE_FLAGS['CONTACT_US_ON']:
@@ -34,7 +58,52 @@ class FeatureFlagMixin:
         return super().dispatch(*args, **kwargs)
 
 
-class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
+class SendNotifyMessagesMixin:
+
+    def send_agent_message(self, form):
+        response = form.save(
+            template_id=self.notify_template_id_agent,
+            email_address=self.notify_email_address_agent,
+        )
+        response.raise_for_status()
+
+    def send_user_message(self, form):
+        response = form.save(
+            template_id=self.notify_template_id_user,
+            email_address=form.cleaned_data['email'],
+        )
+        response.raise_for_status()
+
+    def form_valid(self, form):
+        self.send_agent_message(form)
+        self.send_user_message(form)
+        return super().form_valid(form)
+
+
+class BaseNotifyFormView(
+    FeatureFlagMixin, FormIngressURLMixin, SendNotifyMessagesMixin, FormView
+):
+    def get_form_kwargs(self):
+        return {
+            **super().get_form_kwargs(),
+            'form_url': self.form_url,
+            'ingress_url': self.ingress_url,
+        }
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self.clear_ingress_url()
+        return response
+
+
+class BaseSuccessView(FeatureFlagMixin, mixins.GetCMSPageMixin, TemplateView):
+    pass
+
+
+
+class RoutingFormView(
+    FeatureFlagMixin, FormIngressURLMixin, NamedUrlSessionWizardView
+):
 
     # given the current step, based on selected  option, where to redirect.
     redirect_mapping = {
@@ -130,7 +199,7 @@ class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
 
 class ExportingAdviceFormView(
     FeatureFlagMixin, mixins.PreventCaptchaRevalidationMixin,
-    NamedUrlSessionWizardView
+    FormIngressURLMixin, NamedUrlSessionWizardView
 ):
     success_url = reverse_lazy('contact-us-domestic-success')
 
@@ -179,21 +248,30 @@ class ExportingAdviceFormView(
         form_data = self.serialize_form_list(form_list)
         self.send_agent_message(form_data)
         self.send_user_message(form_data)
+        self.clear_ingress_url()
         return redirect(self.success_url)
 
-    @staticmethod
-    def serialize_form_list(form_list):
+    def serialize_form_list(self, form_list):
         data = {}
         for form in form_list:
             data.update(form.cleaned_data)
         del data['terms_agreed']
+        data['ingress_url'] = self.ingress_url
+        data['form_url'] = self.form_url
         return data
 
 
-class FeedbackFormView(FeatureFlagMixin, FormView):
+class FeedbackFormView(FeatureFlagMixin, FormIngressURLMixin, FormView):
     form_class = forms.FeedbackForm
     template_name = 'contact/comment-contact.html'
     success_url = reverse_lazy('contact-us-feedback-success')
+
+    def get_form_kwargs(self):
+        return {
+            **super().get_form_kwargs(),
+            'form_url': self.form_url,
+            'ingress_url': self.ingress_url,
+        }
 
     def form_valid(self, form):
         response = form.save(
@@ -202,33 +280,8 @@ class FeedbackFormView(FeatureFlagMixin, FormView):
             subject=settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
         )
         response.raise_for_status()
+        self.clear_ingress_url()
         return super().form_valid(form)
-
-
-class SendNotifyMessagesMixin:
-
-    def send_agent_message(self, form):
-        response = form.save(
-            template_id=self.notify_template_id_agent,
-            email_address=self.notify_email_address_agent,
-        )
-        response.raise_for_status()
-
-    def send_user_message(self, form):
-        response = form.save(
-            template_id=self.notify_template_id_user,
-            email_address=form.cleaned_data['email'],
-        )
-        response.raise_for_status()
-
-    def form_valid(self, form):
-        self.send_agent_message(form)
-        self.send_user_message(form)
-        return super().form_valid(form)
-
-
-class BaseNotifyFormView(FeatureFlagMixin, SendNotifyMessagesMixin, FormView):
-    pass
 
 
 class InternationalFormView(BaseNotifyFormView):
@@ -285,10 +338,6 @@ class DefenceAndSecurityOrganisationFormView(BaseNotifyFormView):
     notify_template_id_agent = settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID
     notify_email_address_agent = settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS
     notify_template_id_user = settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID
-
-
-class BaseSuccessView(FeatureFlagMixin, mixins.GetCMSPageMixin, TemplateView):
-    pass
 
 
 class InternationalSuccessView(BaseSuccessView):

@@ -51,30 +51,22 @@ class EuExitOptionFeatureFlagMixin:
             ]
 
 
-class ExtraCssClassesBoundField(fields.DirectoryComponentsBoundField):
-
-    def css_classes(self):
-        return super().css_classes() + ' ' + self.field.extra_css_classes
-
-
-class ExtraCssClassesCharField(fields.CharField):
-
-    def __init__(self, extra_css_classes, *args, **kwargs):
-        self.extra_css_classes = extra_css_classes
-        super().__init__(*args, **kwargs)
-
-    def get_bound_field(self, form, field_name):
-        return ExtraCssClassesBoundField(form, self, field_name)
-
-
 class NoOpForm(forms.Form):
     pass
 
 
 class SerializeDataMixin:
+
+    def __init__(self, form_url, ingress_url, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.form_url = form_url
+        self.ingress_url = ingress_url
+
     @property
     def serialized_data(self):
         data = self.cleaned_data.copy()
+        data['form_url'] = self.form_url
+        data['ingress_url'] = self.ingress_url or ''
         del data['captcha']
         del data['terms_agreed']
         return data
@@ -187,7 +179,10 @@ class InternationalRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
     )
 
 
-class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
+class FeedbackForm(
+    SerializeDataMixin, ZendeskActionMixin,
+    forms.Form
+):
     name = fields.CharField(
         validators=anti_phising_validators
     )
@@ -216,10 +211,9 @@ class DomesticContactForm(
         widget=Textarea,
         validators=anti_phising_validators
     )
-    given_name = ExtraCssClassesCharField(
+    given_name = fields.CharField(
         label='First name',
         validators=anti_phising_validators,
-        extra_css_classes='your-details-container'
     )
     family_name = fields.CharField(
         label='Last name',
@@ -259,7 +253,8 @@ class DomesticContactForm(
 
 
 class BuyingFromUKContactForm(
-    SerializeDataMixin, GovNotifyActionMixin, forms.Form
+    SerializeDataMixin, GovNotifyActionMixin,
+    forms.Form
 ):
     given_name = fields.CharField(
         validators=anti_phising_validators
@@ -386,9 +381,8 @@ class BusinessDetailsForm(forms.Form):
         widget=widgets.RadioSelect(),
         choices=COMPANY_TYPE_CHOICES,
     )
-    companies_house_number = ExtraCssClassesCharField(
+    companies_house_number = fields.CharField(
         label='Companies House number',
-        extra_css_classes='companies-house-number-container'
     )
     company_type_other = fields.ChoiceField(
         label_suffix='',
