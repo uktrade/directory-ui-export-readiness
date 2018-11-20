@@ -81,7 +81,7 @@ def domestic_form_data(captcha_stub):
     (
         constants.DOMESTIC,
         constants.DSO,
-        reverse('contact-us-domestic')
+        reverse('contact-us-dso-form')
     ),
     (
         constants.DOMESTIC,

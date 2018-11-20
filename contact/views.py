@@ -50,7 +50,7 @@ class RoutingFormView(FeatureFlagMixin, NamedUrlSessionWizardView):
             ),
             constants.EUEXIT: reverse_lazy('eu-exit-domestic-contact-form'),
             constants.EVENTS: reverse_lazy('contact-us-events-form'),
-            constants.DSO: reverse_lazy('contact-us-domestic'),
+            constants.DSO: reverse_lazy('contact-us-dso-form'),
             constants.OTHER: reverse_lazy('contact-us-domestic'),
         },
         constants.INTERNATIONAL: {

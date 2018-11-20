@@ -275,7 +275,11 @@ class BuyingFromUKContactForm(
     email = fields.EmailField(label='Email address')
     industry = fields.ChoiceField(
         choices=INDUSTRY_CHOICES,
-        widget=Select(attrs={'id': 'js-country-select'}),
+    )
+    industry_other = fields.CharField(
+        label='Type in your industry',
+        widget=TextInput(attrs={'class': 'js-field-other'}),
+        required=False,
     )
     organisation_name = fields.CharField(
         validators=anti_phising_validators
@@ -284,6 +288,8 @@ class BuyingFromUKContactForm(
         validators=anti_phising_validators
     )
     comment = fields.CharField(
+        help_text='Maximum 1000 characters.',
+        max_length=1000,
         widget=Textarea,
         validators=anti_phising_validators
     )
@@ -301,7 +307,7 @@ class BuyingFromUKContactForm(
 
 
 class InternationalContactForm(
-        SerializeDataMixin, GovNotifyActionMixin, forms.Form
+    SerializeDataMixin, GovNotifyActionMixin, forms.Form
 ):
 
     ORGANISATION_TYPE_CHOICES = (
@@ -322,7 +328,8 @@ class InternationalContactForm(
         choices=ORGANISATION_TYPE_CHOICES
     )
     organisation_name = fields.CharField(
-        validators=anti_phising_validators
+        label='Your organisation name',
+        validators=anti_phising_validators,
     )
     country_name = fields.ChoiceField(
         choices=[('', 'Please select')] + choices.COUNTRY_CHOICES,
@@ -332,6 +339,7 @@ class InternationalContactForm(
         validators=anti_phising_validators
     )
     comment = fields.CharField(
+        label='Tell us how we can help',
         widget=Textarea,
         validators=anti_phising_validators
     )
