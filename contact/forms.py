@@ -388,7 +388,8 @@ class BusinessDetailsForm(forms.Form):
     )
     companies_house_number = ExtraCssClassesCharField(
         label='Companies House number',
-        extra_css_classes='companies-house-number-container'
+        required=False,
+        extra_css_classes='companies-house-number-container',
     )
     company_type_other = fields.ChoiceField(
         label_suffix='',
