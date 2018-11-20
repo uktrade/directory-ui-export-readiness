@@ -8,3 +8,12 @@
         <h1 class="heading-large">Tell us how we can help</h1>
     </div>
 {% endblock %}
+
+{% block body_js %}
+    <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
+    <script type="text/javascript">
+        var companyTypeOther = document.getElementById('id_company_type_1');
+        var otherInputs = document.getElementById('id_company_type_other').parentElement.parentElement;
+        GOVUK.utils.toggleRadioOtherOnClick(companyTypeOther, otherInputs);
+    </script>
+{% endblock %}
