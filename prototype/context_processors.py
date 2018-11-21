@@ -7,6 +7,5 @@ def get_url(url_name):
 
 def prototype_home_link(request):
     return {
-        'prototype_home_link': get_url("PROTOTYPE_HOME_LINK"),
-        'prototype_advice_link': get_url("PROTOTYPE_ADVICE_LINK"),
+        'prototype_home_link': get_url('PROTOTYPE_HOME_LINK'),
     }

@@ -3,15 +3,18 @@ import directory_healthcheck.views
 
 from django.conf.urls import url
 from django.contrib.sitemaps.views import sitemap
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+from django.views.generic.base import RedirectView
 
 import article.views
 import casestudy.views
+import contact.views
 import core.views
 import euexit.views
-import triage.views
 import finance.views
 import prototype.views
+import triage.views
 
 from conf.url_redirects import redirects
 
@@ -60,6 +63,11 @@ urlpatterns = [
         r"^international/$",
         core.views.InternationalLandingPageView.as_view(),
         name='landing-page-international'
+    ),
+    url(
+        r"^international/contact/$",
+        core.views.InternationalContactPageView.as_view(),
+        name='contact-page-international'
     ),
     url(
         r"^not-found/$",
@@ -460,7 +468,7 @@ urlpatterns = [
     ),
     url(
         r"^get-finance/$",
-        finance.views.GetFinanceNegotiator.as_view(),
+        finance.views.GetFinanceView.as_view(),
         name='get-finance'
     ),
     url(
@@ -476,6 +484,10 @@ urlpatterns = [
         ),
         name='uk-export-finance-lead-generation-form'
     ),
+]
+
+
+euexit_urls = [
     url(
         r'^international/eu-exit-news/contact/$',
         euexit.views.InternationalContactFormView.as_view(),
@@ -498,32 +510,30 @@ urlpatterns = [
     ),
 ]
 
-urlpatterns += redirects
 
 news_urls = [
     url(
         r"^eu-exit-news/$",
         prototype.views.NewsListPageView.as_view(),
-        name='news-article-list',
+        name='eu-exit-news-list',
     ),
     url(
         r"^eu-exit-news/(?P<slug>[\w-]+)/$",
         prototype.views.NewsArticleDetailView.as_view(),
-        name='news-article-detail',
+        name='eu-exit-news-detail',
     ),
     url(
         r"^international/eu-exit-news/$",
         prototype.views.InternationalNewsListPageView.as_view(),
-        name='international-news-article-list',
+        name='international-eu-exit-news-list',
     ),
     url(
         r"^international/eu-exit-news/(?P<slug>[\w-]+)/$",
         prototype.views.InternationalNewsArticleDetailView.as_view(),
-        name='international-news-article-detail',
+        name='international-eu-exit-news-detail',
     ),
 ]
 
-urlpatterns += news_urls
 
 prototype_urls = [
     url(
@@ -532,14 +542,14 @@ prototype_urls = [
         name='prototype-landing-page',
     ),
     url(
-        r"^prototype/news/$",
+        r"^prototype/eu-exit-news/$",
         prototype.views.NewsListPageView.as_view(),
-        name='prototype-news-article-list',
+        name='prototype-eu-exit-news-list',
     ),
     url(
-        r"^prototype/news/(?P<slug>[\w-]+)/$",
+        r"^prototype/eu-exit-news/(?P<slug>[\w-]+)/$",
         prototype.views.NewsArticleDetailView.as_view(),
-        name='prototype-news-article-detail',
+        name='prototype-eu-exit-news-detail',
     ),
     url(
         r"^prototype/tagged/(?P<slug>[\w-]+)/$",
@@ -563,4 +573,121 @@ prototype_urls = [
     ),
 ]
 
+
+contact_urls = [
+    url(
+        r'^contact/triage/export-opportunities/(?P<slug>[-\w\d]+)/$',
+        contact.views.GuidanceView.as_view(),
+        name='contact-us-export-opportunities-guidance'
+    ),
+    url(
+        r'^contact/triage/great-account/(?P<slug>[-\w\d]+)/$',
+        contact.views.GuidanceView.as_view(),
+        name='contact-us-great-account-guidance'
+    ),
+    url(
+        r'^contact/events/$',
+        contact.views.EventsFormView.as_view(),
+        name='contact-us-events-form'
+    ),
+    url(
+        r'^contact/events/success/$',
+        contact.views.EventsSuccessView.as_view(),
+        name='contact-us-events-success'
+    ),
+    url(
+        r'^contact/defence-and-security-organisation/$',
+        contact.views.DefenceAndSecurityOrganisationFormView.as_view(),
+        name='contact-us-dso-form'
+    ),
+    url(
+        r'^contact/defence-and-security-organisation/success/$',
+        contact.views.DefenceAndSecurityOrganisationSuccessView.as_view(),
+        name='contact-us-dso-success'
+    ),
+    url(
+        r'^contact/export-advice/success/$',
+        contact.views.ExportingAdviceSuccessView.as_view(),
+        name='contact-us-export-advice-success'
+    ),
+    url(
+        r'^contact/export-advice/$',
+        RedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-export-advice', kwargs={'step': 'comment'}
+            )
+        ),
+        name='export-advice-routing-form'
+    ),
+    url(
+        r'^contact/export-advice/(?P<step>.+)/$',
+        contact.views.ExportingAdviceFormView.as_view(
+            url_name='contact-us-export-advice', done_step_name='finished'
+        ),
+        name='contact-us-export-advice'
+    ),
+    url(
+        r'^contact/feedback/$',
+        contact.views.FeedbackFormView.as_view(),
+        name='contact-us-feedback'
+    ),
+    url(
+        r'^contact/feedback/success/$',
+        contact.views.FeedbackSuccessView.as_view(),
+        name='contact-us-feedback-success'
+    ),
+    url(
+        r'^contact/find-uk-companies/$',
+        contact.views.BuyingFromUKCompaniesFormView.as_view(),
+        name='contact-us-find-uk-companies'
+    ),
+    url(
+        r'^contact/find-uk-companies/success/$',
+        contact.views.BuyingFromUKCompaniesSuccessView.as_view(),
+        name='contact-us-find-uk-companies-success'
+    ),
+    url(
+        r'^contact/domestic/$',
+        contact.views.DomesticFormView.as_view(),
+        name='contact-us-domestic'
+    ),
+    url(
+        r'^contact/domestic/success/$',
+        contact.views.DomesticSuccessView.as_view(),
+        name='contact-us-domestic-success'
+    ),
+    url(
+        r'^contact/international/$',
+        contact.views.InternationalFormView.as_view(),
+        name='contact-us-international'
+    ),
+    url(
+        r'^contact/international/success/$',
+        contact.views.InternationalSuccessView.as_view(),
+        name='contact-us-international-success'
+    ),
+    url(
+        r'^contact/$',
+        RedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-routing-form', kwargs={'step': 'location'}
+            )
+        ),
+        name='contact-us-routing-form'
+    ),
+    url(
+        r'^contact/triage/(?P<step>.+)/$',
+        contact.views.RoutingFormView.as_view(
+            url_name='contact-us-routing-form', done_step_name='finished'
+        ),
+        name='contact-us-routing-form'
+    ),
+
+]
+
+
+urlpatterns += euexit_urls
+urlpatterns += redirects
+urlpatterns += news_urls
 urlpatterns += prototype_urls
+urlpatterns += contact_urls

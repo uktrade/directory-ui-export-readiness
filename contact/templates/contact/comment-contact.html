@@ -1,0 +1,31 @@
+{% extends 'contact/wizard-step-base.html' %}
+
+{% load static from static %}
+
+{% block head_css %}
+    <link href="{% static 'export_elements/stylesheets/govuk-elements-styles.min.css' %}" media="all" rel="stylesheet" />
+    <link href="{% static 'export_elements/stylesheets/elements-components.min.css' %}" media="all" rel="stylesheet" />
+    <link href="{% static 'styles/contact-comment.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+
+{% block step_title %}Tell us how we can help{% endblock %}
+{% block extra_contents %}
+    <div id="form-step-body-text">
+        If you can provide mode information below, it will help us better understand your enquiry.
+    </div>
+{% endblock %}
+
+
+{% block body_js %}
+    <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
+    <script type="text/javascript">
+        var industrySelect = document.getElementById('id_industry');
+        var industryOther = document.getElementById('id_industry_other');
+        GOVUK.utils.toggleOtherOnSelect(industryOther, industrySelect);
+
+        var sourceSelect = document.getElementById('id_source');
+        var sourceOther = document.getElementById('id_source_other');
+        GOVUK.utils.toggleOtherOnSelect(sourceOther, sourceSelect);
+    </script>
+{% endblock %}

@@ -17,6 +17,7 @@ import os
 import environ
 from directory_constants.constants import cms
 
+
 env = environ.Env()
 env.read_env()
 
@@ -67,6 +68,7 @@ INSTALLED_APPS = [
     'directory_components',
     'prototype',
     'euexit',
+    'contact',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -138,12 +140,22 @@ if env.str('REDIS_URL', ''):
             'CLIENT_CLASS': "django_redis.client.DefaultClient",
         }
     }
+    CACHES['api_fallback'] = {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': env.str('REDIS_URL'),
+        'OPTIONS': {
+            'CLIENT_CLASS': "django_redis.client.DefaultClient",
+        }
+    }
 else:
     CACHES['cms_fallback'] = {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'unique-snowflake',
     }
-
+    CACHES['api_fallback'] = {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -299,6 +311,7 @@ HEADER_FOOTER_URLS_FAB = env.str('HEADER_FOOTER_URLS_FAB', '')
 HEADER_FOOTER_URLS_SOO = env.str('HEADER_FOOTER_URLS_SOO', '')
 HEADER_FOOTER_URLS_EVENTS = env.str('HEADER_FOOTER_URLS_EVENTS', '')
 HEADER_FOOTER_URLS_CONTACT_US = env.str('HEADER_FOOTER_URLS_CONTACT_US', '')
+HEADER_FOOTER_URLS_FEEDBACK = env.str('HEADER_FOOTER_URLS_FEEDBACK', '')
 HEADER_FOOTER_URLS_DIT = env.str('HEADER_FOOTER_URLS_DIT', '')
 COMPONENTS_URLS_FAS = env.str('COMPONENTS_URLS_FAS', '')
 PRIVACY_COOKIE_DOMAIN = os.getenv('PRIVACY_COOKIE_DOMAIN')
@@ -375,7 +388,9 @@ DIRECTORY_CMS_API_CLIENT_API_KEY = env.str('CMS_SIGNATURE_SECRET')
 DIRECTORY_CMS_API_CLIENT_SENDER_ID = 'directory'
 DIRECTORY_CMS_API_CLIENT_SERVICE_NAME = cms.EXPORT_READINESS
 DIRECTORY_CMS_API_CLIENT_DEFAULT_TIMEOUT = 15
-DIRECTORY_CMS_API_CLIENT_CACHE_EXPIRE_SECONDS = 60 * 60 * 24 * 30  # 30 days
+
+# directory clients
+DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS = 60 * 60 * 24 * 30  # 30 days
 
 FEATURE_CMS_ENABLED = os.getenv('FEATURE_CMS_ENABLED', 'false') == 'true'
 FEATURE_PERFORMANCE_DASHBOARD_ENABLED = os.getenv(
@@ -413,6 +428,7 @@ FEATURE_FLAGS = {
     'PERFORMANCE_DASHBOARD_ON': env.bool(
         'FEATURE_PERFORMANCE_DASHBOARD_ENABLED', False
     ),
+    'CONTACT_US_ON': env.bool('FEATURE_CONTACT_US_ENABLED', False),
     # used by directory-components
     'SEARCH_ENGINE_INDEXING_OFF': env.bool(
         'FEATURE_SEARCH_ENGINE_INDEXING_DISABLED', False
@@ -423,9 +439,7 @@ FEATURE_FLAGS = {
 }
 
 PROTOTYPE_HOME_LINK = env.str(
-    'PROTOTYPE_HOME_LINK', 'https://invis.io/GROOBO8PYQV')
-PROTOTYPE_ADVICE_LINK = env.str(
-    'PROTOTYPE_ADVICE_LINK', '/prototype/advice-and-guidance/')
+    'PROTOTYPE_HOME_LINK', '/prototype')
 
 # UK Export Finance
 UKEF_PI_TRACKER_JAVASCRIPT_URL = env.str(
@@ -452,3 +466,66 @@ DIRECTORY_FORMS_API_SENDER_ID_EUEXIT = env.str(
 EUEXIT_AGENT_EMAIL = env.str('EUEXIT_AGENT_EMAIL')
 EUEXIT_GOV_NOTIFY_TEMPLATE_ID = env.str('EUEXIT_GOV_NOTIFY_TEMPLATE_ID')
 EUEXIT_GOV_NOTIFY_REPLY_TO_ID = env.str('EUEXIT_GOV_NOTIFY_REPLY_TO_ID', None)
+
+# Contact
+INVEST_CONTACT_URL = env.str(
+    'INVEST_CONTACT_URL', 'https://invest.great.gov.uk/contact/'
+)
+FIND_TRADE_OFFICE_URL = env.str(
+    'FIND_TRADE_OFFICE_URL',
+    'https://www.contactus.trade.gov.uk/office-finder'
+)
+CONTACT_DOMESTIC_ZENDESK_SUBJECT = env.str(
+    'CONTACT_DOMESTIC_ZENDESK_SUBJECT', 'Great.gov.uk contact form'
+)
+CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID'
+)
+CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID'
+)
+CONTACT_EVENTS_AGENT_EMAIL_ADDRESS = env.str(
+    'CONTACT_EVENTS_AGENT_EMAIL_ADDRESS'
+)
+CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID'
+)
+CONTACT_DSO_AGENT_EMAIL_ADDRESS = env.str(
+    'CONTACT_DSO_AGENT_EMAIL_ADDRESS'
+)
+CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID'
+)
+CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID'
+)
+CONTACT_DIT_AGENT_EMAIL_ADDRESS = env.str(
+    'CONTACT_DIT_AGENT_EMAIL_ADDRESS'
+)
+CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID'
+)
+CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID'
+)
+CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS = env.str(
+    'CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS'
+)
+CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID'
+)
+CONTACT_BUYING_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_BUYING_AGENT_NOTIFY_TEMPLATE_ID'
+)
+CONTACT_BUYING_AGENT_EMAIL_ADDRESS = env.str(
+    'CONTACT_BUYING_AGENT_EMAIL_ADDRESS'
+)
+CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID'
+)
+CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID'
+)
+CONTACT_EXPORTING_AGENT_SUBJECT = env.str(
+    'CONTACT_EXPORTING_AGENT_SUBJECT', 'A form was submitted on great.gov.uk'
+)

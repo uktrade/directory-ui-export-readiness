@@ -8,6 +8,11 @@
   </div>
   <div class="site-links container">
     <ul class="navigation">
+        {% if features.CONTACT_US_ON %}
+          <li><a href="{% url 'contact-us-routing-form' step='location' %}" class="">{% trans "Contact us" %}</a></li>
+        {% elif features.EU_EXIT_FORMS_ON %}
+          <li><a href="{% url 'contact-page-international' %}?lang=en-gb" class="">{% trans "Contact us" %}</a></li>
+        {% endif %}
         <li><a href="{% url 'privacy-and-cookies-international' %}?lang=en-gb" class="">{% trans "Privacy and cookies" %}</a></li>
         <li><a href="{% url 'terms-and-conditions-international' %}?lang=en-gb" class="">{% trans "Terms and Conditions" %}</a></li>
     </ul>

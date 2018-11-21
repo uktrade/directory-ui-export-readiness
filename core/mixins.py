@@ -2,7 +2,9 @@ from directory_cms_client.client import cms_api_client
 from directory_constants.constants import cms
 from django.http import Http404
 from django.conf import settings
-from core.helpers import handle_cms_response, handle_cms_response_allow_404
+from directory_cms_client.helpers import (
+    handle_cms_response, handle_cms_response_allow_404)
+from core.helpers import cms_component_is_bidi
 from django.utils import translation
 from django.utils.functional import cached_property
 
@@ -57,21 +59,21 @@ class GetCMSComponentMixin:
         )
         return handle_cms_response_allow_404(response)
 
+    @property
+    def component_is_bidi(self):
+        if self.cms_component:
+            return cms_component_is_bidi(
+                translation.get_language(),
+                self.cms_component['meta']['languages']
+            )
+        return False
+
     def get_context_data(self, *args, **kwargs):
-
-        activated_language = translation.get_language()
-        activated_language_is_bidi = translation.get_language_info(
-            activated_language)['bidi']
-
-        component_supports_activated_language = activated_language in \
-            self.cms_component['meta']['languages']
-        component_is_bidi = activated_language_is_bidi and \
-            component_supports_activated_language
-
         return super().get_context_data(
-            component_is_bidi=component_is_bidi,
+            component_is_bidi=self.component_is_bidi,
             cms_component=self.cms_component,
-            *args, **kwargs)
+            *args, **kwargs
+        )
 
 
 class TranslationsMixin:
@@ -86,3 +88,27 @@ class TranslationsMixin:
         context['directory_components_html_lang_attribute']\
             = translation.get_language()
         return context
+
+
+class PreventCaptchaRevalidationMixin:
+    """When get_all_cleaned_data() is called the forms are revalidated,
+    which causes captcha to fail becuase the same captcha response from google
+    is posted to google multiple times. This captcha response is a nonce, and
+    so google complains the second time it's seen.
+
+    This is worked around by removing captcha from the form before the view
+    calls get_all_cleaned_data
+
+    """
+
+    should_ignore_captcha = False
+
+    def render_done(self, *args, **kwargs):
+        self.should_ignore_captcha = True
+        return super().render_done(*args, **kwargs)
+
+    def get_form(self, step=None, *args, **kwargs):
+        form = super().get_form(step=step, *args, **kwargs)
+        if step == self.steps.last and self.should_ignore_captcha:
+            del form.fields['captcha']
+        return form

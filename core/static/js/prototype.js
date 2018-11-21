@@ -23,7 +23,7 @@ dit.prototypePage = (new function () {
   function enhanceLanguageSelector() {
     var $dialog = $("[data-component='language-selector-dialog']");
     dit.components.languageSelector.enhanceDialog($dialog, {
-      $controlContainer: $("#header-bar .account-links")
+      $controlContainer: $("#great-header-account-links")
     });
 
     languageSelectorViewInhibitor(false);
