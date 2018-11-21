@@ -439,9 +439,7 @@ FEATURE_FLAGS = {
 }
 
 PROTOTYPE_HOME_LINK = env.str(
-    'PROTOTYPE_HOME_LINK', 'https://invis.io/GROOBO8PYQV')
-PROTOTYPE_ADVICE_LINK = env.str(
-    'PROTOTYPE_ADVICE_LINK', '/prototype/advice-and-guidance/')
+    'PROTOTYPE_HOME_LINK', '/prototype')
 
 # UK Export Finance
 UKEF_PI_TRACKER_JAVASCRIPT_URL = env.str(
