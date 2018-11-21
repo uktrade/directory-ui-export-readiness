@@ -193,6 +193,7 @@ TEST_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_SENDER_ID_EUEXIT=debug; \
 	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
 	export DEBUG=false; \
+	export REDIS_URL=; \
 	export EUEXIT_GOV_NOTIFY_TEMPLATE_ID=debug; \
 	export EUEXIT_GOV_NOTIFY_REPLY_TO_ID=debug; \
 	export CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID=debug; \

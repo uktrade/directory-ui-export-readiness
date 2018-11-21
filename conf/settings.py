@@ -140,12 +140,22 @@ if env.str('REDIS_URL', ''):
             'CLIENT_CLASS': "django_redis.client.DefaultClient",
         }
     }
+    CACHES['api_fallback'] = {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': env.str('REDIS_URL'),
+        'OPTIONS': {
+            'CLIENT_CLASS': "django_redis.client.DefaultClient",
+        }
+    }
 else:
     CACHES['cms_fallback'] = {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'unique-snowflake',
     }
-
+    CACHES['api_fallback'] = {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -378,7 +388,9 @@ DIRECTORY_CMS_API_CLIENT_API_KEY = env.str('CMS_SIGNATURE_SECRET')
 DIRECTORY_CMS_API_CLIENT_SENDER_ID = 'directory'
 DIRECTORY_CMS_API_CLIENT_SERVICE_NAME = cms.EXPORT_READINESS
 DIRECTORY_CMS_API_CLIENT_DEFAULT_TIMEOUT = 15
-DIRECTORY_CMS_API_CLIENT_CACHE_EXPIRE_SECONDS = 60 * 60 * 24 * 30  # 30 days
+
+# directory clients
+DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS = 60 * 60 * 24 * 30  # 30 days
 
 FEATURE_CMS_ENABLED = os.getenv('FEATURE_CMS_ENABLED', 'false') == 'true'
 FEATURE_PERFORMANCE_DASHBOARD_ENABLED = os.getenv(
