@@ -324,10 +324,13 @@ def test_success_view_cms(mock_lookup_by_slug, url, slug, client):
 @mock.patch('captcha.fields.ReCaptchaField.clean')
 @mock.patch('contact.views.GovNotifyAction')
 @mock.patch('contact.views.EmailAction')
+@mock.patch('contact.helpers.retrieve_exporting_advice_email')
 def test_exporting_from_uk_contact_form_submission(
-    mock_email_action, mock_notify_action, mock_clean, client, settings,
-    captcha_stub,
+    mock_retrieve_exporting_advice_email, mock_email_action,
+    mock_notify_action, mock_clean, client, settings, captcha_stub,
 ):
+    mock_retrieve_exporting_advice_email.return_value = 'regional@example.com'
+
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
         'CONTACT_US_ON': True
@@ -405,10 +408,21 @@ def test_exporting_from_uk_contact_form_submission(
         'employees': '1-10'
     })
 
+    assert mock_email_action.call_count == 1
+    assert mock_email_action.call_args == mock.call(
+        recipients=['regional@example.com'],
+        subject=settings.CONTACT_EXPORTING_AGENT_SUBJECT,
+        reply_to=[settings.DEFAULT_FROM_EMAIL],
+    )
     assert mock_email_action().save.call_count == 1
     assert mock_email_action().save.call_args == mock.call({
         'text_body': mock.ANY, 'html_body': mock.ANY
     })
+
+    assert mock_retrieve_exporting_advice_email.call_count == 1
+    assert mock_retrieve_exporting_advice_email.call_args == mock.call(
+        '1234'
+    )
 
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')

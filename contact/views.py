@@ -8,11 +8,12 @@ from django.http import Http404
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
+from django.utils.html import strip_tags
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from core import mixins
-from contact import constants, forms
+from contact import constants, forms, helpers
 
 
 def build_export_opportunites_guidance_url(step_name, ):
@@ -164,15 +165,17 @@ class ExportingAdviceFormView(
 
     @staticmethod
     def send_agent_message(form_data):
+        email = helpers.retrieve_exporting_advice_email(form_data['postcode'])
         action = EmailAction(
-            # todo: retrieve email from office finder
-            recipients=['text@example.com'],
+            recipients=[email],
             subject=settings.CONTACT_EXPORTING_AGENT_SUBJECT,
             reply_to=[settings.DEFAULT_FROM_EMAIL],
         )
         template_name = 'contact/exporting-from-uk-agent-email.html'
-        text = render_to_string(template_name, {'form_data': form_data})
-        response = action.save({'text_body': text, 'html_body': text})
+        html = render_to_string(template_name, {'form_data': form_data})
+        response = action.save(
+            {'text_body': strip_tags(html), 'html_body': html}
+        )
         response.raise_for_status()
 
     def done(self, form_list, **kwargs):
