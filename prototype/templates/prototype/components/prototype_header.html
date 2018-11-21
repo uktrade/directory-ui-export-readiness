@@ -8,21 +8,21 @@
 
         {% if not sso_is_logged_in %}
         <li class="anonymous">
-          <a id="header-sign-in-link" class="great-header-sign-in-link" href="{{ sso_login_url }}" class="signin">Sign in</a>
+          <a id="great-header-sign-in-link" class="great-header-sign-in-link" href="{{ sso_login_url }}" class="signin">Sign in</a>
         </li>
         {% else %}
         <li class="authenticated">
-          <a id="header-profile-link" href="{{ sso_profile_url }}" class="profile">{% block profile_label %}Account{% endblock %}</a>
+          <a id="great-header-profile-link" href="{{ sso_profile_url }}" class="profile">{% block profile_label %}Account{% endblock %}</a>
         </li>
         <li class="authenticated">
-          <a id="header-sign-out-link" href="{{ sso_logout_url }}" class="signout">Sign out</a>
+          <a id="great-header-sign-out-link" href="{{ sso_logout_url }}" class="signout">Sign out</a>
         </li>
         {% endif %}
 
       </ul>
       {% endblock %}
 
-      <a id="header-dit-logo" class="great-header-dit-logo" href="{{ prototype_home_link }}">
+      <a id="great-header-dit-logo" class="great-header-dit-logo" href="{{ prototype_home_link }}">
         <img src="{% static 'directory_components/images/dfit-logo-white.png' %}" width="158" alt="Home">
       </a>
     </div>
@@ -33,22 +33,22 @@
       <nav id="great-header-nav" class="great-header-nav">
         <ul>
           <li class="link-heading">
-            <a class="navigation" href="{{ header_footer_urls.custom }}" id="header-custom-page-link">Export journey</a>
+            <a class="navigation" href="{{ header_footer_urls.custom }}" id="great-header-custom-page-link">Export journey</a>
           </li>
           <li class="link-heading">
-            <a class="navigation" href="{% url 'topic-list' 'advice-and-guidance' %}" id="header-advice-link">Advice</a>
+            <a class="navigation" href="{% url 'topic-list' 'advice-and-guidance' %}" id="great-header-advice-link">Advice</a>
           </li>
           <li class="link-heading">
-            <a class="navigation" href="{% url 'topic-list' 'markets' %}" id="header-markets-link">Markets</a>
+            <a class="navigation" href="{% url 'topic-list' 'markets' %}" id="great-header-markets-link">Markets</a>
           </li>
           <li class="link-heading">
-            <a class="navigation" href="#" id="header-industries-link">Industries</a>
+            <a class="navigation" href="#" id="great-header-industries-link">Industries</a>
           </li>
           <li class="link-heading">
-            <a class="navigation" href="#" id="header-services-link">Services</a>
+            <a class="navigation" href="#" id="great-header-services-link">Services</a>
           </li>
           <li class="link-heading">
-            <a class="navigation" href="{{ header_footer_urls.about }}" id="header-about-link">About</a>
+            <a class="navigation" href="{{ header_footer_urls.about }}" id="great-header-about-link">About</a>
           </li>
         </ul>
       </nav>
