@@ -7,10 +7,7 @@ from core.tests.helpers import create_response
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_prototype_landing_page_news_section(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': True,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
 
     url = reverse('prototype-landing-page')
 
@@ -63,11 +60,8 @@ test_topic_page = {
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_full_path')
 def test_prototype_topic_list_page(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'PROTOTYPE_PAGES_ON': True,
-        'PROTOTYPE_HEADER_FOOTER_ON': False,
-    }
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
+    settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = False
 
     url = reverse('topic-list', kwargs={'slug': 'markets'})
 
@@ -96,10 +90,7 @@ def test_prototype_topic_list_page(mock_get_page, client, settings):
 def test_prototype_article_detail_page_no_related_content(
     mock_get_page, client, settings
 ):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'PROTOTYPE_PAGES_ON': True,
-    }
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
 
     test_article_page_no_related_content = {
         "title": "Test article admin title",
@@ -146,10 +137,7 @@ def test_prototype_article_detail_page_no_related_content(
 def test_prototype_article_detail_page_one_related_content(
     mock_get_page, client, settings
 ):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'PROTOTYPE_PAGES_ON': True,
-    }
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
 
     article_page = {
         "title": "Test article admin title",
@@ -197,10 +185,7 @@ def test_prototype_article_detail_page_one_related_content(
 def test_prototype_article_detail_page_two_related_content(
     mock_get_page, client, settings
 ):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'PROTOTYPE_PAGES_ON': True,
-    }
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
 
     article_page = {
         "title": "Test article admin title",
@@ -268,12 +253,9 @@ test_news_list_page = {
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_news_list_page_feature_flag_on(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': True,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
 
-    url = reverse('news-article-list')
+    url = reverse('eu-exit-news-list')
 
     mock_get_page.return_value = create_response(
         status_code=200,
@@ -297,12 +279,9 @@ def test_news_list_page_feature_flag_on(mock_get_page, client, settings):
 def test_international_news_list_page(
     mock_get_page, mock_get_component, client, settings
 ):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': True,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
 
-    url = reverse('international-news-article-list')
+    url = reverse('international-eu-exit-news-list')
 
     mock_get_page.return_value = create_response(
         status_code=200,
@@ -311,7 +290,7 @@ def test_international_news_list_page(
     mock_get_component.return_value = {
         'banner_label': 'EU Exit updates',
         'banner_content': '<p>Lorem ipsum.</p>',
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
 
     response = client.get(url)
@@ -327,10 +306,7 @@ def test_international_news_list_page(
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_domestic_news_article_detail_page(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': True,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
 
     test_article_page = {
         "title": "Test article admin title",
@@ -352,9 +328,12 @@ def test_domestic_news_article_detail_page(mock_get_page, client, settings):
         "meta": {
             "slug": "foo",
         },
+        "tags": [
+            {"name": "Test tag", "slug": "test-tag-slug"}
+        ]
     }
 
-    url = reverse('news-article-detail', kwargs={'slug': 'foo'})
+    url = reverse('eu-exit-news-detail', kwargs={'slug': 'foo'})
 
     mock_get_page.return_value = create_response(
         status_code=200,
@@ -369,6 +348,7 @@ def test_domestic_news_article_detail_page(mock_get_page, client, settings):
 
     assert 'Test news title' in str(response.content)
     assert 'Test news teaser' in str(response.content)
+    assert 'Test tag' not in str(response.content)
     assert '<p class="body-text">Lorem ipsum</p>' in str(response.content)
 
 
@@ -376,10 +356,7 @@ def test_domestic_news_article_detail_page(mock_get_page, client, settings):
 def test_international_news_article_detail_page(
     mock_get_page, client, settings
 ):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': True,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
 
     test_article_page = {
         "title": "Test article admin title",
@@ -403,7 +380,7 @@ def test_international_news_article_detail_page(
         },
     }
 
-    url = reverse('international-news-article-detail', kwargs={'slug': 'foo'})
+    url = reverse('international-eu-exit-news-detail', kwargs={'slug': 'foo'})
 
     mock_get_page.return_value = create_response(
         status_code=200,
@@ -422,12 +399,9 @@ def test_international_news_article_detail_page(
 
 
 def test_news_list_page_feature_flag_off(client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': False,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
 
-    url = reverse('news-article-list')
+    url = reverse('eu-exit-news-list')
 
     response = client.get(url)
 
@@ -480,10 +454,7 @@ test_list_page = {
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_full_path')
 def test_prototype_article_list_page(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'PROTOTYPE_PAGES_ON': True,
-    }
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
 
     url = reverse('article-list', kwargs={
         'topic': 'topic',
@@ -515,10 +486,7 @@ test_tag_page = {
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_tag')
 def test_prototype_tag_list_page(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'PROTOTYPE_PAGES_ON': True,
-    }
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
 
     url = reverse('tag-list', kwargs={'slug': 'new-to-exporting'})
 
@@ -544,11 +512,8 @@ def test_prototype_tag_list_page(mock_get_page, client, settings):
 def test_prototype_landing_page_header_footer_default_links(
     mock_get_page, client, settings
 ):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'PROTOTYPE_PAGES_ON': True,
-        'PROTOTYPE_HEADER_FOOTER_ON': True,
-    }
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
+    settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = True
 
     url = reverse('prototype-landing-page')
 
@@ -574,25 +539,46 @@ def test_prototype_landing_page_header_footer_default_links(
     assert soup.find(id="header-about-link")
 
     home_link = soup.find(id="header-dit-logo")
-    assert home_link['href'] == 'https://invis.io/GROOBO8PYQV'
-
-    header_advice_link = soup.find(id="header-advice-link")
-    assert header_advice_link['href'] == '/prototype/advice-and-guidance/'
-
-    footer_advice_link = soup.find(id="footer-advice-link")
-    assert footer_advice_link['href'] == '/prototype/advice-and-guidance/'
+    assert home_link['href'] == '/prototype'
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_prototype_landing_page_header_footer(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'PROTOTYPE_PAGES_ON': True,
-        'PROTOTYPE_HEADER_FOOTER_ON': True,
+def test_prototype_landing_page_header_footer_home_link_none(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
+    settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = True
+    settings.PROTOTYPE_HOME_LINK = None
+
+    url = reverse('prototype-landing-page')
+
+    page = {
+        'news_title': 'News',
+        'news_description': '<p>Lorem ipsum</p>',
+        'articles': [],
     }
 
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=page
+    )
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    home_link = soup.find(id="header-dit-logo")
+    assert home_link['href'] == '#'
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_prototype_landing_page_header_footer(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
+    settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = True
     settings.PROTOTYPE_HOME_LINK = '/foo'
-    settings.PROTOTYPE_ADVICE_LINK = '/advice'
 
     url = reverse('prototype-landing-page')
 
@@ -615,19 +601,10 @@ def test_prototype_landing_page_header_footer(mock_get_page, client, settings):
     home_link = soup.find(id="header-dit-logo")
     assert home_link['href'] == '/foo'
 
-    header_advice_link = soup.find(id="header-advice-link")
-    assert header_advice_link['href'] == '/advice'
-
-    footer_advice_link = soup.find(id="footer-advice-link")
-    assert footer_advice_link['href'] == '/advice'
-
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_prototype_url_feature_flag_off(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'PROTOTYPE_PAGES_ON': False,
-    }
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = False
 
     url = reverse('prototype-landing-page')
 
@@ -642,10 +619,7 @@ def test_prototype_url_feature_flag_off(mock_get_page, client, settings):
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_prototype_url_feature_flag_on(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'PROTOTYPE_PAGES_ON': True,
-    }
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
 
     url = reverse('prototype-landing-page')
 

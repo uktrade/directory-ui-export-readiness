@@ -13,20 +13,14 @@ from core import helpers, views
 from core.tests.helpers import create_response
 from casestudy import casestudies
 
-from directory_cms_client.constants import (
-    EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
-    EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
-)
+from directory_constants.constants import cms
 
 
 def test_landing_page_video_url(client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': False,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
     settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/videp.mp4'
-    url = reverse('landing-page')
 
+    url = reverse('landing-page')
     response = client.get(url)
     assert response.context_data['LANDING_PAGE_VIDEO_URL'] == (
         'https://example.com/videp.mp4'
@@ -55,10 +49,7 @@ def test_landing_page_redirect(client):
 
 
 def test_landing_page(client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': False,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
 
     url = reverse('landing-page')
 
@@ -92,10 +83,7 @@ def test_landing_page(client, settings):
 def test_landing_page_template_news_feature_flag_on(
     mock_get_page, client, settings
 ):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': True,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
 
     page = {
         'news_title': 'News',
@@ -121,13 +109,9 @@ def test_landing_page_template_news_feature_flag_on(
 
 
 def test_landing_page_template_news_feature_flag_off(client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': False,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
 
     url = reverse('landing-page')
-
     response = client.get(url)
 
     assert response.status_code == 200
@@ -256,34 +240,50 @@ def test_privacy_cookies_cms(
     assert response.template_name == [expected_template]
 
 
+@pytest.mark.parametrize(
+    'activated_language,component_languages,direction',
+    (
+        (
+            'ar', [['ar', 'العربيّة'], ['en-gb', 'English']], 'rtl'
+        ),
+        (
+            'en-gb', [['ar', 'العربيّة'], ['en-gb', 'English']], 'ltr'
+        ),
+        (
+            'zh-hans', [['ar', 'العربيّة'], ['en-gb', 'English']], 'ltr'
+        ),
+    )
+)
 @patch('core.views.InternationalLandingPageView.cms_component',
        new_callable=PropertyMock)
 @patch('core.views.InternationalLandingPageView.page',
        new_callable=PropertyMock)
 def test_international_landing_page_news_section_on(
-    mock_get_page, mock_get_component, client, settings
+    mock_get_page, mock_get_component, activated_language,
+    component_languages, direction, client, settings
 ):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': True,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
     mock_get_page.return_value = {
         'title': 'the page',
         'articles_count': 1,
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
     mock_get_component.return_value = {
         'banner_label': 'EU Exit updates',
         'banner_content': '<p>Lorem ipsum.</p>',
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': component_languages},
     }
 
     url = reverse('landing-page-international')
-    response = client.get(url)
+    response = client.get(url, {'lang': activated_language})
 
     assert response.template_name == ['core/landing_page_international.html']
     assert 'EU Exit updates' in str(response.content)
     assert '<p class="body-text">Lorem ipsum.</p>' in str(response.content)
+
+    soup = BeautifulSoup(response.content, 'html.parser')
+    component = soup.select('.banner-container')[0]
+    assert component.attrs['dir'] == direction
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -292,21 +292,18 @@ def test_international_landing_page_news_section_on(
 def test_international_landing_page_news_section_off(
     mock_get_page, mock_get_component, client, settings
 ):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': False,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
     mock_get_page.return_value = {
         'title': 'the page',
         'articles_count': 1,
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
     mock_get_component.return_value = create_response(
         status_code=200,
         json_body={
             'banner_label': 'EU Exit updates',
             'banner_content': '<p>Lorem ipsum.</p>',
-            'meta': {'languages': ['en-gb', 'English']},
+            'meta': {'languages': [['en-gb', 'English']]},
         }
     )
 
@@ -323,19 +320,16 @@ def test_international_landing_page_news_section_off(
 def test_international_landing_page_no_articles(
     mock_get_page, mock_get_component, client, settings
 ):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'NEWS_SECTION_ON': False,
-    }
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
     mock_get_page.return_value = {
         'title': 'the page',
         'articles_count': 0,
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
     mock_get_component.return_value = {
         'banner_label': 'EU Exit updates',
         'banner_content': '<p>Lorem ipsum.</p>',
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
 
     url = reverse('landing-page-international')
@@ -359,12 +353,12 @@ def test_international_landing_view_translations(
     mock_get_page.return_value = {
         'title': 'the page',
         'articles_count': 0,
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
     mock_get_component.return_value = {
         'banner_label': 'EU Exit updates',
         'banner_content': '<p>Lorem ipsum.</p>',
-        'meta': {'languages': ['en-gb', 'English']},
+        'meta': {'languages': [['en-gb', 'English']]},
     }
 
     assert response.status_code == http.client.OK
@@ -437,19 +431,19 @@ def test_about_view(client):
 cms_urls_slugs = (
     (
         reverse('privacy-and-cookies'),
-        EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
+        cms.EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
     ),
     (
         reverse('terms-and-conditions'),
-        EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
+        cms.EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
     ),
     (
         reverse('privacy-and-cookies-international'),
-        EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
+        cms.EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
     ),
     (
         reverse('terms-and-conditions-international'),
-        EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
+        cms.EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
     ),
 )
 
@@ -490,10 +484,7 @@ def test_cms_pages_cms_page_404(mock_get, client, url):
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_performance_dashboard_cms(mock_get_page, settings, client):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'PERFORMANCE_DASHBOARD_ON': True,
-    }
+    settings.FEATURE_FLAGS['PERFORMANCE_DASHBOARD_ON'] = True
     url = reverse('performance-dashboard')
     page = {
         'title': 'Performance dashboard',
@@ -515,10 +506,7 @@ def test_performance_dashboard_cms(mock_get_page, settings, client):
 
 
 def test_performance_dashboard_feature_flag_off(client, settings):
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'PERFORMANCE_DASHBOARD_ON': False
-    }
+    settings.FEATURE_FLAGS['PERFORMANCE_DASHBOARD_ON'] = False
 
     response = client.get('performance-dashboard')
 
@@ -545,3 +533,12 @@ def test_privacy_cookies_subpage(mock_get_page, client, settings):
 
     assert page['title'] in str(response.content)
     assert page['body'] in str(response.content)
+
+
+def test_international_contact_page_context(client, settings):
+    url = reverse('contact-page-international')
+    response = client.get(url)
+
+    assert response.context_data['invest_contact_us_url'] == (
+        'https://invest.great.gov.uk/contact/'
+    )

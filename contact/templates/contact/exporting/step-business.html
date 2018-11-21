@@ -1,0 +1,37 @@
+{% extends 'contact/wizard-step-base.html' %}
+
+{% load static from static %}
+
+{% block head_css %}
+    <link href="{% static 'export_elements/stylesheets/govuk-elements-styles.min.css' %}" media="all" rel="stylesheet" />
+    <link href="{% static 'export_elements/stylesheets/elements-components.min.css' %}" media="all" rel="stylesheet" />
+    <link href="{% static 'styles/contact-exporting-advice-business-details.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block step_title %}Your business details{% endblock %}
+{% block extra_contents %}
+    <div id="form-step-body-text">
+        Your answers to the questions below help us to decide the best way to support your business
+    </div>
+{% endblock %}
+
+{% block body_js %}
+    <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
+    <script type="text/javascript">
+        var companyTypeContainer = document.getElementById('id_business-company_type_0-container');
+        var companyTypeLimited = document.getElementById('id_business-company_type_0');
+        var companyTypeOther = document.getElementById('id_business-company_type_1');
+        var otherInputs = document.getElementById('id_business-company_type_other-container');
+        var companiesHouseInput = document.getElementById('id_business-companies_house_number-container');
+        var industrySelect = document.getElementById('id_business-industry');
+        var industryOther = document.getElementById('id_business-industry_other');
+
+        GOVUK.utils.toggleRadioOtherOnClick(companyTypeOther, otherInputs);
+        GOVUK.utils.toggleRadioOtherOnClick(companyTypeLimited, companiesHouseInput);
+        GOVUK.utils.toggleFieldsetClassOnClick(
+            [companyTypeContainer, companiesHouseInput],
+            companyTypeOther
+        );
+        GOVUK.utils.toggleOtherOnSelect(industryOther, industrySelect);
+    </script>
+{% endblock %}

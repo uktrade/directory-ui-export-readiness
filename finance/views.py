@@ -1,6 +1,6 @@
-from directory_cms_client.constants import EXPORT_READINESS_GET_FINANCE_SLUG
+from directory_constants.constants import cms
+from directory_forms_api_client.actions import PardotAction
 from formtools.wizard.views import NamedUrlSessionWizardView
-import requests
 
 from django.conf import settings
 from django.http import Http404
@@ -19,50 +19,13 @@ class FeatureFlagMixin:
         return super().dispatch(*args, **kwargs)
 
 
-class DeprecatedGetFinance(mixins.GetCMSPageMixin, TemplateView):
-    template_name = 'finance/get_finance_deprecated.html'
-    slug = EXPORT_READINESS_GET_FINANCE_SLUG + '-deprecated'
-
-
-class GetFinance(mixins.GetCMSPageMixin, TemplateView):
+class GetFinanceView(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'finance/get_finance.html'
-    slug = EXPORT_READINESS_GET_FINANCE_SLUG
-
-
-class GetFinanceNegotiator(TemplateView):
-    def __new__(cls, *args, **kwargs):
-        if settings.FEATURE_FLAGS['UKEF_LEAD_GENERATION_ON']:
-            return GetFinance(*args, **kwargs)
-        else:
-            return DeprecatedGetFinance(*args, **kwargs)
-
-
-class PreventCaptchaRevalidationMixin:
-    """When get_all_cleaned_data() is called the forms are revalidated,
-    which causes captcha to fail becuase the same captcha response from google
-    is posted to google multiple times. This captcha response is a nonce, and
-    so google complains the second time it's seen.
-
-    This is worked around by removing captcha from the form before the view
-    calls get_all_cleaned_data
-
-    """
-
-    should_ignore_captcha = False
-
-    def render_done(self, *args, **kwargs):
-        self.should_ignore_captcha = True
-        return super().render_done(*args, **kwargs)
-
-    def get_form(self, step=None, *args, **kwargs):
-        form = super().get_form(step=step, *args, **kwargs)
-        if step == self.steps.last and self.should_ignore_captcha:
-            del form.fields['captcha']
-        return form
+    slug = cms.EXPORT_READINESS_GET_FINANCE_SLUG
 
 
 class GetFinanceLeadGenerationFormView(
-    FeatureFlagMixin, PreventCaptchaRevalidationMixin,
+    FeatureFlagMixin, mixins.PreventCaptchaRevalidationMixin,
     NamedUrlSessionWizardView
 ):
     success_url = reverse_lazy(
@@ -91,11 +54,8 @@ class GetFinanceLeadGenerationFormView(
         return [self.templates[self.steps.current]]
 
     def done(self, form_list, **kwargs):
-        response = requests.post(
-            settings.UKEF_FORM_SUBMIT_TRACKER_URL,
-            self.serialize_form_list(form_list),
-            allow_redirects=False,
-        )
+        action = PardotAction(pardot_url=settings.UKEF_FORM_SUBMIT_TRACKER_URL)
+        response = action.save(self.serialize_form_list(form_list))
         response.raise_for_status()
         return redirect(self.success_url)
 

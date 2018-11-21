@@ -43,7 +43,7 @@ Online resources for market attractiveness include:
 
 ### Compare markets to pick the right one
 
-Gather the same information for each country into a [market weighting table](http://www.export.org.uk/page/Market_Selection "market weighting table"). This should make it easy to get a comparative score for size and attractiveness making it clear where the potential demand is and which markets will be easier to enter.
+Gather the same information for each country into a [market weighting table](https://www.export.org.uk/page/Market_Selection "market weighting table"). This should make it easy to get a comparative score for size and attractiveness making it clear where the potential demand is and which markets will be easier to enter.
 
 ### Get bespoke market information
 
