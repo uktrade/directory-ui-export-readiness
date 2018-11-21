@@ -533,12 +533,12 @@ def test_prototype_landing_page_header_footer_default_links(
 
     soup = BeautifulSoup(response.content, 'html.parser')
 
-    assert soup.find(id="header-markets-link")
-    assert soup.find(id="header-industries-link")
-    assert soup.find(id="header-services-link")
-    assert soup.find(id="header-about-link")
+    assert soup.find(id="great-header-markets-link")
+    assert soup.find(id="great-header-industries-link")
+    assert soup.find(id="great-header-services-link")
+    assert soup.find(id="great-header-about-link")
 
-    home_link = soup.find(id="header-dit-logo")
+    home_link = soup.find(id="great-header-dit-logo")
     assert home_link['href'] == '/prototype'
 
 
@@ -568,7 +568,7 @@ def test_prototype_landing_page_header_footer_home_link_none(
 
     soup = BeautifulSoup(response.content, 'html.parser')
 
-    home_link = soup.find(id="header-dit-logo")
+    home_link = soup.find(id="great-header-dit-logo")
     assert home_link['href'] == '#'
 
 
@@ -598,7 +598,7 @@ def test_prototype_landing_page_header_footer(
 
     soup = BeautifulSoup(response.content, 'html.parser')
 
-    home_link = soup.find(id="header-dit-logo")
+    home_link = soup.find(id="great-header-dit-logo")
     assert home_link['href'] == '/foo'
 
 
