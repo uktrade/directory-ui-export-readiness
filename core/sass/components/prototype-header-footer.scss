@@ -4,37 +4,48 @@
 
 @import '../partials/typography';
 @import '../partials/colours';
+@import '../partials/mixins';
 
-#header,
-#header-bar {
-  font-family: $brand-font-alternative;
+@mixin chevron($rotate, $colour) {
+  box-sizing: initial;
+  -ms-transform: rotate($rotate);
+  /* IE 9 */
+  -webkit-transform: rotate($rotate);
+  transform: rotate($rotate);
+  content: '';
+  border-style: solid;
+  display: inline-block;
+  height: 5px;
+  width: 5px;
+  position: relative;
+  vertical-align: top;
+  top: 1px;
+  border-color: $colour;
+  border-width: 0 2px 2px 0;
+  margin: 2px 0 0 10px;
 }
 
-#menu {
-  margin-top: -2.7em;
-  font-size: 17px;
-
-  a {
-    padding: 0;
-    margin-left: 20px;
-  }
-
-  ul li:first-child {
-    a {
-      margin-left: 0;
-    }
-  }
+@mixin focus {
+  outline: $focus-yellow solid 3px;
+  outline-offset: 0;
 }
 
-#header-dit-logo {
-  display: block;
+@mixin rotate($deg) {
+  -ms-transform: rotate(#{$deg + 'deg'}); /* IE 9 */
+  -webkit-transform: rotate(#{$deg + 'deg'});
+  transform: rotate(#{$deg + 'deg'});
 }
 
-#header {
+.great-header {
   height: 115px;
+  font-weight: 700;
 
   a {
     text-decoration: none;
+
+    &:focus {
+      @include focus;
+    }
 
     &:hover {
       text-decoration: underline;
@@ -45,149 +56,166 @@
     }
   }
 
-  .account-links {
-    padding: 15px 0;
-
-    a {
-      color: $stone;
-      background-position: left;
-      background-repeat: no-repeat;
-      background-size: 21px;
-      display: inline-block;
-
-      &:active {
-        color: $great-blue;
-      }
-    }
-
-    li:first-child:after {
-      content: '';
-    }
-  }
-
-  a.navigation:hover:before {
-    display: none;
-  }
-
   .LanguageSelectorDialog-Tracker {
-    background-image: url("/static/icons/international-icon.svg");
-    font: inherit;
-
-    &:hover {
-      color: $stone;
-    }
-  }
-
-}
-
-#header-sign-in-link {
-  background-image: url("/static/icons/signin-icon.svg");
-  padding-left: 25px;
-  margin-left: 15px;
-}
-
-@media screen and (max-width: 767px){
-  #header {
-    height: auto;
-  }
-
-  #menu-activator {
-    height: 45px;
-    top: -10px;
-  }
-
-  #menu {
-    a {
-      cursor: pointer;
-
-      &:active:focus {
-        background-color: $focus-yellow;
-        border-color: $focus-yellow;
-      }
-    }
-
-    ul li a,
-    ul li:first-child a {
-      margin-left: 0;
-      padding-left: 15px;
-    }
+    background-image: url('/static/icons/international-icon.svg');
+    padding-left: 25px;
   }
 }
 
-#footer {
-  a:active {
-    color: $great-blue;
-  }
+.great-header-menu {
+  font-size: 17px;
+}
 
-  .heading {
+.great-header-menu,
+.great-header-bar {
+  & > .container {
+    position: relative;
+  }
+}
+
+.great-header-account-links {
+  padding: 15px 0;
+
+  a {
     color: $stone;
-    font-family: $brand-font-alternative;
-    font-size: 17px;
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: 21px;
+    display: inline-block;
   }
 
-  .footer-links-list {
-    li:last-child {
-      margin-top: 30px;
-    }
-  }
-
-  .logo-container {
-    padding: 30px 0;
-    border-bottom: 1px solid #3b3458;
-
-    img {
-      margin: 0;
-    }
-  }
-
-  nav.container {
-    padding-top: 30px;
+  .great-header-sign-in-link {
+    background-image: url("/static/icons/signin-icon.svg");
+    padding-left: 25px;
+    margin-left: 15px;
   }
 }
 
-#footer-copyright-text {
-  white-space: nowrap;
-  margin: 1em 0;
+.great-header-bar {
+  .great-header-account-links {
+    float: right;
+    font-size: 15px;
+
+    li {
+      display: inline-block;
+    }
+  }
+}
+
+.great-header-container {
+  max-width: 1200px;
+  position: relative;
+}
+
+.great-header-dit-logo {
+  position: absolute;
+  top: 20px;
+
+  img {
+    max-width: 158px;
+    width: 100%;
+  }
+}
+
+.great-header-nav {
+  position: absolute;
+  top: 70px;
+  right: 0;
+
+  a {
+    color: $white;
+  }
+
+  ul li.link-heading {
+    display: inline-block;
+    margin-left: 20px;
+  }
 }
 
 @media (max-width: 767px) {
-  #footer {
-    .column-fifth {
-      width: 50%;
+  .great-header-container {
+    margin: 0 15px;
+  }
+}
+
+.great-footer,
+.great-header {
+  font-family: $brand-font-alternative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.47;
+}
+
+.great-footer a {
+  color: $light-grey;
+}
+
+.great-footer-logo-container,
+.great-footer-links-container {
+  border-bottom: 1px solid #3b3458; // no sass variable since this colour is only used once here in the footer
+}
+
+.great-footer-links-container {
+  .heading {
+    font-size: 17px;
+  }
+}
+
+.great-footer-links-list {
+  li {
+    line-height: 30px;
+
+    &:last-child {
+      margin-top: 30px;
     }
   }
 }
 
-@media (max-width: 540px) {
-  #footer-dit-logo,
-  #footer-eig-logo {
-    height: 70px;
-    width: auto;
+.services-links {
+  li:last-child {
+    margin-top: 0;
   }
 }
 
-@media (max-width: 480px) {
-  #footer-dit-logo,
-  #footer-eig-logo {
-    height: 70px;
-    width: auto;
+.great-footer-site-links {
+  ul li {
+    display: inline-block;
+    margin-right: 30px;
   }
 }
 
-@media (max-width: 420px) {
-  #footer {
-    .column-fifth {
-      width: 100%;
+.great-footer-site-links,
+.great-footer-copyright {
+  font-size: 12px;
+}
+
+.great-footer-copyright {
+  padding: 10px 0;
+}
+
+.great-footer-links-list-column {
+  width: 25%;
+  float: left;
+}
+
+@media (max-width: 640px) {
+  .great-footer-links-list-column {
+    width: 50%;
+  }
+
+  .great-footer-site-links {
+    text-align: center;
+
+    ul li {
+      margin-right: 15px;
     }
   }
 
-  #footer-dit-logo {
-    margin-right: 15px
-  }
+  .great-footer-links-container {
+    margin-top: 30px;
 
-  #footer-dit-logo,
-  #footer-eig-logo {
-    height: auto;
-    width: calc(50% - 15px);
+    ul {
+      margin-bottom: 30px;
+    }
   }
 }

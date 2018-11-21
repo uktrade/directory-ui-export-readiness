@@ -1,12 +1,14 @@
 {% load static %}
-<header id="header">
-  <div id="header-bar">
+<header id="great-header" class="great-header background-great-blue">
+  <div id="great-header-bar" class="great-header-bar">
     <div class="container">
       {% block login_state %}
-      <ul aria-label="Account links" class="account-links">
+      <ul aria-label="Account links" class="great-header-account-links" id="great-header-account-links">
+        {% block international_link_js_disabled %}{% endblock %}
+
         {% if not sso_is_logged_in %}
         <li class="anonymous">
-          <a id="header-sign-in-link" href="{{ sso_login_url }}" class="signin">Sign in</a>
+          <a id="header-sign-in-link" class="great-header-sign-in-link" href="{{ sso_login_url }}" class="signin">Sign in</a>
         </li>
         {% else %}
         <li class="authenticated">
@@ -17,42 +19,36 @@
         </li>
         {% endif %}
 
-        {% block international_link_js_disabled %}
-        {% endblock %}
-
       </ul>
       {% endblock %}
-      <span id="header-greeting"></span>
 
-      <a id="header-dit-logo" href="{{ prototype_home_link }}">
-        <img src="{% static 'directory_components/images/dfit-logo-white.png' %}" alt="Home">
+      <a id="great-header-dit-logo" class="great-header-dit-logo" href="{{ header_footer_urls.home }}">
+        <img src="{% static 'directory_components/images/dfit-logo-white.png' %}" width="158" alt="Home">
       </a>
     </div>
   </div>
 
-  <div class="js-disabled-only">
-  {% block no_js_header_beta_banner %}
-  {% endblock %}
-  </div>
-
-  <div id="header-menu">
+  <div id="great-header-menu" class="great-header-menu">
     <div class="container">
-      <nav id="menu">
+      <nav id="great-header-nav" class="great-header-nav">
         <ul>
-          <li>
-            <a class="navigation" href="{{ prototype_advice_link }}" id="header-advice-link">Advice</a>
+          <li class="link-heading">
+            <a class="navigation" href="{{ header_footer_urls.custom }}" id="header-advice-link">Export journey</a>
           </li>
-          <li>
-            <a class="navigation" href="#" id="header-markets-link">Markets</a>
+          <li class="link-heading">
+            <a class="navigation" href="{% url 'topic-list' 'advice-and-guidance' %}" id="header-advice-link">Advice</a>
           </li>
-          <li>
+          <li class="link-heading">
+            <a class="navigation" href="{% url 'topic-list' 'markets' %}" id="header-markets-link">Markets</a>
+          </li>
+          <li class="link-heading">
             <a class="navigation" href="#" id="header-industries-link">Industries</a>
           </li>
-          <li>
+          <li class="link-heading">
             <a class="navigation" href="#" id="header-services-link">Services</a>
           </li>
-          <li>
-            <a class="navigation" href="#" id="header-about-link">About</a>
+          <li class="link-heading">
+            <a class="navigation" href="{{ header_footer_urls.about }}" id="header-about-link">About</a>
           </li>
         </ul>
       </nav>

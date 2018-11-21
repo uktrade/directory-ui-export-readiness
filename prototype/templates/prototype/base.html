@@ -12,7 +12,10 @@
 
 {% block head_js %}
   <script src="{% static 'directory_components/js/third-party.js' %}"></script>
-  <script src="{% static 'directory_components/js/script.js' %}"></script>
+
+  {% if not features.PROTOTYPE_HEADER_FOOTER_ON %}
+    <script src="{% static 'directory_components/js/script.js' %}"></script>
+  {% endif %}
 
   {% block cookie_js %}{% endblock %}
 
