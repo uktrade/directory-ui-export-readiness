@@ -6,36 +6,6 @@
 @import '../partials/colours';
 @import '../partials/mixins';
 
-@mixin chevron($rotate, $colour) {
-  box-sizing: initial;
-  -ms-transform: rotate($rotate);
-  /* IE 9 */
-  -webkit-transform: rotate($rotate);
-  transform: rotate($rotate);
-  content: '';
-  border-style: solid;
-  display: inline-block;
-  height: 5px;
-  width: 5px;
-  position: relative;
-  vertical-align: top;
-  top: 1px;
-  border-color: $colour;
-  border-width: 0 2px 2px 0;
-  margin: 2px 0 0 10px;
-}
-
-@mixin focus {
-  outline: $focus-yellow solid 3px;
-  outline-offset: 0;
-}
-
-@mixin rotate($deg) {
-  -ms-transform: rotate(#{$deg + 'deg'}); /* IE 9 */
-  -webkit-transform: rotate(#{$deg + 'deg'});
-  transform: rotate(#{$deg + 'deg'});
-}
-
 .great-header {
   height: 115px;
   font-weight: 700;
