@@ -104,17 +104,21 @@ def test_international_form_routing():
 
 
 def test_domestic_contact_form_serialize_data(captcha_stub):
-    form = forms.DomesticContactForm(data={
-        'given_name': 'Test',
-        'family_name': 'Example',
-        'email': 'test@example.com',
-        'company_type': 'LIMITED',
-        'organisation_name': 'Example corp',
-        'postcode': '**** ***',
-        'comment': 'Help please',
-        'g-recaptcha-response': captcha_stub,
-        'terms_agreed': True,
-    })
+    form = forms.DomesticContactForm(
+        ingress_url='https://ingress.com',
+        form_url='http://forms.com',
+        data={
+            'given_name': 'Test',
+            'family_name': 'Example',
+            'email': 'test@example.com',
+            'company_type': 'LIMITED',
+            'organisation_name': 'Example corp',
+            'postcode': '**** ***',
+            'comment': 'Help please',
+            'g-recaptcha-response': captcha_stub,
+            'terms_agreed': True,
+        }
+    )
 
     assert form.is_valid()
     assert form.serialized_data == {
@@ -126,33 +130,33 @@ def test_domestic_contact_form_serialize_data(captcha_stub):
         'organisation_name': 'Example corp',
         'postcode': '**** ***',
         'comment': 'Help please',
+        'ingress_url': 'https://ingress.com',
+        'form_url': 'http://forms.com',
     }
     assert form.full_name == 'Test Example'
 
 
 def test_feedback_form_serialize_data(captcha_stub):
-    form = forms.FeedbackForm(data={
-        'name': 'Test Example',
-        'email': 'test@example.com',
-        'comment': 'Help please',
-        'g-recaptcha-response': captcha_stub,
-        'terms_agreed': True,
-    })
+    form = forms.FeedbackForm(
+        ingress_url='https://ingress.com',
+        form_url='http://forms.com',
+        data={
+            'name': 'Test Example',
+            'email': 'test@example.com',
+            'comment': 'Help please',
+            'g-recaptcha-response': captcha_stub,
+            'terms_agreed': True,
+        }
+    )
 
     assert form.is_valid()
     assert form.serialized_data == {
         'name': 'Test Example',
         'email': 'test@example.com',
         'comment': 'Help please',
+        'ingress_url': 'https://ingress.com',
+        'form_url': 'http://forms.com',
     }
-
-
-def test_extra_css_classes_field():
-    expected = ' form-group your-details-container'
-
-    form = forms.DomesticContactForm()
-
-    assert form['given_name'].css_classes() == expected
 
 
 @pytest.mark.parametrize('form_class,value', (
