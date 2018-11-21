@@ -22,7 +22,7 @@
 dit.components.languageSelector = (new function() {
 
   var SelectTracker = dit.classes.SelectTracker;
-  var LANG_SELECT_CLOSE_BUTTON_ID = "header-language-selector-close";
+  var LANG_SELECT_CLOSE_BUTTON_ID = "great-header-language-selector-close";
 
   /* Contructor
    * Displays control and dialog enhancement for language-selector-dialog element.

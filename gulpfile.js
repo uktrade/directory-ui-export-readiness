@@ -20,7 +20,6 @@ const HTML_JS_FILES = [
   `${PROJECT_DIR}/triage/static/js/**/*.js`,
   `${PROJECT_DIR}/article/static/js/**/*.js`,
 ];
-const purgecss = require('gulp-purgecss');
 
 // Run test once and exit
 gulp.task('test', function (done) {
