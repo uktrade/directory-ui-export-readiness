@@ -278,6 +278,110 @@ redirects = [
         'https://www.events.trade.gov.uk/invest-in-great---korea'
         '?utm_source=print&utm_campaign=korean_winter_olympics_invest'
     )),
+    (
+        '/help/contact/',
+        reverse('contact-us-routing-form', kwargs={'step': 'location'})
+    ),
+    (
+        '/help/directory/',
+        reverse('contact-us-routing-form', kwargs={'step': 'location'})
+    ),
+    ('/help/directory/FeedbackForm/', reverse('contact-us-feedback')),
+    (
+        '/help/eig/',
+        reverse('contact-us-routing-form', kwargs={'step': 'location'})
+    ),
+    (
+        '/help/export-opportunities/FeedbackForm/',
+        reverse('contact-us-feedback')
+    ),
+    (
+        '/help/export_opportunities/',
+        reverse('contact-us-routing-form', kwargs={'step': 'domestic'})
+    ),
+    (
+        '/help/export_opportunities/FeedbackForm/',
+        reverse('contact-us-feedback')
+    ),
+    (
+        '/help/export_ops/',
+        reverse('contact-us-routing-form', kwargs={'step': 'domestic'})
+    ),
+    (
+        '/help/export_readiness/FeedbackForm/',
+        reverse('contact-us-feedback')
+    ),
+    ('/help/feedback/', reverse('contact-us-feedback')),
+    ('/help/feedback/datahub/', reverse('contact-us-feedback')),
+    ('/help/feedback/directory/', reverse('contact-us-feedback')),
+    ('/help/feedback/e_navigator/', reverse('contact-us-feedback')),
+    ('/help/feedback/eig/', reverse('contact-us-feedback')),
+    ('/help/feedback/export_ops/', reverse('contact-us-feedback')),
+    ('/help/feedback/exportingisgreat/', reverse('contact-us-feedback')),
+    ('/help/feedback/exportopportunities/', reverse('contact-us-feedback')),
+    ('/help/feedback/invest/', reverse('contact-us-feedback')),
+    ('/help/feedback/opportunities/', reverse('contact-us-feedback')),
+    (
+        '/help/feedback/selling-online-overseas/',
+        reverse('contact-us-feedback')
+    ),
+    (
+        '/help/feedback/selling_online_overseas/',
+        reverse('contact-us-feedback')
+    ),
+    ('/help/feedback/single_sign_on/', reverse('contact-us-feedback')),
+    ('/help/feedback/soo/', reverse('contact-us-feedback')),
+    ('/help/feedback/sso/', reverse('contact-us-feedback')),
+    ('/help/invest/FeedbackForm/', reverse('contact-us-feedback')),
+    ('/help/opportunities/FeedbackForm/', reverse('contact-us-feedback')),
+    (
+        '/help/selling_online_overseas/',
+        reverse('contact-us-routing-form', kwargs={'step': 'domestic'})
+    ),
+    (
+        '/help/selling_online_overseas/FeedbackForm/',
+        reverse('contact-us-feedback')
+    ),
+    (
+        '/help/single_sign_on/',
+        reverse('contact-us-routing-form', kwargs={'step': 'great-account'})
+    ),
+    (
+        '/help/single_sign_on/FeedbackForm/',
+        reverse('contact-us-feedback')
+    ),
+    (
+        '/help/soo/feedback/',
+        reverse('contact-us-feedback')
+    ),
+    (
+        '/help/soo/FeedbackForm/',
+        reverse('contact-us-feedback')
+    ),
+    (
+        '/help/soo/Triage/',
+        reverse('contact-us-routing-form', kwargs={'step': 'location'}),
+    ),
+    (
+        '/help/soo/TriageForm/',
+        reverse('contact-us-routing-form', kwargs={'step': 'location'}),
+    ),
+    (
+        '/help/triage/',
+        reverse('contact-us-routing-form', kwargs={'step': 'location'}),
+    ),
+    (
+        '/help/triage/directory/',
+        reverse('contact-us-routing-form', kwargs={'step': 'location'}),
+    ),
+    (
+        '/help/triage/soo/',
+        reverse('contact-us-routing-form', kwargs={'step': 'location'}),
+    ),
+    (
+        '/help/triage/sso/',
+        reverse('contact-us-routing-form', kwargs={'step': 'location'}),
+    ),
 ]
 
 
