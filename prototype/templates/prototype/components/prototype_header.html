@@ -22,7 +22,7 @@
       </ul>
       {% endblock %}
 
-      <a id="great-header-dit-logo" class="great-header-dit-logo" href="{{ header_footer_urls.home }}">
+      <a id="header-dit-logo" class="great-header-dit-logo" href="{{ prototype_home_link }}">
         <img src="{% static 'directory_components/images/dfit-logo-white.png' %}" width="158" alt="Home">
       </a>
     </div>
@@ -33,7 +33,7 @@
       <nav id="great-header-nav" class="great-header-nav">
         <ul>
           <li class="link-heading">
-            <a class="navigation" href="{{ header_footer_urls.custom }}" id="header-advice-link">Export journey</a>
+            <a class="navigation" href="{{ header_footer_urls.custom }}" id="header-custom-page-link">Export journey</a>
           </li>
           <li class="link-heading">
             <a class="navigation" href="{% url 'topic-list' 'advice-and-guidance' %}" id="header-advice-link">Advice</a>
