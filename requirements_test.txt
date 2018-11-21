@@ -19,7 +19,7 @@ dateparser==0.7.0
 directory-api-client==11.1.0
 directory-ch-client==1.0.0
 directory-client-core==4.3.0  # via directory-api-client, directory-ch-client, directory-cms-client, directory-forms-api-client, directory-sso-api-client
-directory-cms-client==8.1.0
+directory-cms-client==8.2.0
 directory-components==2.32.0
 directory-constants==9.3.0
 directory-forms-api-client==2.6.0
@@ -74,5 +74,5 @@ six==1.11.0               # via django-extensions, freezegun, mohawk, more-itert
 termcolor==1.1.0          # via pytest-sugar
 tzlocal==1.5.1            # via dateparser
 urllib3==1.23             # via requests
-w3lib==1.19.0             # via directory-client-core, directory-cms-client
+w3lib==1.19.0             # via directory-client-core
 whitenoise==3.1

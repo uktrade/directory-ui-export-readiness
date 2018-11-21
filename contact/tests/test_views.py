@@ -3,11 +3,12 @@ from unittest import mock
 from directory_constants.constants import cms
 import pytest
 
-from django import forms
+import django.forms
 from django.conf import settings
 from django.urls import reverse
+from django.views.generic import TemplateView
 
-from contact import constants, views
+from contact import constants, forms, views
 from core.tests.helpers import create_response
 
 
@@ -15,8 +16,8 @@ def build_wizard_url(step):
     return reverse('triage-wizard', kwargs={'step': step})
 
 
-class ChoiceForm(forms.Form):
-    choice = forms.CharField()
+class ChoiceForm(django.forms.Form):
+    choice = django.forms.CharField()
 
 
 @pytest.fixture
@@ -251,8 +252,8 @@ def test_notify_form_submit_success(
     success_url
 ):
 
-    class Form(forms.Form):
-        email = forms.EmailField()
+    class Form(forms.SerializeDataMixin, django.forms.Form):
+        email = django.forms.EmailField()
         save = mock.Mock()
 
     with mock.patch.object(view_class, 'form_class', Form):
@@ -405,7 +406,10 @@ def test_exporting_from_uk_contact_form_submission(
         'industry': 'AEROSPACE',
         'industry_other': '',
         'turnover': '0-25k',
-        'employees': '1-10'
+        'employees': '1-10',
+        'form_url': 'http://testserver/contact/export-advice/finished/',
+        'ingress_url': None,
+
     })
 
     assert mock_email_action.call_count == 1
@@ -446,9 +450,9 @@ def test_guidance_view_cms_retrieval(mock_lookup_by_slug, client):
 
 
 def test_feedback_submit_success(client, settings):
-    class Form(forms.Form):
-        email = forms.EmailField()
-        name = forms.CharField()
+    class Form(forms.SerializeDataMixin, django.forms.Form):
+        email = django.forms.EmailField()
+        name = django.forms.CharField()
         save = mock.Mock()
 
     url = reverse('contact-us-feedback')
@@ -466,3 +470,52 @@ def test_feedback_submit_success(client, settings):
         subject=settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
 
     )
+
+
+class IngressULRView(views.FormIngressURLMixin, TemplateView):
+
+    template_name = 'core/about.html'
+
+    def get_context_data(self, *args, **kwargs):
+        return {
+            'ingress_url': self.ingress_url,
+            'form_url': self.form_url,
+        }
+
+
+def test_form_ingress_url_mixin_set_if_http_referer(rf, client):
+    request = rf.get('/foo/bar/', HTTP_REFERER='http://referer.com')
+    request.session = client.session
+    response = IngressULRView.as_view()(request)
+
+    assert response.context_data == {
+        'ingress_url': 'http://referer.com',
+        'form_url': 'http://testserver/foo/bar/',
+    }
+
+
+def test_form_ingress_url_mixin_not_overrite(rf, client):
+    session = client.session
+    request_one = rf.get('/foo/bar/a/', HTTP_REFERER='http://referer-a.com')
+    request_one.session = session
+    IngressULRView.as_view()(request_one)
+
+    request_two = rf.get('/foo/bar/b/', HTTP_REFERER='http://referer-b.com')
+    request_two.session = session
+    response = IngressULRView.as_view()(request_two)
+
+    assert response.context_data == {
+        'ingress_url': 'http://referer-a.com',
+        'form_url': 'http://testserver/foo/bar/b/',
+    }
+
+
+def test_form_ingress_url_referer_header_missing(rf, client):
+    request = rf.get('/foo/bar/')
+    request.session = client.session
+    response = IngressULRView.as_view()(request)
+
+    assert response.context_data == {
+        'ingress_url': None,
+        'form_url': 'http://testserver/foo/bar/',
+    }
