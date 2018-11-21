@@ -479,8 +479,8 @@ def test_prototype_article_list_page(mock_get_page, client, settings):
 
 
 test_tag_page = {
-    'meta': {'total_count': 2},
-    'items': test_articles,
+    'name': 'New to exporting',
+    'articles': test_articles,
 }
 
 
@@ -504,8 +504,8 @@ def test_prototype_tag_list_page(mock_get_page, client, settings):
     assert '02 October' in str(response.content)
     assert 'Article 1 title' in str(response.content)
     assert 'Article 2 title' in str(response.content)
-    assert 'Articles with tag: new-to-exporting' in str(response.content)
-    assert '2 articles' in str(response.content)
+    assert '2 articles with tag:' in str(response.content)
+    assert 'New to exporting' in str(response.content)
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -533,12 +533,12 @@ def test_prototype_landing_page_header_footer_default_links(
 
     soup = BeautifulSoup(response.content, 'html.parser')
 
-    assert soup.find(id="header-markets-link")
-    assert soup.find(id="header-industries-link")
-    assert soup.find(id="header-services-link")
-    assert soup.find(id="header-about-link")
+    assert soup.find(id="great-header-markets-link")
+    assert soup.find(id="great-header-industries-link")
+    assert soup.find(id="great-header-services-link")
+    assert soup.find(id="great-header-about-link")
 
-    home_link = soup.find(id="header-dit-logo")
+    home_link = soup.find(id="great-header-dit-logo")
     assert home_link['href'] == '/prototype'
 
 
@@ -568,7 +568,7 @@ def test_prototype_landing_page_header_footer_home_link_none(
 
     soup = BeautifulSoup(response.content, 'html.parser')
 
-    home_link = soup.find(id="header-dit-logo")
+    home_link = soup.find(id="great-header-dit-logo")
     assert home_link['href'] == '#'
 
 
@@ -598,7 +598,7 @@ def test_prototype_landing_page_header_footer(
 
     soup = BeautifulSoup(response.content, 'html.parser')
 
-    home_link = soup.find(id="header-dit-logo")
+    home_link = soup.find(id="great-header-dit-logo")
     assert home_link['href'] == '/foo'
 
 
