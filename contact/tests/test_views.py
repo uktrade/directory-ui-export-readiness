@@ -3,19 +3,21 @@ from unittest import mock
 from directory_constants.constants import cms
 import pytest
 
-from django import forms
+import django.forms
 from django.conf import settings
 from django.urls import reverse
+from django.views.generic import TemplateView
 
-from contact import constants, views
+from contact import constants, forms, views
+from core.tests.helpers import create_response
 
 
 def build_wizard_url(step):
     return reverse('triage-wizard', kwargs={'step': step})
 
 
-class ChoiceForm(forms.Form):
-    choice = forms.CharField()
+class ChoiceForm(django.forms.Form):
+    choice = django.forms.CharField()
 
 
 @pytest.fixture
@@ -80,7 +82,7 @@ def domestic_form_data(captcha_stub):
     (
         constants.DOMESTIC,
         constants.DSO,
-        reverse('contact-us-domestic')
+        reverse('contact-us-dso-form')
     ),
     (
         constants.DOMESTIC,
@@ -200,70 +202,124 @@ def test_render_next_step(current_step, choice, expected_url):
     assert view.render_next_step(form).url == expected_url
 
 
-@mock.patch.object(views.FeedbackFormView.form_class, 'save')
-def test_feedback_form_submit_success(mock_save, client, captcha_stub):
-    url = reverse('contact-us-feedback')
-    data = {
-        'name': 'Test Example',
-        'email': 'test@example.com',
-        'comment': 'Help please',
-        'g-recaptcha-response': captcha_stub,
-        'terms_agreed': True,
-    }
-    response = client.post(url, data)
-
-    assert response.status_code == 302
-    assert response.url == reverse('contact-us-domestic-success')
-
-    assert mock_save.call_count == 1
-    assert mock_save.call_args == mock.call(
-        email_address=data['email'],
-        full_name=data['name'],
-        subject=settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
+@pytest.mark.parametrize(
+    'url,success_url,view_class,agent_template,user_template,agent_email',
+    (
+        (
+            reverse('contact-us-events-form'),
+            reverse('contact-us-events-success'),
+            views.EventsFormView,
+            settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
+        ),
+        (
+            reverse('contact-us-dso-form'),
+            reverse('contact-us-dso-success'),
+            views.DefenceAndSecurityOrganisationFormView,
+            settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
+        ),
+        (
+            reverse('contact-us-domestic'),
+            reverse('contact-us-domestic-success'),
+            views.DomesticFormView,
+            settings.CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
+        ),
+        (
+            reverse('contact-us-international'),
+            reverse('contact-us-international-success'),
+            views.InternationalFormView,
+            settings.CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS,
+        ),
+        (
+            reverse('contact-us-find-uk-companies'),
+            reverse('contact-us-find-uk-companies-success'),
+            views.BuyingFromUKCompaniesFormView,
+            settings.CONTACT_BUYING_AGENT_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_BUYING_AGENT_EMAIL_ADDRESS,
+        ),
     )
-
-
-@pytest.mark.parametrize('url,agent_template,user_template,agent_email', (
-    (
-        reverse('contact-us-events-form'),
-        settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
-    ),
-    (
-        reverse('contact-us-dso-form'),
-        settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
-    ),
-    (
-        reverse('contact-us-domestic'),
-        settings.CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID,
-        settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
-    ),
-))
-@mock.patch.object(views.EventsFormView.form_class, 'save')
-def test_generic_domestic_form_submit_success(
-    mock_save, client, captcha_stub, settings, domestic_form_data,
-    url, agent_template, user_template, agent_email
+)
+def test_notify_form_submit_success(
+    client, url, agent_template, user_template, view_class, agent_email,
+    success_url
 ):
-    response = client.post(url, domestic_form_data)
+
+    class Form(forms.SerializeDataMixin, django.forms.Form):
+        email = django.forms.EmailField()
+        save = mock.Mock()
+
+    with mock.patch.object(view_class, 'form_class', Form):
+        response = client.post(url, {'email': 'test@example.com'})
 
     assert response.status_code == 302
-    assert response.url == reverse('contact-us-domestic-success')
+    assert response.url == success_url
 
-    assert mock_save.call_count == 2
-    assert mock_save.call_args_list == [
+    assert Form.save.call_count == 2
+    assert Form.save.call_args_list == [
         mock.call(
             template_id=agent_template,
             email_address=agent_email,
         ),
         mock.call(
             template_id=user_template,
-            email_address=domestic_form_data['email'],
+            email_address='test@example.com',
         )
     ]
+
+
+@pytest.mark.parametrize('url,slug', (
+    (
+        reverse('contact-us-events-success'),
+        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_EVENTS_SLUG,
+    ),
+    (
+        reverse('contact-us-dso-success'),
+        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_DSO_SLUG,
+    ),
+    (
+        reverse('contact-us-export-advice-success'),
+        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_EXPORT_ADVICE_SLUG,
+    ),
+    (
+        reverse('contact-us-feedback-success'),
+        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_FEEDBACK_SLUG,
+    ),
+    (
+        reverse('contact-us-find-uk-companies-success'),
+        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_FIND_COMPANIES_SLUG,
+    ),
+    (
+        reverse('contact-us-domestic-success'),
+        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_SLUG,
+    ),
+    (
+        reverse('contact-us-international-success'),
+        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_INTERNATIONAL_SLUG,
+    )
+))
+@mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_success_view_cms(mock_lookup_by_slug, url, slug, client):
+
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200,
+        json_body={}
+    )
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert mock_lookup_by_slug.call_count == 1
+    assert mock_lookup_by_slug.call_args == mock.call(
+        draft_token=None, language_code='en-gb', slug=slug
+    )
 
 
 @mock.patch('captcha.fields.ReCaptchaField.clean')
@@ -279,7 +335,7 @@ def test_exporting_from_uk_contact_form_submission(
     }
 
     url_name = 'contact-us-export-advice'
-    view_name = 'exorting_from_uk_form_view'
+    view_name = 'exporting_advice_form_view'
 
     response = client.post(
         reverse(url_name, kwargs={'step': 'comment'}),
@@ -347,10 +403,105 @@ def test_exporting_from_uk_contact_form_submission(
         'industry': 'AEROSPACE',
         'industry_other': '',
         'turnover': '0-25k',
-        'employees': '1-10'
+        'employees': '1-10',
+        'form_url': 'http://testserver/contact/export-advice/finished/',
+        'ingress_url': None,
+
     })
 
     assert mock_email_action().save.call_count == 1
     assert mock_email_action().save.call_args == mock.call({
         'text_body': mock.ANY, 'html_body': mock.ANY
     })
+
+
+@mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_guidance_view_cms_retrieval(mock_lookup_by_slug, client):
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200,
+        json_body={}
+    )
+
+    url = reverse(
+        'contact-us-export-opportunities-guidance', kwargs={'slug': 'the-slug'}
+    )
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert mock_lookup_by_slug.call_count == 1
+    assert mock_lookup_by_slug.call_args == mock.call(
+        draft_token=None, language_code='en-gb', slug='the-slug'
+    )
+
+
+def test_feedback_submit_success(client, settings):
+    class Form(forms.SerializeDataMixin, django.forms.Form):
+        email = django.forms.EmailField()
+        name = django.forms.CharField()
+        save = mock.Mock()
+
+    url = reverse('contact-us-feedback')
+
+    with mock.patch.object(views.FeedbackFormView, 'form_class', Form):
+        response = client.post(url, {'email': 'foo@bar.com', 'name': 'Foo B'})
+
+    assert response.status_code == 302
+    assert response.url == reverse('contact-us-feedback-success')
+
+    assert Form.save.call_count == 1
+    assert Form.save.call_args == mock.call(
+        email_address='foo@bar.com',
+        full_name='Foo B',
+        subject=settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
+
+    )
+
+
+class IngressULRView(views.FormIngressURLMixin, TemplateView):
+
+    template_name = 'core/about.html'
+
+    def get_context_data(self, *args, **kwargs):
+        return {
+            'ingress_url': self.ingress_url,
+            'form_url': self.form_url,
+        }
+
+
+def test_form_ingress_url_mixin_set_if_http_referer(rf, client):
+    request = rf.get('/foo/bar/', HTTP_REFERER='http://referer.com')
+    request.session = client.session
+    response = IngressULRView.as_view()(request)
+
+    assert response.context_data == {
+        'ingress_url': 'http://referer.com',
+        'form_url': 'http://testserver/foo/bar/',
+    }
+
+
+def test_form_ingress_url_mixin_not_overrite(rf, client):
+    session = client.session
+    request_one = rf.get('/foo/bar/a/', HTTP_REFERER='http://referer-a.com')
+    request_one.session = session
+    IngressULRView.as_view()(request_one)
+
+    request_two = rf.get('/foo/bar/b/', HTTP_REFERER='http://referer-b.com')
+    request_two.session = session
+    response = IngressULRView.as_view()(request_two)
+
+    assert response.context_data == {
+        'ingress_url': 'http://referer-a.com',
+        'form_url': 'http://testserver/foo/bar/b/',
+    }
+
+
+def test_form_ingress_url_referer_header_missing(rf, client):
+    request = rf.get('/foo/bar/')
+    request.session = client.session
+    response = IngressULRView.as_view()(request)
+
+    assert response.context_data == {
+        'ingress_url': None,
+        'form_url': 'http://testserver/foo/bar/',
+    }

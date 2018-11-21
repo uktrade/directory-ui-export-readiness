@@ -35,13 +35,42 @@ def test_international_beta_banner():
     assert 'This is a new service' in html
 
 
-@pytest.mark.parametrize('is_enabled', (True, False))
-def test_international_footer_feature_flaged_link(is_enabled, settings):
+contact_routing_url = reverse(
+    'contact-us-routing-form', kwargs={'step': 'location'}
+)
+
+
+@pytest.mark.parametrize('euexit_is_enabled,contact_is_enabled,expected_url', (
+    (True, False, reverse('contact-page-international')),
+    (False, True, contact_routing_url),
+    (True, True, contact_routing_url),
+))
+def test_international_footer_feature_flaged_link(
+    euexit_is_enabled, contact_is_enabled, expected_url
+):
     template_name = 'core/includes/international_footer.html'
     context = {
-        'features': {'EU_EXIT_FORMS_ON': is_enabled}
+        'features': {
+            'EU_EXIT_FORMS_ON': euexit_is_enabled,
+            'CONTACT_US_ON': contact_is_enabled,
+        }
     }
 
     html = render_to_string(template_name, context)
 
-    assert (reverse('contact-page-international') in html) is is_enabled
+    assert expected_url in html
+
+
+def test_international_footer_feature_flaged_link_off():
+    template_name = 'core/includes/international_footer.html'
+    context = {
+        'features': {
+            'EU_EXIT_FORMS_ON': False,
+            'CONTACT_US_ON': False,
+        }
+    }
+
+    html = render_to_string(template_name, context)
+
+    assert contact_routing_url not in html
+    assert reverse('contact-page-international') not in html

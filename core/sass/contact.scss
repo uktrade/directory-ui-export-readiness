@@ -34,12 +34,12 @@ button {
 }
 
 #content {
-  input, textarea {
+  input, textarea, select {
     width: 100%;
   }
 }
 
-.your-details-container::before {
+#id_given_name-container::before {
   content: "Your details";
   font-size: 24px;
   font-weight: bold;

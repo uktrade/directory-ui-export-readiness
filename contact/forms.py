@@ -8,7 +8,7 @@ from directory_validators.common import not_contains_url_or_email
 from directory_validators.company import no_html
 
 from django.conf import settings
-from django.forms import Select, Textarea, TextInput
+from django.forms import Textarea, TextInput
 from django.utils.html import mark_safe
 
 from contact import constants
@@ -51,30 +51,22 @@ class EuExitOptionFeatureFlagMixin:
             ]
 
 
-class ExtraCssClassesBoundField(fields.DirectoryComponentsBoundField):
-
-    def css_classes(self):
-        return super().css_classes() + ' ' + self.field.extra_css_classes
-
-
-class ExtraCssClassesCharField(fields.CharField):
-
-    def __init__(self, extra_css_classes, *args, **kwargs):
-        self.extra_css_classes = extra_css_classes
-        super().__init__(*args, **kwargs)
-
-    def get_bound_field(self, form, field_name):
-        return ExtraCssClassesBoundField(form, self, field_name)
-
-
 class NoOpForm(forms.Form):
     pass
 
 
 class SerializeDataMixin:
+
+    def __init__(self, form_url, ingress_url, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.form_url = form_url
+        self.ingress_url = ingress_url
+
     @property
     def serialized_data(self):
         data = self.cleaned_data.copy()
+        data['form_url'] = self.form_url
+        data['ingress_url'] = self.ingress_url or ''
         del data['captcha']
         del data['terms_agreed']
         return data
@@ -187,7 +179,10 @@ class InternationalRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
     )
 
 
-class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
+class FeedbackForm(
+    SerializeDataMixin, ZendeskActionMixin,
+    forms.Form
+):
     name = fields.CharField(
         validators=anti_phising_validators
     )
@@ -216,10 +211,9 @@ class DomesticContactForm(
         widget=Textarea,
         validators=anti_phising_validators
     )
-    given_name = ExtraCssClassesCharField(
+    given_name = fields.CharField(
         label='First name',
         validators=anti_phising_validators,
-        extra_css_classes='your-details-container'
     )
     family_name = fields.CharField(
         label='Last name',
@@ -258,13 +252,10 @@ class DomesticContactForm(
         return f'{cleaned_data["given_name"]} {cleaned_data["family_name"]}'
 
 
-class BuyingFromUKContactForm(forms.Form):
-
-    SOURCE_CHOICES = (
-        ('', 'Please select'),
-        ('OTHER', 'Other'),
-    )
-
+class BuyingFromUKContactForm(
+    SerializeDataMixin, GovNotifyActionMixin,
+    forms.Form
+):
     given_name = fields.CharField(
         validators=anti_phising_validators
     )
@@ -274,7 +265,11 @@ class BuyingFromUKContactForm(forms.Form):
     email = fields.EmailField(label='Email address')
     industry = fields.ChoiceField(
         choices=INDUSTRY_CHOICES,
-        widget=Select(attrs={'id': 'js-country-select'}),
+    )
+    industry_other = fields.CharField(
+        label='Type in your industry',
+        widget=TextInput(attrs={'class': 'js-field-other'}),
+        required=False,
     )
     organisation_name = fields.CharField(
         validators=anti_phising_validators
@@ -283,12 +278,19 @@ class BuyingFromUKContactForm(forms.Form):
         validators=anti_phising_validators
     )
     comment = fields.CharField(
+        help_text='Maximum 1000 characters.',
+        max_length=1000,
         widget=Textarea,
         validators=anti_phising_validators
     )
     source = fields.ChoiceField(
         label='Where did you hear about great.gov.uk?',
-        choices=SOURCE_CHOICES,
+        choices=(('', 'Please select'),) + constants.MARKETING_SOURCES,
+    )
+    source_other = fields.CharField(
+        label='Other source (optional)',
+        required=False,
+        validators=anti_phising_validators,
     )
     captcha = ReCaptchaField(
         label='',
@@ -299,7 +301,9 @@ class BuyingFromUKContactForm(forms.Form):
     )
 
 
-class InternationalContactForm(forms.Form):
+class InternationalContactForm(
+    SerializeDataMixin, GovNotifyActionMixin, forms.Form
+):
 
     ORGANISATION_TYPE_CHOICES = (
         ('COMPANY', 'Company'),
@@ -319,7 +323,8 @@ class InternationalContactForm(forms.Form):
         choices=ORGANISATION_TYPE_CHOICES
     )
     organisation_name = fields.CharField(
-        validators=anti_phising_validators
+        label='Your organisation name',
+        validators=anti_phising_validators,
     )
     country_name = fields.ChoiceField(
         choices=[('', 'Please select')] + choices.COUNTRY_CHOICES,
@@ -329,6 +334,7 @@ class InternationalContactForm(forms.Form):
         validators=anti_phising_validators
     )
     comment = fields.CharField(
+        label='Tell us how we can help',
         widget=Textarea,
         validators=anti_phising_validators
     )
@@ -375,11 +381,13 @@ class BusinessDetailsForm(forms.Form):
         widget=widgets.RadioSelect(),
         choices=COMPANY_TYPE_CHOICES,
     )
-    companies_house_number = fields.CharField(label='Companies House number')
+    companies_house_number = fields.CharField(
+        label='Companies House number',
+        required=False,
+    )
     company_type_other = fields.ChoiceField(
         label_suffix='',
-        widget=widgets.RadioSelect(),
-        choices=COMPANY_TYPE_OTHER_CHOICES,
+        choices=(('', 'Please select'),) + COMPANY_TYPE_OTHER_CHOICES,
         required=False,
     )
     organisation_name = fields.CharField(
@@ -390,7 +398,6 @@ class BusinessDetailsForm(forms.Form):
     )
     industry = fields.ChoiceField(
         choices=INDUSTRY_CHOICES,
-        widget=Select(attrs={'id': 'js-country-select'}),
     )
     industry_other = fields.CharField(
         label='Type in your industry',

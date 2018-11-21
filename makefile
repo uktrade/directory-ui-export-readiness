@@ -146,8 +146,7 @@ DEBUG_SET_ENV_VARS := \
 	export SSO_SESSION_COOKIE=debug_sso_session_cookie; \
 	export SESSION_COOKIE_SECURE=false; \
 	export COMPANIES_HOUSE_API_KEY=debug; \
-	export GOOGLE_TAG_MANAGER_ID=GTM-NLJP5CL; \
-	export GOOGLE_TAG_MANAGER_ENV=&gtm_auth=S2-vb6_RF_jGWu2WJIORdQ&gtm_preview=env-5&gtm_cookies_win=x; \
+	export GOOGLE_TAG_MANAGER_ID=; \
 	export UTM_COOKIE_DOMAIN=.trade.great; \
 	export CORS_ORIGIN_ALLOW_ALL=true; \
 	export COMPANIES_HOUSE_CLIENT_ID=debug-client-id; \
@@ -208,7 +207,15 @@ TEST_SET_ENV_VARS := \
 	export CONTACT_INVEST_AGENT_NOTIFY_TEMPLATE_ID=debug; \
 	export CONTACT_INVEST_AGENT_EMAIL_ADDRESS=invest-overseas@example.com; \
 	export CONTACT_INVEST_USER_NOTIFY_TEMPLATE_ID=debug; \
-	export CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID=debug
+	export CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID=debug; \
+	export CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID=debug; \
+	export CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS=international@example.com; \
+	export CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID=debug; \
+	export CONTACT_BUYING_AGENT_NOTIFY_TEMPLATE_ID=debug; \
+	export CONTACT_BUYING_AGENT_EMAIL_ADDRESS=buying@example.com; \
+	export CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID=debug; \
+	export CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID=debug; \
+	export CONTACT_EXPORTING_AGENT_SUBJECT=exporting@example.com
 
 
 debug_webserver:
