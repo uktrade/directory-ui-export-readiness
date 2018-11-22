@@ -220,6 +220,7 @@ def test_feedback_form_serialize_data(captcha_stub):
         'ingress_url': 'https://ingress.com',
         'form_url': 'http://forms.com',
     }
+    assert form.full_name == 'Test Example'
 
 
 @pytest.mark.parametrize('form_class,value', (
