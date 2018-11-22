@@ -179,10 +179,7 @@ class InternationalRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
     )
 
 
-class FeedbackForm(
-    SerializeDataMixin, ZendeskActionMixin,
-    forms.Form
-):
+class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
     name = fields.CharField(
         validators=anti_phising_validators
     )
@@ -201,9 +198,7 @@ class FeedbackForm(
     )
 
 
-class DomesticContactForm(
-    SerializeDataMixin, GovNotifyActionMixin, forms.Form
-):
+class DomesticContactForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
     comment = fields.CharField(
         label=(
             'If something is wrong, please give as much details as you can'
