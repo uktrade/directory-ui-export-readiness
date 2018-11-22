@@ -7,7 +7,7 @@
 <section class="hero hero-generic" id="hero">
   <div class="container">
     <div class="hero-title">
-      <h1 class="hero-description" id="hero-heading">{{ page.meta.total_count }} article{{ page.meta.total_count|pluralize }} with tag: <span class="heading-hero-generic-compact tag-name">{{ tag_slug }}</span></h1>
+      <h1 class="hero-description" id="hero-heading">{{ page.articles|length }} article{{ page.articles|length|pluralize }} with tag: <span class="heading-hero-generic-compact tag-name">{{ page.name }}</span></h1>
     </div>
   </div>
 </section>
@@ -19,15 +19,15 @@
       <li>
         <a href="{% url 'prototype-landing-page' %}">Great.gov.uk</a>
       </li>
-      <li aria-current="page">Articles with tag: {{ tag_slug }}</li>
+      <li aria-current="page">Articles with tag: {{ page.name }}</li>
     </ol>
   </div>
 {% endblock %}
 
 {% block content_list %}
-  {% for article in page.items %}
+  {% for article in page.articles %}
     <li class="article">
-      <h3 class="heading-medium"><a href="{{ article.full_path }}" class="link">{{ article.article_title }}</a></h3>
+      <h3 class="heading-medium"><a href="/prototype{{ article.full_path }}" class="link">{{ article.article_title }}</a></h3>
       <p class="subheading">Last updated {{ article.last_published_at|parse_date }}</p>
     </li>
   {% endfor %}

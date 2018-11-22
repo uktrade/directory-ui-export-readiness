@@ -26,7 +26,7 @@
           {% if listing.articles_count > 0 %}
             <div class="column-third">
               <div class="card">
-                <a class="card-link" href="{{ '/prototype'|add:listing.full_path }}">
+                <a class="card-link" href="/prototype{{ listing.full_path }}">
                   <div class="card-image" role="image" style="background-image: url('{{ listing.hero_image.url }}');" aria-label="{{ listing.landing_page_title }}" title="{{ listing.landing_page_title }}">
                     <p class="visually-hidden">{{ listing.landing_page_title }}</p>
                   </div>
