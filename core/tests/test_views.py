@@ -50,12 +50,14 @@ def test_landing_page_redirect(client):
 
 def test_landing_page(client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
+    settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = False
 
     url = reverse('landing-page')
 
     response = client.get(url)
 
     assert response.status_code == 200
+    assert '/static/js/home' in str(response.content)
     assert response.template_name == [views.LandingPageView.template_name]
     assert response.context_data['casestudies'] == [
         casestudies.MARKETPLACE,

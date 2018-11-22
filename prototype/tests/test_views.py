@@ -596,6 +596,8 @@ def test_prototype_landing_page_header_footer(
 
     assert response.status_code == 200
 
+    assert '/static/js/prototype' in str(response.content)
+
     soup = BeautifulSoup(response.content, 'html.parser')
 
     home_link = soup.find(id="great-header-dit-logo")
