@@ -305,7 +305,7 @@ class FeedbackFormView(BaseZendeskFormView):
 
 
 class DomesticFormView(BaseZendeskFormView):
-    form_class = forms.DomesticContactForm
+    form_class = forms.ShortZendeskForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-domestic-success')
     subject = settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT
@@ -338,7 +338,7 @@ class BuyingFromUKCompaniesFormView(BaseNotifyFormView):
 
 
 class EventsFormView(BaseNotifyFormView):
-    form_class = forms.DomesticContactForm
+    form_class = forms.ShortNotifyForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-events-success')
 
@@ -348,7 +348,7 @@ class EventsFormView(BaseNotifyFormView):
 
 
 class DefenceAndSecurityOrganisationFormView(BaseNotifyFormView):
-    form_class = forms.DomesticContactForm
+    form_class = forms.ShortNotifyForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-dso-success')
 

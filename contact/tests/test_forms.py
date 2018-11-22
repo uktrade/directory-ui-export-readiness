@@ -121,8 +121,8 @@ def test_international_form_routing():
         assert choice not in routing_steps
 
 
-def test_domestic_contact_form_serialize_data(domestic_data):
-    form = forms.DomesticContactForm(
+def test_short_notify_form_serialize_data(domestic_data):
+    form = forms.ShortNotifyForm(
         ingress_url='https://ingress.com',
         form_url='http://forms.com',
         data=domestic_data
@@ -152,13 +152,44 @@ def test_domestic_contact_form_serialize_data(domestic_data):
         'dit_regional_office_name': 'Some Office',
         'dit_regional_office_email': 'foo@example.com',
     }
+
+
+def test_short_zendesk_form_serialize_data(domestic_data):
+    form = forms.ShortZendeskForm(
+        ingress_url='https://ingress.com',
+        form_url='http://forms.com',
+        data=domestic_data
+    )
+
+    assert form.is_valid()
+
+    url = api_client.exporting.endpoints['lookup-by-postcode'].format(
+        postcode='ABC123'
+    )
+    office_details = {'name': 'Some Office', 'email': 'foo@example.com'}
+    with requests_mock.mock() as mock:
+        mock.get(url, json=office_details)
+        data = form.serialized_data
+
+    assert data == {
+        'given_name': 'Test',
+        'family_name': 'Example',
+        'email': 'test@example.com',
+        'company_type': 'LIMITED',
+        'company_type_other': '',
+        'organisation_name': 'Example corp',
+        'postcode': 'ABC123',
+        'comment': 'Help please',
+        'ingress_url': 'https://ingress.com',
+        'form_url': 'http://forms.com',
+    }
     assert form.full_name == 'Test Example'
 
 
 def test_domestic_contact_form_serialize_data_office_lookup_error(
     domestic_data
 ):
-    form = forms.DomesticContactForm(
+    form = forms.ShortNotifyForm(
         ingress_url='https://ingress.com',
         form_url='http://forms.com',
         data=domestic_data
@@ -180,7 +211,7 @@ def test_domestic_contact_form_serialize_data_office_lookup_error(
 def test_domestic_contact_form_serialize_data_office_lookup_not_found(
     domestic_data
 ):
-    form = forms.DomesticContactForm(
+    form = forms.ShortNotifyForm(
         ingress_url='https://ingress.com',
         form_url='http://forms.com',
         data=domestic_data
