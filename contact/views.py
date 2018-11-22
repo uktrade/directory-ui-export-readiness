@@ -108,7 +108,7 @@ class BaseZendeskFormView(FeatureFlagMixin, FormIngressURLMixin, FormView):
     def form_valid(self, form):
         response = form.save(
             email_address=form.cleaned_data['email'],
-            full_name=form.cleaned_data['name'],
+            full_name=form.full_name,
             subject=self.subject,
         )
         response.raise_for_status()

@@ -197,6 +197,11 @@ class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
         label=TERMS_LABEL
     )
 
+    @property
+    def full_name(self):
+        assert self.is_valid()
+        return cleaned_data['name']
+
 
 class DomesticContactForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
     comment = fields.CharField(
