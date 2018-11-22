@@ -6,12 +6,13 @@ from directory_components import forms, fields, widgets
 from directory_constants.constants import choices, urls
 from directory_validators.common import not_contains_url_or_email
 from directory_validators.company import no_html
+import requests.exceptions
 
 from django.conf import settings
 from django.forms import Textarea, TextInput
 from django.utils.html import mark_safe
 
-from contact import constants
+from contact import constants, helpers
 
 
 TERMS_LABEL = mark_safe(
@@ -127,7 +128,6 @@ class ExportOpportunitiesRoutingForm(forms.Form):
             'I haven\'t had a response from the opportunity I applied for'
         ),
         (constants.ALERTS, 'My daily alerts are not relevant to me'),
-        (constants.MORE_DETAILS, 'I need more details about the opportunity'),
         (constants.OTHER, 'Other'),
     )
     choice = fields.ChoiceField(
@@ -200,7 +200,7 @@ class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
     @property
     def full_name(self):
         assert self.is_valid()
-        return cleaned_data['name']
+        return self.cleaned_data['name']
 
 
 class DomesticContactForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
@@ -250,6 +250,21 @@ class DomesticContactForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
         assert self.is_valid()
         cleaned_data = self.cleaned_data
         return f'{cleaned_data["given_name"]} {cleaned_data["family_name"]}'
+
+    @property
+    def serialized_data(self):
+        data = super().serialized_data
+        try:
+            details = helpers.retrieve_regional_office(data['postcode'])
+        except requests.exceptions.RequestException:
+            # post code may be incorrect or a server error may have occurred.
+            # Set empty as GovUK notify errors if any variables are missing.
+            data['dit_regional_office_name'] = ''
+            data['dit_regional_office_email'] = ''
+        else:
+            data['dit_regional_office_name'] = details['name']
+            data['dit_regional_office_email'] = details['email']
+        return data
 
 
 class BuyingFromUKContactForm(

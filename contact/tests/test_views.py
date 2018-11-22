@@ -149,7 +149,9 @@ def domestic_form_data(captcha_stub):
     (
         constants.EXPORT_OPPORTUNITIES,
         constants.NO_RESPONSE,
-        reverse('contact-us-domestic'),
+        views.build_export_opportunites_guidance_url(
+            cms.EXPORT_READINESS_HELP_EXOPP_NO_RESPONSE
+        ),
     ),
     (
         constants.EXPORT_OPPORTUNITIES,
@@ -157,11 +159,6 @@ def domestic_form_data(captcha_stub):
         views.build_export_opportunites_guidance_url(
             cms.EXPORT_READINESS_HELP_EXOPP_ALERTS_IRRELEVANT_SLUG
         ),
-    ),
-    (
-        constants.EXPORT_OPPORTUNITIES,
-        constants.MORE_DETAILS,
-        reverse('contact-us-domestic'),
     ),
     (
         constants.EXPORT_OPPORTUNITIES,
@@ -458,28 +455,30 @@ def test_guidance_view_cms_retrieval(mock_lookup_by_slug, client):
 
 
 @pytest.mark.parametrize(
-    'url,success_url,view_class,subject', (
+    'url,success_url,view_class,subject',
     (
-        reverse('contact-us-domestic'),
-        reverse('contact-us-domestic-success'),
-        views.DomesticFormView,
-        settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
-    ),
-    (
-        reverse('contact-us-feedback'),
-        reverse('contact-us-feedback-success'),
-        views.FeedbackFormView,
-        settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
-    ),
-))
+        (
+            reverse('contact-us-domestic'),
+            reverse('contact-us-domestic-success'),
+            views.DomesticFormView,
+            settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
+        ),
+        (
+            reverse('contact-us-feedback'),
+            reverse('contact-us-feedback-success'),
+            views.FeedbackFormView,
+            settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
+        ),
+    )
+)
 def test_zendesk_submit_success(client, url, success_url, view_class, subject):
     class Form(forms.SerializeDataMixin, django.forms.Form):
         email = django.forms.EmailField()
-        name = django.forms.CharField()
         save = mock.Mock()
+        full_name = 'Foo B'
 
     with mock.patch.object(view_class, 'form_class', Form):
-        response = client.post(url, {'email': 'foo@bar.com', 'name': 'Foo B'})
+        response = client.post(url, {'email': 'foo@bar.com'})
 
     assert response.status_code == 302
     assert response.url == success_url

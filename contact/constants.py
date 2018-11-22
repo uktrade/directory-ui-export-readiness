@@ -15,7 +15,6 @@ OTHER = 'other'
 TRADE_OFFICE = 'trade-office'
 ALERTS = 'alerts'
 NO_RESPONSE = 'no-response'
-MORE_DETAILS = 'more-details'
 
 NO_VERIFICATION_EMAIL = 'no-email-confirmation'
 PASSWORD_RESET = 'password-reset'
