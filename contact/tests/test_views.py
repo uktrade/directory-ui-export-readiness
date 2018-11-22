@@ -149,7 +149,9 @@ def domestic_form_data(captcha_stub):
     (
         constants.EXPORT_OPPORTUNITIES,
         constants.NO_RESPONSE,
-        reverse('contact-us-domestic'),
+        views.build_export_opportunites_guidance_url(
+            cms.EXPORT_READINESS_HELP_EXOPP_NO_RESPONSE
+        ),
     ),
     (
         constants.EXPORT_OPPORTUNITIES,
@@ -157,11 +159,6 @@ def domestic_form_data(captcha_stub):
         views.build_export_opportunites_guidance_url(
             cms.EXPORT_READINESS_HELP_EXOPP_ALERTS_IRRELEVANT_SLUG
         ),
-    ),
-    (
-        constants.EXPORT_OPPORTUNITIES,
-        constants.MORE_DETAILS,
-        reverse('contact-us-domestic'),
     ),
     (
         constants.EXPORT_OPPORTUNITIES,
