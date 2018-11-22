@@ -202,6 +202,22 @@ def test_render_next_step(current_step, choice, expected_url):
     assert view.render_next_step(form).url == expected_url
 
 
+@pytest.mark.parametrize('current_step,expected_step', (
+    (constants.DOMESTIC, constants.LOCATION),
+    (constants.INTERNATIONAL, constants.LOCATION),
+    (constants.GREAT_SERVICES, constants.DOMESTIC),
+    (constants.GREAT_ACCOUNT, constants.GREAT_SERVICES),
+    (constants.EXPORT_OPPORTUNITIES, constants.GREAT_SERVICES),
+))
+def test_get_previous_step(current_step, expected_step):
+    view = views.RoutingFormView()
+    view.steps = mock.Mock(current=current_step)
+    view.storage = mock.Mock()
+    view.url_name = 'triage-wizard'
+
+    assert view.get_prev_step() == expected_step
+
+
 @pytest.mark.parametrize(
     'url,success_url,view_class,agent_template,user_template,agent_email',
     (
