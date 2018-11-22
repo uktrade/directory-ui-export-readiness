@@ -3,7 +3,14 @@ from unittest.mock import patch
 
 import pytest
 
+from django.core.cache import cache
+
 from sso.utils import SSOUser
+
+
+@pytest.fixture(autouse=True)
+def clear_django_cache():
+    cache.clear()
 
 
 @pytest.fixture
