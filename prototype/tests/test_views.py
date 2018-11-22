@@ -479,8 +479,8 @@ def test_prototype_article_list_page(mock_get_page, client, settings):
 
 
 test_tag_page = {
-    'meta': {'total_count': 2},
-    'items': test_articles,
+    'name': 'New to exporting',
+    'articles': test_articles,
 }
 
 
@@ -504,8 +504,8 @@ def test_prototype_tag_list_page(mock_get_page, client, settings):
     assert '02 October' in str(response.content)
     assert 'Article 1 title' in str(response.content)
     assert 'Article 2 title' in str(response.content)
-    assert 'Articles with tag: new-to-exporting' in str(response.content)
-    assert '2 articles' in str(response.content)
+    assert '2 articles with tag:' in str(response.content)
+    assert 'New to exporting' in str(response.content)
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')

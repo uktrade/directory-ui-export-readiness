@@ -30,7 +30,7 @@ class GetCMSTagMixin():
     @cached_property
     def page(self):
         response = cms_api_client.lookup_by_tag(
-            tag_slug=self.slug,
+            slug=self.slug,
             draft_token=self.request.GET.get('draft_token'),
         )
         return handle_cms_response(response)

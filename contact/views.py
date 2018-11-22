@@ -181,6 +181,15 @@ class RoutingFormView(
         constants.INTERNATIONAL: 'contact/routing/step-international.html',
     }
 
+    # given current step, where to send them back to
+    back_mapping = {
+        constants.DOMESTIC: constants.LOCATION,
+        constants.INTERNATIONAL: constants.LOCATION,
+        constants.GREAT_SERVICES: constants.DOMESTIC,
+        constants.GREAT_ACCOUNT: constants.GREAT_SERVICES,
+        constants.EXPORT_OPPORTUNITIES: constants.GREAT_SERVICES,
+    }
+
     def get_template_names(self):
         return [self.templates[self.steps.current]]
 
@@ -195,6 +204,11 @@ class RoutingFormView(
         if redirect_url:
             return redirect(redirect_url)
         return self.render_goto_step(choice)
+
+    def get_prev_step(self, step=None):
+        if step is None:
+            step = self.steps.current
+        return self.back_mapping.get(step)
 
 
 class ExportingAdviceFormView(
