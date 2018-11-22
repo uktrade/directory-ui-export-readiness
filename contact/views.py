@@ -131,11 +131,12 @@ class RoutingFormView(
             constants.OTHER: reverse_lazy('contact-us-international'),
         },
         constants.EXPORT_OPPORTUNITIES: {
-            constants.NO_RESPONSE: reverse_lazy('contact-us-domestic'),
+            constants.NO_RESPONSE: build_export_opportunites_guidance_url(
+                cms.EXPORT_READINESS_HELP_EXOPP_NO_RESPONSE
+            ),
             constants.ALERTS: build_export_opportunites_guidance_url(
                 cms.EXPORT_READINESS_HELP_EXOPP_ALERTS_IRRELEVANT_SLUG
             ),
-            constants.MORE_DETAILS: reverse_lazy('contact-us-domestic'),
             constants.OTHER: reverse_lazy('contact-us-domestic'),
         },
         constants.GREAT_SERVICES: {

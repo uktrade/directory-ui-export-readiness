@@ -128,7 +128,6 @@ class ExportOpportunitiesRoutingForm(forms.Form):
             'I haven\'t had a response from the opportunity I applied for'
         ),
         (constants.ALERTS, 'My daily alerts are not relevant to me'),
-        (constants.MORE_DETAILS, 'I need more details about the opportunity'),
         (constants.OTHER, 'Other'),
     )
     choice = fields.ChoiceField(
