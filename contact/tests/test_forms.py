@@ -1,9 +1,27 @@
+from directory_api_client.client import api_client
 import pytest
+import requests
+import requests_mock
 
 from contact import constants, forms, views
 
 
 routing_steps = [step for step, _ in views.RoutingFormView.form_list]
+
+
+@pytest.fixture
+def domestic_data(captcha_stub):
+    return {
+        'given_name': 'Test',
+        'family_name': 'Example',
+        'email': 'test@example.com',
+        'company_type': 'LIMITED',
+        'organisation_name': 'Example corp',
+        'postcode': 'ABC123',
+        'comment': 'Help please',
+        'g-recaptcha-response': captcha_stub,
+        'terms_agreed': True,
+    }
 
 
 def test_location_form_routing():
@@ -103,37 +121,82 @@ def test_international_form_routing():
         assert choice not in routing_steps
 
 
-def test_domestic_contact_form_serialize_data(captcha_stub):
+def test_domestic_contact_form_serialize_data(domestic_data):
     form = forms.DomesticContactForm(
         ingress_url='https://ingress.com',
         form_url='http://forms.com',
-        data={
-            'given_name': 'Test',
-            'family_name': 'Example',
-            'email': 'test@example.com',
-            'company_type': 'LIMITED',
-            'organisation_name': 'Example corp',
-            'postcode': '**** ***',
-            'comment': 'Help please',
-            'g-recaptcha-response': captcha_stub,
-            'terms_agreed': True,
-        }
+        data=domestic_data
     )
 
     assert form.is_valid()
-    assert form.serialized_data == {
+
+    url = api_client.exporting.endpoints['lookup-by-postcode'].format(
+        postcode='ABC123'
+    )
+    office_details = {'name': 'Some Office', 'email': 'foo@example.com'}
+    with requests_mock.mock() as mock:
+        mock.get(url, json=office_details)
+        data = form.serialized_data
+
+    assert data == {
         'given_name': 'Test',
         'family_name': 'Example',
         'email': 'test@example.com',
         'company_type': 'LIMITED',
         'company_type_other': '',
         'organisation_name': 'Example corp',
-        'postcode': '**** ***',
+        'postcode': 'ABC123',
         'comment': 'Help please',
         'ingress_url': 'https://ingress.com',
         'form_url': 'http://forms.com',
+        'dit_regional_office_name': 'Some Office',
+        'dit_regional_office_email': 'foo@example.com',
     }
     assert form.full_name == 'Test Example'
+
+
+def test_domestic_contact_form_serialize_data_office_lookup_error(
+    domestic_data
+):
+    form = forms.DomesticContactForm(
+        ingress_url='https://ingress.com',
+        form_url='http://forms.com',
+        data=domestic_data
+    )
+
+    assert form.is_valid()
+
+    url = api_client.exporting.endpoints['lookup-by-postcode'].format(
+        postcode='ABC123'
+    )
+    with requests_mock.mock() as mock:
+        mock.get(url, exc=requests.exceptions.ConnectTimeout)
+        data = form.serialized_data
+
+    assert data['dit_regional_office_name'] == ''
+    assert data['dit_regional_office_email'] == ''
+
+
+def test_domestic_contact_form_serialize_data_office_lookup_not_found(
+    domestic_data
+):
+    form = forms.DomesticContactForm(
+        ingress_url='https://ingress.com',
+        form_url='http://forms.com',
+        data=domestic_data
+    )
+
+    assert form.is_valid()
+
+    url = api_client.exporting.endpoints['lookup-by-postcode'].format(
+        postcode='ABC123'
+    )
+    with requests_mock.mock() as mock:
+        mock.get(url, status_code=404)
+        data = form.serialized_data
+
+    assert data['dit_regional_office_name'] == ''
+    assert data['dit_regional_office_email'] == ''
 
 
 def test_feedback_form_serialize_data(captcha_stub):
