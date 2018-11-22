@@ -118,6 +118,14 @@
 
 .great-footer a {
   color: $light-grey;
+
+  &:focus {
+    @include focus;
+  }
+
+  &:active {
+    color: $great-blue;
+  }
 }
 
 .great-footer-logo-container,
