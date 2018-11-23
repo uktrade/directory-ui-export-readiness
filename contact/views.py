@@ -110,6 +110,7 @@ class BaseZendeskFormView(FeatureFlagMixin, FormIngressURLMixin, FormView):
             email_address=form.cleaned_data['email'],
             full_name=form.full_name,
             subject=self.subject,
+            service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME,
         )
         response.raise_for_status()
         self.clear_ingress_url()
