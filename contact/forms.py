@@ -179,10 +179,7 @@ class InternationalRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
     )
 
 
-class FeedbackForm(
-    SerializeDataMixin, ZendeskActionMixin,
-    forms.Form
-):
+class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
     name = fields.CharField(
         validators=anti_phising_validators
     )
@@ -200,10 +197,13 @@ class FeedbackForm(
         label=TERMS_LABEL
     )
 
+    @property
+    def full_name(self):
+        assert self.is_valid()
+        return self.cleaned_data['name']
 
-class DomesticContactForm(
-    SerializeDataMixin, GovNotifyActionMixin, forms.Form
-):
+
+class BaseShortForm(forms.Form):
     comment = fields.CharField(
         label=(
             'If something is wrong, please give as much details as you can'
@@ -245,11 +245,8 @@ class DomesticContactForm(
         label=TERMS_LABEL
     )
 
-    @property
-    def full_name(self):
-        assert self.is_valid()
-        cleaned_data = self.cleaned_data
-        return f'{cleaned_data["given_name"]} {cleaned_data["family_name"]}'
+
+class ShortNotifyForm(SerializeDataMixin, GovNotifyActionMixin, BaseShortForm):
 
     @property
     def serialized_data(self):
@@ -265,6 +262,15 @@ class DomesticContactForm(
             data['dit_regional_office_name'] = details['name']
             data['dit_regional_office_email'] = details['email']
         return data
+
+
+class ShortZendeskForm(SerializeDataMixin, ZendeskActionMixin, BaseShortForm):
+
+    @property
+    def full_name(self):
+        assert self.is_valid()
+        cleaned_data = self.cleaned_data
+        return f'{cleaned_data["given_name"]} {cleaned_data["family_name"]}'
 
 
 class BuyingFromUKContactForm(

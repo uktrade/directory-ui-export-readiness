@@ -235,14 +235,6 @@ def test_get_previous_step(current_step, expected_step):
             settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
         ),
         (
-            reverse('contact-us-domestic'),
-            reverse('contact-us-domestic-success'),
-            views.DomesticFormView,
-            settings.CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID,
-            settings.CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID,
-            settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
-        ),
-        (
             reverse('contact-us-international'),
             reverse('contact-us-international-success'),
             views.InternationalFormView,
@@ -462,25 +454,40 @@ def test_guidance_view_cms_retrieval(mock_lookup_by_slug, client):
     )
 
 
-def test_feedback_submit_success(client, settings):
+@pytest.mark.parametrize(
+    'url,success_url,view_class,subject',
+    (
+        (
+            reverse('contact-us-domestic'),
+            reverse('contact-us-domestic-success'),
+            views.DomesticFormView,
+            settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
+        ),
+        (
+            reverse('contact-us-feedback'),
+            reverse('contact-us-feedback-success'),
+            views.FeedbackFormView,
+            settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
+        ),
+    )
+)
+def test_zendesk_submit_success(client, url, success_url, view_class, subject):
     class Form(forms.SerializeDataMixin, django.forms.Form):
         email = django.forms.EmailField()
-        name = django.forms.CharField()
         save = mock.Mock()
+        full_name = 'Foo B'
 
-    url = reverse('contact-us-feedback')
-
-    with mock.patch.object(views.FeedbackFormView, 'form_class', Form):
-        response = client.post(url, {'email': 'foo@bar.com', 'name': 'Foo B'})
+    with mock.patch.object(view_class, 'form_class', Form):
+        response = client.post(url, {'email': 'foo@bar.com'})
 
     assert response.status_code == 302
-    assert response.url == reverse('contact-us-feedback-success')
+    assert response.url == success_url
 
     assert Form.save.call_count == 1
     assert Form.save.call_args == mock.call(
         email_address='foo@bar.com',
         full_name='Foo B',
-        subject=settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
+        subject=subject,
 
     )
 
