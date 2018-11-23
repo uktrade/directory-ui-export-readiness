@@ -471,7 +471,9 @@ def test_guidance_view_cms_retrieval(mock_lookup_by_slug, client):
         ),
     )
 )
-def test_zendesk_submit_success(client, url, success_url, view_class, subject):
+def test_zendesk_submit_success(
+    client, url, success_url, view_class, subject, settings
+):
     class Form(forms.SerializeDataMixin, django.forms.Form):
         email = django.forms.EmailField()
         save = mock.Mock()
@@ -488,7 +490,7 @@ def test_zendesk_submit_success(client, url, success_url, view_class, subject):
         email_address='foo@bar.com',
         full_name='Foo B',
         subject=subject,
-
+        service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME
     )
 
 
