@@ -97,6 +97,25 @@ class BaseNotifyFormView(
         return response
 
 
+class BaseZendeskFormView(FeatureFlagMixin, FormIngressURLMixin, FormView):
+    def get_form_kwargs(self):
+        return {
+            **super().get_form_kwargs(),
+            'form_url': self.form_url,
+            'ingress_url': self.ingress_url,
+        }
+
+    def form_valid(self, form):
+        response = form.save(
+            email_address=form.cleaned_data['email'],
+            full_name=form.full_name,
+            subject=self.subject,
+        )
+        response.raise_for_status()
+        self.clear_ingress_url()
+        return super().form_valid(form)
+
+
 class BaseSuccessView(FeatureFlagMixin, mixins.GetCMSPageMixin, TemplateView):
     pass
 
@@ -131,11 +150,12 @@ class RoutingFormView(
             constants.OTHER: reverse_lazy('contact-us-international'),
         },
         constants.EXPORT_OPPORTUNITIES: {
-            constants.NO_RESPONSE: reverse_lazy('contact-us-domestic'),
+            constants.NO_RESPONSE: build_export_opportunites_guidance_url(
+                cms.EXPORT_READINESS_HELP_EXOPP_NO_RESPONSE
+            ),
             constants.ALERTS: build_export_opportunites_guidance_url(
                 cms.EXPORT_READINESS_HELP_EXOPP_ALERTS_IRRELEVANT_SLUG
             ),
-            constants.MORE_DETAILS: reverse_lazy('contact-us-domestic'),
             constants.OTHER: reverse_lazy('contact-us-domestic'),
         },
         constants.GREAT_SERVICES: {
@@ -181,6 +201,15 @@ class RoutingFormView(
         constants.INTERNATIONAL: 'contact/routing/step-international.html',
     }
 
+    # given current step, where to send them back to
+    back_mapping = {
+        constants.DOMESTIC: constants.LOCATION,
+        constants.INTERNATIONAL: constants.LOCATION,
+        constants.GREAT_SERVICES: constants.DOMESTIC,
+        constants.GREAT_ACCOUNT: constants.GREAT_SERVICES,
+        constants.EXPORT_OPPORTUNITIES: constants.GREAT_SERVICES,
+    }
+
     def get_template_names(self):
         return [self.templates[self.steps.current]]
 
@@ -195,6 +224,11 @@ class RoutingFormView(
         if redirect_url:
             return redirect(redirect_url)
         return self.render_goto_step(choice)
+
+    def get_prev_step(self, step=None):
+        if step is None:
+            step = self.steps.current
+        return self.back_mapping.get(step)
 
 
 class ExportingAdviceFormView(
@@ -263,27 +297,18 @@ class ExportingAdviceFormView(
         return data
 
 
-class FeedbackFormView(FeatureFlagMixin, FormIngressURLMixin, FormView):
+class FeedbackFormView(BaseZendeskFormView):
     form_class = forms.FeedbackForm
     template_name = 'contact/comment-contact.html'
     success_url = reverse_lazy('contact-us-feedback-success')
+    subject = settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT
 
-    def get_form_kwargs(self):
-        return {
-            **super().get_form_kwargs(),
-            'form_url': self.form_url,
-            'ingress_url': self.ingress_url,
-        }
 
-    def form_valid(self, form):
-        response = form.save(
-            email_address=form.cleaned_data['email'],
-            full_name=form.cleaned_data['name'],
-            subject=settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
-        )
-        response.raise_for_status()
-        self.clear_ingress_url()
-        return super().form_valid(form)
+class DomesticFormView(BaseZendeskFormView):
+    form_class = forms.ShortZendeskForm
+    template_name = 'contact/domestic/step.html'
+    success_url = reverse_lazy('contact-us-domestic-success')
+    subject = settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT
 
 
 class InternationalFormView(BaseNotifyFormView):
@@ -312,18 +337,8 @@ class BuyingFromUKCompaniesFormView(BaseNotifyFormView):
     notify_template_id_user = settings.CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID
 
 
-class DomesticFormView(BaseNotifyFormView):
-    form_class = forms.DomesticContactForm
-    template_name = 'contact/domestic/step.html'
-    success_url = reverse_lazy('contact-us-domestic-success')
-
-    notify_template_id_agent = settings.CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID
-    notify_email_address_agent = settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS
-    notify_template_id_user = settings.CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID
-
-
 class EventsFormView(BaseNotifyFormView):
-    form_class = forms.DomesticContactForm
+    form_class = forms.ShortNotifyForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-events-success')
 
@@ -333,7 +348,7 @@ class EventsFormView(BaseNotifyFormView):
 
 
 class DefenceAndSecurityOrganisationFormView(BaseNotifyFormView):
-    form_class = forms.DomesticContactForm
+    form_class = forms.ShortNotifyForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-dso-success')
 
