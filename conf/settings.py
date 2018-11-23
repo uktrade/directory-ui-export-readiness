@@ -73,6 +73,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE_CLASSES = [
     'directory_components.middleware.MaintenanceModeMiddleware',
+    'admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -538,3 +539,11 @@ CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID = env.str(
 CONTACT_EXPORTING_AGENT_SUBJECT = env.str(
     'CONTACT_EXPORTING_AGENT_SUBJECT', 'A form was submitted on great.gov.uk'
 )
+
+# ip-restrictor
+RESTRICT_ADMIN = env.bool('IP_RESTRICTOR_RESTRICT_IPS', False)
+ALLOWED_ADMIN_IPS = env.list('IP_RESTRICTOR_ALLOWED_ADMIN_IPS', default=[])
+ALLOWED_ADMIN_IP_RANGES = env.list(
+    'IP_RESTRICTOR_ALLOWED_ADMIN_IP_RANGES', default=[]
+)
+RESTRICTED_APP_NAMES = ['admin', '']

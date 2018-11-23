@@ -26,3 +26,4 @@ django-ipware==2.1.0
 django-redis==4.8.0
 directory-forms-api-client==3.0.0
 dateparser==0.7.0
+django-admin-ip-restrictor==1.0.0
