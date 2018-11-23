@@ -486,7 +486,7 @@ article_redirects = [
 
 contact_redirects = [
     url(
-        r'^help/triage/(?P<service>[-\w\d]+)/$',
+        r'^legacy/contact/triage/(?P<service>[-\w\d]+)/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy(
                 'contact-us-routing-form', kwargs={'step': 'location'}
@@ -494,7 +494,7 @@ contact_redirects = [
         ),
     ),
     url(
-        r'^help/(?P<service>[-\w\d]+)/TriageForm/$',
+        r'^legacy/contact/(?P<service>[-\w\d]+)/TriageForm/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy(
                 'contact-us-routing-form', kwargs={'step': 'location'}
@@ -502,7 +502,7 @@ contact_redirects = [
         ),
     ),
     url(
-        r'^help/(?P<service>[-\w\d]+)/Triage/$',
+        r'^legacy/contact/(?P<service>[-\w\d]+)/Triage/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy(
                 'contact-us-routing-form', kwargs={'step': 'location'}
@@ -510,7 +510,7 @@ contact_redirects = [
         ),
     ),
     url(
-        r'^help/triage/$',
+        r'^legacy/contact/triage/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy(
                 'contact-us-routing-form', kwargs={'step': 'location'}
@@ -518,31 +518,31 @@ contact_redirects = [
         ),
     ),
     url(
-        r'^help/(?P<service>[-\w\d]+)/FeedbackForm/$',
+        r'^legacy/contact/(?P<service>[-\w\d]+)/FeedbackForm/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy('contact-us-feedback')
         ),
     ),
     url(
-        r'^help/feedback/(?P<service>[-\w\d]+)/$',
+        r'^legacy/contact/feedback/(?P<service>[-\w\d]+)/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy('contact-us-feedback')
         ),
     ),
     url(
-        r'^help/feedback/$',
+        r'^legacy/contact/feedback/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy('contact-us-feedback')
         ),
     ),
     url(
-        r'^help/(?P<service>[-\w\d]+)/feedback/$',
+        r'^legacy/contact/(?P<service>[-\w\d]+)/feedback/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy('contact-us-feedback')
         ),
     ),
     url(
-        r'^help/single_sign_on/$',
+        r'^legacy/contact/single_sign_on/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy(
                 'contact-us-routing-form', kwargs={'step': 'great-account'}
@@ -550,7 +550,7 @@ contact_redirects = [
         ),
     ),
     url(
-        r'^help/selling_online_overseas/$',
+        r'^legacy/contact/selling_online_overseas/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy(
                 'contact-us-routing-form', kwargs={'step': 'domestic'}
@@ -558,7 +558,7 @@ contact_redirects = [
         ),
     ),
     url(
-        r'^help/export_ops/$',
+        r'^legacy/contact/export_ops/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy(
                 'contact-us-routing-form', kwargs={'step': 'domestic'}
@@ -566,7 +566,7 @@ contact_redirects = [
         ),
     ),
     url(
-        r'^help/export_opportunities/$',
+        r'^legacy/contact/export_opportunities/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy(
                 'contact-us-routing-form', kwargs={'step': 'domestic'}
@@ -574,7 +574,7 @@ contact_redirects = [
         ),
     ),
     url(
-        r'^help/eig/$',
+        r'^legacy/contact/eig/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy(
                 'contact-us-routing-form', kwargs={'step': 'location'}
@@ -582,7 +582,7 @@ contact_redirects = [
         ),
     ),
     url(
-        r'^help/directory/$',
+        r'^legacy/contact/directory/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy(
                 'contact-us-routing-form', kwargs={'step': 'location'}
@@ -590,7 +590,7 @@ contact_redirects = [
         ),
     ),
     url(
-        r'^help/contact/$',
+        r'^legacy/contact/contact/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy(
                 'contact-us-routing-form', kwargs={'step': 'location'}

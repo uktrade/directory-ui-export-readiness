@@ -279,107 +279,125 @@ redirects = [
         '?utm_source=print&utm_campaign=korean_winter_olympics_invest'
     )),
     (
-        '/help/contact/',
+        '/legacy/contact/contact/',
         reverse('contact-us-routing-form', kwargs={'step': 'location'})
     ),
     (
-        '/help/directory/',
-        reverse('contact-us-routing-form', kwargs={'step': 'location'})
-    ),
-    ('/help/directory/FeedbackForm/', reverse('contact-us-feedback')),
-    (
-        '/help/eig/',
+        '/legacy/contact/directory/',
         reverse('contact-us-routing-form', kwargs={'step': 'location'})
     ),
     (
-        '/help/export-opportunities/FeedbackForm/',
+        '/legacy/contact/directory/FeedbackForm/',
         reverse('contact-us-feedback')
     ),
     (
-        '/help/export_opportunities/',
+        '/legacy/contact/eig/',
+        reverse('contact-us-routing-form', kwargs={'step': 'location'})
+    ),
+    (
+        '/legacy/contact/export-opportunities/FeedbackForm/',
+        reverse('contact-us-feedback')
+    ),
+    (
+        '/legacy/contact/export_opportunities/',
         reverse('contact-us-routing-form', kwargs={'step': 'domestic'})
     ),
     (
-        '/help/export_opportunities/FeedbackForm/',
+        '/legacy/contact/export_opportunities/FeedbackForm/',
         reverse('contact-us-feedback')
     ),
     (
-        '/help/export_ops/',
+        '/legacy/contact/export_ops/',
         reverse('contact-us-routing-form', kwargs={'step': 'domestic'})
     ),
     (
-        '/help/export_readiness/FeedbackForm/',
+        '/legacy/contact/export_readiness/FeedbackForm/',
         reverse('contact-us-feedback')
     ),
-    ('/help/feedback/', reverse('contact-us-feedback')),
-    ('/help/feedback/datahub/', reverse('contact-us-feedback')),
-    ('/help/feedback/directory/', reverse('contact-us-feedback')),
-    ('/help/feedback/e_navigator/', reverse('contact-us-feedback')),
-    ('/help/feedback/eig/', reverse('contact-us-feedback')),
-    ('/help/feedback/export_ops/', reverse('contact-us-feedback')),
-    ('/help/feedback/exportingisgreat/', reverse('contact-us-feedback')),
-    ('/help/feedback/exportopportunities/', reverse('contact-us-feedback')),
-    ('/help/feedback/invest/', reverse('contact-us-feedback')),
-    ('/help/feedback/opportunities/', reverse('contact-us-feedback')),
+    ('/legacy/contact/feedback/', reverse('contact-us-feedback')),
+    ('/legacy/contact/feedback/datahub/', reverse('contact-us-feedback')),
+    ('/legacy/contact/feedback/directory/', reverse('contact-us-feedback')),
+    ('/legacy/contact/feedback/e_navigator/', reverse('contact-us-feedback')),
+    ('/legacy/contact/feedback/eig/', reverse('contact-us-feedback')),
+    ('/legacy/contact/feedback/export_ops/', reverse('contact-us-feedback')),
     (
-        '/help/feedback/selling-online-overseas/',
+        '/legacy/contact/feedback/exportingisgreat/',
         reverse('contact-us-feedback')
     ),
     (
-        '/help/feedback/selling_online_overseas/',
+        '/legacy/contact/feedback/exportopportunities/',
         reverse('contact-us-feedback')
     ),
-    ('/help/feedback/single_sign_on/', reverse('contact-us-feedback')),
-    ('/help/feedback/soo/', reverse('contact-us-feedback')),
-    ('/help/feedback/sso/', reverse('contact-us-feedback')),
-    ('/help/invest/FeedbackForm/', reverse('contact-us-feedback')),
-    ('/help/opportunities/FeedbackForm/', reverse('contact-us-feedback')),
+    ('/legacy/contact/feedback/invest/', reverse('contact-us-feedback')),
     (
-        '/help/selling_online_overseas/',
+        '/legacy/contact/feedback/opportunities/',
+        reverse('contact-us-feedback')
+    ),
+    (
+        '/legacy/contact/feedback/selling-online-overseas/',
+        reverse('contact-us-feedback')
+    ),
+    (
+        '/legacy/contact/feedback/selling_online_overseas/',
+        reverse('contact-us-feedback')
+    ),
+    (
+        '/legacy/contact/feedback/single_sign_on/',
+        reverse('contact-us-feedback')
+    ),
+    ('/legacy/contact/feedback/soo/', reverse('contact-us-feedback')),
+    ('/legacy/contact/feedback/sso/', reverse('contact-us-feedback')),
+    ('/legacy/contact/invest/FeedbackForm/', reverse('contact-us-feedback')),
+    (
+        '/legacy/contact/opportunities/FeedbackForm/',
+        reverse('contact-us-feedback')
+    ),
+    (
+        '/legacy/contact/selling_online_overseas/',
         reverse('contact-us-routing-form', kwargs={'step': 'domestic'})
     ),
     (
-        '/help/selling_online_overseas/FeedbackForm/',
+        '/legacy/contact/selling_online_overseas/FeedbackForm/',
         reverse('contact-us-feedback')
     ),
     (
-        '/help/single_sign_on/',
+        '/legacy/contact/single_sign_on/',
         reverse('contact-us-routing-form', kwargs={'step': 'great-account'})
     ),
     (
-        '/help/single_sign_on/FeedbackForm/',
+        '/legacy/contact/single_sign_on/FeedbackForm/',
         reverse('contact-us-feedback')
     ),
     (
-        '/help/soo/feedback/',
+        '/legacy/contact/soo/feedback/',
         reverse('contact-us-feedback')
     ),
     (
-        '/help/soo/FeedbackForm/',
+        '/legacy/contact/soo/FeedbackForm/',
         reverse('contact-us-feedback')
     ),
     (
-        '/help/soo/Triage/',
+        '/legacy/contact/soo/Triage/',
         reverse('contact-us-routing-form', kwargs={'step': 'location'}),
     ),
     (
-        '/help/soo/TriageForm/',
+        '/legacy/contact/soo/TriageForm/',
         reverse('contact-us-routing-form', kwargs={'step': 'location'}),
     ),
     (
-        '/help/triage/',
+        '/legacy/contact/triage/',
         reverse('contact-us-routing-form', kwargs={'step': 'location'}),
     ),
     (
-        '/help/triage/directory/',
+        '/legacy/contact/triage/directory/',
         reverse('contact-us-routing-form', kwargs={'step': 'location'}),
     ),
     (
-        '/help/triage/soo/',
+        '/legacy/contact/triage/soo/',
         reverse('contact-us-routing-form', kwargs={'step': 'location'}),
     ),
     (
-        '/help/triage/sso/',
+        '/legacy/contact/triage/sso/',
         reverse('contact-us-routing-form', kwargs={'step': 'location'}),
     ),
 ]
