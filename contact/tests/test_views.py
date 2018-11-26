@@ -174,7 +174,7 @@ def domestic_form_data(captcha_stub):
     (
         constants.INTERNATIONAL,
         constants.BUYING,
-        reverse('contact-us-find-uk-companies'),
+        settings.FIND_A_SUPPLIER_CONTACT_URL,
     ),
     (
         constants.INTERNATIONAL,
@@ -241,14 +241,6 @@ def test_get_previous_step(current_step, expected_step):
             settings.CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS,
-        ),
-        (
-            reverse('contact-us-find-uk-companies'),
-            reverse('contact-us-find-uk-companies-success'),
-            views.BuyingFromUKCompaniesFormView,
-            settings.CONTACT_BUYING_AGENT_NOTIFY_TEMPLATE_ID,
-            settings.CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID,
-            settings.CONTACT_BUYING_AGENT_EMAIL_ADDRESS,
         ),
     )
 )

@@ -183,7 +183,9 @@ DEBUG_SET_ENV_VARS := \
 	export FEATURE_PROTOTYPE_HEADER_FOOTER_ENABLED=false; \
 	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
 	export FEATURE_CONTACT_US_ENABLED=true; \
-	export EUEXIT_AGENT_EMAIL=test@example.com
+	export EUEXIT_AGENT_EMAIL=test@example.com; \
+	export FIND_A_SUPPLIER_CONTACT_URL=http://supplier.trade.great:8005/industries/contact/
+
 
 TEST_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
