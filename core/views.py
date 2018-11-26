@@ -214,6 +214,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
             'contact-us-export-opportunities-guidance',
             'contact-us-great-account-guidance',
             'contact-us-export-advice',
+            'campaign-page',
         ]
 
         dynamic_cms_page_url_names += [url.name for url in urls.prototype_urls]
