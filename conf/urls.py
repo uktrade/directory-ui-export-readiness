@@ -15,6 +15,7 @@ import euexit.views
 import finance.views
 import prototype.views
 import triage.views
+import marketing.views
 
 from conf.url_redirects import redirects
 
@@ -685,9 +686,18 @@ contact_urls = [
 
 ]
 
+marketing_urls = [
+    url(
+        r"^campaigns/(?P<slug>[\w-]+)/$",
+        marketing.views.CampaignPageView.as_view(),
+        name='campaign-page',
+    ),
+]
+
 
 urlpatterns += euexit_urls
 urlpatterns += redirects
 urlpatterns += news_urls
 urlpatterns += prototype_urls
 urlpatterns += contact_urls
+urlpatterns += marketing_urls

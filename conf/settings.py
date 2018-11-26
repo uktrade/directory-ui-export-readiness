@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'export_elements',
     'directory_components',
     'prototype',
+    'marketing',
     'euexit',
     'contact',
 ]
@@ -405,6 +406,8 @@ GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
 FEATURE_FLAGS = {
     'PROTOTYPE_PAGES_ON': env.bool(
         'FEATURE_PROTOTYPE_PAGES_ENABLED', False),
+    'CAMPAIGN_PAGES_ON': env.bool(
+        'FEATURE_CAMPAIGN_PAGES_ENABLED', False),
     'PROTOTYPE_HEADER_FOOTER_ON': env.bool(
         'FEATURE_PROTOTYPE_HEADER_FOOTER_ENABLED', False),
     'NEWS_SECTION_ON': env.bool(
