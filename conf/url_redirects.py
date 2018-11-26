@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.urls import reverse_lazy
 from django.views.generic.base import RedirectView
 
 from core.views import (
@@ -483,7 +484,122 @@ article_redirects = [
 ]
 
 
+contact_redirects = [
+    url(
+        r'^legacy/contact/triage/(?P<service>[-\w\d]+)/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-routing-form', kwargs={'step': 'location'}
+            )
+        ),
+    ),
+    url(
+        r'^legacy/contact/(?P<service>[-\w\d]+)/TriageForm/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-routing-form', kwargs={'step': 'location'}
+            )
+        ),
+    ),
+    url(
+        r'^legacy/contact/(?P<service>[-\w\d]+)/Triage/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-routing-form', kwargs={'step': 'location'}
+            )
+        ),
+    ),
+    url(
+        r'^legacy/contact/triage/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-routing-form', kwargs={'step': 'location'}
+            )
+        ),
+    ),
+    url(
+        r'^legacy/contact/(?P<service>[-\w\d]+)/FeedbackForm/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy('contact-us-feedback')
+        ),
+    ),
+    url(
+        r'^legacy/contact/feedback/(?P<service>[-\w\d]+)/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy('contact-us-feedback')
+        ),
+    ),
+    url(
+        r'^legacy/contact/feedback/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy('contact-us-feedback')
+        ),
+    ),
+    url(
+        r'^legacy/contact/(?P<service>[-\w\d]+)/feedback/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy('contact-us-feedback')
+        ),
+    ),
+    url(
+        r'^legacy/contact/single_sign_on/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-routing-form', kwargs={'step': 'great-account'}
+            )
+        ),
+    ),
+    url(
+        r'^legacy/contact/selling_online_overseas/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-routing-form', kwargs={'step': 'domestic'}
+            )
+        ),
+    ),
+    url(
+        r'^legacy/contact/export_ops/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-routing-form', kwargs={'step': 'domestic'}
+            )
+        ),
+    ),
+    url(
+        r'^legacy/contact/export_opportunities/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-routing-form', kwargs={'step': 'domestic'}
+            )
+        ),
+    ),
+    url(
+        r'^legacy/contact/eig/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-routing-form', kwargs={'step': 'location'}
+            )
+        ),
+    ),
+    url(
+        r'^legacy/contact/directory/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-routing-form', kwargs={'step': 'location'}
+            )
+        ),
+    ),
+    url(
+        r'^legacy/contact/contact/$',
+        QuerystringRedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-routing-form', kwargs={'step': 'location'}
+            )
+        ),
+    ),
+]
+
 redirects += (
-    article_redirects + tos_redirects +
+    article_redirects + tos_redirects + contact_redirects +
     privacy_redirects + international_redirects
 )
