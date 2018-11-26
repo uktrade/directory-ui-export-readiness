@@ -149,7 +149,9 @@ def domestic_form_data(captcha_stub):
     (
         constants.EXPORT_OPPORTUNITIES,
         constants.NO_RESPONSE,
-        reverse('contact-us-domestic'),
+        views.build_export_opportunites_guidance_url(
+            cms.EXPORT_READINESS_HELP_EXOPP_NO_RESPONSE
+        ),
     ),
     (
         constants.EXPORT_OPPORTUNITIES,
@@ -157,11 +159,6 @@ def domestic_form_data(captcha_stub):
         views.build_export_opportunites_guidance_url(
             cms.EXPORT_READINESS_HELP_EXOPP_ALERTS_IRRELEVANT_SLUG
         ),
-    ),
-    (
-        constants.EXPORT_OPPORTUNITIES,
-        constants.MORE_DETAILS,
-        reverse('contact-us-domestic'),
     ),
     (
         constants.EXPORT_OPPORTUNITIES,
@@ -177,7 +174,7 @@ def domestic_form_data(captcha_stub):
     (
         constants.INTERNATIONAL,
         constants.BUYING,
-        reverse('contact-us-find-uk-companies'),
+        settings.FIND_A_SUPPLIER_CONTACT_URL,
     ),
     (
         constants.INTERNATIONAL,
@@ -202,6 +199,22 @@ def test_render_next_step(current_step, choice, expected_url):
     assert view.render_next_step(form).url == expected_url
 
 
+@pytest.mark.parametrize('current_step,expected_step', (
+    (constants.DOMESTIC, constants.LOCATION),
+    (constants.INTERNATIONAL, constants.LOCATION),
+    (constants.GREAT_SERVICES, constants.DOMESTIC),
+    (constants.GREAT_ACCOUNT, constants.GREAT_SERVICES),
+    (constants.EXPORT_OPPORTUNITIES, constants.GREAT_SERVICES),
+))
+def test_get_previous_step(current_step, expected_step):
+    view = views.RoutingFormView()
+    view.steps = mock.Mock(current=current_step)
+    view.storage = mock.Mock()
+    view.url_name = 'triage-wizard'
+
+    assert view.get_prev_step() == expected_step
+
+
 @pytest.mark.parametrize(
     'url,success_url,view_class,agent_template,user_template,agent_email',
     (
@@ -222,28 +235,12 @@ def test_render_next_step(current_step, choice, expected_url):
             settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
         ),
         (
-            reverse('contact-us-domestic'),
-            reverse('contact-us-domestic-success'),
-            views.DomesticFormView,
-            settings.CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID,
-            settings.CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID,
-            settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
-        ),
-        (
             reverse('contact-us-international'),
             reverse('contact-us-international-success'),
             views.InternationalFormView,
             settings.CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS,
-        ),
-        (
-            reverse('contact-us-find-uk-companies'),
-            reverse('contact-us-find-uk-companies-success'),
-            views.BuyingFromUKCompaniesFormView,
-            settings.CONTACT_BUYING_AGENT_NOTIFY_TEMPLATE_ID,
-            settings.CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID,
-            settings.CONTACT_BUYING_AGENT_EMAIL_ADDRESS,
         ),
     )
 )
@@ -325,10 +322,13 @@ def test_success_view_cms(mock_lookup_by_slug, url, slug, client):
 @mock.patch('captcha.fields.ReCaptchaField.clean')
 @mock.patch('contact.views.GovNotifyAction')
 @mock.patch('contact.views.EmailAction')
+@mock.patch('contact.helpers.retrieve_exporting_advice_email')
 def test_exporting_from_uk_contact_form_submission(
-    mock_email_action, mock_notify_action, mock_clean, client, settings,
-    captcha_stub,
+    mock_retrieve_exporting_advice_email, mock_email_action,
+    mock_notify_action, mock_clean, client, settings, captcha_stub,
 ):
+    mock_retrieve_exporting_advice_email.return_value = 'regional@example.com'
+
     settings.FEATURE_FLAGS = {
         **settings.FEATURE_FLAGS,
         'CONTACT_US_ON': True
@@ -409,10 +409,21 @@ def test_exporting_from_uk_contact_form_submission(
 
     })
 
+    assert mock_email_action.call_count == 1
+    assert mock_email_action.call_args == mock.call(
+        recipients=['regional@example.com'],
+        subject=settings.CONTACT_EXPORTING_AGENT_SUBJECT,
+        reply_to=[settings.DEFAULT_FROM_EMAIL],
+    )
     assert mock_email_action().save.call_count == 1
     assert mock_email_action().save.call_args == mock.call({
         'text_body': mock.ANY, 'html_body': mock.ANY
     })
+
+    assert mock_retrieve_exporting_advice_email.call_count == 1
+    assert mock_retrieve_exporting_advice_email.call_args == mock.call(
+        '1234'
+    )
 
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -435,26 +446,43 @@ def test_guidance_view_cms_retrieval(mock_lookup_by_slug, client):
     )
 
 
-def test_feedback_submit_success(client, settings):
+@pytest.mark.parametrize(
+    'url,success_url,view_class,subject',
+    (
+        (
+            reverse('contact-us-domestic'),
+            reverse('contact-us-domestic-success'),
+            views.DomesticFormView,
+            settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
+        ),
+        (
+            reverse('contact-us-feedback'),
+            reverse('contact-us-feedback-success'),
+            views.FeedbackFormView,
+            settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
+        ),
+    )
+)
+def test_zendesk_submit_success(
+    client, url, success_url, view_class, subject, settings
+):
     class Form(forms.SerializeDataMixin, django.forms.Form):
         email = django.forms.EmailField()
-        name = django.forms.CharField()
         save = mock.Mock()
+        full_name = 'Foo B'
 
-    url = reverse('contact-us-feedback')
-
-    with mock.patch.object(views.FeedbackFormView, 'form_class', Form):
-        response = client.post(url, {'email': 'foo@bar.com', 'name': 'Foo B'})
+    with mock.patch.object(view_class, 'form_class', Form):
+        response = client.post(url, {'email': 'foo@bar.com'})
 
     assert response.status_code == 302
-    assert response.url == reverse('contact-us-feedback-success')
+    assert response.url == success_url
 
     assert Form.save.call_count == 1
     assert Form.save.call_args == mock.call(
         email_address='foo@bar.com',
         full_name='Foo B',
-        subject=settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
-
+        subject=subject,
+        service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME
     )
 
 

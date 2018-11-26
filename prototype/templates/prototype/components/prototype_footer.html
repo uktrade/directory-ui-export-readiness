@@ -1,14 +1,18 @@
 {% load static %}
-<footer id="footer">
-  <div class="container logo-container">
-    <img class="float-left" id="footer-dit-logo" src="{% static 'directory_components/images/dfit-logo-white.png' %}" alt="Department for International Trade"/>
-    <img class="float-right" id="footer-eig-logo" src="{% static 'directory_components/images/eig-logo-stacked.svg' %}" alt="Exporting is Great"/>
+<footer id="great-footer" class="great-footer light-grey-text background-great-blue">
+
+  <div class="container great-footer-logo-container padding-vertical-30">
+    <img class="float-left" height="70" id="great-footer-dit-logo" src="{% static 'directory_components/images/dfit-logo-white.png' %}" alt="Department for International Trade"/>
+    <img class="float-right" height="82" id="great-footer-eig-logo" src="{% static 'directory_components/images/eig-logo-stacked.svg' %}" alt="Exporting is Great"/>
+    <div class="clearfix"></div>
   </div>
-  <nav class="container">
-    <div class="grid-row">
-      <div class="column-fifth">
-        <h2 class="heading heading-small" id="footer-advice-links">Advice</h2>
-        <ul aria-labelledby="footer-advice-links" class="footer-links-list">
+
+  <nav class="container great-footer-links-container padding-vertical-30">
+    <div class="card-grid">
+
+      <div class="great-footer-links-list-column">
+        <h2 class="heading heading-small stone-text" id="great-footer-advice-links">Advice</h2>
+        <ul aria-labelledby="footer-advice-links" class="great-footer-links-list">
           <li>
             <a href="#footer">How to start exporting</a>
           </li>
@@ -28,39 +32,41 @@
             <a href="#footer">Understand your market</a>
           </li>
           <li>
-            <a id="footer-advice-link" href="{{ prototype_advice_link }}">View all topics</a>
+            <a id="great-footer-advice-link" href="{% url 'topic-list' 'advice-and-guidance' %}">View all topics</a>
           </li>
         </ul>
       </div>
-      <div class="column-fifth">
-        <h2 class="heading heading-small" id="footer-markets-links">Markets</h2>
-        <ul aria-labelledby="footer-markets-links" class="footer-links-list">
+
+      <div class="great-footer-links-list-column">
+        <h2 class="heading heading-small stone-text" id="great-footer-markets-links">Markets</h2>
+        <ul aria-labelledby="footer-markets-links" class="great-footer-links-list">
           <li>
-            <a href="#footer">Asia Pacific</a>
+            <a href="{% url 'article-list' 'markets' 'asia-pacific' %}">Asia Pacific</a>
           </li>
           <li>
-            <a href="#footer">Africa</a>
+            <a href="{% url 'article-list' 'markets' 'africa' %}">Africa</a>
           </li>
           <li>
-            <a href="#footer">China and Hong Kong</a>
+            <a href="{% url 'article-list' 'markets' 'china-and-hong-kong' %}">China and Hong Kong</a>
           </li>
           <li>
-            <a href="#footer">Europe</a>
+            <a href="{% url 'article-list' 'markets' 'europe' %}">Europe</a>
           </li>
           <li>
-            <a href="#footer">North America</a>
+            <a href="{% url 'article-list' 'markets' 'north-america' %}">North America</a>
           </li>
           <li>
-            <a href="#footer">Middle East</a>
+            <a href="{% url 'article-list' 'markets' 'middle-east' %}">Middle East</a>
           </li>
           <li>
-            <a href="#footer">View all markets</a>
+            <a href="{% url 'topic-list' 'markets' %}">View all markets</a>
           </li>
         </ul>
       </div>
-      <div class="column-fifth">
-        <h2 class="heading heading-small" id="footer-industries-links">Industries</h2>
-        <ul aria-labelledby="footer-industries-links" class="footer-links-list">
+
+      <div class="great-footer-links-list-column">
+        <h2 class="heading heading-small stone-text" id="great-footer-industries-links">Industries</h2>
+        <ul aria-labelledby="footer-industries-links" class="great-footer-links-list">
           <li>
             <a href="#footer">Creative and media</a>
           </li>
@@ -84,50 +90,57 @@
           </li>
         </ul>
       </div>
-      <div class="column-fifth">
-        <h2 class="heading heading-small" id="footer-services-links">Services</h2>
-        <ul aria-labelledby="footer-services-links" class="footer-links-list-services">
+
+      <div class="great-footer-links-list-column">
+        <h2 class="heading heading-small stone-text" id="great-footer-services-links">Services</h2>
+        <ul aria-labelledby="footer-services-links" class="great-footer-links-list services-links">
           <li>
-            <a href="#footer">Create a business profile</a>
+            <a id="great-footer-services-find-a-buyer" href="{{ header_footer_urls.fab }}">Create a business profile</a>
           </li>
           <li>
-            <a href="#footer">Sell online overseas</a>
+            <a id="great-footer-services-selling-online-overseas" href="{{ header_footer_urls.soo }}">Sell online overseas</a>
           </li>
           <li>
-            <a href="#footer">Find export opportunities</a>
+            <a id="great-footer-services-export-opportunities" href="{{ header_footer_urls.exopps }}">Find export opportunities</a>
           </li>
           <li>
-            <a href="#footer">Get finance</a>
+            <a id="great-footer-services-get-finance" href="{{ header_footer_urls.get_finance }}">Get finance</a>
           </li>
           <li>
-            <a href="#footer">Find events and visits</a>
+            <a id="great-footer-services-events" href="{{ header_footer_urls.events }}">Find events and visits</a>
           </li>
         </ul>
       </div>
 
     </div>
   </nav>
-  <div class="container site-links">
+
+  <div class="container great-footer-site-links padding-vertical-15">
     <ul>
       <li>
-        <a id="footer-site-links-about" href="#footer">About</a>
+        <a id="great-footer-site-links-about" href="{{ header_footer_urls.about }}">About</a>
       </li>
       <li>
-        <a id="footer-site-links-contact" href="#footer">Contact us</a>
+        <a id="great-footer-site-links-contact" href="{{ header_footer_urls.contact_us }}">Contact us</a>
       </li>
       <li>
-        <a id="footer-site-links-privacy-and-cookies" href="#footer">Privacy and cookies</a>
+        <a id="great-footer-site-links-privacy-and-cookies" href="{{ header_footer_urls.privacy_and_cookies }}">Privacy and cookies</a>
       </li>
       <li>
-        <a id="footer-site-links-t-and-c" href="#footer">Terms and conditions</a>
+        <a id="great-footer-site-links-t-and-c" href="{{ header_footer_urls.terms_and_conditions }}">Terms and conditions</a>
       </li>
       <li>
-        <a id="footer-site-links-performance" href="#footer">Performance</a>
+        <a id="great-footer-site-links-performance" href="{{ header_footer_urls.performance }}">Performance</a>
       </li>
       <li>
-        <a id="footer-site-links-dit" href="#footer">Department for International Trade on GOV.UK</a>
+        <a id="great-footer-site-links-dit" href="{{ header_footer_urls.dit }}">Department for International Trade on GOV.UK</a>
       </li>
     </ul>
-    <p id="footer-copyright-text" class="float-right">&copy; Crown copyright {% now "Y" %}. All rights reserved.</p>
+  </div>
+
+  <div class="great-footer-copyright background-dark-navy">
+    <div class="container">
+      <p id="great-footer-copyright-text" class="margin-0">&copy; Crown copyright {% now "Y" %}. All rights reserved.</p>
+    </div>
   </div>
 </footer>

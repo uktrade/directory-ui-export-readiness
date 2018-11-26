@@ -15,6 +15,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 
 import environ
+from directory_components.constants import IP_RETRIEVER_NAME_GOV_UK
 from directory_constants.constants import cms
 
 
@@ -74,6 +75,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE_CLASSES = [
     'directory_components.middleware.MaintenanceModeMiddleware',
+    'directory_components.middleware.IPRestrictorMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -141,12 +143,22 @@ if env.str('REDIS_URL', ''):
             'CLIENT_CLASS': "django_redis.client.DefaultClient",
         }
     }
+    CACHES['api_fallback'] = {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': env.str('REDIS_URL'),
+        'OPTIONS': {
+            'CLIENT_CLASS': "django_redis.client.DefaultClient",
+        }
+    }
 else:
     CACHES['cms_fallback'] = {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'unique-snowflake',
     }
-
+    CACHES['api_fallback'] = {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -379,7 +391,9 @@ DIRECTORY_CMS_API_CLIENT_API_KEY = env.str('CMS_SIGNATURE_SECRET')
 DIRECTORY_CMS_API_CLIENT_SENDER_ID = 'directory'
 DIRECTORY_CMS_API_CLIENT_SERVICE_NAME = cms.EXPORT_READINESS
 DIRECTORY_CMS_API_CLIENT_DEFAULT_TIMEOUT = 15
-DIRECTORY_CMS_API_CLIENT_CACHE_EXPIRE_SECONDS = 60 * 60 * 24 * 30  # 30 days
+
+# directory clients
+DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS = 60 * 60 * 24 * 30  # 30 days
 
 FEATURE_CMS_ENABLED = os.getenv('FEATURE_CMS_ENABLED', 'false') == 'true'
 FEATURE_PERFORMANCE_DASHBOARD_ENABLED = os.getenv(
@@ -430,9 +444,7 @@ FEATURE_FLAGS = {
 }
 
 PROTOTYPE_HOME_LINK = env.str(
-    'PROTOTYPE_HOME_LINK', 'https://invis.io/GROOBO8PYQV')
-PROTOTYPE_ADVICE_LINK = env.str(
-    'PROTOTYPE_ADVICE_LINK', '/prototype/advice-and-guidance/')
+    'PROTOTYPE_HOME_LINK', '/prototype')
 
 # UK Export Finance
 UKEF_PI_TRACKER_JAVASCRIPT_URL = env.str(
@@ -447,6 +459,9 @@ DIRECTORY_FORMS_API_SENDER_ID = env.str('DIRECTORY_FORMS_API_SENDER_ID')
 DIRECTORY_FORMS_API_DEFAULT_TIMEOUT = env.int(
     'DIRECTORY_API_FORMS_DEFAULT_TIMEOUT', 5
 )
+DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME = env.str(
+    'DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME', 'Directory'
+)
 
 # EU Exit
 EU_EXIT_ZENDESK_SUBDOMAIN = env.str('EU_EXIT_ZENDESK_SUBDOMAIN')
@@ -457,12 +472,19 @@ DIRECTORY_FORMS_API_SENDER_ID_EUEXIT = env.str(
     'DIRECTORY_FORMS_API_SENDER_ID_EUEXIT'
 )
 EUEXIT_AGENT_EMAIL = env.str('EUEXIT_AGENT_EMAIL')
-EUEXIT_GOV_NOTIFY_TEMPLATE_ID = env.str('EUEXIT_GOV_NOTIFY_TEMPLATE_ID')
+EUEXIT_GOV_NOTIFY_TEMPLATE_ID = env.str(
+    'EUEXIT_GOV_NOTIFY_TEMPLATE_ID',
+    '15fa965f-2699-4656-a3ee-f087fb53c523'
+)
 EUEXIT_GOV_NOTIFY_REPLY_TO_ID = env.str('EUEXIT_GOV_NOTIFY_REPLY_TO_ID', None)
 
 # Contact
 INVEST_CONTACT_URL = env.str(
     'INVEST_CONTACT_URL', 'https://invest.great.gov.uk/contact/'
+)
+FIND_A_SUPPLIER_CONTACT_URL = env.str(
+    'FIND_A_SUPPLIER_CONTACT_URL',
+    'https://trade.great.gov.uk/industries/contact/'
 )
 FIND_TRADE_OFFICE_URL = env.str(
     'FIND_TRADE_OFFICE_URL',
@@ -472,53 +494,57 @@ CONTACT_DOMESTIC_ZENDESK_SUBJECT = env.str(
     'CONTACT_DOMESTIC_ZENDESK_SUBJECT', 'Great.gov.uk contact form'
 )
 CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID = env.str(
-    'CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID'
+    'CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID',
+    '2d5d556a-e0fa-4a9b-81a0-6ed3fcb2e3da'
 )
 CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID = env.str(
-    'CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID'
+    'CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID',
+    '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'
 )
 CONTACT_EVENTS_AGENT_EMAIL_ADDRESS = env.str(
     'CONTACT_EVENTS_AGENT_EMAIL_ADDRESS'
 )
 CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID = env.str(
-    'CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID'
+    'CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID',
+    '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'
 )
 CONTACT_DSO_AGENT_EMAIL_ADDRESS = env.str(
     'CONTACT_DSO_AGENT_EMAIL_ADDRESS'
 )
 CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID = env.str(
-    'CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID'
-)
-CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID = env.str(
-    'CONTACT_DIT_AGENT_NOTIFY_TEMPLATE_ID'
+    'CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID',
+    'a6a3db79-944f-4c59-8eeb-2f756019976c'
 )
 CONTACT_DIT_AGENT_EMAIL_ADDRESS = env.str(
     'CONTACT_DIT_AGENT_EMAIL_ADDRESS'
 )
-CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID = env.str(
-    'CONTACT_DIT_USER_NOTIFY_TEMPLATE_ID'
-)
 CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID = env.str(
-    'CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID'
+    'CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID',
+    '8bd422e0-3ec4-4b05-9de8-9cf039d258a9'
 )
 CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS = env.str(
     'CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS'
 )
 CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID = env.str(
-    'CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID'
-)
-CONTACT_BUYING_AGENT_NOTIFY_TEMPLATE_ID = env.str(
-    'CONTACT_BUYING_AGENT_NOTIFY_TEMPLATE_ID'
-)
-CONTACT_BUYING_AGENT_EMAIL_ADDRESS = env.str(
-    'CONTACT_BUYING_AGENT_EMAIL_ADDRESS'
-)
-CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID = env.str(
-    'CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID'
+    'CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID',
+    'c07d1fb2-dc0c-40ba-a3e0-3113638e69a3'
 )
 CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID = env.str(
-    'CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID'
+    'CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID',
+    '5abd7372-a92d-4351-bccb-b9a38d353e75'
 )
 CONTACT_EXPORTING_AGENT_SUBJECT = env.str(
     'CONTACT_EXPORTING_AGENT_SUBJECT', 'A form was submitted on great.gov.uk'
+)
+
+# ip-restrictor
+RESTRICT_ADMIN = env.bool('IP_RESTRICTOR_RESTRICT_IPS', False)
+ALLOWED_ADMIN_IPS = env.list('IP_RESTRICTOR_ALLOWED_ADMIN_IPS', default=[])
+ALLOWED_ADMIN_IP_RANGES = env.list(
+    'IP_RESTRICTOR_ALLOWED_ADMIN_IP_RANGES', default=[]
+)
+RESTRICTED_APP_NAMES = ['admin', '']
+REMOTE_IP_ADDRESS_RETRIEVER = env.str(
+    'IP_RESTRICTOR_REMOTE_IP_ADDRESS_RETRIEVER',
+    IP_RETRIEVER_NAME_GOV_UK
 )

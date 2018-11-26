@@ -6,12 +6,13 @@ from directory_components import forms, fields, widgets
 from directory_constants.constants import choices, urls
 from directory_validators.common import not_contains_url_or_email
 from directory_validators.company import no_html
+import requests.exceptions
 
 from django.conf import settings
 from django.forms import Textarea, TextInput
 from django.utils.html import mark_safe
 
-from contact import constants
+from contact import constants, helpers
 
 
 TERMS_LABEL = mark_safe(
@@ -127,7 +128,6 @@ class ExportOpportunitiesRoutingForm(forms.Form):
             'I haven\'t had a response from the opportunity I applied for'
         ),
         (constants.ALERTS, 'My daily alerts are not relevant to me'),
-        (constants.MORE_DETAILS, 'I need more details about the opportunity'),
         (constants.OTHER, 'Other'),
     )
     choice = fields.ChoiceField(
@@ -179,10 +179,7 @@ class InternationalRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
     )
 
 
-class FeedbackForm(
-    SerializeDataMixin, ZendeskActionMixin,
-    forms.Form
-):
+class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
     name = fields.CharField(
         validators=anti_phising_validators
     )
@@ -200,10 +197,13 @@ class FeedbackForm(
         label=TERMS_LABEL
     )
 
+    @property
+    def full_name(self):
+        assert self.is_valid()
+        return self.cleaned_data['name']
 
-class DomesticContactForm(
-    SerializeDataMixin, GovNotifyActionMixin, forms.Form
-):
+
+class BaseShortForm(forms.Form):
     comment = fields.CharField(
         label=(
             'If something is wrong, please give as much details as you can'
@@ -245,60 +245,32 @@ class DomesticContactForm(
         label=TERMS_LABEL
     )
 
+
+class ShortNotifyForm(SerializeDataMixin, GovNotifyActionMixin, BaseShortForm):
+
+    @property
+    def serialized_data(self):
+        data = super().serialized_data
+        try:
+            details = helpers.retrieve_regional_office(data['postcode'])
+        except requests.exceptions.RequestException:
+            # post code may be incorrect or a server error may have occurred.
+            # Set empty as GovUK notify errors if any variables are missing.
+            data['dit_regional_office_name'] = ''
+            data['dit_regional_office_email'] = ''
+        else:
+            data['dit_regional_office_name'] = details['name']
+            data['dit_regional_office_email'] = details['email']
+        return data
+
+
+class ShortZendeskForm(SerializeDataMixin, ZendeskActionMixin, BaseShortForm):
+
     @property
     def full_name(self):
         assert self.is_valid()
         cleaned_data = self.cleaned_data
         return f'{cleaned_data["given_name"]} {cleaned_data["family_name"]}'
-
-
-class BuyingFromUKContactForm(
-    SerializeDataMixin, GovNotifyActionMixin,
-    forms.Form
-):
-    given_name = fields.CharField(
-        validators=anti_phising_validators
-    )
-    family_name = fields.CharField(
-        validators=anti_phising_validators
-    )
-    email = fields.EmailField(label='Email address')
-    industry = fields.ChoiceField(
-        choices=INDUSTRY_CHOICES,
-    )
-    industry_other = fields.CharField(
-        label='Type in your industry',
-        widget=TextInput(attrs={'class': 'js-field-other'}),
-        required=False,
-    )
-    organisation_name = fields.CharField(
-        validators=anti_phising_validators
-    )
-    country_name = fields.CharField(
-        validators=anti_phising_validators
-    )
-    comment = fields.CharField(
-        help_text='Maximum 1000 characters.',
-        max_length=1000,
-        widget=Textarea,
-        validators=anti_phising_validators
-    )
-    source = fields.ChoiceField(
-        label='Where did you hear about great.gov.uk?',
-        choices=(('', 'Please select'),) + constants.MARKETING_SOURCES,
-    )
-    source_other = fields.CharField(
-        label='Other source (optional)',
-        required=False,
-        validators=anti_phising_validators,
-    )
-    captcha = ReCaptchaField(
-        label='',
-        label_suffix='',
-    )
-    terms_agreed = fields.BooleanField(
-        label=TERMS_LABEL
-    )
 
 
 class InternationalContactForm(

@@ -1,7 +1,9 @@
-Hello,
+<p>Hello,</p>
 
-An Exporting from the UK form was submitted on great.gov.uk:
+<p>An Exporting from the UK form was submitted on great.gov.uk:<p>
 
+<ul>
 {% for key, value in form_data.items %}
-	{{ key }}: {{ value }}
+	<li>{{ key }}: {{ value }}</li>
 {% endfor %}
+<ul>
