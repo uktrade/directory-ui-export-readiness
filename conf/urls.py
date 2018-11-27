@@ -85,6 +85,11 @@ urlpatterns = [
         name='not-found'
     ),
     url(
+        r"^campaigns/(?P<slug>[\w-]+)/$",
+        core.views.CampaignPageView.as_view(),
+        name='campaign-page',
+    ),
+    url(
         r"^performance-dashboard/$",
         core.views.PerformanceDashboardGreatView.as_view(),
         name='performance-dashboard'

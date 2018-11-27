@@ -114,6 +114,18 @@ class PrototypeLandingPageView(
     pass
 
 
+class CampaignPageView(
+    mixins.CampaignPagesFeatureFlagMixin,
+    mixins.GetCMSPageMixin,
+    TemplateView
+):
+    template_name = 'core/campaign.html'
+
+    @property
+    def slug(self):
+        return self.kwargs['slug']
+
+
 class InternationalLandingPageView(
     mixins.TranslationsMixin,
     mixins.GetCMSPageMixin,
@@ -214,6 +226,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
             'contact-us-export-opportunities-guidance',
             'contact-us-great-account-guidance',
             'contact-us-export-advice',
+            'campaign-page',
         ]
 
         dynamic_cms_page_url_names += [url.name for url in urls.prototype_urls]
