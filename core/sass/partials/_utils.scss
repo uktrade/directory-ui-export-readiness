@@ -1,0 +1,15 @@
+
+// UTILITY CLASSES
+// ================
+
+.button-large {
+  text-align: center;
+  width: 300px;
+  padding: 15px 0;
+}
+
+@media (max-width: 640px) {
+  .button-large {
+    width: 100%;
+  }
+}
