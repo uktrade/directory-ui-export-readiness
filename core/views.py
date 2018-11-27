@@ -115,6 +115,7 @@ class PrototypeLandingPageView(
 
 
 class CampaignPageView(
+    mixins.CampaignPagesFeatureFlagMixin,
     mixins.GetCMSPageMixin,
     TemplateView
 ):

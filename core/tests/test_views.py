@@ -775,3 +775,20 @@ def test_marketing_campaign_page_required_fields(
     assert soup.select(
         "li[aria-current='page']"
         )[0].text == page_required_fields['campaign_heading']
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_marketing_campaign_page_feature_flag_off(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['CAMPAIGN_PAGES_ON'] = False
+
+    url = reverse('campaign-page', kwargs={'slug': 'test-page'})
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=page_required_fields
+    )
+    response = client.get(url)
+
+    assert response.status_code == 404
