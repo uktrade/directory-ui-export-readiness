@@ -1,3 +1,5 @@
+from urllib.parse import urlparse
+
 from directory_constants.constants import cms
 from directory_forms_api_client.actions import EmailAction, GovNotifyAction
 
@@ -7,7 +9,7 @@ from django.conf import settings
 from django.http import Http404
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.utils.html import strip_tags
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -31,7 +33,7 @@ def build_great_account_guidance_url(step_name, ):
     )
 
 
-class FormIngressURLMixin:
+class IngressURLMixin:
 
     def get(self, *args, **kwargs):
         if SESSION_KEY_FORM_INGRESS_URL not in self.request.session:
@@ -44,11 +46,7 @@ class FormIngressURLMixin:
     def ingress_url(self):
         return self.request.session.get(SESSION_KEY_FORM_INGRESS_URL)
 
-    @property
-    def form_url(self):
-        return self.request.build_absolute_uri()
-
-    def clear_ingress_url(self):
+    def clear_ingress_url(self, *args, **kwargs):
         self.request.session.pop(SESSION_KEY_FORM_INGRESS_URL, None)
 
 
@@ -82,26 +80,21 @@ class SendNotifyMessagesMixin:
 
 
 class BaseNotifyFormView(
-    FeatureFlagMixin, FormIngressURLMixin, SendNotifyMessagesMixin, FormView
+    FeatureFlagMixin, IngressURLMixin, SendNotifyMessagesMixin, FormView
 ):
     def get_form_kwargs(self):
         return {
             **super().get_form_kwargs(),
-            'form_url': self.form_url,
+            'form_url': self.request.build_absolute_uri(),
             'ingress_url': self.ingress_url,
         }
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        self.clear_ingress_url()
-        return response
 
-
-class BaseZendeskFormView(FeatureFlagMixin, FormIngressURLMixin, FormView):
+class BaseZendeskFormView(FeatureFlagMixin, IngressURLMixin, FormView):
     def get_form_kwargs(self):
         return {
             **super().get_form_kwargs(),
-            'form_url': self.form_url,
+            'form_url': self.request.build_absolute_uri(),
             'ingress_url': self.ingress_url,
         }
 
@@ -113,16 +106,34 @@ class BaseZendeskFormView(FeatureFlagMixin, FormIngressURLMixin, FormView):
             service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME,
         )
         response.raise_for_status()
-        self.clear_ingress_url()
         return super().form_valid(form)
 
 
-class BaseSuccessView(FeatureFlagMixin, mixins.GetCMSPageMixin, TemplateView):
-    pass
+class BaseSuccessView(
+    FeatureFlagMixin, IngressURLMixin, mixins.GetCMSPageMixin, TemplateView
+):
+    template_name = 'contact/submit-success.html'
+
+    def get(self, *args, **kwargs):
+        response = super().get(*args, **kwargs)
+        response.add_post_render_callback(self.clear_ingress_url)
+        return response
+
+    def get_next_url(self):
+        # If the ingress URL is internal then allow user to go back to it
+        if urlparse(self.ingress_url).netloc == self.request.get_host():
+            return self.ingress_url
+        return reverse('landing-page')
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            next_url=self.get_next_url()
+        )
 
 
 class RoutingFormView(
-    FeatureFlagMixin, FormIngressURLMixin, NamedUrlSessionWizardView
+    FeatureFlagMixin, IngressURLMixin, NamedUrlSessionWizardView
 ):
 
     # given the current step, based on selected  option, where to redirect.
@@ -223,6 +234,10 @@ class RoutingFormView(
         choice = form.cleaned_data['choice']
         redirect_url = self.get_redirect_url(choice)
         if redirect_url:
+            # clear the ingress URL when redirecting away from the service as
+            # the "normal way" for clearing it via success page will not be hit
+            if not urlparse(redirect_url).netloc != self.request.get_host():
+                self.clear_ingress_url()
             return redirect(redirect_url)
         return self.render_goto_step(choice)
 
@@ -231,10 +246,16 @@ class RoutingFormView(
             step = self.steps.current
         return self.back_mapping.get(step)
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        if urlparse(self.ingress_url).netloc == self.request.get_host():
+            context_data['prev_url'] = self.ingress_url
+        return context_data
+
 
 class ExportingAdviceFormView(
     FeatureFlagMixin, mixins.PreventCaptchaRevalidationMixin,
-    FormIngressURLMixin, NamedUrlSessionWizardView
+    IngressURLMixin, NamedUrlSessionWizardView
 ):
     success_url = reverse_lazy('contact-us-domestic-success')
 
@@ -285,7 +306,6 @@ class ExportingAdviceFormView(
         form_data = self.serialize_form_list(form_list)
         self.send_agent_message(form_data)
         self.send_user_message(form_data)
-        self.clear_ingress_url()
         return redirect(self.success_url)
 
     def serialize_form_list(self, form_list):
@@ -294,7 +314,7 @@ class ExportingAdviceFormView(
             data.update(form.cleaned_data)
         del data['terms_agreed']
         data['ingress_url'] = self.ingress_url
-        data['form_url'] = self.form_url
+        data['form_url'] = self.request.build_absolute_uri()
         return data
 
 
@@ -349,41 +369,34 @@ class DefenceAndSecurityOrganisationFormView(BaseNotifyFormView):
 
 
 class InternationalSuccessView(BaseSuccessView):
-    template_name = 'contact/submit-success.html'
     slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_INTERNATIONAL_SLUG
 
 
 class DomesticSuccessView(BaseSuccessView):
-    template_name = 'contact/submit-success.html'
     slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_SLUG
 
 
 class EventsSuccessView(BaseSuccessView):
-    template_name = 'contact/submit-success.html'
     slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_EVENTS_SLUG
 
 
 class DefenceAndSecurityOrganisationSuccessView(BaseSuccessView):
-    template_name = 'contact/submit-success.html'
     slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_DSO_SLUG
 
 
 class ExportingAdviceSuccessView(BaseSuccessView):
-    template_name = 'contact/submit-success.html'
     slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_EXPORT_ADVICE_SLUG
 
 
 class FeedbackSuccessView(BaseSuccessView):
-    template_name = 'contact/submit-success.html'
     slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_FEEDBACK_SLUG
 
 
 class BuyingFromUKCompaniesSuccessView(BaseSuccessView):
-    template_name = 'contact/submit-success.html'
     slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_FIND_COMPANIES_SLUG
 
 
-class GuidanceView(BaseSuccessView):
+class GuidanceView(FeatureFlagMixin, mixins.GetCMSPageMixin, TemplateView):
     template_name = 'contact/guidance.html'
 
     @property
