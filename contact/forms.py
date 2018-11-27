@@ -273,55 +273,6 @@ class ShortZendeskForm(SerializeDataMixin, ZendeskActionMixin, BaseShortForm):
         return f'{cleaned_data["given_name"]} {cleaned_data["family_name"]}'
 
 
-class BuyingFromUKContactForm(
-    SerializeDataMixin, GovNotifyActionMixin,
-    forms.Form
-):
-    given_name = fields.CharField(
-        validators=anti_phising_validators
-    )
-    family_name = fields.CharField(
-        validators=anti_phising_validators
-    )
-    email = fields.EmailField(label='Email address')
-    industry = fields.ChoiceField(
-        choices=INDUSTRY_CHOICES,
-    )
-    industry_other = fields.CharField(
-        label='Type in your industry',
-        widget=TextInput(attrs={'class': 'js-field-other'}),
-        required=False,
-    )
-    organisation_name = fields.CharField(
-        validators=anti_phising_validators
-    )
-    country_name = fields.CharField(
-        validators=anti_phising_validators
-    )
-    comment = fields.CharField(
-        help_text='Maximum 1000 characters.',
-        max_length=1000,
-        widget=Textarea,
-        validators=anti_phising_validators
-    )
-    source = fields.ChoiceField(
-        label='Where did you hear about great.gov.uk?',
-        choices=(('', 'Please select'),) + constants.MARKETING_SOURCES,
-    )
-    source_other = fields.CharField(
-        label='Other source (optional)',
-        required=False,
-        validators=anti_phising_validators,
-    )
-    captcha = ReCaptchaField(
-        label='',
-        label_suffix='',
-    )
-    terms_agreed = fields.BooleanField(
-        label=TERMS_LABEL
-    )
-
-
 class InternationalContactForm(
     SerializeDataMixin, GovNotifyActionMixin, forms.Form
 ):

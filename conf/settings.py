@@ -15,6 +15,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 
 import environ
+from directory_components.constants import IP_RETRIEVER_NAME_GOV_UK
 from directory_constants.constants import cms
 
 
@@ -73,6 +74,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE_CLASSES = [
     'directory_components.middleware.MaintenanceModeMiddleware',
+    'directory_components.middleware.IPRestrictorMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -454,6 +456,9 @@ DIRECTORY_FORMS_API_SENDER_ID = env.str('DIRECTORY_FORMS_API_SENDER_ID')
 DIRECTORY_FORMS_API_DEFAULT_TIMEOUT = env.int(
     'DIRECTORY_API_FORMS_DEFAULT_TIMEOUT', 5
 )
+DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME = env.str(
+    'DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME', 'Directory'
+)
 
 # EU Exit
 EU_EXIT_ZENDESK_SUBDOMAIN = env.str('EU_EXIT_ZENDESK_SUBDOMAIN')
@@ -473,6 +478,10 @@ EUEXIT_GOV_NOTIFY_REPLY_TO_ID = env.str('EUEXIT_GOV_NOTIFY_REPLY_TO_ID', None)
 # Contact
 INVEST_CONTACT_URL = env.str(
     'INVEST_CONTACT_URL', 'https://invest.great.gov.uk/contact/'
+)
+FIND_A_SUPPLIER_CONTACT_URL = env.str(
+    'FIND_A_SUPPLIER_CONTACT_URL',
+    'https://trade.great.gov.uk/industries/contact/'
 )
 FIND_TRADE_OFFICE_URL = env.str(
     'FIND_TRADE_OFFICE_URL',
@@ -517,21 +526,22 @@ CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID = env.str(
     'CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID',
     'c07d1fb2-dc0c-40ba-a3e0-3113638e69a3'
 )
-CONTACT_BUYING_AGENT_NOTIFY_TEMPLATE_ID = env.str(
-    'CONTACT_BUYING_AGENT_NOTIFY_TEMPLATE_ID',
-    'a9318bce-7d65-41b2-8d4c-b4a76ba285a2'
-)
-CONTACT_BUYING_AGENT_EMAIL_ADDRESS = env.str(
-    'CONTACT_BUYING_AGENT_EMAIL_ADDRESS'
-)
-CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID = env.str(
-    'CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID',
-    '6a97f783-d246-42ca-be53-26faf3b08e32'
-)
 CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID = env.str(
     'CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID',
     '5abd7372-a92d-4351-bccb-b9a38d353e75'
 )
 CONTACT_EXPORTING_AGENT_SUBJECT = env.str(
     'CONTACT_EXPORTING_AGENT_SUBJECT', 'A form was submitted on great.gov.uk'
+)
+
+# ip-restrictor
+RESTRICT_ADMIN = env.bool('IP_RESTRICTOR_RESTRICT_IPS', False)
+ALLOWED_ADMIN_IPS = env.list('IP_RESTRICTOR_ALLOWED_ADMIN_IPS', default=[])
+ALLOWED_ADMIN_IP_RANGES = env.list(
+    'IP_RESTRICTOR_ALLOWED_ADMIN_IP_RANGES', default=[]
+)
+RESTRICTED_APP_NAMES = ['admin', '']
+REMOTE_IP_ADDRESS_RETRIEVER = env.str(
+    'IP_RESTRICTOR_REMOTE_IP_ADDRESS_RETRIEVER',
+    IP_RETRIEVER_NAME_GOV_UK
 )

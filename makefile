@@ -64,7 +64,6 @@ DOCKER_SET_DEBUG_ENV_VARS := \
 	export DIRECTORY_UI_EXPORT_READINESS_COMPANIES_HOUSE_CLIENT_ID=debug-client-id; \
 	export DIRECTORY_UI_EXPORT_READINESS_COMPANIES_HOUSE_CLIENT_SECRET=debug-client-secret; \
 	export DIRECTORY_UI_EXPORT_READINESS_SECURE_HSTS_SECONDS=0; \
-	export DIRECTORY_UI_EXPORT_READINESS_PYTHONDEBUG=true; \
 	export DIRECTORY_UI_EXPORT_READINESS_HEADER_FOOTER_URLS_GREAT_HOME=http://exred.trade.great:8007/; \
 	export DIRECTORY_UI_EXPORT_READINESS_HEADER_FOOTER_URLS_FAB=http://buyer.trade.great:8001; \
 	export DIRECTORY_UI_EXPORT_READINESS_HEADER_FOOTER_URLS_SOO=http://soo.trade.great:8008; \
@@ -152,7 +151,6 @@ DEBUG_SET_ENV_VARS := \
 	export COMPANIES_HOUSE_CLIENT_ID=debug-client-id; \
 	export COMPANIES_HOUSE_CLIENT_SECRET=debug-client-secret; \
 	export SECURE_HSTS_SECONDS=0; \
-	export PYTHONDEBUG=true; \
 	export HEADER_FOOTER_URLS_GREAT_HOME=http://exred.trade.great:8007/; \
 	export HEADER_FOOTER_URLS_FAB=http://buyer.trade.great:8001; \
 	export HEADER_FOOTER_URLS_SOO=http://soo.trade.great:8008; \
@@ -183,7 +181,9 @@ DEBUG_SET_ENV_VARS := \
 	export FEATURE_PROTOTYPE_HEADER_FOOTER_ENABLED=false; \
 	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
 	export FEATURE_CONTACT_US_ENABLED=true; \
-	export EUEXIT_AGENT_EMAIL=test@example.com
+	export EUEXIT_AGENT_EMAIL=test@example.com; \
+	export FIND_A_SUPPLIER_CONTACT_URL=http://supplier.trade.great:8005/industries/contact/
+
 
 TEST_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \

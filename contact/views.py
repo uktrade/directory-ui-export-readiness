@@ -110,6 +110,7 @@ class BaseZendeskFormView(FeatureFlagMixin, FormIngressURLMixin, FormView):
             email_address=form.cleaned_data['email'],
             full_name=form.full_name,
             subject=self.subject,
+            service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME,
         )
         response.raise_for_status()
         self.clear_ingress_url()
@@ -143,7 +144,7 @@ class RoutingFormView(
         },
         constants.INTERNATIONAL: {
             constants.INVESTING: settings.INVEST_CONTACT_URL,
-            constants.BUYING: reverse_lazy('contact-us-find-uk-companies'),
+            constants.BUYING: settings.FIND_A_SUPPLIER_CONTACT_URL,
             constants.EUEXIT: reverse_lazy(
                 'eu-exit-international-contact-form'
             ),
@@ -325,16 +326,6 @@ class InternationalFormView(BaseNotifyFormView):
     notify_template_id_user = (
         settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID
     )
-
-
-class BuyingFromUKCompaniesFormView(BaseNotifyFormView):
-    form_class = forms.BuyingFromUKContactForm
-    template_name = 'contact/comment-contact.html'
-    success_url = reverse_lazy('contact-us-find-uk-companies-success')
-
-    notify_template_id_agent = settings.CONTACT_BUYING_AGENT_NOTIFY_TEMPLATE_ID
-    notify_email_address_agent = settings.CONTACT_BUYING_AGENT_EMAIL_ADDRESS
-    notify_template_id_user = settings.CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID
 
 
 class EventsFormView(BaseNotifyFormView):
