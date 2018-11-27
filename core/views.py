@@ -114,6 +114,17 @@ class PrototypeLandingPageView(
     pass
 
 
+class CampaignPageView(
+    mixins.GetCMSPageMixin,
+    TemplateView
+):
+    template_name = 'core/campaign.html'
+
+    @property
+    def slug(self):
+        return self.kwargs['slug']
+
+
 class InternationalLandingPageView(
     mixins.TranslationsMixin,
     mixins.GetCMSPageMixin,
