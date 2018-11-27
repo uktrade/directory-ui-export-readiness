@@ -68,7 +68,6 @@ INSTALLED_APPS = [
     'export_elements',
     'directory_components',
     'prototype',
-    'marketing',
     'euexit',
     'contact',
 ]
