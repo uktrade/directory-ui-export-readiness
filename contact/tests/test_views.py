@@ -194,6 +194,7 @@ def test_render_next_step(current_step, choice, expected_url):
     view.steps = mock.Mock(current=current_step)
     view.storage = mock.Mock()
     view.url_name = 'triage-wizard'
+    view.request = mock.Mock()
 
     assert form.is_valid()
     assert view.render_next_step(form).url == expected_url
@@ -486,25 +487,23 @@ def test_zendesk_submit_success(
     )
 
 
-class IngressULRView(views.FormIngressURLMixin, TemplateView):
+class IngressURLView(views.IngressURLMixin, TemplateView):
 
     template_name = 'core/about.html'
 
     def get_context_data(self, *args, **kwargs):
         return {
             'ingress_url': self.ingress_url,
-            'form_url': self.form_url,
         }
 
 
 def test_form_ingress_url_mixin_set_if_http_referer(rf, client):
     request = rf.get('/foo/bar/', HTTP_REFERER='http://referer.com')
     request.session = client.session
-    response = IngressULRView.as_view()(request)
+    response = IngressURLView.as_view()(request)
 
     assert response.context_data == {
         'ingress_url': 'http://referer.com',
-        'form_url': 'http://testserver/foo/bar/',
     }
 
 
@@ -512,24 +511,153 @@ def test_form_ingress_url_mixin_not_overrite(rf, client):
     session = client.session
     request_one = rf.get('/foo/bar/a/', HTTP_REFERER='http://referer-a.com')
     request_one.session = session
-    IngressULRView.as_view()(request_one)
+    IngressURLView.as_view()(request_one)
 
     request_two = rf.get('/foo/bar/b/', HTTP_REFERER='http://referer-b.com')
     request_two.session = session
-    response = IngressULRView.as_view()(request_two)
+    response = IngressURLView.as_view()(request_two)
 
     assert response.context_data == {
         'ingress_url': 'http://referer-a.com',
-        'form_url': 'http://testserver/foo/bar/b/',
     }
 
 
 def test_form_ingress_url_referer_header_missing(rf, client):
     request = rf.get('/foo/bar/')
     request.session = client.session
-    response = IngressULRView.as_view()(request)
+    response = IngressURLView.as_view()(request)
 
     assert response.context_data == {
         'ingress_url': None,
-        'form_url': 'http://testserver/foo/bar/',
     }
+
+
+@pytest.mark.parametrize('url', (
+    reverse('contact-us-events-success'),
+    reverse('contact-us-dso-success'),
+    reverse('contact-us-export-advice-success'),
+    reverse('contact-us-feedback-success'),
+    reverse('contact-us-find-uk-companies-success'),
+    reverse('contact-us-domestic-success'),
+    reverse('contact-us-international-success'),
+))
+@mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+@mock.patch('contact.views.IngressURLMixin.clear_ingress_url')
+def test_ingress_url_cleared_on_success(
+    mock_clear_ingress_url, mock_lookup_by_slug, url, client, rf
+):
+    mock_clear_ingress_url.return_value = None
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200,
+        json_body={}
+    )
+    # given the ingress url is set
+    client.get(
+        reverse('contact-us-routing-form', kwargs={'step': 'location'}),
+        HTTP_REFERER='http://testserver.com/foo/',
+        HTTP_HOST='testserver.com'
+    )
+
+    # when the success page is viewed
+    response = client.get(url, HTTP_HOST='testserver.com')
+
+    # then the referer is exposed to the template
+    assert response.context_data['next_url'] == 'http://testserver.com/foo/'
+    assert response.status_code == 200
+    # and the ingress url is cleared
+    assert mock_clear_ingress_url.call_count == 1
+
+
+@pytest.mark.parametrize('url', (
+    reverse('contact-us-events-success'),
+    reverse('contact-us-dso-success'),
+    reverse('contact-us-export-advice-success'),
+    reverse('contact-us-feedback-success'),
+    reverse('contact-us-find-uk-companies-success'),
+    reverse('contact-us-domestic-success'),
+    reverse('contact-us-international-success'),
+))
+@mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+@mock.patch('contact.views.IngressURLMixin.clear_ingress_url')
+def test_external_ingress_url_not_used_on_success(
+    mock_clear_ingress_url, mock_lookup_by_slug, url, client
+):
+    mock_clear_ingress_url.return_value = None
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200,
+        json_body={}
+    )
+    # given the ingress url is set
+    client.get(
+        reverse('contact-us-routing-form', kwargs={'step': 'location'}),
+        HTTP_REFERER='http://external.com/foo/',
+        HTTP_HOST='testserver.com'
+    )
+
+    # when the success page is viewed
+    response = client.get(url, HTTP_HOST='testserver.com')
+
+    # then the referer is not exposed to the template
+    assert response.context_data['next_url'] == '/'
+    assert response.status_code == 200
+
+
+@mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_internal_ingress_url_used_on_first_step(
+    mock_lookup_by_slug, client
+):
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200,
+        json_body={}
+    )
+    # when an internal ingress url is set
+    response = client.get(
+        reverse('contact-us-routing-form', kwargs={'step': 'location'}),
+        HTTP_REFERER='http://testserver.com/foo/',
+        HTTP_HOST='testserver.com'
+    )
+
+    # then the referer is exposed to the template
+    assert response.context_data['prev_url'] == 'http://testserver.com/foo/'
+    assert response.status_code == 200
+
+
+@mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_external_ingress_url_not_used_on_first_step(
+    mock_lookup_by_slug, client
+):
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200,
+        json_body={}
+    )
+    # when an external ingress url is set
+    response = client.get(
+        reverse('contact-us-routing-form', kwargs={'step': 'location'}),
+        HTTP_REFERER='http://external.com/foo/',
+        HTTP_HOST='testserver.com'
+    )
+
+    # then the referer is not exposed to the template
+    assert 'prev_url' not in response.context_data
+    assert response.status_code == 200
+
+
+@pytest.mark.parametrize('current_step,choice', (
+    (constants.DOMESTIC, constants.TRADE_OFFICE),
+    (constants.INTERNATIONAL, constants.INVESTING),
+    (constants.INTERNATIONAL, constants.BUYING),
+))
+@mock.patch('contact.views.IngressURLMixin.clear_ingress_url')
+def test_ingress_url_cleared_on_redirect_away(
+    mock_clear_ingress_url, current_step, choice
+):
+    mock_clear_ingress_url.return_value = None
+
+    form = ChoiceForm(data={'choice': choice})
+
+    view = views.RoutingFormView()
+    view.steps = mock.Mock(current=current_step)
+    view.storage = mock.Mock()
+    view.url_name = 'triage-wizard'
+
+    assert form.is_valid()
