@@ -226,9 +226,9 @@ class BaseShortForm(forms.Form):
         choices=COMPANY_TYPE_CHOICES,
     )
     company_type_other = fields.ChoiceField(
+        label='Type of organisation',
         label_suffix='',
-        widget=widgets.RadioSelect(),
-        choices=COMPANY_TYPE_OTHER_CHOICES,
+        choices=(('', 'Please select'),) + COMPANY_TYPE_OTHER_CHOICES,
         required=False,
     )
     organisation_name = fields.CharField(
