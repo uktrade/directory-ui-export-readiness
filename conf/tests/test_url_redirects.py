@@ -279,6 +279,10 @@ redirects = [
         '?utm_source=print&utm_campaign=korean_winter_olympics_invest'
     )),
     (
+        '/legacy/contact/',
+        reverse('contact-us-routing-form', kwargs={'step': 'location'})
+    ),
+    (
         '/legacy/contact/contact/',
         reverse('contact-us-routing-form', kwargs={'step': 'location'})
     ),
@@ -400,6 +404,14 @@ redirects = [
         '/legacy/contact/triage/sso/',
         reverse('contact-us-routing-form', kwargs={'step': 'location'}),
     ),
+    (
+        '/legacy/contact/cookies/',
+        reverse('privacy-and-cookies')
+    ),
+    (
+        '/legacy/contact/terms-and-conditions/',
+        reverse('terms-and-conditions')
+    ),
 ]
 
 
@@ -423,5 +435,4 @@ redirects_no_slash = [
 @pytest.mark.parametrize('url,expected', redirects_no_slash)
 def test_redirects_no_trailing_slash(url, expected, client):
     response = client.get(url)
-
-    assert response.status_code == http.client.MOVED_PERMANENTLY
+    assert response.status_code == http.client.MOVED_PERMANENTLY, url
