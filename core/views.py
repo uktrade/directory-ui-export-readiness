@@ -6,7 +6,7 @@ from directory_cms_client.client import cms_api_client
 
 from django.conf import settings
 from django.contrib import sitemaps
-from django.urls import reverse
+from django.urls import reverse, RegexURLResolver
 from django.utils.cache import set_response_etag
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
@@ -114,6 +114,18 @@ class PrototypeLandingPageView(
     pass
 
 
+class CampaignPageView(
+    mixins.CampaignPagesFeatureFlagMixin,
+    mixins.GetCMSPageMixin,
+    TemplateView
+):
+    template_name = 'core/campaign.html'
+
+    @property
+    def slug(self):
+        return self.kwargs['slug']
+
+
 class InternationalLandingPageView(
     mixins.TranslationsMixin,
     mixins.GetCMSPageMixin,
@@ -214,15 +226,17 @@ class StaticViewSitemap(sitemaps.Sitemap):
             'contact-us-export-opportunities-guidance',
             'contact-us-great-account-guidance',
             'contact-us-export-advice',
+            'campaign-page',
         ]
 
         dynamic_cms_page_url_names += [url.name for url in urls.prototype_urls]
         dynamic_cms_page_url_names += [url.name for url in urls.news_urls]
 
         return [
-            url.name for url in urls.urlpatterns
-            if url not in redirects and
-            url.name not in dynamic_cms_page_url_names
+            item.name for item in urls.urlpatterns
+            if not isinstance(item, RegexURLResolver) and
+            item not in redirects and
+            item.name not in dynamic_cms_page_url_names
         ]
 
     def location(self, item):

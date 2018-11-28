@@ -12,14 +12,21 @@
   {% block cookie_js %}{% endblock %}
   <script src="{% static 'js/dit.js' %}"></script>
   <script src="{% static 'js/dit.class.modal.js' %}"></script>
+
   {% if features.PROTOTYPE_HEADER_FOOTER_ON %}
     <script src="{% static 'js/dit.components.prototypeLanguageSelector.js' %}"></script>
   {% else %}
     <script src="{% static 'js/dit.components.languageSelector.js' %}"></script>
   {% endif %}
+
   <script src="{% static 'js/dit.components.video.js' %}"></script>
   <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
-  <script src="{% static 'js/home.js' %}"></script>
+
+  {% if features.PROTOTYPE_HEADER_FOOTER_ON %}
+    <script src="{% static 'js/prototype.js' %}"></script>
+  {% else %}
+    <script src="{% static 'js/home.js' %}"></script>
+  {% endif %}
 {% endblock %}
 
 {% block head_title %}Welcome to great.gov.uk - export guidance and services{% endblock %}

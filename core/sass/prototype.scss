@@ -6,6 +6,7 @@
 @import 'partials/typography';
 @import 'partials/layout';
 @import 'partials/mixins';
+@import 'partials/utils';
 
 // COMPONENTS
 @import 'components/modal';
@@ -19,6 +20,7 @@
 @import 'pages/article-list';
 @import 'pages/tag-list';
 @import 'pages/article-detail';
+@import 'pages/campaign-page';
 
 
 #content {
