@@ -51,7 +51,7 @@ class SocialLinksMixin():
         social_links_builder = SocialLinkBuilder(
             self.request.build_absolute_uri(),
             self.page['title'],
-            'Great.gov.uk')
+            'great.gov.uk')
 
         return super().get_context_data(
             social_links=social_links_builder.links,
