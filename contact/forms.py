@@ -32,7 +32,7 @@ COMPANY_TYPE_OTHER_CHOICES = (
     ('INTERMEDIARY', 'Intermediary'),
     ('LIMITED_PARTNERSHIP', 'Limited partnership'),
     ('SOLE_TRADER', 'Sole Trader'),
-    ('FOREIGH', 'UK branch of foreign company (BR)'),
+    ('FOREIGH', 'UK branch of foreign company'),
     ('OTHER', 'Other'),
 )
 INDUSTRY_CHOICES = (
@@ -92,10 +92,10 @@ class DomesticRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
         (constants.EXPORT_ADVICE, 'Advice to export from the UK'),
         (
             constants.GREAT_SERVICES,
-            'Great.gov.uk account and services support'
+            'great.gov.uk account and services support'
         ),
         (constants.FINANCE, 'UK Export Finance (UKEF)'),
-        (constants.EUEXIT, 'EU Exit'),  # possibly removed by mixin
+        (constants.EUEXIT, 'EU exit'),  # possibly removed by mixin
         (constants.EVENTS, 'Events'),
         (constants.DSO, 'Defence and Security Organisation (DSO)'),
         (constants.OTHER, 'Other'),
@@ -169,7 +169,7 @@ class InternationalRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
     CHOICES = (
         (constants.INVESTING, 'Investing in the UK'),
         (constants.BUYING, 'Buying from the UK'),
-        (constants.EUEXIT, 'EU Exit'),  # possibly removed by mixin
+        (constants.EUEXIT, 'EU exit'),  # possibly removed by mixin
         (constants.OTHER, 'Other'),
     )
     choice = fields.ChoiceField(

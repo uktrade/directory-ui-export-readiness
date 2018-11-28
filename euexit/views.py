@@ -56,7 +56,7 @@ class InternationalContactFormView(BaseInternationalContactFormView):
     form_class = forms.InternationalContactForm
     template_name = 'euexit/international-contact-form.html'
     success_url = reverse_lazy('eu-exit-international-contact-form-success')
-    subject = 'EU Exit international contact form'
+    subject = 'EU exit international contact form'
 
 
 class DomesticContactFormView(BaseInternationalContactFormView):
@@ -64,7 +64,7 @@ class DomesticContactFormView(BaseInternationalContactFormView):
     form_class = forms.DomesticContactForm
     template_name = 'euexit/domestic-contact-form.html'
     success_url = reverse_lazy('eu-exit-domestic-contact-form-success')
-    subject = 'EU Exit contact form'
+    subject = 'EU exit contact form'
 
 
 class InternationalContactSuccessView(BaseContactView):
