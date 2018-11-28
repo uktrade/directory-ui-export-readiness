@@ -490,7 +490,7 @@ def test_performance_dashboard_cms(mock_get_page, settings, client):
     url = reverse('performance-dashboard')
     page = {
         'title': 'Performance dashboard',
-        'heading': 'Great.gov.uk',
+        'heading': 'great.gov.uk',
         'description': 'Lorem ipsum dolor sit amet.',
     }
     mock_get_page.return_value = create_response(

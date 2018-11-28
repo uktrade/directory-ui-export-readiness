@@ -32,7 +32,7 @@ COMPANY_TYPE_OTHER_CHOICES = (
     ('INTERMEDIARY', 'Intermediary'),
     ('LIMITED_PARTNERSHIP', 'Limited partnership'),
     ('SOLE_TRADER', 'Sole Trader'),
-    ('FOREIGH', 'UK branch of foreign company (BR)'),
+    ('FOREIGH', 'UK branch of foreign company'),
     ('OTHER', 'Other'),
 )
 INDUSTRY_CHOICES = (
@@ -92,7 +92,7 @@ class DomesticRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
         (constants.EXPORT_ADVICE, 'Advice to export from the UK'),
         (
             constants.GREAT_SERVICES,
-            'Great.gov.uk account and services support'
+            'great.gov.uk account and services support'
         ),
         (constants.FINANCE, 'UK Export Finance (UKEF)'),
         (constants.EUEXIT, 'EU exit'),  # possibly removed by mixin
@@ -227,7 +227,6 @@ class BaseShortForm(forms.Form):
     )
     company_type_other = fields.ChoiceField(
         label_suffix='',
-        widget=widgets.RadioSelect(),
         choices=COMPANY_TYPE_OTHER_CHOICES,
         required=False,
     )
