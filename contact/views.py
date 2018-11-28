@@ -236,7 +236,7 @@ class RoutingFormView(
         if redirect_url:
             # clear the ingress URL when redirecting away from the service as
             # the "normal way" for clearing it via success page will not be hit
-            if not urlparse(redirect_url).netloc != self.request.get_host():
+            if urlparse(str(redirect_url)).netloc != self.request.get_host():
                 self.clear_ingress_url()
             return redirect(redirect_url)
         return self.render_goto_step(choice)
