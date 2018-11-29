@@ -95,7 +95,7 @@ class DomesticRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
             'great.gov.uk account and services support'
         ),
         (constants.FINANCE, 'UK Export Finance (UKEF)'),
-        (constants.EUEXIT, 'EU exit'),  # possibly removed by mixin
+        (constants.EUEXIT, 'EU exit enquiries'),  # possibly removed by mixin
         (constants.EVENTS, 'Events'),
         (constants.DSO, 'Defence and Security Organisation (DSO)'),
         (constants.OTHER, 'Other'),
@@ -169,7 +169,7 @@ class InternationalRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
     CHOICES = (
         (constants.INVESTING, 'Investing in the UK'),
         (constants.BUYING, 'Buying from the UK'),
-        (constants.EUEXIT, 'EU exit'),  # possibly removed by mixin
+        (constants.EUEXIT, 'EU exit enquiries'),  # possibly removed by mixin
         (constants.OTHER, 'Other'),
     )
     choice = fields.ChoiceField(
@@ -379,10 +379,12 @@ class BusinessDetailsForm(forms.Form):
     turnover = fields.ChoiceField(
         label='Annual turnover (optional)',
         choices=TURNOVER_OPTIONS,
+        required=False,
     )
     employees = fields.ChoiceField(
         label='Number of employees (optional)',
         choices=(('', 'Please select'),) + choices.EMPLOYEES,
+        required=False,
     )
     captcha = ReCaptchaField(
         label='',
