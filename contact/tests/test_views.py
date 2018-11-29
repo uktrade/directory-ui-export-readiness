@@ -532,7 +532,7 @@ def test_form_ingress_url_referer_header_missing(rf, client):
     }
 
 
-@pytest.mark.parametrize('url', (
+success_urls = (
     reverse('contact-us-events-success'),
     reverse('contact-us-dso-success'),
     reverse('contact-us-export-advice-success'),
@@ -540,7 +540,10 @@ def test_form_ingress_url_referer_header_missing(rf, client):
     reverse('contact-us-find-uk-companies-success'),
     reverse('contact-us-domestic-success'),
     reverse('contact-us-international-success'),
-))
+)
+
+
+@pytest.mark.parametrize('url', success_urls)
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @mock.patch('contact.views.IngressURLMixin.clear_ingress_url')
 def test_ingress_url_cleared_on_success(
@@ -568,15 +571,7 @@ def test_ingress_url_cleared_on_success(
     assert mock_clear_ingress_url.call_count == 1
 
 
-@pytest.mark.parametrize('url', (
-    reverse('contact-us-events-success'),
-    reverse('contact-us-dso-success'),
-    reverse('contact-us-export-advice-success'),
-    reverse('contact-us-feedback-success'),
-    reverse('contact-us-find-uk-companies-success'),
-    reverse('contact-us-domestic-success'),
-    reverse('contact-us-international-success'),
-))
+@pytest.mark.parametrize('url', success_urls)
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @mock.patch('contact.views.IngressURLMixin.clear_ingress_url')
 def test_external_ingress_url_not_used_on_success(
@@ -596,6 +591,29 @@ def test_external_ingress_url_not_used_on_success(
 
     # when the success page is viewed
     response = client.get(url, HTTP_HOST='testserver.com')
+
+    # then the referer is not exposed to the template
+    assert response.context_data['next_url'] == '/'
+    assert response.status_code == 200
+
+
+@pytest.mark.parametrize('url', success_urls)
+@mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+@mock.patch('contact.views.IngressURLMixin.clear_ingress_url')
+def test_ingress_url_not_set_on_success(
+    mock_clear_ingress_url, mock_lookup_by_slug, url, client
+):
+    mock_clear_ingress_url.return_value = None
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200,
+        json_body={}
+    )
+    # when the success page is viewed and there is no referer set yet
+    response = client.get(
+        url,
+        HTTP_HOST='testserver.com',
+        HTTP_REFERER='http://testserver.com/foo/',
+    )
 
     # then the referer is not exposed to the template
     assert response.context_data['next_url'] == '/'

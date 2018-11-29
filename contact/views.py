@@ -36,11 +36,14 @@ def build_great_account_guidance_url(step_name, ):
 class IngressURLMixin:
 
     def get(self, *args, **kwargs):
-        if SESSION_KEY_FORM_INGRESS_URL not in self.request.session:
-            self.request.session[SESSION_KEY_FORM_INGRESS_URL] = (
-                self.request.META.get('HTTP_REFERER')
-            )
+        if not self.request.session.get(SESSION_KEY_FORM_INGRESS_URL):
+            self.set_inress_url()
         return super().get(*args, **kwargs)
+
+    def set_inress_url(self):
+        self.request.session[SESSION_KEY_FORM_INGRESS_URL] = (
+            self.request.META.get('HTTP_REFERER')
+        )
 
     @property
     def ingress_url(self):
@@ -113,6 +116,10 @@ class BaseSuccessView(
     FeatureFlagMixin, IngressURLMixin, mixins.GetCMSPageMixin, TemplateView
 ):
     template_name = 'contact/submit-success.html'
+
+    def set_inress_url(self):
+        # setting ingress url not very meaningful here, so skip it.
+        pass
 
     def get(self, *args, **kwargs):
         response = super().get(*args, **kwargs)
@@ -236,7 +243,9 @@ class RoutingFormView(
         if redirect_url:
             # clear the ingress URL when redirecting away from the service as
             # the "normal way" for clearing it via success page will not be hit
-            if urlparse(str(redirect_url)).netloc != self.request.get_host():
+            # assumed that internal redirects will not contain domain, but be
+            # relative to current site.
+            if urlparse(str(redirect_url)).netloc:
                 self.clear_ingress_url()
             return redirect(redirect_url)
         return self.render_goto_step(choice)
