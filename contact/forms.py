@@ -32,7 +32,7 @@ COMPANY_TYPE_OTHER_CHOICES = (
     ('INTERMEDIARY', 'Intermediary'),
     ('LIMITED_PARTNERSHIP', 'Limited partnership'),
     ('SOLE_TRADER', 'Sole Trader'),
-    ('FOREIGH', 'UK branch of foreign company'),
+    ('FOREIGN', 'UK branch of foreign company'),
     ('OTHER', 'Other'),
 )
 INDUSTRY_CHOICES = (
