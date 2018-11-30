@@ -21,12 +21,10 @@ def test_404_custom_template(settings, client):
 
 
 def test_about_page_services_links(settings):
-    settings.HEADER_FOOTER_URLS_SOO = 'http://soo.com'
-    settings.HEADER_FOOTER_URLS_FAB = 'http://fab.com'
     context = urls_processor(None)
     html = render_to_string('core/about.html', context)
-    assert 'http://fab.com' in html
-    assert 'http://soo.com' in html
+    assert settings.DIRECTORY_CONSTANTS_URL_FIND_A_BUYER in html
+    assert settings.DIRECTORY_CONSTANTS_URL_SELLING_ONLINE_OVERSEAS in html
 
 
 def test_international_beta_banner():
@@ -34,43 +32,3 @@ def test_international_beta_banner():
     assert 'beta' in html
     assert 'This is a new service' in html
 
-
-contact_routing_url = reverse(
-    'contact-us-routing-form', kwargs={'step': 'location'}
-)
-
-
-@pytest.mark.parametrize('euexit_is_enabled,contact_is_enabled,expected_url', (
-    (True, False, reverse('contact-page-international')),
-    (False, True, contact_routing_url),
-    (True, True, contact_routing_url),
-))
-def test_international_footer_feature_flaged_link(
-    euexit_is_enabled, contact_is_enabled, expected_url
-):
-    template_name = 'core/includes/international_footer.html'
-    context = {
-        'features': {
-            'EU_EXIT_FORMS_ON': euexit_is_enabled,
-            'CONTACT_US_ON': contact_is_enabled,
-        }
-    }
-
-    html = render_to_string(template_name, context)
-
-    assert expected_url in html
-
-
-def test_international_footer_feature_flaged_link_off():
-    template_name = 'core/includes/international_footer.html'
-    context = {
-        'features': {
-            'EU_EXIT_FORMS_ON': False,
-            'CONTACT_US_ON': False,
-        }
-    }
-
-    html = render_to_string(template_name, context)
-
-    assert contact_routing_url not in html
-    assert reverse('contact-page-international') not in html

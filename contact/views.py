@@ -53,13 +53,6 @@ class IngressURLMixin:
         self.request.session.pop(SESSION_KEY_FORM_INGRESS_URL, None)
 
 
-class FeatureFlagMixin:
-    def dispatch(self, *args, **kwargs):
-        if not settings.FEATURE_FLAGS['CONTACT_US_ON']:
-            raise Http404()
-        return super().dispatch(*args, **kwargs)
-
-
 class SendNotifyMessagesMixin:
 
     def send_agent_message(self, form):
@@ -82,9 +75,7 @@ class SendNotifyMessagesMixin:
         return super().form_valid(form)
 
 
-class BaseNotifyFormView(
-    FeatureFlagMixin, IngressURLMixin, SendNotifyMessagesMixin, FormView
-):
+class BaseNotifyFormView(IngressURLMixin, SendNotifyMessagesMixin, FormView):
     def get_form_kwargs(self):
         return {
             **super().get_form_kwargs(),
@@ -93,7 +84,7 @@ class BaseNotifyFormView(
         }
 
 
-class BaseZendeskFormView(FeatureFlagMixin, IngressURLMixin, FormView):
+class BaseZendeskFormView(IngressURLMixin, FormView):
     def get_form_kwargs(self):
         return {
             **super().get_form_kwargs(),
@@ -112,9 +103,7 @@ class BaseZendeskFormView(FeatureFlagMixin, IngressURLMixin, FormView):
         return super().form_valid(form)
 
 
-class BaseSuccessView(
-    FeatureFlagMixin, IngressURLMixin, mixins.GetCMSPageMixin, TemplateView
-):
+class BaseSuccessView(IngressURLMixin, mixins.GetCMSPageMixin, TemplateView):
     template_name = 'contact/submit-success.html'
 
     def set_inress_url(self):
@@ -139,9 +128,7 @@ class BaseSuccessView(
         )
 
 
-class RoutingFormView(
-    FeatureFlagMixin, IngressURLMixin, NamedUrlSessionWizardView
-):
+class RoutingFormView(IngressURLMixin, NamedUrlSessionWizardView):
 
     # given the current step, based on selected  option, where to redirect.
     redirect_mapping = {
@@ -263,8 +250,8 @@ class RoutingFormView(
 
 
 class ExportingAdviceFormView(
-    FeatureFlagMixin, mixins.PreventCaptchaRevalidationMixin,
-    IngressURLMixin, NamedUrlSessionWizardView
+    mixins.PreventCaptchaRevalidationMixin, IngressURLMixin,
+    NamedUrlSessionWizardView
 ):
     success_url = reverse_lazy('contact-us-domestic-success')
 
@@ -405,7 +392,7 @@ class BuyingFromUKCompaniesSuccessView(BaseSuccessView):
     slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_FIND_COMPANIES_SLUG
 
 
-class GuidanceView(FeatureFlagMixin, mixins.GetCMSPageMixin, TemplateView):
+class GuidanceView(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'contact/guidance.html'
 
     @property

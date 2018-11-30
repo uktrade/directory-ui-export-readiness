@@ -1,7 +1,4 @@
-from directory_components.context_processors import (
-    invest_header_footer_processor
-)
-from directory_constants.constants import cms
+from directory_constants.constants import cms, urls
 from directory_cms_client.client import cms_api_client
 
 from django.conf import settings
@@ -145,10 +142,8 @@ class InternationalContactPageView(
     template_name = 'core/contact_page_international.html'
 
     def get_context_data(self, *args, **kwargs):
-        context = invest_header_footer_processor(None)
-        url = context['invest_header_footer_urls']['contact_us']
         return super().get_context_data(
-            invest_contact_us_url=url,
+            invest_contact_us_url=urls.build_invest_url('contact/'),
             *args, **kwargs
         )
 
