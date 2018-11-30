@@ -46,7 +46,6 @@ DEBUG_SET_ENV_VARS := \
 	export SSO_PROXY_REDIRECT_FIELD_NAME=next; \
 	export SSO_SESSION_COOKIE=debug_sso_session_cookie; \
 	export SESSION_COOKIE_SECURE=false; \
-	export COMPANIES_HOUSE_API_KEY=debug; \
 	export GOOGLE_TAG_MANAGER_ID=; \
 	export UTM_COOKIE_DOMAIN=.trade.great; \
 	export CORS_ORIGIN_ALLOW_ALL=true; \
@@ -116,7 +115,8 @@ TEST_SET_ENV_VARS := \
 	export CONTACT_BUYING_AGENT_EMAIL_ADDRESS=buying@example.com; \
 	export CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID=debug; \
 	export CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID=debug; \
-	export CONTACT_EXPORTING_AGENT_SUBJECT=exporting@example.com
+	export CONTACT_EXPORTING_AGENT_SUBJECT=exporting@example.com; \
+	export COMPANIES_HOUSE_API_KEY=debug
 
 
 debug_webserver:
