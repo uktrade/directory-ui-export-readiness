@@ -94,8 +94,6 @@ def test_triage_start_user_state(sso_is_logged_in, expected, rf):
 
 
 def test_custom_page_services_links(settings):
-    settings.HEADER_FOOTER_URLS_SOO = 'http://soo.com'
-    settings.HEADER_FOOTER_URLS_FAB = 'http://fab.com'
     context = {
         'section_configuration': {
             'selling_online_overseas': True,
@@ -105,5 +103,6 @@ def test_custom_page_services_links(settings):
         **urls_processor(None)
     }
     html = render_to_string('triage/custom-page.html', context)
-    assert 'http://soo.com' in html
-    assert 'http://fab.com' in html
+
+    assert settings.DIRECTORY_CONSTANTS_URL_SELLING_ONLINE_OVERSEAS in html
+    assert settings.DIRECTORY_CONSTANTS_URL_FIND_A_BUYER in html

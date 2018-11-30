@@ -23,29 +23,16 @@ env = environ.Env()
 env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(PROJECT_ROOT)
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env.str('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', False)
 
 # As the app is running behind a host-based router supplied by Heroku or other
 # PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
-
-# https://docs.djangoproject.com/en/dev/ref/settings/#append-slash
-APPEND_SLASH = True
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.staticfiles',
@@ -104,8 +91,10 @@ TEMPLATES = [
                 'django.template.context_processors.i18n',
                 'directory_components.context_processors.sso_processor',
                 'directory_components.context_processors.urls_processor',
-                ('directory_components.context_processors.'
-                    'header_footer_processor'),
+                (
+                    'directory_components.context_processors.'
+                    'header_footer_processor'
+                ),
                 'directory_components.context_processors.feature_flags',
                 'directory_components.context_processors.analytics',
                 'directory_components.context_processors.cookie_notice',
@@ -117,32 +106,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'conf.wsgi.application'
 
-
-# # Database
-# hard to get rid of this
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'unique-snowflake',
-    }
-}
-
 if env.str('REDIS_URL', ''):
-    CACHES['cms_fallback'] = {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': env.str('REDIS_URL'),
-        'OPTIONS': {
-            'CLIENT_CLASS': "django_redis.client.DefaultClient",
-        }
-    }
-    CACHES['api_fallback'] = {
+    cache = {
         'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': env.str('REDIS_URL'),
         'OPTIONS': {
@@ -150,14 +115,18 @@ if env.str('REDIS_URL', ''):
         }
     }
 else:
-    CACHES['cms_fallback'] = {
+    cache = {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'unique-snowflake',
     }
-    CACHES['api_fallback'] = {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'unique-snowflake',
-    }
+
+
+CACHES = {
+    'default': cache,
+    'api_fallback': cache,
+    'cms_fallback': cache,
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -180,8 +149,6 @@ LOCALE_PATHS = (
 )
 
 TIME_ZONE = 'UTC'
-
-USE_I18N = True
 
 USE_L10N = True
 
@@ -298,8 +265,6 @@ SSO_PROFILE_URL = env.str('SSO_PROFILE_URL')
 SSO_PROXY_REDIRECT_FIELD_NAME = env.str('SSO_PROXY_REDIRECT_FIELD_NAME')
 SSO_SESSION_COOKIE = env.str('SSO_SESSION_COOKIE')
 
-ANALYTICS_ID = os.getenv("ANALYTICS_ID")
-
 SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', True)
 
 USE_X_FORWARDED_HOST = True
@@ -308,14 +273,29 @@ SECURE_HSTS_SECONDS = env.int('SECURE_HSTS_SECONDS', 16070400)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 # HEADER/FOOTER URLS
-HEADER_FOOTER_URLS_GREAT_HOME = env.str('HEADER_FOOTER_URLS_GREAT_HOME', '')
-HEADER_FOOTER_URLS_FAB = env.str('HEADER_FOOTER_URLS_FAB', '')
-HEADER_FOOTER_URLS_SOO = env.str('HEADER_FOOTER_URLS_SOO', '')
-HEADER_FOOTER_URLS_EVENTS = env.str('HEADER_FOOTER_URLS_EVENTS', '')
-HEADER_FOOTER_URLS_CONTACT_US = env.str('HEADER_FOOTER_URLS_CONTACT_US', '')
-HEADER_FOOTER_URLS_FEEDBACK = env.str('HEADER_FOOTER_URLS_FEEDBACK', '')
-HEADER_FOOTER_URLS_DIT = env.str('HEADER_FOOTER_URLS_DIT', '')
-COMPONENTS_URLS_FAS = env.str('COMPONENTS_URLS_FAS', '')
+DIRECTORY_CONSTANTS_URL_EXPORT_READINESS = env.str(
+    'DIRECTORY_CONSTANTS_URL_EXPORT_READINESS', ''
+)
+DIRECTORY_CONSTANTS_URL_EXPORT_OPPORTUNITIES = env.str(
+    'DIRECTORY_CONSTANTS_URL_EXPORT_OPPORTUNITIES', ''
+)
+DIRECTORY_CONSTANTS_URL_SELLING_ONLINE_OVERSEAS = env.str(
+    'DIRECTORY_CONSTANTS_URL_SELLING_ONLINE_OVERSEAS', ''
+)
+DIRECTORY_CONSTANTS_URL_EVENTS = env.str(
+    'DIRECTORY_CONSTANTS_URL_EVENTS', ''
+)
+DIRECTORY_CONSTANTS_URL_INVEST = env.str('DIRECTORY_CONSTANTS_URL_INVEST', '')
+DIRECTORY_CONSTANTS_URL_FIND_A_SUPPLIER = env.str(
+    'DIRECTORY_CONSTANTS_URL_FIND_A_SUPPLIER', ''
+)
+DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON = env.str(
+    'DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON', ''
+)
+DIRECTORY_CONSTANTS_URL_FIND_A_BUYER = env.str(
+    'DIRECTORY_CONSTANTS_URL_FIND_A_BUYER', ''
+)
+
 PRIVACY_COOKIE_DOMAIN = os.getenv('PRIVACY_COOKIE_DOMAIN')
 
 # Exopps url for interstitial page
@@ -328,15 +308,7 @@ RAVEN_CONFIG = {
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE', True)
-SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SECURE = True
-
-API_CLIENT_CLASSES = {
-    'default': 'directory_api_client.client.DirectoryAPIClient',
-    'unit-test': 'directory_api_client.dummy_client.DummyDirectoryAPIClient',
-}
-API_CLIENT_CLASS_NAME = env.str('API_CLIENT_CLASS_NAME', 'default')
-API_CLIENT_CLASS = API_CLIENT_CLASSES[API_CLIENT_CLASS_NAME]
 
 # Companies House
 COMPANIES_HOUSE_API_KEY = env.str('COMPANIES_HOUSE_API_KEY')
@@ -348,16 +320,9 @@ GOOGLE_TAG_MANAGER_ID = env.str('GOOGLE_TAG_MANAGER_ID')
 GOOGLE_TAG_MANAGER_ENV = env.str('GOOGLE_TAG_MANAGER_ENV', '')
 UTM_COOKIE_DOMAIN = env.str('UTM_COOKIE_DOMAIN')
 
-HEADER_FOOTER_CONTACT_US_URL = env.str('HEADER_FOOTER_CONTACT_US_URL', '')
-
 # CORS
 CORS_ORIGIN_ALLOW_ALL = env.str('CORS_ORIGIN_ALLOW_ALL', False)
 CORS_ORIGIN_WHITELIST = env.list('CORS_ORIGIN_WHITELIST', default=[])
-
-EXTERNAL_SERVICE_FEEDBACK_URL = env.str(
-    'EXTERNAL_SERVICE_FEEDBACK_URL',
-    'https://contact-us.export.great.gov.uk/directory/FeedbackForm',
-)
 
 # security
 X_FRAME_OPTIONS = 'DENY'
@@ -394,11 +359,6 @@ DIRECTORY_CMS_API_CLIENT_DEFAULT_TIMEOUT = 15
 # directory clients
 DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS = 60 * 60 * 24 * 30  # 30 days
 
-FEATURE_CMS_ENABLED = os.getenv('FEATURE_CMS_ENABLED', 'false') == 'true'
-FEATURE_PERFORMANCE_DASHBOARD_ENABLED = os.getenv(
-    'FEATURE_PERFORMANCE_DASHBOARD_ENABLED', 'false') == 'true'
-
-
 # Internal CH
 INTERNAL_CH_BASE_URL = env.str('INTERNAL_CH_BASE_URL', '')
 INTERNAL_CH_API_KEY = env.str('INTERNAL_CH_API_KEY', '')
@@ -432,7 +392,6 @@ FEATURE_FLAGS = {
     'PERFORMANCE_DASHBOARD_ON': env.bool(
         'FEATURE_PERFORMANCE_DASHBOARD_ENABLED', False
     ),
-    'CONTACT_US_ON': env.bool('FEATURE_CONTACT_US_ENABLED', False),
     # used by directory-components
     'SEARCH_ENGINE_INDEXING_OFF': env.bool(
         'FEATURE_SEARCH_ENGINE_INDEXING_DISABLED', False

@@ -22,14 +22,7 @@ We aim to follow [GDS service standards](https://www.gov.uk/service-manual/servi
 
 
 ## Requirements
-[Python 3.5](https://www.python.org/downloads/release/python-352/)
-
-### Docker
-To use Docker in your local development environment you will also need the following dependencies:
-
-[Docker >= 1.10](https://docs.docker.com/engine/installation/)
-
-[Docker Compose >= 1.8](https://docs.docker.com/compose/install/)
+[Python 3.6](https://www.python.org/downloads/release/python-36/)
 
 ### SASS
 We use SASS CSS pre-compiler. If you're doing front-end work your local machine will also need the following dependencies:
@@ -37,19 +30,6 @@ We use SASS CSS pre-compiler. If you're doing front-end work your local machine 
 [node](https://nodejs.org/en/download/)
 
 [SASS](https://rubygems.org/gems/sass/versions/3.4.22)
-
-## Running locally with Docker
-This requires all host environment variables to be set.
-
-    $ make docker_run
-
-### Run debug webserver in Docker
-
-    $ make docker_debug
-
-### Run tests in Docker
-
-    $ make docker_test
 
 ### Run JS tests with gulp or npm
 
@@ -61,7 +41,7 @@ This requires all host environment variables to be set.
 
 #### Web server
 
-## Running locally without Docker
+## Running locally
 
 ### Installing
     $ git clone https://github.com/uktrade/directory-ui-export-readiness

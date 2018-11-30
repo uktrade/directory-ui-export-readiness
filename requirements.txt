@@ -15,8 +15,8 @@ directory-api-client==11.1.0
 directory-ch-client==1.0.0
 directory-client-core==4.3.0  # via directory-api-client, directory-ch-client, directory-cms-client, directory-forms-api-client, directory-sso-api-client
 directory-cms-client==8.2.0
-directory-components==2.33.0
-directory-constants==10.0.0
+directory-components==3.1.0
+directory-constants==11.1.0
 directory-forms-api-client==3.0.0
 directory-healthcheck==0.5.1
 directory-sso-api-client==3.0.2
@@ -38,7 +38,7 @@ gunicorn==19.5.0
 idna==2.7                 # via requests
 markdown2==2.3.5
 maxminddb==1.4.1          # via geoip2
-mohawk==0.3.4             # via sigauth
+mohawk==0.3.4             # via directory-components, sigauth
 monotonic==1.5            # via directory-ch-client, directory-client-core
 olefile==0.44             # via directory-validators, pillow
 phonenumberslite==7.7.4   # via directory-validators

@@ -326,14 +326,9 @@ def test_success_view_cms(mock_lookup_by_slug, url, slug, client):
 @mock.patch('contact.helpers.retrieve_exporting_advice_email')
 def test_exporting_from_uk_contact_form_submission(
     mock_retrieve_exporting_advice_email, mock_email_action,
-    mock_notify_action, mock_clean, client, settings, captcha_stub,
+    mock_notify_action, mock_clean, client, captcha_stub,
 ):
     mock_retrieve_exporting_advice_email.return_value = 'regional@example.com'
-
-    settings.FEATURE_FLAGS = {
-        **settings.FEATURE_FLAGS,
-        'CONTACT_US_ON': True
-    }
 
     url_name = 'contact-us-export-advice'
     view_name = 'exporting_advice_form_view'

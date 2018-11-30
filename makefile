@@ -1,5 +1,3 @@
-build: docker_test
-
 clean:
 	-find . -type f -name "*.pyc" -delete
 	-find . -type d -name "__pycache__" -delete
@@ -32,102 +30,6 @@ DJANGO_WEBSERVER := \
 django_webserver:
 	$(DJANGO_WEBSERVER)
 
-DOCKER_COMPOSE_REMOVE_AND_PULL := docker-compose -f docker-compose.yml -f docker-compose-test.yml rm -f && docker-compose -f docker-compose.yml -f docker-compose-test.yml pull
-DOCKER_COMPOSE_CREATE_ENVS := python ./docker/env_writer.py ./docker/env.json ./docker/env.test.json
-
-docker_run:
-	$(DOCKER_COMPOSE_CREATE_ENVS) && \
-	$(DOCKER_COMPOSE_REMOVE_AND_PULL) && \
-	docker-compose up --build
-
-DOCKER_SET_DEBUG_ENV_VARS := \
-	export DIRECTORY_UI_EXPORT_READINESS_API_CLIENT_CLASS_NAME=unit-test; \
-	export DIRECTORY_UI_EXPORT_READINESS_API_SIGNATURE_SECRET=debug; \
-	export DIRECTORY_UI_EXPORT_READINESS_API_CLIENT_BASE_URL=http://api.trade.great:8000; \
-	export DIRECTORY_UI_EXPORT_READINESS_SSO_SIGNATURE_SECRET=api_signature_debug; \
-	export DIRECTORY_UI_EXPORT_READINESS_SSO_API_CLIENT_BASE_URL=http://sso.trade.great:8003/; \
-	export DIRECTORY_UI_EXPORT_READINESS_SSO_PROXY_LOGIN_URL=http://sso.trade.great:8004/accounts/login/; \
-	export DIRECTORY_UI_EXPORT_READINESS_SSO_PROXY_LOGOUT_URL=http://sso.trade.great:8004/accounts/logout/?next=http://exred.trade.great:8007; \
-	export DIRECTORY_UI_EXPORT_READINESS_SSO_PROXY_SIGNUP_URL=http://sso.trade.great:8004/accounts/signup/; \
-	export DIRECTORY_UI_EXPORT_READINESS_SSO_PROFILE_URL=http://profile.trade.great:8006/about/; \
-	export DIRECTORY_UI_EXPORT_READINESS_SSO_PROXY_REDIRECT_FIELD_NAME=next; \
-	export DIRECTORY_UI_EXPORT_READINESS_SSO_SESSION_COOKIE=debug_sso_session_cookie; \
-	export DIRECTORY_UI_EXPORT_READINESS_SESSION_COOKIE_SECURE=false; \
-	export DIRECTORY_UI_EXPORT_READINESS_PORT=8001; \
-	export DIRECTORY_UI_EXPORT_READINESS_SECRET_KEY=debug; \
-	export DIRECTORY_UI_EXPORT_READINESS_DEBUG=true; \
-	export DIRECTORY_UI_EXPORT_READINESS_COMPANIES_HOUSE_API_KEY=debug; \
-	export DIRECTORY_UI_EXPORT_READINESS_GOOGLE_TAG_MANAGER_ID=GTM-NLJP5CL; \
-	export DIRECTORY_UI_EXPORT_READINESS_GOOGLE_TAG_MANAGER_ENV=&gtm_auth=S2-vb6_RF_jGWu2WJIORdQ&gtm_preview=env-5&gtm_cookies_win=x; \
-	export DIRECTORY_UI_EXPORT_READINESS_UTM_COOKIE_DOMAIN=.trade.great; \
-	export DIRECTORY_UI_EXPORT_READINESS_CORS_ORIGIN_ALLOW_ALL=true; \
-	export DIRECTORY_UI_EXPORT_READINESS_COMPANIES_HOUSE_CLIENT_ID=debug-client-id; \
-	export DIRECTORY_UI_EXPORT_READINESS_COMPANIES_HOUSE_CLIENT_SECRET=debug-client-secret; \
-	export DIRECTORY_UI_EXPORT_READINESS_SECURE_HSTS_SECONDS=0; \
-	export DIRECTORY_UI_EXPORT_READINESS_HEADER_FOOTER_URLS_GREAT_HOME=http://exred.trade.great:8007/; \
-	export DIRECTORY_UI_EXPORT_READINESS_HEADER_FOOTER_URLS_FAB=http://buyer.trade.great:8001; \
-	export DIRECTORY_UI_EXPORT_READINESS_HEADER_FOOTER_URLS_SOO=http://soo.trade.great:8008; \
-	export DIRECTORY_UI_EXPORT_READINESS_HEADER_FOOTER_URLS_CONTACT_US=http://contact.trade.great:8009/directory/; \
-	export DIRECTORY_UI_EXPORT_READINESS_COMPONENTS_URLS_FAS=http://supplier.trade.great:8005/; \
-	export DIRECTORY_UI_EXPORT_READINESS_SECURE_SSL_REDIRECT=false; \
-	export DIRECTORY_UI_EXPORT_READINESS_HEALTH_CHECK_TOKEN=debug; \
-	export DIRECTORY_UI_EXPORT_READINESS_COMTRADE_API_TOKEN=DEBUG; \
-	export DIRECTORY_UI_EXPORT_READINESS_RECAPTCHA_PUBLIC_KEY=6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI; \
-	export DIRECTORY_UI_EXPORT_READINESS_RECAPTCHA_PRIVATE_KEY=6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe; \
-	export DIRECTORY_UI_EXPORT_READINESS_CMS_URL=http://cms.trade.great:8010; \
-	export DIRECTORY_UI_EXPORT_READINESS_CMS_SIGNATURE_SECRET=debug; \
-	export DIRECTORY_UI_EXPORT_READINESS_FEATURE_CMS_ENABLED=true; \
-	export DIRECTORY_UI_EXPORT_READINESS_PRIVACY_COOKIE_DOMAIN=.trade.great; \
-	export DIRECTORY_UI_EXPORT_READINESS_FEATURE_UKEF_LEAD_GENERATION_ENABLED=true; \
-	export DIRECTORY_UI_EXPORT_READINESS_FEATURE_HIGH_POTENTIAL_OPPORTUNITIES_ENABLED=true; \
-	export DIRECTORY_UI_EXPORT_READINESS_UKEF_FORM_SUBMIT_TRACKER_URL=http://go.pardot.com/l/590031/2018-08-16/5kj25l; \
-	export DIRECTORY_UI_EXPORT_READINESS_DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
-	export DIRECTORY_UI_EXPORT_READINESS_DIRECTORY_FORMS_API_API_KEY=debug; \
-	export DIRECTORY_UI_EXPORT_READINESS_DIRECTORY_FORMS_API_SENDER_ID=debug; \
-	export DIRECTORY_UI_EXPORT_READINESS_FEATURE_PROTOTYPE_PAGES_ENABLED=true; \
-	export DIRECTORY_UI_EXPORT_READINESS_FEATURE_NEWS_SECTION_ENABLED=true; \
-	export DIRECTORY_UI_EXPORT_READINESS_FEATURE_PROTOTYPE_HEADER_FOOTER_ENABLED=true; \
-	export DIRECTORY_UI_EXPORT_READINESS_FEATURE_EU_EXIT_FORMS_ENABLED=true; \
-	export DIRECTORY_UI_EXPORT_READINESS_EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
-	export DIRECTORY_UI_EXPORT_READINESS_FEATURE_CONTACT_US_ENABLED=true; \
-	export DIRECTORY_UI_EXPORT_READINESS_DIRECTORY_FORMS_API_API_KEY_EUEXIT=debug; \
-	export DIRECTORY_UI_EXPORT_READINESS_DIRECTORY_FORMS_API_SENDER_ID_EUEXIT=debug; \
-	export DIRECTORY_UI_EXPORT_READINESS_EUEXIT_AGENT_EMAIL=test@example.com; \
-	export DIRECTORY_UI_EXPORT_READINESS_EUEXIT_GOV_NOTIFY_TEMPLATE_ID=debug; \
-	export DIRECTORY_UI_EXPORT_READINESS_EUEXIT_GOV_NOTIFY_REPLY_TO_ID=debug
-
-docker_test_env_files:
-	$(DOCKER_SET_DEBUG_ENV_VARS) && \
-	$(DOCKER_COMPOSE_CREATE_ENVS)
-
-DOCKER_REMOVE_ALL := \
-	docker ps -a | \
-	grep directoryui_ | \
-	awk '{print $$1 }' | \
-	xargs -I {} docker rm -f {}
-
-docker_remove_all:
-	$(DOCKER_REMOVE_ALL)
-
-docker_debug: docker_remove_all
-	$(DOCKER_SET_DEBUG_ENV_VARS) && \
-	$(DOCKER_COMPOSE_CREATE_ENVS) && \
-	docker-compose pull && \
-	docker-compose build && \
-	docker-compose run --service-ports webserver make django_webserver
-
-docker_webserver_bash:
-	docker exec -it directoryui_webserver_1 sh
-
-docker_test: docker_remove_all
-	$(DOCKER_SET_DEBUG_ENV_VARS) && \
-	$(DOCKER_COMPOSE_CREATE_ENVS) && \
-	$(DOCKER_COMPOSE_REMOVE_AND_PULL) && \
-	docker-compose -f docker-compose-test.yml build && \
-	docker-compose -f docker-compose-test.yml run sut
-
-docker_build:
-	docker build -t ukti/directory-ui-export-readiness:latest .
 
 DEBUG_SET_ENV_VARS := \
 	export PORT=8007; \
@@ -151,12 +53,12 @@ DEBUG_SET_ENV_VARS := \
 	export COMPANIES_HOUSE_CLIENT_ID=debug-client-id; \
 	export COMPANIES_HOUSE_CLIENT_SECRET=debug-client-secret; \
 	export SECURE_HSTS_SECONDS=0; \
-	export HEADER_FOOTER_URLS_GREAT_HOME=http://exred.trade.great:8007/; \
-	export HEADER_FOOTER_URLS_FAB=http://buyer.trade.great:8001; \
-	export HEADER_FOOTER_URLS_SOO=http://soo.trade.great:8008; \
-	export HEADER_FOOTER_URLS_CONTACT_US=http://exred.trade.great:8007/contact/; \
-	export HEADER_FOOTER_URLS_FEEDBACK=http://exred.trade.great:8007/contact/feedback/; \
-	export COMPONENTS_URLS_FAS=http://supplier.trade.great:8005/; \
+	export DIRECTORY_CONSTANTS_URL_EXPORT_READINESS=http://exred.trade.great:8007; \
+	export DIRECTORY_CONSTANTS_URL_FIND_A_BUYER=http://buyer.trade.great:8001; \
+	export DIRECTORY_CONSTANTS_URL_SELLING_ONLINE_OVERSEAS=http://soo.trade.great:8008; \
+	export DIRECTORY_CONSTANTS_URL_FIND_A_SUPPLIER=http://supplier.trade.great:8005/; \
+	export DIRECTORY_CONSTANTS_URL_INVEST=http://invest.trade.great:8012; \
+	export DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON=http://sso.trade.great:8004/; \
 	export SERVICES_EXOPPS_ACTUAL=http://opportunities.export.great.gov.uk; \
 	export SECURE_SSL_REDIRECT=false; \
 	export HEALTH_CHECK_TOKEN=debug; \
@@ -166,13 +68,11 @@ DEBUG_SET_ENV_VARS := \
 	export LANDING_PAGE_VIDEO_URL=thing.com; \
 	export CMS_URL=http://cms.trade.great:8010; \
 	export CMS_SIGNATURE_SECRET=debug; \
-	export FEATURE_CMS_ENABLED=true; \
 	export FEATURE_PERFORMANCE_DASHBOARD_ENABLED=true; \
 	export FEATURE_SEARCH_ENGINE_INDEXING_DISABLED=true; \
 	export REDIS_URL=redis://localhost:6379; \
 	export PRIVACY_COOKIE_DOMAIN=.trade.great; \
 	export FEATURE_UKEF_LEAD_GENERATION_ENABLED=true; \
-	export FEATURE_HIGH_POTENTIAL_OPPORTUNITIES_ENABLED=true; \
 	export UKEF_FORM_SUBMIT_TRACKER_URL=http://go.pardot.com/l/590031/2018-08-16/5kj25l; \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
 	export FEATURE_PROTOTYPE_PAGES_ENABLED=true; \
@@ -181,7 +81,6 @@ DEBUG_SET_ENV_VARS := \
 	export FEATURE_PROTOTYPE_HEADER_FOOTER_ENABLED=true; \
 	export FEATURE_CAMPAIGN_PAGES_ENABLED=true; \
 	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
-	export FEATURE_CONTACT_US_ENABLED=true; \
 	export EUEXIT_AGENT_EMAIL=test@example.com; \
 	export FIND_A_SUPPLIER_CONTACT_URL=http://supplier.trade.great:8005/industries/contact/
 
@@ -251,4 +150,4 @@ upgrade_requirements:
 new_redirect:
 	python scripts/add_new_redirect.py
 
-.PHONY: build clean test_requirements docker_run docker_debug docker_webserver_bash docker_test debug_webserver debug_test debug heroku_deploy_dev heroku_deploy_demo
+.PHONY: clean test_requirements debug_webserver debug_test debug heroku_deploy_dev heroku_deploy_demo
