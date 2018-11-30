@@ -542,7 +542,7 @@ def test_international_contact_page_context(client, settings):
     response = client.get(url)
 
     assert response.context_data['invest_contact_us_url'] == (
-        'https://invest.great.gov.uk/contact/'
+        'http://invest.trade.great:8012/contact/'
     )
 
 

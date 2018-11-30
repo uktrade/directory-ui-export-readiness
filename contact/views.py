@@ -6,7 +6,6 @@ from directory_forms_api_client.actions import EmailAction, GovNotifyAction
 from formtools.wizard.views import NamedUrlSessionWizardView
 
 from django.conf import settings
-from django.http import Http404
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy

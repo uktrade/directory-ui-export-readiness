@@ -1,8 +1,6 @@
 from directory_components.context_processors import urls_processor
-import pytest
 
 from django.template.loader import render_to_string
-from django.urls import reverse
 
 
 def test_error_templates(rf):
@@ -31,4 +29,3 @@ def test_international_beta_banner():
     html = render_to_string('core/landing_page_international.html')
     assert 'beta' in html
     assert 'This is a new service' in html
-

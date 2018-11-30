@@ -103,8 +103,8 @@ class HelpForm(forms.Form):
     )
     terms_agreed = fields.BooleanField(
         label=mark_safe(
-            f'Tick this box to accept the '
-            '<a href="{url.TERMS_AND_CONDITIONS}" target="_blank">terms and '
+            'Tick this box to accept the '
+            f'<a href="{urls.TERMS_AND_CONDITIONS}" target="_blank">terms and '
             'conditions</a> of the great.gov.uk service.'
         )
     )
