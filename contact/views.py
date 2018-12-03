@@ -1,5 +1,6 @@
 from urllib.parse import urlparse
 
+from directory_api_client.client import api_client
 from directory_constants.constants import cms
 from directory_forms_api_client.actions import EmailAction, GovNotifyAction
 
@@ -12,6 +13,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils.html import strip_tags
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
+from django.utils.functional import cached_property
 
 from core import mixins
 from contact import constants, forms, helpers
@@ -72,6 +74,19 @@ class SendNotifyMessagesMixin:
         self.send_agent_message(form)
         self.send_user_message(form)
         return super().form_valid(form)
+
+
+class RetrieveSupplierProfileMixin:
+
+    @cached_property
+    def supplier_profile(self):
+        if self.request.sso_user:
+            response = api_client.supplier.retrieve_profile(
+                sso_session_id=self.request.sso_user.session_id,
+            )
+            if response.status_code == 200:
+                return response.json()
+        return {}
 
 
 class BaseNotifyFormView(IngressURLMixin, SendNotifyMessagesMixin, FormView):
@@ -250,7 +265,7 @@ class RoutingFormView(IngressURLMixin, NamedUrlSessionWizardView):
 
 class ExportingAdviceFormView(
     mixins.PreventCaptchaRevalidationMixin, IngressURLMixin,
-    NamedUrlSessionWizardView
+    RetrieveSupplierProfileMixin, NamedUrlSessionWizardView
 ):
     success_url = reverse_lazy('contact-us-domestic-success')
 
@@ -272,6 +287,27 @@ class ExportingAdviceFormView(
 
     def get_template_names(self):
         return [self.templates[self.steps.current]]
+
+    def get_form_initial(self, step):
+        initial = super().get_form_initial(step)
+        if step == self.PERSONAL and self.supplier_profile:
+            initial.update({
+                'email': self.supplier_profile['company_email'],
+                'phone': self.supplier_profile['company']['mobile_number'],
+            })
+        elif step == self.BUSINESS and self.supplier_profile:
+            company = self.supplier_profile['company']
+            initial.update({
+                'company_type': forms.LIMITED,
+                'companies_house_number': company['number'],
+                'organisation_name': company['name'],
+                'postcode': company['postal_code'],
+                'industry': (
+                    company['sectors'][0] if company['sectors'] else None
+                ),
+                'employees': company['employees'],
+            })
+        return initial
 
     @staticmethod
     def send_user_message(form_data):
@@ -393,3 +429,5 @@ class GuidanceView(mixins.GetCMSPageMixin, TemplateView):
     @property
     def slug(self):
         return self.kwargs['slug']
+
+
