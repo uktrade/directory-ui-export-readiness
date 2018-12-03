@@ -291,10 +291,6 @@ def test_notify_form_submit_success(
         cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_FEEDBACK_SLUG,
     ),
     (
-        reverse('contact-us-find-uk-companies-success'),
-        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_FIND_COMPANIES_SLUG,
-    ),
-    (
         reverse('contact-us-domestic-success'),
         cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_SLUG,
     ),
@@ -532,7 +528,6 @@ success_urls = (
     reverse('contact-us-dso-success'),
     reverse('contact-us-export-advice-success'),
     reverse('contact-us-feedback-success'),
-    reverse('contact-us-find-uk-companies-success'),
     reverse('contact-us-domestic-success'),
     reverse('contact-us-international-success'),
 )

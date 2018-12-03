@@ -387,10 +387,6 @@ class FeedbackSuccessView(BaseSuccessView):
     slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_FEEDBACK_SLUG
 
 
-class BuyingFromUKCompaniesSuccessView(BaseSuccessView):
-    slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_FIND_COMPANIES_SLUG
-
-
 class GuidanceView(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'contact/guidance.html'
 
