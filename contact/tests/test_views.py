@@ -2,6 +2,7 @@ from unittest import mock
 
 from directory_constants.constants import cms
 import pytest
+import requests_mock
 
 import django.forms
 from django.conf import settings
@@ -316,6 +317,10 @@ def test_success_view_cms(mock_lookup_by_slug, url, slug, client):
     )
 
 
+@mock.patch(
+    'contact.views.RetrieveSupplierProfileMixin.supplier_profile',
+    mock.PropertyMock(return_value=None)
+)
 @mock.patch('captcha.fields.ReCaptchaField.clean')
 @mock.patch('contact.views.GovNotifyAction')
 @mock.patch('contact.views.EmailAction')
@@ -416,6 +421,51 @@ def test_exporting_from_uk_contact_form_submission(
     assert mock_retrieve_exporting_advice_email.call_args == mock.call(
         '1234'
     )
+
+
+@mock.patch(
+    'contact.views.RetrieveSupplierProfileMixin.supplier_profile',
+    mock.PropertyMock(return_value={
+        'company_email': 'foo@example.com',
+        'company': {
+            'number': 1234567,
+            'name': 'Example corp',
+            'postal_code': 'Foo Bar',
+            'sectors': ['AEROSPACE'],
+            'employees': '1-10',
+            'mobile_number': '07171771717',
+        }
+    })
+)
+@mock.patch('captcha.fields.ReCaptchaField.clean')
+@mock.patch('contact.views.GovNotifyAction')
+@mock.patch('contact.views.EmailAction')
+@mock.patch('contact.helpers.retrieve_exporting_advice_email')
+def test_exporting_from_uk_contact_form_initial_data_business(
+    mock_retrieve_exporting_advice_email, mock_email_action,
+    mock_notify_action, mock_clean, client, captcha_stub,
+):
+    mock_retrieve_exporting_advice_email.return_value = 'regional@example.com'
+
+    url_name = 'contact-us-export-advice'
+
+    response_one = client.get(reverse(url_name, kwargs={'step': 'personal'}))
+
+    assert response_one.context_data['form'].initial == {
+        'email': 'foo@example.com',
+        'phone': '07171771717',
+    }
+
+    response_two = client.get(reverse(url_name, kwargs={'step': 'business'}))
+
+    assert response_two.context_data['form'].initial == {
+        'company_type': forms.LIMITED,
+        'companies_house_number': 1234567,
+        'organisation_name': 'Example corp',
+        'postcode': 'Foo Bar',
+        'industry': 'AEROSPACE',
+        'employees': '1-10',
+    }
 
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -669,3 +719,40 @@ def test_ingress_url_cleared_on_redirect_away(
     view.url_name = 'triage-wizard'
 
     assert form.is_valid()
+
+
+def test_retrieve_supplier_profile_mixin_not_logged_in(rf):
+    request = rf.get('/')
+    request.sso_user = None
+    mixin = views.RetrieveSupplierProfileMixin()
+    mixin.request = request
+
+    assert mixin.supplier_profile is None
+
+
+def test_retrieve_supplier_profile_mixin_success(rf):
+    request = rf.get('/')
+    request.sso_user = mock.Mock(session_id=123)
+    mixin = views.RetrieveSupplierProfileMixin()
+    mixin.request = request
+
+    expected = {'key': 'value'}
+
+    with requests_mock.mock() as mocked:
+        mocked.get('http://api.trade.great:8000/supplier/', json=expected)
+        supplier_profile = mixin.supplier_profile
+
+    assert supplier_profile == expected
+
+
+def test_retrieve_supplier_profile_mixin_not_ok(rf):
+    request = rf.get('/')
+    request.sso_user = mock.Mock(session_id=123)
+    mixin = views.RetrieveSupplierProfileMixin()
+    mixin.request = request
+
+    with requests_mock.mock() as mocked:
+        mocked.get('http://api.trade.great:8000/supplier/', status_code=503)
+        supplier_profile = mixin.supplier_profile
+
+    assert supplier_profile is None

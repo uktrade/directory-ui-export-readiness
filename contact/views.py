@@ -86,7 +86,6 @@ class RetrieveSupplierProfileMixin:
             )
             if response.status_code == 200:
                 return response.json()
-        return {}
 
 
 class BaseNotifyFormView(IngressURLMixin, SendNotifyMessagesMixin, FormView):
@@ -429,5 +428,3 @@ class GuidanceView(mixins.GetCMSPageMixin, TemplateView):
     @property
     def slug(self):
         return self.kwargs['slug']
-
-
