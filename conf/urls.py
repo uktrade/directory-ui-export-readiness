@@ -652,11 +652,6 @@ contact_urls = [
         name='contact-us-feedback-success'
     ),
     url(
-        r'^contact/find-uk-companies/success/$',
-        contact.views.BuyingFromUKCompaniesSuccessView.as_view(),
-        name='contact-us-find-uk-companies-success'
-    ),
-    url(
         r'^contact/domestic/$',
         contact.views.DomesticFormView.as_view(),
         name='contact-us-domestic'
