@@ -142,6 +142,6 @@ class PrepopulateFormMixin:
 
     @property
     def guess_family_name(self):
-        if self.company_profile:
-            name = self.company_profile['postal_full_name']
-            return name.split(' ')[1]
+        if self.company_profile and self.company_profile['postal_full_name']:
+            names = self.company_profile['postal_full_name'].split(' ')
+            return names[-1] if len(names) > 1 else None
