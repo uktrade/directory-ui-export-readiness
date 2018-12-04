@@ -12,9 +12,9 @@ from django.urls import reverse, reverse_lazy
 from django.utils.html import strip_tags
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from django.utils.functional import cached_property
 
 from core import mixins
+
 from contact import constants, forms, helpers
 
 
@@ -73,30 +73,6 @@ class SendNotifyMessagesMixin:
         self.send_agent_message(form)
         self.send_user_message(form)
         return super().form_valid(form)
-
-
-class PrepopulateFormMixin:
-
-    @cached_property
-    def company_profile(self):
-        return helpers.get_company_profile(self.request)
-
-    def get_form_kwargs(self):
-        form_kwargs = super().get_form_kwargs()
-        form_kwargs['initial'] = self.get_form_initial()
-        return form_kwargs
-
-    @property
-    def guess_given_name(self):
-        if self.company_profile and self.company_profile['postal_full_name']:
-            name = self.company_profile['postal_full_name']
-            return name.split(' ')[0]
-
-    @property
-    def guess_family_name(self):
-        if self.company_profile:
-            name = self.company_profile['postal_full_name']
-            return name.split(' ')[1]
 
 
 class BaseNotifyFormView(IngressURLMixin, SendNotifyMessagesMixin, FormView):
@@ -275,7 +251,7 @@ class RoutingFormView(IngressURLMixin, NamedUrlSessionWizardView):
 
 class ExportingAdviceFormView(
     mixins.PreventCaptchaRevalidationMixin, IngressURLMixin,
-    NamedUrlSessionWizardView
+    mixins.PrepopulateFormMixin, NamedUrlSessionWizardView
 ):
     success_url = reverse_lazy('contact-us-domestic-success')
 
@@ -298,9 +274,11 @@ class ExportingAdviceFormView(
     def get_template_names(self):
         return [self.templates[self.steps.current]]
 
-    @cached_property
-    def company_profile(self):
-        return helpers.get_company_profile(self.request)
+    def get_form_kwargs(self, *args, **kwargs):
+        # skipping `PrepopulateFormMixin.get_form_kwargs`
+        return super(mixins.PrepopulateFormMixin, self).get_form_kwargs(
+            *args, **kwargs
+        )
 
     def get_form_initial(self, step):
         initial = super().get_form_initial(step)
@@ -308,6 +286,8 @@ class ExportingAdviceFormView(
             initial.update({
                 'email': self.request.sso_user.email,
                 'phone': self.company_profile['mobile_number'],
+                'first_name': self.guess_given_name,
+                'last_name': self.guess_family_name,
             })
         elif step == self.BUSINESS and self.company_profile:
             company = self.company_profile
@@ -363,7 +343,7 @@ class ExportingAdviceFormView(
         return data
 
 
-class FeedbackFormView(PrepopulateFormMixin, BaseZendeskFormView):
+class FeedbackFormView(mixins.PrepopulateFormMixin, BaseZendeskFormView):
     form_class = forms.FeedbackForm
     template_name = 'contact/comment-contact.html'
     success_url = reverse_lazy('contact-us-feedback-success')
@@ -377,7 +357,7 @@ class FeedbackFormView(PrepopulateFormMixin, BaseZendeskFormView):
             }
 
 
-class DomesticFormView(PrepopulateFormMixin, BaseZendeskFormView):
+class DomesticFormView(mixins.PrepopulateFormMixin, BaseZendeskFormView):
     form_class = forms.ShortZendeskForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-domestic-success')
@@ -395,7 +375,7 @@ class DomesticFormView(PrepopulateFormMixin, BaseZendeskFormView):
             }
 
 
-class InternationalFormView(PrepopulateFormMixin, BaseNotifyFormView):
+class InternationalFormView(mixins.PrepopulateFormMixin, BaseNotifyFormView):
     form_class = forms.InternationalContactForm
     template_name = 'contact/international/step.html'
     success_url = reverse_lazy('contact-us-international-success')
@@ -422,7 +402,7 @@ class InternationalFormView(PrepopulateFormMixin, BaseNotifyFormView):
             }
 
 
-class EventsFormView(PrepopulateFormMixin, BaseNotifyFormView):
+class EventsFormView(mixins.PrepopulateFormMixin, BaseNotifyFormView):
     form_class = forms.ShortNotifyForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-events-success')
@@ -444,7 +424,7 @@ class EventsFormView(PrepopulateFormMixin, BaseNotifyFormView):
 
 
 class DefenceAndSecurityOrganisationFormView(
-    PrepopulateFormMixin, BaseNotifyFormView
+    mixins.PrepopulateFormMixin, BaseNotifyFormView
 ):
     form_class = forms.ShortNotifyForm
     template_name = 'contact/domestic/step.html'

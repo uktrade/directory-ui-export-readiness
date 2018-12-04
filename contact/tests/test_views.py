@@ -2,7 +2,6 @@ from unittest import mock
 
 from directory_constants.constants import cms
 import pytest
-import requests_mock
 
 import django.forms
 from django.conf import settings
@@ -23,7 +22,7 @@ class ChoiceForm(django.forms.Form):
 
 @pytest.fixture(autouse=True)
 def company_profile(authed_client):
-    path = 'contact.views.PrepopulateFormMixin.company_profile'
+    path = 'core.mixins.PrepopulateFormMixin.company_profile'
     stub = mock.patch(
         path,
         new_callable=mock.PropertyMock,
@@ -37,7 +36,8 @@ def company_profile(authed_client):
             'postal_full_name': 'Foo Example',
             'country': 'FRANCE',
             'locality': 'Paris',
-    })
+        }
+    )
     yield stub.start()
     stub.stop()
 
@@ -458,6 +458,8 @@ def test_exporting_from_uk_contact_form_initial_data_business(
     assert response_one.context_data['form'].initial == {
         'email': 'test@foo.com',
         'phone': '07171771717',
+        'first_name': 'Foo',
+        'last_name': 'Example',
     }
 
     response_two = client.get(reverse(url_name, kwargs={'step': 'business'}))
@@ -539,7 +541,7 @@ def test_contact_us_feedback_prepopulate(client):
     assert response.status_code == 200
     assert response.context_data['form'].initial == {
         'email': 'test@foo.com',
-        'name':'Foo Example',
+        'name': 'Foo Example',
     }
 
 
@@ -768,42 +770,3 @@ def test_ingress_url_cleared_on_redirect_away(
     view.url_name = 'triage-wizard'
 
     assert form.is_valid()
-
-
-def test_retrieve_company_profile_mixin_not_logged_in(rf):
-    request = rf.get('/')
-    request.sso_user = None
-    mixin = views.PrepopulateFormMixin()
-    mixin.request = request
-
-    assert mixin.company_profile is None
-
-
-def test_retrieve_company_profile_mixin_success(rf):
-    request = rf.get('/')
-    request.sso_user = mock.Mock(session_id=123)
-    mixin = views.PrepopulateFormMixin()
-    mixin.request = request
-    url = 'http://api.trade.great:8000/supplier/company/'
-
-    expected = {'key': 'value'}
-
-    with requests_mock.mock() as mocked:
-        mocked.get(url, json=expected)
-        company_profile = mixin.company_profile
-
-    assert company_profile == expected
-
-
-def test_retrieve_company_profile_mixin_not_ok(rf):
-    request = rf.get('/')
-    request.sso_user = mock.Mock(session_id=123)
-    mixin = views.PrepopulateFormMixin()
-    mixin.request = request
-    url = 'http://api.trade.great:8000/supplier/company/'
-
-    with requests_mock.mock() as mocked:
-        mocked.get(url, status_code=503)
-        company_profile = mixin.company_profile
-
-    assert company_profile is None

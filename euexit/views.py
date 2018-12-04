@@ -4,19 +4,18 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
-from core.mixins import GetCMSPageMixin
-from euexit import forms
-from euexit.mixins import (
-    EUExitFormsFeatureFlagMixin, HideLanguageSelectorMixin)
+from core.mixins import GetCMSPageMixin, PrepopulateFormMixin
+from euexit import forms, mixins
 
 
 SESSION_KEY_FORM_INGRESS_URL = 'FORM_INGRESS_URL'
 
 
 class BaseInternationalContactFormView(
-    EUExitFormsFeatureFlagMixin,
+    mixins.EUExitFormsFeatureFlagMixin,
     GetCMSPageMixin,
-    HideLanguageSelectorMixin,
+    PrepopulateFormMixin,
+    mixins.HideLanguageSelectorMixin,
     FormView,
 ):
 
@@ -43,9 +42,9 @@ class BaseInternationalContactFormView(
 
 
 class BaseContactView(
-    EUExitFormsFeatureFlagMixin,
+    mixins.EUExitFormsFeatureFlagMixin,
     GetCMSPageMixin,
-    HideLanguageSelectorMixin,
+    mixins.HideLanguageSelectorMixin,
     TemplateView
 ):
     pass
@@ -58,6 +57,19 @@ class InternationalContactFormView(BaseInternationalContactFormView):
     success_url = reverse_lazy('eu-exit-international-contact-form-success')
     subject = 'EU exit international contact form'
 
+    def get_form_initial(self):
+        if self.company_profile:
+            return {
+                'email': self.request.sso_user.email,
+                'company_name': self.company_profile['name'],
+                'postcode': self.company_profile['postal_code'],
+                'first_name': self.guess_given_name,
+                'last_name': self.guess_family_name,
+                'organisation_type': forms.COMPANY,
+                'country': self.company_profile['country'],
+                'city': self.company_profile['locality'],
+            }
+
 
 class DomesticContactFormView(BaseInternationalContactFormView):
     slug = cms.EXPORT_READINESS_EUEXIT_DOMESTIC_FORM_SLUG
@@ -65,6 +77,17 @@ class DomesticContactFormView(BaseInternationalContactFormView):
     template_name = 'euexit/domestic-contact-form.html'
     success_url = reverse_lazy('eu-exit-domestic-contact-form-success')
     subject = 'EU exit contact form'
+
+    def get_form_initial(self):
+        if self.company_profile:
+            return {
+                'email': self.request.sso_user.email,
+                'company_name': self.company_profile['name'],
+                'postcode': self.company_profile['postal_code'],
+                'first_name': self.guess_given_name,
+                'last_name': self.guess_family_name,
+                'organisation_type': forms.COMPANY,
+            }
 
 
 class InternationalContactSuccessView(BaseContactView):

@@ -10,6 +10,28 @@ from core.tests.helpers import create_response
 from euexit import views
 
 
+@pytest.fixture(autouse=True)
+def company_profile(authed_client):
+    path = 'core.mixins.PrepopulateFormMixin.company_profile'
+    stub = mock.patch(
+        path,
+        new_callable=mock.PropertyMock,
+        return_value={
+            'number': 1234567,
+            'name': 'Example corp',
+            'postal_code': 'Foo Bar',
+            'sectors': ['AEROSPACE'],
+            'employees': '1-10',
+            'mobile_number': '07171771717',
+            'postal_full_name': 'Foo Example',
+            'country': 'FRANCE',
+            'locality': 'Paris',
+        }
+    )
+    yield stub.start()
+    stub.stop()
+
+
 def test_international_form_feature_flag_off(client, settings):
     settings.FEATURE_FLAGS['EU_EXIT_FORMS_ON'] = False
 
@@ -281,3 +303,45 @@ def test_form_urls_no_referer(mock_lookup_by_slug, settings, client, url):
     assert form.form_url == urljoin('http://testserver', url)
     assert form.ingress_url is None
     assert response.context_data['hide_language_selector'] is True
+
+
+@mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_international_prepopulate(mock_lookup_by_slug, client):
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200,
+        json_body={'disclaimer': 'disclaim'}
+    )
+    url = reverse('eu-exit-international-contact-form')
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['form'].initial == {
+        'email': 'test@foo.com',
+        'company_name': 'Example corp',
+        'postcode': 'Foo Bar',
+        'first_name': 'Foo',
+        'last_name': 'Example',
+        'organisation_type': 'COMPANY',
+        'country': 'FRANCE',
+        'city': 'Paris'
+    }
+
+
+@mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_domestic_prepopulate(mock_lookup_by_slug, client):
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200,
+        json_body={'disclaimer': 'disclaim'}
+    )
+    url = reverse('eu-exit-domestic-contact-form')
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['form'].initial == {
+        'email': 'test@foo.com',
+        'company_name': 'Example corp',
+        'postcode': 'Foo Bar',
+        'first_name': 'Foo',
+        'last_name': 'Example',
+        'organisation_type': 'COMPANY',
+    }
