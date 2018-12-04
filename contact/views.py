@@ -1,6 +1,5 @@
 from urllib.parse import urlparse
 
-from directory_api_client.client import api_client
 from directory_constants.constants import cms
 from directory_forms_api_client.actions import EmailAction, GovNotifyAction
 
@@ -76,16 +75,28 @@ class SendNotifyMessagesMixin:
         return super().form_valid(form)
 
 
-class RetrieveSupplierProfileMixin:
+class PrepopulateFormMixin:
 
     @cached_property
-    def supplier_profile(self):
-        if self.request.sso_user:
-            response = api_client.supplier.retrieve_profile(
-                sso_session_id=self.request.sso_user.session_id,
-            )
-            if response.status_code == 200:
-                return response.json()
+    def company_profile(self):
+        return helpers.get_company_profile(self.request)
+
+    def get_form_kwargs(self):
+        form_kwargs = super().get_form_kwargs()
+        form_kwargs['initial'] = self.get_form_initial()
+        return form_kwargs
+
+    @property
+    def guess_given_name(self):
+        if self.company_profile and self.company_profile['postal_full_name']:
+            name = self.company_profile['postal_full_name']
+            return name.split(' ')[0]
+
+    @property
+    def guess_family_name(self):
+        if self.company_profile:
+            name = self.company_profile['postal_full_name']
+            return name.split(' ')[1]
 
 
 class BaseNotifyFormView(IngressURLMixin, SendNotifyMessagesMixin, FormView):
@@ -264,7 +275,7 @@ class RoutingFormView(IngressURLMixin, NamedUrlSessionWizardView):
 
 class ExportingAdviceFormView(
     mixins.PreventCaptchaRevalidationMixin, IngressURLMixin,
-    RetrieveSupplierProfileMixin, NamedUrlSessionWizardView
+    NamedUrlSessionWizardView
 ):
     success_url = reverse_lazy('contact-us-domestic-success')
 
@@ -287,15 +298,19 @@ class ExportingAdviceFormView(
     def get_template_names(self):
         return [self.templates[self.steps.current]]
 
+    @cached_property
+    def company_profile(self):
+        return helpers.get_company_profile(self.request)
+
     def get_form_initial(self, step):
         initial = super().get_form_initial(step)
-        if step == self.PERSONAL and self.supplier_profile:
+        if step == self.PERSONAL and self.company_profile:
             initial.update({
-                'email': self.supplier_profile['company_email'],
-                'phone': self.supplier_profile['company']['mobile_number'],
+                'email': self.request.sso_user.email,
+                'phone': self.company_profile['mobile_number'],
             })
-        elif step == self.BUSINESS and self.supplier_profile:
-            company = self.supplier_profile['company']
+        elif step == self.BUSINESS and self.company_profile:
+            company = self.company_profile
             initial.update({
                 'company_type': forms.LIMITED,
                 'companies_house_number': company['number'],
@@ -348,21 +363,39 @@ class ExportingAdviceFormView(
         return data
 
 
-class FeedbackFormView(BaseZendeskFormView):
+class FeedbackFormView(PrepopulateFormMixin, BaseZendeskFormView):
     form_class = forms.FeedbackForm
     template_name = 'contact/comment-contact.html'
     success_url = reverse_lazy('contact-us-feedback-success')
     subject = settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT
 
+    def get_form_initial(self):
+        if self.company_profile:
+            return {
+                'email': self.request.sso_user.email,
+                'name': self.company_profile['postal_full_name'],
+            }
 
-class DomesticFormView(BaseZendeskFormView):
+
+class DomesticFormView(PrepopulateFormMixin, BaseZendeskFormView):
     form_class = forms.ShortZendeskForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-domestic-success')
     subject = settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT
 
+    def get_form_initial(self):
+        if self.company_profile:
+            return {
+                'email': self.request.sso_user.email,
+                'company_type': forms.LIMITED,
+                'organisation_name': self.company_profile['name'],
+                'postcode': self.company_profile['postal_code'],
+                'given_name': self.guess_given_name,
+                'family_name': self.guess_family_name,
+            }
 
-class InternationalFormView(BaseNotifyFormView):
+
+class InternationalFormView(PrepopulateFormMixin, BaseNotifyFormView):
     form_class = forms.InternationalContactForm
     template_name = 'contact/international/step.html'
     success_url = reverse_lazy('contact-us-international-success')
@@ -377,8 +410,19 @@ class InternationalFormView(BaseNotifyFormView):
         settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID
     )
 
+    def get_form_initial(self):
+        if self.company_profile:
+            return {
+                'email': self.request.sso_user.email,
+                'organisation_name': self.company_profile['name'],
+                'country_name': self.company_profile['country'],
+                'city': self.company_profile['locality'],
+                'given_name': self.guess_given_name,
+                'family_name': self.guess_family_name,
+            }
 
-class EventsFormView(BaseNotifyFormView):
+
+class EventsFormView(PrepopulateFormMixin, BaseNotifyFormView):
     form_class = forms.ShortNotifyForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-events-success')
@@ -387,8 +431,21 @@ class EventsFormView(BaseNotifyFormView):
     notify_email_address_agent = settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS
     notify_template_id_user = settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID
 
+    def get_form_initial(self):
+        if self.company_profile:
+            return {
+                'email': self.request.sso_user.email,
+                'company_type': forms.LIMITED,
+                'organisation_name': self.company_profile['name'],
+                'postcode': self.company_profile['postal_code'],
+                'given_name': self.guess_given_name,
+                'family_name': self.guess_family_name,
+            }
 
-class DefenceAndSecurityOrganisationFormView(BaseNotifyFormView):
+
+class DefenceAndSecurityOrganisationFormView(
+    PrepopulateFormMixin, BaseNotifyFormView
+):
     form_class = forms.ShortNotifyForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-dso-success')
@@ -396,6 +453,17 @@ class DefenceAndSecurityOrganisationFormView(BaseNotifyFormView):
     notify_template_id_agent = settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID
     notify_email_address_agent = settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS
     notify_template_id_user = settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID
+
+    def get_form_initial(self):
+        if self.company_profile:
+            return {
+                'email': self.request.sso_user.email,
+                'company_type': forms.LIMITED,
+                'organisation_name': self.company_profile['name'],
+                'postcode': self.company_profile['postal_code'],
+                'given_name': self.guess_given_name,
+                'family_name': self.guess_family_name,
+            }
 
 
 class InternationalSuccessView(BaseSuccessView):

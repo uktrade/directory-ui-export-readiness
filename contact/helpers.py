@@ -20,3 +20,12 @@ def retrieve_regional_office(postcode):
     )
     response.raise_for_status()
     return response.json()
+
+
+def get_company_profile(request):
+    if request.sso_user:
+        response = api_client.company.retrieve_private_profile(
+            sso_session_id=request.sso_user.session_id,
+        )
+        if response.status_code == 200:
+            return response.json()

@@ -21,6 +21,27 @@ class ChoiceForm(django.forms.Form):
     choice = django.forms.CharField()
 
 
+@pytest.fixture(autouse=True)
+def company_profile(authed_client):
+    path = 'contact.views.PrepopulateFormMixin.company_profile'
+    stub = mock.patch(
+        path,
+        new_callable=mock.PropertyMock,
+        return_value={
+            'number': 1234567,
+            'name': 'Example corp',
+            'postal_code': 'Foo Bar',
+            'sectors': ['AEROSPACE'],
+            'employees': '1-10',
+            'mobile_number': '07171771717',
+            'postal_full_name': 'Foo Example',
+            'country': 'FRANCE',
+            'locality': 'Paris',
+    })
+    yield stub.start()
+    stub.stop()
+
+
 @pytest.fixture
 def domestic_form_data(captcha_stub):
     return {
@@ -317,18 +338,15 @@ def test_success_view_cms(mock_lookup_by_slug, url, slug, client):
     )
 
 
-@mock.patch(
-    'contact.views.RetrieveSupplierProfileMixin.supplier_profile',
-    mock.PropertyMock(return_value=None)
-)
 @mock.patch('captcha.fields.ReCaptchaField.clean')
 @mock.patch('contact.views.GovNotifyAction')
 @mock.patch('contact.views.EmailAction')
 @mock.patch('contact.helpers.retrieve_exporting_advice_email')
 def test_exporting_from_uk_contact_form_submission(
     mock_retrieve_exporting_advice_email, mock_email_action,
-    mock_notify_action, mock_clean, client, captcha_stub,
+    mock_notify_action, mock_clean, client, captcha_stub, company_profile
 ):
+    company_profile.return_value = None
     mock_retrieve_exporting_advice_email.return_value = 'regional@example.com'
 
     url_name = 'contact-us-export-advice'
@@ -423,20 +441,6 @@ def test_exporting_from_uk_contact_form_submission(
     )
 
 
-@mock.patch(
-    'contact.views.RetrieveSupplierProfileMixin.supplier_profile',
-    mock.PropertyMock(return_value={
-        'company_email': 'foo@example.com',
-        'company': {
-            'number': 1234567,
-            'name': 'Example corp',
-            'postal_code': 'Foo Bar',
-            'sectors': ['AEROSPACE'],
-            'employees': '1-10',
-            'mobile_number': '07171771717',
-        }
-    })
-)
 @mock.patch('captcha.fields.ReCaptchaField.clean')
 @mock.patch('contact.views.GovNotifyAction')
 @mock.patch('contact.views.EmailAction')
@@ -452,7 +456,7 @@ def test_exporting_from_uk_contact_form_initial_data_business(
     response_one = client.get(reverse(url_name, kwargs={'step': 'personal'}))
 
     assert response_one.context_data['form'].initial == {
-        'email': 'foo@example.com',
+        'email': 'test@foo.com',
         'phone': '07171771717',
     }
 
@@ -526,6 +530,51 @@ def test_zendesk_submit_success(
         subject=subject,
         service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME
     )
+
+
+def test_contact_us_feedback_prepopulate(client):
+    url = reverse('contact-us-feedback')
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['form'].initial == {
+        'email': 'test@foo.com',
+        'name':'Foo Example',
+    }
+
+
+@pytest.mark.parametrize('url', (
+    reverse('contact-us-domestic'),
+    reverse('contact-us-dso-form'),
+    reverse('contact-us-events-form'),
+))
+def test_contact_us_short_form_prepopualate(client, url):
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['form'].initial == {
+        'email': 'test@foo.com',
+        'company_type': forms.LIMITED,
+        'organisation_name': 'Example corp',
+        'postcode': 'Foo Bar',
+        'family_name': 'Example',
+        'given_name': 'Foo',
+    }
+
+
+def test_contact_us_international_prepopualate(client):
+    url = reverse('contact-us-international')
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['form'].initial == {
+        'email': 'test@foo.com',
+        'organisation_name': 'Example corp',
+        'country_name': 'FRANCE',
+        'city': 'Paris',
+        'family_name': 'Example',
+        'given_name': 'Foo'
+    }
 
 
 class IngressURLView(views.IngressURLMixin, TemplateView):
@@ -721,38 +770,40 @@ def test_ingress_url_cleared_on_redirect_away(
     assert form.is_valid()
 
 
-def test_retrieve_supplier_profile_mixin_not_logged_in(rf):
+def test_retrieve_company_profile_mixin_not_logged_in(rf):
     request = rf.get('/')
     request.sso_user = None
-    mixin = views.RetrieveSupplierProfileMixin()
+    mixin = views.PrepopulateFormMixin()
     mixin.request = request
 
-    assert mixin.supplier_profile is None
+    assert mixin.company_profile is None
 
 
-def test_retrieve_supplier_profile_mixin_success(rf):
+def test_retrieve_company_profile_mixin_success(rf):
     request = rf.get('/')
     request.sso_user = mock.Mock(session_id=123)
-    mixin = views.RetrieveSupplierProfileMixin()
+    mixin = views.PrepopulateFormMixin()
     mixin.request = request
+    url = 'http://api.trade.great:8000/supplier/company/'
 
     expected = {'key': 'value'}
 
     with requests_mock.mock() as mocked:
-        mocked.get('http://api.trade.great:8000/supplier/', json=expected)
-        supplier_profile = mixin.supplier_profile
+        mocked.get(url, json=expected)
+        company_profile = mixin.company_profile
 
-    assert supplier_profile == expected
+    assert company_profile == expected
 
 
-def test_retrieve_supplier_profile_mixin_not_ok(rf):
+def test_retrieve_company_profile_mixin_not_ok(rf):
     request = rf.get('/')
     request.sso_user = mock.Mock(session_id=123)
-    mixin = views.RetrieveSupplierProfileMixin()
+    mixin = views.PrepopulateFormMixin()
     mixin.request = request
+    url = 'http://api.trade.great:8000/supplier/company/'
 
     with requests_mock.mock() as mocked:
-        mocked.get('http://api.trade.great:8000/supplier/', status_code=503)
-        supplier_profile = mixin.supplier_profile
+        mocked.get(url, status_code=503)
+        company_profile = mixin.company_profile
 
-    assert supplier_profile is None
+    assert company_profile is None
