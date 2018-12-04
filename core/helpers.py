@@ -1,5 +1,6 @@
 import urllib.parse
 
+from directory_api_client.client import api_client
 from ipware import get_client_ip
 
 from django.conf import settings
@@ -123,3 +124,12 @@ class GeoLocationRedirector:
             domain=settings.LANGUAGE_COOKIE_DOMAIN
         )
         return response
+
+
+def get_company_profile(request):
+    if request.sso_user:
+        response = api_client.company.retrieve_private_profile(
+            sso_session_id=request.sso_user.session_id,
+        )
+        if response.status_code == 200:
+            return response.json()

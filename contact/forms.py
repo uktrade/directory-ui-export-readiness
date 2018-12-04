@@ -21,8 +21,10 @@ TERMS_LABEL = mark_safe(
     'conditions</a> of the great.gov.uk service.'
 )
 
+LIMITED = 'LIMITED'
+
 COMPANY_TYPE_CHOICES = (
-    ('LIMITED', 'UK private or public limited company'),
+    (LIMITED, 'UK private or public limited company'),
     ('OTHER', 'Other type of UK organisation'),
 )
 COMPANY_TYPE_OTHER_CHOICES = (

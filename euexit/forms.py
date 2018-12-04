@@ -13,8 +13,10 @@ from django.utils.html import mark_safe
 from euexit.helpers import eu_exit_forms_api_client
 
 
+COMPANY = 'COMPANY'
+
 COMPANY_CHOICES = (
-    ('COMPANY', 'Company'),
+    (COMPANY, 'Company'),
     ('OTHER', 'Other type of organisation'),
 )
 

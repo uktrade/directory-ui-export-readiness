@@ -3,10 +3,13 @@ from directory_constants.constants import cms
 from django.http import Http404
 from django.conf import settings
 from directory_cms_client.helpers import (
-    handle_cms_response, handle_cms_response_allow_404)
-from core.helpers import cms_component_is_bidi
+    handle_cms_response, handle_cms_response_allow_404
+)
+
 from django.utils import translation
 from django.utils.functional import cached_property
+
+from core import helpers
 
 
 class NotFoundOnDisabledFeature:
@@ -68,7 +71,7 @@ class GetCMSComponentMixin:
     @property
     def component_is_bidi(self):
         if self.cms_component:
-            return cms_component_is_bidi(
+            return helpers.cms_component_is_bidi(
                 translation.get_language(),
                 self.cms_component['meta']['languages']
             )
@@ -118,3 +121,27 @@ class PreventCaptchaRevalidationMixin:
         if step == self.steps.last and self.should_ignore_captcha:
             del form.fields['captcha']
         return form
+
+
+class PrepopulateFormMixin:
+
+    @cached_property
+    def company_profile(self):
+        return helpers.get_company_profile(self.request)
+
+    def get_form_kwargs(self):
+        form_kwargs = super().get_form_kwargs()
+        form_kwargs['initial'] = self.get_form_initial()
+        return form_kwargs
+
+    @property
+    def guess_given_name(self):
+        if self.company_profile and self.company_profile['postal_full_name']:
+            name = self.company_profile['postal_full_name']
+            return name.split(' ')[0]
+
+    @property
+    def guess_family_name(self):
+        if self.company_profile:
+            name = self.company_profile['postal_full_name']
+            return name.split(' ')[1]
