@@ -102,3 +102,26 @@ def test_retrieve_company_profile_mixin_not_ok(rf):
         company_profile = mixin.company_profile
 
     assert company_profile is None
+
+
+@pytest.mark.parametrize('full_name,first_name,last_name', (
+    ('James Example', 'James', 'Example'),
+    ('James', 'James', None),
+    ('James Earl Jones', 'James', 'Jones'),
+    ('', None, None),
+))
+def test_retrieve_company_profile_mixin_name_guessing(
+    rf, full_name, first_name, last_name
+):
+    request = rf.get('/')
+    request.sso_user = mock.Mock(session_id=123)
+    mixin = mixins.PrepopulateFormMixin()
+    mixin.request = request
+    url = 'http://api.trade.great:8000/supplier/company/'
+
+    expected = {'postal_full_name': full_name}
+
+    with requests_mock.mock() as mocked:
+        mocked.get(url, json=expected)
+        assert mixin.guess_given_name == first_name
+        assert mixin.guess_family_name == last_name
