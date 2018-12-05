@@ -287,10 +287,12 @@ def test_notify_form_submit_success(
         mock.call(
             template_id=agent_template,
             email_address=agent_email,
+            form_url=url,
         ),
         mock.call(
             template_id=user_template,
             email_address='test@example.com',
+            form_url=url,
         )
     ]
 
@@ -401,6 +403,7 @@ def test_exporting_from_uk_contact_form_submission(
     assert mock_notify_action.call_args == mock.call(
         template_id=settings.CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID,
         email_address='test@example.com',
+        form_url='/contact/export-advice/comment/',
     )
     assert mock_notify_action().save.call_count == 1
     assert mock_notify_action().save.call_args == mock.call({
@@ -419,9 +422,7 @@ def test_exporting_from_uk_contact_form_submission(
         'industry_other': '',
         'turnover': '0-25k',
         'employees': '1-10',
-        'form_url': 'http://testserver/contact/export-advice/finished/',
         'ingress_url': None,
-
     })
 
     assert mock_email_action.call_count == 1
@@ -429,6 +430,7 @@ def test_exporting_from_uk_contact_form_submission(
         recipients=['regional@example.com'],
         subject=settings.CONTACT_EXPORTING_AGENT_SUBJECT,
         reply_to=[settings.DEFAULT_FROM_EMAIL],
+        form_url='/contact/export-advice/comment/'
     )
     assert mock_email_action().save.call_count == 1
     assert mock_email_action().save.call_args == mock.call({
@@ -528,6 +530,7 @@ def test_zendesk_submit_success(
     assert Form.save.call_count == 1
     assert Form.save.call_args == mock.call(
         email_address='foo@bar.com',
+        form_url=url,
         full_name='Foo B',
         subject=subject,
         service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME

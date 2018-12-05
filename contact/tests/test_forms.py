@@ -124,7 +124,6 @@ def test_international_form_routing():
 def test_short_notify_form_serialize_data(domestic_data):
     form = forms.ShortNotifyForm(
         ingress_url='https://ingress.com',
-        form_url='http://forms.com',
         data=domestic_data
     )
 
@@ -148,7 +147,6 @@ def test_short_notify_form_serialize_data(domestic_data):
         'postcode': 'ABC123',
         'comment': 'Help please',
         'ingress_url': 'https://ingress.com',
-        'form_url': 'http://forms.com',
         'dit_regional_office_name': 'Some Office',
         'dit_regional_office_email': 'foo@example.com',
     }
@@ -157,7 +155,6 @@ def test_short_notify_form_serialize_data(domestic_data):
 def test_short_zendesk_form_serialize_data(domestic_data):
     form = forms.ShortZendeskForm(
         ingress_url='https://ingress.com',
-        form_url='http://forms.com',
         data=domestic_data
     )
 
@@ -181,7 +178,6 @@ def test_short_zendesk_form_serialize_data(domestic_data):
         'postcode': 'ABC123',
         'comment': 'Help please',
         'ingress_url': 'https://ingress.com',
-        'form_url': 'http://forms.com',
     }
     assert form.full_name == 'Test Example'
 
@@ -191,7 +187,6 @@ def test_domestic_contact_form_serialize_data_office_lookup_error(
 ):
     form = forms.ShortNotifyForm(
         ingress_url='https://ingress.com',
-        form_url='http://forms.com',
         data=domestic_data
     )
 
@@ -213,7 +208,6 @@ def test_domestic_contact_form_serialize_data_office_lookup_not_found(
 ):
     form = forms.ShortNotifyForm(
         ingress_url='https://ingress.com',
-        form_url='http://forms.com',
         data=domestic_data
     )
 
@@ -233,7 +227,6 @@ def test_domestic_contact_form_serialize_data_office_lookup_not_found(
 def test_feedback_form_serialize_data(captcha_stub):
     form = forms.FeedbackForm(
         ingress_url='https://ingress.com',
-        form_url='http://forms.com',
         data={
             'name': 'Test Example',
             'email': 'test@example.com',
@@ -249,7 +242,6 @@ def test_feedback_form_serialize_data(captcha_stub):
         'email': 'test@example.com',
         'comment': 'Help please',
         'ingress_url': 'https://ingress.com',
-        'form_url': 'http://forms.com',
     }
     assert form.full_name == 'Test Example'
 
