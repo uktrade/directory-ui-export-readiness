@@ -115,7 +115,7 @@ TEST_SET_ENV_VARS := \
 	export CONTACT_BUYING_AGENT_EMAIL_ADDRESS=buying@example.com; \
 	export CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID=debug; \
 	export CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID=debug; \
-	export CONTACT_EXPORTING_AGENT_SUBJECT=exporting@example.com; \
+	export CONTACT_EXPORTING_AGENT_SUBJECT=exporting-subject; \
 	export COMPANIES_HOUSE_API_KEY=debug
 
 

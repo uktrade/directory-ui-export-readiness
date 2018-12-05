@@ -59,6 +59,7 @@ class SendNotifyMessagesMixin:
         response = form.save(
             template_id=self.notify_template_id_agent,
             email_address=self.notify_email_address_agent,
+            form_url=self.request.get_full_path()
         )
         response.raise_for_status()
 
@@ -66,6 +67,7 @@ class SendNotifyMessagesMixin:
         response = form.save(
             template_id=self.notify_template_id_user,
             email_address=form.cleaned_data['email'],
+            form_url=self.request.get_full_path(),
         )
         response.raise_for_status()
 
@@ -79,7 +81,6 @@ class BaseNotifyFormView(IngressURLMixin, SendNotifyMessagesMixin, FormView):
     def get_form_kwargs(self):
         return {
             **super().get_form_kwargs(),
-            'form_url': self.request.build_absolute_uri(),
             'ingress_url': self.ingress_url,
         }
 
@@ -88,7 +89,6 @@ class BaseZendeskFormView(IngressURLMixin, FormView):
     def get_form_kwargs(self):
         return {
             **super().get_form_kwargs(),
-            'form_url': self.request.build_absolute_uri(),
             'ingress_url': self.ingress_url,
         }
 
@@ -98,6 +98,7 @@ class BaseZendeskFormView(IngressURLMixin, FormView):
             full_name=form.full_name,
             subject=self.subject,
             service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME,
+            form_url=self.request.get_full_path()
         )
         response.raise_for_status()
         return super().form_valid(form)
@@ -308,6 +309,9 @@ class ExportingAdviceFormView(
         action = GovNotifyAction(
             template_id=settings.CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID,
             email_address=form_data['email'],
+            form_url=reverse(
+                'contact-us-export-advice', kwargs={'step': 'comment'}
+            )
         )
         response = action.save(form_data)
         response.raise_for_status()
@@ -319,6 +323,9 @@ class ExportingAdviceFormView(
             recipients=[email],
             subject=settings.CONTACT_EXPORTING_AGENT_SUBJECT,
             reply_to=[settings.DEFAULT_FROM_EMAIL],
+            form_url=reverse(
+                'contact-us-export-advice', kwargs={'step': 'comment'}
+            )
         )
         template_name = 'contact/exporting-from-uk-agent-email.html'
         html = render_to_string(template_name, {'form_data': form_data})
@@ -339,7 +346,6 @@ class ExportingAdviceFormView(
             data.update(form.cleaned_data)
         del data['terms_agreed']
         data['ingress_url'] = self.ingress_url
-        data['form_url'] = self.request.build_absolute_uri()
         return data
 
 
