@@ -5,9 +5,9 @@ django-formtools==2.0
 django-cors-headers==2.1.0
 gunicorn==19.5.0
 raven==5.19.0
-requests>=2.13.0
+requests>=2.20.0,<3.0.0
 whitenoise==3.1
-markdown2==2.3.5
+markdown2==2.3.7
 beautifulsoup4==4.6.0
 django-recaptcha==1.2.0
 clint
@@ -19,7 +19,7 @@ directory-constants>=11.0.0,<12.0.0
 sigauth==4.0.1
 directory-healthcheck==0.5.1
 directory-ch-client==1.0.0
-directory-components==3.1.0
+directory-components==3.5.0
 export_elements==0.23.0
 geoip2==2.9.0
 django-ipware==2.1.0
