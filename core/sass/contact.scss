@@ -5,6 +5,9 @@
 @import './components/form-wizard';
 @import './components/breadcrumbs';
 
+#content .form-group input[type=checkbox] {
+  width: 38px;
+}
 
 .breadcrumbs {
   background-color: transparent;

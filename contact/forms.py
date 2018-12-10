@@ -59,15 +59,13 @@ class NoOpForm(forms.Form):
 
 class SerializeDataMixin:
 
-    def __init__(self, form_url, ingress_url, *args, **kwargs):
+    def __init__(self, ingress_url, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.form_url = form_url
         self.ingress_url = ingress_url
 
     @property
     def serialized_data(self):
         data = self.cleaned_data.copy()
-        data['form_url'] = self.form_url
         data['ingress_url'] = self.ingress_url or ''
         del data['captcha']
         del data['terms_agreed']
