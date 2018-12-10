@@ -5,7 +5,7 @@ from formtools.wizard.views import NamedUrlSessionWizardView
 from django.conf import settings
 from django.http import Http404
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic.base import TemplateView
 
 from core import mixins
@@ -54,8 +54,16 @@ class GetFinanceLeadGenerationFormView(
         return [self.templates[self.steps.current]]
 
     def done(self, form_list, **kwargs):
-        action = PardotAction(pardot_url=settings.UKEF_FORM_SUBMIT_TRACKER_URL)
-        response = action.save(self.serialize_form_list(form_list))
+        action = PardotAction(
+            pardot_url=settings.UKEF_FORM_SUBMIT_TRACKER_URL,
+            form_url=reverse(
+                'uk-export-finance-lead-generation-form',
+                kwargs={'step': self.CATEGORY}
+            )
+        )
+        response = action.save(
+            self.serialize_form_list(form_list),
+        )
         response.raise_for_status()
         return redirect(self.success_url)
 

@@ -1,5 +1,6 @@
 from directory_constants.constants import cms
 
+from django.conf import settings
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -28,16 +29,22 @@ class BaseInternationalContactFormView(
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['field_attributes'] = self.page
-        kwargs['form_url'] = self.request.build_absolute_uri()
         kwargs['ingress_url'] = (
             self.request.session.get(SESSION_KEY_FORM_INGRESS_URL)
         )
-        kwargs['subject'] = self.subject
         kwargs['disclaimer'] = self.page['disclaimer']
         return kwargs
 
     def form_valid(self, form):
-        form.save()
+        response = form.save(
+            subject=self.subject,
+            full_name=form.full_name,
+            email_address=form.cleaned_data['email'],
+            service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME,
+            subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
+            form_url=self.request.path
+        )
+        response.raise_for_status()
         return super().form_valid(form)
 
 
