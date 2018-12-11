@@ -1,5 +1,5 @@
 import os
-from unittest.mock import patch
+from unittest import mock
 
 import pytest
 
@@ -28,7 +28,7 @@ def process_request(self, request):
 
 @pytest.fixture
 def authed_client(client):
-    stub = patch(
+    stub = mock.patch(
         'sso.middleware.SSOUserMiddleware.process_request', process_request
     )
     stub.start()

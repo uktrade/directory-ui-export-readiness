@@ -24,6 +24,8 @@ def company_profile(authed_client):
             'employees': '1-10',
             'mobile_number': '07171771717',
             'postal_full_name': 'Foo Example',
+            'address_line_1': '123 Street',
+            'address_line_2': 'Near Fake Town',
             'country': 'FRANCE',
             'locality': 'Paris',
         }
