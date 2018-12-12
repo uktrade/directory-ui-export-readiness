@@ -122,3 +122,36 @@ GOVUK.utils.toggleRadioOtherOnClick = (function() {
     }
   };
 })();
+
+GOVUK.utils.toggleInputOnNotTicked = (function() {
+  return function toggleRadioOtherOnClick(radio, targetElement) {
+
+    function hide(element) {
+      element.style.display = 'none';
+    }
+
+    function show(element) {
+      element.style.display = 'block';
+    }
+
+    function hideOtherOptions() {
+      hide(targetElement);
+    }
+
+    function showOtherOptions() {
+      show(targetElement);
+    }
+
+    function handleCheckboxChange(event) {
+      if (radio.checked) {
+        hideOtherOptions();
+      } else {
+        showOtherOptions();
+      }
+    }
+
+    handleCheckboxChange()
+    debugger
+    radio.addEventListener('change', handleCheckboxChange);
+  };
+})();

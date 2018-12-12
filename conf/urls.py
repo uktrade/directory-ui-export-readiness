@@ -672,13 +672,29 @@ contact_urls = [
         name='contact-us-international-success'
     ),
     url(
+        r'^contact/selling-online-overseas/$',
+        RedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-soo', kwargs={'step': 'organisation'}
+            )
+        ),
+        name='contact-us-soo-redirect'
+    ),
+    url(
+        r'^contact/selling-online-overseas/(?P<step>.+)/$',
+        contact.views.SellingOnlineOverseasFormView.as_view(
+            url_name='contact-us-soo', done_step_name='finished'
+        ),
+        name='contact-us-soo'
+    ),
+    url(
         r'^contact/$',
         RedirectView.as_view(
             url=reverse_lazy(
                 'contact-us-routing-form', kwargs={'step': 'location'}
             )
         ),
-        name='contact-us-routing-form'
+        name='contact-us-routing-form-redirect'
     ),
     url(
         r'^contact/triage/(?P<step>.+)/$',
@@ -687,7 +703,6 @@ contact_urls = [
         ),
         name='contact-us-routing-form'
     ),
-
 ]
 
 

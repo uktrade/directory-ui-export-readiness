@@ -482,3 +482,49 @@ class GuidanceView(mixins.GetCMSPageMixin, TemplateView):
     @property
     def slug(self):
         return self.kwargs['slug']
+
+
+
+
+class SellingOnlineOverseasFormView(
+    mixins.PreventCaptchaRevalidationMixin, IngressURLMixin,
+    mixins.PrepopulateFormMixin, NamedUrlSessionWizardView
+):
+    success_url = reverse_lazy('contact-us-selling-online-overseas')
+
+    ORGANISATION = 'organisation'
+    ORGANISATION_DETAILS = 'organisation-details'
+    EXPERIENCE = 'your-experience'
+    CONTACT_DETAILS = 'contact-details'
+
+    form_list = (
+        (ORGANISATION, forms.SellingOnlineOverseasBusiness),
+        (ORGANISATION_DETAILS, forms.SellingOnlineOverseasBusinessDetails),
+        (EXPERIENCE, forms.SellingOnlineOverseasExperience),
+        (CONTACT_DETAILS, forms.SellingOnlineOverseasContactDetails),
+    )
+
+    templates = {
+        ORGANISATION: 'contact/soo/step-organisation.html',
+        ORGANISATION_DETAILS: 'contact/soo/step-organisation-details.html',
+        EXPERIENCE: 'contact/soo/step-experience.html',
+        CONTACT_DETAILS: 'contact/soo/step-contact-details.html',
+    }
+
+    def get_template_names(self):
+        return [self.templates[self.steps.current]]
+
+    def get_form_kwargs(self, *args, **kwargs):
+        # skipping `PrepopulateFormMixin.get_form_kwargs`
+        return super(mixins.PrepopulateFormMixin, self).get_form_kwargs(
+            *args, **kwargs
+        )
+
+    def serialize_form_list(self, form_list):
+        data = {}
+        for form in form_list:
+            data.update(form.cleaned_data)
+        del data['terms_agreed']
+        del data['captcha']
+        data['ingress_url'] = self.ingress_url
+        return data
