@@ -98,7 +98,6 @@ TEMPLATES = [
                 'directory_components.context_processors.feature_flags',
                 'directory_components.context_processors.analytics',
                 'directory_components.context_processors.cookie_notice',
-                'prototype.context_processors.prototype_home_link',
             ],
         },
     },
@@ -377,6 +376,8 @@ GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
 
 # feature flags
 FEATURE_FLAGS = {
+    'EXPORT_JOURNEY_ON': env.bool(
+        'FEATURE_EXPORT_JOURNEY_ENABLED', True),
     'PROTOTYPE_PAGES_ON': env.bool(
         'FEATURE_PROTOTYPE_PAGES_ENABLED', False),
     'CAMPAIGN_PAGES_ON': env.bool(
@@ -400,9 +401,6 @@ FEATURE_FLAGS = {
     'MAINTENANCE_MODE_ON': env.bool('FEATURE_MAINTENANCE_MODE_ENABLED', False),
     'EU_EXIT_FORMS_ON': env.bool('FEATURE_EU_EXIT_FORMS_ENABLED', False),
 }
-
-PROTOTYPE_HOME_LINK = env.str(
-    'PROTOTYPE_HOME_LINK', '/prototype')
 
 # UK Export Finance
 UKEF_PI_TRACKER_JAVASCRIPT_URL = env.str(

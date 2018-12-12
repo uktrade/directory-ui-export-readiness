@@ -7,7 +7,7 @@ from directory_constants.constants import exred_articles
 from directory_components.templatetags import directory_components_tags
 
 from django.template.loader import render_to_string
-from django.urls import reverse
+from django.urls import reverse_lazy
 
 from article import articles, helpers, structure, views
 import core.helpers
@@ -16,42 +16,42 @@ import core.helpers
 persona_lise_views_under_test = (
     (
         views.PersonaNewArticleListView,
-        reverse('article-list-persona-new'),
+        reverse_lazy('article-list-persona-new'),
     ),
     (
         views.PersonaOccasionalArticleListView,
-        reverse('article-list-persona-occasional')
+        reverse_lazy('article-list-persona-occasional')
     ),
     (
         views.PersonaRegularArticleListView,
-        reverse('article-list-persona-regular'),
+        reverse_lazy('article-list-persona-regular'),
     ),
 )
 
 guidance_views_under_test = (
     (
         views.MarketResearchArticleListView,
-        reverse('article-list-market-research'),
+        reverse_lazy('article-list-market-research'),
     ),
     (
         views.CustomerInsightArticleListView,
-        reverse('article-list-customer-insight'),
+        reverse_lazy('article-list-customer-insight'),
     ),
     (
         views.FinanceArticleListView,
-        reverse('article-list-finance')
+        reverse_lazy('article-list-finance')
     ),
     (
         views.BusinessPlanningArticleListView,
-        reverse('article-list-business-planning'),
+        reverse_lazy('article-list-business-planning'),
     ),
     (
         views.GettingPaidArticleListView,
-        reverse('article-list-getting-paid')
+        reverse_lazy('article-list-getting-paid')
     ),
     (
         views.OperationsAndComplianceArticleListView,
-        reverse('article-list-operations-and-compliance')
+        reverse_lazy('article-list-operations-and-compliance')
     )
 )
 
@@ -59,205 +59,206 @@ guidance_views_under_test = (
 article_views_under_test = (
     (
         views.DoResearchFirstView,
-        reverse('article-research-market'),
+        reverse_lazy('article-research-market'),
     ),
     (
         views.DefineMarketPotentialView,
-        reverse('define-market-potential'),
+        reverse_lazy('define-market-potential'),
     ),
     (
         views.DoFieldResearchView,
-        reverse('do-field-research'),
+        reverse_lazy('do-field-research'),
     ),
     (
         views.AnalyseTheCompetitionView,
-        reverse('analyse-the-competition'),
+        reverse_lazy('analyse-the-competition'),
     ),
     (
         views.VisitTradeShowView,
-        reverse('visit-trade-show'),
+        reverse_lazy('visit-trade-show'),
     ),
     (
         views.KnowYourCustomerView,
-        reverse('know-your-customer'),
+        reverse_lazy('know-your-customer'),
     ),
     (
         views.MeetYourCustomerView,
-        reverse('meet-your-customers'),
+        reverse_lazy('meet-your-customers'),
     ),
     (
         views.ManageLanguageDifferencesView,
-        reverse('manage-language-differences'),
+        reverse_lazy('manage-language-differences'),
     ),
     (
         views.UnderstandYourCustomersCultureView,
-        reverse('understand-your-customers-culture'),
+        reverse_lazy('understand-your-customers-culture'),
     ),
     (
         views.GetMoneyToExportView,
-        reverse('get-money-to-export'),
+        reverse_lazy('get-money-to-export'),
     ),
     (
         views.ChooseTheRightFinanceView,
-        reverse('choose-right-finance'),
+        reverse_lazy('choose-right-finance'),
     ),
     (
         views.GetExportFinanceView,
-        reverse('get-export-finance'),
+        reverse_lazy('get-export-finance'),
     ),
     (
         views.RaiseMoneyByBorrowingView,
-        reverse('raise-money-by-borrowing'),
+        reverse_lazy('raise-money-by-borrowing'),
     ),
     (
         views.BorrowAgainstAssetsView,
-        reverse('borrow-against-assets'),
+        reverse_lazy('borrow-against-assets'),
     ),
     (
         views.RaiseMoneyWithInvestmentView,
-        reverse('raise-money-with-investment'),
+        reverse_lazy('raise-money-with-investment'),
     ),
     (
         views.GetGovernmentFinanceSupportView,
-        reverse('get-finance-support-from-government'),
+        reverse_lazy('get-finance-support-from-government'),
     ),
     (
         views.MakeExportingPlanView,
-        reverse('make-an-export-plan'),
+        reverse_lazy('make-an-export-plan'),
     ),
     (
         views.FindARouteToMarketView,
-        reverse('find-a-route-to-market'),
+        reverse_lazy('find-a-route-to-market'),
     ),
     (
         views.SellOverseasDirectlyView,
-        reverse('sell-overseas-directly'),
+        reverse_lazy('sell-overseas-directly'),
     ),
     (
         views.UseOverseasAgentView,
-        reverse('use-an-overseas-agent'),
+        reverse_lazy('use-an-overseas-agent'),
     ),
     (
         views.UseDistributorView,
-        reverse('use-a-distributor'),
+        reverse_lazy('use-a-distributor'),
     ),
     (
         views.ChoosingAgentOrDistributorView,
-        reverse('choosing-an-agent-or-distributor'),
+        reverse_lazy('choosing-an-agent-or-distributor'),
     ),
     (
         views.LicenceAndFranchisingView,
-        reverse('licensing-and-franchising'),
+        reverse_lazy('licensing-and-franchising'),
     ),
     (
         views.LicenceYourProductOrServiceView,
-        reverse('license-your-product-or-service'),
+        reverse_lazy('license-your-product-or-service'),
     ),
     (
         views.FranchiseYourBusinessView,
-        reverse('franchise-your-business'),
+        reverse_lazy('franchise-your-business'),
     ),
     (
         views.StartJointVentureView,
-        reverse('start-a-joint-venture'),
+        reverse_lazy('start-a-joint-venture'),
     ),
     (
         views.SetupOverseasOperationView,
-        reverse('set-up-an-overseas-operation'),
+        reverse_lazy('set-up-an-overseas-operation'),
     ),
     (
         views.ConsiderHowPaidView,
-        reverse('consider-how-youll-get-paid'),
+        reverse_lazy('consider-how-youll-get-paid'),
     ),
     (
         views.InvoiceCurrencyAndContentsView,
-        reverse('invoice-currency-and-contents'),
+        reverse_lazy('invoice-currency-and-contents'),
     ),
     (
         views.DecideWhenPaidView,
-        reverse('decide-when-youll-get-paid'),
+        reverse_lazy('decide-when-youll-get-paid'),
     ),
     (
         views.PaymentMethodsView,
-        reverse('payment-methods'),
+        reverse_lazy('payment-methods'),
     ),
     (
         views.InsureAgainstNonPaymentView,
-        reverse('insure-against-non-payment'),
+        reverse_lazy('insure-against-non-payment'),
     ),
     (
         views.PlanTheLogisticsView,
-        reverse('plan-the-logistics'),
+        reverse_lazy('plan-the-logistics'),
     ),
     (
         views.UseFreightForwarderView,
-        reverse('use-a-freight-forwarder'),
+        reverse_lazy('use-a-freight-forwarder'),
     ),
     (
         views.UseIncotermsInContractsView,
-        reverse('use-incoterms-in-contracts'),
+        reverse_lazy('use-incoterms-in-contracts'),
     ),
     (
         views.GetYourExportDocumentsRightView,
-        reverse('get-your-export-documents-right'),
+        reverse_lazy('get-your-export-documents-right'),
     ),
     (
         views.InternationaliseWesbiteView,
-        reverse('internationalise-your-website'),
+        reverse_lazy('internationalise-your-website'),
     ),
     (
         views.MatchYourWebsiteToYourAudienceView,
-        reverse('match-your-website-to-your-audience'),
+        reverse_lazy('match-your-website-to-your-audience'),
     ),
     (
         views.WhatIntellectualPropertyIsView,
-        reverse('what-intellectual-property-is'),
+        reverse_lazy('what-intellectual-property-is'),
     ),
     (
         views.TypesOfIntellectualPropertyView,
-        reverse('types-of-intellectual-property'),
+        reverse_lazy('types-of-intellectual-property'),
     ),
     (
         views.KnowWhatIntellectualPropertyYouHaveView,
-        reverse('know-what-IP-you-have'),
+        reverse_lazy('know-what-IP-you-have'),
     ),
     (
         views.IntellectualPropertyProtectionView,
-        reverse('ip-protection-in-multiple-countries'),
+        reverse_lazy('ip-protection-in-multiple-countries'),
     ),
     (
         views.NextStepsNewExporterView,
-        reverse('next-steps-new-exporter'),
+        reverse_lazy('next-steps-new-exporter'),
     ),
     (
         views.NextStepsOccasionalExporterView,
-        reverse('next-steps-occasional-exporter'),
+        reverse_lazy('next-steps-occasional-exporter'),
     ),
     (
         views.NextStepsRegularExporterView,
-        reverse('next-steps-regular-exporter'),
+        reverse_lazy('next-steps-regular-exporter'),
     ),
     (
         views.DoBusinessWithIntegrityView,
-        reverse('business-with-integrity'),
+        reverse_lazy('business-with-integrity'),
     ),
     (
         views.AntiBriberyAndCorruptionTrainingView,
-        reverse('anti-bribery-and-corruption-training'),
+        reverse_lazy('anti-bribery-and-corruption-training'),
     ),
     (
         views.ReportCorruptionView,
-        reverse('report-corruption'),
+        reverse_lazy('report-corruption'),
     ),
     (
         views.KnowTheRelevantLegislationView,
-        reverse('know-the-relevant-legislation'),
+        reverse_lazy('know-the-relevant-legislation'),
     ),
 )
 
 
 @pytest.mark.parametrize('view_class,url', persona_lise_views_under_test)
-def test_persona_views(view_class, url, client):
+def test_persona_views(view_class, url, client, settings):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
     response = client.get(url)
 
     assert response.status_code == 200
@@ -266,8 +267,17 @@ def test_persona_views(view_class, url, client):
     assert response.context_data['paginate_articles'] is True
 
 
+@pytest.mark.parametrize('view_class,url', persona_lise_views_under_test)
+def test_persona_views_feature_flag_off(view_class, url, client, settings):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
+    response = client.get(url)
+
+    assert response.status_code == 404
+
+
 @pytest.mark.parametrize('view_class,url', guidance_views_under_test)
-def test_guidance_views(view_class, url, client):
+def test_guidance_views(view_class, url, client, settings):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
     response = client.get(url)
 
     assert response.status_code == 200
@@ -276,8 +286,17 @@ def test_guidance_views(view_class, url, client):
     assert response.context_data['paginate_articles'] is False
 
 
+@pytest.mark.parametrize('view_class,url', guidance_views_under_test)
+def test_guidance_views_feature_flag_off(view_class, url, client, settings):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
+    response = client.get(url)
+
+    assert response.status_code == 404
+
+
 @pytest.mark.parametrize('view_class,url', article_views_under_test)
-def test_articles_views(view_class, url, client):
+def test_articles_views(view_class, url, client, settings):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
     response = client.get(url)
 
     assert response.status_code == 200
@@ -295,7 +314,16 @@ def test_articles_views(view_class, url, client):
 
 
 @pytest.mark.parametrize('view_class,url', article_views_under_test)
-def test_articles_title_views(view_class, url, client):
+def test_articles_views_feature_flag_off(view_class, url, client, settings):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
+    response = client.get(url)
+
+    assert response.status_code == 404
+
+
+@pytest.mark.parametrize('view_class,url', article_views_under_test)
+def test_articles_title_views(view_class, url, client, settings):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
     response = client.get(url)
 
     assert response.status_code == 200
@@ -308,7 +336,18 @@ def test_articles_title_views(view_class, url, client):
 
 
 @pytest.mark.parametrize('view_class,url', article_views_under_test)
-def test_articles_share_links(view_class, url, client):
+def test_articles_title_views_feature_flag_off(
+    view_class, url, client, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
+    response = client.get(url)
+
+    assert response.status_code == 404
+
+
+@pytest.mark.parametrize('view_class,url', article_views_under_test)
+def test_articles_share_links(view_class, url, client, settings):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
     response = client.get(url)
 
     assert response.status_code == 200
@@ -341,7 +380,8 @@ def test_articles_share_links(view_class, url, client):
 # skip the last group - it does not have a page, it's a list of all articles.
 # skip CUSTOM_PAGE_* groups - they're tested elsewhere as they need settting up
 @pytest.mark.parametrize('group', structure.ALL_GROUPS[:-4])
-def test_article_links_include_next_param(client, group):
+def test_article_links_include_next_param(client, group, settings):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
     response = client.get(group.url)
     soup = BeautifulSoup(response.content, 'html.parser')
 
@@ -360,7 +400,10 @@ def test_article_links_include_next_param(client, group):
     structure.CUSTOM_PAGE_REGULAR_ARTICLES,
     structure.CUSTOM_PAGE_OCCASIONAL_ARTICLES,
 ])
-def test_article_link_custom_page_exporter_articles(group, anon_request):
+def test_article_link_custom_page_exporter_articles(
+    group, anon_request, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
     html = render_to_string('triage/custom-page.html', {
         'section_configuration': {
             'persona_article_group': group,
@@ -384,7 +427,8 @@ def test_article_link_custom_page_exporter_articles(group, anon_request):
 
 
 @pytest.mark.parametrize('group', structure.ALL_GROUPS)
-def test_inferred_next_articles(client, group):
+def test_inferred_next_articles(client, group, settings):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
     for article, next_article in zip(group.articles, group.articles[1:]):
         response = client.get(article.url + '?source=' + group.name)
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -407,7 +451,8 @@ def test_inferred_next_articles(client, group):
 
 # skip the last group - it does not have a page, it's a list of all articles.
 @pytest.mark.parametrize('group', structure.ALL_GROUPS[:-1])
-def test_inferred_return_to_article(client, group):
+def test_inferred_return_to_article(client, group, settings):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
     for article in group.articles:
         response = client.get(article.url + '?source=' + group.name)
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -421,9 +466,10 @@ def test_inferred_return_to_article(client, group):
        'retrieve_viewed_article_uuids', Mock(return_value=set()))
 @patch('article.helpers.DatabaseArticlesViewedManager.persist_articles')
 def test_article_view_persist_article_logged_in_user(
-    mock_persist_articles, authed_client
+    mock_persist_articles, authed_client, settings
 ):
-    url = reverse('article-research-market')
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
+    url = reverse_lazy('article-research-market')
     response = authed_client.get(url)
 
     assert response.status_code == 200
@@ -434,8 +480,11 @@ def test_article_view_persist_article_logged_in_user(
 
 
 @patch('article.helpers.SessionArticlesViewedManager.persist_article')
-def test_article_view_persist_article_anon_user(mock_persist_articles, client):
-    url = reverse('article-research-market')
+def test_article_view_persist_article_anon_user(
+    mock_persist_articles, client, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
+    url = reverse_lazy('article-research-market')
     response = client.get(url)
 
     assert response.status_code == 200
@@ -447,7 +496,7 @@ def test_article_view_persist_article_anon_user(mock_persist_articles, client):
 
 @pytest.mark.parametrize('url,read_count,total_count,title,time,uuids', [
     (
-        reverse('article-research-market'),
+        reverse_lazy('article-research-market'),
         3,
         len(structure.ALL_ARTICLES.articles),
         '',
@@ -459,7 +508,7 @@ def test_article_view_persist_article_anon_user(mock_persist_articles, client):
         ]),
     ),
     (
-        reverse('article-research-market') + '?source=finance',
+        reverse_lazy('article-research-market') + '?source=finance',
         2,
         len(structure.GUIDANCE_FINANCE_ARTICLES.articles),
         structure.GUIDANCE_FINANCE_ARTICLES.title,
@@ -470,7 +519,7 @@ def test_article_view_persist_article_anon_user(mock_persist_articles, client):
         ]),
     ),
     (
-        reverse('get-export-finance'),
+        reverse_lazy('get-export-finance'),
         3,
         len(structure.ALL_ARTICLES.articles),
         '',
@@ -482,7 +531,7 @@ def test_article_view_persist_article_anon_user(mock_persist_articles, client):
         ]),
     ),
     (
-        reverse('get-export-finance') + '?source=finance',
+        reverse_lazy('get-export-finance') + '?source=finance',
         2,
         len(structure.GUIDANCE_FINANCE_ARTICLES.articles),
         structure.GUIDANCE_FINANCE_ARTICLES.title,
@@ -499,8 +548,10 @@ def test_article_view_persist_article_anon_user(mock_persist_articles, client):
     'retrieve_viewed_article_uuids'
 )
 def test_article_group_read_counter_with_source(
-    mock_retrieve, client, url, read_count, total_count, title, time, uuids
+    mock_retrieve, client, url, read_count, total_count, title, time, uuids,
+    settings
 ):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
     mock_retrieve.return_value = {
        articles.USE_DISTRIBUTOR.uuid,
        articles.GET_EXPORT_FINANCE.uuid,

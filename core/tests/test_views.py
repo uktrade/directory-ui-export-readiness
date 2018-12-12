@@ -17,6 +17,7 @@ from directory_constants.constants import cms
 
 
 def test_landing_page_video_url(client, settings):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
     settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/videp.mp4'
 
@@ -48,9 +49,28 @@ def test_landing_page_redirect(client):
     assert response.cookies[helpers.GeoLocationRedirector.COOKIE_NAME].value
 
 
-def test_landing_page(client, settings):
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_landing_page(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
     settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = False
+
+    page = {
+        'news_title': 'News',
+        'news_description': '<p>Lorem ipsum</p>',
+        'articles': [
+            {'article_title': 'News article 1'},
+            {'article_title': 'News article 2'},
+        ],
+        'guidance': [
+            {'landing_page_title': 'Guidance 1'},
+            {'landing_page_title': 'Guidance 2'},
+        ],
+    }
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=page
+    )
 
     url = reverse('landing-page')
 
@@ -82,10 +102,11 @@ def test_landing_page(client, settings):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_landing_page_template_news_feature_flag_on(
+def test_landing_page_news_and_export_journey_off(
     mock_get_page, client, settings
 ):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
 
     page = {
         'news_title': 'News',
@@ -93,6 +114,10 @@ def test_landing_page_template_news_feature_flag_on(
         'articles': [
             {'article_title': 'News article 1'},
             {'article_title': 'News article 2'},
+        ],
+        'guidance': [
+            {'landing_page_title': 'Guidance 1'},
+            {'landing_page_title': 'Guidance 2'},
         ],
     }
 
@@ -110,8 +135,63 @@ def test_landing_page_template_news_feature_flag_on(
         views.PrototypeLandingPageView.template_name]
 
 
-def test_landing_page_template_news_feature_flag_off(client, settings):
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_landing_page_template_news_feature_flag_on(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
+
+    page = {
+        'news_title': 'News',
+        'news_description': '<p>Lorem ipsum</p>',
+        'articles': [
+            {'article_title': 'News article 1'},
+            {'article_title': 'News article 2'},
+        ],
+        'guidance': [
+            {'landing_page_title': 'Guidance 1'},
+            {'landing_page_title': 'Guidance 2'},
+        ],
+    }
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=page
+    )
+
+    url = reverse('landing-page')
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == [
+        views.PrototypeLandingPageView.template_name]
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_landing_page_template_news_feature_flag_off(
+    mock_get_page, client, settings
+):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
+
+    page = {
+        'news_title': 'News',
+        'news_description': '<p>Lorem ipsum</p>',
+        'articles': [
+            {'article_title': 'News article 1'},
+            {'article_title': 'News article 2'},
+        ],
+        'guidance': [
+            {'landing_page_title': 'Guidance 1'},
+            {'landing_page_title': 'Guidance 2'},
+        ],
+    }
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=page
+    )
 
     url = reverse('landing-page')
     response = client.get(url)

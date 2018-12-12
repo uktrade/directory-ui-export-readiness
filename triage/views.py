@@ -30,7 +30,9 @@ class CompaniesHouseSearchApiView(View):
         return JsonResponse(api_response.json()['items'], safe=False)
 
 
-class TriageWizardFormView(NamedUrlSessionWizardView):
+class TriageWizardFormView(
+    NamedUrlSessionWizardView
+):
 
     EXPORTED_BEFORE = 'exported-before'
     REGULAR_EXPORTER = 'regular-exporter'

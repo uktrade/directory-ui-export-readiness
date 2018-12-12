@@ -19,6 +19,12 @@ class NotFoundOnDisabledFeature:
         return super().dispatch(*args, **kwargs)
 
 
+class ExportJourneyFeatureFlagMixin(NotFoundOnDisabledFeature):
+    @property
+    def flag(self):
+        return settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON']
+
+
 class CampaignPagesFeatureFlagMixin(NotFoundOnDisabledFeature):
     @property
     def flag(self):

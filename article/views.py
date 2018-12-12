@@ -4,9 +4,12 @@ from django.utils.functional import cached_property
 from article import articles, helpers, structure
 from core.helpers import build_social_links
 from core.views import ArticlesViewedManagerMixin
+from core.mixins import ExportJourneyFeatureFlagMixin
 
 
-class BaseArticleDetailView(ArticlesViewedManagerMixin, TemplateView):
+class BaseArticleDetailView(
+    ExportJourneyFeatureFlagMixin, ArticlesViewedManagerMixin, TemplateView
+):
     template_name = 'article/detail-base.html'
 
     def create_article_manager(self, request):
@@ -68,7 +71,9 @@ class BaseArticleDetailView(ArticlesViewedManagerMixin, TemplateView):
         return self.article_group.next_guidance_group
 
 
-class BaseArticleListView(ArticlesViewedManagerMixin, TemplateView):
+class BaseArticleListView(
+    ExportJourneyFeatureFlagMixin, ArticlesViewedManagerMixin, TemplateView
+):
     paginate_articles = False
 
     def get_context_data(self, *args, **kwargs):
