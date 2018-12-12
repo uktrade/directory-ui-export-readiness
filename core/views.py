@@ -14,7 +14,6 @@ from article import structure
 from casestudy import casestudies
 from core import helpers, mixins
 from triage.helpers import TriageAnswersManager
-from prototype.mixins import GetCMSPageByFullPathMixin
 from euexit.mixins import (
     HideLanguageSelectorMixin, EUExitFormsFeatureFlagMixin)
 
@@ -60,8 +59,9 @@ class LandingPageViewNegotiator(TemplateView):
     def __new__(cls, *args, **kwargs):
         if settings.FEATURE_FLAGS['NEWS_SECTION_ON']:
             return NewsSectionLandingPageView(*args, **kwargs)
-        else:
+        elif settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON']:
             return LandingPageView(*args, **kwargs)
+        return PrototypeLandingPageView(*args, **kwargs)
 
 
 class LandingPageView(ArticlesViewedManagerMixin, TemplateView):
@@ -92,7 +92,7 @@ class LandingPageView(ArticlesViewedManagerMixin, TemplateView):
         return super().get(request, *args, **kwargs)
 
 
-class NewsSectionLandingPageView(GetCMSPageByFullPathMixin, LandingPageView):
+class NewsSectionLandingPageView(LandingPageView):
     template_name = 'prototype/landing_page.html'
 
     @cached_property
@@ -102,6 +102,12 @@ class NewsSectionLandingPageView(GetCMSPageByFullPathMixin, LandingPageView):
             draft_token=self.request.GET.get('draft_token'),
         )
         return helpers.handle_cms_response_allow_404(response)
+
+    def get_context_data(self, *args, **kwargs):
+        return super().get_context_data(
+            page=self.page,
+            *args, **kwargs
+        )
 
 
 class PrototypeLandingPageView(

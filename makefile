@@ -80,6 +80,10 @@ DEBUG_SET_ENV_VARS := \
 	export FEATURE_PROTOTYPE_HEADER_FOOTER_ENABLED=true; \
 	export FEATURE_CAMPAIGN_PAGES_ENABLED=true; \
 	export FIND_A_SUPPLIER_CONTACT_URL=http://supplier.trade.great:8005/industries/contact/
+	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
+	export EUEXIT_AGENT_EMAIL=test@example.com; \
+	export FIND_A_SUPPLIER_CONTACT_URL=http://supplier.trade.great:8005/industries/contact/; \
+	export FEATURE_EXPORT_JOURNEY_ENABLED=true
 
 
 TEST_SET_ENV_VARS := \
@@ -110,7 +114,8 @@ TEST_SET_ENV_VARS := \
 	export CONTACT_BUYING_USER_NOTIFY_TEMPLATE_ID=debug; \
 	export CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID=debug; \
 	export CONTACT_EXPORTING_AGENT_SUBJECT=exporting-subject; \
-	export COMPANIES_HOUSE_API_KEY=debug
+	export COMPANIES_HOUSE_API_KEY=debug; \
+	export FEATURE_EXPORT_JOURNEY_ENABLED=true
 
 
 debug_webserver:

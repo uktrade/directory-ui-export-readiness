@@ -509,76 +509,11 @@ def test_prototype_tag_list_page(mock_get_page, client, settings):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_prototype_landing_page_header_footer_default_links(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
-    settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = True
-
-    url = reverse('prototype-landing-page')
-
-    page = {
-        'news_title': 'News',
-        'news_description': '<p>Lorem ipsum</p>',
-        'articles': [],
-    }
-
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
-    response = client.get(url)
-
-    assert response.status_code == 200
-
-    soup = BeautifulSoup(response.content, 'html.parser')
-
-    assert soup.find(id="great-header-markets-link")
-    assert soup.find(id="great-header-industries-link")
-    assert soup.find(id="great-header-services-link")
-    assert soup.find(id="great-header-about-link")
-
-    home_link = soup.find(id="great-header-dit-logo")
-    assert home_link['href'] == '/prototype'
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_prototype_landing_page_header_footer_home_link_none(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
-    settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = True
-    settings.PROTOTYPE_HOME_LINK = None
-
-    url = reverse('prototype-landing-page')
-
-    page = {
-        'news_title': 'News',
-        'news_description': '<p>Lorem ipsum</p>',
-        'articles': [],
-    }
-
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
-    response = client.get(url)
-
-    assert response.status_code == 200
-
-    soup = BeautifulSoup(response.content, 'html.parser')
-
-    home_link = soup.find(id="great-header-dit-logo")
-    assert home_link['href'] == '#'
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_prototype_landing_page_header_footer(
     mock_get_page, client, settings
 ):
     settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
     settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = True
-    settings.PROTOTYPE_HOME_LINK = '/foo'
 
     url = reverse('prototype-landing-page')
 
@@ -596,12 +531,37 @@ def test_prototype_landing_page_header_footer(
 
     assert response.status_code == 200
 
-    assert '/static/js/prototype' in str(response.content)
+    assert 'Make an export plan' in str(response.content)
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_landing_page_header_footer(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
+    settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = True
+
+    url = reverse('landing-page')
+
+    page = {
+        'news_title': 'News',
+        'news_description': '<p>Lorem ipsum</p>',
+        'articles': [],
+    }
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=page
+    )
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+    assert '/static/js/home' in str(response.content)
 
     soup = BeautifulSoup(response.content, 'html.parser')
 
-    home_link = soup.find(id="great-header-dit-logo")
-    assert home_link['href'] == '/foo'
+    assert soup.find(id="header-dit-logo")
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')

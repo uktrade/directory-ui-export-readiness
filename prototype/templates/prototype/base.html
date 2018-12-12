@@ -10,37 +10,16 @@
   {% endif %}
 {% endblock %}
 
-{% block head_js %}
-  <script src="{% static 'directory_components/js/third-party.js' %}"></script>
-
-  {% if not features.PROTOTYPE_HEADER_FOOTER_ON %}
-    <script src="{% static 'directory_components/js/script.js' %}"></script>
-  {% endif %}
-
-  {% block cookie_js %}{% endblock %}
-
-  {% if features.PROTOTYPE_HEADER_FOOTER_ON %}
-    <script src="{% static 'js/dit.js' %}"></script>
-    <script src="{% static 'js/dit.class.modal.js' %}"></script>
-    <script src="{% static 'js/dit.components.prototypeLanguageSelector.js' %}"></script>
-    <script src="{% static 'js/prototype.js' %}"></script>
-  {% endif %}
-
-  <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
-{% endblock %}
-
-
 {% block body_header %}
-  {% if features.PROTOTYPE_HEADER_FOOTER_ON %}
+  {% if features.PROTOTYPE_HEADER_FOOTER_ON and request.path != '/' %}
     {% include 'prototype/components/prototype_header.html' %}
-    {% include 'prototype/components/language_selector.html' %}
   {% else %}
     {{ block.super }}
   {% endif %}
 {% endblock %}
 
 {% block body_footer %}
-  {% if features.PROTOTYPE_HEADER_FOOTER_ON %}
+  {% if features.PROTOTYPE_HEADER_FOOTER_ON and request.path != '/' %}
     {% include 'prototype/components/prototype_footer.html' %}
   {% else %}
     {{ block.super }}
