@@ -1,5 +1,4 @@
 from unittest import mock
-from urllib.parse import urljoin
 
 from directory_constants.constants import choices
 import pytest
@@ -135,6 +134,14 @@ def test_international_form_submit(
         'eu-exit-international-contact-form-success'
     )
     assert mock_save.call_count == 1
+    assert mock_save.call_args == mock.call(
+        subject='EU exit international contact form',
+        full_name='test example',
+        email_address='test@example.com',
+        service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME,
+        subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
+        form_url=url
+    )
 
 
 @pytest.mark.parametrize('url,template_name', [
@@ -263,6 +270,14 @@ def test_domestic_form_submit(
         'eu-exit-domestic-contact-form-success'
     )
     assert mock_save.call_count == 1
+    assert mock_save.call_args == mock.call(
+        subject='EU exit contact form',
+        full_name='test example',
+        email_address='test@example.com',
+        service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME,
+        subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
+        form_url=url
+    )
 
 
 @pytest.mark.parametrize('url', (
@@ -281,7 +296,6 @@ def test_form_urls(mock_lookup_by_slug, client, url, settings):
     assert response.status_code == 200
     form = response.context_data['form']
     assert form.fields['terms_agreed'].widget.label.endswith('disclaim')
-    assert form.form_url == urljoin('http://testserver', url)
     assert form.ingress_url == 'http://www.google.com'
     assert response.context_data['hide_language_selector'] is True
 
@@ -302,7 +316,6 @@ def test_form_urls_no_referer(mock_lookup_by_slug, settings, client, url):
 
     assert response.status_code == 200
     form = response.context_data['form']
-    assert form.form_url == urljoin('http://testserver', url)
     assert form.ingress_url is None
     assert response.context_data['hide_language_selector'] is True
 

@@ -147,7 +147,11 @@ def test_ukef_lead_generation_submit(
 
     assert mock_action.call_count == 1
     assert mock_action.call_args == mock.call(
-        pardot_url=settings.UKEF_FORM_SUBMIT_TRACKER_URL
+        pardot_url=settings.UKEF_FORM_SUBMIT_TRACKER_URL,
+        form_url=reverse(
+            'uk-export-finance-lead-generation-form',
+            kwargs={'step': 'contact'}
+        )
     )
 
     assert mock_action().save.call_count == 1
