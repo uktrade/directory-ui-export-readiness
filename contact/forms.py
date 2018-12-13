@@ -167,7 +167,7 @@ class GreatAccountRoutingForm(forms.Form):
 class InternationalRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
     CHOICES = (
         (constants.INVESTING, 'Investing in the UK'),
-        (constants.BUYING, 'Buying from the UK'),
+        (constants.BUYING, 'Find a UK business partner'),
         (constants.EUEXIT, 'EU exit enquiries'),  # possibly removed by mixin
         (constants.OTHER, 'Other'),
     )
