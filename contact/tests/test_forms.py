@@ -71,6 +71,7 @@ def test_great_services_form_routing():
     choices = set(item for item, _ in field.choices)
 
     choices_expect_redirect = {
+        constants.SELLING_ONLINE_OVERSEAS,
         constants.OTHER,
     }
     mapping = views.RoutingFormView.redirect_mapping[constants.GREAT_SERVICES]

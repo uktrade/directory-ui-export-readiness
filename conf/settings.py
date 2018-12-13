@@ -393,13 +393,14 @@ FEATURE_FLAGS = {
     'PERFORMANCE_DASHBOARD_ON': env.bool(
         'FEATURE_PERFORMANCE_DASHBOARD_ENABLED', False
     ),
+    'EU_EXIT_FORMS_ON': env.bool('FEATURE_EU_EXIT_FORMS_ENABLED', False),
+    'SOO_CONTACT_FORM_ON': env.bool('FEATURE_SOO_CONTACT_FORM_ENABLED', False),
     # used by directory-components
     'SEARCH_ENGINE_INDEXING_OFF': env.bool(
         'FEATURE_SEARCH_ENGINE_INDEXING_DISABLED', False
     ),
     # used by directory-components
     'MAINTENANCE_MODE_ON': env.bool('FEATURE_MAINTENANCE_MODE_ENABLED', False),
-    'EU_EXIT_FORMS_ON': env.bool('FEATURE_EU_EXIT_FORMS_ENABLED', False),
 }
 
 # UK Export Finance
@@ -437,6 +438,11 @@ FIND_TRADE_OFFICE_URL = env.str(
 CONTACT_DOMESTIC_ZENDESK_SUBJECT = env.str(
     'CONTACT_DOMESTIC_ZENDESK_SUBJECT', 'great.gov.uk contact form'
 )
+CONTACT_SOO_ZENDESK_SUBJECT = env.str(
+    'CONTACT_DOMESTIC_ZENDESK_SUBJECT',
+    'great.gov.uk Selling Online Overseas contact form'
+)
+
 CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID = env.str(
     'CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID',
     '2d5d556a-e0fa-4a9b-81a0-6ed3fcb2e3da'

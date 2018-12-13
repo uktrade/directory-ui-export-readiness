@@ -681,6 +681,11 @@ contact_urls = [
         name='contact-us-soo-redirect'
     ),
     url(
+        r'^contact/selling-online-overseas/success/$',
+        contact.views.SellingOnlineOverseasSuccessView.as_view(),
+        name='contact-us-selling-online-overseas-success'
+    ),
+    url(
         r'^contact/selling-online-overseas/(?P<step>.+)/$',
         contact.views.SellingOnlineOverseasFormView.as_view(
             url_name='contact-us-soo', done_step_name='finished'

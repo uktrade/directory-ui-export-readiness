@@ -151,7 +151,6 @@ GOVUK.utils.toggleInputOnNotTicked = (function() {
     }
 
     handleCheckboxChange()
-    debugger
     radio.addEventListener('change', handleCheckboxChange);
   };
 })();

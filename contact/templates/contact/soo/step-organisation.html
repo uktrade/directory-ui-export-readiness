@@ -25,7 +25,9 @@
         var companyNumber = document.getElementById('id_organisation-company_number');
         var companyName = document.getElementById('id_organisation-company_name');
         var companyNameContainer = document.getElementById('id_organisation-company_name-container');
+        var companyPostcodeContainer = document.getElementById('id_organisation-company_postcode-container');
         GOVUK.utils.toggleInputOnNotTicked(isSoleTrader, companyNameContainer);
+        GOVUK.utils.toggleRadioOtherOnClick(isSoleTrader, companyPostcodeContainer);
 
         function clearUpValuesOnTypeChange() {
           isSoleTrader.addEventListener('change', function(event) {

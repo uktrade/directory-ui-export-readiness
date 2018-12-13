@@ -79,11 +79,12 @@ DEBUG_SET_ENV_VARS := \
 	export FEATURE_EU_EXIT_FORMS_ENABLED=true; \
 	export FEATURE_PROTOTYPE_HEADER_FOOTER_ENABLED=true; \
 	export FEATURE_CAMPAIGN_PAGES_ENABLED=true; \
-	export FIND_A_SUPPLIER_CONTACT_URL=http://supplier.trade.great:8005/industries/contact/
+	export FIND_A_SUPPLIER_CONTACT_URL=http://supplier.trade.great:8005/industries/contact/; \
 	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
 	export EUEXIT_AGENT_EMAIL=test@example.com; \
 	export FIND_A_SUPPLIER_CONTACT_URL=http://supplier.trade.great:8005/industries/contact/; \
-	export FEATURE_EXPORT_JOURNEY_ENABLED=true
+	export FEATURE_EXPORT_JOURNEY_ENABLED=true; \
+	export FEATURE_SOO_CONTACT_FORM_ENABLED=true
 
 
 TEST_SET_ENV_VARS := \
