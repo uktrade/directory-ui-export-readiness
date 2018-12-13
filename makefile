@@ -79,22 +79,20 @@ DEBUG_SET_ENV_VARS := \
 	export FEATURE_EU_EXIT_FORMS_ENABLED=true; \
 	export FEATURE_PROTOTYPE_HEADER_FOOTER_ENABLED=true; \
 	export FEATURE_CAMPAIGN_PAGES_ENABLED=true; \
+	export FIND_A_SUPPLIER_CONTACT_URL=http://supplier.trade.great:8005/industries/contact/
 	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
 	export EUEXIT_AGENT_EMAIL=test@example.com; \
-	export FIND_A_SUPPLIER_CONTACT_URL=http://supplier.trade.great:8005/industries/contact/
+	export FIND_A_SUPPLIER_CONTACT_URL=http://supplier.trade.great:8005/industries/contact/; \
+	export FEATURE_EXPORT_JOURNEY_ENABLED=true
 
 
 TEST_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
 	export DIRECTORY_FORMS_API_API_KEY=debug; \
 	export DIRECTORY_FORMS_API_SENDER_ID=debug; \
-	export DIRECTORY_FORMS_API_API_KEY_EUEXIT=debug; \
-	export DIRECTORY_FORMS_API_SENDER_ID_EUEXIT=debug; \
 	export EU_EXIT_ZENDESK_SUBDOMAIN=debug; \
 	export DEBUG=false; \
 	export REDIS_URL=; \
-	export EUEXIT_GOV_NOTIFY_TEMPLATE_ID=debug; \
-	export EUEXIT_GOV_NOTIFY_REPLY_TO_ID=debug; \
 	export CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID=debug; \
 	export CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID=debug; \
 	export CONTACT_EVENTS_AGENT_EMAIL_ADDRESS=events@example.com; \

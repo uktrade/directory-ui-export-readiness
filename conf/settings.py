@@ -98,7 +98,6 @@ TEMPLATES = [
                 'directory_components.context_processors.feature_flags',
                 'directory_components.context_processors.analytics',
                 'directory_components.context_processors.cookie_notice',
-                'prototype.context_processors.prototype_home_link',
             ],
         },
     },
@@ -377,6 +376,8 @@ GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
 
 # feature flags
 FEATURE_FLAGS = {
+    'EXPORT_JOURNEY_ON': env.bool(
+        'FEATURE_EXPORT_JOURNEY_ENABLED', True),
     'PROTOTYPE_PAGES_ON': env.bool(
         'FEATURE_PROTOTYPE_PAGES_ENABLED', False),
     'CAMPAIGN_PAGES_ON': env.bool(
@@ -401,9 +402,6 @@ FEATURE_FLAGS = {
     'EU_EXIT_FORMS_ON': env.bool('FEATURE_EU_EXIT_FORMS_ENABLED', False),
 }
 
-PROTOTYPE_HOME_LINK = env.str(
-    'PROTOTYPE_HOME_LINK', '/prototype')
-
 # UK Export Finance
 UKEF_PI_TRACKER_JAVASCRIPT_URL = env.str(
     'UKEF_PI_TRACKER_JAVASCRIPT_URL', 'https://pi.pardot.com/pd.js'
@@ -423,18 +421,6 @@ DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME = env.str(
 
 # EU exit
 EU_EXIT_ZENDESK_SUBDOMAIN = env.str('EU_EXIT_ZENDESK_SUBDOMAIN')
-DIRECTORY_FORMS_API_API_KEY_EUEXIT = env.str(
-    'DIRECTORY_FORMS_API_API_KEY_EUEXIT'
-)
-DIRECTORY_FORMS_API_SENDER_ID_EUEXIT = env.str(
-    'DIRECTORY_FORMS_API_SENDER_ID_EUEXIT'
-)
-EUEXIT_AGENT_EMAIL = env.str('EUEXIT_AGENT_EMAIL')
-EUEXIT_GOV_NOTIFY_TEMPLATE_ID = env.str(
-    'EUEXIT_GOV_NOTIFY_TEMPLATE_ID',
-    '15fa965f-2699-4656-a3ee-f087fb53c523'
-)
-EUEXIT_GOV_NOTIFY_REPLY_TO_ID = env.str('EUEXIT_GOV_NOTIFY_REPLY_TO_ID', None)
 
 # Contact
 INVEST_CONTACT_URL = env.str(

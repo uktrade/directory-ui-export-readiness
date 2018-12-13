@@ -5,7 +5,7 @@ from formtools.wizard.views import NamedUrlSessionWizardView
 from django.conf import settings
 from django.http import Http404
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic.base import TemplateView
 
 from core import mixins
@@ -25,7 +25,8 @@ class GetFinanceView(mixins.GetCMSPageMixin, TemplateView):
 
 
 class GetFinanceLeadGenerationFormView(
-    FeatureFlagMixin, mixins.PreventCaptchaRevalidationMixin,
+    FeatureFlagMixin, mixins.PrepopulateFormMixin,
+    mixins.PreventCaptchaRevalidationMixin,
     NamedUrlSessionWizardView
 ):
     success_url = reverse_lazy(
@@ -50,12 +51,51 @@ class GetFinanceLeadGenerationFormView(
         HELP: 'finance/lead_generation_form/step-help.html',
     }
 
+    def get_form_kwargs(self, *args, **kwargs):
+        # skipping `PrepopulateFormMixin.get_form_kwargs`
+        return super(mixins.PrepopulateFormMixin, self).get_form_kwargs(
+            *args, **kwargs
+        )
+
+    def get_form_initial(self, step):
+        initial = super().get_form_initial(step)
+        if step == self.PERSONAL_DETAILS and self.company_profile:
+            initial.update({
+                'email': self.request.sso_user.email,
+                'phone': self.company_profile['mobile_number'],
+                'firstname': self.guess_given_name,
+                'lastname': self.guess_family_name,
+            })
+        elif step == self.COMPANY_DETAILS and self.company_profile:
+            company = self.company_profile
+            initial.update({
+                'not_companies_house': False,
+                'company_number': company['number'],
+                'trading_name': company['name'],
+                'address_line_one': company['address_line_1'],
+                'address_line_two': company['address_line_2'],
+                'address_town_city': company['locality'],
+                'address_post_code': company['postal_code'],
+                'industry': (
+                    company['sectors'][0] if company['sectors'] else None
+                ),
+            })
+        return initial
+
     def get_template_names(self):
         return [self.templates[self.steps.current]]
 
     def done(self, form_list, **kwargs):
-        action = PardotAction(pardot_url=settings.UKEF_FORM_SUBMIT_TRACKER_URL)
-        response = action.save(self.serialize_form_list(form_list))
+        action = PardotAction(
+            pardot_url=settings.UKEF_FORM_SUBMIT_TRACKER_URL,
+            form_url=reverse(
+                'uk-export-finance-lead-generation-form',
+                kwargs={'step': self.CATEGORY}
+            )
+        )
+        response = action.save(
+            self.serialize_form_list(form_list),
+        )
         response.raise_for_status()
         return redirect(self.success_url)
 

@@ -1,5 +1,5 @@
 {% load static from staticfiles %}
-{% load card_with_icon from directory_components_tags %}
+{% load card from directory_components_tags %}
 
 <section id="resource-guidance" class="guidance-section">
   <div class="container">
@@ -12,43 +12,14 @@
     </div>
 
     <div class="card-grid">
-
-      <div class="column-third-l column-half-m column-full">
-        {% url 'article-list-market-research' as market_research_url %}
-        {% static 'images/sections/market-research-blue.svg' as market_research_icon %}
-        {% card_with_icon card_id="guidance-section-market-research" url=market_research_url img_src=market_research_icon title="Market research" description="Research is an essential first step to selling in a new market. Making decisions based on market data will help you maximise profits and avoid costly mistakes." %}
-      </div>
-
-      <div class="column-third-l column-half-m column-full">
-        {% url 'article-list-customer-insight' as customer_insight_url %}
-        {% static 'images/sections/customer-insight-blue.svg' as customer_insight_icon %}
-        {% card_with_icon card_id="guidance-section-customer-insight" url=customer_insight_url img_src=customer_insight_icon title="Customer insight" description="Find out about potential customers to target them effectively. Once you have overseas customers, nurture the customer relationship with regular face-to-face meetings." %}
-      </div>
-
-      <div class="column-third-l column-half-m column-full">
-        {% url 'article-list-finance' as finance_url %}
-        {% static 'images/sections/finance-blue.svg' as finance_icon %}
-        {% card_with_icon card_id="guidance-section-finance" url=finance_url img_src=finance_icon title="Finance" description="Finding the right financial products for your business can give you a competitive edge in overseas markets and bridge the gap between invoicing and payment." %}
-      </div>
-
-      <div class="column-third-l column-half-m column-full">
-        {% url 'article-list-business-planning' as business_planning_url %}
-        {% static 'images/sections/business-planning-blue.svg' as business_planning_icon %}
-        {% card_with_icon card_id="guidance-section-business-planning" url=business_planning_url img_src=business_planning_icon title="Business planning" description="Having a well thought out export plan will make it easier to get financial support and make informed decisions on which markets to enter and which routes to take." %}
-      </div>
-
-      <div class="column-third-l column-half-m column-full">
-        {% url 'article-list-getting-paid' as getting_paid_url %}
-        {% static 'images/sections/getting-paid-blue.svg' as getting_paid_icon %}
-        {% card_with_icon card_id="guidance-section-getting-paid" url=getting_paid_url img_src=getting_paid_icon title="Getting paid" description="Think about what currency to invoice in, what to include on a commercial invoice and if you need to insure against non-payment." %}
-      </div>
-
-      <div class="column-third-l column-half-m column-full">
-        {% url 'article-list-operations-and-compliance' as operations_and_compliance_url %}
-        {% static 'images/sections/operations-and-compliance-blue.svg' as operations_and_compliance_icon %}
-        {% card_with_icon card_id="guidance-section-operations-and-compliance" url=operations_and_compliance_url img_src=operations_and_compliance_icon title="Operations and compliance" description="How you market your website, deliver your products and protect your brand all need consideration when your customers are overseas." %}
-      </div>
-
+      {% for topic in page.guidance %}
+        <div class="column-third-l column-half-m column-full">
+          {% with teaser as topic.hero_teaser|default:topic.list_teaser %}
+            {% static 'images/sections/market-research-blue.svg' as market_research_icon %}
+            {% card card_id=topic.slug url='/prototype'|add:topic.full_path img_src=topic.hero_image_thumbnail.url title=topic.landing_page_title description=topic.hero_teaser %}
+          {% endwith %}
+        </div>
+      {% endfor %}
     </div>
 
   </div>

@@ -205,9 +205,7 @@ class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
 
 class BaseShortForm(forms.Form):
     comment = fields.CharField(
-        label=(
-            'If something is wrong, please give as much details as you can'
-        ),
+        label='Please give us as much detail as you can',
         widget=Textarea,
         validators=anti_phising_validators
     )
