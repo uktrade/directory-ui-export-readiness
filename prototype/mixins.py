@@ -11,7 +11,7 @@ class Breadcrumbs:
 
     def get_context_data(self, *args, **kwargs):
         parts = unprefix_prototype_url(self.request.path).split('/')
-        url_fragments = [part for part in parts if len(part) > 0]
+        url_fragments = [part for part in parts if part]
 
         breadcrumbs = []
 
