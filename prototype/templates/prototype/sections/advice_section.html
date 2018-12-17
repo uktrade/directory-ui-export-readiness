@@ -1,18 +1,18 @@
 {% load static from staticfiles %}
 {% load card from directory_components_tags %}
 
-<section id="resource-guidance" class="guidance-section">
+<section id="resource-advice" class="advice-section">
   <div class="container">
 
     <div class="grid-row">
       <div class="column-full column-two-thirds-m column-half-l intro">
-        <h2 id="guidance-section-title" class="heading-large">Guidance</h2>
-        <p id="guidance-section-description">Find information on the areas of exporting you’re dealing with as and when you need it.</p>
+        <h2 id="advice-section-title" class="heading-large">Advice</h2>
+        <p id="advice-section-description">Find information on the areas of exporting you’re dealing with as and when you need it.</p>
       </div>
     </div>
 
     <div class="card-grid">
-      {% for topic in page.guidance %}
+      {% for topic in page.advice %}
         <div class="column-third-l column-half-m column-full">
           {% with teaser as topic.hero_teaser|default:topic.list_teaser %}
             {% static 'images/sections/market-research-blue.svg' as market_research_icon %}
