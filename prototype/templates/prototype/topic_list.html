@@ -6,28 +6,28 @@
 
 {% block content %}
 
-{% include 'directory_components/hero.html' with background_image_url=page.hero_image.url hero_text=page.landing_page_title description=page.hero_teaser %}
-
-<div class="container">
-  <div class="breadcrumbs">
-    <ol>
-      <li>
-        <a href="{% url 'prototype-landing-page' %}">great.gov.uk</a>
-      </li>
-      <li aria-current="page">{{ page.landing_page_title }}</li>
-    </ol>
-  </div>
-</div>
+{% block hero %}
+  <section class="hero hero-generic padding-0" {% if page.hero_image %}style="background-image: url('{{ page.hero_image.url }}')"{% endif %}>
+    <div class="container">
+      <div class="hero-title-compact">
+        <h1 class="heading-hero-generic{% if page.breadcrumbs_label|length > 15 %}-compact{% endif %}" id="hero-heading">{{ page.landing_page_title }}</h1>
+      </div>
+    </div>
+  </section>
+{% endblock %}
 
 <section class="topic-list-section">
+  {% block breadcrumbs %}
+    {% include 'prototype/components/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+  {% endblock %}
     <div class="container">
       <div class="card-grid">
-        {% for listing in page.article_listing %}
+        {% for listing in page.child_pages %}
           {% if listing.articles_count > 0 %}
             <div class="column-third">
               <div class="card">
                 <a class="card-link" href="/prototype{{ listing.full_path }}">
-                  <div class="card-image" role="image" style="background-image: url('{{ listing.hero_image.url }}');" aria-label="{{ listing.landing_page_title }}" title="{{ listing.landing_page_title }}">
+                  <div class="card-image" {% if listing.hero_image_thumbnail %}role="image" style="background-image: url('{{ listing.hero_image_thumbnail.url }}');"{% endif %} aria-label="{{ listing.landing_page_title }}" title="{{ listing.landing_page_title }}">
                     <p class="visually-hidden">{{ listing.landing_page_title }}</p>
                   </div>
                   <div class="card-inner">

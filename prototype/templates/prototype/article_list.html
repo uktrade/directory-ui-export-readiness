@@ -19,11 +19,12 @@
 {% endblock %}
 
 <section id="{% block page_id %}article-list-page{% endblock %}">
+
+  {% block breadcrumbs %}
+    {% include 'prototype/components/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+  {% endblock %}
+
   <div class="container">
-    {% block breadcrumbs %}
-      <div class="breadcrumbs">
-      </div>
-    {% endblock %}
 
     {% if page.list_teaser %}
     <div class="grid-row">
