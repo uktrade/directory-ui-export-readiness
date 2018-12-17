@@ -7,7 +7,7 @@ from core.helpers import handle_cms_response
 from prototype.helpers import unprefix_prototype_url, unslugify
 
 
-class Breadcrumbs:
+class BreadcrumbsMixin:
 
     def get_context_data(self, *args, **kwargs):
         parts = unprefix_prototype_url(self.request.path).split('/')
