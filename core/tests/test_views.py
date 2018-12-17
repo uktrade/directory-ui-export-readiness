@@ -634,18 +634,6 @@ page_all_fields = {
     'cta_box_message': 'CTA box message',
     'related_content_heading': 'Related content heading',
     'related_content_intro': '<p>Related content intro.</p>',
-    'related_page_one_description': 'Related page one description',
-    'related_page_one_heading': 'Related page one heading',
-    'related_page_one_image': {'url': 'related_page_one_image.jpg'},
-    'related_page_one_url': '/related_page_one_url',
-    'related_page_two_description': 'Related page two description',
-    'related_page_two_heading': 'Related page two heading',
-    'related_page_two_image': {'url': 'related_page_two_image.jpg'},
-    'related_page_two_url': '/related_page_two_url',
-    'related_page_three_description': 'Related page three description',
-    'related_page_three_heading': 'Related page three heading',
-    'related_page_three_image': {'url': 'related_page_three_image.jpg'},
-    'related_page_three_url': '/related_page_three_url',
     'section_one_contact_button_text': 'Section one contact button text',
     'section_one_contact_button_url': '/section_one_contact_button_url',
     'section_one_heading': 'Section one heading',
@@ -665,6 +653,44 @@ page_all_fields = {
     'selling_point_three_content': '<p>Selling point three content</p>',
     'selling_point_three_heading': 'Selling point three heading',
     'selling_point_three_icon': {'url': 'selling_point_three_icon.jpg'},
+    'related_pages': [
+        {
+            'article_image': {'url': 'article_image.jpg'},
+            'article_image_thumbnail': {'url': 'article1_image_thumbnail.jpg'},
+            'article_teaser': 'Related article description 1',
+            'article_title': 'Related article 1',
+            'full_path': '/advice/finance/article-1/',
+            'meta': {
+                'languages': [['en-gb', 'English']],
+                'slug': 'article-1'},
+            'page_type': 'ArticlePage',
+            'title': 'Related article 1'
+        },
+        {
+            'article_image': {'url': 'article_image.jpg'},
+            'article_image_thumbnail': {'url': 'article2_image_thumbnail.jpg'},
+            'article_teaser': 'Related article description 2',
+            'article_title': 'Related article 2',
+            'full_path': '/advice/finance/article-2/',
+            'meta': {
+                'languages': [['en-gb', 'English']],
+                'slug': 'article-2'},
+            'page_type': 'ArticlePage',
+            'title': 'Related article 2'
+        },
+        {
+            'article_image': {'url': 'article_image.jpg'},
+            'article_image_thumbnail': {'url': 'article3_image_thumbnail.jpg'},
+            'article_teaser': 'Related article description 3',
+            'article_title': 'Related article 3',
+            'full_path': '/advice/finance/article-3/',
+            'meta': {
+                'languages': [['en-gb', 'English']],
+                'slug': 'article-3'},
+            'page_type': 'ArticlePage',
+            'title': 'Related article 3'
+        },
+    ],
 }
 
 
@@ -720,39 +746,29 @@ def test_marketing_campaign_page_all_fields(mock_get_page, client, settings):
         id='section-two-contact-button').text == page_all_fields[
         'section_two_contact_button_text']
 
-    related_page_one = soup.find(id='related-page-one')
-    assert related_page_one.find('a').text == page_all_fields[
-        'related_page_one_heading']
-    assert related_page_one.find('p').text == page_all_fields[
-        'related_page_one_description']
-    assert related_page_one.find('a').attrs['href'] == page_all_fields[
-        'related_page_one_url']
-    assert related_page_one.find('img').attrs['src'] == page_all_fields[
-        'related_page_one_image']['url']
+    related_page_one = soup.find(id='related-page-article-1')
+    assert related_page_one.find('a').text == 'Related article 1'
+    assert related_page_one.find('p').text == 'Related article description 1'
+    assert related_page_one.find('a').attrs['href'] == (
+        '/prototype/advice/finance/article-1/')
+    assert related_page_one.find('img').attrs['src'] == (
+        'article1_image_thumbnail.jpg')
 
-    related_page_two = soup.find(id='related-page-two')
-    assert related_page_two.find('a').text == page_all_fields[
-        'related_page_two_heading']
-    assert related_page_two.find('p').text == page_all_fields[
-        'related_page_two_description']
-    assert related_page_two.find('a').attrs['href'] == page_all_fields[
-        'related_page_two_url']
-    assert related_page_two.find('img').attrs['src'] == page_all_fields[
-        'related_page_two_image']['url']
+    related_page_two = soup.find(id='related-page-article-2')
+    assert related_page_two.find('a').text == 'Related article 2'
+    assert related_page_two.find('p').text == 'Related article description 2'
+    assert related_page_two.find('a').attrs['href'] == (
+        '/prototype/advice/finance/article-2/')
+    assert related_page_two.find('img').attrs['src'] == (
+        'article2_image_thumbnail.jpg')
 
-    related_page_three = soup.find(id='related-page-three')
-    assert related_page_three.find('a').text == page_all_fields[
-        'related_page_three_heading']
-    assert related_page_three.find('p').text == page_all_fields[
-        'related_page_three_description']
-    assert related_page_three.find('a').attrs['href'] == page_all_fields[
-        'related_page_three_url']
-    assert related_page_three.find('img').attrs['src'] == page_all_fields[
-        'related_page_three_image']['url']
-
-    assert soup.find(
-        id='related-page-one-description').text == page_all_fields[
-        'related_page_one_description']
+    related_page_three = soup.find(id='related-page-article-3')
+    assert related_page_three.find('a').text == 'Related article 3'
+    assert related_page_three.find('p').text == 'Related article description 3'
+    assert related_page_three.find('a').attrs['href'] == (
+        '/prototype/advice/finance/article-3/')
+    assert related_page_three.find('img').attrs['src'] == (
+        'article3_image_thumbnail.jpg')
 
 
 page_required_fields = {
@@ -763,18 +779,7 @@ page_required_fields = {
     'cta_box_message': 'CTA box message',
     'related_content_heading': 'Related content heading',
     'related_content_intro': '<p>Related content intro.</p>',
-    'related_page_one_description': None,
-    'related_page_one_heading': None,
-    'related_page_one_image': None,
-    'related_page_one_url': None,
-    'related_page_two_description': None,
-    'related_page_two_heading': None,
-    'related_page_two_image': None,
-    'related_page_two_url': None,
-    'related_page_three_description': None,
-    'related_page_three_heading': None,
-    'related_page_three_image': None,
-    'related_page_three_url': None,
+    'related_pages': [],
     'section_one_contact_button_text': None,
     'section_one_contact_button_url': None,
     'section_one_heading': 'Section one heading',
