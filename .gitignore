@@ -72,6 +72,9 @@ db.sqlite3
 
 .direnv/
 
+# VS Code
+.vscode/
+
 # OSX
 
 *.DS_Store

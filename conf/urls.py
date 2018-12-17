@@ -13,6 +13,7 @@ import contact.views
 import core.views
 import euexit.views
 import finance.views
+import marketaccess.views
 import prototype.views
 import triage.views
 
@@ -710,9 +711,21 @@ contact_urls = [
     ),
 ]
 
+marketaccess_urls = [
+    url(
+        r'^marketaccess/report-barrier/$',
+        RedirectView.as_view(
+            url=reverse_lazy(
+                'ma-report-barrier', kwargs={'step': 'start'}
+            )
+        ),
+        name='ma-report-barrier-redirect'
+    ),
+]
 
 urlpatterns += euexit_urls
 urlpatterns += redirects
 urlpatterns += news_urls
 urlpatterns += prototype_urls
 urlpatterns += contact_urls
+urlpatterns += marketaccess_urls

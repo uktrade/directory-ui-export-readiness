@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'prototype',
     'euexit',
     'contact',
+    'marketaccess',
 ]
 
 MIDDLEWARE_CLASSES = [
