@@ -1,18 +1,19 @@
 from captcha.fields import ReCaptchaField
+from directory_components import forms, fields, widgets
+from directory_constants.constants import choices, urls
 from directory_forms_api_client.forms import (
     GovNotifyActionMixin, ZendeskActionMixin
 )
-from directory_components import forms, fields, widgets
-from directory_constants.constants import choices, urls
 from directory_validators.common import not_contains_url_or_email
 from directory_validators.company import no_html
 import requests.exceptions
 
 from django.conf import settings
-from django.forms import Textarea, TextInput
+from django.forms import Textarea, TextInput, TypedChoiceField
 from django.utils.html import mark_safe
 
 from contact import constants, helpers
+from contact.fields import IntegerField
 
 
 TERMS_LABEL = mark_safe(
@@ -111,6 +112,7 @@ class GreatServicesRoutingForm(forms.Form):
     CHOICES = (
         (constants.EXPORT_OPPORTUNITIES, 'Export opportunities service'),
         (constants.GREAT_ACCOUNT, 'Your account on great.gov.uk'),
+        (constants.SELLING_ONLINE_OVERSEAS, 'Selling Online Overseas service'),
         (constants.OTHER, 'Other'),
     )
     choice = fields.ChoiceField(
@@ -381,6 +383,117 @@ class BusinessDetailsForm(forms.Form):
     employees = fields.ChoiceField(
         label='Number of employees (optional)',
         choices=(('', 'Please select'),) + choices.EMPLOYEES,
+        required=False,
+    )
+    captcha = ReCaptchaField(
+        label='',
+        label_suffix='',
+    )
+    terms_agreed = fields.BooleanField(
+        label=TERMS_LABEL
+    )
+
+
+class SellingOnlineOverseasBusiness(forms.Form):
+    soletrader = fields.BooleanField(
+        label='I don\'t have a company number',
+        required=False,
+    )
+    company_name = fields.CharField(
+        validators=anti_phising_validators
+    )
+    company_number = fields.CharField(
+        label=(
+            'The number you received when registering your company at '
+            'Companies House.'
+        ),
+        required=False,
+    )
+    company_postcode = fields.CharField(
+        validators=anti_phising_validators,
+        required=False,  # in js hide if company number is inputted
+    )
+    website_address = fields.URLField(
+        label='Company website',
+        help_text='Website address, where we can see your products online.',
+        max_length=255,
+        required=False,
+    )
+
+
+class SellingOnlineOverseasBusinessDetails(forms.Form):
+    TURNOVER_OPTIONS = (
+        ('Under 100k', 'Under £100,000'),
+        ('100k-500k', '£100,000 to £500,000'),
+        ('500k-2m', '£500,001 and £2million'),
+        ('2m+', 'More than £2million'),
+
+    )
+
+    turnover = fields.ChoiceField(
+        label='Turnover last year',
+        help_text=(
+            'You may use 12 months rolling or last year\'s annual turnover.'
+        ),
+        choices=TURNOVER_OPTIONS,
+        widget=widgets.RadioSelect(),
+    )
+    sku_count = IntegerField(
+        label='How many stock keeping units (SKUs) do you have?',
+        help_text=(
+            'A stock keeping unit is an individual item, such as a product '
+            'or a service that is offered for sale.'
+        )
+    )
+    trademarked = TypedChoiceField(
+        label='Are your products trademarked in your target countries?',
+        help_text=(
+            'Some marketplaces will only sell products that are trademarked.'
+        ),
+        label_suffix='',
+        coerce=lambda x: x == 'True',
+        choices=[(True, 'Yes'), (False, 'No')],
+        widget=widgets.RadioSelect(),
+        required=False,
+    )
+
+
+class SellingOnlineOverseasExperience(forms.Form):
+    EXPERIENCE_OPTIONS = (
+        ('Not yet', 'Not yet'),
+        ('Yes, sometimes', 'Yes, sometimes'),
+        ('Yes, regularly', 'Yes, regularly')
+    )
+
+    experience = fields.ChoiceField(
+        label='Have you sold products online to customers outside the UK?',
+        choices=EXPERIENCE_OPTIONS,
+        widget=widgets.RadioSelect(),
+    )
+
+    description = fields.CharField(
+        label='Pitch your business to this marketplace',
+        help_text=(
+            'Your pitch is important and the information you provide may be '
+            'used to introduce you to the marketplace. You could describe '
+            'your business, including your products, your customers and '
+            'how you market your products in a few paragraphs.'
+        ),
+        widget=Textarea,
+        validators=anti_phising_validators
+    )
+
+
+class SellingOnlineOverseasContactDetails(forms.Form):
+    contact_name = fields.CharField(
+        validators=anti_phising_validators
+    )
+    contact_email = fields.EmailField(
+        label='Email address'
+    )
+    phone = fields.CharField(label='Telephone number')
+    email_pref = fields.BooleanField(
+        label='I prefer to be contacted by email',
         required=False,
     )
     captcha = ReCaptchaField(

@@ -38,6 +38,7 @@ def company_profile(authed_client):
             'address_line_2': 'Near Fake Town',
             'country': 'FRANCE',
             'locality': 'Paris',
+            'website': 'http://www.example.com',
         }
     )
     yield stub.start()
@@ -126,9 +127,15 @@ def domestic_form_data(captcha_stub):
     ),
     (
         constants.GREAT_SERVICES,
+        constants.SELLING_ONLINE_OVERSEAS,
+        reverse('contact-us-soo', kwargs={'step': 'organisation'})
+    ),
+    (
+        constants.GREAT_SERVICES,
         constants.OTHER,
         reverse('contact-us-domestic'),
     ),
+    # great account
     (
         constants.GREAT_ACCOUNT,
         constants.NO_VERIFICATION_EMAIL,
@@ -343,8 +350,8 @@ def test_success_view_cms(mock_lookup_by_slug, url, slug, client):
 
 
 @mock.patch('captcha.fields.ReCaptchaField.clean')
-@mock.patch('contact.views.GovNotifyAction')
-@mock.patch('contact.views.EmailAction')
+@mock.patch('directory_forms_api_client.actions.GovNotifyAction')
+@mock.patch('directory_forms_api_client.actions.EmailAction')
 @mock.patch('contact.helpers.retrieve_exporting_advice_email')
 def test_exporting_from_uk_contact_form_submission(
     mock_retrieve_exporting_advice_email, mock_email_action,
@@ -446,8 +453,8 @@ def test_exporting_from_uk_contact_form_submission(
 
 
 @mock.patch('captcha.fields.ReCaptchaField.clean')
-@mock.patch('contact.views.GovNotifyAction')
-@mock.patch('contact.views.EmailAction')
+@mock.patch('directory_forms_api_client.actions.GovNotifyAction')
+@mock.patch('directory_forms_api_client.actions.EmailAction')
 @mock.patch('contact.helpers.retrieve_exporting_advice_email')
 def test_exporting_from_uk_contact_form_initial_data_business(
     mock_retrieve_exporting_advice_email, mock_email_action,
@@ -775,3 +782,140 @@ def test_ingress_url_cleared_on_redirect_away(
     view.url_name = 'triage-wizard'
 
     assert form.is_valid()
+
+
+@mock.patch('captcha.fields.ReCaptchaField.clean')
+@mock.patch('directory_forms_api_client.actions.ZendeskAction')
+def test_selling_online_overseas_contact_form_submission(
+    mock_zendesk_action, mock_clean, captcha_stub, company_profile, client
+):
+    company_profile.return_value = None
+
+    url_name = 'contact-us-soo'
+    view_name = 'selling_online_overseas_form_view'
+
+    response = client.post(
+        reverse(url_name, kwargs={'step': 'organisation'}),
+        {
+            view_name + '-current_step': 'organisation',
+            'organisation-soletrader': False,
+            'organisation-company_name': 'Example corp',
+            'organisation-company_number': 213123,
+            'organisation-company_postcode': 'FOO BAR',
+            'organisation-website_address': 'http://example.com'
+        }
+    )
+    assert response.status_code == 302
+
+    response = client.post(
+        reverse(url_name, kwargs={'step': 'organisation-details'}),
+        {
+            view_name + '-current_step': 'organisation-details',
+            'organisation-details-turnover': 'Under 100k',
+            'organisation-details-sku_count': 12,
+            'organisation-details-trademarked': True,
+        }
+    )
+    assert response.status_code == 302
+
+    response = client.post(
+        reverse(url_name, kwargs={'step': 'your-experience'}),
+        {
+            view_name + '-current_step': 'your-experience',
+            'your-experience-experience': 'Not yet',
+            'your-experience-description': 'help!',
+        }
+    )
+    assert response.status_code == 302
+
+    response = client.post(
+        reverse(url_name, kwargs={'step': 'contact-details'}),
+        {
+            view_name + '-current_step': 'contact-details',
+            'contact-details-contact_name': 'Foo Example',
+            'contact-details-contact_email': 'test@example.com',
+            'contact-details-phone': '0324234243',
+            'contact-details-email_pref': True,
+            'contact-details-terms_agreed': True,
+            'contact-details-captcha': captcha_stub,
+        }
+    )
+    assert response.status_code == 302
+
+    response = client.get(response.url)
+
+    assert response.status_code == 302
+    assert response.url == reverse(
+        'contact-us-selling-online-overseas-success'
+    )
+    assert mock_clean.call_count == 1
+    assert mock_zendesk_action.call_count == 1
+    assert mock_zendesk_action.call_args == mock.call(
+        subject=settings.CONTACT_SOO_ZENDESK_SUBJECT,
+        full_name='Foo Example',
+        email_address='test@example.com',
+        service_name='Selling online overseas',
+        form_url=reverse(
+            'contact-us-soo', kwargs={'step': 'organisation'}
+        )
+    )
+    assert mock_zendesk_action().save.call_count == 1
+    assert mock_zendesk_action().save.call_args == mock.call({
+        'ingress_url': None,
+        'soletrader': False,
+        'company_name': 'Example corp',
+        'company_number': '213123',
+        'company_postcode': 'FOO BAR',
+        'website_address': 'http://example.com',
+        'turnover': 'Under 100k',
+        'sku_count': 12,
+        'trademarked': True,
+        'experience': 'Not yet',
+        'description': 'help!',
+        'contact_name': 'Foo Example',
+        'contact_email': 'test@example.com',
+        'phone': '0324234243',
+        'email_pref': True,
+    })
+
+
+def test_selling_online_overseas_contact_form_initial_data(client):
+    response_one = client.get(
+        reverse('contact-us-soo', kwargs={'step': 'organisation'}),
+    )
+    assert response_one.context_data['form'].initial == {
+        'soletrader': False,
+        'company_name': 'Example corp',
+        'company_number': 1234567,
+        'company_postcode': 'Foo Bar',
+        'website_address': 'http://www.example.com',
+    }
+
+    response_two = client.get(
+        reverse('contact-us-soo', kwargs={'step': 'organisation-details'}),
+    )
+    assert response_two.context_data['form'].initial == {}
+
+    response_three = client.get(
+        reverse('contact-us-soo', kwargs={'step': 'your-experience'}),
+    )
+    assert response_three.context_data['form'].initial == {}
+
+    response_four = client.get(
+        reverse('contact-us-soo', kwargs={'step': 'contact-details'}),
+    )
+    assert response_four.context_data['form'].initial == {
+        'contact_name': 'Foo Example',
+        'contact_email': 'test@foo.com',
+        'phone': '07171771717',
+    }
+
+
+def test_contact_soo_feature_flag_off(settings, client):
+    settings.FEATURE_FLAGS['SOO_CONTACT_FORM_ON'] = False
+
+    response = client.get(
+        reverse('contact-us-soo', kwargs={'step': 'organisation'}),
+    )
+
+    assert response.status_code == 404

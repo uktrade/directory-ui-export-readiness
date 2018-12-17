@@ -1,7 +1,7 @@
 from urllib.parse import urlparse
 
 from directory_constants.constants import cms
-from directory_forms_api_client.actions import EmailAction, GovNotifyAction
+from directory_forms_api_client import actions
 
 from formtools.wizard.views import NamedUrlSessionWizardView
 
@@ -167,6 +167,9 @@ class RoutingFormView(IngressURLMixin, NamedUrlSessionWizardView):
         },
         constants.GREAT_SERVICES: {
             constants.OTHER: reverse_lazy('contact-us-domestic'),
+            constants.SELLING_ONLINE_OVERSEAS: reverse_lazy(
+                'contact-us-soo', kwargs={'step': 'organisation'}
+            )
         },
         constants.GREAT_ACCOUNT: {
             constants.NO_VERIFICATION_EMAIL: build_great_account_guidance_url(
@@ -306,7 +309,7 @@ class ExportingAdviceFormView(
 
     @staticmethod
     def send_user_message(form_data):
-        action = GovNotifyAction(
+        action = actions.GovNotifyAction(
             template_id=settings.CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID,
             email_address=form_data['email'],
             form_url=reverse(
@@ -319,7 +322,7 @@ class ExportingAdviceFormView(
     @staticmethod
     def send_agent_message(form_data):
         email = helpers.retrieve_exporting_advice_email(form_data['postcode'])
-        action = EmailAction(
+        action = actions.EmailAction(
             recipients=[email],
             subject=settings.CONTACT_EXPORTING_AGENT_SUBJECT,
             reply_to=[settings.DEFAULT_FROM_EMAIL],
@@ -341,11 +344,10 @@ class ExportingAdviceFormView(
         return redirect(self.success_url)
 
     def serialize_form_list(self, form_list):
-        data = {}
+        data = {'ingress_url': self.ingress_url}
         for form in form_list:
             data.update(form.cleaned_data)
         del data['terms_agreed']
-        data['ingress_url'] = self.ingress_url
         return data
 
 
@@ -476,9 +478,92 @@ class FeedbackSuccessView(BaseSuccessView):
     slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_FEEDBACK_SLUG
 
 
+class SellingOnlineOverseasSuccessView(BaseSuccessView):
+    slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_SOO_SLUG
+
+
 class GuidanceView(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'contact/guidance.html'
 
     @property
     def slug(self):
         return self.kwargs['slug']
+
+
+class SellingOnlineOverseasFormView(
+    mixins.NotFoundOnDisabledFeature, mixins.PreventCaptchaRevalidationMixin,
+    IngressURLMixin, mixins.PrepopulateFormMixin, NamedUrlSessionWizardView
+):
+    success_url = reverse_lazy('contact-us-selling-online-overseas-success')
+
+    ORGANISATION = 'organisation'
+    ORGANISATION_DETAILS = 'organisation-details'
+    EXPERIENCE = 'your-experience'
+    CONTACT_DETAILS = 'contact-details'
+
+    form_list = (
+        (ORGANISATION, forms.SellingOnlineOverseasBusiness),
+        (ORGANISATION_DETAILS, forms.SellingOnlineOverseasBusinessDetails),
+        (EXPERIENCE, forms.SellingOnlineOverseasExperience),
+        (CONTACT_DETAILS, forms.SellingOnlineOverseasContactDetails),
+    )
+
+    templates = {
+        ORGANISATION: 'contact/soo/step-organisation.html',
+        ORGANISATION_DETAILS: 'contact/soo/step-organisation-details.html',
+        EXPERIENCE: 'contact/soo/step-experience.html',
+        CONTACT_DETAILS: 'contact/soo/step-contact-details.html',
+    }
+
+    @property
+    def flag(self):
+        return settings.FEATURE_FLAGS['SOO_CONTACT_FORM_ON']
+
+    def get_template_names(self):
+        return [self.templates[self.steps.current]]
+
+    def get_form_kwargs(self, *args, **kwargs):
+        # skipping `PrepopulateFormMixin.get_form_kwargs`
+        return super(mixins.PrepopulateFormMixin, self).get_form_kwargs(
+            *args, **kwargs
+        )
+
+    def get_form_initial(self, step):
+        initial = super().get_form_initial(step)
+        if step == self.ORGANISATION and self.company_profile:
+            initial.update({
+                'soletrader': False,
+                'company_name': self.company_profile['name'],
+                'company_number': self.company_profile['number'],
+                'company_postcode': self.company_profile['postal_code'],
+                'website_address': self.company_profile['website'],
+            })
+        elif step == self.CONTACT_DETAILS and self.company_profile:
+            initial.update({
+                'contact_name': self.company_profile['postal_full_name'],
+                'contact_email': self.request.sso_user.email,
+                'phone': self.company_profile['mobile_number'],
+            })
+        return initial
+
+    def serialize_form_list(self, form_list):
+        data = {'ingress_url': self.ingress_url}
+        for form in form_list:
+            data.update(form.cleaned_data)
+        del data['terms_agreed']
+        return data
+
+    def done(self, form_list, **kwargs):
+        form_data = self.serialize_form_list(form_list)
+        action = actions.ZendeskAction(
+            subject=settings.CONTACT_SOO_ZENDESK_SUBJECT,
+            full_name=form_data['contact_name'],
+            email_address=form_data['contact_email'],
+            service_name='Selling online overseas',
+            form_url=reverse(
+                'contact-us-soo', kwargs={'step': 'organisation'}
+            )
+        )
+        response = action.save(form_data)
+        response.raise_for_status()
+        return redirect(self.success_url)
