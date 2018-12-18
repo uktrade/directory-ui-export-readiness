@@ -167,9 +167,6 @@ class RoutingFormView(IngressURLMixin, NamedUrlSessionWizardView):
         },
         constants.GREAT_SERVICES: {
             constants.OTHER: reverse_lazy('contact-us-domestic'),
-            constants.SELLING_ONLINE_OVERSEAS: reverse_lazy(
-                'contact-us-soo', kwargs={'step': 'organisation'}
-            )
         },
         constants.GREAT_ACCOUNT: {
             constants.NO_VERIFICATION_EMAIL: build_great_account_guidance_url(
