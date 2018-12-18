@@ -21,6 +21,12 @@ from contact import constants, forms, helpers
 SESSION_KEY_FORM_INGRESS_URL = 'CONTACT_FORM_INGRESS_URL'
 
 
+def office_finder_url():
+    if settings.FEATURE_FLAGS['OFFICE_FINDER_ON']:
+        return reverse('office-finder')
+    return settings.FIND_TRADE_OFFICE_URL
+
+
 def build_export_opportunites_guidance_url(step_name, ):
     return reverse_lazy(
         'contact-us-export-opportunities-guidance', kwargs={'slug': step_name}
@@ -134,7 +140,7 @@ class RoutingFormView(IngressURLMixin, NamedUrlSessionWizardView):
     # given the current step, based on selected  option, where to redirect.
     redirect_mapping = {
         constants.DOMESTIC: {
-            constants.TRADE_OFFICE: settings.FIND_TRADE_OFFICE_URL,
+            constants.TRADE_OFFICE: office_finder_url,
             constants.EXPORT_ADVICE: reverse_lazy(
                 'contact-us-export-advice',
                 kwargs={'step': 'comment'}
@@ -567,3 +573,8 @@ class SellingOnlineOverseasFormView(
         response = action.save(form_data)
         response.raise_for_status()
         return redirect(self.success_url)
+
+
+class OfficeFinderFormView(FormView):
+    template_name = 'contact/office-finder.html'
+    form_class = forms.OfficeFinderForm
