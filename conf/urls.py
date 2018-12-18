@@ -709,10 +709,20 @@ contact_urls = [
         name='contact-us-routing-form'
     ),
     url(
-        r'^office-finder/$',
+        r'^contact/office-finder/$',
         contact.views.OfficeFinderFormView.as_view(),
         name='office-finder'
-    )
+    ),
+    url(
+        r'^contact/office-finder/(?P<postcode>[\w\d]+)/$',
+        contact.views.OfficeContactFormView.as_view(),
+        name='office-finder-contact'
+    ),
+    url(
+        r'^contact/office-finder/(?P<postcode>[\w\d]+)/success/$',
+        contact.views.OfficeSuccessView.as_view(),
+        name='contact-us-office-success'
+    ),
 ]
 
 

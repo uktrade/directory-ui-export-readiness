@@ -230,6 +230,8 @@ class StaticViewSitemap(sitemaps.Sitemap):
             'contact-us-soo',
             'campaign-page',
             'contact-us-routing-form',
+            'office-finder-contact',
+            'contact-us-office-success',
         ]
 
         dynamic_cms_page_url_names += [url.name for url in urls.prototype_urls]

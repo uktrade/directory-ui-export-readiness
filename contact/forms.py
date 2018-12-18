@@ -9,7 +9,8 @@ from directory_validators.company import no_html
 import requests.exceptions
 
 from django.conf import settings
-from django.forms import Textarea, TextInput, TypedChoiceField
+from django.forms import Textarea, TextInput, TypedChoiceField, ValidationError
+from django.utils.functional import cached_property
 from django.utils.html import mark_safe
 
 from contact import constants, helpers
@@ -400,7 +401,8 @@ class SellingOnlineOverseasBusiness(forms.Form):
         required=False,
     )
     company_name = fields.CharField(
-        validators=anti_phising_validators
+        validators=anti_phising_validators,
+        required=False,
     )
     company_number = fields.CharField(
         label=(
@@ -503,3 +505,32 @@ class SellingOnlineOverseasContactDetails(forms.Form):
     terms_agreed = fields.BooleanField(
         label=TERMS_LABEL
     )
+
+
+class OfficeFinderForm(forms.Form):
+    MESSAGE_NOT_FOUND = 'The postcode you entered does not exist'
+
+    postcode = fields.CharField(
+        label='Enter your postcode',
+        help_text='For example SW1A 2AA',
+    )
+
+    @cached_property
+    def office_details(self):
+        try:
+            return helpers.retrieve_regional_office(
+                self.cleaned_data['postcode']
+            )
+        except requests.exceptions.RequestException:
+            return None
+
+    def clean_postcode(self):
+        if not self.office_details:
+            raise ValidationError(self.MESSAGE_NOT_FOUND)
+        return self.cleaned_data['postcode'].replace(' ', '')
+
+
+class TradeOfficeContactForm(
+    SerializeDataMixin, GovNotifyActionMixin, BaseShortForm
+):
+    pass
