@@ -154,3 +154,30 @@ GOVUK.utils.toggleInputOnNotTicked = (function() {
     radio.addEventListener('change', handleCheckboxChange);
   };
 })();
+
+
+GOVUK.utils.toggleOnClick = (function() {
+  return function toggleOnClick(toggleElement, target) {
+
+    function addClassName(className) {
+      toggleElement.className = (toggleElement.className || '') + ' ' + className;
+    }
+
+    function removeClassName(className) {
+      var re = new RegExp(className, 'g');
+      toggleElement.className = toggleElement.className.replace(re, '');
+    }
+
+    function handleClick() {
+      if (target.style.display === 'none') {
+        target.style.display = 'block';
+        addClassName('open');
+      } else {
+        target.style.display = 'none';
+        removeClassName('open')
+      }
+    }
+    handleClick();
+    toggleElement.addEventListener('click', handleClick);
+  };
+})();

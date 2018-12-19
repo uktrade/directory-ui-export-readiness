@@ -909,6 +909,41 @@ def test_selling_online_overseas_contact_form_submission(
     })
 
 
+@mock.patch('captcha.fields.ReCaptchaField.clean')
+@mock.patch('directory_forms_api_client.actions.ZendeskAction')
+def test_selling_online_overseas_contact_form_market_name(
+    mock_zendesk_action, mock_clean, captcha_stub, company_profile, client
+):
+    company_profile.return_value = None
+
+    url_name = 'contact-us-soo'
+
+    response = client.get(
+        reverse(url_name, kwargs={'step': 'organisation'}),
+        {'market': 'ebay'}
+    )
+    assert response.status_code == 200
+    assert response.context['market_name'] == 'ebay'
+
+    response = client.get(
+        reverse(url_name, kwargs={'step': 'organisation-details'}),
+    )
+    assert response.status_code == 200
+    assert response.context['market_name'] == 'ebay'
+
+    response = client.get(
+        reverse(url_name, kwargs={'step': 'your-experience'}),
+    )
+    assert response.status_code == 200
+    assert response.context['market_name'] == 'ebay'
+
+    response = client.get(
+        reverse(url_name, kwargs={'step': 'contact-details'}),
+    )
+    assert response.status_code == 200
+    assert response.context['market_name'] == 'ebay'
+
+
 def test_selling_online_overseas_contact_form_initial_data(client):
     response_one = client.get(
         reverse('contact-us-soo', kwargs={'step': 'organisation'}),

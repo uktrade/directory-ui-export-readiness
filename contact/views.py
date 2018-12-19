@@ -20,6 +20,7 @@ from contact import constants, forms, helpers
 
 
 SESSION_KEY_FORM_INGRESS_URL = 'CONTACT_FORM_INGRESS_URL'
+SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
 
 
 class LazyOfficeFinderURL(LazyObject):
@@ -534,6 +535,12 @@ class SellingOnlineOverseasFormView(
         CONTACT_DETAILS: 'contact/soo/step-contact-details.html',
     }
 
+    def get(self, *args, **kwargs):
+        market = self.request.GET.get('market')
+        if market:
+            self.request.session[SESSION_KEY_SOO_MARKET] = market
+        return super().get(*args, **kwargs)
+
     @property
     def flag(self):
         return settings.FEATURE_FLAGS['SOO_CONTACT_FORM_ON']
@@ -570,9 +577,17 @@ class SellingOnlineOverseasFormView(
         for form in form_list:
             data.update(form.cleaned_data)
         del data['terms_agreed']
+        data['market'] = self.request.session.get(SESSION_KEY_SOO_MARKET)
         return data
 
+    def get_context_data(self, **kwargs):
+        return {
+            'market_name': self.request.session.get(SESSION_KEY_SOO_MARKET),
+            **super().get_context_data(**kwargs),
+        }
+
     def done(self, form_list, **kwargs):
+        self.request.session.pop(SESSION_KEY_SOO_MARKET, None)
         form_data = self.serialize_form_list(form_list)
         action = actions.ZendeskAction(
             subject=settings.CONTACT_SOO_ZENDESK_SUBJECT,
