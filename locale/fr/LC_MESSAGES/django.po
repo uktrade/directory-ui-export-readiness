@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-19 11:48+0000\n"
+"POT-Creation-Date: 2018-11-09 15:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -112,7 +112,7 @@ msgstr ""
 
 #: core/templates/core/landing_page_international.html:38
 msgid "Find a Supplier"
-msgstr ""
+msgstr "Trouver un fournisseur"
 
 #: core/templates/core/landing_page_international.html:45
 #: core/templates/core/landing_page_international.html:46
@@ -135,7 +135,7 @@ msgstr "https://invest.great.gov.uk/fr"
 
 #: core/templates/core/landing_page_international.html:51
 msgid "See the potential"
-msgstr ""
+msgstr "Consulter le potentiel"
 
 #: core/templates/core/landing_page_international.html:58
 #: core/templates/core/landing_page_international.html:59
@@ -153,7 +153,7 @@ msgstr ""
 
 #: core/templates/core/landing_page_international.html:64
 msgid "Learn more"
-msgstr ""
+msgstr "En savoir plus"
 
 #: core/templates/core/landing_page_international.html:71
 #: core/templates/core/landing_page_international.html:72
@@ -176,4 +176,4 @@ msgstr "https://www.visitbritain.com/fr/fr"
 
 #: core/templates/core/landing_page_international.html:77
 msgid "Plan your trip"
-msgstr ""
+msgstr "Préparez votre voyage"
