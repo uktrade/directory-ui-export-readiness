@@ -824,6 +824,11 @@ def test_selling_online_overseas_contact_form_submission(
     url_name = 'contact-us-soo'
     view_name = 'selling_online_overseas_form_view'
 
+    client.get(
+        reverse(url_name, kwargs={'step': 'organisation'}),
+        {'market': 'ebay'}
+    )
+
     response = client.post(
         reverse(url_name, kwargs={'step': 'organisation'}),
         {
@@ -906,6 +911,7 @@ def test_selling_online_overseas_contact_form_submission(
         'contact_email': 'test@example.com',
         'phone': '0324234243',
         'email_pref': True,
+        'market': 'ebay',
     })
 
 

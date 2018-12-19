@@ -46,13 +46,8 @@
         var companyNameContainer = document.getElementById('id_organisation-company_name-container');
         var companyPostcodeContainer = document.getElementById('id_organisation-company_postcode-container');
         
-        var benefitsToggle = document.getElementById('benefits-toggle');
-        var benefits = document.getElementById('benefits');
-        
-        
         GOVUK.utils.toggleInputOnNotTicked(isSoleTrader, companyNameContainer);
         GOVUK.utils.toggleRadioOtherOnClick(isSoleTrader, companyPostcodeContainer);
-        GOVUK.utils.toggleOnClick(benefitsToggle, benefits);
 
         function clearUpValuesOnTypeChange() {
           isSoleTrader.addEventListener('change', function(event) {

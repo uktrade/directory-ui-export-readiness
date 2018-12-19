@@ -587,7 +587,6 @@ class SellingOnlineOverseasFormView(
         }
 
     def done(self, form_list, **kwargs):
-        self.request.session.pop(SESSION_KEY_SOO_MARKET, None)
         form_data = self.serialize_form_list(form_list)
         action = actions.ZendeskAction(
             subject=settings.CONTACT_SOO_ZENDESK_SUBJECT,
@@ -600,6 +599,7 @@ class SellingOnlineOverseasFormView(
         )
         response = action.save(form_data)
         response.raise_for_status()
+        self.request.session.pop(SESSION_KEY_SOO_MARKET, None)
         return redirect(self.success_url)
 
 

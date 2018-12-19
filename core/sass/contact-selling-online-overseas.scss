@@ -50,26 +50,12 @@ body.js-enabled {
   border-top: 1px solid #9A9A9A;
   border-bottom: 1px solid #9A9A9A;
   margin-top: 20px;
+  padding-bottom: 10px;
   h3 {
     padding: 20px;
     cursor: pointer;
-    color: #00469F;
     margin: 0;
     background-color: #FCFBF9;
     position: relative;
-    &::after {
-      content: '+';
-      position: absolute;
-      font-size: 40px;
-      right: 20px;
-      top: 10px;
-    }
-  }
-  &.open {
-    h3 {
-      &::after {
-        content: '-';
-      }
-    }
   }
 }
