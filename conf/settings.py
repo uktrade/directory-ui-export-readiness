@@ -135,12 +135,13 @@ LANGUAGE_CODE = 'en-gb'
 # https://github.com/django/django/blob/master/django/conf/locale/__init__.py
 LANGUAGES = [
     ('en-gb', 'English'),               # English
-    ('zh-hans', '简体中文'),             # Simplified Chinese
+    ('zh-hans', '简体中文'),              # Simplified Chinese
     ('de', 'Deutsch'),                  # German
     ('ja', '日本語'),                    # Japanese
     ('es', 'Español'),                  # Spanish
     ('pt', 'Português'),                # Portuguese
-    ('ar', 'العربيّة'),                 # Arabic
+    ('ar', 'العربيّة'),                  # Arabic
+    ('fr', 'Français'),                 # French
 ]
 
 LOCALE_PATHS = (
