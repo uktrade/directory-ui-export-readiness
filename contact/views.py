@@ -678,3 +678,9 @@ class OfficeSuccessView(mixins.NotFoundOnDisabledFeature, BaseSuccessView):
     @property
     def flag(self):
         return settings.FEATURE_FLAGS['OFFICE_FINDER_ON']
+
+    def get_context_data(self, **kwargs):
+        return {
+            **super().get_context_data(**kwargs),
+            'next_url': reverse('landing-page'),
+        }

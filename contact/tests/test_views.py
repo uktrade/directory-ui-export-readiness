@@ -1057,3 +1057,14 @@ def test_contact_us_office_success_feature_off(client, settings):
     response = client.get(url)
 
     assert response.status_code == 404
+
+
+def test_contact_us_office_success_next_url(client, settings):
+    settings.FEATURE_FLAGS['OFFICE_FINDER_ON'] = True
+
+    url = reverse('contact-us-office-success', kwargs={'postcode': 'FOOBAR'})
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['next_url'] == '/'
