@@ -396,6 +396,7 @@ FEATURE_FLAGS = {
     ),
     'EU_EXIT_FORMS_ON': env.bool('FEATURE_EU_EXIT_FORMS_ENABLED', False),
     'SOO_CONTACT_FORM_ON': env.bool('FEATURE_SOO_CONTACT_FORM_ENABLED', False),
+    'MARKET_ACCESS_FORM_ON': env.bool('FEATURE_MARKET_ACCESS_FORM_ENABLED', False),
     # used by directory-components
     'SEARCH_ENGINE_INDEXING_OFF': env.bool(
         'FEATURE_SEARCH_ENGINE_INDEXING_DISABLED', False
