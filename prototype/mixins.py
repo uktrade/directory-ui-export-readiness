@@ -4,24 +4,28 @@ from directory_cms_client.client import cms_api_client
 from directory_components.helpers import SocialLinkBuilder
 
 from core.helpers import handle_cms_response
-from prototype.helpers import unprefix_prototype_url
+from prototype.helpers import unprefix_prototype_url, unslugify
 
 
-class GetCMSPageByFullPathMixin():
-
-    @cached_property
-    def page(self):
-        response = cms_api_client.lookup_by_full_path(
-            full_path=unprefix_prototype_url(self.request.path),
-            draft_token=self.request.GET.get('draft_token'),
-        )
-        return handle_cms_response(response)
+class BreadcrumbsMixin:
 
     def get_context_data(self, *args, **kwargs):
+        parts = unprefix_prototype_url(self.request.path).split('/')
+        url_fragments = [part for part in parts if part]
+
+        breadcrumbs = []
+
+        for index, slug in enumerate(url_fragments):
+            url = '/'.join(url_fragments[0:index+1])
+            breadcrumb = {
+                'url': '/prototype/' + url + '/',
+                'label': unslugify(slug)
+            }
+            breadcrumbs.append(breadcrumb)
+
         return super().get_context_data(
-            page=self.page,
-            *args,
-            **kwargs
+            breadcrumbs=breadcrumbs,
+            *args, **kwargs
         )
 
 
@@ -39,8 +43,7 @@ class GetCMSTagMixin():
         return super().get_context_data(
             tag_slug=self.slug,
             page=self.page,
-            *args,
-            **kwargs
+            *args, **kwargs
         )
 
 
@@ -55,38 +58,5 @@ class SocialLinksMixin():
 
         return super().get_context_data(
             social_links=social_links_builder.links,
-            *args,
-            **kwargs
+            *args, **kwargs
         )
-
-
-class RelatedContentMixin():
-
-    def get_context_data(self, *args, **kwargs):
-
-        has_related_list_item_one = self.page['related_article_one_url'] and \
-            self.page['related_article_one_title']
-        has_related_list_item_two = self.page['related_article_two_url'] and \
-            self.page['related_article_two_title']
-        has_related_list_item_three = self.page['related_article_three_url'] \
-            and self.page['related_article_three_title']
-
-        self.page['has_related_list_item_one'] = has_related_list_item_one
-        self.page['has_related_list_item_two'] = has_related_list_item_two
-        self.page['has_related_list_item_three'] = has_related_list_item_three
-
-        has_related_card_item_one = self.page['related_article_one_url'] \
-            and self.page['related_article_one_title'] and \
-            self.page['related_article_one_teaser']
-        has_related_card_item_two = self.page['related_article_two_url'] \
-            and self.page['related_article_two_title'] and \
-            self.page['related_article_two_teaser']
-        has_related_card_item_three = self.page['related_article_three_url'] \
-            and self.page['related_article_three_title'] and \
-            self.page['related_article_three_teaser']
-
-        self.page['has_related_card_item_one'] = has_related_card_item_one
-        self.page['has_related_card_item_two'] = has_related_card_item_two
-        self.page['has_related_card_item_three'] = has_related_card_item_three
-
-        return super().get_context_data(*args, **kwargs)

@@ -3,10 +3,9 @@ from directory_constants.constants import cms
 from django.views.generic import TemplateView
 
 from prototype.mixins import (
-    GetCMSPageByFullPathMixin,
     GetCMSTagMixin,
     SocialLinksMixin,
-    RelatedContentMixin,
+    BreadcrumbsMixin,
 )
 from core.mixins import (
     PrototypeFeatureFlagMixin,
@@ -16,21 +15,31 @@ from core.mixins import (
 )
 from euexit.mixins import HideLanguageSelectorMixin
 
+TEMPLATE_MAPPING = {
+    'TopicLandingPage': 'prototype/topic_list.html',
+    'SuperregionPage': 'prototype/superregion.html',
+    'CountryGuidePage': 'prototype/country_guide.html',
+    'ArticleListingPage': 'prototype/article_list.html',
+    'ArticlePage': 'prototype/article_detail.html'
+}
 
-class TopicListPageView(
+
+class PrototypeTemplateChooserMixin:
+    @property
+    def template_name(self):
+        return TEMPLATE_MAPPING[self.page['page_type']]
+
+
+class PrototypePageView(
+    BreadcrumbsMixin,
     PrototypeFeatureFlagMixin,
-    GetCMSPageByFullPathMixin,
+    PrototypeTemplateChooserMixin,
+    GetCMSPageMixin,
     TemplateView,
 ):
-    template_name = 'prototype/topic_list.html'
-
-
-class ArticleListPageView(
-    PrototypeFeatureFlagMixin,
-    GetCMSPageByFullPathMixin,
-    TemplateView,
-):
-    template_name = 'prototype/article_list.html'
+    @property
+    def slug(self):
+        return self.kwargs['slug']
 
 
 class TagListPageView(
@@ -45,16 +54,6 @@ class TagListPageView(
         return self.kwargs['slug']
 
 
-class ArticleDetailView(
-    SocialLinksMixin,
-    PrototypeFeatureFlagMixin,
-    RelatedContentMixin,
-    GetCMSPageByFullPathMixin,
-    TemplateView,
-):
-    template_name = 'prototype/article_detail.html'
-
-
 class NewsListPageView(
     NewsSectionFeatureFlagMixin,
     GetCMSPageMixin,
@@ -67,7 +66,6 @@ class NewsListPageView(
 class NewsArticleDetailView(
     SocialLinksMixin,
     NewsSectionFeatureFlagMixin,
-    RelatedContentMixin,
     GetCMSPageMixin,
     TemplateView,
 ):
