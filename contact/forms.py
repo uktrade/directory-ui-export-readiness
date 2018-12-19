@@ -112,7 +112,6 @@ class GreatServicesRoutingForm(forms.Form):
     CHOICES = (
         (constants.EXPORT_OPPORTUNITIES, 'Export opportunities service'),
         (constants.GREAT_ACCOUNT, 'Your account on great.gov.uk'),
-        (constants.SELLING_ONLINE_OVERSEAS, 'Selling Online Overseas service'),
         (constants.OTHER, 'Other'),
     )
     choice = fields.ChoiceField(

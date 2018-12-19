@@ -1,6 +1,7 @@
 {% extends "core/base.html" %}
 
 {% load static from staticfiles %}
+{% load render_form from directory_components_tags %}
 
 {% block sharing_metadata %}{% endblock %}
 
@@ -25,22 +26,10 @@
                                 {% if wizard.form.forms %}
                                     {{ wizard.form.management_form }}
                                     {% for form in wizard.form.forms %}
-                                        {{ form }}
+                                        {% render_form form %}
                                     {% endfor %}
                                 {% else %}
-                                    {% for hidden in form.hidden_fields %}
-                                        {{ hidden }}
-                                    {% endfor %}
-                                    {% for field in form.visible_fields %}
-                                        <li class="{{ field.css_classes }}">
-                                            {{ field.errors }}
-                                            {{ field.label_tag }}
-                                            {% if field.help_text %}
-                                                <span class="form-hint">{{ field.help_text|safe }}</span>
-                                            {% endif %}
-                                            {{ field }}
-                                        </li>
-                                    {% endfor %}
+                                    {% render_form form %}
                                 {% endif %}
                             </div>
                             <div>
