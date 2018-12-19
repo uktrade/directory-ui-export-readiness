@@ -38,7 +38,6 @@ class ReportMarketAccessBarrierFormView(
     }
 
     def get_form_kwargs(self, *args, **kwargs):
-        # skipping `PrepopulateFormMixin.get_form_kwargs`
         return super(mixins.PrepopulateFormMixin, self).get_form_kwargs(
             *args, **kwargs
         )
@@ -65,13 +64,15 @@ class ReportMarketAccessBarrierFormView(
         action = actions.ZendeskAction(
             email_address=serialized_data['email'],
             full_name=serialized_data['full_name'],
-            subject='some subject for the zendesk confirmation email',
+            subject=settings.CONTACT_MARKET_ACCESS_ZENDESK_SUBJECT,
             # informs zendesk which custom field to add to the ticket, allowing zendesk users to filter by this service (e.g, "show me all euexit tickets)
             service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME,
             # informs forms-api of which zendesk account to send the ticket to
             subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
             # simply allows the user of the forms API admin to filter results by this url
-            form_url='/the/path/of/the/form/',
+            form_url=reverse(
+                'report-ma-barrier', kwargs={'step': 'start'}
+            ),
         )
         # send to forms-api via POST request
         response = action.save(serialized_data)
