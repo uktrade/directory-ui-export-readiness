@@ -1,0 +1,44 @@
+{% extends "core/base.html" %}
+{% load static from staticfiles %}
+{% load render_form from directory_components_tags %}
+
+{% block head_css %}
+    {{ block.super }}
+    <link href="{% static 'styles/office-finder.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+    {% include 'contact/breadcrumbs.html' with current_page_label='Find trade office' %}
+
+    <div class="container">
+        <section class="lg-2">
+            <form method="get" enctype="multipart/form-data">
+                <h1 class="heading-xlarge">Find your local trade office</h1>
+                <p>We have local trade offices based around the UK, within each office you can contact an international trade advisor.</p>
+                </br>
+                {% render_form form %}
+                <button type="submit" class="button button">Search</button>
+            </form>
+        </section>
+        {% if office_details %}
+            <section class="lg-2" id="results">
+                <h2 class="heading-medium">Your local Trade office for {{ form.cleaned_data.postcode }} is</h2>
+                <hr>
+                <h3 class="heading-medium" id="office-name">{{ office_details.name }}</h3>
+                {{ office_details.address|linebreaks }}
+
+                <h3 class="heading-medium">Telephone</h3>
+                <p>{{ office_details.phone }}</p>
+                {% if office_details.phone_other %}
+                    <h3 class="heading-medium">{{ office_details.phone_other_comment }}</h3>
+                    <p>{{ office_details.phone_other }}</p>
+                {% endif %}
+                <br>
+                <a href="{% url 'office-finder-contact' postcode=form.cleaned_data.postcode %}" class="button">Contact {{ office_details.name }} office</a>
+            </section>
+            <section>
+                <a href="{% url 'office-finder' %}" class="previous-step">Back</a>
+            </section>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,7 +1,9 @@
 from unittest import mock
 
+from directory_api_client.client import api_client
 from directory_constants.constants import cms
 import pytest
+import requests_mock
 
 import django.forms
 from django.conf import settings
@@ -18,6 +20,26 @@ def build_wizard_url(step):
 
 class ChoiceForm(django.forms.Form):
     choice = django.forms.CharField()
+
+
+@pytest.fixture()
+def office_details():
+    return {
+        'region_id': 'east_midlands',
+        'name': 'DIT East Midlands',
+        'address_street': (
+            'The International Trade Centre, '
+            '5 Merus Court, '
+            'Meridian Business Park'
+        ),
+        'address_city': 'Leicester',
+        'address_postcode': 'LE19 1RJ',
+        'email': 'test+east_midlands@examoke.com',
+        'phone': '0345 052 4001',
+        'phone_other': '',
+        'phone_other_comment': '',
+        'website': None
+    }
 
 
 @pytest.fixture(autouse=True)
@@ -76,7 +98,7 @@ def domestic_form_data(captcha_stub):
     (
         constants.DOMESTIC,
         constants.TRADE_OFFICE,
-        settings.FIND_TRADE_OFFICE_URL,
+        views.LazyOfficeFinderURL(),
     ),
     (
         constants.DOMESTIC,
@@ -269,6 +291,14 @@ def test_get_previous_step(current_step, expected_step):
             settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS,
         ),
+        (
+            reverse('office-finder-contact', kwargs={'postcode': 'FOO'}),
+            reverse('contact-us-office-success', kwargs={'postcode': 'FOO'}),
+            views.OfficeContactFormView,
+            settings.CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
+        ),
     )
 )
 def test_notify_form_submit_success(
@@ -325,6 +355,10 @@ def test_notify_form_submit_success(
     (
         reverse('contact-us-international-success'),
         cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_INTERNATIONAL_SLUG,
+    ),
+    (
+        reverse('contact-us-office-success', kwargs={'postcode': 'FOOBAR'}),
+        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_SLUG,
     )
 ))
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -556,6 +590,7 @@ def test_contact_us_feedback_prepopulate(client):
     reverse('contact-us-domestic'),
     reverse('contact-us-dso-form'),
     reverse('contact-us-events-form'),
+    reverse('office-finder-contact', kwargs={'postcode': 'FOOBAR'}),
 ))
 def test_contact_us_short_form_prepopualate(client, url):
     response = client.get(url)
@@ -912,5 +947,72 @@ def test_contact_soo_feature_flag_off(settings, client):
     response = client.get(
         reverse('contact-us-soo', kwargs={'step': 'organisation'}),
     )
+
+    assert response.status_code == 404
+
+
+def test_office_finder_valid(office_details, client):
+    url = api_client.exporting.endpoints['lookup-by-postcode'].format(
+        postcode='ABC123'
+    )
+
+    with requests_mock.mock() as mock:
+        mock.get(url, json=office_details)
+        response = client.get(reverse('office-finder'), {'postcode': 'ABC123'})
+
+    assert response.status_code == 200
+    assert response.context_data['office_details'] == {
+        'address': (
+            'The International Trade Centre\n'
+            '5 Merus Court\n'
+            'Meridian Business Park\n'
+            'Leicester\n'
+            'LE19 1RJ'
+        ),
+        'region_id': 'east_midlands',
+        'name': 'DIT East Midlands',
+        'address_street': (
+            'The International Trade Centre, '
+            '5 Merus Court, '
+            'Meridian Business Park'
+        ),
+        'address_city': 'Leicester',
+        'address_postcode': 'LE19 1RJ',
+        'email': 'test+east_midlands@examoke.com',
+        'phone': '0345 052 4001',
+        'phone_other': '',
+        'phone_other_comment': '',
+        'website': None
+    }
+
+
+@pytest.mark.parametrize('flag_value,expected_url', (
+    (True, reverse('office-finder')),
+    (False, views.LazyOfficeFinderURL()),
+))
+def test_lazy_office_finder_url_on(flag_value, expected_url, settings):
+    settings.FEATURE_FLAGS['OFFICE_FINDER_ON'] = flag_value
+
+    url = views.LazyOfficeFinderURL()
+
+    assert url == expected_url
+
+
+def test_office_finder_contact_feature_off(client, settings):
+    settings.FEATURE_FLAGS['OFFICE_FINDER_ON'] = False
+
+    url = reverse('office-finder-contact', kwargs={'postcode': 'FOOBAR'})
+
+    response = client.get(url)
+
+    assert response.status_code == 404
+
+
+def test_contact_us_office_success_feature_off(client, settings):
+    settings.FEATURE_FLAGS['OFFICE_FINDER_ON'] = False
+
+    url = reverse('contact-us-office-success', kwargs={'postcode': 'FOOBAR'})
+
+    response = client.get(url)
 
     assert response.status_code == 404

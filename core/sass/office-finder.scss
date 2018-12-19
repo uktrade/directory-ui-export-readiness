@@ -1,0 +1,50 @@
+// PAGE: CONTACT
+// ------------------------------------------------
+
+@import './partials/base';
+@import './components/form-wizard';
+@import './components/breadcrumbs';
+
+#content .form-group input[type=checkbox] {
+  width: 38px;
+}
+
+.breadcrumbs {
+  border-bottom: 0;
+}
+
+button {
+  margin-top: 30px;
+}
+
+#content {
+  input, textarea, select {
+    width: 100%;
+  }
+}
+
+#results {
+  background-color: #F6F4F0;
+  margin: 0;
+  padding: 40px 30px;
+  padding-top: 0;
+  hr {
+    background-color: #969696;
+  }
+}
+
+#office-name {
+  margin-top: 0;
+}
+
+.previous-step {
+  margin-top: 30px;
+  color: #00549f;
+  cursor: pointer;
+  text-decoration: underline;
+  background-color: transparent;
+  border-width: 0;
+  font-size: 18px;
+  display: inline-block;
+  margin-right: 20px;
+}

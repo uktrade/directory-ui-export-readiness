@@ -2,16 +2,17 @@ from urllib.parse import urlparse
 
 from directory_constants.constants import cms
 from directory_forms_api_client import actions
-
 from formtools.wizard.views import NamedUrlSessionWizardView
 
 from django.conf import settings
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
+from django.utils.functional import LazyObject
 from django.utils.html import strip_tags
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
+from django.template.response import TemplateResponse
 
 from core import mixins
 
@@ -19,6 +20,14 @@ from contact import constants, forms, helpers
 
 
 SESSION_KEY_FORM_INGRESS_URL = 'CONTACT_FORM_INGRESS_URL'
+
+
+class LazyOfficeFinderURL(LazyObject):
+    @property
+    def _wrapped(self):
+        if settings.FEATURE_FLAGS['OFFICE_FINDER_ON']:
+            return reverse('office-finder')
+        return settings.FIND_TRADE_OFFICE_URL
 
 
 def build_export_opportunites_guidance_url(step_name, ):
@@ -31,6 +40,19 @@ def build_great_account_guidance_url(step_name, ):
     return reverse_lazy(
         'contact-us-great-account-guidance', kwargs={'slug': step_name}
     )
+
+
+class SubmitFormOnGetMixin:
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        data = self.request.GET or {}
+        if data:
+            kwargs['data'] = data
+        return kwargs
+
+    def get(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
 
 
 class IngressURLMixin:
@@ -134,7 +156,7 @@ class RoutingFormView(IngressURLMixin, NamedUrlSessionWizardView):
     # given the current step, based on selected  option, where to redirect.
     redirect_mapping = {
         constants.DOMESTIC: {
-            constants.TRADE_OFFICE: settings.FIND_TRADE_OFFICE_URL,
+            constants.TRADE_OFFICE: LazyOfficeFinderURL(),
             constants.EXPORT_ADVICE: reverse_lazy(
                 'contact-us-export-advice',
                 kwargs={'step': 'comment'}
@@ -564,3 +586,80 @@ class SellingOnlineOverseasFormView(
         response = action.save(form_data)
         response.raise_for_status()
         return redirect(self.success_url)
+
+
+class OfficeFinderFormView(
+    mixins.NotFoundOnDisabledFeature, SubmitFormOnGetMixin, FormView
+):
+    template_name = 'contact/office-finder.html'
+    form_class = forms.OfficeFinderForm
+
+    @property
+    def flag(self):
+        return settings.FEATURE_FLAGS['OFFICE_FINDER_ON']
+
+    @staticmethod
+    def format_office_details(office_details):
+        address = office_details['address_street'].split(', ')
+        address.append(office_details['address_city'])
+        address.append(office_details['address_postcode'])
+        return {
+            'address': '\n'.join(address),
+            **office_details,
+        }
+
+    def form_valid(self, form):
+        office_details = self.format_office_details(form.office_details)
+        return TemplateResponse(
+            self.request,
+            self.template_name,
+            {
+                'office_details': office_details,
+                **self.get_context_data(),
+            }
+        )
+
+
+class OfficeContactFormView(
+    mixins.NotFoundOnDisabledFeature, mixins.PrepopulateFormMixin,
+    BaseNotifyFormView
+):
+    form_class = forms.TradeOfficeContactForm
+    template_name = 'contact/domestic/step.html'
+    notify_template_id_agent = settings.CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID
+    notify_template_id_user = settings.CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID
+
+    @property
+    def flag(self):
+        return settings.FEATURE_FLAGS['OFFICE_FINDER_ON']
+
+    @property
+    def notify_email_address_agent(self):
+        return helpers.retrieve_exporting_advice_email(
+            self.kwargs['postcode']
+        )
+
+    def get_success_url(self):
+        return reverse(
+            'contact-us-office-success',
+            kwargs={'postcode': self.kwargs['postcode']}
+        )
+
+    def get_form_initial(self):
+        if self.company_profile:
+            return {
+                'email': self.request.sso_user.email,
+                'company_type': forms.LIMITED,
+                'organisation_name': self.company_profile['name'],
+                'postcode': self.company_profile['postal_code'],
+                'given_name': self.guess_given_name,
+                'family_name': self.guess_family_name,
+            }
+
+
+class OfficeSuccessView(mixins.NotFoundOnDisabledFeature, BaseSuccessView):
+    slug = cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_SLUG
+
+    @property
+    def flag(self):
+        return settings.FEATURE_FLAGS['OFFICE_FINDER_ON']
