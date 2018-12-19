@@ -38,12 +38,13 @@ def test_prototype_landing_page_news_section(mock_get_page, client, settings):
 test_topic_page = {
     'title': 'Markets CMS admin title',
     'landing_page_title': 'Markets',
-    'hero_image': {'url': 'markets.png'},
-    'article_listing': [
+    'hero_image': {'url': 'markets.jpg'},
+    'child_pages': [
         {
             'landing_page_title': 'Africa market information',
             'full_path': '/markets/africa/',
             'hero_image': {'url': 'africa.png'},
+            'hero_image_thumbnail': {'url': 'africa.jpg'},
             'articles_count': 0,
             'last_published_at': '2018-10-01T15:15:53.927833Z'
         },
@@ -51,14 +52,16 @@ test_topic_page = {
             'landing_page_title': 'Asia market information',
             'full_path': '/markets/asia/',
             'hero_image': {'url': 'asia.png'},
+            'hero_image_thumbnail': {'url': 'asia.jpg'},
             'articles_count': 3,
             'last_published_at': '2018-10-01T15:16:30.583279Z'
         }
     ],
+    "page_type": "TopicLandingPage",
 }
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_full_path')
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_prototype_topic_list_page(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
     settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = False
@@ -80,13 +83,13 @@ def test_prototype_topic_list_page(mock_get_page, client, settings):
 
     assert 'Asia market information' in str(response.content)
     assert 'Africa market information' not in str(response.content)
-    assert 'markets.png' in str(response.content)
-    assert 'asia.png' in str(response.content)
-    assert 'africa.png' not in str(response.content)
+    assert 'markets.jpg' in str(response.content)
+    assert 'asia.jpg' in str(response.content)
+    assert 'africa.jpg' not in str(response.content)
     assert '01 October 2018' in str(response.content)
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_full_path')
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_prototype_article_detail_page_no_related_content(
     mock_get_page, client, settings
 ):
@@ -98,26 +101,17 @@ def test_prototype_article_detail_page_no_related_content(
         "article_teaser": "Test teaser",
         "article_image": {"url": "foobar.png"},
         "article_body_text": "<p>Lorem ipsum</p>",
-        "related_article_one_url": "",
-        "related_article_one_title": "",
-        "related_article_one_teaser": "",
-        "related_article_two_url": "",
-        "related_article_two_title": "",
-        "related_article_two_teaser": "",
-        "related_article_three_url": "",
-        "related_article_three_title": "",
-        "related_article_three_teaser": "",
+        "related_pages": [],
         "full_path": "/markets/foo/bar/",
         "last_published_at": "2018-10-09T16:25:13.142357Z",
         "meta": {
             "slug": "bar",
         },
+        "page_type": "ArticlePage",
     }
 
     url = reverse('article-detail', kwargs={
-        'topic': 'markets',
-        'list': 'foo',
-        'slug': 'bar',
+        'topic': 'markets', 'list': 'foo', 'slug': 'bar',
     })
 
     mock_get_page.return_value = create_response(
@@ -133,8 +127,8 @@ def test_prototype_article_detail_page_no_related_content(
     assert 'Related content' not in str(response.content)
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_full_path')
-def test_prototype_article_detail_page_one_related_content(
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_prototype_article_detail_page_related_content(
     mock_get_page, client, settings
 ):
     settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
@@ -145,26 +139,36 @@ def test_prototype_article_detail_page_one_related_content(
         "article_teaser": "Test teaser",
         "article_image": {"url": "foobar.png"},
         "article_body_text": "<p>Lorem ipsum</p>",
-        "related_article_one_url": "#",
-        "related_article_one_title": "Foo",
-        "related_article_one_teaser": "Bar",
-        "related_article_two_url": "",
-        "related_article_two_title": "",
-        "related_article_two_teaser": "",
-        "related_article_three_url": "",
-        "related_article_three_title": "",
-        "related_article_three_teaser": "",
+        "related_pages": [
+            {
+                "article_title": "Related article 1",
+                "article_teaser": "Related article 1 teaser",
+                "article_image_thumbnail": {"url": "related_article_one.jpg"},
+                "full_path": "/markets/test/test-one",
+                "meta": {
+                    "slug": "test-one",
+                }
+            },
+            {
+                "article_title": "Related article 2",
+                "article_teaser": "Related article 2 teaser",
+                "article_image_thumbnail": {"url": "related_article_two.jpg"},
+                "full_path": "/markets/test/test-two",
+                "meta": {
+                    "slug": "test-two",
+                }
+            },
+        ],
         "full_path": "/markets/foo/bar/",
         "last_published_at": "2018-10-09T16:25:13.142357Z",
         "meta": {
             "slug": "bar",
         },
+        "page_type": "ArticlePage",
     }
 
     url = reverse('article-detail', kwargs={
-        'topic': 'markets',
-        'list': 'foo',
-        'slug': 'bar',
+        'topic': 'markets', 'list': 'foo', 'slug': 'bar',
     })
 
     mock_get_page.return_value = create_response(
@@ -178,56 +182,21 @@ def test_prototype_article_detail_page_one_related_content(
     assert response.template_name == ['prototype/article_detail.html']
 
     assert 'Related content' in str(response.content)
-    assert '<a href="#" class="link">Foo</a>' in str(response.content)
+    soup = BeautifulSoup(response.content, 'html.parser')
 
+    assert soup.find(
+        id='related-article-test-one-link'
+    ).attrs['href'] == '/prototype/markets/test/test-one'
+    assert soup.find(
+        id='related-article-test-two-link'
+    ).attrs['href'] == '/prototype/markets/test/test-two'
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_full_path')
-def test_prototype_article_detail_page_two_related_content(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
-
-    article_page = {
-        "title": "Test article admin title",
-        "article_title": "Test article",
-        "article_teaser": "Test teaser",
-        "article_image": {"url": "foobar.png"},
-        "article_body_text": "<p>Lorem ipsum</p>",
-        "related_article_one_url": "",
-        "related_article_one_title": "",
-        "related_article_one_teaser": "",
-        "related_article_two_url": "#2",
-        "related_article_two_title": "Foo 2",
-        "related_article_two_teaser": "Bar 2",
-        "related_article_three_url": "#3",
-        "related_article_three_title": "Foo 3",
-        "related_article_three_teaser": "Bar 3",
-        "full_path": "/markets/foo/bar/",
-        "last_published_at": "2018-10-09T16:25:13.142357Z",
-        "meta": {
-            "slug": "bar",
-        },
-    }
-
-    url = reverse('article-detail', kwargs={
-        'topic': 'markets',
-        'list': 'foo',
-        'slug': 'bar',
-    })
-
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=article_page
-    )
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.template_name == ['prototype/article_detail.html']
-
-    assert 'Related content' in str(response.content)
-    assert '<a href="#2" class="link">Foo 2</a>' in str(response.content)
-    assert '<a href="#3" class="link">Foo 3</a>' in str(response.content)
+    assert soup.find(
+        id='related-article-test-one'
+    ).select('h3')[0].text == 'Related article 1'
+    assert soup.find(
+        id='related-article-test-two'
+    ).select('h3')[0].text == 'Related article 2'
 
 
 test_news_list_page = {
@@ -248,6 +217,7 @@ test_news_list_page = {
             'meta': {'slug': 'test-slug-two'},
         }
     ],
+    "page_type": "ArticleListingPage",
 }
 
 
@@ -330,7 +300,8 @@ def test_domestic_news_article_detail_page(mock_get_page, client, settings):
         },
         "tags": [
             {"name": "Test tag", "slug": "test-tag-slug"}
-        ]
+        ],
+        "page_type": "ArticlePage",
     }
 
     url = reverse('eu-exit-news-detail', kwargs={'slug': 'foo'})
@@ -378,6 +349,7 @@ def test_international_news_article_detail_page(
         "meta": {
             "slug": "foo",
         },
+        "page_type": "ArticlePage",
     }
 
     url = reverse('international-eu-exit-news-detail', kwargs={'slug': 'foo'})
@@ -449,10 +421,11 @@ test_list_page = {
     'hero_teaser': 'Article list hero teaser',
     'list_teaser': '<p>Article list teaser</p>',
     'articles': test_articles,
+    'page_type': 'ArticleListingPage',
 }
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_full_path')
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_prototype_article_list_page(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
 
@@ -592,3 +565,36 @@ def test_prototype_url_feature_flag_on(mock_get_page, client, settings):
     response = client.get(url)
 
     assert response.status_code == 200
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_breadcrumbs_mixin(mock_get_page, client, settings):
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
+
+    url = reverse('article-detail', kwargs={
+        'topic': 'markets', 'list': 'foo', 'slug': 'bar',
+    })
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body={
+            'page_type': 'ArticlePage'
+        }
+    )
+    response = client.get(url)
+
+    breadcrumbs = response.context_data['breadcrumbs']
+    assert breadcrumbs == [
+        {
+            'url': '/prototype/markets/',
+            'label': 'Markets'
+        },
+        {
+            'url': '/prototype/markets/foo/',
+            'label': 'Foo'
+        },
+        {
+            'url': '/prototype/markets/foo/bar/',
+            'label': 'Bar'
+        },
+    ]

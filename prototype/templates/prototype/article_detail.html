@@ -18,7 +18,9 @@
 </section>
 
 {% block related_content_cards %}
-  {% include 'prototype/article_related_content_cards.html' %}
+  {% if page.related_pages %}
+    {% include 'prototype/article_related_content_cards.html' %}
+  {% endif %}
 {% endblock %}
 
 {% endblock %}

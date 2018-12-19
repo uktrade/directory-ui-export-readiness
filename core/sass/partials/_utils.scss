@@ -8,7 +8,23 @@
   padding: 15px 0;
 }
 
+@media (max-width: 960px) {
+  .reverse-columns-l {
+    flex-direction: column-reverse;
+  }
+}
+
+@media (max-width: 768px) {
+  .reverse-columns-m {
+    flex-direction: column-reverse;
+  }
+}
+
 @media (max-width: 640px) {
+  .reverse-columns-s {
+    flex-direction: column-reverse;
+  }
+
   .button-large {
     width: 100%;
   }

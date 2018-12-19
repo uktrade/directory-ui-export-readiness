@@ -1,26 +1,21 @@
 {% load card from directory_components_tags %}
 
-{% if page.has_related_card_item_one or page.has_related_card_item_two or page.has_related_card_item_three %}
-  <section class="related-content-cards background-stone">
-      <div class="container">
-        <h2 class="heading-large">Related content</h2>
-        <div class="card-grid">
-          {% if page.has_related_card_item_one %}
-            <div class="column-third-l column-half-m column-full">
-              {% card title=page.related_article_one_title description=page.related_article_one_teaser url=page.related_article_one_url %}
-            </div>
-          {% endif %}
-          {% if page.has_related_card_item_two %}
-            <div class="column-third-l column-half-m column-full">
-              {% card title=page.related_article_three_title description=page.related_article_three_teaser url=page.related_article_three_url %}
-            </div>
-          {% endif %}
-          {% if page.has_related_card_item_three %}
-            <div class="column-third-l column-half-m column-full">
-              {% card title=page.related_article_two_title description=page.related_article_two_teaser url=page.related_article_two_url %}
-            </div>
-          {% endif %}
-        </div>
+{% if page.related_pages %}
+<section class="related-content-cards background-stone">
+    <div class="container">
+      <h2 class="heading-large">Related content</h2>
+        <ul class="card-grid" aria-labelledby="related-content-heading" id="related-pages-list">
+          {% for article in page.related_pages %}
+            <li class="column-third-l column-half-m column-full">
+              {% with '/prototype'|add:article.full_path as url %}
+                {% with 'related-article-'|add:article.meta.slug as card_id %}
+                  {% card card_id=card_id title=article.article_title description=article.article_teaser url=url img_src=article.article_image_thumbnail.url %}
+                {% endwith %}
+              {% endwith %}
+            </li>
+          {% endfor %}
+        </ul>
       </div>
-  </section>
+    </div>
+</section>
 {% endif %}

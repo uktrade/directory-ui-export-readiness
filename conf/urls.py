@@ -573,18 +573,23 @@ prototype_urls = [
     ),
     url(
         r"^prototype/(?P<slug>[\w-]+)/$",
-        prototype.views.TopicListPageView.as_view(),
+        prototype.views.PrototypePageView.as_view(),
         name='topic-list',
     ),
     url(
         r"^prototype/(?P<topic>[\w-]+)/(?P<slug>[\w-]+)/$",
-        prototype.views.ArticleListPageView.as_view(),
+        prototype.views.PrototypePageView.as_view(),
         name='article-list',
     ),
     url(
         r"^prototype/(?P<topic>[\w-]+)/(?P<list>[\w-]+)/(?P<slug>[\w-]+)/$",
-        prototype.views.ArticleDetailView.as_view(),
+        prototype.views.PrototypePageView.as_view(),
         name='article-detail',
+    ),
+    url(
+        r"^prototype/(?P<topic>[\w-]+)/(?P<list>[\w-]+)/(?P<country>[\w-]+)/(?P<slug>[\w-]+)/$",  # noqa
+        prototype.views.PrototypePageView.as_view(),
+        name='country-guide-article-detail',
     ),
 ]
 

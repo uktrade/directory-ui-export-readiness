@@ -149,11 +149,6 @@ def domestic_form_data(captcha_stub):
     ),
     (
         constants.GREAT_SERVICES,
-        constants.SELLING_ONLINE_OVERSEAS,
-        reverse('contact-us-soo', kwargs={'step': 'organisation'})
-    ),
-    (
-        constants.GREAT_SERVICES,
         constants.OTHER,
         reverse('contact-us-domestic'),
     ),
