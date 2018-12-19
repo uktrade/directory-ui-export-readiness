@@ -889,7 +889,7 @@ def test_selling_online_overseas_contact_form_submission(
         subject=settings.CONTACT_SOO_ZENDESK_SUBJECT,
         full_name='Foo Example',
         email_address='test@example.com',
-        service_name='Selling online overseas',
+        service_name='E-Exporting S00 Triage',
         form_url=reverse(
             'contact-us-soo', kwargs={'step': 'organisation'}
         )
