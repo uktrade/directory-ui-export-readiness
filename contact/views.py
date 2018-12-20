@@ -592,7 +592,7 @@ class SellingOnlineOverseasFormView(
             subject=settings.CONTACT_SOO_ZENDESK_SUBJECT,
             full_name=form_data['contact_name'],
             email_address=form_data['contact_email'],
-            service_name='E-Exporting S00 Triage',
+            service_name='soo',
             form_url=reverse(
                 'contact-us-soo', kwargs={'step': 'organisation'}
             )
