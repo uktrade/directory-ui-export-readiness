@@ -40,7 +40,7 @@ class BaseInternationalContactFormView(
             subject=self.subject,
             full_name=form.full_name,
             email_address=form.cleaned_data['email'],
-            service_name='EU Exit',
+            service_name='eu_exit',
             subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
             form_url=self.request.path
         )

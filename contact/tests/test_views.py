@@ -889,7 +889,7 @@ def test_selling_online_overseas_contact_form_submission(
         subject=settings.CONTACT_SOO_ZENDESK_SUBJECT,
         full_name='Foo Example',
         email_address='test@example.com',
-        service_name='E-Exporting S00 Triage',
+        service_name='soo',
         form_url=reverse(
             'contact-us-soo', kwargs={'step': 'organisation'}
         )
@@ -1057,3 +1057,21 @@ def test_contact_us_office_success_feature_off(client, settings):
     response = client.get(url)
 
     assert response.status_code == 404
+
+
+@mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_contact_us_office_success_next_url(
+    mock_lookup_by_slug, client, settings
+):
+    settings.FEATURE_FLAGS['OFFICE_FINDER_ON'] = True
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200,
+        json_body={}
+    )
+
+    url = reverse('contact-us-office-success', kwargs={'postcode': 'FOOBAR'})
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['next_url'] == '/'

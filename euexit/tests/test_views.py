@@ -138,7 +138,7 @@ def test_international_form_submit(
         subject='EU exit international contact form',
         full_name='test example',
         email_address='test@example.com',
-        service_name='EU Exit',
+        service_name='eu_exit',
         subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
         form_url=url
     )
@@ -274,7 +274,7 @@ def test_domestic_form_submit(
         subject='EU exit contact form',
         full_name='test example',
         email_address='test@example.com',
-        service_name='EU Exit',
+        service_name='eu_exit',
         subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
         form_url=url
     )
