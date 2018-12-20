@@ -6,7 +6,6 @@ from core.views import (
     OpportunitiesRedirectView, TranslationRedirectView, QuerystringRedirectView
 )
 
-
 redirects = [
     url(
         r'^bodw2019/$',
@@ -250,7 +249,6 @@ redirects = [
     ),
 ]
 
-
 # (<lang code path>, <language to use in query parameter>)
 INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING = [
     ('de', 'de'),
@@ -283,11 +281,10 @@ international_redirects += [
             language=redirect[1],
         ),
     ) for redirect in (
-        INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING +
-        INTERNATIONAL_COUNTRY_REDIRECTS_MAPPING
+            INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING +
+            INTERNATIONAL_COUNTRY_REDIRECTS_MAPPING
     )
 ]
-
 
 # TOS and privacy-and-cookies are no longer translated, instead we redirect to
 # the ENG version
@@ -432,7 +429,6 @@ article_redirects = [
     ) for redirect in ARTICLE_REDIRECTS_MAPPING
 ]
 
-
 contact_redirects = [
     url(
         r'^legacy/contact/(?P<service>[-\w\d]+)/FeedbackForm/$',
@@ -510,7 +506,8 @@ contact_redirects = [
     ),
 ]
 
+
 redirects += (
-    article_redirects + tos_redirects + contact_redirects +
-    privacy_redirects + international_redirects
+        article_redirects + tos_redirects + contact_redirects +
+        privacy_redirects + international_redirects
 )

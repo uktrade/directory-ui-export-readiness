@@ -5,11 +5,104 @@ from django.conf import settings
 from directory_cms_client.helpers import (
     handle_cms_response, handle_cms_response_allow_404
 )
+from django.shortcuts import redirect
 
 from django.utils import translation
 from django.utils.functional import cached_property
 
 from core import helpers
+
+EXPORT_JOURNEY_REDIRECTS = {
+    '/business-planning/make-an-export-plan/':
+        '/advice/create-an-export-plan/how-to-create-an-export-plan',
+    '/market-research/do-research-first/':
+        '/advice/find-an-export-market/plan-export-market-research',
+    '/market-research/define-market-potential/':
+        '/advice/find-an-export-market/define-export-market-potential',
+    '/market-research/analyse-the-competition/':
+        '/advice/find-an-export-market/define-export-market-potential',
+    '/market-research/research-your-market/':
+        '/advice/find-an-export-market/field-research-in-export-markets',
+    '/market-research/visit-a-trade-show/':
+        '/advice/find-an-export-market/trade-shows',
+    '/business-planning/find-a-route-to-market/':
+        '/advice/define-route-to-market/routes-to-market',
+    '/business-planning/sell-overseas-directly/':
+        '/advice/define-route-to-market/sell-overseas-directly',
+    '/business-planning/use-an-overseas-agent/':
+        '/advice/define-route-to-market/export-agents',
+    '/business-planning/choosing-an-agent-or-distributor/':
+        '/advice/define-route-to-market/export-agents',
+    '/business-planning/use-a-distributor/':
+        '/advice/define-route-to-market/export-distributors',
+    '/business-planning/license-your-product-or-service/':
+        '/advice/define-route-to-market/create-a-licensing-agreement',
+    '/business-planning/licensing-and-franchising/':
+        '/advice/define-route-to-market/create-a-licensing-agreement',
+    '/business-planning/franchise-your-business/':
+        '/advice/define-route-to-market/create-a-franchise-agreement',
+    '/business-planning/start-a-joint-venture/':
+        '/advice/define-route-to-market/create-a-joint-venture-agreement',
+    '/business-planning/set-up-an-overseas-operation/':
+        '/advice/define-route-to-market/set-up-a-business-abroad',
+    '/finance/choose-the-right-finance/':
+        '/advice/get-export-finance-and-funding/choose-the-right-finance',
+    '/finance/get-export-finance/':
+        '/advice/get-export-finance-and-funding/get-export-finance',
+    '/finance/get-finance-support-from-government/':
+        '/advice/get-export-finance-and-funding/get-export-finance',
+    '/finance/raise-money-by-borrowing/':
+        '/advice/get-export-finance-and-funding/raise-money-by-borrowing',
+    '/finance/borrow-against-assets/':
+        '/advice/get-export-finance-and-funding/borrow-against-assets',
+    '/finance/raise-money-with-investment/':
+        '/advice/get-export-finance-and-funding/raise-money-with-investment',
+    '/getting-paid/invoice-currency-and-contents/':
+        '/advice/manage-payment-for-export-orders/how-to-create-an-export-invoice',  # NOQA
+    '/getting-paid/decide-when-youll-get-paid/':
+        '/advice/manage-payment-for-export-orders/decide-when-youll-get-paid-for-export-orders',  # NOQA
+    '/getting-paid/payment-methods/':
+        '/advice/manage-payment-for-export-orders/payment-methods-for-exporters',  # NOQA
+    '/getting-paid/insure-against-non-payment/':
+        '/advice/manage-payment-for-export-orders/insure-against-non-payment',
+    '/customer-insight/meet-your-customers/':
+        '/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market',  # NOQA
+    '/customer-insight/manage-language-differences/':
+        '/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market',  # NOQA
+    '/customer-insight/understand-your-customers-culture/':
+        '/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market',  # NOQA
+    '/operations-and-compliance/internationalise-your-website/':
+        '/prepare-to-do-business-in-a-foreign-country/internationalise-your-website',  # NOQA
+    '/operations-and-compliance/match-your-website-to-your-audience/':
+        '/prepare-to-do-business-in-a-foreign-country/internationalise-your-website',  # NOQA
+    '/market-research/doing-business-with-integrity/':
+        '/advice//understand-business-risk-in-overseas-markets',
+    '/market-research/know-the-relevant-legislation/':
+        '/advice//understand-business-risk-in-overseas-markets',
+    '/operations-and-compliance/protect-your-intellectual-property/':
+        '/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting',  # NOQA
+    '/operations-and-compliance/types-of-intellectual-property/':
+        '/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting',  # NOQA
+    '/operations-and-compliance/know-what-ip-you-have/':
+        '/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting',  # NOQA
+    '/operations-and-compliance/international-ip-protection/':
+        '/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting',  # NOQA
+    '/operations-and-compliance/report-corruption/':
+        '/manage-legal-and-ethical-compliance/report-corruption-and-human-rights-violations',  # NOQA
+    '/operations-and-compliance/anti-bribery-and-corruption-training/':
+        '/manage-legal-and-ethical-compliance/anti-bribery-and-corruption-training',  # NOQA
+    '/operations-and-compliance/plan-the-logistics/':
+        '/prepare-for-export-procedures-and-logistics/plan-the-logistics',
+    '/operations-and-compliance/get-your-export-documents-right/':
+        '/prepare-for-export-procedures-and-logistics/get-your-export-documents-right',  # NOQA
+    '/operations-and-compliance/use-a-freight-forwarder/':
+        '/prepare-for-export-procedures-and-logistics/use-a-freight-forwarder-to-export',  # NOQA
+    '/operations-and-compliance/use-incoterms-in-contracts/':
+        '/prepare-for-export-procedures-and-logistics/use-incoterms-in-contracts',  # NOQA
+    '/new/next-steps/': '/advice',
+    '/occasional/next-steps/': '/advice',
+    '/regular/next-steps/': '/advice'
+}
 
 
 class NotFoundOnDisabledFeature:
@@ -19,10 +112,17 @@ class NotFoundOnDisabledFeature:
         return super().dispatch(*args, **kwargs)
 
 
-class ExportJourneyFeatureFlagMixin(NotFoundOnDisabledFeature):
+class ExportJourneyFeatureFlagMixin:
     @property
     def flag(self):
         return settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON']
+
+    def dispatch(self, *args, **kwargs):
+        if not self.flag:
+            if self.request.path in EXPORT_JOURNEY_REDIRECTS:
+                return redirect(EXPORT_JOURNEY_REDIRECTS[self.request.path])
+            raise Http404()
+        return super().dispatch(*args, **kwargs)
 
 
 class CampaignPagesFeatureFlagMixin(NotFoundOnDisabledFeature):
