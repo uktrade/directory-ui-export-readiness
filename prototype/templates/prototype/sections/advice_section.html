@@ -1,5 +1,6 @@
 {% load static from staticfiles %}
 {% load card from directory_components_tags %}
+{% load parse_date from prototype_tags %}
 
 <section id="resource-advice" class="advice-section">
   <div class="container">
@@ -12,13 +13,25 @@
     </div>
 
     <div class="card-grid">
-      {% for topic in page.advice %}
-        <div class="column-third-l column-half-m column-full">
-          {% with teaser as topic.hero_teaser|default:topic.list_teaser %}
-            {% static 'images/sections/market-research-blue.svg' as market_research_icon %}
-            {% card card_id=topic.slug url='/prototype'|add:topic.full_path img_src=topic.hero_image_thumbnail.url title=topic.landing_page_title description=topic.hero_teaser %}
-          {% endwith %}
-        </div>
+      {% for listing in page.advice %}
+        {% if listing.articles_count > 0 %}
+          <div class="column-third-l column-half-m column-full">
+            {% with teaser as listing.list_teaser|default:listing.seo_description %}
+              <div class="card">
+                <a class="card-link" href="{{ listing.full_path }}">
+                  <div class="card-image" {% if listing.hero_image_thumbnail %}role="image" style="background-image: url('{{ listing.hero_image_thumbnail.url }}');"{% endif %} aria-label="{{ listing.landing_page_title }}" title="{{ listing.landing_page_title }}">
+                    <p class="visually-hidden">{{ listing.landing_page_title }}</p>
+                  </div>
+                  <div class="card-inner">
+                    <h3 class="heading-large">{{ listing.landing_page_title }}</h3>
+                      <p class="description subheading">Updated {{ listing.last_published_at|parse_date }}</p>
+                      <p class="description subheading">{{ listing.articles_count }} guide{{ listing.articles_count|pluralize }}</p>
+                  </div>
+                </a>
+              </div>
+            {% endwith %}
+          </div>
+        {% endif %}
       {% endfor %}
     </div>
 

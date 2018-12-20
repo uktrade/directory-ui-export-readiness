@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block body_header %}
-  {% if features.PROTOTYPE_HEADER_FOOTER_ON and request.path != '/' %}
+  {% if features.PROTOTYPE_HEADER_FOOTER_ON %}
     {% include 'prototype/components/prototype_header.html' %}
   {% else %}
     {{ block.super }}
@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block body_footer %}
-  {% if features.PROTOTYPE_HEADER_FOOTER_ON and request.path != '/' %}
+  {% if features.PROTOTYPE_HEADER_FOOTER_ON %}
     {% include 'prototype/components/prototype_footer.html' %}
   {% else %}
     {{ block.super }}

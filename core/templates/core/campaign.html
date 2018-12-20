@@ -125,7 +125,7 @@
           {% if article.article_image_thumbnail %}
             <img id="related-article-{{ article.meta.slug }}-image" src="{{ article.article_image_thumbnail.url }}" alt="">
           {% endif %}
-          <a id="related-page-{{ article.meta.slug }}-heading" href="/prototype{{ article.full_path }}" class="heading-medium grey-text margin-top-30">{{ article.article_title }}</a>
+          <a id="related-page-{{ article.meta.slug }}-heading" href="{{ article.full_path }}" class="heading-medium grey-text margin-top-30">{{ article.article_title }}</a>
           <p id="relatedd-page-{{ article.meta.slug }}-description">{{ article.article_teaser }}</p>
         </li>
         {% endfor %}
