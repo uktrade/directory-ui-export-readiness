@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-19 11:48+0000\n"
+"POT-Creation-Date: 2018-11-09 15:40+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: core/templates/core/includes/international_footer.html:7
 #: core/templates/core/includes/international_header.html:45
@@ -25,20 +25,20 @@ msgstr ""
 
 #: core/templates/core/includes/international_footer.html:11
 msgid "Contact us"
-msgstr "Kontakt"
+msgstr "Contactez-nous"
 
 #: core/templates/core/includes/international_footer.html:12
 msgid "Privacy and cookies"
-msgstr "Datenschutz- und Cookies-Richtlinie"
+msgstr "Confidentialité et cookies"
 
 #: core/templates/core/includes/international_footer.html:13
 msgid "Terms and Conditions"
-msgstr "GREAT.gov.uk Allgemeine Geschäftsbedingungen"
+msgstr "Conditions générales"
 
 #: core/templates/core/includes/international_footer.html:17
 #: core/templates/core/landing_page_international.html:16
 msgid "Welcome to the UK"
-msgstr "Willkommen in Großbritannien"
+msgstr "Bienvenue au Royaume-Uni"
 
 #: core/templates/core/includes/international_footer.html:20
 msgid "Share"
@@ -86,102 +86,94 @@ msgstr ""
 
 #: core/templates/core/includes/international_header.html:34
 msgid "Page in English only"
-msgstr "Seite nur auf Englisch"
+msgstr ""
 
 #: core/templates/core/landing_page_international.html:19
 msgid ""
 "Home to cutting edge innovators, a place that nurtures talent and creates "
 "exceptional products and services. Your future belongs here."
 msgstr ""
-"Die Heimat erstklassiger Innovatoren – ein Land, das Talente fördert und "
-"außergewöhnliche Produkte und Dienstleistungen hervorbringt. Hier liegt Ihre "
-"Zukunft."
+"Patrie des innovateurs et avant-gardistes, notre pays cultive le talent, "
+"pour créer des produits et services exceptionnels. Votre avenir est ici."
 
 #: core/templates/core/landing_page_international.html:32
 #: core/templates/core/landing_page_international.html:33
 #: core/templates/core/landing_page_international.html:36
 msgid "Buy from the UK"
-msgstr "Aus Großbritannien importieren"
+msgstr "Achetez au Royaume-Uni"
 
 #: core/templates/core/landing_page_international.html:37
 msgid ""
 "Get exclusive early access to profiles of high quality UK businesses ready "
 "to fulfill your demand."
 msgstr ""
-"Registrieren Sie sich, um frühzeitig exklusiven Zugriff auf die Profile "
-"hochqualifizierter Unternehmen in Großbritannien zu bekommen, die bereit "
-"sind, Ihren Anforderungen zu erfüllen."
+"Bénéficiez d'un accès exclusif et anticipé aux profils d'entreprises "
+"britanniques de haute qualité qui sont prêtes à répondre à vos besoins."
 
 #: core/templates/core/landing_page_international.html:38
 msgid "Find a Supplier"
-msgstr "Anbieter finden"
+msgstr "Trouver un fournisseur"
 
 #: core/templates/core/landing_page_international.html:45
 #: core/templates/core/landing_page_international.html:46
 #: core/templates/core/landing_page_international.html:49
 msgid "Invest in the UK"
-msgstr "In Großbritannien investieren"
+msgstr "Investir au Royaume-Uni"
 
 #: core/templates/core/landing_page_international.html:50
 msgid ""
 "Discover the UK’s wealth of investment opportunities and how the UK "
 "government will support your global ambition."
 msgstr ""
-"Informieren Sie sich über die vielfältigen Investitions-Chanchen in "
-"Großbritannien und erfahren Sie, wie die Regierung Ihr Vorhaben unterstützen "
-"kann."
+"Découvrez les nombreuses opportunités d'investissement au Royaume-Uni et la "
+"façon dont le gouvernement britannique peut soutenir vos ambitions "
+"internationales."
 
 #: core/templates/core/landing_page_international.html:51
 msgid "https://invest.great.gov.uk/"
-msgstr "https://invest.great.gov.uk/de/"
+msgstr "https://invest.great.gov.uk/fr"
 
 #: core/templates/core/landing_page_international.html:51
 msgid "See the potential"
-msgstr "Erkennen Sie das Potenzials"
+msgstr "Consulter le potentiel"
 
 #: core/templates/core/landing_page_international.html:58
 #: core/templates/core/landing_page_international.html:59
 #: core/templates/core/landing_page_international.html:62
 msgid "Study in the UK"
-msgstr "In Großbritannien studieren"
+msgstr "Étudier au Royaume-Uni"
 
 #: core/templates/core/landing_page_international.html:63
 msgid ""
 "Get a headstart from an exceptional British education that will inspire you "
 "to achieve."
 msgstr ""
-"Verschaffen Sie sich einen Karrierevorsprung durch eine außergewöhnliche "
-"Ausbildung, die Sie zu Leistung inspirieren wird."
+"Prenez un bon départ grâce à l'excellence d'une éducation britannique qui "
+"vous inspirera pour réussir."
 
 #: core/templates/core/landing_page_international.html:64
 msgid "Learn more"
-msgstr "Erfahren Sie mehr"
+msgstr "En savoir plus"
 
 #: core/templates/core/landing_page_international.html:71
 #: core/templates/core/landing_page_international.html:72
 #: core/templates/core/landing_page_international.html:75
 msgid "Visit the UK"
-msgstr "Besuchen Sie Großbritannien"
+msgstr "Visiter le Royaume-Uni"
 
 #: core/templates/core/landing_page_international.html:76
 msgid ""
 "Take a journey through vibrant cities, breathtaking scenery, unrivalled "
 "heritage and iconic landmarks and discover what makes the UK great."
 msgstr ""
-"Betrachten Sie das unvergleichliche Erbe, die symbolträchtigen Wahrzeichen "
-"und die atemberaubende Landschaft mit eigenen Augen. Besuchen Sie uns und "
-"erleben Sie, was unser Land so großartig macht."
+"Venez découvrir des villes dynamiques, des paysages à couper le souffle, un "
+"patrimoine inégalé, des lieux emblématiques et tout ce qui fait du Royaume-"
+"Uni un pays exceptionnel."
 
 #: core/templates/core/landing_page_international.html:77
 msgid "https://www.visitbritain.com/gb/en"
-msgstr "https://www.visitbritain.com/de/de"
+msgstr "https://www.visitbritain.com/fr/fr"
 
 #: core/templates/core/landing_page_international.html:77
 msgid "Plan your trip"
-msgstr "Planen Sie Ihre Reise"
-
-#~ msgid "https://trade.great.gov.uk/"
-#~ msgstr "https://trade.great.gov.uk/?lang=de"
-
-#~ msgid "International - GREAT.gov.uk"
-#~ msgstr "International"
+msgstr "Préparez votre voyage"

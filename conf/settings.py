@@ -135,12 +135,13 @@ LANGUAGE_CODE = 'en-gb'
 # https://github.com/django/django/blob/master/django/conf/locale/__init__.py
 LANGUAGES = [
     ('en-gb', 'English'),               # English
-    ('zh-hans', '简体中文'),             # Simplified Chinese
+    ('zh-hans', '简体中文'),              # Simplified Chinese
     ('de', 'Deutsch'),                  # German
     ('ja', '日本語'),                    # Japanese
     ('es', 'Español'),                  # Spanish
     ('pt', 'Português'),                # Portuguese
-    ('ar', 'العربيّة'),                 # Arabic
+    ('ar', 'العربيّة'),                  # Arabic
+    ('fr', 'Français'),                 # French
 ]
 
 LOCALE_PATHS = (
@@ -418,7 +419,7 @@ DIRECTORY_FORMS_API_DEFAULT_TIMEOUT = env.int(
     'DIRECTORY_API_FORMS_DEFAULT_TIMEOUT', 5
 )
 DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME = env.str(
-    'DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME', 'Directory'
+    'DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME', 'directory'
 )
 
 # EU exit

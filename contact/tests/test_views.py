@@ -824,6 +824,11 @@ def test_selling_online_overseas_contact_form_submission(
     url_name = 'contact-us-soo'
     view_name = 'selling_online_overseas_form_view'
 
+    client.get(
+        reverse(url_name, kwargs={'step': 'organisation'}),
+        {'market': 'ebay'}
+    )
+
     response = client.post(
         reverse(url_name, kwargs={'step': 'organisation'}),
         {
@@ -884,7 +889,7 @@ def test_selling_online_overseas_contact_form_submission(
         subject=settings.CONTACT_SOO_ZENDESK_SUBJECT,
         full_name='Foo Example',
         email_address='test@example.com',
-        service_name='Selling online overseas',
+        service_name='soo',
         form_url=reverse(
             'contact-us-soo', kwargs={'step': 'organisation'}
         )
@@ -906,7 +911,43 @@ def test_selling_online_overseas_contact_form_submission(
         'contact_email': 'test@example.com',
         'phone': '0324234243',
         'email_pref': True,
+        'market': 'ebay',
     })
+
+
+@mock.patch('captcha.fields.ReCaptchaField.clean')
+@mock.patch('directory_forms_api_client.actions.ZendeskAction')
+def test_selling_online_overseas_contact_form_market_name(
+    mock_zendesk_action, mock_clean, captcha_stub, company_profile, client
+):
+    company_profile.return_value = None
+
+    url_name = 'contact-us-soo'
+
+    response = client.get(
+        reverse(url_name, kwargs={'step': 'organisation'}),
+        {'market': 'ebay'}
+    )
+    assert response.status_code == 200
+    assert response.context['market_name'] == 'ebay'
+
+    response = client.get(
+        reverse(url_name, kwargs={'step': 'organisation-details'}),
+    )
+    assert response.status_code == 200
+    assert response.context['market_name'] == 'ebay'
+
+    response = client.get(
+        reverse(url_name, kwargs={'step': 'your-experience'}),
+    )
+    assert response.status_code == 200
+    assert response.context['market_name'] == 'ebay'
+
+    response = client.get(
+        reverse(url_name, kwargs={'step': 'contact-details'}),
+    )
+    assert response.status_code == 200
+    assert response.context['market_name'] == 'ebay'
 
 
 def test_selling_online_overseas_contact_form_initial_data(client):
@@ -1016,3 +1057,21 @@ def test_contact_us_office_success_feature_off(client, settings):
     response = client.get(url)
 
     assert response.status_code == 404
+
+
+@mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_contact_us_office_success_next_url(
+    mock_lookup_by_slug, client, settings
+):
+    settings.FEATURE_FLAGS['OFFICE_FINDER_ON'] = True
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200,
+        json_body={}
+    )
+
+    url = reverse('contact-us-office-success', kwargs={'postcode': 'FOOBAR'})
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.context_data['next_url'] == '/'

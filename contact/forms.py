@@ -395,12 +395,12 @@ class BusinessDetailsForm(forms.Form):
 
 
 class SellingOnlineOverseasBusiness(forms.Form):
-    soletrader = fields.BooleanField(
-        label='I don\'t have a company number',
-        required=False,
-    )
     company_name = fields.CharField(
         validators=anti_phising_validators,
+        required=False,
+    )
+    soletrader = fields.BooleanField(
+        label='I don\'t have a company number',
         required=False,
     )
     company_number = fields.CharField(
@@ -414,7 +414,7 @@ class SellingOnlineOverseasBusiness(forms.Form):
         validators=anti_phising_validators,
         required=False,  # in js hide if company number is inputted
     )
-    website_address = fields.URLField(
+    website_address = fields.CharField(
         label='Company website',
         help_text='Website address, where we can see your products online.',
         max_length=255,

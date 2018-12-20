@@ -1,0 +1,25 @@
+{% extends 'contact/wizard-step-base.html' %}
+
+{% load static from static %}
+
+{% block head_css %}
+    <link href="{% static 'export_elements/stylesheets/govuk-elements-styles.min.css' %}" media="all" rel="stylesheet" />
+    <link href="{% static 'export_elements/stylesheets/elements-components.min.css' %}" media="all" rel="stylesheet" />
+    <link href="{% static 'styles/contact-selling-online-overseas.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'contact/breadcrumbs.html' with current_page_label=market_name %}
+{% endblock %}
+
+{% block step_title_container %}
+  <section id="step-information">
+    <div class="step-counter">Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</div>
+    <h1 class="heading-xlarge">{{ market_name|default:'' }}</h1>
+    <div>Application via Department for International Trade</div>
+  </section>
+
+  {% block step_title_heading %}
+	  <h3 class="heading-medium">{% block step_title %}{% endblock %}</h3>
+  {% endblock %}
+{% endblock %}

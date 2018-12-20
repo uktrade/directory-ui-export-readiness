@@ -29,7 +29,7 @@ class BreadcrumbsMixin:
         )
 
 
-class GetCMSTagMixin():
+class GetCMSTagMixin:
 
     @cached_property
     def page(self):
@@ -47,7 +47,7 @@ class GetCMSTagMixin():
         )
 
 
-class SocialLinksMixin():
+class SocialLinksMixin:
 
     def get_context_data(self, *args, **kwargs):
 
