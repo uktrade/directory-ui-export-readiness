@@ -7,10 +7,8 @@
         <ul class="card-grid" aria-labelledby="related-content-heading" id="related-pages-list">
           {% for article in page.related_pages %}
             <li class="column-third-l column-half-m column-full">
-              {% with '/prototype'|add:article.full_path as url %}
-                {% with 'related-article-'|add:article.meta.slug as card_id %}
-                  {% card card_id=card_id title=article.article_title description=article.article_teaser url=url img_src=article.article_image_thumbnail.url %}
-                {% endwith %}
+              {% with 'related-article-'|add:article.meta.slug as card_id %}
+                {% card card_id=card_id title=article.article_title description=article.article_teaser url=article.full_path img_src=article.article_image_thumbnail.url %}
               {% endwith %}
             </li>
           {% endfor %}

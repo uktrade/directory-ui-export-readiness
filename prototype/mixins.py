@@ -4,13 +4,13 @@ from directory_cms_client.client import cms_api_client
 from directory_components.helpers import SocialLinkBuilder
 
 from core.helpers import handle_cms_response
-from prototype.helpers import unprefix_prototype_url, unslugify
+from prototype.helpers import unslugify
 
 
 class BreadcrumbsMixin:
 
     def get_context_data(self, *args, **kwargs):
-        parts = unprefix_prototype_url(self.request.path).split('/')
+        parts = self.request.path.split('/')
         url_fragments = [part for part in parts if part]
 
         breadcrumbs = []
@@ -18,7 +18,7 @@ class BreadcrumbsMixin:
         for index, slug in enumerate(url_fragments):
             url = '/'.join(url_fragments[0:index+1])
             breadcrumb = {
-                'url': '/prototype/' + url + '/',
+                'url': '/' + url + '/',
                 'label': unslugify(slug)
             }
             breadcrumbs.append(breadcrumb)
