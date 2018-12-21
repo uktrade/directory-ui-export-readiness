@@ -13,8 +13,6 @@ from django.utils.functional import cached_property
 from core import helpers
 
 EXPORT_JOURNEY_REDIRECTS = {
-    '/business-planning/make-an-export-plan/':
-        '/advice/create-an-export-plan/how-to-create-an-export-plan',
     '/market-research/do-research-first/':
         '/advice/find-an-export-market/plan-export-market-research',
     '/market-research/define-market-potential/':
@@ -25,6 +23,9 @@ EXPORT_JOURNEY_REDIRECTS = {
         '/advice/find-an-export-market/field-research-in-export-markets',
     '/market-research/visit-a-trade-show/':
         '/advice/find-an-export-market/trade-shows',
+
+    '/business-planning/make-an-export-plan/':
+        '/advice/create-an-export-plan/how-to-create-an-export-plan',
     '/business-planning/find-a-route-to-market/':
         '/advice/define-route-to-market/routes-to-market',
     '/business-planning/sell-overseas-directly/':
@@ -45,7 +46,10 @@ EXPORT_JOURNEY_REDIRECTS = {
         '/advice/define-route-to-market/create-a-joint-venture-agreement',
     '/business-planning/set-up-an-overseas-operation/':
         '/advice/define-route-to-market/set-up-a-business-abroad',
+
     '/finance/choose-the-right-finance/':
+        '/advice/get-export-finance-and-funding/choose-the-right-finance',
+    '/finance/get-money-to-export/':
         '/advice/get-export-finance-and-funding/choose-the-right-finance',
     '/finance/get-export-finance/':
         '/advice/get-export-finance-and-funding/get-export-finance',
@@ -57,7 +61,10 @@ EXPORT_JOURNEY_REDIRECTS = {
         '/advice/get-export-finance-and-funding/borrow-against-assets',
     '/finance/raise-money-with-investment/':
         '/advice/get-export-finance-and-funding/raise-money-with-investment',
+
     '/getting-paid/invoice-currency-and-contents/':
+        '/advice/manage-payment-for-export-orders/payment-methods-for-exporters',  # NOQA
+    '/getting-paid/consider-how-youll-get-paid/':
         '/advice/manage-payment-for-export-orders/how-to-create-an-export-invoice',  # NOQA
     '/getting-paid/decide-when-youll-get-paid/':
         '/advice/manage-payment-for-export-orders/decide-when-youll-get-paid-for-export-orders',  # NOQA
@@ -65,40 +72,45 @@ EXPORT_JOURNEY_REDIRECTS = {
         '/advice/manage-payment-for-export-orders/payment-methods-for-exporters',  # NOQA
     '/getting-paid/insure-against-non-payment/':
         '/advice/manage-payment-for-export-orders/insure-against-non-payment',
+
     '/customer-insight/meet-your-customers/':
-        '/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market',  # NOQA
+        '/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market',  # NOQA
+    '/customer-insight/know-your-customers/':
+        '/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets',  # NOQA
     '/customer-insight/manage-language-differences/':
-        '/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market',  # NOQA
+        '/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market',  # NOQA
     '/customer-insight/understand-your-customers-culture/':
-        '/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market',  # NOQA
-    '/operations-and-compliance/internationalise-your-website/':
-        '/prepare-to-do-business-in-a-foreign-country/internationalise-your-website',  # NOQA
-    '/operations-and-compliance/match-your-website-to-your-audience/':
-        '/prepare-to-do-business-in-a-foreign-country/internationalise-your-website',  # NOQA
+        '/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market',  # NOQA
+
     '/market-research/doing-business-with-integrity/':
-        '/advice//understand-business-risk-in-overseas-markets',
+        '/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets',  # NOQA
     '/market-research/know-the-relevant-legislation/':
-        '/advice//understand-business-risk-in-overseas-markets',
+        '/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets',  # NOQA
+
+    '/operations-and-compliance/internationalise-your-website/':
+        '/advice/prepare-to-do-business-in-a-foreign-country/internationalise-your-website',  # NOQA
+    '/operations-and-compliance/match-your-website-to-your-audience/':
+        '/advice/prepare-to-do-business-in-a-foreign-country/internationalise-your-website',  # NOQA
     '/operations-and-compliance/protect-your-intellectual-property/':
-        '/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting',  # NOQA
+        '/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting',  # NOQA
     '/operations-and-compliance/types-of-intellectual-property/':
-        '/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting',  # NOQA
+        '/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting',  # NOQA
     '/operations-and-compliance/know-what-ip-you-have/':
-        '/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting',  # NOQA
+        '/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting',  # NOQA
     '/operations-and-compliance/international-ip-protection/':
-        '/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting',  # NOQA
+        '/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting',  # NOQA
     '/operations-and-compliance/report-corruption/':
-        '/manage-legal-and-ethical-compliance/report-corruption-and-human-rights-violations',  # NOQA
+        '/advice/manage-legal-and-ethical-compliance/report-corruption-and-human-rights-violations',  # NOQA
     '/operations-and-compliance/anti-bribery-and-corruption-training/':
-        '/manage-legal-and-ethical-compliance/anti-bribery-and-corruption-training',  # NOQA
+        '/advice/manage-legal-and-ethical-compliance/anti-bribery-and-corruption-training',  # NOQA
     '/operations-and-compliance/plan-the-logistics/':
-        '/prepare-for-export-procedures-and-logistics/plan-the-logistics',
+        '/advice/prepare-for-export-procedures-and-logistics/plan-the-logistics',  # NOQA
     '/operations-and-compliance/get-your-export-documents-right/':
-        '/prepare-for-export-procedures-and-logistics/get-your-export-documents-right',  # NOQA
+        '/advice/prepare-for-export-procedures-and-logistics/get-your-export-documents-right',  # NOQA
     '/operations-and-compliance/use-a-freight-forwarder/':
-        '/prepare-for-export-procedures-and-logistics/use-a-freight-forwarder-to-export',  # NOQA
+        '/advice/prepare-for-export-procedures-and-logistics/use-a-freight-forwarder-to-export',  # NOQA
     '/operations-and-compliance/use-incoterms-in-contracts/':
-        '/prepare-for-export-procedures-and-logistics/use-incoterms-in-contracts',  # NOQA
+        '/advice/prepare-for-export-procedures-and-logistics/use-incoterms-in-contracts',  # NOQA
     '/new/next-steps/': '/advice',
     '/occasional/next-steps/': '/advice',
     '/regular/next-steps/': '/advice'
