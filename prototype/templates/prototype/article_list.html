@@ -43,7 +43,7 @@
 
             {% for article in page.articles %}
               <li class="article">
-                <h3 class="heading-medium"><a href="/prototype{{ article.full_path }}" class="link">{{ article.article_title }}</a></h3>
+                <h3 class="heading-medium"><a href="{{ article.full_path }}" class="link">{{ article.article_title }}</a></h3>
                 <p class="subheading">Last updated {{ article.last_published_at|parse_date }}</p>
               </li>
             {% endfor %}

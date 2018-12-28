@@ -68,7 +68,7 @@
           {% for article in page.articles %}
             <div class="column-third">
               <p class="subheading">Published on {{ page.last_published_at|parse_date }}</p>
-              <a href="/prototype{{ article.full_path }}" class="heading-medium margin-top-0 link">{{ article.article_title }}</a>
+              <a href="{{ article.full_path }}" class="heading-medium margin-top-0 link">{{ article.article_title }}</a>
               <p>{{ article.article_teaser }}</p>
             </div>
           {% endfor %}
@@ -95,7 +95,7 @@
           {% if article.article_image %}
             <img id="related-page-one-image" src="{{ article.article_image_thumbnail.url }}" alt="" class="width-full">
           {% endif %}
-          <a href="/prototype{{ article.full_path }}" class="heading-medium grey-text margin-top-30">{{ article.article_title }}</a>
+          <a href="{{ article.full_path }}" class="heading-medium grey-text margin-top-30">{{ article.article_title }}</a>
           <p>{{ article.article_teaser }}</p>
         </li>
         {% endfor %}
