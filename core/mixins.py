@@ -25,9 +25,9 @@ EXPORT_JOURNEY_REDIRECTS = {
     '/market-research/visit-a-trade-show/':
         '/advice/find-an-export-market/trade-shows',
     '/market-research/doing-business-with-integrity/':
-        '/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets',  # NOQA
+        '/advice/manage-legal-and-ethical-compliance/understand-business-risks-in-overseas-markets',  # NOQA
     '/market-research/know-the-relevant-legislation/':
-        '/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets',  # NOQA
+        '/advice/manage-legal-and-ethical-compliance/understand-business-risks-in-overseas-markets',  # NOQA
 
     '/business-planning/': '/advice/define-route-to-market/',
     '/business-planning/make-an-export-plan/':
@@ -86,7 +86,7 @@ EXPORT_JOURNEY_REDIRECTS = {
     '/customer-insight/meet-your-customers/':
         '/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market',  # NOQA
     '/customer-insight/know-your-customers/':
-        '/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets',  # NOQA
+        '/advice/manage-legal-and-ethical-compliance/understand-business-risks-in-overseas-markets',  # NOQA
     '/customer-insight/manage-language-differences/':
         '/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market',  # NOQA
     '/customer-insight/understand-your-customers-culture/':
@@ -111,7 +111,7 @@ EXPORT_JOURNEY_REDIRECTS = {
     '/operations-and-compliance/anti-bribery-and-corruption-training/':
         '/advice/manage-legal-and-ethical-compliance/anti-bribery-and-corruption-training',  # NOQA
     '/operations-and-compliance/plan-the-logistics/':
-        '/advice/prepare-for-export-procedures-and-logistics/plan-the-logistics',  # NOQA
+        '/advice/prepare-for-export-procedures-and-logistics/plan-logistics-for-exporting',  # NOQA
     '/operations-and-compliance/get-your-export-documents-right/':
         '/advice/prepare-for-export-procedures-and-logistics/get-your-export-documents-right',  # NOQA
     '/operations-and-compliance/use-a-freight-forwarder/':
@@ -121,7 +121,11 @@ EXPORT_JOURNEY_REDIRECTS = {
 
     '/new/next-steps/': '/advice',
     '/occasional/next-steps/': '/advice',
-    '/regular/next-steps/': '/advice'
+    '/regular/next-steps/': '/advice',
+
+    '/new/': '/advice',
+    '/occasional/': '/advice',
+    '/regular/': '/advice'
 }
 
 
