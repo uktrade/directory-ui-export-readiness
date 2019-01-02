@@ -291,7 +291,7 @@ def test_guidance_views_feature_flag_off(view_class, url, client, settings):
     settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
     response = client.get(url)
 
-    assert response.status_code == 404
+    assert response.status_code == 302
 
 
 @pytest.mark.parametrize('view_class,url', article_views_under_test)
