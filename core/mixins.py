@@ -13,6 +13,7 @@ from django.utils.functional import cached_property
 from core import helpers
 
 EXPORT_JOURNEY_REDIRECTS = {
+    '/market-research/': '/advice/find-an-export-market/',
     '/market-research/do-research-first/':
         '/advice/find-an-export-market/plan-export-market-research',
     '/market-research/define-market-potential/':
@@ -23,7 +24,12 @@ EXPORT_JOURNEY_REDIRECTS = {
         '/advice/find-an-export-market/field-research-in-export-markets',
     '/market-research/visit-a-trade-show/':
         '/advice/find-an-export-market/trade-shows',
+    '/market-research/doing-business-with-integrity/':
+        '/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets',  # NOQA
+    '/market-research/know-the-relevant-legislation/':
+        '/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets',  # NOQA
 
+    '/business-planning/': '/advice/define-route-to-market/',
     '/business-planning/make-an-export-plan/':
         '/advice/create-an-export-plan/how-to-create-an-export-plan',
     '/business-planning/find-a-route-to-market/':
@@ -47,6 +53,7 @@ EXPORT_JOURNEY_REDIRECTS = {
     '/business-planning/set-up-an-overseas-operation/':
         '/advice/define-route-to-market/set-up-a-business-abroad',
 
+    '/finance/': '/advice/get-export-finance-and-funding/',
     '/finance/choose-the-right-finance/':
         '/advice/get-export-finance-and-funding/choose-the-right-finance',
     '/finance/get-money-to-export/':
@@ -62,6 +69,7 @@ EXPORT_JOURNEY_REDIRECTS = {
     '/finance/raise-money-with-investment/':
         '/advice/get-export-finance-and-funding/raise-money-with-investment',
 
+    '/getting-paid/': '/advice/manage-payment-for-export-orders/',
     '/getting-paid/invoice-currency-and-contents/':
         '/advice/manage-payment-for-export-orders/payment-methods-for-exporters',  # NOQA
     '/getting-paid/consider-how-youll-get-paid/':
@@ -73,6 +81,8 @@ EXPORT_JOURNEY_REDIRECTS = {
     '/getting-paid/insure-against-non-payment/':
         '/advice/manage-payment-for-export-orders/insure-against-non-payment',
 
+    '/customer-insight/':
+        '/advice/prepare-to-do-business-in-a-foreign-country/',
     '/customer-insight/meet-your-customers/':
         '/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market',  # NOQA
     '/customer-insight/know-your-customers/':
@@ -82,11 +92,8 @@ EXPORT_JOURNEY_REDIRECTS = {
     '/customer-insight/understand-your-customers-culture/':
         '/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market',  # NOQA
 
-    '/market-research/doing-business-with-integrity/':
-        '/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets',  # NOQA
-    '/market-research/know-the-relevant-legislation/':
-        '/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets',  # NOQA
-
+    '/operations-and-compliance/':
+        '/advice/manage-legal-and-ethical-compliance/',
     '/operations-and-compliance/internationalise-your-website/':
         '/advice/prepare-to-do-business-in-a-foreign-country/internationalise-your-website',  # NOQA
     '/operations-and-compliance/match-your-website-to-your-audience/':
@@ -111,6 +118,7 @@ EXPORT_JOURNEY_REDIRECTS = {
         '/advice/prepare-for-export-procedures-and-logistics/use-a-freight-forwarder-to-export',  # NOQA
     '/operations-and-compliance/use-incoterms-in-contracts/':
         '/advice/prepare-for-export-procedures-and-logistics/use-incoterms-in-contracts',  # NOQA
+
     '/new/next-steps/': '/advice',
     '/occasional/next-steps/': '/advice',
     '/regular/next-steps/': '/advice'
