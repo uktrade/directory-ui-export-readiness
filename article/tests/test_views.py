@@ -322,6 +322,13 @@ def test_articles_views_feature_flag_off(view_class, url, client, settings):
     assert response.url == EXPORT_JOURNEY_REDIRECTS[url]
 
 
+def test_articles_views_feature_flag_off_not_found(client, settings):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
+    response = client.get('/foo')
+
+    assert response.status_code == 404
+
+
 @pytest.mark.parametrize('view_class,url', article_views_under_test)
 def test_articles_title_views(view_class, url, client, settings):
     settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
