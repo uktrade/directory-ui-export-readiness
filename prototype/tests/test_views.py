@@ -368,7 +368,7 @@ def test_international_news_article_detail_page(
         'prototype/international_news_detail.html']
 
     assert 'Test news title' in str(response.content)
-    assert 'Test news teaser' in str(response.content)
+    assert 'Test news teaser' not in str(response.content)
     assert '<p class="body-text">Lorem ipsum</p>' in str(response.content)
 
 
