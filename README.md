@@ -54,7 +54,7 @@ We use SASS CSS pre-compiler. If you're doing front-end work your local machine 
     $ source .venv/bin/activate
     $ make debug_webserver
 
-### Running Redis
+### Running Redis Server
     $ brew install redis
     $ redis-server
 warning: This installs the latest version of Redis server on local machine not the pinned version.
