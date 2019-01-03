@@ -59,7 +59,7 @@ We use SASS CSS pre-compiler. If you're doing front-end work your local machine 
     $ redis-server
 warning: This installs the latest version of Redis server on local machine not the pinned version.
 
-### Setting enviroment variables for running the webserver
+### Setting enviroment variables for running the web server
   Locate from the repo file 'makefile' and within the bash prompt run all the export variables from 'DEBUG_SET_ENV_VARS'  &  'TEST_SET_ENV_VARS'
 
 
