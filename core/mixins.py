@@ -145,7 +145,6 @@ class ExportJourneyFeatureFlagMixin:
         if not self.flag:
             if self.request.path in EXPORT_JOURNEY_REDIRECTS:
                 return redirect(EXPORT_JOURNEY_REDIRECTS[self.request.path])
-            raise Http404()
         return super().dispatch(*args, **kwargs)
 
 
