@@ -4,7 +4,7 @@
 [![codecov-image]][codecov]
 [![snyk-image]][snyk]
 
-**Export Readiness (Exred) - the Department for International Trade (DIT)**  
+**Export Readiness (Exred) - the Department for International Trade (DIT)**
 
 ---
 ### See also:
@@ -46,13 +46,22 @@ We use SASS CSS pre-compiler. If you're doing front-end work your local machine 
 ### Installing
     $ git clone https://github.com/uktrade/directory-ui-export-readiness
     $ cd directory-ui-export-readiness
-    $ virtualenv .venv -p python3.5
+    $ virtualenv .venv -p python3.6
     $ source .venv/bin/activate
-    $ pip install -r requirements_test.txt
+    $ python -m  pip install -r requirements_test.txt
 
 ### Running the webserver
     $ source .venv/bin/activate
     $ make debug_webserver
+
+### Running Redis
+    $ brew install redis
+    $ redis-server
+warning: This installs the latest version of Redis server on local machine not the pinned version.
+
+### Setting enviroment variables for running the webserver
+  Locate from the repo file 'makefile' and within the bash prompt run all the export variables from 'DEBUG_SET_ENV_VARS'  &  'TEST_SET_ENV_VARS'
+
 
 ### Running the tests
 
