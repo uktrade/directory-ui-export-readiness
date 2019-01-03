@@ -48,7 +48,7 @@
         <ul class="content-list">
           {% for article in page.articles %}
           <li class="article">
-            <h3 class="heading-medium"><a href="{{ request.path }}{{ article.meta.slug }}" class="link">{{ article.article_title }}</a></h3>
+            <a href="{{ request.path }}{{ article.meta.slug }}" class="heading-medium link" id="{{ article.meta.slug }}-link">{{ article.article_title }}</a>
             <p class="subheading">Last updated {{ article.last_published_at|parse_date }}</p>
           </li>
           {% endfor %}
