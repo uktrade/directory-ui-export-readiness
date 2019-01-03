@@ -2,7 +2,7 @@
 
 {% block breadcrumbs %}
 <div class="container">
-  <div class="breadcrumbs">
+  <nav class="breadcrumbs" aria-label="breadcrumb" role="navigation">
     <ol>
       <li>
         <a href="{% url 'landing-page-international' %}">great.gov.uk</a>
@@ -12,7 +12,7 @@
       </li>
       <li aria-current="page">{{ page.article_title }}</li>
     </ol>
-  </div>
+  </nav>
 </div>
 {% endblock %}
 
