@@ -21,6 +21,9 @@ from core import mixins
 from contact import constants, forms, helpers
 
 
+SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
+
+
 class LazyOfficeFinderURL(LazyObject):
     @property
     def _wrapped(self):
@@ -102,18 +105,16 @@ class BaseZendeskFormView(FormSessionMixin, FormView):
 class BaseSuccessView(FormSessionMixin, mixins.GetCMSPageMixin, TemplateView):
     template_name = 'contact/submit-success.html'
 
-    def set_inress_url(self):
-        # setting ingress url not very meaningful here, so skip it.
-        pass
-
     def get(self, *args, **kwargs):
-        response = super().get(*args, **kwargs)
+        # setting ingress url not very meaningful here, so skip it.
+        response = super(FormSessionMixin, self).get(*args, **kwargs)
         response.add_post_render_callback(lambda x: self.form_session.clear())
         return response
 
     def get_next_url(self):
         # If the ingress URL is internal then allow user to go back to it
-        if urlparse(self.form_session.ingress_url).netloc == self.request.get_host():
+        parsed_url = urlparse(self.form_session.ingress_url)
+        if parsed_url.netloc == self.request.get_host():
             return self.form_session.ingress_url
         return reverse('landing-page')
 
@@ -241,7 +242,8 @@ class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        if urlparse(self.form_session.ingress_url).netloc == self.request.get_host():
+        parsed_url = urlparse(self.form_session.ingress_url)
+        if parsed_url.netloc == self.request.get_host():
             context_data['prev_url'] = self.form_session.ingress_url
         return context_data
 
