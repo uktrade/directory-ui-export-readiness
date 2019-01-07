@@ -1,0 +1,48 @@
+{% extends 'marketaccess/report_barrier_form/base.html' %}
+
+{% load static from staticfiles %}
+
+{% block extra_contents %}
+    <div id="heading-container">
+        <p>Report a trade barrier</p>
+        <p class="bold-small"> Step 4 of 4 </p>
+        <h2 class="heading-large">Summary</h1>
+    </div>
+    <h3 class="heading-medium">About you and your business or organisation</h2>
+    <p class="bold-small"> First name </p>
+    <p>{{all_cleaned_data.firstname}}</p>
+    <p class="bold-small"> Last name </p>
+    <p>{{all_cleaned_data.lastname}}</p>
+    <p class="bold-small"> Job title </p>
+    <p>{{all_cleaned_data.jobtitle}}</p>
+    <p class="bold-small"> Exporter or trade association </p>
+    <p>{{all_cleaned_data.categories}}</p>
+    <p class="bold-small"> Company name </p>
+    <p>{{all_cleaned_data.company_name}}</p>
+    <p class="bold-small"> Email </p>
+    <p>{{all_cleaned_data.email}}</p>
+    <p class="bold-small"> Phone </p>
+    <p>{{all_cleaned_data.phone}}</p>
+    <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='about' %}">Change answers</a>
+    <h3 class="heading-medium">Describe the problem</h2>
+    <p class="bold-small"> What is the product or service you want to export? </p>
+    <p>{{all_cleaned_data.product_service}}</p>
+    <p class="bold-small"> Which country are you trying to export to? </p>
+    <p>{{all_cleaned_data.country}}</p>
+    <p class="bold-small"> Provide a brief description of the problem </p>
+    <p>{{all_cleaned_data.problem_summary}}</p>
+    <p class="bold-small"> If the problem has ended, what was the impact? </p>
+    <p>{{all_cleaned_data.impact}}</p>
+    <p class="bold-small"> Tell us about any steps you have taken to resolve the problem </p>
+    <p>{{all_cleaned_data.resolve_summary}}</p>
+    <p class="bold-small"> Is this issue caused by or related to EU Exit? </p>
+    <p>{{all_cleaned_data.eu_exit_related}}</p>
+    <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='problem-details' %}">Change answers</a>
+    <h3 class="heading-medium">Any other details</h2>
+    <p class="bold-small"> Is there anything else you would like us to understand about the situation? </p>
+    <p>{{all_cleaned_data.other_details}}</p>
+    <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='other-details' %}">Change answers</a>
+
+{% endblock %}
+
+{% block submit_button_label %}Submit report{% endblock %}

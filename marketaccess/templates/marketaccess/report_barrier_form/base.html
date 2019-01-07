@@ -1,0 +1,64 @@
+{% extends "core/base.html" %}
+
+{% load static from staticfiles %}
+
+{% block head_css %}
+{{ block.super }}
+<link href="{% static 'styles/marketaccess.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block sharing_metadata %}{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="breadcrumbs">
+                <ol>
+                    <li><a href="{% url 'landing-page' %}">Great.gov.uk</a></li>
+                    <li> Trade barriers </li>
+                    <li> Report a trade barrier </li>
+                </ol>
+            </div>
+            <div class="grid-row">
+                <div class="column-one-half"></div>
+                    <form method="post">
+                        <div class="">
+                            <h3 class="heading-medium">{% block step_title %}{% endblock %}</h3>
+                            {% csrf_token %}
+                            {% block extra_contents %}{% endblock %}
+                            <div class="input-field-container">
+                                {{ wizard.management_form }}
+                                {% if wizard.form.forms %}
+                                    {{ wizard.form.management_form }}
+                                    {% for form in wizard.form.forms %}
+                                        {{ form }}
+                                    {% endfor %}
+                                {% else %}
+                                    {% for hidden in form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                    {% for field in form.visible_fields %}
+                                        <div class="{{ field.css_classes }}">
+                                            {{ field.errors }}
+                                            {{ field.label_tag }}
+                                            {% if field.help_text %}
+                                                <span class="form-hint">{{ field.help_text|safe }}</span>
+                                            {% endif %}
+                                            {{ field }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <div>
+                                <button type="submit" class="button">{% block submit_button_label %}Continue{% endblock %}</button>
+                            </div>
+                            {% if wizard.steps.prev %}
+                                <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step=wizard.steps.prev %}">Back</button>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

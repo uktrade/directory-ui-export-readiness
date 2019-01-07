@@ -22,7 +22,7 @@ class AboutForm(forms.Form):
         ),
         choices=((choice, choice) for choice in CATEGORY_CHOICES)
     )
-    company_name = fields.CharField(label='Company name')
+    company_name = fields.CharField(label='Business name')
     email = fields.EmailField(label='Email address')
     phone = fields.CharField(label='Telephone number')
 
@@ -32,28 +32,24 @@ class ProblemDetailsForm(forms.Form):
     product_service = fields.CharField(
         label='What is the product or service you want to export?')
     country = fields.ChoiceField(
+        label='Which country are you trying to export to?',
         choices=[('', 'Select a country')] + choices.COUNTRY_CHOICES,
         widget=Select(attrs={'id': 'js-country-select'}),
     )
     problem_summary = fields.CharField(
-        label='',
-        help_text='Provide a brief description of the problem, including:',
+        label='Provide a brief description of the problem',
         widget=Textarea,
     )
     impact = fields.CharField(
-        label='',
-        help_text='If the problem has ended, what was the impact?',
+        label='If the problem has ended, what was the impact?',
         widget=Textarea,
     )
     resolve_summary = fields.CharField(
-        label='',
-        help_text='Tell us about any steps you have taken to resolve the problem, including:',
+        label='Tell us about any steps you have taken to resolve the problem',
         widget=Textarea,
     )
     eu_exit_related = fields.ChoiceField(
         label='Is this issue caused by or related to EU Exit?',
-        label_suffix='',
-        help_text='Some help text.',
         widget=widgets.RadioSelect(
             use_nice_ids=True, attrs={'id': 'radio-one'}
         ),
@@ -65,8 +61,7 @@ class ProblemDetailsForm(forms.Form):
 class OtherDetailsForm(forms.Form):
     error_css_class = 'input-field-container has-error'
     other_details = fields.CharField(
-        label='',
-        help_text='is there anything else you would like us to understand about the situation?',
+        label='Is there anything else you would like us to understand about the situation?',
         widget=Textarea,
     )
 

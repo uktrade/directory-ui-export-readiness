@@ -1,0 +1,45 @@
+@import './partials/base';
+@import './components/form-wizard';
+
+.big-number-list {
+    margin: 40px 0;
+    list-style: none;
+    counter-reset: counter;
+    li {
+        position: relative;
+        padding-left: 70px;
+        margin-bottom:30px;
+        counter-increment: counter;
+        &:before {
+            content: counter(counter);
+            font-size: 72px;
+            color: #E2D9CB;
+            line-height: 1;
+            left: 0;
+            top: -9px;
+            position: absolute;
+        }
+    }  
+}
+
+.breadcrumbs {
+    border: none;
+}
+
+.message-box {
+    margin-top: 90px;
+    margin-bottom: 0;
+}
+
+hr {
+    height: 4px;
+    background: #999999;
+    opacity: 0.2;
+}
+
+form {
+    #previous-button {
+        margin-top: 40px;
+        display: block;
+    }
+}

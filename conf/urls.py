@@ -713,14 +713,24 @@ contact_urls = [
 
 marketaccess_urls = [
     url(
-        r'^marketaccess/report-barrier/$',
-        RedirectView.as_view(
-            url=reverse_lazy(
-                'ma-report-barrier', kwargs={'step': 'start'}
-            )
-        ),
-        name='ma-report-barrier-redirect'
+        r'^marketaccess/$',
+        marketaccess.views.MarketAccessView.as_view(),
+        name='market-access'
     ),
+    url(
+        r'^marketaccess/report-barrier/success/$',
+        marketaccess.views.ReportMarketAccessBarrierSuccessView.as_view(),
+        name='report-barrier-form-success'
+    ),
+    url(
+        r'^marketaccess/report-barrier/(?P<step>.+)/$',
+        marketaccess.views.ReportMarketAccessBarrierFormView.as_view(
+            url_name='report-ma-barrier',
+            done_step_name='finished'
+        ),
+        name='report-ma-barrier'
+    ),
+
 ]
 
 urlpatterns += euexit_urls

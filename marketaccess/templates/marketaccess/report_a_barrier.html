@@ -1,0 +1,80 @@
+{% extends 'core/base.html' %}
+
+{% load static from staticfiles %}
+{% load hero from directory_components_tags %}
+{% load message_box from directory_components_tags %}
+
+{% block head_css %}
+{{ block.super }}
+<link href="{% static 'styles/marketaccess.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+
+{% block content %}
+{% load hero from directory_components_tags %}
+{% hero hero_text="Report a trade barrier" %}
+<section>
+    <div class="container">
+        <div class="breadcrumbs">
+          <ol>
+            <li><a href="{% url 'landing-page' %}">great.gov.uk</a></li>
+            <li> Trade barriers </li>
+            <li> Report a trade barrier </li>
+          </ol>
+        </div>
+        <div class="text">
+            <p class="lede">
+                Trade barriers are measures that slow down or prevent a UK business from accessing an overseas market. 
+                Reporting a trade barrier will help the UK government to understand the issues that businesses are facing 
+                so we can provide support where it's needed most. 
+            </p>
+        </div>
+        <hr>
+        <div class="text">
+            <p>
+                Trade barriers, also known as non-tariff barriers, can affect businesses of all sizes at different stages in the exporting process. 
+                The government can support by understanding what barriers are affecting you. Find out more information and examples of about a trade 
+                barrier on GOV.UK or <a href="{% url 'report-ma-barrier' step='about' %}">submit a report</a>. 
+            </p>
+        </div>
+        <h2 class="heading-large">How it works</h2>
+        <div class="text">
+            <p>
+                You can submit a report to UK government with this service. 
+                If your barrier is an emergency, for example, your goods are held at border, you should call this number 
+                [00 000 0000] or view our emergency contacts for urgent support. You can still submit a report so 
+                we are aware. 
+            </p>
+        </div>
+        <h3 class="heading-medium">Making a report online</h3>
+        <div class="grid-row">
+            <div class="column-two-thirds">
+                <ol class="list big-number-list">
+                    <li> 
+                        <h4 class="heading-small"> Tell us about your business </h4> 
+                        <p class="font-xsmall">What are you exporting and where are you exporting to?</p>
+                    </li>
+                    <li> 
+                        <h4 class="heading-small"> Describe the problem </h4> 
+                        <p class="font-xsmall">What is the barrier that you've experienced? Is the barrier still affecting your business?</p>
+                    </li>
+                    <li> 
+                        <h4 class="heading-small"> Provide additional information </h4> 
+                        <p class="font-xsmall">What is the barrier that you've experienced? Is the barrier still affecting your business?</p>
+                    </li>
+                </ol>
+                <div class="text">
+                    <p>
+                        Your report will be submitted to the Department for International Trade to review.
+                    </p>
+                </div>
+                <a href="{% url 'report-ma-barrier' step='about' %}" class="button" role="button">Report a barrier</a>
+            </div>
+            <div class="column-one-third">
+                <img src="http://www.dfki.de/~wahlster/wp-content/uploads/Wahlster_Portrait_SW_gross.jpg?lang=en"/>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
