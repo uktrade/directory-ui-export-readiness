@@ -41,13 +41,6 @@ def office_details():
     }
 
 
-@pytest.fixture()
-def form_session():
-    stub = mock.patch.object(views.FormSessionMixin, 'form_session_class')
-    yield stub.start()()
-    stub.stop()
-
-
 @pytest.fixture(autouse=True)
 def company_profile(authed_client):
     path = 'core.mixins.PrepopulateFormMixin.company_profile'
@@ -308,9 +301,10 @@ def test_get_previous_step(current_step, expected_step):
         ),
     )
 )
+@mock.patch.object(views.FormSessionMixin, 'form_session_class')
 def test_notify_form_submit_success(
-    client, url, agent_template, user_template, view_class, agent_email,
-    success_url, form_session
+    mock_form_session, client, url, agent_template, user_template,
+    view_class, agent_email, success_url
 ):
 
     class Form(forms.SerializeDataMixin, django.forms.Form):
@@ -329,13 +323,13 @@ def test_notify_form_submit_success(
             template_id=agent_template,
             email_address=agent_email,
             form_url=url,
-            form_session=form_session,
+            form_session=mock_form_session(),
         ),
         mock.call(
             template_id=user_template,
             email_address='test@example.com',
             form_url=url,
-            form_session=form_session,
+            form_session=mock_form_session(),
         )
     ]
 
@@ -391,10 +385,10 @@ def test_success_view_cms(mock_lookup_by_slug, url, slug, client):
 @mock.patch('directory_forms_api_client.actions.GovNotifyAction')
 @mock.patch('directory_forms_api_client.actions.EmailAction')
 @mock.patch('contact.helpers.retrieve_exporting_advice_email')
+@mock.patch.object(views.FormSessionMixin, 'form_session_class')
 def test_exporting_from_uk_contact_form_submission(
-    mock_retrieve_exporting_advice_email, mock_email_action,
+    mock_form_session, mock_retrieve_exporting_advice_email, mock_email_action,
     mock_notify_action, mock_clean, client, captcha_stub, company_profile,
-    form_session
 ):
     company_profile.return_value = None
     mock_retrieve_exporting_advice_email.return_value = 'regional@example.com'
@@ -452,7 +446,7 @@ def test_exporting_from_uk_contact_form_submission(
         template_id=settings.CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID,
         email_address='test@example.com',
         form_url='/contact/export-advice/comment/',
-        form_session=form_session,
+        form_session=mock_form_session(),
     )
     assert mock_notify_action().save.call_count == 1
     assert mock_notify_action().save.call_args == mock.call({
@@ -479,7 +473,7 @@ def test_exporting_from_uk_contact_form_submission(
         subject=settings.CONTACT_EXPORTING_AGENT_SUBJECT,
         reply_to=[settings.DEFAULT_FROM_EMAIL],
         form_url='/contact/export-advice/comment/',
-        form_session=form_session,
+        form_session=mock_form_session(),
     )
     assert mock_email_action().save.call_count == 1
     assert mock_email_action().save.call_args == mock.call({
@@ -562,8 +556,9 @@ def test_guidance_view_cms_retrieval(mock_lookup_by_slug, client):
         ),
     )
 )
+@mock.patch.object(views.FormSessionMixin, 'form_session_class')
 def test_zendesk_submit_success(
-    client, url, success_url, view_class, subject, settings, form_session
+    mock_form_session, client, url, success_url, view_class, subject, settings
 ):
     class Form(forms.SerializeDataMixin, django.forms.Form):
         email = django.forms.EmailField()
@@ -579,7 +574,7 @@ def test_zendesk_submit_success(
     assert Form.save.call_count == 1
     assert Form.save.call_args == mock.call(
         email_address='foo@bar.com',
-        form_session=form_session,
+        form_session=mock_form_session(),
         form_url=url,
         full_name='Foo B',
         subject=subject,
@@ -783,9 +778,10 @@ def test_ingress_url_cleared_on_redirect_away(
 
 @mock.patch('captcha.fields.ReCaptchaField.clean')
 @mock.patch('directory_forms_api_client.actions.ZendeskAction')
+@mock.patch.object(views.FormSessionMixin, 'form_session_class')
 def test_selling_online_overseas_contact_form_submission(
-    mock_zendesk_action, mock_clean, captcha_stub, company_profile, client,
-    form_session
+    mock_form_session, mock_zendesk_action, mock_clean, captcha_stub,
+    company_profile, client
 ):
     company_profile.return_value = None
 
@@ -861,7 +857,7 @@ def test_selling_online_overseas_contact_form_submission(
         form_url=reverse(
             'contact-us-soo', kwargs={'step': 'organisation'}
         ),
-        form_session=form_session,
+        form_session=mock_form_session(),
     )
     assert mock_zendesk_action().save.call_count == 1
     assert mock_zendesk_action().save.call_args == mock.call({

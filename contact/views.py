@@ -105,10 +105,13 @@ class BaseZendeskFormView(FormSessionMixin, FormView):
 class BaseSuccessView(FormSessionMixin, mixins.GetCMSPageMixin, TemplateView):
     template_name = 'contact/submit-success.html'
 
+    def clear_form_session(self):
+        self.form_session.clear()
+
     def get(self, *args, **kwargs):
         # setting ingress url not very meaningful here, so skip it.
         response = super(FormSessionMixin, self).get(*args, **kwargs)
-        response.add_post_render_callback(lambda x: self.form_session.clear())
+        response.add_post_render_callback(self.clear_form_session)
         return response
 
     def get_next_url(self):
