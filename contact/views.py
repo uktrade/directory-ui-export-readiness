@@ -2,6 +2,8 @@ from urllib.parse import urlparse
 
 from directory_constants.constants import cms
 from directory_forms_api_client import actions
+from directory_forms_api_client.helpers import FormSessionMixin
+
 from formtools.wizard.views import NamedUrlSessionWizardView
 
 from django.conf import settings
@@ -19,7 +21,6 @@ from core import mixins
 from contact import constants, forms, helpers
 
 
-SESSION_KEY_FORM_INGRESS_URL = 'CONTACT_FORM_INGRESS_URL'
 SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
 
 
@@ -56,33 +57,14 @@ class SubmitFormOnGetMixin:
         return super().post(request, *args, **kwargs)
 
 
-class IngressURLMixin:
-
-    def get(self, *args, **kwargs):
-        if not self.request.session.get(SESSION_KEY_FORM_INGRESS_URL):
-            self.set_inress_url()
-        return super().get(*args, **kwargs)
-
-    def set_inress_url(self):
-        self.request.session[SESSION_KEY_FORM_INGRESS_URL] = (
-            self.request.META.get('HTTP_REFERER')
-        )
-
-    @property
-    def ingress_url(self):
-        return self.request.session.get(SESSION_KEY_FORM_INGRESS_URL)
-
-    def clear_ingress_url(self, *args, **kwargs):
-        self.request.session.pop(SESSION_KEY_FORM_INGRESS_URL, None)
-
-
 class SendNotifyMessagesMixin:
 
     def send_agent_message(self, form):
         response = form.save(
             template_id=self.notify_template_id_agent,
             email_address=self.notify_email_address_agent,
-            form_url=self.request.get_full_path()
+            form_url=self.request.get_full_path(),
+            form_session=self.form_session,
         )
         response.raise_for_status()
 
@@ -91,6 +73,7 @@ class SendNotifyMessagesMixin:
             template_id=self.notify_template_id_user,
             email_address=form.cleaned_data['email'],
             form_url=self.request.get_full_path(),
+            form_session=self.form_session,
         )
         response.raise_for_status()
 
@@ -100,20 +83,11 @@ class SendNotifyMessagesMixin:
         return super().form_valid(form)
 
 
-class BaseNotifyFormView(IngressURLMixin, SendNotifyMessagesMixin, FormView):
-    def get_form_kwargs(self):
-        return {
-            **super().get_form_kwargs(),
-            'ingress_url': self.ingress_url,
-        }
+class BaseNotifyFormView(FormSessionMixin, SendNotifyMessagesMixin, FormView):
+    pass
 
 
-class BaseZendeskFormView(IngressURLMixin, FormView):
-    def get_form_kwargs(self):
-        return {
-            **super().get_form_kwargs(),
-            'ingress_url': self.ingress_url,
-        }
+class BaseZendeskFormView(FormSessionMixin, FormView):
 
     def form_valid(self, form):
         response = form.save(
@@ -121,28 +95,30 @@ class BaseZendeskFormView(IngressURLMixin, FormView):
             full_name=form.full_name,
             subject=self.subject,
             service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME,
-            form_url=self.request.get_full_path()
+            form_url=self.request.get_full_path(),
+            form_session=self.form_session,
         )
         response.raise_for_status()
         return super().form_valid(form)
 
 
-class BaseSuccessView(IngressURLMixin, mixins.GetCMSPageMixin, TemplateView):
+class BaseSuccessView(FormSessionMixin, mixins.GetCMSPageMixin, TemplateView):
     template_name = 'contact/submit-success.html'
 
-    def set_inress_url(self):
-        # setting ingress url not very meaningful here, so skip it.
-        pass
+    def clear_form_session(self):
+        self.form_session.clear()
 
     def get(self, *args, **kwargs):
-        response = super().get(*args, **kwargs)
-        response.add_post_render_callback(self.clear_ingress_url)
+        # setting ingress url not very meaningful here, so skip it.
+        response = super(FormSessionMixin, self).get(*args, **kwargs)
+        response.add_post_render_callback(self.clear_form_session)
         return response
 
     def get_next_url(self):
         # If the ingress URL is internal then allow user to go back to it
-        if urlparse(self.ingress_url).netloc == self.request.get_host():
-            return self.ingress_url
+        parsed_url = urlparse(self.form_session.ingress_url)
+        if parsed_url.netloc == self.request.get_host():
+            return self.form_session.ingress_url
         return reverse('landing-page')
 
     def get_context_data(self, **kwargs):
@@ -152,7 +128,7 @@ class BaseSuccessView(IngressURLMixin, mixins.GetCMSPageMixin, TemplateView):
         )
 
 
-class RoutingFormView(IngressURLMixin, NamedUrlSessionWizardView):
+class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
 
     # given the current step, based on selected  option, where to redirect.
     redirect_mapping = {
@@ -249,6 +225,7 @@ class RoutingFormView(IngressURLMixin, NamedUrlSessionWizardView):
             return mapping.get(choice)
 
     def render_next_step(self, form):
+        self.form_session.funnel_steps.append(self.steps.current)
         choice = form.cleaned_data['choice']
         redirect_url = self.get_redirect_url(choice)
         if redirect_url:
@@ -257,7 +234,7 @@ class RoutingFormView(IngressURLMixin, NamedUrlSessionWizardView):
             # assumed that internal redirects will not contain domain, but be
             # relative to current site.
             if urlparse(str(redirect_url)).netloc:
-                self.clear_ingress_url()
+                self.form_session.clear()
             return redirect(redirect_url)
         return self.render_goto_step(choice)
 
@@ -268,13 +245,14 @@ class RoutingFormView(IngressURLMixin, NamedUrlSessionWizardView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        if urlparse(self.ingress_url).netloc == self.request.get_host():
-            context_data['prev_url'] = self.ingress_url
+        parsed_url = urlparse(self.form_session.ingress_url)
+        if parsed_url.netloc == self.request.get_host():
+            context_data['prev_url'] = self.form_session.ingress_url
         return context_data
 
 
 class ExportingAdviceFormView(
-    mixins.PreventCaptchaRevalidationMixin, IngressURLMixin,
+    mixins.PreventCaptchaRevalidationMixin, FormSessionMixin,
     mixins.PrepopulateFormMixin, NamedUrlSessionWizardView
 ):
     success_url = reverse_lazy('contact-us-domestic-success')
@@ -327,20 +305,19 @@ class ExportingAdviceFormView(
             })
         return initial
 
-    @staticmethod
-    def send_user_message(form_data):
+    def send_user_message(self, form_data):
         action = actions.GovNotifyAction(
             template_id=settings.CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID,
             email_address=form_data['email'],
             form_url=reverse(
                 'contact-us-export-advice', kwargs={'step': 'comment'}
-            )
+            ),
+            form_session=self.form_session,
         )
         response = action.save(form_data)
         response.raise_for_status()
 
-    @staticmethod
-    def send_agent_message(form_data):
+    def send_agent_message(self, form_data):
         email = helpers.retrieve_exporting_advice_email(form_data['postcode'])
         action = actions.EmailAction(
             recipients=[email],
@@ -348,7 +325,8 @@ class ExportingAdviceFormView(
             reply_to=[settings.DEFAULT_FROM_EMAIL],
             form_url=reverse(
                 'contact-us-export-advice', kwargs={'step': 'comment'}
-            )
+            ),
+            form_session=self.form_session,
         )
         template_name = 'contact/exporting-from-uk-agent-email.html'
         html = render_to_string(template_name, {'form_data': form_data})
@@ -364,7 +342,7 @@ class ExportingAdviceFormView(
         return redirect(self.success_url)
 
     def serialize_form_list(self, form_list):
-        data = {'ingress_url': self.ingress_url}
+        data = {}
         for form in form_list:
             data.update(form.cleaned_data)
         del data['terms_agreed']
@@ -512,7 +490,7 @@ class GuidanceView(mixins.GetCMSPageMixin, TemplateView):
 
 class SellingOnlineOverseasFormView(
     mixins.NotFoundOnDisabledFeature, mixins.PreventCaptchaRevalidationMixin,
-    IngressURLMixin, mixins.PrepopulateFormMixin, NamedUrlSessionWizardView
+    FormSessionMixin, mixins.PrepopulateFormMixin, NamedUrlSessionWizardView
 ):
     success_url = reverse_lazy('contact-us-selling-online-overseas-success')
 
@@ -573,7 +551,7 @@ class SellingOnlineOverseasFormView(
         return initial
 
     def serialize_form_list(self, form_list):
-        data = {'ingress_url': self.ingress_url}
+        data = {}
         for form in form_list:
             data.update(form.cleaned_data)
         del data['terms_agreed']
@@ -595,7 +573,8 @@ class SellingOnlineOverseasFormView(
             service_name='soo',
             form_url=reverse(
                 'contact-us-soo', kwargs={'step': 'organisation'}
-            )
+            ),
+            form_session=self.form_session,
         )
         response = action.save(form_data)
         response.raise_for_status()
