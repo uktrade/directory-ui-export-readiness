@@ -17,6 +17,7 @@ import os
 import environ
 from directory_components.constants import IP_RETRIEVER_NAME_GOV_UK
 from directory_constants.constants import cms
+import directory_healthcheck.backends
 
 
 env = environ.Env()
@@ -50,7 +51,6 @@ INSTALLED_APPS = [
     'casestudy',
     'finance',
     'directory_healthcheck',
-    'health_check',
     'captcha',
     'export_elements',
     'directory_components',
@@ -330,7 +330,13 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # Healthcheck
-HEALTH_CHECK_TOKEN = env.str('HEALTH_CHECK_TOKEN')
+DIRECTORY_HEALTHCHECK_TOKEN = env.str('HEALTH_CHECK_TOKEN')
+DIRECTORY_HEALTHCHECK_BACKENDS = [
+    directory_healthcheck.backends.APIBackend,
+    directory_healthcheck.backends.SingleSignOnBackend,
+    directory_healthcheck.backends.FormsAPIBackend,
+    directory_healthcheck.backends.SentryBackend,
+]
 
 # Comtrade API
 COMTRADE_API_TOKEN = env.str('COMTRADE_API_TOKEN', '')

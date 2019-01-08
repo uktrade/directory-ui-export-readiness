@@ -26,24 +26,14 @@ sitemaps = {
 
 healthcheck_urls = [
     url(
-        r'^api/$',
-        directory_healthcheck.views.APIHealthcheckView.as_view(),
-        name='api'
+        r'^$',
+        directory_healthcheck.views.HealthcheckView.as_view(),
+        name='healthcheck'
     ),
     url(
-        r'^single-sign-on/$',
-        directory_healthcheck.views.SingleSignOnHealthcheckView.as_view(),
-        name='single-sign-on'
-    ),
-    url(
-        r'^forms-api/$',
-        directory_healthcheck.views.FormsAPIBackendHealthcheckView.as_view(),
-        name='single-sign-on'
-    ),
-    url(
-        r'^sentry/$',
-        directory_healthcheck.views.SentryHealthcheckView.as_view(),
-        name='sentry'
+        r'^ping/$',
+        directory_healthcheck.views.PingView.as_view(),
+        name='ping'
     ),
 ]
 
