@@ -22,13 +22,33 @@
     }  
 }
 
+.list.list-bullet {
+    margin: 0;
+}
+
+.form-label {
+    padding-bottom: 1em;
+}
+
 .breadcrumbs {
     border: none;
+}
+
+.column-one-half a.button {
+    float: right;
+}
+
+.column-one-third img {
+    width: 100%;
 }
 
 .message-box {
     margin-top: 90px;
     margin-bottom: 0;
+}
+
+.button.final {
+    margin-top: 40px;
 }
 
 hr {

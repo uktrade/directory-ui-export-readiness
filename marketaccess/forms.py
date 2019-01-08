@@ -1,5 +1,6 @@
 from directory_constants.constants import choices
 from directory_components import forms, fields, widgets
+from django.utils.safestring import mark_safe
 
 from django.forms import Select, Textarea, ValidationError
 
@@ -37,7 +38,14 @@ class ProblemDetailsForm(forms.Form):
         widget=Select(attrs={'id': 'js-country-select'}),
     )
     problem_summary = fields.CharField(
-        label='Provide a brief description of the problem',
+        label=mark_safe(
+            '<p>Provide a brief description of the problem, including: </p> \
+            <ul class="list list-bullet"> \
+              <li>what is affecting your export</li> \
+              <li>when it started</li> \
+              <li>if it’s a one off</li> \
+              <li>any correspondance you have received about the problem</li> \
+            </ul>'),
         widget=Textarea,
     )
     impact = fields.CharField(
@@ -45,7 +53,13 @@ class ProblemDetailsForm(forms.Form):
         widget=Textarea,
     )
     resolve_summary = fields.CharField(
-        label='Tell us about any steps you have taken to resolve the problem',
+        label=mark_safe(
+            '<p>Tell us about any steps you have taken to resolve the problem, including: </p> \
+            <ul class="list list-bullet"> \
+              <li>people you have contacted</li> \
+              <li>when you contacted them</li> \
+              <li>what happened</li> \
+            </ul>'),
         widget=Textarea,
     )
     eu_exit_related = fields.ChoiceField(
