@@ -5,23 +5,4 @@
 {% block head_css %}
   {{ block.super }}
   <link href="{% static 'styles/prototype.css' %}" rel="stylesheet" type="text/css" />
-  {% if features.PROTOTYPE_HEADER_FOOTER_ON %}
-    <link href="{% static 'styles/components/prototype-header-footer.css' %}" rel="stylesheet" type="text/css" />
-  {% endif %}
-{% endblock %}
-
-{% block body_header %}
-  {% if features.PROTOTYPE_HEADER_FOOTER_ON %}
-    {% include 'prototype/components/prototype_header.html' %}
-  {% else %}
-    {{ block.super }}
-  {% endif %}
-{% endblock %}
-
-{% block body_footer %}
-  {% if features.PROTOTYPE_HEADER_FOOTER_ON %}
-    {% include 'prototype/components/prototype_footer.html' %}
-  {% else %}
-    {{ block.super }}
-  {% endif %}
 {% endblock %}

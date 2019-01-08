@@ -62,9 +62,86 @@ test_topic_page = {
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_advice_page_404_when_export_journey_on(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=test_topic_page
+    )
+
+    url = reverse('advice')
+    response = client.get(url)
+
+    assert response.status_code == 404
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_advice_page_200_when_export_journey_off(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=test_topic_page
+    )
+
+    url = reverse('advice')
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_country_guide_article_404_when_prototype_feature_off(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = False
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=test_topic_page
+    )
+
+    url = reverse('country-guide-article', kwargs={
+        'region': 'asia-pacific',
+        'country': 'australia',
+        'slug': 'exporting-to-australia'
+    })
+
+    response = client.get(url)
+
+    assert response.status_code == 404
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_country_guide_article_404_when_prototype_feature_on(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=test_topic_page
+    )
+
+    url = reverse('country-guide-article', kwargs={
+        'region': 'asia-pacific',
+        'country': 'australia',
+        'slug': 'exporting-to-australia'
+    })
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_prototype_advice_page(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
-    settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = False
 
     url = reverse('advice', kwargs={'slug': 'advice'})
 
@@ -485,7 +562,7 @@ def test_landing_page_header_footer(
     mock_get_page, client, settings
 ):
     settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
-    settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = True
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
 
     url = reverse('landing-page')
 
