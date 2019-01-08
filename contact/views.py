@@ -105,7 +105,7 @@ class BaseZendeskFormView(FormSessionMixin, FormView):
 class BaseSuccessView(FormSessionMixin, mixins.GetCMSPageMixin, TemplateView):
     template_name = 'contact/submit-success.html'
 
-    def clear_form_session(self):
+    def clear_form_session(self, response):
         self.form_session.clear()
 
     def get(self, *args, **kwargs):
