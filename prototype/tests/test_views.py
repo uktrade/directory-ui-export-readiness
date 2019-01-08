@@ -79,6 +79,44 @@ def test_advice_page_404_when_export_journey_on(
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_landing_page_when_export_journey_off(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body={
+            'news_title': 'News',
+            'news_description': '<p>Lorem ipsum</p>',
+            'articles': [
+                {'article_title': 'News article 1'},
+                {'article_title': 'News article 2'},
+            ],
+        }
+    )
+
+    url = reverse('landing-page')
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == ['prototype/landing_page.html']
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_landing_page_when_export_journey_on(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
+
+    url = reverse('landing-page')
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == ['core/landing-page.html']
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_advice_page_200_when_export_journey_off(
     mock_get_page, client, settings
 ):

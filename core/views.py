@@ -111,7 +111,7 @@ class NewsSectionLandingPageView(LandingPageView):
 
 
 class PrototypeLandingPageView(
-    mixins.PrototypeFeatureFlagMixin,
+    mixins.AdviceSectionFeatureFlagMixin,
     NewsSectionLandingPageView,
 ):
     pass
