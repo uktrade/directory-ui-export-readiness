@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 from prototype.mixins import (
     GetCMSTagMixin,
-    SocialLinksMixin,
+    ArticleSocialLinksMixin,
     BreadcrumbsMixin,
 )
 from core.mixins import (
@@ -33,6 +33,7 @@ class TemplateChooserMixin:
 
 class PrototypePageView(
     BreadcrumbsMixin,
+    ArticleSocialLinksMixin,
     AdviceSectionFeatureFlagMixin,
     TemplateChooserMixin,
     GetCMSPageMixin,
@@ -69,7 +70,7 @@ class NewsListPageView(
 
 
 class NewsArticleDetailView(
-    SocialLinksMixin,
+    ArticleSocialLinksMixin,
     NewsSectionFeatureFlagMixin,
     GetCMSPageMixin,
     TemplateView,

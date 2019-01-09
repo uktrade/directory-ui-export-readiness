@@ -47,13 +47,17 @@ class GetCMSTagMixin:
         )
 
 
-class SocialLinksMixin:
+class ArticleSocialLinksMixin:
+
+    @property
+    def page_title(self):
+        return self.page.get('article_title', '')
 
     def get_context_data(self, *args, **kwargs):
 
         social_links_builder = SocialLinkBuilder(
             self.request.build_absolute_uri(),
-            self.page['title'],
+            self.page_title,
             'great.gov.uk')
 
         return super().get_context_data(
