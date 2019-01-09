@@ -62,9 +62,124 @@ test_topic_page = {
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_advice_page_404_when_export_journey_on(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=test_topic_page
+    )
+
+    url = reverse('advice')
+    response = client.get(url)
+
+    assert response.status_code == 404
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_landing_page_when_export_journey_off(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body={
+            'news_title': 'News',
+            'news_description': '<p>Lorem ipsum</p>',
+            'articles': [
+                {'article_title': 'News article 1'},
+                {'article_title': 'News article 2'},
+            ],
+        }
+    )
+
+    url = reverse('landing-page')
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == ['prototype/landing_page.html']
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_landing_page_when_export_journey_on(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
+
+    url = reverse('landing-page')
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == ['core/landing-page.html']
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_advice_page_200_when_export_journey_off(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=test_topic_page
+    )
+
+    url = reverse('advice')
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_country_guide_article_404_when_prototype_feature_off(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = False
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=test_topic_page
+    )
+
+    url = reverse('country-guide-article', kwargs={
+        'region': 'asia-pacific',
+        'country': 'australia',
+        'slug': 'exporting-to-australia'
+    })
+
+    response = client.get(url)
+
+    assert response.status_code == 404
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_country_guide_article_404_when_prototype_feature_on(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=test_topic_page
+    )
+
+    url = reverse('country-guide-article', kwargs={
+        'region': 'asia-pacific',
+        'country': 'australia',
+        'slug': 'exporting-to-australia'
+    })
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_prototype_advice_page(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
-    settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = False
 
     url = reverse('advice', kwargs={'slug': 'advice'})
 
@@ -485,7 +600,7 @@ def test_landing_page_header_footer(
     mock_get_page, client, settings
 ):
     settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
-    settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = True
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
 
     url = reverse('landing-page')
 
@@ -513,7 +628,7 @@ def test_landing_page_header_footer(
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_breadcrumbs_mixin(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
 
     url = reverse('create-an-export-plan-article', kwargs={'slug': 'foo'})
 
@@ -540,3 +655,123 @@ def test_breadcrumbs_mixin(mock_get_page, client, settings):
             'label': 'Foo'
         },
     ]
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_prototype_article_detail_page_social_share_links(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
+
+    test_article_page = {
+        "title": "Test article admin title",
+        "article_title": "How to write an export plan",
+        "article_image": {"url": "foobar.png"},
+        "article_body_text": "<p>Lorem ipsum</p>",
+        "related_pages": [],
+        "full_path": (
+            "/advice/create-an-export-plan/how-to-write-an-export-plan/"),
+        "last_published_at": "2018-10-09T16:25:13.142357Z",
+        "meta": {
+            "slug": "how-to-write-an-export-plan",
+        },
+        "page_type": "ArticlePage",
+    }
+
+    url = reverse(
+        'create-an-export-plan-article',
+        kwargs={'slug': 'how-to-write-an-export-plan'}
+    )
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=test_article_page
+    )
+
+    response = client.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    assert response.status_code == 200
+    assert response.template_name == ['prototype/article_detail.html']
+
+    twitter_link = (
+        'https://twitter.com/intent/tweet?text=great.gov.uk'
+        '%20-%20How%20to%20write%20an%20export%20plan%20'
+        'http://testserver/advice/create-an-export-plan/'
+        'how-to-write-an-export-plan/')
+    facebook_link = (
+        'https://www.facebook.com/share.php?u=http://testserver/'
+        'advice/create-an-export-plan/how-to-write-an-export-plan/')
+    linkedin_link = (
+        'https://www.linkedin.com/shareArticle?mini=true&url='
+        'http://testserver/advice/create-an-export-plan/'
+        'how-to-write-an-export-plan/&title=great.gov.uk'
+        '%20-%20How%20to%20write%20an%20export%20plan%20&source=LinkedIn'
+    )
+    email_link = (
+        'mailto:?body=http://testserver/advice/'
+        'create-an-export-plan/how-to-write-an-export-plan/&subject='
+        'great.gov.uk%20-%20How%20to%20write%20an%20export%20plan%20'
+    )
+
+    assert soup.find(id='share-twitter').attrs['href'] == twitter_link
+    assert soup.find(id='share-facebook').attrs['href'] == facebook_link
+    assert soup.find(id='share-linkedin').attrs['href'] == linkedin_link
+    assert soup.find(id='share-email').attrs['href'] == email_link
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_prototype_article_detail_page_social_share_links_no_title(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
+
+    test_article_page = {
+        "title": "Test article admin title",
+        "article_image": {"url": "foobar.png"},
+        "article_body_text": "<p>Lorem ipsum</p>",
+        "related_pages": [],
+        "full_path": (
+            "/advice/create-an-export-plan/how-to-write-an-export-plan/"),
+        "last_published_at": "2018-10-09T16:25:13.142357Z",
+        "meta": {
+            "slug": "how-to-write-an-export-plan",
+        },
+        "page_type": "ArticlePage",
+    }
+
+    url = reverse(
+        'create-an-export-plan-article',
+        kwargs={'slug': 'how-to-write-an-export-plan'}
+    )
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=test_article_page
+    )
+
+    response = client.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    assert response.status_code == 200
+    assert response.template_name == ['prototype/article_detail.html']
+
+    twitter_link = (
+        'https://twitter.com/intent/tweet?text=great.gov.uk%20-%20%20'
+        'http://testserver/advice/create-an-export-plan/'
+        'how-to-write-an-export-plan/')
+    linkedin_link = (
+        'https://www.linkedin.com/shareArticle?mini=true&url='
+        'http://testserver/advice/create-an-export-plan/'
+        'how-to-write-an-export-plan/&title=great.gov.uk'
+        '%20-%20%20&source=LinkedIn'
+    )
+    email_link = (
+        'mailto:?body=http://testserver/advice/'
+        'create-an-export-plan/how-to-write-an-export-plan/&subject='
+        'great.gov.uk%20-%20%20'
+    )
+
+    assert soup.find(id='share-twitter').attrs['href'] == twitter_link
+    assert soup.find(id='share-linkedin').attrs['href'] == linkedin_link
+    assert soup.find(id='share-email').attrs['href'] == email_link

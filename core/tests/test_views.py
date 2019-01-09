@@ -52,7 +52,7 @@ def test_landing_page_redirect(client):
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_landing_page(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
-    settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = False
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
 
     page = {
         'news_title': 'News',
@@ -78,7 +78,8 @@ def test_landing_page(mock_get_page, client, settings):
 
     assert response.status_code == 200
     assert '/static/js/home' in str(response.content)
-    assert response.template_name == [views.LandingPageView.template_name]
+    assert response.template_name == [
+        views.PrototypeLandingPageView.template_name]
     assert response.context_data['casestudies'] == [
         casestudies.MARKETPLACE,
         casestudies.HELLO_BABY,
@@ -198,7 +199,7 @@ def test_landing_page_template_news_feature_flag_off(
 
     assert response.status_code == 200
     assert response.template_name == [
-        views.LandingPageView.template_name]
+        views.PrototypeLandingPageView.template_name]
 
 
 def test_interstitial_page_exopps(client):

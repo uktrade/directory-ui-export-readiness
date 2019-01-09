@@ -4,11 +4,12 @@ from django.views.generic import TemplateView
 
 from prototype.mixins import (
     GetCMSTagMixin,
-    SocialLinksMixin,
+    ArticleSocialLinksMixin,
     BreadcrumbsMixin,
 )
 from core.mixins import (
     PrototypeFeatureFlagMixin,
+    AdviceSectionFeatureFlagMixin,
     NewsSectionFeatureFlagMixin,
     GetCMSComponentMixin,
     GetCMSPageMixin,
@@ -24,7 +25,7 @@ TEMPLATE_MAPPING = {
 }
 
 
-class PrototypeTemplateChooserMixin:
+class TemplateChooserMixin:
     @property
     def template_name(self):
         return TEMPLATE_MAPPING[self.page['page_type']]
@@ -32,14 +33,19 @@ class PrototypeTemplateChooserMixin:
 
 class PrototypePageView(
     BreadcrumbsMixin,
-    PrototypeFeatureFlagMixin,
-    PrototypeTemplateChooserMixin,
+    ArticleSocialLinksMixin,
+    AdviceSectionFeatureFlagMixin,
+    TemplateChooserMixin,
     GetCMSPageMixin,
     TemplateView,
 ):
     @property
     def slug(self):
         return self.kwargs['slug']
+
+
+class CountryGuidePageView(PrototypeFeatureFlagMixin, PrototypePageView):
+    pass
 
 
 class TagListPageView(
@@ -64,7 +70,7 @@ class NewsListPageView(
 
 
 class NewsArticleDetailView(
-    SocialLinksMixin,
+    ArticleSocialLinksMixin,
     NewsSectionFeatureFlagMixin,
     GetCMSPageMixin,
     TemplateView,

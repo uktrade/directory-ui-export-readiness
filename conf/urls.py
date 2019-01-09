@@ -642,7 +642,7 @@ prototype_urls = [
     ),
     url(
         r"^markets/(?P<region>[\w-]+)/(?P<country>[\w-]+)/(?P<slug>[\w-]+)/$",
-        prototype.views.PrototypePageView.as_view(),
+        prototype.views.CountryGuidePageView.as_view(),
         name='country-guide-article',
     ),
 ]

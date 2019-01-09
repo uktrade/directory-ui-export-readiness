@@ -122,10 +122,7 @@ def test_international_form_routing():
 
 
 def test_short_notify_form_serialize_data(domestic_data):
-    form = forms.ShortNotifyForm(
-        ingress_url='https://ingress.com',
-        data=domestic_data
-    )
+    form = forms.ShortNotifyForm(data=domestic_data)
 
     assert form.is_valid()
 
@@ -146,17 +143,13 @@ def test_short_notify_form_serialize_data(domestic_data):
         'organisation_name': 'Example corp',
         'postcode': 'ABC123',
         'comment': 'Help please',
-        'ingress_url': 'https://ingress.com',
         'dit_regional_office_name': 'Some Office',
         'dit_regional_office_email': 'foo@example.com',
     }
 
 
 def test_short_zendesk_form_serialize_data(domestic_data):
-    form = forms.ShortZendeskForm(
-        ingress_url='https://ingress.com',
-        data=domestic_data
-    )
+    form = forms.ShortZendeskForm(data=domestic_data)
 
     assert form.is_valid()
 
@@ -177,7 +170,6 @@ def test_short_zendesk_form_serialize_data(domestic_data):
         'organisation_name': 'Example corp',
         'postcode': 'ABC123',
         'comment': 'Help please',
-        'ingress_url': 'https://ingress.com',
     }
     assert form.full_name == 'Test Example'
 
@@ -185,10 +177,7 @@ def test_short_zendesk_form_serialize_data(domestic_data):
 def test_domestic_contact_form_serialize_data_office_lookup_error(
     domestic_data
 ):
-    form = forms.ShortNotifyForm(
-        ingress_url='https://ingress.com',
-        data=domestic_data
-    )
+    form = forms.ShortNotifyForm(data=domestic_data)
 
     assert form.is_valid()
 
@@ -206,10 +195,7 @@ def test_domestic_contact_form_serialize_data_office_lookup_error(
 def test_domestic_contact_form_serialize_data_office_lookup_not_found(
     domestic_data
 ):
-    form = forms.ShortNotifyForm(
-        ingress_url='https://ingress.com',
-        data=domestic_data
-    )
+    form = forms.ShortNotifyForm(data=domestic_data)
 
     assert form.is_valid()
 
@@ -226,7 +212,6 @@ def test_domestic_contact_form_serialize_data_office_lookup_not_found(
 
 def test_feedback_form_serialize_data(captcha_stub):
     form = forms.FeedbackForm(
-        ingress_url='https://ingress.com',
         data={
             'name': 'Test Example',
             'email': 'test@example.com',
@@ -241,7 +226,6 @@ def test_feedback_form_serialize_data(captcha_stub):
         'name': 'Test Example',
         'email': 'test@example.com',
         'comment': 'Help please',
-        'ingress_url': 'https://ingress.com',
     }
     assert form.full_name == 'Test Example'
 

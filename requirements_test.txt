@@ -20,9 +20,9 @@ directory-api-client==11.1.0
 directory-ch-client==1.0.0
 directory-client-core==4.3.0  # via directory-api-client, directory-ch-client, directory-cms-client, directory-forms-api-client, directory-sso-api-client
 directory-cms-client==8.2.0
-directory-components==3.5.0
-directory-constants==11.2.0
-directory-forms-api-client==3.1.0
+directory-components==3.6.1
+directory-constants==11.4.0  # via directory-components
+directory-forms-api-client==3.2.1
 directory-healthcheck==1.0.0
 directory-sso-api-client==3.0.2
 directory-validators==5.0.1
@@ -31,14 +31,14 @@ django-cors-headers==2.1.0
 django-environ==0.4.5
 django-extensions==1.9.0
 django-formtools==2.0
-django-health-check==3.0.0  # via directory-healthcheck
+django-health-check==3.8.0  # via directory-healthcheck
 django-ipware==2.1.0
 django-recaptcha==1.2.0
 django-redis==4.8.0
 django==1.11.15
 djangorestframework==3.8.2  # via sigauth
 execnet==1.5.0            # via pytest-xdist
-export-elements==0.23.0
+export-elements==1.0.0    # via directory-components
 flake8==3.5.0
 freezegun==0.3.10
 geoip2==2.9.0
@@ -64,7 +64,7 @@ pytest-sugar==0.9.1
 pytest-xdist==1.23.2
 pytest==3.7.1
 python-dateutil==2.7.3    # via dateparser, freezegun
-pytz==2017.2              # via dateparser, directory-healthcheck, directory-validators, django, tzlocal
+pytz==2017.2              # via dateparser, directory-validators, django, tzlocal
 raven==5.19.0
 redis==2.10.6             # via django-redis
 regex==2018.8.29          # via dateparser
