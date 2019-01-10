@@ -48,7 +48,7 @@ pytz==2017.2              # via dateparser, directory-validators, django, tzloca
 raven==5.19.0
 redis==2.10.6             # via django-redis
 regex==2018.8.29          # via dateparser
-requests==2.20.1
+requests==2.21.0
 sigauth==4.0.1
 six==1.11.0               # via django-extensions, mohawk, python-dateutil, w3lib
 tzlocal==1.5.1            # via dateparser
