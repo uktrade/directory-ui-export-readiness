@@ -19,6 +19,7 @@ sigauth==4.0.1
 directory-healthcheck==1.0.0
 directory-ch-client==1.0.0
 directory-components==3.6.1
+export-elements==1.0.1
 geoip2==2.9.0
 django-ipware==2.1.0
 django-redis==4.8.0
