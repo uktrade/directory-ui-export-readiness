@@ -133,7 +133,7 @@ def domestic_form_data(captcha_stub):
     (
         constants.DOMESTIC,
         constants.OTHER,
-        reverse('contact-us-domestic')
+        reverse('contact-us-enquiries')
     ),
     # great services guidance routing
     (
@@ -601,6 +601,7 @@ def test_contact_us_feedback_prepopulate(client):
 
 
 @pytest.mark.parametrize('url', (
+    reverse('contact-us-enquiries'),
     reverse('contact-us-domestic'),
     reverse('contact-us-dso-form'),
     reverse('contact-us-events-form'),
