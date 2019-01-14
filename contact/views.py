@@ -1,3 +1,4 @@
+import collections
 from urllib.parse import urlparse
 
 from directory_constants.constants import cms
@@ -17,10 +18,12 @@ from django.views.generic.edit import FormView
 from django.template.response import TemplateResponse
 
 from core import mixins
-
 from contact import constants, forms, helpers
 
 
+NotifySettings = collections.namedtuple(
+    'NotifySettings', ['agent_template', 'agent_email', 'user_template']
+)
 SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
 
 
@@ -61,8 +64,8 @@ class SendNotifyMessagesMixin:
 
     def send_agent_message(self, form):
         response = form.save(
-            template_id=self.notify_template_id_agent,
-            email_address=self.notify_email_address_agent,
+            template_id=self.notify_settings.agent_template,
+            email_address=self.notify_settings.agent_email,
             form_url=self.request.get_full_path(),
             form_session=self.form_session,
         )
@@ -70,7 +73,7 @@ class SendNotifyMessagesMixin:
 
     def send_user_message(self, form):
         response = form.save(
-            template_id=self.notify_template_id_user,
+            template_id=self.notify_settings.user_template,
             email_address=form.cleaned_data['email'],
             form_url=self.request.get_full_path(),
             form_session=self.form_session,
@@ -81,6 +84,19 @@ class SendNotifyMessagesMixin:
         self.send_agent_message(form)
         self.send_user_message(form)
         return super().form_valid(form)
+
+
+class PrepopulateShortFormMixin(mixins.PrepopulateFormMixin):
+    def get_form_initial(self):
+        if self.company_profile:
+            return {
+                'email': self.request.sso_user.email,
+                'company_type': forms.LIMITED,
+                'organisation_name': self.company_profile['name'],
+                'postcode': self.company_profile['postal_code'],
+                'given_name': self.guess_given_name,
+                'family_name': self.guess_family_name,
+            }
 
 
 class BaseNotifyFormView(FormSessionMixin, SendNotifyMessagesMixin, FormView):
@@ -145,7 +161,7 @@ class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
             constants.EUEXIT: reverse_lazy('eu-exit-domestic-contact-form'),
             constants.EVENTS: reverse_lazy('contact-us-events-form'),
             constants.DSO: reverse_lazy('contact-us-dso-form'),
-            constants.OTHER: reverse_lazy('contact-us-domestic'),
+            constants.OTHER: reverse_lazy('contact-us-enquiries'),
         },
         constants.INTERNATIONAL: {
             constants.INVESTING: settings.INVEST_CONTACT_URL,
@@ -363,37 +379,32 @@ class FeedbackFormView(mixins.PrepopulateFormMixin, BaseZendeskFormView):
             }
 
 
-class DomesticFormView(mixins.PrepopulateFormMixin, BaseZendeskFormView):
+class DomesticFormView(PrepopulateShortFormMixin, BaseZendeskFormView):
     form_class = forms.ShortZendeskForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-domestic-success')
     subject = settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT
 
-    def get_form_initial(self):
-        if self.company_profile:
-            return {
-                'email': self.request.sso_user.email,
-                'company_type': forms.LIMITED,
-                'organisation_name': self.company_profile['name'],
-                'postcode': self.company_profile['postal_code'],
-                'given_name': self.guess_given_name,
-                'family_name': self.guess_family_name,
-            }
+
+class DomesticEnquiriesFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
+    form_class = forms.ShortNotifyForm
+    template_name = 'contact/domestic/step.html'
+    success_url = reverse_lazy('contact-us-domestic-success')
+    notify_settings = NotifySettings(
+        agent_template=settings.CONTACT_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_email=settings.CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS,
+        user_template=settings.CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID,
+    )
 
 
 class InternationalFormView(mixins.PrepopulateFormMixin, BaseNotifyFormView):
     form_class = forms.InternationalContactForm
     template_name = 'contact/international/step.html'
     success_url = reverse_lazy('contact-us-international-success')
-
-    notify_template_id_agent = (
-        settings.CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID
-    )
-    notify_email_address_agent = (
-        settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS
-    )
-    notify_template_id_user = (
-        settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID
+    notify_settings = NotifySettings(
+        agent_template=settings.CONTACT_INTERNATIONAL_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_email=settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS,
+        user_template=settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
     )
 
     def get_form_initial(self):
@@ -408,48 +419,28 @@ class InternationalFormView(mixins.PrepopulateFormMixin, BaseNotifyFormView):
             }
 
 
-class EventsFormView(mixins.PrepopulateFormMixin, BaseNotifyFormView):
+class EventsFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
     form_class = forms.ShortNotifyForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-events-success')
-
-    notify_template_id_agent = settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID
-    notify_email_address_agent = settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS
-    notify_template_id_user = settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID
-
-    def get_form_initial(self):
-        if self.company_profile:
-            return {
-                'email': self.request.sso_user.email,
-                'company_type': forms.LIMITED,
-                'organisation_name': self.company_profile['name'],
-                'postcode': self.company_profile['postal_code'],
-                'given_name': self.guess_given_name,
-                'family_name': self.guess_family_name,
-            }
+    notify_settings = NotifySettings(
+        agent_template=settings.CONTACT_EVENTS_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_email=settings.CONTACT_EVENTS_AGENT_EMAIL_ADDRESS,
+        user_template=settings.CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID,
+    )
 
 
 class DefenceAndSecurityOrganisationFormView(
-    mixins.PrepopulateFormMixin, BaseNotifyFormView
+    PrepopulateShortFormMixin, BaseNotifyFormView
 ):
     form_class = forms.ShortNotifyForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-dso-success')
-
-    notify_template_id_agent = settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID
-    notify_email_address_agent = settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS
-    notify_template_id_user = settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID
-
-    def get_form_initial(self):
-        if self.company_profile:
-            return {
-                'email': self.request.sso_user.email,
-                'company_type': forms.LIMITED,
-                'organisation_name': self.company_profile['name'],
-                'postcode': self.company_profile['postal_code'],
-                'given_name': self.guess_given_name,
-                'family_name': self.guess_family_name,
-            }
+    notify_settings = NotifySettings(
+        agent_template=settings.CONTACT_DSO_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_email=settings.CONTACT_DSO_AGENT_EMAIL_ADDRESS,
+        user_template=settings.CONTACT_DSO_USER_NOTIFY_TEMPLATE_ID,
+    )
 
 
 class InternationalSuccessView(BaseSuccessView):
@@ -615,22 +606,26 @@ class OfficeFinderFormView(
 
 
 class OfficeContactFormView(
-    mixins.NotFoundOnDisabledFeature, mixins.PrepopulateFormMixin,
+    mixins.NotFoundOnDisabledFeature, PrepopulateShortFormMixin,
     BaseNotifyFormView
 ):
     form_class = forms.TradeOfficeContactForm
     template_name = 'contact/domestic/step.html'
-    notify_template_id_agent = settings.CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID
-    notify_template_id_user = settings.CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID
 
     @property
     def flag(self):
         return settings.FEATURE_FLAGS['OFFICE_FINDER_ON']
 
     @property
-    def notify_email_address_agent(self):
-        return helpers.retrieve_exporting_advice_email(
-            self.kwargs['postcode']
+    def agent_email(self):
+        return helpers.retrieve_exporting_advice_email(self.kwargs['postcode'])
+
+    @property
+    def notify_settings(self):
+        return NotifySettings(
+            agent_template=settings.CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID,
+            agent_email=self.agent_email,
+            user_template=settings.CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID,
         )
 
     def get_success_url(self):
@@ -638,17 +633,6 @@ class OfficeContactFormView(
             'contact-us-office-success',
             kwargs={'postcode': self.kwargs['postcode']}
         )
-
-    def get_form_initial(self):
-        if self.company_profile:
-            return {
-                'email': self.request.sso_user.email,
-                'company_type': forms.LIMITED,
-                'organisation_name': self.company_profile['name'],
-                'postcode': self.company_profile['postal_code'],
-                'given_name': self.guess_given_name,
-                'family_name': self.guess_family_name,
-            }
 
 
 class OfficeSuccessView(mixins.NotFoundOnDisabledFeature, BaseSuccessView):

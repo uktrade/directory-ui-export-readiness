@@ -716,6 +716,11 @@ contact_urls = [
         name='contact-us-domestic'
     ),
     url(
+        r'^contact/domestic/enquiries/$',
+        contact.views.DomesticEnquiriesFormView.as_view(),
+        name='contact-us-enquiries'
+    ),
+    url(
         r'^contact/domestic/success/$',
         contact.views.DomesticSuccessView.as_view(),
         name='contact-us-domestic-success'
