@@ -161,6 +161,13 @@ def domestic_form_data(captcha_stub):
     ),
     (
         constants.GREAT_ACCOUNT,
+        constants.COMPANY_NOT_FOUND,
+        views.build_great_account_guidance_url(
+            cms.EXPORT_READINESS_HELP_ACCOUNT_COMPANY_NOT_FOUND_SLUG
+        ),
+    ),
+    (
+        constants.GREAT_ACCOUNT,
         constants.PASSWORD_RESET,
         views.build_great_account_guidance_url(
             cms.EXPORT_READINESS_HELP_PASSWORD_RESET_SLUG

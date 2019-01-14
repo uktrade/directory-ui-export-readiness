@@ -20,6 +20,7 @@ NO_RESPONSE = 'no-response'
 NO_VERIFICATION_EMAIL = 'no-email-confirmation'
 PASSWORD_RESET = 'password-reset'
 COMPANIES_HOUSE_LOGIN = 'companies-house-login'
+COMPANY_NOT_FOUND = 'company-not-found'
 VERIFICATION_CODE = 'verification-code'
 NO_VERIFICATION_LETTER = 'no-verification-letter'
 

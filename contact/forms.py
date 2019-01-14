@@ -141,9 +141,15 @@ class GreatAccountRoutingForm(forms.Form):
         ),
         (constants.PASSWORD_RESET, 'I need to reset my password'),
         (
+            constants.COMPANY_NOT_FOUND,
+            'I cannot find my company'
+        ),
+        (
             constants.COMPANIES_HOUSE_LOGIN,
             'My Companies House login is not working'
         ),
+
+
         (
             constants.VERIFICATION_CODE,
             'I do not know where to enter my verification code'
