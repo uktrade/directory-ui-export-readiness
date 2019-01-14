@@ -28,7 +28,7 @@ Performance dashboard - great.gov.uk
       <li>
         <a href="{% url 'performance-dashboard' %}">Performance dashboard</a>
       </li>
-      <li aria-current="page">{{ page.title }}</li>
+      <li aria-current="page">{{ page.heading }}</li>
       {% endif %}
     </ol>
   </div>
@@ -40,11 +40,11 @@ Performance dashboard - great.gov.uk
     <div class="performance">
 
       <p class="font-small subheading">Performance dashboard</p>
-      <h2 class="heading-large">{{ page.title }}</h2>
+      <h2 class="heading-large">{{ page.heading }}</h2>
       <div class="grid-row">
         <div class="column-half">
           {{ page.description|safe|add_export_elements_classes }}
-          <p>Visit <a href="{{ page.product_link }}" class="link">{{ page.title }}</a></p>
+          <p>Visit <a href="{{ page.product_link }}" class="link">{{ page.heading }}</a></p>
         </div>
       </div>
 
