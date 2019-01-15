@@ -58,7 +58,7 @@ class EuExitOptionFeatureFlagMixin:
 class NewUserRegOptionFeatureFlagMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if not settings.FEATURE_FLAGS['NEW_REG_JOURNEY_ON']:
+        if not settings.FEATURE_FLAGS['NEW_REGISTRATION_JOURNEY_ON']:
             self.fields['choice'].choices = [
                 (value, label) for value, label in self.CHOICES
                 if value != constants.COMPANY_NOT_FOUND
@@ -158,8 +158,6 @@ class GreatAccountRoutingForm(NewUserRegOptionFeatureFlagMixin, forms.Form):
             constants.COMPANIES_HOUSE_LOGIN,
             'My Companies House login is not working'
         ),
-
-
         (
             constants.VERIFICATION_CODE,
             'I do not know where to enter my verification code'

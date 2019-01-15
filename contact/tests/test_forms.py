@@ -236,11 +236,7 @@ def test_feedback_form_serialize_data(captcha_stub):
     (forms.InternationalRoutingForm, True),
     (forms.InternationalRoutingForm, False),
 ))
-def test_routing_forms_feature_flag(
-        form_class,
-        value,
-        feature_flags
-):
+def test_routing_forms_feature_flag(form_class,value,feature_flags):
     feature_flags['EU_EXIT_FORMS_ON'] = value
 
     choices = form_class().fields['choice'].choices
@@ -248,14 +244,11 @@ def test_routing_forms_feature_flag(
     assert any(value == constants.EUEXIT for value, label in choices) is value
 
 
-@pytest.mark.parametrize('form_class,value', (
-    (forms.GreatAccountRoutingForm, True),
-    (forms.GreatAccountRoutingForm, False),
-))
-def test_routing_forms_new_reg_journey_flag(form_class, value, feature_flags):
-    feature_flags['NEW_REG_JOURNEY_ON'] = value
+@pytest.mark.parametrize('value', (True, False,))
+def test_routing_forms_new_reg_journey_flag(value, feature_flags):
+    feature_flags['NEW_REGISTRATION_JOURNEY_ON'] = value
 
-    choices = form_class().fields['choice'].choices
+    choices = forms.GreatAccountRoutingForm().fields['choice'].choices
 
     assert any(
         value == constants.COMPANY_NOT_FOUND for value,
