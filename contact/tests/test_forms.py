@@ -244,6 +244,18 @@ def test_routing_forms_feature_flag(form_class, value, feature_flags):
     assert any(value == constants.EUEXIT for value, label in choices) is value
 
 
+@pytest.mark.parametrize('form_class,value', (
+    (forms.GreatAccountRoutingForm, True),
+    (forms.GreatAccountRoutingForm, False),
+))
+def test_routing_forms_new_reg_journey_flag(form_class, value, feature_flags):
+    feature_flags['NEW_REG_JOURNEY_ON'] = value
+
+    choices = form_class().fields['choice'].choices
+
+    assert any(value == constants.COMPANY_NOT_FOUND for value, label in choices) is value
+
+
 def test_office_finder_unknown_postcode():
     url = api_client.exporting.endpoints['lookup-by-postcode'].format(
         postcode='ABC123'

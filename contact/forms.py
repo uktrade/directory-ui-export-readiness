@@ -55,6 +55,16 @@ class EuExitOptionFeatureFlagMixin:
             ]
 
 
+class NewUserRegOptionFeatureFlagMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not settings.FEATURE_FLAGS['NEW_REG_JOURNEY_ON']:
+            self.fields['choice'].choices = [
+                (value, label) for value, label in self.CHOICES
+                if value != constants.COMPANY_NOT_FOUND
+            ]
+
+
 class NoOpForm(forms.Form):
     pass
 
@@ -133,7 +143,7 @@ class ExportOpportunitiesRoutingForm(forms.Form):
     )
 
 
-class GreatAccountRoutingForm(forms.Form):
+class GreatAccountRoutingForm(NewUserRegOptionFeatureFlagMixin, forms.Form):
     CHOICES = (
         (
             constants.NO_VERIFICATION_EMAIL,
@@ -141,7 +151,7 @@ class GreatAccountRoutingForm(forms.Form):
         ),
         (constants.PASSWORD_RESET, 'I need to reset my password'),
         (
-            constants.COMPANY_NOT_FOUND,
+            constants.COMPANY_NOT_FOUND, # possibly update by mixin
             'I cannot find my company'
         ),
         (
