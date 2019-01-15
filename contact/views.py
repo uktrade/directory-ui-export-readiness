@@ -190,6 +190,9 @@ class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
             constants.PASSWORD_RESET: build_great_account_guidance_url(
                 cms.EXPORT_READINESS_HELP_PASSWORD_RESET_SLUG
             ),
+            constants.COMPANY_NOT_FOUND: build_great_account_guidance_url(
+                cms.EXPORT_READINESS_HELP_ACCOUNT_COMPANY_NOT_FOUND_SLUG
+            ),
             constants.COMPANIES_HOUSE_LOGIN: build_great_account_guidance_url(
                 cms.EXPORT_READINESS_HELP_COMPANIES_HOUSE_LOGIN_SLUG
             ),
