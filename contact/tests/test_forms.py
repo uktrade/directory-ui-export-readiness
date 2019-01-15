@@ -257,7 +257,10 @@ def test_routing_forms_new_reg_journey_flag(form_class, value, feature_flags):
 
     choices = form_class().fields['choice'].choices
 
-    assert any(value == constants.COMPANY_NOT_FOUND for value, label in choices) is value
+    assert any(
+        value == constants.COMPANY_NOT_FOUND for value,
+        label in choices
+    ) is value
 
 
 def test_office_finder_unknown_postcode():
