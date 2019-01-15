@@ -151,7 +151,7 @@ class GreatAccountRoutingForm(NewUserRegOptionFeatureFlagMixin, forms.Form):
         ),
         (constants.PASSWORD_RESET, 'I need to reset my password'),
         (
-            constants.COMPANY_NOT_FOUND, # possibly update by mixin
+            constants.COMPANY_NOT_FOUND,  # possibly update by mixin
             'I cannot find my company'
         ),
         (
