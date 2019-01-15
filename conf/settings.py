@@ -335,7 +335,6 @@ DIRECTORY_HEALTHCHECK_BACKENDS = [
     directory_healthcheck.backends.APIBackend,
     directory_healthcheck.backends.SingleSignOnBackend,
     directory_healthcheck.backends.FormsAPIBackend,
-    directory_healthcheck.backends.SentryBackend,
 ]
 
 # Comtrade API

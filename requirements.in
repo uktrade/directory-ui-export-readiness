@@ -1,4 +1,4 @@
-django==1.11.15
+django==1.11.18
 django-environ==0.4.5
 django-extensions==1.9.0
 django-formtools==2.0
@@ -19,6 +19,7 @@ sigauth==4.0.1
 directory-healthcheck==1.0.0
 directory-ch-client==1.0.0
 directory-components==4.0.1
+export-elements==1.0.1
 geoip2==2.9.0
 django-ipware==2.1.0
 django-redis==4.8.0
