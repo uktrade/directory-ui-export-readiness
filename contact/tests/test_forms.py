@@ -236,7 +236,7 @@ def test_feedback_form_serialize_data(captcha_stub):
     (forms.InternationalRoutingForm, True),
     (forms.InternationalRoutingForm, False),
 ))
-def test_routing_forms_feature_flag(form_class,value,feature_flags):
+def test_routing_forms_feature_flag(form_class, value, feature_flags):
     feature_flags['EU_EXIT_FORMS_ON'] = value
 
     choices = form_class().fields['choice'].choices
