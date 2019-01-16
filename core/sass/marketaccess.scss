@@ -26,6 +26,10 @@
     margin: 0;
 }
 
+.list.list-bullet.list-bullet li:before {
+    background-color: #333;
+}
+
 .form-label {
     padding-bottom: 1em;
 }
