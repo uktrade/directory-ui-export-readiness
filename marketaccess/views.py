@@ -77,7 +77,6 @@ class ReportMarketAccessBarrierFormView(
     def done(self, form_list, **kwargs):
         # flatten the multi step data to one dictionary
         serialized_data = self.serialize_form_list(form_list)
-        print(serialized_data)
         subject = f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: {serialized_data['country']}: {serialized_data['company_name']}"
         action = actions.ZendeskAction(
             email_address=serialized_data['email'],

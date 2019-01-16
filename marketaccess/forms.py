@@ -7,16 +7,6 @@ from django.utils.safestring import mark_safe
 from django.forms import Select, Textarea, ValidationError
 
 
-class MarketAccessFeatureFlagMixin:
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if not settings.FEATURE_FLAGS['MARKET_ACCESS_FORM_ON']:
-            self.fields['choice'].choices = [
-                (value, label) for value, label in self.CHOICES
-                if value != constants.EUEXIT
-            ]
-
-
 class AboutForm(forms.Form):
     error_css_class = 'input-field-container has-error'
     CATEGORY_CHOICES = (
