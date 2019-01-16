@@ -3,12 +3,10 @@
 {% load static from staticfiles %}
 
 {% block extra_contents %}
-    <div id="heading-container">
-        <p>Report a trade barrier</p>
-        <p class="bold-small"> Step 4 of 4 </p>
-        <h2 class="heading-large">Summary</h1>
-    </div>
-    <h3 class="heading-medium">About you and your business or organisation</h2>
+    <p>Report a trade barrier</p>
+    <p class="bold-small"> Step 4 of 4 </p>
+    <h1 class="heading-large">Summary</h1>
+    <h2 class="heading-medium">About you and your business or organisation</h2>
     <p class="bold-small"> First name </p>
     <p>{{all_cleaned_data.firstname}}</p>
     <p class="bold-small"> Last name </p>
@@ -23,8 +21,8 @@
     <p>{{all_cleaned_data.email}}</p>
     <p class="bold-small"> Phone </p>
     <p>{{all_cleaned_data.phone}}</p>
-    <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='about' %}">Change answers</a>
-    <h3 class="heading-medium">Describe the problem</h2>
+    <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='about' %}?from=summary">Change answers</a>
+    <h2 class="heading-medium">Describe the problem</h2>
     <p class="bold-small"> What is the product or service you want to export? </p>
     <p>{{all_cleaned_data.product_service}}</p>
     <p class="bold-small"> Which country are you trying to export to? </p>
@@ -37,11 +35,11 @@
     <p>{{all_cleaned_data.resolve_summary}}</p>
     <p class="bold-small"> Is this issue caused by or related to EU Exit? </p>
     <p>{{all_cleaned_data.eu_exit_related}}</p>
-    <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='problem-details' %}">Change answers</a>
-    <h3 class="heading-medium">Any other details</h2>
+    <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='problem-details' %}?from=summary">Change answers</a>
+    <h2 class="heading-medium">Any other details</h2>
     <p class="bold-small"> Is there anything else you would like us to understand about the situation? </p>
     <p>{{all_cleaned_data.other_details}}</p>
-    <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='other-details' %}">Change answers</a>
+    <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='other-details' %}?from=summary">Change answers</a>
 
 {% endblock %}
 
