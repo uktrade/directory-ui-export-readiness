@@ -25,9 +25,9 @@ EXPORT_JOURNEY_REDIRECTS = {
     '/market-research/visit-a-trade-show/':
         '/advice/find-an-export-market/trade-shows',
     '/market-research/doing-business-with-integrity/':
-        '/advice/manage-legal-and-ethical-compliance/understand-business-risks-in-overseas-markets',  # NOQA
+        '/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets',  # NOQA
     '/market-research/know-the-relevant-legislation/':
-        '/advice/manage-legal-and-ethical-compliance/understand-business-risks-in-overseas-markets',  # NOQA
+        '/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets',  # NOQA
 
     '/business-planning/': '/advice/define-route-to-market/',
     '/business-planning/make-an-export-plan/':
@@ -75,7 +75,7 @@ EXPORT_JOURNEY_REDIRECTS = {
     '/getting-paid/consider-how-youll-get-paid/':
         '/advice/manage-payment-for-export-orders/how-to-create-an-export-invoice',  # NOQA
     '/getting-paid/decide-when-youll-get-paid/':
-        '/advice/manage-payment-for-export-orders/decide-when-youll-get-paid-for-export-orders',  # NOQA
+        '/advice/manage-payment-for-export-orders/decide-when-to-get-paid-for-export-orders',  # NOQA
     '/getting-paid/payment-methods/':
         '/advice/manage-payment-for-export-orders/payment-methods-for-exporters',  # NOQA
     '/getting-paid/insure-against-non-payment/':
@@ -86,7 +86,7 @@ EXPORT_JOURNEY_REDIRECTS = {
     '/customer-insight/meet-your-customers/':
         '/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market',  # NOQA
     '/customer-insight/know-your-customers/':
-        '/advice/manage-legal-and-ethical-compliance/understand-business-risks-in-overseas-markets',  # NOQA
+        '/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets',  # NOQA
     '/customer-insight/manage-language-differences/':
         '/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market',  # NOQA
     '/customer-insight/understand-your-customers-culture/':
