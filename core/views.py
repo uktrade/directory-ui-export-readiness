@@ -9,42 +9,10 @@ from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 from django.utils.functional import cached_property
 
-from article.helpers import ArticlesViewedManagerFactory
-from article import structure
 from casestudy import casestudies
 from core import helpers, mixins
-from triage.helpers import TriageAnswersManager
 from euexit.mixins import (
     HideLanguageSelectorMixin, EUExitFormsFeatureFlagMixin)
-
-
-class ArticlesViewedManagerMixin:
-
-    article_read_manager = None
-
-    def create_article_manager(self, request):
-        return ArticlesViewedManagerFactory(request=request)
-
-    def dispatch(self, request, *args, **kwargs):
-        self.article_read_manager = self.create_article_manager(request)
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_article_group_progress_details(self):
-        name = self.article_group.name
-        manager = self.article_read_manager
-        viewed_article_uuids = manager.articles_viewed_for_group(name)
-        return {
-            'viewed_article_uuids': viewed_article_uuids,
-            'read_count': len(viewed_article_uuids),
-            'total_articles_count': len(self.article_group.articles),
-            'time_left_to_read': manager.remaining_read_time_for_group(name),
-        }
-
-    def get_context_data(self, *args, **kwargs):
-        return super().get_context_data(
-            *args, **kwargs,
-            article_group_progress=self.get_article_group_progress_details(),
-        )
 
 
 class SetEtagMixin:
@@ -55,45 +23,8 @@ class SetEtagMixin:
         return response
 
 
-class LandingPageViewNegotiator(TemplateView):
-    def __new__(cls, *args, **kwargs):
-        if settings.FEATURE_FLAGS['NEWS_SECTION_ON']:
-            return NewsSectionLandingPageView(*args, **kwargs)
-        elif settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON']:
-            return LandingPageView(*args, **kwargs)
-        return PrototypeLandingPageView(*args, **kwargs)
-
-
-class LandingPageView(ArticlesViewedManagerMixin, TemplateView):
-    template_name = 'core/landing-page.html'
-    article_group = structure.ALL_ARTICLES
-
-    def get_context_data(self, *args, **kwargs):
-        answer_manager = TriageAnswersManager(self.request)
-        has_completed_triage = answer_manager.retrieve_answers() != {}
-        return super().get_context_data(
-            *args, **kwargs,
-            LANDING_PAGE_VIDEO_URL=settings.LANDING_PAGE_VIDEO_URL,
-            has_completed_triage=has_completed_triage,
-            casestudies=[
-                casestudies.MARKETPLACE,
-                casestudies.HELLO_BABY,
-                casestudies.YORK,
-            ],
-            article_group_read_progress=(
-                self.article_read_manager.get_view_progress_for_groups()
-            ),
-        )
-
-    def get(self, request, *args, **kwargs):
-        redirector = helpers.GeoLocationRedirector(self.request)
-        if redirector.should_redirect:
-            return redirector.get_response()
-        return super().get(request, *args, **kwargs)
-
-
-class NewsSectionLandingPageView(LandingPageView):
-    template_name = 'prototype/landing_page.html'
+class LandingPageView(TemplateView):
+    template_name = 'article/landing_page.html'
 
     @cached_property
     def page(self):
@@ -103,18 +34,22 @@ class NewsSectionLandingPageView(LandingPageView):
         )
         return helpers.handle_cms_response_allow_404(response)
 
+    def get(self, request, *args, **kwargs):
+        redirector = helpers.GeoLocationRedirector(self.request)
+        if redirector.should_redirect:
+            return redirector.get_response()
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, *args, **kwargs):
         return super().get_context_data(
             page=self.page,
+            casestudies=[
+                casestudies.MARKETPLACE,
+                casestudies.HELLO_BABY,
+                casestudies.YORK,
+            ],
             *args, **kwargs
         )
-
-
-class PrototypeLandingPageView(
-    mixins.AdviceSectionFeatureFlagMixin,
-    NewsSectionLandingPageView,
-):
-    pass
 
 
 class CampaignPageView(
@@ -234,7 +169,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
             'contact-us-office-success',
         ]
 
-        dynamic_cms_page_url_names += [url.name for url in urls.prototype_urls]
+        dynamic_cms_page_url_names += [url.name for url in urls.article_urls]
         dynamic_cms_page_url_names += [url.name for url in urls.news_urls]
 
         return [
@@ -245,11 +180,6 @@ class StaticViewSitemap(sitemaps.Sitemap):
         ]
 
     def location(self, item):
-        if item == 'triage-wizard':
-            # import here to avoid circular import
-            from triage.views import TriageWizardFormView
-            return reverse(item, kwargs={
-                'step': TriageWizardFormView.EXPORTED_BEFORE})
         if item == 'uk-export-finance-lead-generation-form':
             return reverse(item, kwargs={'step': 'contact'})
         return reverse(item)

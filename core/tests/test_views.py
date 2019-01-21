@@ -79,27 +79,12 @@ def test_landing_page(mock_get_page, client, settings):
     assert response.status_code == 200
     assert '/static/js/home' in str(response.content)
     assert response.template_name == [
-        views.PrototypeLandingPageView.template_name]
+        views.LandingPageView.template_name]
     assert response.context_data['casestudies'] == [
         casestudies.MARKETPLACE,
         casestudies.HELLO_BABY,
         casestudies.YORK,
     ]
-    assert response.context_data['article_group_read_progress'] == {
-        'all': {'read': 0, 'total': 49},
-        'business_planning': {'read': 0, 'total': 11},
-        'customer_insights': {'read': 0, 'total': 4},
-        'finance': {'read': 0, 'total': 7},
-        'getting_paid': {'read': 0, 'total': 5},
-        'market_research': {'read': 0, 'total': 7},
-        'operations_and_compliance': {'read': 0, 'total': 12},
-        'persona_new': {'read': 0, 'total': 23},
-        'persona_occasional': {'read': 0, 'total': 42},
-        'persona_regular': {'read': 0, 'total': 21},
-        'custom_persona_new': {'read': 0, 'total': 23},
-        'custom_persona_occasional': {'read': 0, 'total': 42},
-        'custom_persona_regular': {'read': 0, 'total': 21},
-    }
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -132,8 +117,7 @@ def test_landing_page_news_and_export_journey_off(
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == [
-        views.PrototypeLandingPageView.template_name]
+    assert response.template_name == [views.LandingPageView.template_name]
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -166,8 +150,7 @@ def test_landing_page_template_news_feature_flag_on(
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == [
-        views.PrototypeLandingPageView.template_name]
+    assert response.template_name == [views.LandingPageView.template_name]
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -198,8 +181,7 @@ def test_landing_page_template_news_feature_flag_off(
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == [
-        views.PrototypeLandingPageView.template_name]
+    assert response.template_name == [views.LandingPageView.template_name]
 
 
 def test_interstitial_page_exopps(client):
