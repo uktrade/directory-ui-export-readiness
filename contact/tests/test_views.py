@@ -14,7 +14,7 @@ from core.tests.helpers import create_response
 
 
 def build_wizard_url(step):
-    return reverse('triage-wizard', kwargs={'step': step})
+    return reverse('contact-us-routing-form', kwargs={'step': step})
 
 
 class ChoiceForm(django.forms.Form):
@@ -247,7 +247,7 @@ def test_render_next_step(current_step, choice, expected_url):
     view = views.RoutingFormView()
     view.steps = mock.Mock(current=current_step)
     view.storage = mock.Mock()
-    view.url_name = 'triage-wizard'
+    view.url_name = 'contact-us-routing-form'
     view.request = mock.Mock()
     view.form_session = mock.Mock()
 
@@ -266,7 +266,7 @@ def test_get_previous_step(current_step, expected_step):
     view = views.RoutingFormView()
     view.steps = mock.Mock(current=current_step)
     view.storage = mock.Mock()
-    view.url_name = 'triage-wizard'
+    view.url_name = 'contact-us-routing-form'
 
     assert view.get_prev_step() == expected_step
 
@@ -779,7 +779,7 @@ def test_ingress_url_cleared_on_redirect_away(
     view = views.RoutingFormView()
     view.steps = mock.Mock(current=current_step)
     view.storage = mock.Mock()
-    view.url_name = 'triage-wizard'
+    view.url_name = 'contact-us-routing-form'
 
     assert form.is_valid()
 

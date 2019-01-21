@@ -36,17 +36,16 @@
         <ul id="about-list-1" class="list list-bullet">
           <li><a class="link" href="{% url 'landing-page' %}">read guidance</a> to help you export your product or service
           </li>
-          <li><a class="link" href="{% url 'triage-wizard' step='exported-before' %}">get market statistics and guidance</a> to match your experience</li>
           <li><a class="link" href="{{ services_urls.fab }}">create a profile</a> to showcase your business to overseas buyers</li>
           <li><a class="link" href="{{ services_urls.soo }}">find an online marketplace</a> to sell your products overseas</li>
           <li><a class="link" href="{% url 'export-opportunities' %}">apply for opportunities</a> to sell your product or service overseas</li>
           <li><a class="link" href="{% url 'get-finance' %}">get finance advice and support from UK Export Finance</a></li>
-          <li><a class="link" href="https://www.events.trade.gov.uk/">find events and trade missions</a> to attend</li>
+          <li><a class="link" href="{{ services_urls.events }}">find events and trade missions</a> to attend</li>
         </ul>
         <p aria-labels="about-list-2">Overseas companies can:</p>
         <ul id="about-list-2" class="list list-bullet">
-          <li>read <a class="link" href="https://invest.great.gov.uk">guidance on how to invest in the UK</a></li>
-          <li><a class="link" href="https://trade.great.gov.uk/">find a UK supplier</a></li>
+          <li>read <a class="link" href="{{ services_urls.invest }}">guidance on how to invest in the UK</a></li>
+          <li><a class="link" href="{{ services_urls.fas }}">find a UK supplier</a></li>
           <li><a class="link" href="http://www.visitbritain.org/">see Visit Britain for information about visiting the UK</a></li>
           <li><a class="link" href="https://study-uk.britishcouncil.org/">see the British Council website for information about studying in the UK</a></li>
         </ul>

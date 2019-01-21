@@ -13,8 +13,6 @@ import contact.views
 import core.views
 import euexit.views
 import finance.views
-import prototype.views
-import triage.views
 
 from conf.url_redirects import redirects
 
@@ -56,7 +54,7 @@ urlpatterns = [
     ),
     url(
         r"^$",
-        core.views.LandingPageViewNegotiator.as_view(),
+        core.views.LandingPageView.as_view(),
         name='landing-page',
     ),
     url(
@@ -145,318 +143,6 @@ urlpatterns = [
         name='export-opportunities',
     ),
     url(
-        r"^new/$",
-        article.views.PersonaNewArticleListView.as_view(),
-        name='article-list-persona-new',
-    ),
-    url(
-        r"^occasional/$",
-        article.views.PersonaOccasionalArticleListView.as_view(),
-        name='article-list-persona-occasional',
-    ),
-    url(
-        r"^regular/$",
-        article.views.PersonaRegularArticleListView.as_view(),
-        name='article-list-persona-regular',
-    ),
-    url(
-        r"^market-research/$",
-        article.views.MarketResearchArticleListView.as_view(),
-        name='article-list-market-research',
-    ),
-    url(
-        r"^customer-insight/$",
-        article.views.CustomerInsightArticleListView.as_view(),
-        name='article-list-customer-insight',
-    ),
-    url(
-        r"^finance/$",
-        article.views.FinanceArticleListView.as_view(),
-        name='article-list-finance',
-    ),
-    url(
-        r"^business-planning/$",
-        article.views.BusinessPlanningArticleListView.as_view(),
-        name='article-list-business-planning',
-    ),
-    url(
-        r"^getting-paid/$",
-        article.views.GettingPaidArticleListView.as_view(),
-        name='article-list-getting-paid',
-    ),
-    url(
-        r"^operations-and-compliance/$",
-        article.views.OperationsAndComplianceArticleListView.as_view(),
-        name='article-list-operations-and-compliance',
-    ),
-    url(
-        r"^market-research/doing-business-with-integrity/$",
-        article.views.DoBusinessWithIntegrityView.as_view(),
-        name='business-with-integrity',
-    ),
-    url(
-        r"^market-research/do-research-first/$",
-        article.views.DoResearchFirstView.as_view(),
-        name='article-research-market',
-    ),
-    url(
-        r"^market-research/define-market-potential/$",
-        article.views.DefineMarketPotentialView.as_view(),
-        name='define-market-potential',
-    ),
-    url(
-        r"^market-research/research-your-market/$",
-        article.views.DoFieldResearchView.as_view(),
-        name='do-field-research',
-    ),
-    url(
-        r"^market-research/analyse-the-competition/$",
-        article.views.AnalyseTheCompetitionView.as_view(),
-        name='analyse-the-competition',
-    ),
-    url(
-        r"^market-research/visit-a-trade-show/$",
-        article.views.VisitTradeShowView.as_view(),
-        name='visit-trade-show',
-    ),
-    url(
-        r"^market-research/know-the-relevant-legislation/$",
-        article.views.KnowTheRelevantLegislationView.as_view(),
-        name='know-the-relevant-legislation',
-    ),
-    url(
-        r"^customer-insight/know-your-customers/$",
-        article.views.KnowYourCustomerView.as_view(),
-        name='know-your-customer',
-    ),
-    url(
-        r"^customer-insight/meet-your-customers/$",
-        article.views.MeetYourCustomerView.as_view(),
-        name='meet-your-customers',
-    ),
-    url(
-        r"^customer-insight/manage-language-differences/$",
-        article.views.ManageLanguageDifferencesView.as_view(),
-        name='manage-language-differences',
-    ),
-    url(
-        r"^customer-insight/understand-your-customers-culture/$",
-        article.views.UnderstandYourCustomersCultureView.as_view(),
-        name='understand-your-customers-culture',
-    ),
-    url(
-        r"^finance/get-money-to-export/$",
-        article.views.GetMoneyToExportView.as_view(),
-        name='get-money-to-export',
-    ),
-    url(
-        r"^finance/choose-the-right-finance/$",
-        article.views.ChooseTheRightFinanceView.as_view(),
-        name='choose-right-finance',
-    ),
-    url(
-        r"^finance/get-export-finance/$",
-        article.views.GetExportFinanceView.as_view(),
-        name='get-export-finance',
-    ),
-    url(
-        r"^finance/raise-money-by-borrowing/$",
-        article.views.RaiseMoneyByBorrowingView.as_view(),
-        name='raise-money-by-borrowing',
-    ),
-    url(
-        r"^finance/borrow-against-assets/$",
-        article.views.BorrowAgainstAssetsView.as_view(),
-        name='borrow-against-assets',
-    ),
-    url(
-        r"^finance/raise-money-with-investment/$",
-        article.views.RaiseMoneyWithInvestmentView.as_view(),
-        name='raise-money-with-investment',
-    ),
-    url(
-        r"^finance/get-finance-support-from-government/$",
-        article.views.GetGovernmentFinanceSupportView.as_view(),
-        name='get-finance-support-from-government',
-    ),
-    url(
-        r"^business-planning/make-an-export-plan/$",
-        article.views.MakeExportingPlanView.as_view(),
-        name='make-an-export-plan',
-    ),
-    url(
-        r"^business-planning/find-a-route-to-market/$",
-        article.views.FindARouteToMarketView.as_view(),
-        name='find-a-route-to-market',
-    ),
-    url(
-        r"^business-planning/sell-overseas-directly/$",
-        article.views.SellOverseasDirectlyView.as_view(),
-        name='sell-overseas-directly',
-    ),
-    url(
-        r"^business-planning/use-an-overseas-agent/$",
-        article.views.UseOverseasAgentView.as_view(),
-        name='use-an-overseas-agent',
-    ),
-    url(
-        r"^business-planning/use-a-distributor/$",
-        article.views.UseDistributorView.as_view(),
-        name='use-a-distributor',
-    ),
-    url(
-        r"^business-planning/choosing-an-agent-or-distributor/$",
-        article.views.ChoosingAgentOrDistributorView.as_view(),
-        name='choosing-an-agent-or-distributor',
-    ),
-    url(
-        r"^business-planning/licensing-and-franchising/$",
-        article.views.LicenceAndFranchisingView.as_view(),
-        name='licensing-and-franchising',
-    ),
-    url(
-        r"^business-planning/license-your-product-or-service/$",
-        article.views.LicenceYourProductOrServiceView.as_view(),
-        name='license-your-product-or-service',
-    ),
-    url(
-        r"^business-planning/franchise-your-business/$",
-        article.views.FranchiseYourBusinessView.as_view(),
-        name='franchise-your-business',
-    ),
-    url(
-        r"^business-planning/start-a-joint-venture/$",
-        article.views.StartJointVentureView.as_view(),
-        name='start-a-joint-venture',
-    ),
-    url(
-        r"^business-planning/set-up-an-overseas-operation/$",
-        article.views.SetupOverseasOperationView.as_view(),
-        name='set-up-an-overseas-operation',
-    ),
-    url(
-        r"^getting-paid/consider-how-youll-get-paid/$",
-        article.views.ConsiderHowPaidView.as_view(),
-        name='consider-how-youll-get-paid',
-    ),
-    url(
-        r"^getting-paid/invoice-currency-and-contents/$",
-        article.views.InvoiceCurrencyAndContentsView.as_view(),
-        name='invoice-currency-and-contents',
-    ),
-    url(
-        r"^getting-paid/decide-when-youll-get-paid/$",
-        article.views.DecideWhenPaidView.as_view(),
-        name='decide-when-youll-get-paid',
-    ),
-    url(
-        r"^getting-paid/payment-methods/$",
-        article.views.PaymentMethodsView.as_view(),
-        name='payment-methods',
-    ),
-    url(
-        r"^getting-paid/insure-against-non-payment/$",
-        article.views.InsureAgainstNonPaymentView.as_view(),
-        name='insure-against-non-payment',
-    ),
-    url(
-        r"^operations-and-compliance/anti-bribery-and-corruption-training/$",
-        article.views.AntiBriberyAndCorruptionTrainingView.as_view(),
-        name='anti-bribery-and-corruption-training',
-    ),
-    url(
-        r"^operations-and-compliance/plan-the-logistics/$",
-        article.views.PlanTheLogisticsView.as_view(),
-        name='plan-the-logistics',
-    ),
-    url(
-        r"^operations-and-compliance/use-a-freight-forwarder/$",
-        article.views.UseFreightForwarderView.as_view(),
-        name='use-a-freight-forwarder',
-    ),
-    url(
-        r"^operations-and-compliance/use-incoterms-in-contracts/$",
-        article.views.UseIncotermsInContractsView.as_view(),
-        name='use-incoterms-in-contracts',
-    ),
-    url(
-        r"^operations-and-compliance/get-your-export-documents-right/$",
-        article.views.GetYourExportDocumentsRightView.as_view(),
-        name='get-your-export-documents-right',
-    ),
-    url(
-        r"^operations-and-compliance/internationalise-your-website/$",
-        article.views.InternationaliseWesbiteView.as_view(),
-        name='internationalise-your-website',
-    ),
-    url(
-        r"^operations-and-compliance/match-your-website-to-your-audience/$",
-        article.views.MatchYourWebsiteToYourAudienceView.as_view(),
-        name='match-your-website-to-your-audience',
-    ),
-    url(
-        r"^operations-and-compliance/protect-your-intellectual-property/$",
-        article.views.WhatIntellectualPropertyIsView.as_view(),
-        name='what-intellectual-property-is',
-    ),
-    url(
-        r"^operations-and-compliance/types-of-intellectual-property/$",
-        article.views.TypesOfIntellectualPropertyView.as_view(),
-        name='types-of-intellectual-property',
-    ),
-    url(
-        r"^operations-and-compliance/know-what-ip-you-have/$",
-        article.views.KnowWhatIntellectualPropertyYouHaveView.as_view(),
-        name='know-what-IP-you-have',
-    ),
-    url(
-        r"^operations-and-compliance/international-ip-protection/$",
-        article.views.IntellectualPropertyProtectionView.as_view(),
-        name='ip-protection-in-multiple-countries',
-    ),
-    url(
-        r"^operations-and-compliance/report-corruption/$",
-        article.views.ReportCorruptionView.as_view(),
-        name='report-corruption',
-    ),
-    url(
-        r"^new/next-steps/$",
-        article.views.NextStepsNewExporterView.as_view(),
-        name='next-steps-new-exporter',
-    ),
-    url(
-        r"^occasional/next-steps/$",
-        article.views.NextStepsOccasionalExporterView.as_view(),
-        name='next-steps-occasional-exporter',
-    ),
-    url(
-        r"^regular/next-steps/$",
-        article.views.NextStepsRegularExporterView.as_view(),
-        name='next-steps-regular-exporter',
-    ),
-    url(
-        r'^triage/(?P<step>.+)/$',
-        triage.views.TriageWizardFormView.as_view(
-            url_name='triage-wizard', done_step_name='finished'
-        ),
-        name='triage-wizard'
-    ),
-    url(
-        r'^triage/$',
-        triage.views.TriageStartPageView.as_view(),
-        name='triage-start'
-    ),
-    url(
-        r'^custom/$',
-        triage.views.CustomPageView.as_view(),
-        name='custom-page'
-    ),
-    url(
-        r'^api/internal/companies-house-search/$',
-        triage.views.CompaniesHouseSearchApiView.as_view(),
-        name='api-internal-companies-house-search'
-    ),
-    url(
         r'^story/hello-babys-rapid-online-growth/$',
         casestudy.views.CasestudyHelloBabyView.as_view(),
         name='casestudy-hello-baby'
@@ -489,6 +175,22 @@ urlpatterns = [
         ),
         name='uk-export-finance-lead-generation-form'
     ),
+    url(
+        r'^triage/(?P<step>.+)/$',
+        core.views.ServiceNoLongerAvailableView.as_view(),
+        name='triage-wizard'
+    ),
+    url(
+        r'^triage/$',
+        core.views.ServiceNoLongerAvailableView.as_view(),
+        name='triage-start'
+    ),
+    url(
+        r'^custom/$',
+        core.views.ServiceNoLongerAvailableView.as_view(),
+        name='custom-page'
+    )
+
 ]
 
 
@@ -519,130 +221,130 @@ euexit_urls = [
 news_urls = [
     url(
         r"^eu-exit-news/$",
-        prototype.views.NewsListPageView.as_view(),
+        article.views.NewsListPageView.as_view(),
         name='eu-exit-news-list',
     ),
     url(
         r"^eu-exit-news/(?P<slug>[\w-]+)/$",
-        prototype.views.NewsArticleDetailView.as_view(),
+        article.views.NewsArticleDetailView.as_view(),
         name='eu-exit-news-detail',
     ),
     url(
         r"^international/eu-exit-news/$",
-        prototype.views.InternationalNewsListPageView.as_view(),
+        article.views.InternationalNewsListPageView.as_view(),
         name='international-eu-exit-news-list',
     ),
     url(
         r"^international/eu-exit-news/(?P<slug>[\w-]+)/$",
-        prototype.views.InternationalNewsArticleDetailView.as_view(),
+        article.views.InternationalNewsArticleDetailView.as_view(),
         name='international-eu-exit-news-detail',
     ),
 ]
 
 
-prototype_urls = [
+article_urls = [
     url(
         r"^tagged/(?P<slug>[\w-]+)/$",
-        prototype.views.TagListPageView.as_view(),
+        article.views.TagListPageView.as_view(),
         name='tag-list',
     ),
     url(
         r"^advice/$",
-        prototype.views.PrototypePageView.as_view(),
+        article.views.CMSPageView.as_view(),
         {'slug': 'advice'},
         name='advice',
     ),
     url(
         r"^advice/create-an-export-plan/$",
-        prototype.views.PrototypePageView.as_view(),
+        article.views.CMSPageView.as_view(),
         {'slug': 'create-an-export-plan'},
         name='create-an-export-plan',
     ),
     url(
         r"^advice/create-an-export-plan/(?P<slug>[\w-]+)/$",
-        prototype.views.PrototypePageView.as_view(),
+        article.views.CMSPageView.as_view(),
         name='create-an-export-plan-article',
     ),
     url(
         r"^advice/find-an-export-market/$",
-        prototype.views.PrototypePageView.as_view(),
+        article.views.CMSPageView.as_view(),
         {'slug': 'find-an-export-market'},
         name='find-an-export-market',
     ),
     url(
         r"^advice/find-an-export-market/(?P<slug>[\w-]+)/$",
-        prototype.views.PrototypePageView.as_view(),
+        article.views.CMSPageView.as_view(),
         name='find-an-export-market-article',
     ),
     url(
         r"^advice/define-route-to-market/$",
-        prototype.views.PrototypePageView.as_view(),
+        article.views.CMSPageView.as_view(),
         {'slug': 'define-route-to-market'},
         name='define-route-to-market',
     ),
     url(
         r"^advice/define-route-to-market/(?P<slug>[\w-]+)/$",
-        prototype.views.PrototypePageView.as_view(),
+        article.views.CMSPageView.as_view(),
         name='define-route-to-market-article',
     ),
     url(
         r"^advice/get-export-finance-and-funding/$",
-        prototype.views.PrototypePageView.as_view(),
+        article.views.CMSPageView.as_view(),
         {'slug': 'get-export-finance-and-funding'},
         name='get-export-finance-and-funding',
     ),
     url(
         r"^advice/get-export-finance-and-funding/(?P<slug>[\w-]+)/$",
-        prototype.views.PrototypePageView.as_view(),
+        article.views.CMSPageView.as_view(),
         name='get-export-finance-and-funding-article',
     ),
     url(
         r"^advice/manage-payment-for-export-orders/$",
-        prototype.views.PrototypePageView.as_view(),
+        article.views.CMSPageView.as_view(),
         {'slug': 'manage-payment-for-export-orders'},
         name='manage-payment-for-export-orders',
     ),
     url(
         r"^advice/manage-payment-for-export-orders/(?P<slug>[\w-]+)/$",
-        prototype.views.PrototypePageView.as_view(),
+        article.views.CMSPageView.as_view(),
         name='manage-payment-for-export-orders-article',
     ),
     url(
         r"^advice/prepare-to-do-business-in-a-foreign-country/$",
-        prototype.views.PrototypePageView.as_view(),
+        article.views.CMSPageView.as_view(),
         {'slug': 'prepare-to-do-business-in-a-foreign-country'},
         name='prepare-to-do-business-in-a-foreign-country',
     ),
     url(
         r"^advice/prepare-to-do-business-in-a-foreign-country/(?P<slug>[\w-]+)/$",  # noqa
-        prototype.views.PrototypePageView.as_view(),
+        article.views.CMSPageView.as_view(),
         name='prepare-to-do-business-in-a-foreign-country-article',
     ),
     url(
         r"^advice/manage-legal-and-ethical-compliance/$",
-        prototype.views.PrototypePageView.as_view(),
+        article.views.CMSPageView.as_view(),
         {'slug': 'manage-legal-and-ethical-compliance'},
         name='manage-legal-and-ethical-compliance',
     ),
     url(
         r"^advice/manage-legal-and-ethical-compliance/(?P<slug>[\w-]+)/$",
-        prototype.views.PrototypePageView.as_view(),
+        article.views.CMSPageView.as_view(),
         name='manage-legal-and-ethical-compliance-article',
     ),
     url(
         r"^advice/prepare-for-export-procedures-and-logistics/$",
-        prototype.views.PrototypePageView.as_view(),
+        article.views.CMSPageView.as_view(),
         {'slug': 'prepare-for-export-procedures-and-logistics'},
         name='prepare-for-export-procedures-and-logistics',
     ),
     url(
         r"^advice/prepare-for-export-procedures-and-logistics/(?P<slug>[\w-]+)/$",  # noqa
-        prototype.views.PrototypePageView.as_view(),
+        article.views.CMSPageView.as_view(),
         name='prepare-for-export-procedures-and-logistics-article',
     ),
     url(
         r"^markets/(?P<region>[\w-]+)/(?P<country>[\w-]+)/(?P<slug>[\w-]+)/$",
-        prototype.views.CountryGuidePageView.as_view(),
+        article.views.CountryGuidePageView.as_view(),
         name='country-guide-article',
     ),
 ]
@@ -787,11 +489,16 @@ contact_urls = [
         contact.views.OfficeSuccessView.as_view(),
         name='contact-us-office-success'
     ),
+    url(
+        r'^api/internal/companies-house-search/$',
+        core.views.CompaniesHouseSearchApiView.as_view(),
+        name='api-internal-companies-house-search'
+    ),
 ]
 
 
 urlpatterns += euexit_urls
 urlpatterns += redirects
 urlpatterns += news_urls
-urlpatterns += prototype_urls
+urlpatterns += article_urls
 urlpatterns += contact_urls
