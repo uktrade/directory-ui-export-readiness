@@ -32,9 +32,6 @@ class ReportMarketAccessBarrierFormView(
     mixins.NotFoundOnDisabledFeature,
     NamedUrlSessionWizardView
 ):
-    success_url = reverse_lazy(
-        'report-barrier-form-success'
-    )
 
     ABOUT = 'about'
     PROBLEM_DETAILS = 'problem-details'
@@ -77,8 +74,7 @@ class ReportMarketAccessBarrierFormView(
     def done(self, form_list, **kwargs):
         # flatten the multi step data to one dictionary
         serialized_data = self.serialize_form_list(form_list)
-        # f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: {serialized_data['country']}: {serialized_data['company_name']}"
-        subject = ""
+        subject =  f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: {serialized_data['country']}: {serialized_data['company_name']}"
         action = actions.ZendeskAction(
             email_address=serialized_data['email'],
             full_name=f"{serialized_data['firstname']} {serialized_data['lastname']}",
@@ -95,4 +91,4 @@ class ReportMarketAccessBarrierFormView(
         # send to forms-api via POST request
         response = action.save(serialized_data)
         response.raise_for_status()
-        return redirect(self.success_url)
+        return redirect('report-barrier-form-success')
