@@ -3,14 +3,15 @@ from directory_cms_client.client import cms_api_client
 
 from django.conf import settings
 from django.contrib import sitemaps
+from django.http import JsonResponse
 from django.urls import reverse, RegexURLResolver
 from django.utils.cache import set_response_etag
 from django.views.generic import TemplateView
-from django.views.generic.base import RedirectView
+from django.views.generic.base import RedirectView, View
 from django.utils.functional import cached_property
 
 from casestudy import casestudies
-from core import helpers, mixins
+from core import helpers, mixins, forms
 from euexit.mixins import (
     HideLanguageSelectorMixin, EUExitFormsFeatureFlagMixin)
 
@@ -255,3 +256,17 @@ class PerformanceDashboardNotesView(PerformanceDashboardView):
 
 class ServiceNoLongerAvailableView(TemplateView):
     template_name = 'core/service_no_longer_available.html'
+
+
+class CompaniesHouseSearchApiView(View):
+    form_class = forms.CompaniesHouseSearchForm
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(data=request.GET)
+        if not form.is_valid():
+            return JsonResponse(form.errors, status=400)
+        api_response = helpers.CompaniesHouseClient.search(
+            term=form.cleaned_data['term']
+        )
+        api_response.raise_for_status()
+        return JsonResponse(api_response.json()['items'], safe=False)

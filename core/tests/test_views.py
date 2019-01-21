@@ -1,6 +1,7 @@
 import http
 from unittest.mock import call, patch, PropertyMock
 
+import requests
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.views.generic import TemplateView
@@ -878,3 +879,53 @@ def test_triage_wizard_view(client):
     response = client.get(url)
     assert response.status_code == status.HTTP_200_OK
     assert response.template_name == ['core/service_no_longer_available.html']
+
+
+def test_companies_house_search_validation_error(client, settings):
+    settings.FEATURE_FLAGS['INTERNAL_CH_ON'] = False
+
+    url = reverse('api-internal-companies-house-search')
+    response = client.get(url)  # notice absense of `term`
+
+    assert response.status_code == 400
+
+
+@patch('core.helpers.CompaniesHouseClient.search')
+def test_companies_house_search_api_error(mock_search, client, settings):
+    settings.FEATURE_FLAGS['INTERNAL_CH_ON'] = False
+
+    mock_search.return_value = create_response(400)
+    url = reverse('api-internal-companies-house-search')
+
+    with pytest.raises(requests.HTTPError):
+        client.get(url, data={'term': 'thing'})
+
+
+@patch('core.helpers.CompaniesHouseClient.search')
+def test_companies_house_search_api_success(mock_search, client, settings):
+    settings.FEATURE_FLAGS['INTERNAL_CH_ON'] = False
+
+    mock_search.return_value = create_response(
+        200, {'items': [{'name': 'Smashing corp'}]}
+    )
+    url = reverse('api-internal-companies-house-search')
+
+    response = client.get(url, data={'term': 'thing'})
+
+    assert response.status_code == 200
+    assert response.content == b'[{"name": "Smashing corp"}]'
+
+
+@patch('core.helpers.CompanyCHClient')
+def test_companies_house_search_internal(mocked_ch_client, client, settings):
+    settings.FEATURE_FLAGS['INTERNAL_CH_ON'] = True
+
+    mocked_ch_client().search_companies.return_value = create_response(
+        200, {'items': [{'name': 'Smashing corp'}]}
+    )
+    url = reverse('api-internal-companies-house-search')
+
+    response = client.get(url, data={'term': 'thing'})
+
+    assert response.status_code == 200
+    assert response.content == b'[{"name": "Smashing corp"}]'

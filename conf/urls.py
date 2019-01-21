@@ -489,6 +489,11 @@ contact_urls = [
         contact.views.OfficeSuccessView.as_view(),
         name='contact-us-office-success'
     ),
+    url(
+        r'^api/internal/companies-house-search/$',
+        core.views.CompaniesHouseSearchApiView.as_view(),
+        name='api-internal-companies-house-search'
+    ),
 ]
 
 
