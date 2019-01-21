@@ -72,8 +72,6 @@ class ReportMarketAccessBarrierFormView(
         return data
 
     def done(self, form_list, **kwargs):
-        import pdb
-        pdb.set_trace()
         serialized_data = self.serialize_form_list(form_list)
         subject = f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: {serialized_data['country']}: {serialized_data['company_name']}"
         action = actions.ZendeskAction(
