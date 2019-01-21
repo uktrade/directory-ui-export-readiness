@@ -75,10 +75,15 @@ def test_form_submission(mock_zendesk_action, client):
         }
     )
     assert response.status_code == 302
+    assert response.url == reverse(url_name, kwargs={'step': 'finish'})
 
+    response = client.get(response.url)
+
+    assert response.status_code == 302
     assert response.url == reverse(
-        'report-ma-barrier', kwargs={'step': 'finish'}
+        'report-barrier-form-success'
     )
+
     assert mock_zendesk_action.call_count == 1
     subject = f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: Angola: Craig Music"
     assert mock_zendesk_action.call_args == mock.call(
@@ -86,15 +91,14 @@ def test_form_submission(mock_zendesk_action, client):
         full_name='Craig Smith',
         email_address='craig@craigmusic.com',
         service_name='market_access',
-        form_url=reverse(
-            'report-ma-barrier', kwargs={'step': 'about'}
-        )
+        subdomain='',
+        form_url=reverse(url_name, kwargs={'step': 'about'})
     )
     assert mock_zendesk_action().save.call_count == 1
     assert mock_zendesk_action().save.call_args == mock.call({
         'firstname': 'Craig',
         'lastname': 'Smith',
-        'jobtitle': 'job',
+        'jobtitle': 'Musician',
         'categories': "I'm an exporter / seeking to export",
         'company_name': 'Craig Music',
         'email': 'craig@craigmusic.com',
