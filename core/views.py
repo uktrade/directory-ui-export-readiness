@@ -158,6 +158,9 @@ class StaticViewSitemap(sitemaps.Sitemap):
         from conf import urls
         from conf.url_redirects import redirects
 
+        excluded_pages = [
+            'triage-wizard'
+        ]
         dynamic_cms_page_url_names = [
             'privacy-and-cookies-subpage',
             'contact-us-export-opportunities-guidance',
@@ -170,14 +173,15 @@ class StaticViewSitemap(sitemaps.Sitemap):
             'contact-us-office-success',
         ]
 
-        dynamic_cms_page_url_names += [url.name for url in urls.article_urls]
-        dynamic_cms_page_url_names += [url.name for url in urls.news_urls]
+        excluded_pages += dynamic_cms_page_url_names
+        excluded_pages += [url.name for url in urls.article_urls]
+        excluded_pages += [url.name for url in urls.news_urls]
 
         return [
             item.name for item in urls.urlpatterns
             if not isinstance(item, RegexURLResolver) and
             item not in redirects and
-            item.name not in dynamic_cms_page_url_names
+            item.name not in excluded_pages
         ]
 
     def location(self, item):
