@@ -8,6 +8,7 @@ from django.views.generic import TemplateView
 from bs4 import BeautifulSoup
 import pytest
 import requests_mock
+from rest_framework import status
 
 from core import helpers, views
 from core.tests.helpers import create_response
@@ -862,3 +863,18 @@ def test_marketing_campaign_page_feature_flag_off(
     response = client.get(url)
 
     assert response.status_code == 404
+
+
+@pytest.mark.parametrize('view_name', ['triage-start', 'custom-page'])
+def test_triage_views(view_name, client):
+    url = reverse(view_name)
+    response = client.get(url)
+    assert response.status_code == status.HTTP_200_OK
+    assert response.template_name == ['core/service_no_longer_available.html']
+
+
+def test_triage_wizard_view(client):
+    url = reverse('triage-wizard', kwargs={'step': 'foo'})
+    response = client.get(url)
+    assert response.status_code == status.HTTP_200_OK
+    assert response.template_name == ['core/service_no_longer_available.html']

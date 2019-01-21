@@ -247,3 +247,7 @@ class PerformanceDashboardInvestView(PerformanceDashboardView):
 class PerformanceDashboardNotesView(PerformanceDashboardView):
     slug = cms.EXPORT_READINESS_PERFORMANCE_DASHBOARD_NOTES_SLUG
     template_name = 'core/performance_dashboard_notes.html'
+
+
+class ServiceNoLongerAvailableView(TemplateView):
+    template_name = 'core/service_no_longer_available.html'

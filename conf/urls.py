@@ -175,6 +175,22 @@ urlpatterns = [
         ),
         name='uk-export-finance-lead-generation-form'
     ),
+    url(
+        r'^triage/(?P<step>.+)/$',
+        core.views.ServiceNoLongerAvailableView.as_view(),
+        name='triage-wizard'
+    ),
+    url(
+        r'^triage/$',
+        core.views.ServiceNoLongerAvailableView.as_view(),
+        name='triage-start'
+    ),
+    url(
+        r'^custom/$',
+        core.views.ServiceNoLongerAvailableView.as_view(),
+        name='custom-page'
+    )
+
 ]
 
 
