@@ -14,8 +14,6 @@ const HTML_JS_FILES = [
   `${PROJECT_DIR}/core/templates/core/**/*.html`,
   `${PROJECT_DIR}/euexit/templates/euexit/**/*.html`,
   `${PROJECT_DIR}/finance/templates/finance/**/*.html`,
-  `${PROJECT_DIR}/prototype/templates/prototype/**/*.html`,
-  `${PROJECT_DIR}/triage/templates/triage/**/*.html`,
   `${PROJECT_DIR}/core/static/js/**/*.js`,
   `${PROJECT_DIR}/triage/static/js/**/*.js`,
   `${PROJECT_DIR}/article/static/js/**/*.js`,

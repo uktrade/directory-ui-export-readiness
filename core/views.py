@@ -3,48 +3,17 @@ from directory_cms_client.client import cms_api_client
 
 from django.conf import settings
 from django.contrib import sitemaps
+from django.http import JsonResponse
 from django.urls import reverse, RegexURLResolver
 from django.utils.cache import set_response_etag
 from django.views.generic import TemplateView
-from django.views.generic.base import RedirectView
+from django.views.generic.base import RedirectView, View
 from django.utils.functional import cached_property
 
-from article.helpers import ArticlesViewedManagerFactory
-from article import structure
 from casestudy import casestudies
-from core import helpers, mixins
-from triage.helpers import TriageAnswersManager
+from core import helpers, mixins, forms
 from euexit.mixins import (
     HideLanguageSelectorMixin, EUExitFormsFeatureFlagMixin)
-
-
-class ArticlesViewedManagerMixin:
-
-    article_read_manager = None
-
-    def create_article_manager(self, request):
-        return ArticlesViewedManagerFactory(request=request)
-
-    def dispatch(self, request, *args, **kwargs):
-        self.article_read_manager = self.create_article_manager(request)
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_article_group_progress_details(self):
-        name = self.article_group.name
-        manager = self.article_read_manager
-        viewed_article_uuids = manager.articles_viewed_for_group(name)
-        return {
-            'viewed_article_uuids': viewed_article_uuids,
-            'read_count': len(viewed_article_uuids),
-            'total_articles_count': len(self.article_group.articles),
-            'time_left_to_read': manager.remaining_read_time_for_group(name),
-        }
-
-    def get_context_data(self, *args, **kwargs):
-        return super().get_context_data(
-            *args, **kwargs,
-            article_group_progress=self.get_article_group_progress_details(),
-        )
 
 
 class SetEtagMixin:
@@ -55,45 +24,8 @@ class SetEtagMixin:
         return response
 
 
-class LandingPageViewNegotiator(TemplateView):
-    def __new__(cls, *args, **kwargs):
-        if settings.FEATURE_FLAGS['NEWS_SECTION_ON']:
-            return NewsSectionLandingPageView(*args, **kwargs)
-        elif settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON']:
-            return LandingPageView(*args, **kwargs)
-        return PrototypeLandingPageView(*args, **kwargs)
-
-
-class LandingPageView(ArticlesViewedManagerMixin, TemplateView):
-    template_name = 'core/landing-page.html'
-    article_group = structure.ALL_ARTICLES
-
-    def get_context_data(self, *args, **kwargs):
-        answer_manager = TriageAnswersManager(self.request)
-        has_completed_triage = answer_manager.retrieve_answers() != {}
-        return super().get_context_data(
-            *args, **kwargs,
-            LANDING_PAGE_VIDEO_URL=settings.LANDING_PAGE_VIDEO_URL,
-            has_completed_triage=has_completed_triage,
-            casestudies=[
-                casestudies.MARKETPLACE,
-                casestudies.HELLO_BABY,
-                casestudies.YORK,
-            ],
-            article_group_read_progress=(
-                self.article_read_manager.get_view_progress_for_groups()
-            ),
-        )
-
-    def get(self, request, *args, **kwargs):
-        redirector = helpers.GeoLocationRedirector(self.request)
-        if redirector.should_redirect:
-            return redirector.get_response()
-        return super().get(request, *args, **kwargs)
-
-
-class NewsSectionLandingPageView(LandingPageView):
-    template_name = 'prototype/landing_page.html'
+class LandingPageView(TemplateView):
+    template_name = 'article/landing_page.html'
 
     @cached_property
     def page(self):
@@ -103,18 +35,23 @@ class NewsSectionLandingPageView(LandingPageView):
         )
         return helpers.handle_cms_response_allow_404(response)
 
+    def get(self, request, *args, **kwargs):
+        redirector = helpers.GeoLocationRedirector(self.request)
+        if redirector.should_redirect:
+            return redirector.get_response()
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, *args, **kwargs):
         return super().get_context_data(
+            LANDING_PAGE_VIDEO_URL=settings.LANDING_PAGE_VIDEO_URL,
             page=self.page,
+            casestudies=[
+                casestudies.MARKETPLACE,
+                casestudies.HELLO_BABY,
+                casestudies.YORK,
+            ],
             *args, **kwargs
         )
-
-
-class PrototypeLandingPageView(
-    mixins.AdviceSectionFeatureFlagMixin,
-    NewsSectionLandingPageView,
-):
-    pass
 
 
 class CampaignPageView(
@@ -222,6 +159,9 @@ class StaticViewSitemap(sitemaps.Sitemap):
         from conf import urls
         from conf.url_redirects import redirects
 
+        excluded_pages = [
+            'triage-wizard'
+        ]
         dynamic_cms_page_url_names = [
             'privacy-and-cookies-subpage',
             'contact-us-export-opportunities-guidance',
@@ -235,14 +175,15 @@ class StaticViewSitemap(sitemaps.Sitemap):
             'report-ma-barrier'
         ]
 
-        dynamic_cms_page_url_names += [url.name for url in urls.prototype_urls]
-        dynamic_cms_page_url_names += [url.name for url in urls.news_urls]
+        excluded_pages += dynamic_cms_page_url_names
+        excluded_pages += [url.name for url in urls.article_urls]
+        excluded_pages += [url.name for url in urls.news_urls]
 
         return [
             item.name for item in urls.urlpatterns
             if not isinstance(item, RegexURLResolver) and
             item not in redirects and
-            item.name not in dynamic_cms_page_url_names
+            item.name not in excluded_pages
         ]
 
     def location(self, item):
@@ -321,3 +262,21 @@ class PerformanceDashboardInvestView(PerformanceDashboardView):
 class PerformanceDashboardNotesView(PerformanceDashboardView):
     slug = cms.EXPORT_READINESS_PERFORMANCE_DASHBOARD_NOTES_SLUG
     template_name = 'core/performance_dashboard_notes.html'
+
+
+class ServiceNoLongerAvailableView(TemplateView):
+    template_name = 'core/service_no_longer_available.html'
+
+
+class CompaniesHouseSearchApiView(View):
+    form_class = forms.CompaniesHouseSearchForm
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(data=request.GET)
+        if not form.is_valid():
+            return JsonResponse(form.errors, status=400)
+        api_response = helpers.CompaniesHouseClient.search(
+            term=form.cleaned_data['term']
+        )
+        api_response.raise_for_status()
+        return JsonResponse(api_response.json()['items'], safe=False)
