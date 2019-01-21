@@ -14,8 +14,6 @@ import core.views
 import euexit.views
 import finance.views
 import marketaccess.views
-import prototype.views
-import triage.views
 
 from conf.url_redirects import redirects
 
