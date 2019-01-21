@@ -686,4 +686,3 @@ def redirect_articles(incoming_url, expected_url, client):
     response = client.get(incoming_url)
     assert response.status_code == 302
     assert response.url == expected_url
-

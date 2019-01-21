@@ -87,8 +87,7 @@ def domestic_form_data(captcha_stub):
         constants.LOCATION,
         constants.DOMESTIC,
         build_wizard_url(constants.DOMESTIC),
-    )
-    ,
+    ),
     (
         constants.LOCATION,
         constants.INTERNATIONAL,
