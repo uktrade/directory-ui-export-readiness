@@ -72,23 +72,20 @@ class ReportMarketAccessBarrierFormView(
         return data
 
     def done(self, form_list, **kwargs):
-        # flatten the multi step data to one dictionary
+        import pdb
+        pdb.set_trace()
         serialized_data = self.serialize_form_list(form_list)
-        subject =  f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: {serialized_data['country']}: {serialized_data['company_name']}"
+        subject = f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: {serialized_data['country']}: {serialized_data['company_name']}"
         action = actions.ZendeskAction(
             email_address=serialized_data['email'],
             full_name=f"{serialized_data['firstname']} {serialized_data['lastname']}",
             subject=subject,
-            # informs zendesk which custom field to add to the ticket, allowing zendesk users to filter by this service (e.g, "show me all euexit tickets)
             service_name=settings.MARKET_ACCESS_FORMS_API_ZENDESK_SEVICE_NAME,
-            # informs forms-api of which zendesk account to send the ticket to
             subdomain=settings.MARKET_ACCCESS_ZENDESK_SUBDOMAIN,
-            # simply allows the user of the forms API admin to filter results by this url
             form_url=reverse(
                 'report-ma-barrier', kwargs={'step': 'about'}
             )
         )
-        # send to forms-api via POST request
         response = action.save(serialized_data)
         response.raise_for_status()
         return redirect('report-barrier-form-success')

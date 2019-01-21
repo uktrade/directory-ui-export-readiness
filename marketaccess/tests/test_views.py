@@ -48,6 +48,7 @@ def test_form_submission(mock_zendesk_action, client):
         reverse(url_name, kwargs={'step': 'problem-details'}),
         {
             view_name + '-current_step': 'problem-details',
+            'problem-details-product_service': 'something',
             'problem-details-country': 'Angola',
             'problem-details-problem_summary': 'problem summary',
             'problem-details-impact': 'problem impact',

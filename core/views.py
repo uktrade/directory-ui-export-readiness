@@ -210,7 +210,7 @@ class InterstitialPageExoppsView(SetEtagMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = {
             'exopps_url': settings.SERVICES_EXOPPS_ACTUAL
-            }
+        }
         return context
 
 
@@ -230,6 +230,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
             'contact-us-soo',
             'campaign-page',
             'contact-us-routing-form',
+            'report-ma-barrier'
         ]
 
         dynamic_cms_page_url_names += [url.name for url in urls.prototype_urls]
@@ -248,6 +249,10 @@ class StaticViewSitemap(sitemaps.Sitemap):
             from triage.views import TriageWizardFormView
             return reverse(item, kwargs={
                 'step': TriageWizardFormView.EXPORTED_BEFORE})
+        elif item == 'report-ma-barrier':
+            from marketaccess.views import ReportMarketAccessBarrierFormView
+            return reverse(item, kwargs={
+                'step': ReportMarketAccessBarrierFormView.ABOUT})
         if item == 'uk-export-finance-lead-generation-form':
             return reverse(item, kwargs={'step': 'contact'})
         return reverse(item)
