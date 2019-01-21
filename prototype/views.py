@@ -3,34 +3,49 @@ from directory_constants.constants import cms
 from django.views.generic import TemplateView
 
 from prototype.mixins import (
-    GetCMSPageByFullPathMixin,
     GetCMSTagMixin,
-    SocialLinksMixin,
-    RelatedContentMixin,
+    ArticleSocialLinksMixin,
+    BreadcrumbsMixin,
 )
 from core.mixins import (
     PrototypeFeatureFlagMixin,
+    AdviceSectionFeatureFlagMixin,
     NewsSectionFeatureFlagMixin,
     GetCMSComponentMixin,
     GetCMSPageMixin,
 )
 from euexit.mixins import HideLanguageSelectorMixin
 
+TEMPLATE_MAPPING = {
+    'TopicLandingPage': 'prototype/topic_list.html',
+    'SuperregionPage': 'prototype/superregion.html',
+    'CountryGuidePage': 'prototype/country_guide.html',
+    'ArticleListingPage': 'prototype/article_list.html',
+    'ArticlePage': 'prototype/article_detail.html'
+}
 
-class TopicListPageView(
-    PrototypeFeatureFlagMixin,
-    GetCMSPageByFullPathMixin,
+
+class TemplateChooserMixin:
+    @property
+    def template_name(self):
+        return TEMPLATE_MAPPING[self.page['page_type']]
+
+
+class PrototypePageView(
+    BreadcrumbsMixin,
+    ArticleSocialLinksMixin,
+    AdviceSectionFeatureFlagMixin,
+    TemplateChooserMixin,
+    GetCMSPageMixin,
     TemplateView,
 ):
-    template_name = 'prototype/topic_list.html'
+    @property
+    def slug(self):
+        return self.kwargs['slug']
 
 
-class ArticleListPageView(
-    PrototypeFeatureFlagMixin,
-    GetCMSPageByFullPathMixin,
-    TemplateView,
-):
-    template_name = 'prototype/article_list.html'
+class CountryGuidePageView(PrototypeFeatureFlagMixin, PrototypePageView):
+    pass
 
 
 class TagListPageView(
@@ -45,16 +60,6 @@ class TagListPageView(
         return self.kwargs['slug']
 
 
-class ArticleDetailView(
-    SocialLinksMixin,
-    PrototypeFeatureFlagMixin,
-    RelatedContentMixin,
-    GetCMSPageByFullPathMixin,
-    TemplateView,
-):
-    template_name = 'prototype/article_detail.html'
-
-
 class NewsListPageView(
     NewsSectionFeatureFlagMixin,
     GetCMSPageMixin,
@@ -65,9 +70,8 @@ class NewsListPageView(
 
 
 class NewsArticleDetailView(
-    SocialLinksMixin,
+    ArticleSocialLinksMixin,
     NewsSectionFeatureFlagMixin,
-    RelatedContentMixin,
     GetCMSPageMixin,
     TemplateView,
 ):

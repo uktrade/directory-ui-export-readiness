@@ -1,23 +1,14 @@
-{% if page.has_related_list_item_one or page.has_related_list_item_two or page.has_related_list_item_three %}
+
+{% if page.related_pages %}
 <div class="column-quarter">
   <div class="panel-vertical-narrow content-list">
     <h2 class="heading heading-small">Related content</h2>
     <ul>
-      {% if page.has_related_list_item_one %}
-      <li>
-        <h3 class="heading-small"><a href="{{ page.related_article_one_url }}" class="link">{{ page.related_article_one_title }}</a></h3>
-      </li>
-      {% endif %}
-      {% if page.has_related_list_item_two %}
-      <li>
-        <h3 class="heading-small"><a href="{{ page.related_article_two_url }}" class="link">{{ page.related_article_two_title }}</a></h3>
-      </li>
-      {% endif %}
-      {% if page.has_related_list_item_three %}
-      <li>
-        <h3 class="heading-small"><a href="{{ page.related_article_three_url }}" class="link">{{ page.related_article_three_title }}</a></h3>
-      </li>
-      {% endif %}
+      {% for article in page.related_pages %}
+        <li>
+          <h3 class="heading-small"><a href="{{ article.full_path }}" class="link">{{ article.article_title }}</a></h3>
+        </li>
+      {% endfor %}
     </ul>
   </div>
 </div>

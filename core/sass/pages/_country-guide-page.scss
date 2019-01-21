@@ -1,0 +1,38 @@
+
+// COUNTRY GUIDE PAGE
+// ==================
+
+
+.country-guide-page {
+
+  .subheading {
+    margin-bottom: 5px;
+  }
+
+  .button-large {
+    text-align: center;
+    width: 300px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  .width-full {
+    width: 100%;
+  }
+
+  .background-stone-gradient-left {
+    background-image: linear-gradient(to right, $stone-30 66.66667%, $white 33.3333%);
+  }
+}
+
+@media (max-width: 960px) {
+  .country-guide-page {
+    .background-stone-gradient-left {
+      background: $stone-30;
+    }
+
+    .margin-0-l {
+      margin: 0;
+    }
+  }
+}

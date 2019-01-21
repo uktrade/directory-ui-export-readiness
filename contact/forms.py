@@ -9,7 +9,8 @@ from directory_validators.company import no_html
 import requests.exceptions
 
 from django.conf import settings
-from django.forms import Textarea, TextInput, TypedChoiceField
+from django.forms import Textarea, TextInput, TypedChoiceField, ValidationError
+from django.utils.functional import cached_property
 from django.utils.html import mark_safe
 
 from contact import constants, helpers
@@ -54,20 +55,25 @@ class EuExitOptionFeatureFlagMixin:
             ]
 
 
+class NewUserRegOptionFeatureFlagMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not settings.FEATURE_FLAGS['NEW_REGISTRATION_JOURNEY_ON']:
+            self.fields['choice'].choices = [
+                (value, label) for value, label in self.CHOICES
+                if value != constants.COMPANY_NOT_FOUND
+            ]
+
+
 class NoOpForm(forms.Form):
     pass
 
 
 class SerializeDataMixin:
 
-    def __init__(self, ingress_url, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.ingress_url = ingress_url
-
     @property
     def serialized_data(self):
         data = self.cleaned_data.copy()
-        data['ingress_url'] = self.ingress_url or ''
         del data['captcha']
         del data['terms_agreed']
         return data
@@ -112,7 +118,6 @@ class GreatServicesRoutingForm(forms.Form):
     CHOICES = (
         (constants.EXPORT_OPPORTUNITIES, 'Export opportunities service'),
         (constants.GREAT_ACCOUNT, 'Your account on great.gov.uk'),
-        (constants.SELLING_ONLINE_OVERSEAS, 'Selling Online Overseas service'),
         (constants.OTHER, 'Other'),
     )
     choice = fields.ChoiceField(
@@ -138,13 +143,17 @@ class ExportOpportunitiesRoutingForm(forms.Form):
     )
 
 
-class GreatAccountRoutingForm(forms.Form):
+class GreatAccountRoutingForm(NewUserRegOptionFeatureFlagMixin, forms.Form):
     CHOICES = (
         (
             constants.NO_VERIFICATION_EMAIL,
             'I have not received my email confirmation'
         ),
         (constants.PASSWORD_RESET, 'I need to reset my password'),
+        (
+            constants.COMPANY_NOT_FOUND,  # possibly update by mixin
+            'I cannot find my company'
+        ),
         (
             constants.COMPANIES_HOUSE_LOGIN,
             'My Companies House login is not working'
@@ -395,12 +404,13 @@ class BusinessDetailsForm(forms.Form):
 
 
 class SellingOnlineOverseasBusiness(forms.Form):
+    company_name = fields.CharField(
+        validators=anti_phising_validators,
+        required=False,
+    )
     soletrader = fields.BooleanField(
         label='I don\'t have a company number',
         required=False,
-    )
-    company_name = fields.CharField(
-        validators=anti_phising_validators
     )
     company_number = fields.CharField(
         label=(
@@ -413,7 +423,7 @@ class SellingOnlineOverseasBusiness(forms.Form):
         validators=anti_phising_validators,
         required=False,  # in js hide if company number is inputted
     )
-    website_address = fields.URLField(
+    website_address = fields.CharField(
         label='Company website',
         help_text='Website address, where we can see your products online.',
         max_length=255,
@@ -503,3 +513,32 @@ class SellingOnlineOverseasContactDetails(forms.Form):
     terms_agreed = fields.BooleanField(
         label=TERMS_LABEL
     )
+
+
+class OfficeFinderForm(forms.Form):
+    MESSAGE_NOT_FOUND = 'The postcode you entered does not exist'
+
+    postcode = fields.CharField(
+        label='Enter your postcode',
+        help_text='For example SW1A 2AA',
+    )
+
+    @cached_property
+    def office_details(self):
+        try:
+            return helpers.retrieve_regional_office(
+                self.cleaned_data['postcode']
+            )
+        except requests.exceptions.RequestException:
+            return None
+
+    def clean_postcode(self):
+        if not self.office_details:
+            raise ValidationError(self.MESSAGE_NOT_FOUND)
+        return self.cleaned_data['postcode'].replace(' ', '')
+
+
+class TradeOfficeContactForm(
+    SerializeDataMixin, GovNotifyActionMixin, BaseShortForm
+):
+    pass

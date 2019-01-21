@@ -9,7 +9,7 @@ from core.tests.helpers import create_response
 def test_prototype_landing_page_news_section(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
 
-    url = reverse('prototype-landing-page')
+    url = reverse('landing-page')
 
     page = {
         'news_title': 'News',
@@ -38,12 +38,13 @@ def test_prototype_landing_page_news_section(mock_get_page, client, settings):
 test_topic_page = {
     'title': 'Markets CMS admin title',
     'landing_page_title': 'Markets',
-    'hero_image': {'url': 'markets.png'},
-    'article_listing': [
+    'hero_image': {'url': 'markets.jpg'},
+    'child_pages': [
         {
             'landing_page_title': 'Africa market information',
             'full_path': '/markets/africa/',
             'hero_image': {'url': 'africa.png'},
+            'hero_image_thumbnail': {'url': 'africa.jpg'},
             'articles_count': 0,
             'last_published_at': '2018-10-01T15:15:53.927833Z'
         },
@@ -51,19 +52,136 @@ test_topic_page = {
             'landing_page_title': 'Asia market information',
             'full_path': '/markets/asia/',
             'hero_image': {'url': 'asia.png'},
+            'hero_image_thumbnail': {'url': 'asia.jpg'},
             'articles_count': 3,
             'last_published_at': '2018-10-01T15:16:30.583279Z'
         }
     ],
+    "page_type": "TopicLandingPage",
 }
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_full_path')
-def test_prototype_topic_list_page(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
-    settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = False
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_advice_page_404_when_export_journey_on(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
 
-    url = reverse('topic-list', kwargs={'slug': 'markets'})
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=test_topic_page
+    )
+
+    url = reverse('advice')
+    response = client.get(url)
+
+    assert response.status_code == 404
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_landing_page_when_export_journey_off(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body={
+            'news_title': 'News',
+            'news_description': '<p>Lorem ipsum</p>',
+            'articles': [
+                {'article_title': 'News article 1'},
+                {'article_title': 'News article 2'},
+            ],
+        }
+    )
+
+    url = reverse('landing-page')
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == ['prototype/landing_page.html']
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_landing_page_when_export_journey_on(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
+
+    url = reverse('landing-page')
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == ['core/landing-page.html']
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_advice_page_200_when_export_journey_off(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=test_topic_page
+    )
+
+    url = reverse('advice')
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_country_guide_article_404_when_prototype_feature_off(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = False
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=test_topic_page
+    )
+
+    url = reverse('country-guide-article', kwargs={
+        'region': 'asia-pacific',
+        'country': 'australia',
+        'slug': 'exporting-to-australia'
+    })
+
+    response = client.get(url)
+
+    assert response.status_code == 404
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_country_guide_article_404_when_prototype_feature_on(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=test_topic_page
+    )
+
+    url = reverse('country-guide-article', kwargs={
+        'region': 'asia-pacific',
+        'country': 'australia',
+        'slug': 'exporting-to-australia'
+    })
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_prototype_advice_page(mock_get_page, client, settings):
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
+
+    url = reverse('advice', kwargs={'slug': 'advice'})
 
     mock_get_page.return_value = create_response(
         status_code=200,
@@ -80,13 +198,13 @@ def test_prototype_topic_list_page(mock_get_page, client, settings):
 
     assert 'Asia market information' in str(response.content)
     assert 'Africa market information' not in str(response.content)
-    assert 'markets.png' in str(response.content)
-    assert 'asia.png' in str(response.content)
-    assert 'africa.png' not in str(response.content)
+    assert 'markets.jpg' in str(response.content)
+    assert 'asia.jpg' in str(response.content)
+    assert 'africa.jpg' not in str(response.content)
     assert '01 October 2018' in str(response.content)
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_full_path')
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_prototype_article_detail_page_no_related_content(
     mock_get_page, client, settings
 ):
@@ -98,27 +216,19 @@ def test_prototype_article_detail_page_no_related_content(
         "article_teaser": "Test teaser",
         "article_image": {"url": "foobar.png"},
         "article_body_text": "<p>Lorem ipsum</p>",
-        "related_article_one_url": "",
-        "related_article_one_title": "",
-        "related_article_one_teaser": "",
-        "related_article_two_url": "",
-        "related_article_two_title": "",
-        "related_article_two_teaser": "",
-        "related_article_three_url": "",
-        "related_article_three_title": "",
-        "related_article_three_teaser": "",
-        "full_path": "/markets/foo/bar/",
+        "related_pages": [],
+        "full_path": "/advice/manage-legal-and-ethical-compliance/foo/",
         "last_published_at": "2018-10-09T16:25:13.142357Z",
         "meta": {
-            "slug": "bar",
+            "slug": "foo",
         },
+        "page_type": "ArticlePage",
     }
 
-    url = reverse('article-detail', kwargs={
-        'topic': 'markets',
-        'list': 'foo',
-        'slug': 'bar',
-    })
+    url = reverse(
+        'manage-legal-and-ethical-compliance-article',
+        kwargs={'slug': 'foo'}
+    )
 
     mock_get_page.return_value = create_response(
         status_code=200,
@@ -133,8 +243,8 @@ def test_prototype_article_detail_page_no_related_content(
     assert 'Related content' not in str(response.content)
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_full_path')
-def test_prototype_article_detail_page_one_related_content(
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_prototype_article_detail_page_related_content(
     mock_get_page, client, settings
 ):
     settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
@@ -145,27 +255,38 @@ def test_prototype_article_detail_page_one_related_content(
         "article_teaser": "Test teaser",
         "article_image": {"url": "foobar.png"},
         "article_body_text": "<p>Lorem ipsum</p>",
-        "related_article_one_url": "#",
-        "related_article_one_title": "Foo",
-        "related_article_one_teaser": "Bar",
-        "related_article_two_url": "",
-        "related_article_two_title": "",
-        "related_article_two_teaser": "",
-        "related_article_three_url": "",
-        "related_article_three_title": "",
-        "related_article_three_teaser": "",
+        "related_pages": [
+            {
+                "article_title": "Related article 1",
+                "article_teaser": "Related article 1 teaser",
+                "article_image_thumbnail": {"url": "related_article_one.jpg"},
+                "full_path": "/markets/test/test-one",
+                "meta": {
+                    "slug": "test-one",
+                }
+            },
+            {
+                "article_title": "Related article 2",
+                "article_teaser": "Related article 2 teaser",
+                "article_image_thumbnail": {"url": "related_article_two.jpg"},
+                "full_path": "/markets/test/test-two",
+                "meta": {
+                    "slug": "test-two",
+                }
+            },
+        ],
         "full_path": "/markets/foo/bar/",
         "last_published_at": "2018-10-09T16:25:13.142357Z",
         "meta": {
             "slug": "bar",
         },
+        "page_type": "ArticlePage",
     }
 
-    url = reverse('article-detail', kwargs={
-        'topic': 'markets',
-        'list': 'foo',
-        'slug': 'bar',
-    })
+    url = reverse(
+        'manage-legal-and-ethical-compliance-article',
+        kwargs={'slug': 'foo'}
+    )
 
     mock_get_page.return_value = create_response(
         status_code=200,
@@ -178,56 +299,21 @@ def test_prototype_article_detail_page_one_related_content(
     assert response.template_name == ['prototype/article_detail.html']
 
     assert 'Related content' in str(response.content)
-    assert '<a href="#" class="link">Foo</a>' in str(response.content)
+    soup = BeautifulSoup(response.content, 'html.parser')
 
+    assert soup.find(
+        id='related-article-test-one-link'
+    ).attrs['href'] == '/markets/test/test-one'
+    assert soup.find(
+        id='related-article-test-two-link'
+    ).attrs['href'] == '/markets/test/test-two'
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_full_path')
-def test_prototype_article_detail_page_two_related_content(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
-
-    article_page = {
-        "title": "Test article admin title",
-        "article_title": "Test article",
-        "article_teaser": "Test teaser",
-        "article_image": {"url": "foobar.png"},
-        "article_body_text": "<p>Lorem ipsum</p>",
-        "related_article_one_url": "",
-        "related_article_one_title": "",
-        "related_article_one_teaser": "",
-        "related_article_two_url": "#2",
-        "related_article_two_title": "Foo 2",
-        "related_article_two_teaser": "Bar 2",
-        "related_article_three_url": "#3",
-        "related_article_three_title": "Foo 3",
-        "related_article_three_teaser": "Bar 3",
-        "full_path": "/markets/foo/bar/",
-        "last_published_at": "2018-10-09T16:25:13.142357Z",
-        "meta": {
-            "slug": "bar",
-        },
-    }
-
-    url = reverse('article-detail', kwargs={
-        'topic': 'markets',
-        'list': 'foo',
-        'slug': 'bar',
-    })
-
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=article_page
-    )
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.template_name == ['prototype/article_detail.html']
-
-    assert 'Related content' in str(response.content)
-    assert '<a href="#2" class="link">Foo 2</a>' in str(response.content)
-    assert '<a href="#3" class="link">Foo 3</a>' in str(response.content)
+    assert soup.find(
+        id='related-article-test-one'
+    ).select('h3')[0].text == 'Related article 1'
+    assert soup.find(
+        id='related-article-test-two'
+    ).select('h3')[0].text == 'Related article 2'
 
 
 test_news_list_page = {
@@ -248,6 +334,7 @@ test_news_list_page = {
             'meta': {'slug': 'test-slug-two'},
         }
     ],
+    "page_type": "ArticleListingPage",
 }
 
 
@@ -330,7 +417,8 @@ def test_domestic_news_article_detail_page(mock_get_page, client, settings):
         },
         "tags": [
             {"name": "Test tag", "slug": "test-tag-slug"}
-        ]
+        ],
+        "page_type": "ArticlePage",
     }
 
     url = reverse('eu-exit-news-detail', kwargs={'slug': 'foo'})
@@ -378,6 +466,7 @@ def test_international_news_article_detail_page(
         "meta": {
             "slug": "foo",
         },
+        "page_type": "ArticlePage",
     }
 
     url = reverse('international-eu-exit-news-detail', kwargs={'slug': 'foo'})
@@ -394,7 +483,7 @@ def test_international_news_article_detail_page(
         'prototype/international_news_detail.html']
 
     assert 'Test news title' in str(response.content)
-    assert 'Test news teaser' in str(response.content)
+    assert 'Test news teaser' not in str(response.content)
     assert '<p class="body-text">Lorem ipsum</p>' in str(response.content)
 
 
@@ -449,17 +538,15 @@ test_list_page = {
     'hero_teaser': 'Article list hero teaser',
     'list_teaser': '<p>Article list teaser</p>',
     'articles': test_articles,
+    'page_type': 'ArticleListingPage',
 }
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_full_path')
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_prototype_article_list_page(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
 
-    url = reverse('article-list', kwargs={
-        'topic': 'topic',
-        'slug': 'list',
-    })
+    url = reverse('create-an-export-plan')
 
     mock_get_page.return_value = create_response(
         status_code=200,
@@ -509,37 +596,11 @@ def test_prototype_tag_list_page(mock_get_page, client, settings):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_prototype_landing_page_header_footer(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
-    settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = True
-
-    url = reverse('prototype-landing-page')
-
-    page = {
-        'news_title': 'News',
-        'news_description': '<p>Lorem ipsum</p>',
-        'articles': [],
-    }
-
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
-    response = client.get(url)
-
-    assert response.status_code == 200
-
-    assert 'Make an export plan' in str(response.content)
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_landing_page_header_footer(
     mock_get_page, client, settings
 ):
     settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
-    settings.FEATURE_FLAGS['PROTOTYPE_HEADER_FOOTER_ON'] = True
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
 
     url = reverse('landing-page')
 
@@ -558,6 +619,7 @@ def test_landing_page_header_footer(
     assert response.status_code == 200
 
     assert '/static/js/home' in str(response.content)
+    assert 'Create an export plan' in str(response.content)
 
     soup = BeautifulSoup(response.content, 'html.parser')
 
@@ -565,30 +627,151 @@ def test_landing_page_header_footer(
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_prototype_url_feature_flag_off(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = False
+def test_breadcrumbs_mixin(mock_get_page, client, settings):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
 
-    url = reverse('prototype-landing-page')
+    url = reverse('create-an-export-plan-article', kwargs={'slug': 'foo'})
 
     mock_get_page.return_value = create_response(
         status_code=200,
-        json_body={}
+        json_body={
+            'page_type': 'ArticlePage'
+        }
     )
     response = client.get(url)
 
-    assert response.status_code == 404
+    breadcrumbs = response.context_data['breadcrumbs']
+    assert breadcrumbs == [
+        {
+            'url': '/advice/',
+            'label': 'Advice'
+        },
+        {
+            'url': '/advice/create-an-export-plan/',
+            'label': 'Create an export plan'
+        },
+        {
+            'url': '/advice/create-an-export-plan/foo/',
+            'label': 'Foo'
+        },
+    ]
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_prototype_url_feature_flag_on(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
+def test_prototype_article_detail_page_social_share_links(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
 
-    url = reverse('prototype-landing-page')
+    test_article_page = {
+        "title": "Test article admin title",
+        "article_title": "How to write an export plan",
+        "article_image": {"url": "foobar.png"},
+        "article_body_text": "<p>Lorem ipsum</p>",
+        "related_pages": [],
+        "full_path": (
+            "/advice/create-an-export-plan/how-to-write-an-export-plan/"),
+        "last_published_at": "2018-10-09T16:25:13.142357Z",
+        "meta": {
+            "slug": "how-to-write-an-export-plan",
+        },
+        "page_type": "ArticlePage",
+    }
+
+    url = reverse(
+        'create-an-export-plan-article',
+        kwargs={'slug': 'how-to-write-an-export-plan'}
+    )
 
     mock_get_page.return_value = create_response(
         status_code=200,
-        json_body={}
+        json_body=test_article_page
     )
+
     response = client.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
 
     assert response.status_code == 200
+    assert response.template_name == ['prototype/article_detail.html']
+
+    twitter_link = (
+        'https://twitter.com/intent/tweet?text=great.gov.uk'
+        '%20-%20How%20to%20write%20an%20export%20plan%20'
+        'http://testserver/advice/create-an-export-plan/'
+        'how-to-write-an-export-plan/')
+    facebook_link = (
+        'https://www.facebook.com/share.php?u=http://testserver/'
+        'advice/create-an-export-plan/how-to-write-an-export-plan/')
+    linkedin_link = (
+        'https://www.linkedin.com/shareArticle?mini=true&url='
+        'http://testserver/advice/create-an-export-plan/'
+        'how-to-write-an-export-plan/&title=great.gov.uk'
+        '%20-%20How%20to%20write%20an%20export%20plan%20&source=LinkedIn'
+    )
+    email_link = (
+        'mailto:?body=http://testserver/advice/'
+        'create-an-export-plan/how-to-write-an-export-plan/&subject='
+        'great.gov.uk%20-%20How%20to%20write%20an%20export%20plan%20'
+    )
+
+    assert soup.find(id='share-twitter').attrs['href'] == twitter_link
+    assert soup.find(id='share-facebook').attrs['href'] == facebook_link
+    assert soup.find(id='share-linkedin').attrs['href'] == linkedin_link
+    assert soup.find(id='share-email').attrs['href'] == email_link
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_prototype_article_detail_page_social_share_links_no_title(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
+
+    test_article_page = {
+        "title": "Test article admin title",
+        "article_image": {"url": "foobar.png"},
+        "article_body_text": "<p>Lorem ipsum</p>",
+        "related_pages": [],
+        "full_path": (
+            "/advice/create-an-export-plan/how-to-write-an-export-plan/"),
+        "last_published_at": "2018-10-09T16:25:13.142357Z",
+        "meta": {
+            "slug": "how-to-write-an-export-plan",
+        },
+        "page_type": "ArticlePage",
+    }
+
+    url = reverse(
+        'create-an-export-plan-article',
+        kwargs={'slug': 'how-to-write-an-export-plan'}
+    )
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=test_article_page
+    )
+
+    response = client.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    assert response.status_code == 200
+    assert response.template_name == ['prototype/article_detail.html']
+
+    twitter_link = (
+        'https://twitter.com/intent/tweet?text=great.gov.uk%20-%20%20'
+        'http://testserver/advice/create-an-export-plan/'
+        'how-to-write-an-export-plan/')
+    linkedin_link = (
+        'https://www.linkedin.com/shareArticle?mini=true&url='
+        'http://testserver/advice/create-an-export-plan/'
+        'how-to-write-an-export-plan/&title=great.gov.uk'
+        '%20-%20%20&source=LinkedIn'
+    )
+    email_link = (
+        'mailto:?body=http://testserver/advice/'
+        'create-an-export-plan/how-to-write-an-export-plan/&subject='
+        'great.gov.uk%20-%20%20'
+    )
+
+    assert soup.find(id='share-twitter').attrs['href'] == twitter_link
+    assert soup.find(id='share-linkedin').attrs['href'] == linkedin_link
+    assert soup.find(id='share-email').attrs['href'] == email_link

@@ -1,15 +1,5 @@
 import pytest
-from prototype.helpers import (
-    unprefix_prototype_url, prefix_international_news_url
-)
-
-unprefix_urls = [
-    ('/prototype/markets/', '/markets/'),
-    ('/prototype/guidance/', '/guidance/'),
-    ('/prototype/prototype-test-page/', '/prototype-test-page/'),
-    ('/eu-exit-news/', '/eu-exit-news/'),
-    ('/', '/'),
-]
+from prototype.helpers import prefix_international_news_url, unslugify
 
 news_prefix_urls = [
     ('/international/eu-exit-news/', '/international/international-eu-exit-news/'), # noqa
@@ -22,12 +12,18 @@ news_prefix_urls = [
     ('/', '/'),
 ]
 
-
-@pytest.mark.parametrize('url,exp', unprefix_urls)
-def test_unprefix_prototype_url(url, exp):
-    assert unprefix_prototype_url(url) == exp
+unslugify_slugs = [
+    ('test-slug-one', 'Test slug one'),
+    ('test-two', 'Test two'),
+    ('slug', 'Slug'),
+]
 
 
 @pytest.mark.parametrize('url,exp', news_prefix_urls)
 def test_prefix_international_news_url(url, exp):
     assert prefix_international_news_url(url) == exp
+
+
+@pytest.mark.parametrize('slug,exp', unslugify_slugs)
+def test_unslugify(slug, exp):
+    assert unslugify(slug) == exp

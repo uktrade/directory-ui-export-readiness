@@ -26,7 +26,6 @@
 
 <section id="campaign-section-one">
   <div class="container">
-
     <div class="grid-row">
       <div class="column-half">
         <h2 id="section-one-heading" class="heading-large margin-top-60">{{ page.section_one_heading }}</h2>
@@ -36,7 +35,7 @@
       </div>
     </div>
 
-    <div class="card-grid reverse-columns-mobile">
+    <div class="card-grid reverse-columns-s">
 
       <div class="column-third">
         <ul class="selling-points-list" id="campaign-selling-points">
@@ -86,7 +85,7 @@
 
 <section id="campaign-section-two" class="background-stone-50">
   <div class="container">
-    <div class="card-grid margin-top-60 margin-bottom-30 reverse-columns-mobile">
+    <div class="card-grid margin-top-60 margin-bottom-30 reverse-columns-s">
 
       <div class="column-third">
         <h2 id="section-two-heading" class="heading-large">{{ page.section_two_heading }}</h2>
@@ -121,41 +120,15 @@
     </div>
 
     <ul class="grid-row" aria-labelledby="related-content-heading" id="related-pages-list">
-      {% if page.related_page_one_heading and page.related_page_one_url %}
-        <li class="column-third" id="related-page-one">
-          {% if page.related_page_one_image %}
-            <img id="related-page-one-image" src="{{ page.related_page_one_image.url }}" alt="">
+      {% for article in page.related_pages %}
+        <li class="column-third" id="related-page-{{ article.meta.slug }}">
+          {% if article.article_image_thumbnail %}
+            <img id="related-article-{{ article.meta.slug }}-image" src="{{ article.article_image_thumbnail.url }}" alt="">
           {% endif %}
-          <a id="related-page-one-link" href="{{ page.related_page_one_url }}" class="heading-medium grey-text margin-top-30">{{ page.related_page_one_heading }}</a>
-          {% if page.related_page_one_description %}
-            <p id="related-page-one-description">{{ page.related_page_one_description }}</p>
-          {% endif %}
+          <a id="related-page-{{ article.meta.slug }}-heading" href="{{ article.full_path }}" class="heading-medium grey-text margin-top-30">{{ article.article_title }}</a>
+          <p id="related-page-{{ article.meta.slug }}-description">{{ article.article_teaser }}</p>
         </li>
-      {% endif %}
-
-      {% if page.related_page_two_heading and page.related_page_two_url %}
-        <li class="column-third" id="related-page-two">
-          {% if page.related_page_two_image %}
-            <img id="related-page-two-image" src="{{ page.related_page_two_image.url }}" alt="">
-          {% endif %}
-          <a id="related-page-two-link" href="{{ page.related_page_two_url }}" class="heading-medium grey-text margin-top-30">{{ page.related_page_two_heading }}</a>
-          {% if page.related_page_two_description %}
-            <p id="related-page-two-description">{{ page.related_page_two_description }}</p>
-          {% endif %}
-        </li>
-      {% endif %}
-
-      {% if page.related_page_three_heading and page.related_page_three_url %}
-        <li class="column-third" id="related-page-three">
-          {% if page.related_page_three_image %}
-            <img id="related-page-three-image" src="{{ page.related_page_three_image.url }}" alt="">
-          {% endif %}
-          <a id="related-page-three-link" href="{{ page.related_page_three_url }}" class="heading-medium grey-text margin-top-30">{{ page.related_page_three_heading }}</a>
-          {% if page.related_page_three_description %}
-            <p id="related-page-three-description">{{ page.related_page_three_description }}</p>
-          {% endif %}
-        </li>
-      {% endif %}
+        {% endfor %}
     </ul>
 
   </div>

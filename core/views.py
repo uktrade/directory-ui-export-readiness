@@ -111,7 +111,7 @@ class NewsSectionLandingPageView(LandingPageView):
 
 
 class PrototypeLandingPageView(
-    mixins.PrototypeFeatureFlagMixin,
+    mixins.AdviceSectionFeatureFlagMixin,
     NewsSectionLandingPageView,
 ):
     pass
@@ -230,6 +230,8 @@ class StaticViewSitemap(sitemaps.Sitemap):
             'contact-us-soo',
             'campaign-page',
             'contact-us-routing-form',
+            'office-finder-contact',
+            'contact-us-office-success',
             'report-ma-barrier'
         ]
 

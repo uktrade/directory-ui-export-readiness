@@ -79,7 +79,6 @@ class ReportMarketAccessBarrierFormView(
             full_name=f"{serialized_data['firstname']} {serialized_data['lastname']}",
             subject=subject,
             service_name=settings.MARKET_ACCESS_FORMS_API_ZENDESK_SEVICE_NAME,
-            subdomain=settings.MARKET_ACCCESS_ZENDESK_SUBDOMAIN,
             form_url=reverse(
                 'report-ma-barrier', kwargs={'step': 'about'}
             )

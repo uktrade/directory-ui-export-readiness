@@ -2,10 +2,7 @@
 {% load add_export_elements_classes from directory_components_tags %}
 
 {% block breadcrumbs %}
-  <div class="container">
-    <div class="breadcrumbs">
-    </div>
-  </div>
+  {% include 'prototype/components/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
 {% endblock %}
 
 <article>
@@ -18,12 +15,11 @@
         </div>
         <div class="column-seven-twelfths">
           <h1 class="heading-xlarge">{{ page.article_title }}</h1>
-          <p class="lede">{{ page.article_teaser }}</p>
           <p class="subheading">Last updated {{ page.last_published_at|parse_date }}</p>
         </div>
 
         {% block article_tags %}
-          {% if page.tags %}
+          {% if features.PROTOTYPE_PAGES_ON and page.tags %}
             <div class="column-quarter">
               <div class="panel-vertical-narrow">
                 <h2 class="heading-small">Tags</h2>

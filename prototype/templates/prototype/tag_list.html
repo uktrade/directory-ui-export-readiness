@@ -14,20 +14,22 @@
 {% endblock %}
 
 {% block breadcrumbs %}
+<div class="container">
   <div class="breadcrumbs">
     <ol>
       <li>
-        <a href="{% url 'prototype-landing-page' %}">great.gov.uk</a>
+        <a href="{% url 'landing-page' %}">great.gov.uk</a>
       </li>
       <li aria-current="page">Articles with tag: {{ page.name }}</li>
     </ol>
   </div>
+</div>
 {% endblock %}
 
 {% block content_list %}
   {% for article in page.articles %}
     <li class="article">
-      <h3 class="heading-medium"><a href="/prototype{{ article.full_path }}" class="link">{{ article.article_title }}</a></h3>
+      <h3 class="heading-medium"><a href="{{ article.full_path }}" class="link">{{ article.article_title }}</a></h3>
       <p class="subheading">Last updated {{ article.last_published_at|parse_date }}</p>
     </li>
   {% endfor %}

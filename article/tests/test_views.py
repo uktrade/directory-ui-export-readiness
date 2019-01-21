@@ -11,7 +11,7 @@ from django.urls import reverse_lazy
 
 from article import articles, helpers, structure, views
 import core.helpers
-
+from core.mixins import EXPORT_JOURNEY_REDIRECTS
 
 persona_lise_views_under_test = (
     (
@@ -272,7 +272,7 @@ def test_persona_views_feature_flag_off(view_class, url, client, settings):
     settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
     response = client.get(url)
 
-    assert response.status_code == 404
+    assert response.status_code == 302
 
 
 @pytest.mark.parametrize('view_class,url', guidance_views_under_test)
@@ -291,7 +291,7 @@ def test_guidance_views_feature_flag_off(view_class, url, client, settings):
     settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
     response = client.get(url)
 
-    assert response.status_code == 404
+    assert response.status_code == 302
 
 
 @pytest.mark.parametrize('view_class,url', article_views_under_test)
@@ -318,7 +318,8 @@ def test_articles_views_feature_flag_off(view_class, url, client, settings):
     settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
     response = client.get(url)
 
-    assert response.status_code == 404
+    assert response.status_code == 302
+    assert response.url == EXPORT_JOURNEY_REDIRECTS[url]
 
 
 @pytest.mark.parametrize('view_class,url', article_views_under_test)
@@ -342,7 +343,7 @@ def test_articles_title_views_feature_flag_off(
     settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
     response = client.get(url)
 
-    assert response.status_code == 404
+    assert response.status_code == 302
 
 
 @pytest.mark.parametrize('view_class,url', article_views_under_test)

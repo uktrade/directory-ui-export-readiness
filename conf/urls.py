@@ -27,24 +27,14 @@ sitemaps = {
 
 healthcheck_urls = [
     url(
-        r'^api/$',
-        directory_healthcheck.views.APIHealthcheckView.as_view(),
-        name='api'
+        r'^$',
+        directory_healthcheck.views.HealthcheckView.as_view(),
+        name='healthcheck'
     ),
     url(
-        r'^single-sign-on/$',
-        directory_healthcheck.views.SingleSignOnHealthcheckView.as_view(),
-        name='single-sign-on'
-    ),
-    url(
-        r'^forms-api/$',
-        directory_healthcheck.views.FormsAPIBackendHealthcheckView.as_view(),
-        name='single-sign-on'
-    ),
-    url(
-        r'^sentry/$',
-        directory_healthcheck.views.SentryHealthcheckView.as_view(),
-        name='sentry'
+        r'^ping/$',
+        directory_healthcheck.views.PingView.as_view(),
+        name='ping'
     ),
 ]
 
@@ -553,39 +543,108 @@ news_urls = [
 
 prototype_urls = [
     url(
-        r"^prototype/$",
-        core.views.PrototypeLandingPageView.as_view(),
-        name='prototype-landing-page',
-    ),
-    url(
-        r"^prototype/eu-exit-news/$",
-        prototype.views.NewsListPageView.as_view(),
-        name='prototype-eu-exit-news-list',
-    ),
-    url(
-        r"^prototype/eu-exit-news/(?P<slug>[\w-]+)/$",
-        prototype.views.NewsArticleDetailView.as_view(),
-        name='prototype-eu-exit-news-detail',
-    ),
-    url(
-        r"^prototype/tagged/(?P<slug>[\w-]+)/$",
+        r"^tagged/(?P<slug>[\w-]+)/$",
         prototype.views.TagListPageView.as_view(),
         name='tag-list',
     ),
     url(
-        r"^prototype/(?P<slug>[\w-]+)/$",
-        prototype.views.TopicListPageView.as_view(),
-        name='topic-list',
+        r"^advice/$",
+        prototype.views.PrototypePageView.as_view(),
+        {'slug': 'advice'},
+        name='advice',
     ),
     url(
-        r"^prototype/(?P<topic>[\w-]+)/(?P<slug>[\w-]+)/$",
-        prototype.views.ArticleListPageView.as_view(),
-        name='article-list',
+        r"^advice/create-an-export-plan/$",
+        prototype.views.PrototypePageView.as_view(),
+        {'slug': 'create-an-export-plan'},
+        name='create-an-export-plan',
     ),
     url(
-        r"^prototype/(?P<topic>[\w-]+)/(?P<list>[\w-]+)/(?P<slug>[\w-]+)/$",
-        prototype.views.ArticleDetailView.as_view(),
-        name='article-detail',
+        r"^advice/create-an-export-plan/(?P<slug>[\w-]+)/$",
+        prototype.views.PrototypePageView.as_view(),
+        name='create-an-export-plan-article',
+    ),
+    url(
+        r"^advice/find-an-export-market/$",
+        prototype.views.PrototypePageView.as_view(),
+        {'slug': 'find-an-export-market'},
+        name='find-an-export-market',
+    ),
+    url(
+        r"^advice/find-an-export-market/(?P<slug>[\w-]+)/$",
+        prototype.views.PrototypePageView.as_view(),
+        name='find-an-export-market-article',
+    ),
+    url(
+        r"^advice/define-route-to-market/$",
+        prototype.views.PrototypePageView.as_view(),
+        {'slug': 'define-route-to-market'},
+        name='define-route-to-market',
+    ),
+    url(
+        r"^advice/define-route-to-market/(?P<slug>[\w-]+)/$",
+        prototype.views.PrototypePageView.as_view(),
+        name='define-route-to-market-article',
+    ),
+    url(
+        r"^advice/get-export-finance-and-funding/$",
+        prototype.views.PrototypePageView.as_view(),
+        {'slug': 'get-export-finance-and-funding'},
+        name='get-export-finance-and-funding',
+    ),
+    url(
+        r"^advice/get-export-finance-and-funding/(?P<slug>[\w-]+)/$",
+        prototype.views.PrototypePageView.as_view(),
+        name='get-export-finance-and-funding-article',
+    ),
+    url(
+        r"^advice/manage-payment-for-export-orders/$",
+        prototype.views.PrototypePageView.as_view(),
+        {'slug': 'manage-payment-for-export-orders'},
+        name='manage-payment-for-export-orders',
+    ),
+    url(
+        r"^advice/manage-payment-for-export-orders/(?P<slug>[\w-]+)/$",
+        prototype.views.PrototypePageView.as_view(),
+        name='manage-payment-for-export-orders-article',
+    ),
+    url(
+        r"^advice/prepare-to-do-business-in-a-foreign-country/$",
+        prototype.views.PrototypePageView.as_view(),
+        {'slug': 'prepare-to-do-business-in-a-foreign-country'},
+        name='prepare-to-do-business-in-a-foreign-country',
+    ),
+    url(
+        r"^advice/prepare-to-do-business-in-a-foreign-country/(?P<slug>[\w-]+)/$",  # noqa
+        prototype.views.PrototypePageView.as_view(),
+        name='prepare-to-do-business-in-a-foreign-country-article',
+    ),
+    url(
+        r"^advice/manage-legal-and-ethical-compliance/$",
+        prototype.views.PrototypePageView.as_view(),
+        {'slug': 'manage-legal-and-ethical-compliance'},
+        name='manage-legal-and-ethical-compliance',
+    ),
+    url(
+        r"^advice/manage-legal-and-ethical-compliance/(?P<slug>[\w-]+)/$",
+        prototype.views.PrototypePageView.as_view(),
+        name='manage-legal-and-ethical-compliance-article',
+    ),
+    url(
+        r"^advice/prepare-for-export-procedures-and-logistics/$",
+        prototype.views.PrototypePageView.as_view(),
+        {'slug': 'prepare-for-export-procedures-and-logistics'},
+        name='prepare-for-export-procedures-and-logistics',
+    ),
+    url(
+        r"^advice/prepare-for-export-procedures-and-logistics/(?P<slug>[\w-]+)/$",  # noqa
+        prototype.views.PrototypePageView.as_view(),
+        name='prepare-for-export-procedures-and-logistics-article',
+    ),
+    url(
+        r"^markets/(?P<region>[\w-]+)/(?P<country>[\w-]+)/(?P<slug>[\w-]+)/$",
+        prototype.views.CountryGuidePageView.as_view(),
+        name='country-guide-article',
     ),
 ]
 
@@ -658,6 +717,11 @@ contact_urls = [
         name='contact-us-domestic'
     ),
     url(
+        r'^contact/domestic/enquiries/$',
+        contact.views.DomesticEnquiriesFormView.as_view(),
+        name='contact-us-enquiries'
+    ),
+    url(
         r'^contact/domestic/success/$',
         contact.views.DomesticSuccessView.as_view(),
         name='contact-us-domestic-success'
@@ -708,6 +772,21 @@ contact_urls = [
             url_name='contact-us-routing-form', done_step_name='finished'
         ),
         name='contact-us-routing-form'
+    ),
+    url(
+        r'^contact/office-finder/$',
+        contact.views.OfficeFinderFormView.as_view(),
+        name='office-finder'
+    ),
+    url(
+        r'^contact/office-finder/(?P<postcode>[\w\d]+)/$',
+        contact.views.OfficeContactFormView.as_view(),
+        name='office-finder-contact'
+    ),
+    url(
+        r'^contact/office-finder/(?P<postcode>[\w\d]+)/success/$',
+        contact.views.OfficeSuccessView.as_view(),
+        name='contact-us-office-success'
     ),
 ]
 

@@ -17,6 +17,7 @@ import os
 import environ
 from directory_components.constants import IP_RETRIEVER_NAME_GOV_UK
 from directory_constants.constants import cms
+import directory_healthcheck.backends
 
 
 env = environ.Env()
@@ -50,7 +51,6 @@ INSTALLED_APPS = [
     'casestudy',
     'finance',
     'directory_healthcheck',
-    'health_check',
     'captcha',
     'export_elements',
     'directory_components',
@@ -136,12 +136,13 @@ LANGUAGE_CODE = 'en-gb'
 # https://github.com/django/django/blob/master/django/conf/locale/__init__.py
 LANGUAGES = [
     ('en-gb', 'English'),               # English
-    ('zh-hans', '简体中文'),             # Simplified Chinese
+    ('zh-hans', '简体中文'),              # Simplified Chinese
     ('de', 'Deutsch'),                  # German
     ('ja', '日本語'),                    # Japanese
     ('es', 'Español'),                  # Spanish
     ('pt', 'Português'),                # Portuguese
-    ('ar', 'العربيّة'),                 # Arabic
+    ('ar', 'العربيّة'),                  # Arabic
+    ('fr', 'Français'),                 # French
 ]
 
 LOCALE_PATHS = (
@@ -330,7 +331,12 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # Healthcheck
-HEALTH_CHECK_TOKEN = env.str('HEALTH_CHECK_TOKEN')
+DIRECTORY_HEALTHCHECK_TOKEN = env.str('HEALTH_CHECK_TOKEN')
+DIRECTORY_HEALTHCHECK_BACKENDS = [
+    directory_healthcheck.backends.APIBackend,
+    directory_healthcheck.backends.SingleSignOnBackend,
+    directory_healthcheck.backends.FormsAPIBackend,
+]
 
 # Comtrade API
 COMTRADE_API_TOKEN = env.str('COMTRADE_API_TOKEN', '')
@@ -383,8 +389,6 @@ FEATURE_FLAGS = {
         'FEATURE_PROTOTYPE_PAGES_ENABLED', False),
     'CAMPAIGN_PAGES_ON': env.bool(
         'FEATURE_CAMPAIGN_PAGES_ENABLED', False),
-    'PROTOTYPE_HEADER_FOOTER_ON': env.bool(
-        'FEATURE_PROTOTYPE_HEADER_FOOTER_ENABLED', False),
     'NEWS_SECTION_ON': env.bool(
         'FEATURE_NEWS_SECTION_ENABLED', False),
     'INTERNAL_CH_ON': env.bool('FEATURE_USE_INTERNAL_CH_ENABLED', False),
@@ -395,8 +399,12 @@ FEATURE_FLAGS = {
         'FEATURE_PERFORMANCE_DASHBOARD_ENABLED', False
     ),
     'EU_EXIT_FORMS_ON': env.bool('FEATURE_EU_EXIT_FORMS_ENABLED', False),
+    'OFFICE_FINDER_ON': env.bool('FEATURE_OFFICE_FINDER_ENABLED', False),
     'SOO_CONTACT_FORM_ON': env.bool('FEATURE_SOO_CONTACT_FORM_ENABLED', False),
     'MARKET_ACCESS_FORM_ON': env.bool('FEATURE_MARKET_ACCESS_FORM_ENABLED', False),
+    'NEW_REGISTRATION_JOURNEY_ON': env.bool(
+        'FEATURE_NEW_REGISTRATION_ENABLED', False
+    ),
     # used by directory-components
     'SEARCH_ENGINE_INDEXING_OFF': env.bool(
         'FEATURE_SEARCH_ENGINE_INDEXING_DISABLED', False
@@ -419,7 +427,7 @@ DIRECTORY_FORMS_API_DEFAULT_TIMEOUT = env.int(
     'DIRECTORY_API_FORMS_DEFAULT_TIMEOUT', 5
 )
 DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME = env.str(
-    'DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME', 'Directory'
+    'DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME', 'directory'
 )
 
 # EU exit
@@ -485,6 +493,29 @@ CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID = env.str(
     'CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID',
     '5abd7372-a92d-4351-bccb-b9a38d353e75'
 )
+CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID',
+    '0492eb2b-7daf-4b37-99cd-be3abbb9eb32'
+)
+CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID',
+    '03c031e1-1ee5-43f9-8b24-f6e4cfd56cf1'
+)
+
+CONTACT_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID',
+    '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'
+)
+
+CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS = env.str(
+    'CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS',
+)
+
+CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID',
+    '61c82be6-b140-46fc-aeb2-472df8a94d35'
+)
+
 CONTACT_EXPORTING_AGENT_SUBJECT = env.str(
     'CONTACT_EXPORTING_AGENT_SUBJECT', 'A form was submitted on great.gov.uk'
 )

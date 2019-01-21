@@ -91,7 +91,6 @@ def test_form_submission(mock_zendesk_action, client):
         full_name='Craig Smith',
         email_address='craig@craigmusic.com',
         service_name='market_access',
-        subdomain='',
         form_url=reverse(url_name, kwargs={'step': 'about'})
     )
     assert mock_zendesk_action().save.call_count == 1

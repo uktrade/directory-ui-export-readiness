@@ -71,7 +71,6 @@ def test_great_services_form_routing():
     choices = set(item for item, _ in field.choices)
 
     choices_expect_redirect = {
-        constants.SELLING_ONLINE_OVERSEAS,
         constants.OTHER,
     }
     mapping = views.RoutingFormView.redirect_mapping[constants.GREAT_SERVICES]
@@ -123,10 +122,7 @@ def test_international_form_routing():
 
 
 def test_short_notify_form_serialize_data(domestic_data):
-    form = forms.ShortNotifyForm(
-        ingress_url='https://ingress.com',
-        data=domestic_data
-    )
+    form = forms.ShortNotifyForm(data=domestic_data)
 
     assert form.is_valid()
 
@@ -147,17 +143,13 @@ def test_short_notify_form_serialize_data(domestic_data):
         'organisation_name': 'Example corp',
         'postcode': 'ABC123',
         'comment': 'Help please',
-        'ingress_url': 'https://ingress.com',
         'dit_regional_office_name': 'Some Office',
         'dit_regional_office_email': 'foo@example.com',
     }
 
 
 def test_short_zendesk_form_serialize_data(domestic_data):
-    form = forms.ShortZendeskForm(
-        ingress_url='https://ingress.com',
-        data=domestic_data
-    )
+    form = forms.ShortZendeskForm(data=domestic_data)
 
     assert form.is_valid()
 
@@ -178,7 +170,6 @@ def test_short_zendesk_form_serialize_data(domestic_data):
         'organisation_name': 'Example corp',
         'postcode': 'ABC123',
         'comment': 'Help please',
-        'ingress_url': 'https://ingress.com',
     }
     assert form.full_name == 'Test Example'
 
@@ -186,10 +177,7 @@ def test_short_zendesk_form_serialize_data(domestic_data):
 def test_domestic_contact_form_serialize_data_office_lookup_error(
     domestic_data
 ):
-    form = forms.ShortNotifyForm(
-        ingress_url='https://ingress.com',
-        data=domestic_data
-    )
+    form = forms.ShortNotifyForm(data=domestic_data)
 
     assert form.is_valid()
 
@@ -207,10 +195,7 @@ def test_domestic_contact_form_serialize_data_office_lookup_error(
 def test_domestic_contact_form_serialize_data_office_lookup_not_found(
     domestic_data
 ):
-    form = forms.ShortNotifyForm(
-        ingress_url='https://ingress.com',
-        data=domestic_data
-    )
+    form = forms.ShortNotifyForm(data=domestic_data)
 
     assert form.is_valid()
 
@@ -227,7 +212,6 @@ def test_domestic_contact_form_serialize_data_office_lookup_not_found(
 
 def test_feedback_form_serialize_data(captcha_stub):
     form = forms.FeedbackForm(
-        ingress_url='https://ingress.com',
         data={
             'name': 'Test Example',
             'email': 'test@example.com',
@@ -242,7 +226,6 @@ def test_feedback_form_serialize_data(captcha_stub):
         'name': 'Test Example',
         'email': 'test@example.com',
         'comment': 'Help please',
-        'ingress_url': 'https://ingress.com',
     }
     assert form.full_name == 'Test Example'
 
@@ -259,3 +242,44 @@ def test_routing_forms_feature_flag(form_class, value, feature_flags):
     choices = form_class().fields['choice'].choices
 
     assert any(value == constants.EUEXIT for value, label in choices) is value
+
+
+@pytest.mark.parametrize('value', (True, False,))
+def test_routing_forms_new_reg_journey_flag(value, feature_flags):
+    feature_flags['NEW_REGISTRATION_JOURNEY_ON'] = value
+
+    choices = forms.GreatAccountRoutingForm().fields['choice'].choices
+
+    assert any(
+        value == constants.COMPANY_NOT_FOUND for value,
+        label in choices
+    ) is value
+
+
+def test_office_finder_unknown_postcode():
+    url = api_client.exporting.endpoints['lookup-by-postcode'].format(
+        postcode='ABC123'
+    )
+
+    form = forms.OfficeFinderForm(data={'postcode': 'ABC123'})
+
+    with requests_mock.mock() as mock:
+        mock.get(url, status_code=404)
+        assert form.is_valid() is False
+
+    assert form.errors['postcode'] == [form.MESSAGE_NOT_FOUND]
+
+
+def test_office_finder_known_postcode():
+    url = api_client.exporting.endpoints['lookup-by-postcode'].format(
+        postcode='ABC123'
+    )
+    office_details = {'field': 'value'}
+
+    form = forms.OfficeFinderForm(data={'postcode': 'ABC123'})
+
+    with requests_mock.mock() as mock:
+        mock.get(url, json=office_details)
+        assert form.is_valid() is True
+
+    assert form.office_details == {'field': 'value'}

@@ -19,11 +19,12 @@
 {% endblock %}
 
 <section id="{% block page_id %}article-list-page{% endblock %}">
+
+  {% block breadcrumbs %}
+    {% include 'prototype/components/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+  {% endblock %}
+
   <div class="container">
-    {% block breadcrumbs %}
-      <div class="breadcrumbs">
-      </div>
-    {% endblock %}
 
     {% if page.list_teaser %}
     <div class="grid-row">
@@ -42,7 +43,7 @@
 
             {% for article in page.articles %}
               <li class="article">
-                <h3 class="heading-medium"><a href="/prototype{{ article.full_path }}" class="link">{{ article.article_title }}</a></h3>
+                <a href="{{ article.full_path }}" class="heading-medium link" id="{{ article.meta.slug }}-link">{{ article.article_title }}</a>
                 <p class="subheading">Last updated {{ article.last_published_at|parse_date }}</p>
               </li>
             {% endfor %}
