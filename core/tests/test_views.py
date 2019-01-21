@@ -16,8 +16,8 @@ from casestudy import casestudies
 from directory_constants.constants import cms
 
 
-def test_landing_page_video_url(client, settings):
-    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_landing_page_video_url(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
     settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/videp.mp4'
 
