@@ -134,7 +134,7 @@ def domestic_form_data(captcha_stub):
     (
         constants.DOMESTIC,
         constants.OTHER,
-        reverse('contact-us-domestic')
+        reverse('contact-us-enquiries')
     ),
     # great services guidance routing
     (
@@ -158,6 +158,13 @@ def domestic_form_data(captcha_stub):
         constants.NO_VERIFICATION_EMAIL,
         views.build_great_account_guidance_url(
             cms.EXPORT_READINESS_HELP_MISSING_VERIFY_EMAIL_SLUG
+        ),
+    ),
+    (
+        constants.GREAT_ACCOUNT,
+        constants.COMPANY_NOT_FOUND,
+        views.build_great_account_guidance_url(
+            cms.EXPORT_READINESS_HELP_ACCOUNT_COMPANY_NOT_FOUND_SLUG
         ),
     ),
     (
@@ -595,6 +602,7 @@ def test_contact_us_feedback_prepopulate(client):
 
 
 @pytest.mark.parametrize('url', (
+    reverse('contact-us-enquiries'),
     reverse('contact-us-domestic'),
     reverse('contact-us-dso-form'),
     reverse('contact-us-events-form'),

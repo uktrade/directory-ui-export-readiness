@@ -333,7 +333,6 @@ DIRECTORY_HEALTHCHECK_BACKENDS = [
     directory_healthcheck.backends.APIBackend,
     directory_healthcheck.backends.SingleSignOnBackend,
     directory_healthcheck.backends.FormsAPIBackend,
-    directory_healthcheck.backends.SentryBackend,
 ]
 
 # Comtrade API
@@ -399,6 +398,9 @@ FEATURE_FLAGS = {
     'EU_EXIT_FORMS_ON': env.bool('FEATURE_EU_EXIT_FORMS_ENABLED', False),
     'OFFICE_FINDER_ON': env.bool('FEATURE_OFFICE_FINDER_ENABLED', False),
     'SOO_CONTACT_FORM_ON': env.bool('FEATURE_SOO_CONTACT_FORM_ENABLED', False),
+    'NEW_REGISTRATION_JOURNEY_ON': env.bool(
+        'FEATURE_NEW_REGISTRATION_ENABLED', False
+    ),
     # used by directory-components
     'SEARCH_ENGINE_INDEXING_OFF': env.bool(
         'FEATURE_SEARCH_ENGINE_INDEXING_DISABLED', False
@@ -494,6 +496,20 @@ CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID = env.str(
 CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID = env.str(
     'CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID',
     '03c031e1-1ee5-43f9-8b24-f6e4cfd56cf1'
+)
+
+CONTACT_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID',
+    '7a343ec9-7670-4813-9ed4-ae83d3e1f5f7'
+)
+
+CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS = env.str(
+    'CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS',
+)
+
+CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID',
+    '61c82be6-b140-46fc-aeb2-472df8a94d35'
 )
 
 CONTACT_EXPORTING_AGENT_SUBJECT = env.str(

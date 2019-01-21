@@ -19,7 +19,7 @@
         </div>
 
         {% block article_tags %}
-          {% if page.tags %}
+          {% if features.PROTOTYPE_PAGES_ON and page.tags %}
             <div class="column-quarter">
               <div class="panel-vertical-narrow">
                 <h2 class="heading-small">Tags</h2>
