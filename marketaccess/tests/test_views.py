@@ -48,15 +48,15 @@ def test_form_submission(mock_zendesk_action, client):
         reverse(url_name, kwargs={'step': 'problem-details'}),
         {
             view_name + '-current_step': 'problem-details',
-            'problem-details-country': 'AO',
+            'problem-details-country': 'Angola',
             'problem-details-problem_summary': 'problem summary',
             'problem-details-impact': 'problem impact',
             'problem-details-resolve_summary': 'steps in resolving',
-            'problem-details-eu_exit_related': 'False',
+            'problem-details-eu_exit_related': False,
 
         }
     )
-    assert response.status_code == 200
+    assert response.status_code == 302
 
     response = client.post(
         reverse(url_name, kwargs={'step': 'other-details'}),
@@ -79,7 +79,7 @@ def test_form_submission(mock_zendesk_action, client):
         'report-barrier-form-success'
     )
     assert mock_zendesk_action.call_count == 1
-    subject = f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: AO: Craig Music"
+    subject = f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: Angola: Craig Music"
     assert mock_zendesk_action.call_args == mock.call(
         subject=subject,
         full_name='Craig Smith',
@@ -99,7 +99,7 @@ def test_form_submission(mock_zendesk_action, client):
         'email': 'craig@craigmusic.com',
         'phone': '0123456789',
         'product_service': 'something',
-        'country': 'AO',
+        'country': 'Angola',
         'problem_summary': 'problem summary',
         'impact': 'problem impact',
         'resolve_summary': 'steps in resolving',

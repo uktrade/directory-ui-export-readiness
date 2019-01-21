@@ -30,7 +30,6 @@ class AboutForm(forms.Form):
     phone = fields.CharField(label='Telephone number')
 
 
-
 class ProblemDetailsForm(forms.Form):
 
     def change_country_tuples(country_list):
@@ -39,13 +38,14 @@ class ProblemDetailsForm(forms.Form):
     error_css_class = 'input-field-container has-error'
     # Country choices is a list of tuples that follow the structure (country_code, country_name). We don't want this
     # structure because the choice needs to always be human readable for the summary and zendesk. This creates a new
-    # tuple that makes tuples with the same value.  
-    
+    # tuple that makes tuples with the same value.
+
     product_service = fields.CharField(
         label='What is the product or service you want to export?')
     country = fields.ChoiceField(
         label='Which country are you trying to export to?',
-        choices=[('', 'Select a country')] + change_country_tuples(choices.COUNTRY_CHOICES),
+        choices=[('', 'Select a country')] +
+        change_country_tuples(choices.COUNTRY_CHOICES),
         widget=Select(attrs={'id': 'js-country-select'}),
     )
     problem_summary = fields.CharField(
@@ -78,8 +78,10 @@ class ProblemDetailsForm(forms.Form):
         widget=widgets.RadioSelect(
             use_nice_ids=True, attrs={'id': 'radio-one'}
         ),
-        choices=((True, 'Yes'), (False, 'No'),
-                 )
+        choices=(
+            (True, 'Yes'),
+            (False, 'No')
+        )
     )
 
 

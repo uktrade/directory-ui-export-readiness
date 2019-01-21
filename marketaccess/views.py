@@ -77,7 +77,8 @@ class ReportMarketAccessBarrierFormView(
     def done(self, form_list, **kwargs):
         # flatten the multi step data to one dictionary
         serialized_data = self.serialize_form_list(form_list)
-        subject = f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: {serialized_data['country']}: {serialized_data['company_name']}"
+        # f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: {serialized_data['country']}: {serialized_data['company_name']}"
+        subject = ""
         action = actions.ZendeskAction(
             email_address=serialized_data['email'],
             full_name=f"{serialized_data['firstname']} {serialized_data['lastname']}",
@@ -89,7 +90,7 @@ class ReportMarketAccessBarrierFormView(
             # simply allows the user of the forms API admin to filter results by this url
             form_url=reverse(
                 'report-ma-barrier', kwargs={'step': 'about'}
-            ),
+            )
         )
         # send to forms-api via POST request
         response = action.save(serialized_data)

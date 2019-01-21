@@ -52,7 +52,7 @@ def test_about_form_serialize():
 def problem_details_form_data():
     return {
         'product_service': 'something',
-        'country': 'AO',
+        'country': 'Angola',
         'problem_summary': 'problem summary',
         'impact': 'problem impact',
         'resolve_summary': 'steps in resolving',
