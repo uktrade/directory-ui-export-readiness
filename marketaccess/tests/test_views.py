@@ -77,7 +77,7 @@ def test_form_submission(mock_zendesk_action, client):
     assert response.status_code == 302
 
     assert response.url == reverse(
-        'report-barrier-form-success'
+        'report-ma-barrier', kwargs={'step': 'finish'}
     )
     assert mock_zendesk_action.call_count == 1
     subject = f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: Angola: Craig Music"
