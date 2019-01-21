@@ -187,17 +187,10 @@ class StaticViewSitemap(sitemaps.Sitemap):
         ]
 
     def location(self, item):
-        if item == 'triage-wizard':
-            # import here to avoid circular import
-            from triage.views import TriageWizardFormView
-            return reverse(item, kwargs={
-                'step': TriageWizardFormView.EXPORTED_BEFORE})
-        elif item == 'report-ma-barrier':
-            from marketaccess.views import ReportMarketAccessBarrierFormView
-            return reverse(item, kwargs={
-                'step': ReportMarketAccessBarrierFormView.ABOUT})
         if item == 'uk-export-finance-lead-generation-form':
             return reverse(item, kwargs={'step': 'contact'})
+        elif item == 'report-ma-barrier':
+            return reverse(item, kwargs={'step': 'about'})
         return reverse(item)
 
 
