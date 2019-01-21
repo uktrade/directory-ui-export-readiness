@@ -1,7 +1,6 @@
 import pytest
 
 from marketaccess import forms
-from directory_constants.constants import choices
 
 
 @pytest.fixture
@@ -60,7 +59,7 @@ def problem_details_form_data():
     }
 
 
-def test_about_form_initial():
+def test_problem_details_form_initial():
     form = forms.ProblemDetailsForm()
     assert form.fields['product_service'].initial is None
     assert form.fields['country'].initial is None
@@ -70,7 +69,7 @@ def test_about_form_initial():
     assert form.fields['eu_exit_related'].initial is None
 
 
-def test_about_form_mandatory_fields():
+def test_problem_details_form_mandatory_fields():
     form = forms.ProblemDetailsForm(data={})
 
     assert form.fields['product_service'].required is True
@@ -96,12 +95,12 @@ def other_details_form_data():
     }
 
 
-def test_about_form_initial():
+def test_other_details_form_initial():
     form = forms.OtherDetailsForm()
     assert form.fields['other_details'].initial is None
 
 
-def test_about_form_mandatory_fields():
+def test_other_details_form_mandatory_fields():
     form = forms.OtherDetailsForm(data={})
 
     assert form.fields['other_details'].required is True

@@ -3,9 +3,9 @@ from directory_forms_api_client import actions
 from formtools.wizard.views import NamedUrlSessionWizardView
 
 from django.conf import settings
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.http import HttpResponse
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.views.generic import TemplateView
 
 
@@ -72,17 +72,21 @@ class ReportMarketAccessBarrierFormView(
         return data
 
     def done(self, form_list, **kwargs):
-        serialized_data = self.serialize_form_list(form_list)
-        subject = f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: {serialized_data['country']}: {serialized_data['company_name']}"
+        data = self.serialize_form_list(form_list)
+        subject = (
+            f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: "
+            f"{data['country']}: "
+            f"{data['company_name']}"
+        )
         action = actions.ZendeskAction(
-            email_address=serialized_data['email'],
-            full_name=f"{serialized_data['firstname']} {serialized_data['lastname']}",
+            email_address=data['email'],
+            full_name=f"{data['firstname']} {data['lastname']}",
             subject=subject,
             service_name=settings.MARKET_ACCESS_FORMS_API_ZENDESK_SEVICE_NAME,
             form_url=reverse(
                 'report-ma-barrier', kwargs={'step': 'about'}
             )
         )
-        response = action.save(serialized_data)
+        response = action.save(data)
         response.raise_for_status()
         return redirect('report-barrier-form-success')

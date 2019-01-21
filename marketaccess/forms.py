@@ -1,10 +1,8 @@
-from django.conf import settings
-
 from directory_constants.constants import choices
 from directory_components import forms, fields, widgets
 from django.utils.safestring import mark_safe
 
-from django.forms import Select, Textarea, ValidationError
+from django.forms import Select, Textarea
 
 
 class AboutForm(forms.Form):
@@ -33,11 +31,16 @@ class AboutForm(forms.Form):
 class ProblemDetailsForm(forms.Form):
 
     def change_country_tuples(country_list):
-        return [(country_name, country_name) for country_code, country_name in country_list]
+        return [
+            (country_name, country_name)
+            for country_code, country_name in country_list
+        ]
 
     error_css_class = 'input-field-container has-error'
-    # Country choices is a list of tuples that follow the structure (country_code, country_name). We don't want this
-    # structure because the choice needs to always be human readable for the summary and zendesk. This creates a new
+    # Country choices is a list of tuples that follow the structure
+    # (country_code, country_name). We don't want this
+    # structure because the choice needs to always be human
+    # readable for the summary and zendesk. This creates a new
     # tuple that makes tuples with the same value.
 
     product_service = fields.CharField(
@@ -65,7 +68,8 @@ class ProblemDetailsForm(forms.Form):
     )
     resolve_summary = fields.CharField(
         label=mark_safe(
-            '<p>Tell us about any steps you have taken to resolve the problem, including: </p> \
+            '<p>Tell us about any steps you have taken to resolve the problem, \
+            including: </p> \
             <ul class="list list-bullet"> \
               <li>people you have contacted</li> \
               <li>when you contacted them</li> \
@@ -88,7 +92,8 @@ class ProblemDetailsForm(forms.Form):
 class OtherDetailsForm(forms.Form):
     error_css_class = 'input-field-container has-error'
     other_details = fields.CharField(
-        label='Is there anything else you would like us to understand about the situation?',
+        label='Is there anything else you would like \
+            us to understand about the situation?',
         widget=Textarea,
     )
 

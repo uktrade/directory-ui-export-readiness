@@ -4,9 +4,6 @@ from django.conf import settings
 
 from django.urls import reverse
 
-from core.tests.helpers import create_response
-from marketaccess import views
-
 
 def test_form_feature_flag_off(client, settings):
     settings.FEATURE_FLAGS['MARKET_ACCESS_FORM_ON'] = False
