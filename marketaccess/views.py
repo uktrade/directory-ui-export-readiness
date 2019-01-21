@@ -4,7 +4,6 @@ from formtools.wizard.views import NamedUrlSessionWizardView
 
 from django.conf import settings
 from django.shortcuts import redirect
-from django.http import HttpResponse
 from django.urls import reverse
 from django.views.generic import TemplateView
 
