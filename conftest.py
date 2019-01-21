@@ -36,22 +36,6 @@ def authed_client(client):
     stub.stop()
 
 
-@pytest.fixture
-def sso_request(rf, sso_user, client):
-    request = rf.get('/')
-    request.sso_user = sso_user
-    request.session = client.session
-    return request
-
-
-@pytest.fixture
-def anon_request(rf, client):
-    request = rf.get('/')
-    request.sso_user = None
-    request.session = client.session
-    return request
-
-
 @pytest.fixture()
 def captcha_stub():
     # https://github.com/praekelt/django-recaptcha#id5
