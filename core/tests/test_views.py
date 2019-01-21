@@ -1,6 +1,7 @@
 import http
 from unittest.mock import call, patch, PropertyMock
 
+import requests
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.views.generic import TemplateView
@@ -8,6 +9,7 @@ from django.views.generic import TemplateView
 from bs4 import BeautifulSoup
 import pytest
 import requests_mock
+from rest_framework import status
 
 from core import helpers, views
 from core.tests.helpers import create_response
@@ -16,8 +18,8 @@ from casestudy import casestudies
 from directory_constants.constants import cms
 
 
-def test_landing_page_video_url(client, settings):
-    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = True
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_landing_page_video_url(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
     settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/videp.mp4'
 
@@ -79,27 +81,12 @@ def test_landing_page(mock_get_page, client, settings):
     assert response.status_code == 200
     assert '/static/js/home' in str(response.content)
     assert response.template_name == [
-        views.PrototypeLandingPageView.template_name]
+        views.LandingPageView.template_name]
     assert response.context_data['casestudies'] == [
         casestudies.MARKETPLACE,
         casestudies.HELLO_BABY,
         casestudies.YORK,
     ]
-    assert response.context_data['article_group_read_progress'] == {
-        'all': {'read': 0, 'total': 49},
-        'business_planning': {'read': 0, 'total': 11},
-        'customer_insights': {'read': 0, 'total': 4},
-        'finance': {'read': 0, 'total': 7},
-        'getting_paid': {'read': 0, 'total': 5},
-        'market_research': {'read': 0, 'total': 7},
-        'operations_and_compliance': {'read': 0, 'total': 12},
-        'persona_new': {'read': 0, 'total': 23},
-        'persona_occasional': {'read': 0, 'total': 42},
-        'persona_regular': {'read': 0, 'total': 21},
-        'custom_persona_new': {'read': 0, 'total': 23},
-        'custom_persona_occasional': {'read': 0, 'total': 42},
-        'custom_persona_regular': {'read': 0, 'total': 21},
-    }
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -132,8 +119,7 @@ def test_landing_page_news_and_export_journey_off(
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == [
-        views.PrototypeLandingPageView.template_name]
+    assert response.template_name == [views.LandingPageView.template_name]
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -166,8 +152,7 @@ def test_landing_page_template_news_feature_flag_on(
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == [
-        views.PrototypeLandingPageView.template_name]
+    assert response.template_name == [views.LandingPageView.template_name]
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -198,8 +183,7 @@ def test_landing_page_template_news_feature_flag_off(
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == [
-        views.PrototypeLandingPageView.template_name]
+    assert response.template_name == [views.LandingPageView.template_name]
 
 
 def test_interstitial_page_exopps(client):
@@ -880,3 +864,68 @@ def test_marketing_campaign_page_feature_flag_off(
     response = client.get(url)
 
     assert response.status_code == 404
+
+
+@pytest.mark.parametrize('view_name', ['triage-start', 'custom-page'])
+def test_triage_views(view_name, client):
+    url = reverse(view_name)
+    response = client.get(url)
+    assert response.status_code == status.HTTP_200_OK
+    assert response.template_name == ['core/service_no_longer_available.html']
+
+
+def test_triage_wizard_view(client):
+    url = reverse('triage-wizard', kwargs={'step': 'foo'})
+    response = client.get(url)
+    assert response.status_code == status.HTTP_200_OK
+    assert response.template_name == ['core/service_no_longer_available.html']
+
+
+def test_companies_house_search_validation_error(client, settings):
+    settings.FEATURE_FLAGS['INTERNAL_CH_ON'] = False
+
+    url = reverse('api-internal-companies-house-search')
+    response = client.get(url)  # notice absense of `term`
+
+    assert response.status_code == 400
+
+
+@patch('core.helpers.CompaniesHouseClient.search')
+def test_companies_house_search_api_error(mock_search, client, settings):
+    settings.FEATURE_FLAGS['INTERNAL_CH_ON'] = False
+
+    mock_search.return_value = create_response(400)
+    url = reverse('api-internal-companies-house-search')
+
+    with pytest.raises(requests.HTTPError):
+        client.get(url, data={'term': 'thing'})
+
+
+@patch('core.helpers.CompaniesHouseClient.search')
+def test_companies_house_search_api_success(mock_search, client, settings):
+    settings.FEATURE_FLAGS['INTERNAL_CH_ON'] = False
+
+    mock_search.return_value = create_response(
+        200, {'items': [{'name': 'Smashing corp'}]}
+    )
+    url = reverse('api-internal-companies-house-search')
+
+    response = client.get(url, data={'term': 'thing'})
+
+    assert response.status_code == 200
+    assert response.content == b'[{"name": "Smashing corp"}]'
+
+
+@patch('core.helpers.CompanyCHClient')
+def test_companies_house_search_internal(mocked_ch_client, client, settings):
+    settings.FEATURE_FLAGS['INTERNAL_CH_ON'] = True
+
+    mocked_ch_client().search_companies.return_value = create_response(
+        200, {'items': [{'name': 'Smashing corp'}]}
+    )
+    url = reverse('api-internal-companies-house-search')
+
+    response = client.get(url, data={'term': 'thing'})
+
+    assert response.status_code == 200
+    assert response.content == b'[{"name": "Smashing corp"}]'

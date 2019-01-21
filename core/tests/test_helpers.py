@@ -2,6 +2,7 @@ from unittest.mock import patch, Mock, PropertyMock
 
 import pytest
 import requests
+import requests_mock
 
 from django.shortcuts import Http404
 from django.urls import reverse
@@ -205,3 +206,27 @@ def test_geolocation_end_to_end(rf, ip_address, language, settings):
     assert url == reverse('landing-page-international')
     assert 'lang=' + language in querysrtring
     assert 'a=b' in querysrtring
+
+
+def test_search():
+    with requests_mock.mock() as mock:
+        mock.get(
+            'https://api.companieshouse.gov.uk/search/companies',
+            status_code=200,
+        )
+        response = helpers.CompaniesHouseClient.search(term='green')
+        assert response.status_code == 200
+
+    request = mock.request_history[0]
+
+    assert request.query == 'q=green'
+
+
+def test_search_unauthorized():
+    with requests_mock.mock() as mock:
+        mock.get(
+            'https://api.companieshouse.gov.uk/search/companies',
+            status_code=401,
+        )
+        with pytest.raises(requests.HTTPError):
+            helpers.CompaniesHouseClient.search(term='green')
