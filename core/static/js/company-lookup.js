@@ -266,10 +266,10 @@ GOVUK.components = (new function() {
         $list.append("<li role=\"option\" tabindex=\"1000\" data-value=\"" + data[i][map.value] + "\">" + data[i][map.text] + "</li>");
       }
       if (this.options.showNoneOfThese) {
-        $list.append('<li id="triage-company-name-not-in-companies-house" role="option">None of these companies. I\'m not in Companies House</li>');
+        $list.append('<li id="company-lookup-name-not-in-companies-house" role="option">None of these companies. I\'m not in Companies House</li>');
       }
     } else {
-      $list.append('<li id="triage-company-name-no-results-found" role="option">No results found</li>');
+      $list.append('<li id="company-lookup-name-no-results-found" role="option">No results found</li>');
     }
   }
   SelectiveLookup.prototype.setSizeAndPosition = function() {
