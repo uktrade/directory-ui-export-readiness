@@ -20,40 +20,25 @@
         <script src="{% static 'js/company-lookup.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
     <script type="text/javascript">
-        var isSoleTrader = document.getElementById('id_company-details-not_companies_house');
         var companyNumberContainer = document.getElementById('id_company-details-company_number-container');
         companyNumberContainer.style.display = 'none';
         var companyNumber = document.getElementById('id_company-details-company_number');
         var companyName = document.getElementById('id_company-details-trading_name');
-
-        function clearUpValuesOnTypeChange() {
-          isSoleTrader.addEventListener('change', function(event) {
-            if (event.target.checked) {
-              companyNumber.value = '';
-            }
-          });
-        }
 
         function createCompaniesHouseLookup() {
           $(document.body).on(
             "click.SelectiveLookupCloseAll",
             GOVUK.components.SelectiveLookup.closeAll
           );
-          function maybePreventCompanyLookup(event) {
-            isSoleTrader.checked && event.stopImmediatePropagation();
-          }
-          companyName.addEventListener('keydown', maybePreventCompanyLookup);
-          companyName.addEventListener('keypress', maybePreventCompanyLookup);
-          companyName.addEventListener('keyup', maybePreventCompanyLookup);
-          companyName.addEventListener('input', maybePreventCompanyLookup);
+
           return new GOVUK.components.CompaniesHouseNameLookup(
             $(companyName),
-            $(companyNumber)
+            $(companyNumber),
+            {showNoneOfThese: true},
           );
 
         }
         createCompaniesHouseLookup();
-        clearUpValuesOnTypeChange();
     </script>
 
 {% endblock %}
