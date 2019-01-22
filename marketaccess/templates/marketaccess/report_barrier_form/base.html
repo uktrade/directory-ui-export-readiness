@@ -1,6 +1,7 @@
 {% extends "core/base.html" %}
 
 {% load static from staticfiles %}
+{% load render_form from directory_components_tags %}
 
 {% block head_css %}
 {{ block.super }}
@@ -33,19 +34,7 @@
                                         {{ form }}
                                     {% endfor %}
                                 {% else %}
-                                    {% for hidden in form.hidden_fields %}
-                                        {{ hidden }}
-                                    {% endfor %}
-                                    {% for field in form.visible_fields %}
-                                        <div class="{{ field.css_classes }}">
-                                            {{ field.errors }}
-                                            {{ field.label_tag }}
-                                            {% if field.help_text %}
-                                                <span class="form-hint">{{ field.help_text|safe }}</span>
-                                            {% endif %}
-                                            {{ field }}
-                                        </div>
-                                    {% endfor %}
+                                    {% render_form form %}
                                 {% endif %}
                             </div>
                             <div>

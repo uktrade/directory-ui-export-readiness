@@ -4,7 +4,9 @@
 
 {% block extra_contents %}
     <p>Report a trade barrier</p>
-    <p class="bold-small"> Step 4 of 4 </p>
+    <p class="bold-small">
+        {{ wizard.steps.step1 }} of {{ wizard.steps.count }}
+    </p>
     <h1 class="heading-large">Summary</h1>
     <h2 class="heading-medium">About you and your business or organisation</h2>
     <p class="bold-small"> First name </p>
