@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'directory_components',
     'euexit',
     'contact',
+    'marketaccess',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -398,6 +399,9 @@ FEATURE_FLAGS = {
     'EU_EXIT_FORMS_ON': env.bool('FEATURE_EU_EXIT_FORMS_ENABLED', False),
     'OFFICE_FINDER_ON': env.bool('FEATURE_OFFICE_FINDER_ENABLED', False),
     'SOO_CONTACT_FORM_ON': env.bool('FEATURE_SOO_CONTACT_FORM_ENABLED', False),
+    'MARKET_ACCESS_FORM_ON': env.bool(
+        'FEATURE_MARKET_ACCESS_FORM_ENABLED', False
+    ),
     'NEW_REGISTRATION_JOURNEY_ON': env.bool(
         'FEATURE_NEW_REGISTRATION_ENABLED', False
     ),
@@ -514,6 +518,14 @@ CONTACT_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID = env.str(
 
 CONTACT_EXPORTING_AGENT_SUBJECT = env.str(
     'CONTACT_EXPORTING_AGENT_SUBJECT', 'A form was submitted on great.gov.uk'
+)
+
+# Market Access
+MARKET_ACCESS_ZENDESK_SUBJECT = env.str(
+    'MARKET_ACCESS_ZENDESK_SUBJECT', 'market access'
+)
+MARKET_ACCESS_FORMS_API_ZENDESK_SEVICE_NAME = env.str(
+    'MARKET_ACCESS_FORMS_API_ZENDESK_SEVICE_NAME', 'market_access'
 )
 
 # ip-restrictor

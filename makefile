@@ -83,7 +83,8 @@ DEBUG_SET_ENV_VARS := \
 	export FIND_A_SUPPLIER_CONTACT_URL=http://supplier.trade.great:8005/industries/contact/; \
 	export FEATURE_EXPORT_JOURNEY_ENABLED=false; \
 	export FEATURE_SOO_CONTACT_FORM_ENABLED=true; \
-	export FEATURE_OFFICE_FINDER_ENABLED=true
+	export FEATURE_OFFICE_FINDER_ENABLED=true; \
+	export FEATURE_MARKET_ACCESS_FORM_ENABLED=true
 
 
 TEST_SET_ENV_VARS := \

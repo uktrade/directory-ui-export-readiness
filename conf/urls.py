@@ -13,6 +13,7 @@ import contact.views
 import core.views
 import euexit.views
 import finance.views
+import marketaccess.views
 
 from conf.url_redirects import redirects
 
@@ -496,9 +497,31 @@ contact_urls = [
     ),
 ]
 
+marketaccess_urls = [
+    url(
+        r'^marketaccess/$',
+        marketaccess.views.MarketAccessView.as_view(),
+        name='market-access'
+    ),
+    url(
+        r'^marketaccess/report-barrier/success/$',
+        marketaccess.views.ReportMarketAccessBarrierSuccessView.as_view(),
+        name='report-barrier-form-success'
+    ),
+    url(
+        r'^marketaccess/report-barrier/(?P<step>.+)/$',
+        marketaccess.views.ReportMarketAccessBarrierFormView.as_view(
+            url_name='report-ma-barrier',
+            done_step_name='finish'
+        ),
+        name='report-ma-barrier'
+    ),
+
+]
 
 urlpatterns += euexit_urls
 urlpatterns += redirects
 urlpatterns += news_urls
 urlpatterns += article_urls
 urlpatterns += contact_urls
+urlpatterns += marketaccess_urls

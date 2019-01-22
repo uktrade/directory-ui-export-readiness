@@ -147,7 +147,7 @@ class InterstitialPageExoppsView(SetEtagMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = {
             'exopps_url': settings.SERVICES_EXOPPS_ACTUAL
-            }
+        }
         return context
 
 
@@ -172,6 +172,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
             'contact-us-routing-form',
             'office-finder-contact',
             'contact-us-office-success',
+            'report-ma-barrier'
         ]
 
         excluded_pages += dynamic_cms_page_url_names
@@ -188,6 +189,8 @@ class StaticViewSitemap(sitemaps.Sitemap):
     def location(self, item):
         if item == 'uk-export-finance-lead-generation-form':
             return reverse(item, kwargs={'step': 'contact'})
+        elif item == 'report-ma-barrier':
+            return reverse(item, kwargs={'step': 'about'})
         return reverse(item)
 
 
