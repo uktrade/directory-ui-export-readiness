@@ -1,16 +1,39 @@
 from finance import forms
 
 
+def test_company_detail_form_has_company_number():
+    form = forms.CompanyDetailsForm(data={
+        'trading_name': 'test',
+        'company_number': 'test',
+        'address_line_one': 'test',
+        'address_line_two': 'test',
+        'address_town_city': 'test',
+        'address_county': 'test',
+        'address_post_code': 'test',
+        'industry': 'Other',
+        'industry_other': 'test',
+        'export_status': 'I have customers outside the UK',
+    })
+
+    assert form.is_valid() is False
+    assert form.cleaned_data['not_companies_house'] is False
+
+
 def test_company_detail_form_no_company_number():
-    form = forms.CompanyDetailsForm(data={})
-    assert form.is_valid() is False
-    assert form.errors['company_number'] == ['This field is required.']
+    form = forms.CompanyDetailsForm(data={
+        'trading_name': 'test',
+        'address_line_one': 'test',
+        'address_line_two': 'test',
+        'address_town_city': 'test',
+        'address_county': 'test',
+        'address_post_code': 'test',
+        'industry': 'Other',
+        'industry_other': 'test',
+        'export_status': 'I have customers outside the UK',
+    })
 
-
-def test_company_detail_form_no_company_number_not_companies_house():
-    form = forms.CompanyDetailsForm(data={'not_companies_house': True})
     assert form.is_valid() is False
-    assert 'company_number' not in form.errors
+    assert form.cleaned_data['not_companies_house'] is True
 
 
 def test_compamy_detail_form_industry_options():

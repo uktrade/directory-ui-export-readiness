@@ -2,7 +2,7 @@ from captcha.fields import ReCaptchaField
 from directory_constants.constants import choices, urls
 from directory_components import forms, fields, widgets
 
-from django.forms import Textarea, TextInput, ValidationError
+from django.forms import Textarea, TextInput
 from django.utils.html import mark_safe
 
 
@@ -52,10 +52,6 @@ class CompanyDetailsForm(forms.Form):
     company_number = fields.CharField(
         label='Companies House number', required=False
     )
-    not_companies_house = fields.BooleanField(
-        label='Not registered with Companies House',
-        required=False,
-    )
     address_line_one = fields.CharField(label='Building and street')
     address_line_two = fields.CharField(label='', required=False)
     address_town_city = fields.CharField(label='Town or city')
@@ -83,14 +79,10 @@ class CompanyDetailsForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        if (
-            not cleaned_data.get('company_number')
-            and not cleaned_data.get('not_companies_house')
-        ):
-            raise ValidationError(
-                {'company_number': 'This field is required.'}
-            )
-        return cleaned_data
+        return {
+            **cleaned_data,
+            'not_companies_house': not cleaned_data.get('company_number')
+        }
 
 
 class HelpForm(forms.Form):
