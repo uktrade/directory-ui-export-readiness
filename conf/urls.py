@@ -344,12 +344,27 @@ article_urls = [
         name='prepare-for-export-procedures-and-logistics-article',
     ),
     url(
+        r"^markets/$",
+        article.views.MarketsPageView.as_view(),
+        {'slug': 'markets'},
+        name='markets',
+    ),
+    url(
+        r"^markets/(?P<slug>[\w-]+)/$",
+        article.views.MarketsPageView.as_view(),
+        name='superregion',
+    ),
+    url(
+        r"^markets/(?P<region>[\w-]+)/(?P<slug>[\w-]+)/$",
+        article.views.MarketsPageView.as_view(),
+        name='country-guide',
+    ),
+    url(
         r"^markets/(?P<region>[\w-]+)/(?P<country>[\w-]+)/(?P<slug>[\w-]+)/$",
-        article.views.CountryGuidePageView.as_view(),
+        article.views.MarketsPageView.as_view(),
         name='country-guide-article',
     ),
 ]
-
 
 contact_urls = [
     url(

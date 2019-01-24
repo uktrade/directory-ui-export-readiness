@@ -9,6 +9,7 @@ from .mixins import (
 )
 from core.mixins import (
     PrototypeFeatureFlagMixin,
+    MarketsFeatureFlagMixin,
     NewsSectionFeatureFlagMixin,
     GetCMSComponentMixin,
     GetCMSPageMixin,
@@ -42,7 +43,7 @@ class CMSPageView(
         return self.kwargs['slug']
 
 
-class CountryGuidePageView(PrototypeFeatureFlagMixin, CMSPageView):
+class MarketsPageView(MarketsFeatureFlagMixin, CMSPageView):
     pass
 
 
