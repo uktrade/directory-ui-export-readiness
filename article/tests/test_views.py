@@ -120,6 +120,44 @@ def test_markets_pages_200_when_feature_on(
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_markets_link_in_header_when_feature_on(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['MARKETS_PAGES_ON'] = True
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body={
+            'page_type': 'TopicLandingPage',
+        }
+    )
+    url = reverse('markets')
+    response = client.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    assert soup.find(id='header-markets-link')
+    assert soup.find(id='header-markets-link').string == 'Markets'
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_markets_link_not_in_header_when_feature_off(
+    mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['MARKETS_PAGES_ON'] = False
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body={
+            'page_type': 'TopicLandingPage',
+        }
+    )
+    url = reverse('markets')
+    response = client.get(url)
+
+    assert 'id="header-markets-link"' not in str(response.content)
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_article_advice_page(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
 
