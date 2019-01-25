@@ -1,28 +1,6 @@
 // GENERAL SITE STYLES
 // ---------------------
 
-// REQIURES...
-
-// From _colours.scss
-// $light-grey
-// $mid-grey
-// $offwhite
-// $white
-
-// From _vars.scss
-// $design-max-width
-// $spacing-1
-// $spacing-2
-// $spacing-3
-// $spacing-4
-
-// From _typography.scss
-// body-m
-// heading-m
-// body-m-mob
-// heading-m-mob
-
-
 #menu-activator {
   margin-top: 0;
 }
@@ -38,13 +16,6 @@ a:active {
 
 a:focus {
   outline: $focus-yellow solid 3px;
-}
-
-img.placeholder {
-  background-color: $light-grey;
-  border: $mid-grey solid 1px;
-  display: block;
-  padding: 16%;
 }
 
 section {
@@ -92,34 +63,4 @@ table {
 
 #content .hidden {
   display: none;
-}
-
-.error-reporting {
-  padding-top: 0;
-  padding-bottom: 0px;
-}
-// TABLET
-@media (max-width: 767px) {
-  section {
-    .section-header,
-    .intro,
-    .section-intro {
-      width: 100%;
-    }
-  }
-}
-
-
-// MOBILE
-@media (max-width: 420px) {
-  body {
-    @include body-m-mob;
-  }
-
-  section {
-    padding-top: $spacing-3;
-    .section-header {
-      @include heading-m-mob;
-    }
-  }
 }

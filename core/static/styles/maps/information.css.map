@@ -1,1 +1,0 @@
-{"version":3,"file":"../information.css","sources":["information.scss"],"sourcesContent":["// INFORMATION PAGE\n// ------------------------------------\n// Page with minimal styling used just for text\n// e.g. about, privacy and cookies, T&Cs\n\nsection {\n  padding-right: calc(100% / 3);\n}\n"],"names":[],"mappings":"AAKA,AAAA,OAAO,AAAC,CACN,aAAa,CAAE,cAAc,CAC9B"}
