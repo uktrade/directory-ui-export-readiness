@@ -88,7 +88,8 @@ def test_form_submission(mock_zendesk_action, client):
         full_name='Craig Smith',
         email_address='craig@craigmusic.com',
         service_name='market_access',
-        form_url=reverse(url_name, kwargs={'step': 'about'})
+        form_url=reverse(url_name, kwargs={'step': 'about'}),
+        sender={'email_address': 'craig@craigmusic.com', 'country_code': None},
     )
     assert mock_zendesk_action().save.call_count == 1
     assert mock_zendesk_action().save.call_args == mock.call({

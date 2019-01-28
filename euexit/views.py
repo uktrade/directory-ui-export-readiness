@@ -1,4 +1,5 @@
 from directory_constants.constants import cms
+from directory_forms_api_client.helpers import Sender
 
 from django.conf import settings
 from django.urls import reverse_lazy
@@ -36,13 +37,18 @@ class BaseInternationalContactFormView(
         return kwargs
 
     def form_valid(self, form):
+        sender = Sender(
+            email_address=form.cleaned_data['email'],
+            country_code=form.cleaned_data.get('country_name'),
+        )
         response = form.save(
             subject=self.subject,
             full_name=form.full_name,
             email_address=form.cleaned_data['email'],
             service_name='eu_exit',
             subdomain=settings.EU_EXIT_ZENDESK_SUBDOMAIN,
-            form_url=self.request.path
+            form_url=self.request.path,
+            sender=sender,
         )
         response.raise_for_status()
         return super().form_valid(form)

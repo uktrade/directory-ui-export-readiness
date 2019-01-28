@@ -311,7 +311,7 @@ def test_get_previous_step(current_step, expected_step):
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
 def test_notify_form_submit_success(
     mock_form_session, client, url, agent_template, user_template,
-    view_class, agent_email, success_url
+    view_class, agent_email, success_url, settings
 ):
 
     class Form(forms.SerializeDataMixin, django.forms.Form):
@@ -331,6 +331,7 @@ def test_notify_form_submit_success(
             email_address=agent_email,
             form_url=url,
             form_session=mock_form_session(),
+            sender={'email_address': 'test@example.com', 'country_code': None}
         ),
         mock.call(
             template_id=user_template,
@@ -396,6 +397,7 @@ def test_success_view_cms(mock_lookup_by_slug, url, slug, client):
 def test_exporting_from_uk_contact_form_submission(
     mock_form_session, mock_retrieve_exporting_advice_email, mock_email_action,
     mock_notify_action, mock_clean, client, captcha_stub, company_profile,
+    settings
 ):
     company_profile.return_value = None
     mock_retrieve_exporting_advice_email.return_value = 'regional@example.com'
@@ -454,6 +456,7 @@ def test_exporting_from_uk_contact_form_submission(
         email_address='test@example.com',
         form_url='/contact/export-advice/comment/',
         form_session=mock_form_session(),
+        email_reply_to_id=settings.CONTACT_EXPORTING_USER_REPLY_TO_EMAIL_ID
     )
     assert mock_notify_action().save.call_count == 1
     assert mock_notify_action().save.call_args == mock.call({
@@ -472,6 +475,7 @@ def test_exporting_from_uk_contact_form_submission(
         'industry_other': '',
         'turnover': '0-25k',
         'employees': '1-10',
+        'region_office_email': 'regional@example.com',
     })
 
     assert mock_email_action.call_count == 1
@@ -481,6 +485,7 @@ def test_exporting_from_uk_contact_form_submission(
         reply_to=[settings.DEFAULT_FROM_EMAIL],
         form_url='/contact/export-advice/comment/',
         form_session=mock_form_session(),
+        sender={'email_address': 'test@example.com', 'country_code': None}
     )
     assert mock_email_action().save.call_count == 1
     assert mock_email_action().save.call_args == mock.call({
@@ -586,6 +591,7 @@ def test_zendesk_submit_success(
         full_name='Foo B',
         subject=subject,
         service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME,
+        sender={'email_address': 'foo@bar.com', 'country_code': None},
     )
 
 
@@ -860,6 +866,7 @@ def test_selling_online_overseas_contact_form_submission(
     assert mock_zendesk_action.call_args == mock.call(
         subject=settings.CONTACT_SOO_ZENDESK_SUBJECT,
         full_name='Foo Example',
+        sender={'email_address': 'test@example.com', 'country_code': None},
         email_address='test@example.com',
         service_name='soo',
         form_url=reverse(
