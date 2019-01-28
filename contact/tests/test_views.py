@@ -475,6 +475,7 @@ def test_exporting_from_uk_contact_form_submission(
         'industry_other': '',
         'turnover': '0-25k',
         'employees': '1-10',
+        'region_office_email': 'regional@example.com',
     })
 
     assert mock_email_action.call_count == 1

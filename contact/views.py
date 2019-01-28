@@ -350,9 +350,8 @@ class ExportingAdviceFormView(
 
     def send_agent_message(self, form_data):
         sender = Sender(email_address=form_data['email'], country_code=None)
-        email = helpers.retrieve_exporting_advice_email(form_data['postcode'])
         action = actions.EmailAction(
-            recipients=[email],
+            recipients=[form_data['region_office_email']],
             subject=settings.CONTACT_EXPORTING_AGENT_SUBJECT,
             reply_to=[settings.DEFAULT_FROM_EMAIL],
             form_url=reverse(
@@ -379,6 +378,9 @@ class ExportingAdviceFormView(
         for form in form_list:
             data.update(form.cleaned_data)
         del data['terms_agreed']
+        data['region_office_email'] = helpers.retrieve_exporting_advice_email(
+            data['postcode']
+        )
         return data
 
 
