@@ -1,5 +1,6 @@
 from directory_constants.constants import cms
 from directory_forms_api_client.actions import PardotAction
+from directory_forms_api_client.helpers import Sender
 from formtools.wizard.views import NamedUrlSessionWizardView
 
 from django.conf import settings
@@ -86,16 +87,17 @@ class GetFinanceLeadGenerationFormView(
         return [self.templates[self.steps.current]]
 
     def done(self, form_list, **kwargs):
+        form_data = self.serialize_form_list(form_list)
+        sender = Sender(email_address=form_data['email'], country_code=None)
         action = PardotAction(
             pardot_url=settings.UKEF_FORM_SUBMIT_TRACKER_URL,
             form_url=reverse(
                 'uk-export-finance-lead-generation-form',
                 kwargs={'step': self.CATEGORY}
-            )
+            ),
+            sender=sender,
         )
-        response = action.save(
-            self.serialize_form_list(form_list),
-        )
+        response = action.save(form_data)
         response.raise_for_status()
         return redirect(self.success_url)
 

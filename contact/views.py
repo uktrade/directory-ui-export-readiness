@@ -3,7 +3,7 @@ from urllib.parse import urlparse
 
 from directory_constants.constants import cms
 from directory_forms_api_client import actions
-from directory_forms_api_client.helpers import FormSessionMixin
+from directory_forms_api_client.helpers import FormSessionMixin, Sender
 
 from formtools.wizard.views import NamedUrlSessionWizardView
 
@@ -63,15 +63,21 @@ class SubmitFormOnGetMixin:
 class SendNotifyMessagesMixin:
 
     def send_agent_message(self, form):
+        sender = Sender(
+            email_address=form.cleaned_data['email'],
+            country_code=None,
+        )
         response = form.save(
             template_id=self.notify_settings.agent_template,
             email_address=self.notify_settings.agent_email,
             form_url=self.request.get_full_path(),
             form_session=self.form_session,
+            sender=sender,
         )
         response.raise_for_status()
 
     def send_user_message(self, form):
+        # no need to set `sender` as this is just a confirmation email.
         response = form.save(
             template_id=self.notify_settings.user_template,
             email_address=form.cleaned_data['email'],
@@ -106,6 +112,10 @@ class BaseNotifyFormView(FormSessionMixin, SendNotifyMessagesMixin, FormView):
 class BaseZendeskFormView(FormSessionMixin, FormView):
 
     def form_valid(self, form):
+        sender = Sender(
+            email_address=form.cleaned_data['email'],
+            country_code=None,
+        )
         response = form.save(
             email_address=form.cleaned_data['email'],
             full_name=form.full_name,
@@ -113,6 +123,7 @@ class BaseZendeskFormView(FormSessionMixin, FormView):
             service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME,
             form_url=self.request.get_full_path(),
             form_session=self.form_session,
+            sender=sender
         )
         response.raise_for_status()
         return super().form_valid(form)
@@ -332,11 +343,13 @@ class ExportingAdviceFormView(
                 'contact-us-export-advice', kwargs={'step': 'comment'}
             ),
             form_session=self.form_session,
+            email_reply_to_id=settings.CONTACT_EXPORTING_USER_REPLY_TO_EMAIL_ID
         )
         response = action.save(form_data)
         response.raise_for_status()
 
     def send_agent_message(self, form_data):
+        sender = Sender(email_address=form_data['email'], country_code=None)
         email = helpers.retrieve_exporting_advice_email(form_data['postcode'])
         action = actions.EmailAction(
             recipients=[email],
@@ -346,6 +359,7 @@ class ExportingAdviceFormView(
                 'contact-us-export-advice', kwargs={'step': 'comment'}
             ),
             form_session=self.form_session,
+            sender=sender,
         )
         template_name = 'contact/exporting-from-uk-agent-email.html'
         html = render_to_string(template_name, {'form_data': form_data})
@@ -560,6 +574,10 @@ class SellingOnlineOverseasFormView(
 
     def done(self, form_list, **kwargs):
         form_data = self.serialize_form_list(form_list)
+        sender = Sender(
+            email_address=form_data['contact_email'],
+            country_code=None
+        )
         action = actions.ZendeskAction(
             subject=settings.CONTACT_SOO_ZENDESK_SUBJECT,
             full_name=form_data['contact_name'],
@@ -569,6 +587,7 @@ class SellingOnlineOverseasFormView(
                 'contact-us-soo', kwargs={'step': 'organisation'}
             ),
             form_session=self.form_session,
+            sender=sender,
         )
         response = action.save(form_data)
         response.raise_for_status()

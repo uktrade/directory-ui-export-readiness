@@ -136,11 +136,19 @@ def test_ukef_lead_generation_submit(
         'terms_agreed': True,
         'g-recaptcha-response': captcha_stub,
     })
+    form_three = forms.PersonalDetailsForm(data={
+        'firstname': 'Test',
+        'lastname': 'Example',
+        'position': 'Thing',
+        'email': 'test@example.com',
+        'phone': '2342'
+    })
 
     assert form_one.is_valid()
     assert form_two.is_valid()
+    assert form_three.is_valid()
 
-    response = view.done([form_one, form_two])
+    response = view.done([form_one, form_two, form_three])
 
     assert response.status_code == 302
     assert response.url == str(view.success_url)
@@ -151,7 +159,8 @@ def test_ukef_lead_generation_submit(
         form_url=reverse(
             'uk-export-finance-lead-generation-form',
             kwargs={'step': 'contact'}
-        )
+        ),
+        sender={'email_address': 'test@example.com', 'country_code': None}
     )
 
     assert mock_action().save.call_count == 1
@@ -159,6 +168,11 @@ def test_ukef_lead_generation_submit(
         'categories': ['Securing upfront funding'],
         'comment': 'thing',
         'captcha': captcha_stub,
+        'firstname': 'Test',
+        'lastname': 'Example',
+        'position': 'Thing',
+        'email': 'test@example.com',
+        'phone': '2342',
     })
 
 

@@ -1,4 +1,5 @@
 from directory_forms_api_client import actions
+from directory_forms_api_client.helpers import Sender
 
 from formtools.wizard.views import NamedUrlSessionWizardView
 
@@ -77,6 +78,7 @@ class ReportMarketAccessBarrierFormView(
             f"{data['country']}: "
             f"{data['company_name']}"
         )
+        sender = Sender(email_address=data['email'], country_code=None)
         action = actions.ZendeskAction(
             email_address=data['email'],
             full_name=f"{data['firstname']} {data['lastname']}",
@@ -84,7 +86,8 @@ class ReportMarketAccessBarrierFormView(
             service_name=settings.MARKET_ACCESS_FORMS_API_ZENDESK_SEVICE_NAME,
             form_url=reverse(
                 'report-ma-barrier', kwargs={'step': 'about'}
-            )
+            ),
+            sender=sender,
         )
         response = action.save(data)
         response.raise_for_status()
