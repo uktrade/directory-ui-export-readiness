@@ -1,26 +1,9 @@
-%font--nowrap {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.font--nowrap {
-  @extend %font--nowrap;
-}
-
 
 // GENERAL CONTENT STYLES
 //------------------------------
 
 ul, ol, nav ul, nav ol {
   list-style: none;
-}
-
-.button {
-  @include body-m;
-  font-weight: 800;
-  padding: 10px $spacing-2;
-  text-decoration: none;
 }
 
 .navigation {
@@ -31,8 +14,4 @@ ul, ol, nav ul, nav ol {
       display: none;
     }
   }
-}
-
-.dead {
-  cursor: not-allowed;
 }

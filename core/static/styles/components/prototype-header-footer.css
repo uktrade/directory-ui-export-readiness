@@ -1,3 +1,0 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);@import url(https://fonts.googleapis.com/css?family=Overpass:400,800);#header .column-eigth{width:calc(100% / 8);float:left;box-sizing:border-box}#menu .links-list-item a{font-size:17px;padding-right:15px;padding-left:15px;left:-20px}#menu .links-list-item a span{min-height:2em}#menu .links-list-item:before{margin-left:-21px}@media (min-width: 767px){#footer .link-group li{padding-right:15px}#footer .footer-logos{width:50%}}@media (max-width: 767px){#header .column-seventh{width:100%}}
-
-/*# sourceMappingURL=../maps/components/prototype-header-footer.css.map */
