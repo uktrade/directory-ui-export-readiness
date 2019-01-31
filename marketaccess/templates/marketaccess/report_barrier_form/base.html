@@ -41,7 +41,7 @@
                                 <button type="submit" class="button {% if not wizard.steps.next %}final{% endif %}">{% block submit_button_label %}Continue{% endblock %}</button>
                             </div>
                             {% if wizard.steps.prev %}
-                                <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step=wizard.steps.prev %}">Back</button>
+                                <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step=wizard.steps.prev %}">Back</a>
                             {% endif %}
                         </div>
                     </form>
