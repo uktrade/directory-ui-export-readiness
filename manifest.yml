@@ -2,4 +2,4 @@
 applications:
 - name: directory-ui-export-readiness
   memory: 512M
-  buildpack: python_buildpack
+  buildpack: https://github.com/cloudfoundry/python-buildpack.git#v1.6.25
