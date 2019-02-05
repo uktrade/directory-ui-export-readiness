@@ -105,6 +105,10 @@ def test_privacy_international_redirect(path, client):
 
 # the first element needs to end with a slash
 redirects = [
+    (
+        '/future/',
+        'https://www.events.great.gov.uk/ehome/index.php?eventid=200185206'
+    ),
     ('/bodw2019/', 'https://www.events.great.gov.uk/bodw2019/'),
     ('/events/', 'https://www.events.great.gov.uk/'),
     ('/ukpavilion2020/', 'https://www.events.trade.gov.uk/dubai-expo-2020/'),

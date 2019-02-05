@@ -8,6 +8,15 @@ from core.views import (
 
 redirects = [
     url(
+        r'^future/$',
+        QuerystringRedirectView.as_view(
+            url=(
+                'https://www.events.great.gov.uk/ehome/index.php?'
+                'eventid=200185206'
+            ),
+        )
+    ),
+    url(
         r'^bodw2019/$',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/bodw2019/'),
