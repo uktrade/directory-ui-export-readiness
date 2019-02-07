@@ -21,6 +21,8 @@ from directory_constants.constants import cms
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_landing_page_video_url(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
+    settings.FEATURE_FLAGS['LANDING_PAGE_EU_EXIT_BANNER_ON'] = False
+
     settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/videp.mp4'
 
     url = reverse('landing-page')
