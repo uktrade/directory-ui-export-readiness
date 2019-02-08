@@ -5,10 +5,10 @@
 {% block extra_contents %}
     <p>Report a trade barrier</p>
     <p class="bold-small">
-        {{ wizard.steps.step1 }} of {{ wizard.steps.count }}
+        Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}
     </p>
     <h1 class="heading-large">Summary</h1>
-    <h2 class="heading-medium">About you and your business or organisation</h2>
+    <h2 class="heading-medium">About you and your business</h2>
     <p class="bold-small"> First name </p>
     <p>{{all_cleaned_data.firstname}}</p>
     <p class="bold-small"> Last name </p>
@@ -17,29 +17,29 @@
     <p>{{all_cleaned_data.jobtitle}}</p>
     <p class="bold-small"> Exporter or trade association </p>
     <p>{{all_cleaned_data.categories}}</p>
-    <p class="bold-small"> Company name </p>
+    <p class="bold-small"> Business or organisation name </p>
     <p>{{all_cleaned_data.company_name}}</p>
     <p class="bold-small"> Email </p>
     <p>{{all_cleaned_data.email}}</p>
     <p class="bold-small"> Phone </p>
     <p>{{all_cleaned_data.phone}}</p>
     <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='about' %}?from=summary">Change answers</a>
-    <h2 class="heading-medium">Describe the problem</h2>
-    <p class="bold-small"> What is the product or service you want to export? </p>
+    <h2 class="heading-medium">Describe your problem</h2>
+    <p class="bold-small"> What goods or services do you want to export? </p>
     <p>{{all_cleaned_data.product_service}}</p>
-    <p class="bold-small"> Which country are you trying to export to? </p>
+    <p class="bold-small"> Which country do you want to export to? </p>
     <p>{{all_cleaned_data.country}}</p>
-    <p class="bold-small"> Provide a brief description of the problem </p>
+    <p class="bold-small"> Tell us about your problem </p>
     <p>{{all_cleaned_data.problem_summary}}</p>
-    <p class="bold-small"> If the problem has ended, what was the impact? </p>
+    <p class="bold-small"> How has the problem affected your business? </p>
     <p>{{all_cleaned_data.impact}}</p>
-    <p class="bold-small"> Tell us about any steps you have taken to resolve the problem </p>
+    <p class="bold-small"> Tell us about any steps you’ve taken to resolve the problem </p>
     <p>{{all_cleaned_data.resolve_summary}}</p>
-    <p class="bold-small"> Is this issue caused by or related to EU Exit? </p>
+    <p class="bold-small"> Is your problem caused by or related to EU Exit? </p>
     <p>{{all_cleaned_data.eu_exit_related}}</p>
     <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='problem-details' %}?from=summary">Change answers</a>
-    <h2 class="heading-medium">Any other details</h2>
-    <p class="bold-small"> Is there anything else you would like us to understand about the situation? </p>
+    <h2 class="heading-medium">Tell us more about your problem</h2>
+    <p class="bold-small"> Do you want to tell us anything else about your problem? </p>
     <p>{{all_cleaned_data.other_details}}</p>
     <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='other-details' %}?from=summary">Change answers</a>
 

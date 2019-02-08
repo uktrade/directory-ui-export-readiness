@@ -25,55 +25,46 @@
         <div class="grid-row">
             <div class="column-one-half">
                 <p class="lede">
-                    Trade barriers are measures that slow down or prevent a UK business from accessing an overseas market. 
-                    Reporting a trade barrier will help the UK government to understand the issues that businesses are facing 
-                    so we can provide support where it's needed most. 
+                    Trade barriers are things that slow down or prevent a UK business from accessing an overseas market. 
+                    They can affect businesses of all sizes. 
+                </p>
+                <p class="lede">
+                    Tell us if you think you’re facing a trade barrier. We’ll look into your problem and help you resolve it. 
                 </p>
             </div>
             <div class="column-one-half">
-                <a href="{% url 'report-ma-barrier' step='about' %}" class="button" role="button">Report a barrier</a>
+                <a href="{% url 'report-ma-barrier' step='current-status' %}" class="button" role="button">Report a barrier</a>
             </div>
         </div>
         <hr>
         <div class="text">
-            <p>
-                Trade barriers, also known as non-tariff barriers, can affect businesses of all sizes at different stages in the exporting process. 
-                The government can support by understanding what barriers are affecting you. Find out more information and examples of about a trade 
-                barrier on GOV.UK or <a href="{% url 'report-ma-barrier' step='about' %}">submit a report</a>. 
-            </p>
+            <p>Trade barriers are tariff, non-tariff or overseas direct investment restrictions that delay or block your exports. </p>
+            <p>Your goods might be facing a trade barrier if lengthy procedures delay them getting to market.</p>
+            <p>Your services might be facing a trade barrier if there are unnecessary charges that give an advantage to domestic suppliers.</p>
+            <p>You can <a href="#">read more about trade barriers</a>.</p>
         </div>
-        <h2 class="heading-large">How it works</h2>
+        <h2 class="heading-medium">Making a report online</h2>
         <div class="grid-row">
             <div class="column-two-thirds">
-                <div class="text">
-                    <p>
-                        You can submit a report to UK government with this service. 
-                        If your barrier is an emergency, for example, your goods are held at border, you should call this number 
-                        [00 000 0000] or view our emergency contacts for urgent support. You can still submit a report so 
-                        we are aware. 
-                    </p>
-                </div>
-                <h3 class="heading-medium">Making a report online</h3>
                 <ol class="list big-number-list">
                     <li> 
-                        <h4 class="heading-small"> Tell us about your business </h4> 
-                        <p class="font-xsmall">What are you exporting and where are you exporting to?</p>
+                        <h4 class="heading-small">Tell us about your business</h4> 
+                        <p class="font-xsmall">What are your business details? How can we contact you?</p>
                     </li>
                     <li> 
-                        <h4 class="heading-small"> Describe the problem </h4> 
-                        <p class="font-xsmall">What is the barrier that you've experienced? Is the barrier still affecting your business?</p>
+                        <h4 class="heading-small">Describe your problem</h4> 
+                        <p class="font-xsmall">What’s stopping your goods getting to market? Is the problem still affecting your business?</p>
                     </li>
                     <li> 
-                        <h4 class="heading-small"> Provide additional information </h4> 
-                        <p class="font-xsmall">What is the barrier that you've experienced? Is the barrier still affecting your business?</p>
+                        <h4 class="heading-small">Tell us more about your problem</h4> 
+                        <p class="font-xsmall">Add any other details you think are relevant to your problem.</p>
+                    </li>
+                    <li> 
+                        <h4 class="heading-small">What happens next</h4> 
+                        <p class="font-xsmall">We’ll email you within 5 working days with an initial assessment of your barrier.<br>We’ll tell you what we’ll do to help resolve your barrier within 20 working days.</p>
                     </li>
                 </ol>
-                <div class="text">
-                    <p>
-                        Your report will be submitted to the Department for International Trade to review.
-                    </p>
-                </div>
-                <a href="{% url 'report-ma-barrier' step='about' %}" class="button" role="button">Report a barrier</a>
+                <a href="{% url 'report-ma-barrier' step='current-status' %}" class="button" role="button">Report a barrier</a>
             </div>
             <div class="column-one-third">
                 <img src="http://www.dfki.de/~wahlster/wp-content/uploads/Wahlster_Portrait_SW_gross.jpg?lang=en"/>
