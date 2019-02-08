@@ -21,6 +21,8 @@ from directory_constants.constants import cms
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_landing_page_video_url(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
+    settings.FEATURE_FLAGS['LANDING_PAGE_EU_EXIT_BANNER_ON'] = False
+
     settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/videp.mp4'
 
     url = reverse('landing-page')
@@ -611,7 +613,7 @@ def test_international_contact_page_context(client, settings):
     )
 
 
-page_all_fields = {
+campaign_page_all_fields = {
     'campaign_heading': 'Campaign heading',
     'campaign_hero_image': {'url': 'campaign_hero_image.jpg'},
     'cta_box_button_text': 'CTA box button text',
@@ -680,14 +682,16 @@ page_all_fields = {
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_marketing_campaign_page_all_fields(mock_get_page, client, settings):
+def test_marketing_campaign_campaign_page_all_fields(
+    mock_get_page, client, settings
+):
     settings.FEATURE_FLAGS['CAMPAIGN_PAGES_ON'] = True
 
     url = reverse('campaign-page', kwargs={'slug': 'test-page'})
 
     mock_get_page.return_value = create_response(
         status_code=200,
-        json_body=page_all_fields
+        json_body=campaign_page_all_fields
     )
     response = client.get(url)
 
@@ -705,30 +709,33 @@ def test_marketing_campaign_page_all_fields(mock_get_page, client, settings):
     hero_section = soup.find(id='campaign-hero')
 
     exp_style = "background-image: url('{}')".format(
-        page_all_fields['campaign_hero_image']['url'])
+        campaign_page_all_fields['campaign_hero_image']['url'])
 
     assert hero_section.attrs['style'] == exp_style
 
     assert soup.find(
-        id='selling-points-icon-two').attrs['src'] == page_all_fields[
+        id='selling-points-icon-two').attrs['src'] == campaign_page_all_fields[
         'selling_point_two_icon']['url']
 
     assert soup.find(
-        id='selling-points-icon-three').attrs['src'] == page_all_fields[
+        id='selling-points-icon-three'
+    ).attrs['src'] == campaign_page_all_fields[
         'selling_point_three_icon']['url']
 
     assert soup.find(
-        id='section-one-contact-button').attrs['href'] == page_all_fields[
+        id='section-one-contact-button'
+    ).attrs['href'] == campaign_page_all_fields[
         'section_one_contact_button_url']
     assert soup.find(
-        id='section-one-contact-button').text == page_all_fields[
+        id='section-one-contact-button').text == campaign_page_all_fields[
         'section_one_contact_button_text']
 
     assert soup.find(
-        id='section-two-contact-button').attrs['href'] == page_all_fields[
+        id='section-two-contact-button'
+    ).attrs['href'] == campaign_page_all_fields[
         'section_two_contact_button_url']
     assert soup.find(
-        id='section-two-contact-button').text == page_all_fields[
+        id='section-two-contact-button').text == campaign_page_all_fields[
         'section_two_contact_button_text']
 
     related_page_one = soup.find(id='related-page-article-1')
@@ -756,7 +763,7 @@ def test_marketing_campaign_page_all_fields(mock_get_page, client, settings):
         'article3_image_thumbnail.jpg')
 
 
-page_required_fields = {
+campaign_page_required_fields = {
     'campaign_heading': 'Campaign heading',
     'campaign_hero_image': None,
     'cta_box_button_text': 'CTA box button text',
@@ -797,7 +804,7 @@ def test_marketing_campaign_page_required_fields(
 
     mock_get_page.return_value = create_response(
         status_code=200,
-        json_body=page_required_fields
+        json_body=campaign_page_required_fields
     )
     response = client.get(url)
 
@@ -826,27 +833,27 @@ def test_marketing_campaign_page_required_fields(
 
     assert soup.select(
         '#campaign-contact-box .box-heading'
-        )[0].text == page_required_fields['cta_box_message']
+        )[0].text == campaign_page_required_fields['cta_box_message']
 
     assert soup.find(
         id='campaign-hero-heading'
-        ).text == page_required_fields['campaign_heading']
+        ).text == campaign_page_required_fields['campaign_heading']
 
     assert soup.find(
         id='section-one-heading'
-        ).text == page_required_fields['section_one_heading']
+        ).text == campaign_page_required_fields['section_one_heading']
 
     assert soup.find(
         id='section-two-heading'
-        ).text == page_required_fields['section_two_heading']
+        ).text == campaign_page_required_fields['section_two_heading']
 
     assert soup.find(
         id='related-content-heading'
-        ).text == page_required_fields['related_content_heading']
+        ).text == campaign_page_required_fields['related_content_heading']
 
     assert soup.select(
         "li[aria-current='page']"
-        )[0].text == page_required_fields['campaign_heading']
+        )[0].text == campaign_page_required_fields['campaign_heading']
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -859,7 +866,7 @@ def test_marketing_campaign_page_feature_flag_off(
 
     mock_get_page.return_value = create_response(
         status_code=200,
-        json_body=page_required_fields
+        json_body=campaign_page_required_fields
     )
     response = client.get(url)
 

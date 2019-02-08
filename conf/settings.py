@@ -104,10 +104,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'conf.wsgi.application'
 
-if env.str('REDIS_URL', ''):
+VCAP_SERVICES = env.json('VCAP_SERVICES', {})
+
+if 'redis' in VCAP_SERVICES:
+    REDIS_URL = VCAP_SERVICES['redis'][0]['credentials']['uri']
+else:
+    REDIS_URL = env.str('REDIS_URL', '')
+
+if REDIS_URL:
     cache = {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': env.str('REDIS_URL'),
+        'LOCATION': REDIS_URL,
         'OPTIONS': {
             'CLIENT_CLASS': "django_redis.client.DefaultClient",
         }
@@ -381,14 +388,14 @@ GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
 
 # feature flags
 FEATURE_FLAGS = {
-    'EXPORT_JOURNEY_ON': env.bool(
-        'FEATURE_EXPORT_JOURNEY_ENABLED', True),
-    'PROTOTYPE_PAGES_ON': env.bool(
-        'FEATURE_PROTOTYPE_PAGES_ENABLED', False),
-    'CAMPAIGN_PAGES_ON': env.bool(
-        'FEATURE_CAMPAIGN_PAGES_ENABLED', False),
-    'NEWS_SECTION_ON': env.bool(
-        'FEATURE_NEWS_SECTION_ENABLED', False),
+    'EXPORT_JOURNEY_ON': env.bool('FEATURE_EXPORT_JOURNEY_ENABLED', True),
+    'MARKETS_PAGES_ON': env.bool('FEATURE_MARKETS_PAGES_ENABLED', False),
+    'PROTOTYPE_PAGES_ON': env.bool('FEATURE_PROTOTYPE_PAGES_ENABLED', False),
+    'CAMPAIGN_PAGES_ON': env.bool('FEATURE_CAMPAIGN_PAGES_ENABLED', False),
+    'NEWS_SECTION_ON': env.bool('FEATURE_NEWS_SECTION_ENABLED', False),
+    'LANDING_PAGE_EU_EXIT_BANNER_ON': env.bool(
+        'FEATURE_LANDING_PAGE_EU_EXIT_BANNER_ENABLED', False
+    ),
     'INTERNAL_CH_ON': env.bool('FEATURE_USE_INTERNAL_CH_ENABLED', False),
     'UKEF_LEAD_GENERATION_ON': env.bool(
         'FEATURE_UKEF_LEAD_GENERATION_ENABLED', False
@@ -492,6 +499,10 @@ CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID = env.str(
 CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID = env.str(
     'CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID',
     '5abd7372-a92d-4351-bccb-b9a38d353e75'
+)
+CONTACT_EXPORTING_USER_REPLY_TO_EMAIL_ID = env.str(
+    'CONTACT_EXPORTING_USER_REPLY_TO_EMAIL_ID',
+    'ac1b973d-5b49-4d0d-a197-865fd25b4a97'
 )
 CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID = env.str(
     'CONTACT_OFFICE_AGENT_NOTIFY_TEMPLATE_ID',

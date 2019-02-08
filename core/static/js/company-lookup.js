@@ -79,16 +79,18 @@ GOVUK.components = (new function() {
 
     // Configure options.
     var opts = $.extend({
-      lookupOnCharacter: 4, // (Integer) At what character input to trigger the request for data
+      lookupOnCharacter: 4,   // (Integer) At what character input to trigger the request for data.
+      showNoneOfThese: false, // (Boolean) Show "none of these results" at the end.
     }, options || {});
 
+    instance.options = opts
     // Some inner variable requirement.
     instance._private = {
       active: false, // State management to isolate the listener.
       service: service, // Service that retrieves and stores the data
       $list: $("<ul class=\"SelectiveLookupDisplay\" style=\"display:none;\" id=\"" + popupId + "\" role=\"listbox\"></ul>"),
       $input: $input,
-      timer: null
+      timer: null,
     }
 
     // Will not have arguments if being inherited for prototype
@@ -263,9 +265,11 @@ GOVUK.components = (new function() {
         // The value is not important here.
         $list.append("<li role=\"option\" tabindex=\"1000\" data-value=\"" + data[i][map.value] + "\">" + data[i][map.text] + "</li>");
       }
-    }
-    else {
-      $list.append('<li id="triage-company-name-no-results-found" role="option">No results found</li>');
+      if (this.options.showNoneOfThese) {
+        $list.append('<li id="company-lookup-name-not-in-companies-house" role="option">None of these companies. I\'m not in Companies House</li>');
+      }
+    } else {
+      $list.append('<li id="company-lookup-name-no-results-found" role="option">No results found</li>');
     }
   }
   SelectiveLookup.prototype.setSizeAndPosition = function() {
@@ -298,11 +302,12 @@ GOVUK.components = (new function() {
    * @$field (jQuery node) Alternative element to populate with selection value
    **/
   this.CompaniesHouseNameLookup = CompaniesHouseNameLookup;
-  function CompaniesHouseNameLookup($input, $field) {
+  function CompaniesHouseNameLookup($input, $field, options) {
     var instance = this;
     SelectiveLookup.call(this,
       $input,
-      GOVUK.data.getCompanyByName
+      GOVUK.data.getCompanyByName,
+      options,
     );
 
     // Some inner variable requirement.

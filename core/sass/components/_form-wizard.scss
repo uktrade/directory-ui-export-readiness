@@ -1,31 +1,7 @@
 // Quiz Component
 // ---------------------------
 
-// REQUIRES...
-.answers {
-
-  dt {
-    @include body-s;
-    color: $mid-grey;
-    margin-bottom: 0;
-  }
-
-  dd {
-    border-bottom: 1px solid $light-grey;
-    margin-bottom: 20px;
-    padding-top: 5px;
-    padding-bottom: $spacing-4;
-
-    &:last-child {
-      border: none;
-    }
-  }
-}
-
-.next {
-  display: block;
-  margin-top: $spacing-4;
-}
+@import '../partials/colours';
 
 #content .input-field-container {
   .errorlist li::before {
@@ -33,7 +9,7 @@
   }
   &.has-error {
     padding-left: 30px;
-    border-left: 4px solid #B00D23;
+    border-left: 4px solid $flag-red;
 
     ul {
       &.errorlist {
@@ -41,20 +17,20 @@
         margin: 0 0 10px;
         padding: 0;
         li {
-          color: #b10e1e;
+          color: $flag-red;
           font-weight: 600;
         }
       }
     }
     input, select, textarea {
-      border-color: #B00D23;
+      border-color: $flag-red;
     }
   }
 }
 
 .SelectiveLookupDisplay {
-  background-color: #fff;
-  border: #999 solid 1px;
+  background-color: $white;
+  border: $mid-grey solid 1px;
   max-height: 221px;
   overflow: scroll;
   z-index: 2;
@@ -66,12 +42,12 @@
   overflow-x: hidden;
   li {
     cursor: pointer;
-    border-top: #999 solid 1px;
+    border-top: $mid-grey solid 1px;
     padding: 12px 24px;
     position: relative;
     top: -1px;
     &:focus {
-      border-color: #ffbf47;
+      border-color: $focus-yellow;
       border-style: solid;
       border-width: 4px 3px 3px 3px;
       box-shadow: none;
@@ -81,17 +57,21 @@
     }
     &:hover,
     &:focus {
-      background-color: #007ea3 !important;
-      color: white;
+      background-color: $active-blue-alt !important;
+      color: $white;
     }
+  }
+  #company-lookup-name-not-in-companies-house {
+    border-top: 2px solid $mid-grey;
+    background: $light-grey;
   }
 }
 
-#triage-company-name {
+#company-lookup-name {
   padding: 12px 24px;
 }
 
 .helptext {
-  color: #999999;
+  color: $mid-grey;
   display: block;
 }

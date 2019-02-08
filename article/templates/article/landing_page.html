@@ -2,7 +2,7 @@
 
 {% load static from staticfiles %}
 {% load progressive_image from image_tags %}
-{% load static_absolute from directory_components_tags %}
+{% load static_absolute add_export_elements_classes from directory_components_tags %}
 
 {% block og_image %}{% static_absolute 'images/hero/export-hp-hero-500.png' %}{% endblock %}
 
@@ -46,6 +46,15 @@
     </div>
   </div>
 </section>
+
+{% if features.LANDING_PAGE_EU_EXIT_BANNER_ON %}
+  <br>
+  <div class="container eu-exit-banner">
+     <div>
+       <h2>{{ page.banner_label }}</h2>{{ page.banner_content|add_export_elements_classes|safe }}
+     </div>
+  </div>
+{% endif %}
 
 {% if features.NEWS_SECTION_ON %}
   {% include 'article/sections/news_section.html' %}

@@ -288,24 +288,12 @@
   }
 
 }
-.ed-carousel__slide__image_caption {
-    position: absolute;
-    left: 0;
-    bottom: 30px;
-    background: white;
-    padding: 15px;
-}
-.ed-carousel__slide__image,
-.ed-carousel--thumb .ed-carousel__indicators .ed-carousel__indicator {
+.ed-carousel__slide__image {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.ed-carousel--thumb .ed-carousel__indicators .ed-carousel__indicator {
-  height: 30px;
-  width: 30px;
-}
 @-webkit-keyframes ed-carousel-show-slide {
   from {
     opacity: 0;
