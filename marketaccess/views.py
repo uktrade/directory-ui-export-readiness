@@ -7,6 +7,7 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
+from django.template.loader import render_to_string
 
 
 from core import mixins
@@ -72,6 +73,10 @@ class ReportMarketAccessBarrierFormView(
         if self.steps.current == self.SUMMARY:
             data = self.get_all_cleaned_data()
             context['all_cleaned_data'] = data
+        if form.errors: 
+            for field in form:
+                print(field)
+            context['formatted_form_errors'] = render_to_string('marketaccess/report_barrier_form/error-link-list.html', {'form': form})
         return context
 
     def render_next_step(self, form, **kwargs):

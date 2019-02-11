@@ -3,7 +3,7 @@ from directory_components import forms, fields, widgets
 from django.utils.safestring import mark_safe
 from django.shortcuts import redirect
 
-from django.forms import Select, Textarea, TextInput
+from django.forms import Select, Textarea, TextInput, ValidationError
 
 class CurrentStatusForm(forms.Form):
     error_css_class = 'input-field-container has-error'
@@ -15,12 +15,17 @@ class CurrentStatusForm(forms.Form):
     )
 
     status = fields.ChoiceField(
-        label='Select which option best applies to you.',
+        label='Select which option best applies to you',
         widget=widgets.RadioSelect(
             use_nice_ids=True, attrs={'id': 'radio-one'}
         ),
         choices=((choice_code, choice) for choice_code, choice in STATUS_CHOICES)
     )
+
+    def __init__(self, *args, **kwargs):
+        super(CurrentStatusForm, self).__init__(*args, **kwargs)
+
+        self.fields['status'].error_messages = {'required': 'Choose which option best describes your situation'}
 
 
 class AboutForm(forms.Form):
@@ -35,7 +40,7 @@ class AboutForm(forms.Form):
     lastname = fields.CharField(label='Last name')
     jobtitle = fields.CharField(label='Job title')
     categories = fields.ChoiceField(
-        label='',
+        label='Business type',
         widget=widgets.RadioSelect(
             attrs={'id': 'checkbox-single'},
             use_nice_ids=True,
@@ -51,6 +56,14 @@ class AboutForm(forms.Form):
     email = fields.EmailField(label='Email address')
     phone = fields.CharField(label='Telephone number')
 
+    def __init__(self, *args, **kwargs):
+        super(AboutForm, self).__init__(*args, **kwargs)
+        
+        for field in self.fields.values():
+            field.error_messages = {'required':'Enter your {fieldname}'.format(fieldname=field.label)}
+        
+        self.fields['categories'].error_messages = {'required': 'Tell us your business type'}
+
 
 class ProblemDetailsForm(forms.Form):
 
@@ -64,6 +77,7 @@ class ProblemDetailsForm(forms.Form):
             (country_name, country_name)
             for country_code, country_name in country_list
         ]
+
     error_css_class = 'input-field-container has-error'
 
     product_service = fields.CharField(
@@ -91,7 +105,7 @@ class ProblemDetailsForm(forms.Form):
     )
     impact = fields.CharField(
         label='How has the problem affected your business?',
-        widget=Textarea,
+        widget=Textarea
     )
     resolve_summary = fields.CharField(
         label=mark_safe(
@@ -101,7 +115,7 @@ class ProblemDetailsForm(forms.Form):
               <li>when you contacted them</li> \
               <li>what happened</li> \
             </ul>'),
-        widget=Textarea,
+        widget=Textarea
     )
     eu_exit_related = fields.ChoiceField(
         label='Is your problem caused by or related to EU Exit?',
@@ -114,12 +128,28 @@ class ProblemDetailsForm(forms.Form):
         )
     )
 
+    def __init__(self, *args, **kwargs):
+        super(ProblemDetailsForm, self).__init__(*args, **kwargs)
+
+        required_error_messages = {
+            'product_service': 'Tell us what you’re trying to export or invest in',
+            'country': 'Select the country you’re trying to export to',
+            'problem_summary': 'Tell us about the barrier you’re facing',
+            'impact': 'Tell us how your business is being affected by the barrier',
+            'resolve_summary': 'Tell us what you’ve done to resolve your problem, even if this is your first step',
+            'eu_exit_related': 'Tell us if your problem related to EU Exit'
+        }
+
+        for field_name in required_error_messages:
+            self.fields[field_name].error_messages = {'required': required_error_messages[field_name]}
+
 
 class OtherDetailsForm(forms.Form):
     error_css_class = 'input-field-container has-error'
     other_details = fields.CharField(
-        label='Do you want to tell us anything else about your problem?',
+        label='Do you want to tell us anything else about your problem? (optional)',
         widget=Textarea,
+        required=False
     )
 
 

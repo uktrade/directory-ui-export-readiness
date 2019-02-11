@@ -49,9 +49,16 @@
 .message-box {
     margin-top: 90px;
     margin-bottom: 0;
+    .box-description {
+        a {
+            display: block;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    }
 }
 
-.button.final {
+.privacy-policy-text {
     margin-top: 40px;
 }
 
@@ -66,4 +73,18 @@ form {
         margin-top: 40px;
         display: block;
     }
+}
+
+#id_problem-details-product_service-container {
+    .form-label {
+        padding-bottom: 0.25em;
+    }
+    span {
+        padding-bottom: 1em;
+    }
+}
+
+.message-box {
+    margin-top: 0;
+    margin-bottom: 1.5em;
 }

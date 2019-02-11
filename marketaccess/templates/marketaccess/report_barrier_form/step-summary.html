@@ -15,7 +15,7 @@
     <p>{{all_cleaned_data.lastname}}</p>
     <p class="bold-small"> Job title </p>
     <p>{{all_cleaned_data.jobtitle}}</p>
-    <p class="bold-small"> Exporter or trade association </p>
+    <p class="bold-small"> Business type </p>
     <p>{{all_cleaned_data.categories}}</p>
     <p class="bold-small"> Business or organisation name </p>
     <p>{{all_cleaned_data.company_name}}</p>
@@ -40,9 +40,8 @@
     <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='problem-details' %}?from=summary">Change answers</a>
     <h2 class="heading-medium">Tell us more about your problem</h2>
     <p class="bold-small"> Do you want to tell us anything else about your problem? </p>
-    <p>{{all_cleaned_data.other_details}}</p>
+    <p>{{all_cleaned_data.other_details|default:"No information added" }}</p>
     <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='other-details' %}?from=summary">Change answers</a>
-
+    <p class="privacy-policy-text">By submitting this form you agree to our <a href="">privacy policy</a>.</p>
 {% endblock %}
-
-{% block submit_button_label %}Submit report{% endblock %}
+{% block submit_button_label %}Send report{% endblock %}
