@@ -10,6 +10,8 @@
   }
 
   article header {
+    padding-bottom: 30px;
+
     .column-seven-twelfths {
       padding-bottom: 1em;
     }
@@ -19,16 +21,15 @@
     }
   }
 
-  .column-nine-twelfths {
-    width: calc(100% / 12 * 9);
-    float: left;
-    padding-bottom: 1em;
+  .column-seven-ninths {
+    width: calc(100% / 9 * 7);
+    float: right;
   }
 
   .article-content {
     padding-top: 1em;
     line-height: 1.75;
-    margin-left: calc(100% / 9 * 2);
+    padding-bottom: 60px;
   }
 
   .content-list li a {
@@ -41,7 +42,7 @@
   }
 
   @media (max-width: 640px) {
-    .column-nine-twelfths {
+    .column-seven-ninths {
       width: 100%;
       float: none;
     }

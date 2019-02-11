@@ -8,6 +8,10 @@
   padding: 15px 0;
 }
 
+.width-100 {
+  width: 100%;
+}
+
 @media (max-width: 960px) {
   .reverse-columns-l {
     flex-direction: column-reverse;

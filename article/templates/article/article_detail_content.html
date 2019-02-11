@@ -39,12 +39,14 @@
     </header>
 
     <div class="grid-row">
-      <div class="column-nine-twelfths">
+      <div class="column-three-quarters">
         {% if page.article_image %}
-          <img src="{{ page.article_image.url }}" alt="" width="100%">
+          <img src="{{ page.article_image.url }}" alt="" class="width-100">
         {% endif %}
-        <section class="article-content">
-          {{ page.article_body_text|add_export_elements_classes }}
+        <section class="grid-row">
+          <div class="column-seven-ninths article-content">
+            {{ page.article_body_text|add_export_elements_classes }}
+          </div>
         </section>
       </div>
 
