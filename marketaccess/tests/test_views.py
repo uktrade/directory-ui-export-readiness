@@ -24,7 +24,9 @@ def test_form_feature_flag_on(client, settings):
 
 
 @pytest.mark.parametrize('status', ['1', '2', '3', '4'])
-def test_form_submission_redirects_if_not_option_4_in_current_status(client, status):
+def test_form_submission_redirects_if_not_option_4_in_current_status(
+    client, status
+):
     url_name = 'report-ma-barrier'
     view_name = 'report_market_access_barrier_form_view'
 
@@ -38,9 +40,11 @@ def test_form_submission_redirects_if_not_option_4_in_current_status(client, sta
 
     assert response.status_code == 302
     if status != "4":
-        assert response._headers['location'][1] == '/marketaccess/report-barrier/emergency-details/'
-    else: 
-        assert response._headers['location'][1] == '/marketaccess/report-barrier/about/'
+        assert response._headers['location'][1] == '/marketaccess/report-barrier/\
+        emergency-details/'
+    else:
+        assert response._headers['location'][1] == '/marketaccess/report-barrier/\
+        about/'
 
 
 @mock.patch('directory_forms_api_client.actions.ZendeskAction')

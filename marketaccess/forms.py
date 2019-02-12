@@ -8,10 +8,19 @@ from django.forms import Select, Textarea, TextInput
 class CurrentStatusForm(forms.Form):
     error_css_class = 'input-field-container has-error'
     STATUS_CHOICES = (
-        (1, 'My perishable goods or livestock are blocked in transit'),
-        (2, 'I’m at immediate risk of missing a commercial opportunity'),
-        (3, 'I’m at immediate risk of not fulfilling a contract'),
-        (4, 'I need resolution quickly, but  I’m not at immediate risk of loss'),
+        (
+            1,
+            'My perishable goods or livestock are blocked in transit'
+        ), (
+            2,
+            'I’m at immediate risk of missing a commercial opportunity'
+        ), (
+            3,
+            'I’m at immediate risk of not fulfilling a contract'
+        ), (
+            4,
+            'I need resolution quickly, but  I’m not at immediate risk of loss'
+        ),
     )
 
     status = fields.ChoiceField(
@@ -19,7 +28,9 @@ class CurrentStatusForm(forms.Form):
         widget=widgets.RadioSelect(
             use_nice_ids=True, attrs={'id': 'radio-one'}
         ),
-        choices=((choice_code, choice) for choice_code, choice in STATUS_CHOICES)
+        choices=(
+            (choice_code, choice) for choice_code, choice in STATUS_CHOICES
+        )
     )
 
     def __init__(self, *args, **kwargs):
@@ -50,7 +61,7 @@ class AboutForm(forms.Form):
         choices=((choice, choice) for choice in CATEGORY_CHOICES)
     )
     organisation_description = fields.CharField(
-        label='Tell us about your organisation', 
+        label='Tell us about your organisation',
         widget=TextInput(attrs={'class': 'js-field-other'}),
         required=False
     )
@@ -60,19 +71,25 @@ class AboutForm(forms.Form):
 
     def clean(self):
         data = self.cleaned_data
-        if data.get('categories', None) == 'Other' and data.get('organisation_description', '') == '':
-            self.add_error('organisation_description', 'Enter your organisation')
+        if data.get(
+            'categories', None
+        ) == 'Other' and data.get('organisation_description', '') == '':
+            self.add_error(
+                'organisation_description', 'Enter your organisation'
+            )
         else:
             return data
 
     def __init__(self, *args, **kwargs):
         super(AboutForm, self).__init__(*args, **kwargs)
-        
+
         for field in self.fields.values():
             field.error_messages = {
-                'required':'Enter your {fieldname}'.format(fieldname=field.label.lower())
+                'required': 'Enter your {fieldname}'.format(
+                    fieldname=field.label.lower()
+                )
             }
-        
+
         self.fields['categories'].error_messages = {
             'required': 'Tell us your business type'
         }
@@ -111,8 +128,14 @@ class ProblemDetailsForm(forms.Form):
               <li>when you became aware of the problem</li> \
               <li>how you became aware of the problem</li> \
               <li>if it’s a one off</li> \
-              <li>any information you’ve been given or correspondence you’ve had</li> \
-              <li>the HS (Harmonized System) code for your goods, if you know it</li> \
+              <li> \
+                any information you’ve been given or \
+                correspondence you’ve had \
+              </li> \
+              <li> \
+                the HS (Harmonized System) code for your goods, \
+                if you know it \
+              </li> \
             </ul>'),
         widget=Textarea,
     )
@@ -122,7 +145,8 @@ class ProblemDetailsForm(forms.Form):
     )
     resolve_summary = fields.CharField(
         label=mark_safe(
-            '<p>Tell us about any steps you’ve taken to resolve the problem, including: </p> \
+            '<p>Tell us about any steps you’ve taken \
+            to resolve the problem, including: </p> \
             <ul class="list list-bullet"> \
               <li>people you’ve contacted</li> \
               <li>when you contacted them</li> \
@@ -145,22 +169,28 @@ class ProblemDetailsForm(forms.Form):
         super(ProblemDetailsForm, self).__init__(*args, **kwargs)
 
         required_error_messages = {
-            'product_service': 'Tell us what you’re trying to export or invest in',
+            'product_service': 'Tell us what you’re \
+            trying to export or invest in',
             'country': 'Select the country you’re trying to export to',
             'problem_summary': 'Tell us about the barrier you’re facing',
-            'impact': 'Tell us how your business is being affected by the barrier',
-            'resolve_summary': 'Tell us what you’ve done to resolve your problem, even if this is your first step',
+            'impact': 'Tell us how your business is being affected by the \
+            barrier',
+            'resolve_summary': 'Tell us what you’ve done to resolve your \
+            problem, even if this is your first step',
             'eu_exit_related': 'Tell us if your problem is related to EU Exit'
         }
 
         for field_name in required_error_messages:
-            self.fields[field_name].error_messages = {'required': required_error_messages[field_name]}
+            self.fields[field_name].error_messages = {
+                'required': required_error_messages[field_name]
+            }
 
 
 class OtherDetailsForm(forms.Form):
     error_css_class = 'input-field-container has-error'
     other_details = fields.CharField(
-        label='Do you want to tell us anything else about your problem? (optional)',
+        label='Do you want to tell us anything else \
+        about your problem? (optional)',
         widget=Textarea,
         required=False
     )

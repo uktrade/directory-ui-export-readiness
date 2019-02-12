@@ -2,6 +2,7 @@ import pytest
 
 from marketaccess import forms
 
+
 @pytest.fixture
 def current_status_form_data():
     return {
@@ -12,7 +13,7 @@ def current_status_form_data():
 def test_current_status_form_initial():
     form = forms.CurrentStatusForm()
     assert form.fields['status'].initial is None
-   
+
 
 def test_current_status_form_mandatory_fields():
     form = forms.CurrentStatusForm(data={})
@@ -32,8 +33,10 @@ def test_check_current_status_error_messages():
         data={}
     )
     assert len(form.errors) == 1
-    assert form.errors['status'] == ['Choose the option that best describes your situation']
-    
+    assert form.errors['status'] == [
+        'Choose the option that best describes your situation'
+    ]
+
 
 @pytest.fixture
 def about_form_data():
@@ -99,13 +102,13 @@ def test_about_form_serialize():
 def test_about_form_with_other_serializes():
     form = forms.AboutForm(
         data=about_form_data_with_other_business_type()
-    )   
+    )
 
     assert form.is_valid()
     assert form.cleaned_data == about_form_data_with_other_business_type()
 
 
-def test_organisation_description_is_required_if_other_business_type(): 
+def test_organisation_description_is_required_if_other_business_type():
     form_data = about_form_data_with_other_business_type()
     form_data['organisation_description'] = ''
     form = forms.AboutForm(
@@ -113,7 +116,9 @@ def test_organisation_description_is_required_if_other_business_type():
     )
 
     assert len(form.errors) == 1
-    assert form.errors['organisation_description'] == ['Enter your organisation']
+    assert form.errors['organisation_description'] == [
+        'Enter your organisation'
+    ]
 
 
 def test_about_form_error_messages():
@@ -178,12 +183,25 @@ def test_problem_details_error_messages():
     )
 
     assert len(form.errors) == 6
-    form.errors['product_service'] == ['Tell us what you’re trying to export or invest in']
-    form.errors['country'] == ['Select the country you’re trying to export to']
-    form.errors['problem_summary'] == ['Tell us about the barrier you’re facing']
-    form.errors['impact'] == ['Tell us how your business is being affected by the barrier']
-    form.errors['resolve_summary'] == ['Tell us what you’ve done to resolve your problem, even if this is your first step']
-    form.errors['eu_exit_related'] == ['Tell us if your problem is related to EU Exit']
+    form.errors['product_service'] == [
+        'Tell us what you’re trying to export or invest in'
+    ]
+    form.errors['country'] == [
+        'Select the country you’re trying to export to'
+        ]
+    form.errors['problem_summary'] == [
+        'Tell us about the barrier you’re facing'
+    ]
+    form.errors['impact'] == [
+        'Tell us how your business is being affected by the barrier'
+    ]
+    form.errors['resolve_summary'] == [
+        'Tell us what you’ve done to resolve your problem, \
+        even if this is your first step'
+    ]
+    form.errors['eu_exit_related'] == [
+        'Tell us if your problem is related to EU Exit'
+    ]
 
 
 @pytest.fixture

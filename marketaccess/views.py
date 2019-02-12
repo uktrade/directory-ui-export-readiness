@@ -54,7 +54,8 @@ class ReportMarketAccessBarrierFormView(
     )
 
     templates = {
-        CURRENT_STATUS: 'marketaccess/report_barrier_form/step-current-status.html',
+        CURRENT_STATUS: 'marketaccess/report_barrier_form/ \
+        step-current-status.html',
         ABOUT: 'marketaccess/report_barrier_form/step-about.html',
         PROBLEM_DETAILS: 'marketaccess/report_barrier_form/step-problem.html',
         OTHER_DETAILS: 'marketaccess/report_barrier_form/step-others.html',
@@ -73,9 +74,12 @@ class ReportMarketAccessBarrierFormView(
         if self.steps.current == self.SUMMARY:
             data = self.get_all_cleaned_data()
             context['all_cleaned_data'] = data
-        if form.errors: 
+        if form.errors:
             for field in form:
-                context['formatted_form_errors'] = render_to_string('marketaccess/report_barrier_form/error-link-list.html', {'form': form})
+                context['formatted_form_errors'] = render_to_string(
+                    'marketaccess/report_barrier_form/error-link-list.html',
+                    {'form': form}
+                )
         return context
 
     def render_next_step(self, form, **kwargs):
@@ -83,9 +87,10 @@ class ReportMarketAccessBarrierFormView(
         When using the NamedUrlWizardView, we have to redirect to update the
         browser's URL to match the shown step.
         """
-        if self.steps.current == self.CURRENT_STATUS and self.get_cleaned_data_for_step(self.CURRENT_STATUS)['status'] != "4":
+        status = self.get_cleaned_data_for_step(self.CURRENT_STATUS)['status']
+        if self.steps.current == self.CURRENT_STATUS and status != "4":
             return redirect('market-access-emergency')
-        else: 
+        else:
             next_step = self.get_next_step()
             self.storage.current_step = next_step
             return redirect(self.get_step_url(next_step))
