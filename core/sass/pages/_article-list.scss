@@ -11,6 +11,10 @@
     padding-top: 0;
   }
 
+  .card-grid > * > .card {
+    flex-grow: 1;
+  }
+
   .hero-description {
     font-weight: 700;
   }
