@@ -54,8 +54,7 @@ class ReportMarketAccessBarrierFormView(
     )
 
     templates = {
-        CURRENT_STATUS: 'marketaccess/report_barrier_form/ \
-        step-current-status.html',
+        CURRENT_STATUS: 'marketaccess/report_barrier_form/step-current-status.html',
         ABOUT: 'marketaccess/report_barrier_form/step-about.html',
         PROBLEM_DETAILS: 'marketaccess/report_barrier_form/step-problem.html',
         OTHER_DETAILS: 'marketaccess/report_barrier_form/step-others.html',

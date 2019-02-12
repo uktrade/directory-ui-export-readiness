@@ -11,15 +11,18 @@ class CurrentStatusForm(forms.Form):
         (
             1,
             'My perishable goods or livestock are blocked in transit'
-        ), (
+        ), 
+        (
             2,
             'I’m at immediate risk of missing a commercial opportunity'
-        ), (
+        ), 
+        (
             3,
             'I’m at immediate risk of not fulfilling a contract'
-        ), (
+        ), 
+        (
             4,
-            'I need resolution quickly, but  I’m not at immediate risk of loss'
+            'I need resolution quickly, but I’m not at immediate risk of loss'
         ),
     )
 
@@ -28,17 +31,11 @@ class CurrentStatusForm(forms.Form):
         widget=widgets.RadioSelect(
             use_nice_ids=True, attrs={'id': 'radio-one'}
         ),
-        choices=(
-            (choice_code, choice) for choice_code, choice in STATUS_CHOICES
-        )
-    )
-
-    def __init__(self, *args, **kwargs):
-        super(CurrentStatusForm, self).__init__(*args, **kwargs)
-
-        self.fields['status'].error_messages = {
+        choices=STATUS_CHOICES,
+        error_messages={
             'required': 'Choose the option that best describes your situation'
         }
+    )
 
 
 class AboutForm(forms.Form):
@@ -49,50 +46,75 @@ class AboutForm(forms.Form):
         'Other'
     )
 
-    firstname = fields.CharField(label='First name')
-    lastname = fields.CharField(label='Last name')
-    jobtitle = fields.CharField(label='Job title')
+    firstname = fields.CharField(
+        label='First name',
+        error_messages={
+            'required': 'Enter your first name'
+        }
+    )
+
+    lastname = fields.CharField(
+        label='Last name',
+        error_messages={
+            'required': 'Enter your last name'
+        }
+    )
+
+    jobtitle = fields.CharField(
+        label='Job title',
+        error_messages={
+            'required': 'Enter your job title'
+        }
+    )
+
     categories = fields.ChoiceField(
         label='Business type',
         widget=widgets.RadioSelect(
             attrs={'id': 'checkbox-single'},
             use_nice_ids=True,
         ),
-        choices=((choice, choice) for choice in CATEGORY_CHOICES)
+        choices=((choice, choice) for choice in CATEGORY_CHOICES),
+        error_messages={
+            'required': 'Tell us your business type'
+        }
     )
     organisation_description = fields.CharField(
         label='Tell us about your organisation',
         widget=TextInput(attrs={'class': 'js-field-other'}),
         required=False
     )
-    company_name = fields.CharField(label='Business or organisation name')
-    email = fields.EmailField(label='Email address')
-    phone = fields.CharField(label='Telephone number')
+
+    company_name = fields.CharField(
+        label='Business or organisation name',
+        error_messages={
+            'required': 'Enter your business or organisation name'
+        }
+    )
+
+    email = fields.EmailField(
+        label='Email address',
+        error_messages={
+            'required': 'Enter your email address'
+        }
+    )
+    
+    phone = fields.CharField(
+        label='Telephone number',
+        error_messages={
+            'required': 'Enter your telephone number'
+        }
+    )
 
     def clean(self):
         data = self.cleaned_data
-        if data.get(
-            'categories', None
-        ) == 'Other' and data.get('organisation_description', '') == '':
+        description = data.get('organisation_description')
+        categories = data.get('categories')
+        if categories == 'Other' and not description:
             self.add_error(
                 'organisation_description', 'Enter your organisation'
             )
         else:
             return data
-
-    def __init__(self, *args, **kwargs):
-        super(AboutForm, self).__init__(*args, **kwargs)
-
-        for field in self.fields.values():
-            field.error_messages = {
-                'required': 'Enter your {fieldname}'.format(
-                    fieldname=field.label.lower()
-                )
-            }
-
-        self.fields['categories'].error_messages = {
-            'required': 'Tell us your business type'
-        }
 
 
 class ProblemDetailsForm(forms.Form):
@@ -112,13 +134,20 @@ class ProblemDetailsForm(forms.Form):
 
     product_service = fields.CharField(
         label='What goods or services do you want to export?',
-        help_text='Or tell us about an investment you want to make'
+        help_text='Or tell us about an investment you want to make',
+        error_messages={
+            'required': 'Tell us what you’re \
+            trying to export or invest in'
+        }
     )
     country = fields.ChoiceField(
         label='Which country do you want to export to?',
         choices=[('', 'Select a country')] +
         change_country_tuples(choices.COUNTRY_CHOICES),
         widget=Select(attrs={'id': 'js-country-select'}),
+        error_messages={
+            'required': 'Select the country you’re trying to export to'
+        }
     )
     problem_summary = fields.CharField(
         label=mark_safe(
@@ -138,10 +167,17 @@ class ProblemDetailsForm(forms.Form):
               </li> \
             </ul>'),
         widget=Textarea,
+        error_messages={
+            'required': 'Tell us about the barrier you’re facing'
+        }
     )
     impact = fields.CharField(
         label='How has the problem affected your business?',
-        widget=Textarea
+        widget=Textarea,
+        error_messages={
+            'required': 'Tell us how your business is being affected by the \
+            barrier'
+        }
     )
     resolve_summary = fields.CharField(
         label=mark_safe(
@@ -152,7 +188,11 @@ class ProblemDetailsForm(forms.Form):
               <li>when you contacted them</li> \
               <li>what happened</li> \
             </ul>'),
-        widget=Textarea
+        widget=Textarea,
+        error_messages={
+            'required': 'Tell us what you’ve done to resolve your \
+            problem, even if this is your first step'
+        }
     )
     eu_exit_related = fields.ChoiceField(
         label='Is your problem caused by or related to EU Exit?',
@@ -162,28 +202,11 @@ class ProblemDetailsForm(forms.Form):
         choices=(
             ('Yes', 'Yes'),
             ('No', 'No')
-        )
-    )
-
-    def __init__(self, *args, **kwargs):
-        super(ProblemDetailsForm, self).__init__(*args, **kwargs)
-
-        required_error_messages = {
-            'product_service': 'Tell us what you’re \
-            trying to export or invest in',
-            'country': 'Select the country you’re trying to export to',
-            'problem_summary': 'Tell us about the barrier you’re facing',
-            'impact': 'Tell us how your business is being affected by the \
-            barrier',
-            'resolve_summary': 'Tell us what you’ve done to resolve your \
-            problem, even if this is your first step',
-            'eu_exit_related': 'Tell us if your problem is related to EU Exit'
+        ),
+        error_messages={
+            'required': 'Tell us if your problem is related to EU Exit'
         }
-
-        for field_name in required_error_messages:
-            self.fields[field_name].error_messages = {
-                'required': required_error_messages[field_name]
-            }
+    )
 
 
 class OtherDetailsForm(forms.Form):

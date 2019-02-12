@@ -24,6 +24,10 @@
 
 .list.list-bullet {
     margin: 0;
+
+    + p {
+        margin-top: 1em;
+    }
 }
 
 .list.list-bullet.list-bullet li:before {
@@ -79,9 +83,10 @@ form {
     .form-label {
         padding-bottom: 0.25em;
     }
-    span {
-        padding-bottom: 1em;
-    }
+}
+
+.form-hint {
+    padding-bottom: 1em;
 }
 
 .error-message-box {
