@@ -17,6 +17,10 @@
     <p>{{all_cleaned_data.jobtitle}}</p>
     <p class="bold-small"> Business type </p>
     <p>{{all_cleaned_data.categories}}</p>
+    {% if all_cleaned_data.categories == "Other" %}
+        <p class="bold-small"> Tell us about your organisation </p>
+        <p>{{all_cleaned_data.organisation_description}}</p>
+    {% endif %}
     <p class="bold-small"> Business or organisation name </p>
     <p>{{all_cleaned_data.company_name}}</p>
     <p class="bold-small"> Email </p>

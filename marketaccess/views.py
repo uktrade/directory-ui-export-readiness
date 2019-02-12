@@ -75,8 +75,7 @@ class ReportMarketAccessBarrierFormView(
             context['all_cleaned_data'] = data
         if form.errors: 
             for field in form:
-                print(field)
-            context['formatted_form_errors'] = render_to_string('marketaccess/report_barrier_form/error-link-list.html', {'form': form})
+                context['formatted_form_errors'] = render_to_string('marketaccess/report_barrier_form/error-link-list.html', {'form': form})
         return context
 
     def render_next_step(self, form, **kwargs):

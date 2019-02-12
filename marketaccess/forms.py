@@ -25,7 +25,7 @@ class CurrentStatusForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(CurrentStatusForm, self).__init__(*args, **kwargs)
 
-        self.fields['status'].error_messages = {'required': 'Choose which option best describes your situation'}
+        self.fields['status'].error_messages = {'required': 'Choose the option that best describes your situation'}
 
 
 class AboutForm(forms.Form):
@@ -56,11 +56,18 @@ class AboutForm(forms.Form):
     email = fields.EmailField(label='Email address')
     phone = fields.CharField(label='Telephone number')
 
+    def clean(self):
+        data = self.cleaned_data
+        if data.get('categories', None) == 'Other' and data.get('organisation_description', '') == '':
+            self.add_error('organisation_description', 'Enter your organisation')
+        else:
+            return data
+
     def __init__(self, *args, **kwargs):
         super(AboutForm, self).__init__(*args, **kwargs)
         
         for field in self.fields.values():
-            field.error_messages = {'required':'Enter your {fieldname}'.format(fieldname=field.label)}
+            field.error_messages = {'required':'Enter your {fieldname}'.format(fieldname=field.label.lower())}
         
         self.fields['categories'].error_messages = {'required': 'Tell us your business type'}
 
@@ -137,7 +144,7 @@ class ProblemDetailsForm(forms.Form):
             'problem_summary': 'Tell us about the barrier you’re facing',
             'impact': 'Tell us how your business is being affected by the barrier',
             'resolve_summary': 'Tell us what you’ve done to resolve your problem, even if this is your first step',
-            'eu_exit_related': 'Tell us if your problem related to EU Exit'
+            'eu_exit_related': 'Tell us if your problem is related to EU Exit'
         }
 
         for field_name in required_error_messages:
