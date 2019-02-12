@@ -18,7 +18,6 @@ import marketaccess.views
 from conf.url_redirects import redirects
 
 
-
 sitemaps = {
     'static': core.views.StaticViewSitemap,
 }
