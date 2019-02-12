@@ -81,7 +81,7 @@ def test_form_submission(mock_zendesk_action, client):
             'problem-details-problem_summary': 'problem summary',
             'problem-details-impact': 'problem impact',
             'problem-details-resolve_summary': 'steps in resolving',
-            'problem-details-eu_exit_related': False,
+            'problem-details-eu_exit_related': 'No',
 
         }
     )
@@ -138,7 +138,7 @@ def test_form_submission(mock_zendesk_action, client):
         'problem_summary': 'problem summary',
         'impact': 'problem impact',
         'resolve_summary': 'steps in resolving',
-        'eu_exit_related': 'False',
+        'eu_exit_related': 'No',
         'other_details': 'additional details'
     })
 

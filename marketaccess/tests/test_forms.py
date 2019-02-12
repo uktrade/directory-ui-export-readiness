@@ -139,7 +139,7 @@ def problem_details_form_data():
         'problem_summary': 'problem summary',
         'impact': 'problem impact',
         'resolve_summary': 'steps in resolving',
-        'eu_exit_related': 'False',
+        'eu_exit_related': 'No',
     }
 
 
