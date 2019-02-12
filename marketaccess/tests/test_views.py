@@ -29,6 +29,8 @@ def test_form_submission_redirects_if_not_option_4_in_current_status(
 ):
     url_name = 'report-ma-barrier'
     view_name = 'report_market_access_barrier_form_view'
+    emergency_details_url = '/marketaccess/report-barrier/emergency-details/'
+    about_url = '/marketaccess/report-barrier/about/'
 
     response = client.post(
         reverse(url_name, kwargs={'step': 'current-status'}),
@@ -40,11 +42,9 @@ def test_form_submission_redirects_if_not_option_4_in_current_status(
 
     assert response.status_code == 302
     if status != "4":
-        assert response._headers['location'][1] == '/marketaccess/report-barrier/\
-        emergency-details/'
+        assert response._headers['location'][1] == emergency_details_url
     else:
-        assert response._headers['location'][1] == '/marketaccess/report-barrier/\
-        about/'
+        assert response._headers['location'][1] == about_url
 
 
 @mock.patch('directory_forms_api_client.actions.ZendeskAction')
