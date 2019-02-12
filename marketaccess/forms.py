@@ -1,9 +1,9 @@
 from directory_constants.constants import choices
 from directory_components import forms, fields, widgets
 from django.utils.safestring import mark_safe
-from django.shortcuts import redirect
 
-from django.forms import Select, Textarea, TextInput, ValidationError
+from django.forms import Select, Textarea, TextInput
+
 
 class CurrentStatusForm(forms.Form):
     error_css_class = 'input-field-container has-error'
@@ -25,7 +25,9 @@ class CurrentStatusForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(CurrentStatusForm, self).__init__(*args, **kwargs)
 
-        self.fields['status'].error_messages = {'required': 'Choose the option that best describes your situation'}
+        self.fields['status'].error_messages = {
+            'required': 'Choose the option that best describes your situation'
+        }
 
 
 class AboutForm(forms.Form):
@@ -67,9 +69,13 @@ class AboutForm(forms.Form):
         super(AboutForm, self).__init__(*args, **kwargs)
         
         for field in self.fields.values():
-            field.error_messages = {'required':'Enter your {fieldname}'.format(fieldname=field.label.lower())}
+            field.error_messages = {
+                'required':'Enter your {fieldname}'.format(fieldname=field.label.lower())
+            }
         
-        self.fields['categories'].error_messages = {'required': 'Tell us your business type'}
+        self.fields['categories'].error_messages = {
+            'required': 'Tell us your business type'
+        }
 
 
 class ProblemDetailsForm(forms.Form):
@@ -101,9 +107,9 @@ class ProblemDetailsForm(forms.Form):
         label=mark_safe(
             '<p>Tell us about your problem, including: </p> \
             <ul class="list list-bullet"> \
-              <li>what’s affecting to your export or investment</li> \
+              <li>what’s affecting your export or investment</li> \
               <li>when you became aware of the problem</li> \
-              <li>how you came aware of the problem</li> \
+              <li>how you became aware of the problem</li> \
               <li>if it’s a one off</li> \
               <li>any information you’ve been given or correspondence you’ve had</li> \
               <li>the HS (Harmonized System) code for your goods, if you know it</li> \
@@ -130,8 +136,8 @@ class ProblemDetailsForm(forms.Form):
             use_nice_ids=True, attrs={'id': 'radio-one'}
         ),
         choices=(
-            (True, 'Yes'),
-            (False, 'No')
+            ('Yes', 'Yes'),
+            ('No', 'No')
         )
     )
 
