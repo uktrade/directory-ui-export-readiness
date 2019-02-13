@@ -4,12 +4,62 @@ from marketaccess import forms
 
 
 @pytest.fixture
+def current_status_form_data():
+    return {
+        'status': '1'
+    }
+
+
+def test_current_status_form_initial():
+    form = forms.CurrentStatusForm()
+    assert form.fields['status'].initial is None
+
+
+def test_current_status_form_mandatory_fields():
+    form = forms.CurrentStatusForm(data={})
+    assert form.fields['status'].required is True
+
+
+def test_current_status_form_serialize():
+    form = forms.CurrentStatusForm(
+        data=current_status_form_data()
+    )
+    assert form.is_valid()
+    assert form.cleaned_data == current_status_form_data()
+
+
+def test_check_current_status_error_messages():
+    form = forms.CurrentStatusForm(
+        data={}
+    )
+    assert len(form.errors) == 1
+    assert form.errors['status'] == [
+        'Choose the option that best describes your situation'
+    ]
+
+
+@pytest.fixture
 def about_form_data():
     return {
         'firstname': 'Craig',
         'lastname': 'Smith',
         'jobtitle': 'Musician',
-        'categories': "I'm an exporter / seeking to export",
+        'categories': "I’m an exporter or I want to export",
+        'organisation_description': '',
+        'company_name': 'Craig Music',
+        'email': 'craig@craigmusic.com',
+        'phone': '0123456789'
+    }
+
+
+@pytest.fixture
+def about_form_data_with_other_business_type():
+    return {
+        'firstname': 'Craig',
+        'lastname': 'Smith',
+        'jobtitle': 'Musician',
+        'categories': "Other",
+        'organisation_description': "Other business type",
         'company_name': 'Craig Music',
         'email': 'craig@craigmusic.com',
         'phone': '0123456789'
@@ -22,6 +72,7 @@ def test_about_form_initial():
     assert form.fields['lastname'].initial is None
     assert form.fields['jobtitle'].initial is None
     assert form.fields['categories'].initial is None
+    assert form.fields['organisation_description'].initial is None
     assert form.fields['company_name'].initial is None
     assert form.fields['email'].initial is None
     assert form.fields['phone'].initial is None
@@ -34,6 +85,7 @@ def test_about_form_mandatory_fields():
     assert form.fields['lastname'].required is True
     assert form.fields['jobtitle'].required is True
     assert form.fields['categories'].required is True
+    assert form.fields['organisation_description'].required is False
     assert form.fields['company_name'].required is True
     assert form.fields['email'].required is True
     assert form.fields['phone'].required is True
@@ -47,6 +99,43 @@ def test_about_form_serialize():
     assert form.cleaned_data == about_form_data()
 
 
+def test_about_form_with_other_serializes():
+    form = forms.AboutForm(
+        data=about_form_data_with_other_business_type()
+    )
+
+    assert form.is_valid()
+    assert form.cleaned_data == about_form_data_with_other_business_type()
+
+
+def test_organisation_description_is_required_if_other_business_type():
+    form_data = about_form_data_with_other_business_type()
+    form_data['organisation_description'] = ''
+    form = forms.AboutForm(
+        data=form_data
+    )
+
+    assert len(form.errors) == 1
+    assert form.errors['organisation_description'] == [
+        'Enter your organisation'
+    ]
+
+
+def test_about_form_error_messages():
+    form = forms.AboutForm(
+        data={}
+    )
+
+    assert len(form.errors) == 7
+    form.errors['firstname'] == ['Enter your first name']
+    form.errors['lastname'] == ['Enter your last name']
+    form.errors['jobtitle'] == ['Enter your job title']
+    form.errors['categories'] == ['Enter your business type']
+    form.errors['company_name'] == ['Enter your company name']
+    form.errors['email'] == ['Enter your email']
+    form.errors['phone'] == ['Enter your phone number']
+
+
 @pytest.fixture
 def problem_details_form_data():
     return {
@@ -55,7 +144,7 @@ def problem_details_form_data():
         'problem_summary': 'problem summary',
         'impact': 'problem impact',
         'resolve_summary': 'steps in resolving',
-        'eu_exit_related': 'False',
+        'eu_exit_related': 'No',
     }
 
 
@@ -88,6 +177,33 @@ def test_problem_details_form_serialize():
     assert form.cleaned_data == problem_details_form_data()
 
 
+def test_problem_details_error_messages():
+    form = forms.ProblemDetailsForm(
+        data={}
+    )
+
+    assert len(form.errors) == 6
+    form.errors['product_service'] == [
+        'Tell us what you’re trying to export or invest in'
+    ]
+    form.errors['country'] == [
+        'Select the country you’re trying to export to'
+        ]
+    form.errors['problem_summary'] == [
+        'Tell us about the barrier you’re facing'
+    ]
+    form.errors['impact'] == [
+        'Tell us how your business is being affected by the barrier'
+    ]
+    form.errors['resolve_summary'] == [
+        'Tell us what you’ve done to resolve your problem, \
+        even if this is your first step'
+    ]
+    form.errors['eu_exit_related'] == [
+        'Tell us if your problem is related to EU Exit'
+    ]
+
+
 @pytest.fixture
 def other_details_form_data():
     return {
@@ -103,7 +219,7 @@ def test_other_details_form_initial():
 def test_other_details_form_mandatory_fields():
     form = forms.OtherDetailsForm(data={})
 
-    assert form.fields['other_details'].required is True
+    assert form.fields['other_details'].required is False
 
 
 def test_other_details_form_serialize():

@@ -5,7 +5,35 @@
 {% block extra_contents %}
     <p>Report a trade barrier</p>
     <p class="bold-small">
-        {{ wizard.steps.step1 }} of {{ wizard.steps.count }}
+        Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}
     </p>
-    <h1 class="heading-large">About you and your business or Organisation</h1>
+    <h1 class="heading-large">About you and your business</h1>
+{% endblock %}
+
+{% block body_js %}
+    <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
+    <script type="text/javascript">
+        var businessTypesExporter = document.getElementById('checkbox-single-im-an-exporter-or-i-want-to-export');
+        var businessTypesTradeAssociation = document.getElementById('checkbox-single-i-work-for-a-trade-association')
+        var businessTypesOther = document.getElementById('checkbox-single-other');
+        var otherTypesTextbox = document.getElementById('id_about-organisation_description');
+        var otherBusinessTypesContainer = document.getElementById('id_about-organisation_description-container');
+
+        GOVUK.utils.toggleRadioOtherOnClick(businessTypesOther, otherBusinessTypesContainer);
+
+        function clearUpValuesOnTypeChange() {
+          var typesArray = [businessTypesExporter, businessTypesTradeAssociation, businessTypesOther];
+          for (var i = 0; i < typesArray.length; i++) {
+            typesArray[i].addEventListener('change', function(event) {
+                if (event.target.checked) {
+                    otherTypesTextbox.value = '';
+                }
+            });
+          }
+        }
+
+        clearUpValuesOnTypeChange();
+    </script>
+
+
 {% endblock %}

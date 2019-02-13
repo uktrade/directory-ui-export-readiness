@@ -5,44 +5,53 @@
 {% block extra_contents %}
     <p>Report a trade barrier</p>
     <p class="bold-small">
-        {{ wizard.steps.step1 }} of {{ wizard.steps.count }}
+        Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}
     </p>
     <h1 class="heading-large">Summary</h1>
-    <h2 class="heading-medium">About you and your business or organisation</h2>
-    <p class="bold-small"> First name </p>
-    <p>{{all_cleaned_data.firstname}}</p>
-    <p class="bold-small"> Last name </p>
-    <p>{{all_cleaned_data.lastname}}</p>
-    <p class="bold-small"> Job title </p>
-    <p>{{all_cleaned_data.jobtitle}}</p>
-    <p class="bold-small"> Exporter or trade association </p>
-    <p>{{all_cleaned_data.categories}}</p>
-    <p class="bold-small"> Company name </p>
-    <p>{{all_cleaned_data.company_name}}</p>
-    <p class="bold-small"> Email </p>
-    <p>{{all_cleaned_data.email}}</p>
-    <p class="bold-small"> Phone </p>
-    <p>{{all_cleaned_data.phone}}</p>
+    <h2 class="heading-medium">About you and your business</h2>
+    <dl>
+        <dt class="bold-small">First name</dt>
+        <dd class="font-small">{{all_cleaned_data.firstname}}</dd>
+        <dt class="bold-small">Last name</dt>
+        <dd class="font-small">{{all_cleaned_data.lastname}}</dd>
+        <dt class="bold-small">Job title</dt>
+        <dd class="font-small">{{all_cleaned_data.jobtitle}}</dd>
+        <dt class="bold-small">Business type</dt>
+        <dd class="font-small">{{all_cleaned_data.categories}}</dd>
+        {% if all_cleaned_data.categories == "Other" %}
+            <dt class="bold-small">Tell us about your organisation</dt>
+            <dd class="font-small">{{all_cleaned_data.organisation_description}}</dd>
+        {% endif %}
+        <dt class="bold-small">Business or organisation name</dt>
+        <dd class="font-small">{{all_cleaned_data.company_name}}</dd>
+        <dt class="bold-small">Email</dt>
+        <dd class="font-small">{{all_cleaned_data.email}}</dd>
+        <dt class="bold-small">Phone</dt>
+        <dd class="font-small">{{all_cleaned_data.phone}}</dd>
+    </dl>
     <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='about' %}?from=summary">Change answers</a>
-    <h2 class="heading-medium">Describe the problem</h2>
-    <p class="bold-small"> What is the product or service you want to export? </p>
-    <p>{{all_cleaned_data.product_service}}</p>
-    <p class="bold-small"> Which country are you trying to export to? </p>
-    <p>{{all_cleaned_data.country}}</p>
-    <p class="bold-small"> Provide a brief description of the problem </p>
-    <p>{{all_cleaned_data.problem_summary}}</p>
-    <p class="bold-small"> If the problem has ended, what was the impact? </p>
-    <p>{{all_cleaned_data.impact}}</p>
-    <p class="bold-small"> Tell us about any steps you have taken to resolve the problem </p>
-    <p>{{all_cleaned_data.resolve_summary}}</p>
-    <p class="bold-small"> Is this issue caused by or related to EU Exit? </p>
-    <p>{{all_cleaned_data.eu_exit_related}}</p>
+    <h2 class="heading-medium">Describe your problem</h2>
+    <dl>
+        <dt class="bold-small">What goods or services do you want to export?</dt>
+        <dd class="font-small">{{all_cleaned_data.product_service}}</dd>
+        <dt class="bold-small">Which country do you want to export to?</dt>
+        <dd class="font-small">{{all_cleaned_data.country}}</dd>
+        <dt class="bold-small">Tell us about your problem</dt>
+        <dd class="font-small">{{all_cleaned_data.problem_summary}}</dd>
+        <dt class="bold-small">How has the problem affected your business?</dt>
+        <dd class="font-small">{{all_cleaned_data.impact}}</dd>
+        <dt class="bold-small">Tell us about any steps you’ve taken to resolve the problem</dt>
+        <dd class="font-small">{{all_cleaned_data.resolve_summary}}</dd>
+        <dt class="bold-small">Is your problem caused by or related to EU Exit?</dt>
+        <dd class="font-small">{{all_cleaned_data.eu_exit_related}}</dd>
+    </dl>
     <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='problem-details' %}?from=summary">Change answers</a>
-    <h2 class="heading-medium">Any other details</h2>
-    <p class="bold-small"> Is there anything else you would like us to understand about the situation? </p>
-    <p>{{all_cleaned_data.other_details}}</p>
+    <h2 class="heading-medium">Tell us more about your problem</h2>
+    <dl>
+        <dt class="bold-small">Do you want to tell us anything else about your problem?</dt>
+        <dd class="font-small">{{all_cleaned_data.other_details|default:"No information added" }}</dd>
+    </dl>
     <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='other-details' %}?from=summary">Change answers</a>
-
+    <p class="privacy-policy-text">By submitting this form you agree to our <a class='link' href='{% url 'privacy-and-cookies' %}'>privacy policy</a>.</p>
 {% endblock %}
-
-{% block submit_button_label %}Submit report{% endblock %}
+{% block submit_button_label %}Send report{% endblock %}

@@ -24,6 +24,10 @@
 
 .list.list-bullet {
     margin: 0;
+
+    + p {
+        margin-top: 1em;
+    }
 }
 
 .list.list-bullet.list-bullet li:before {
@@ -31,7 +35,7 @@
 }
 
 .form-label {
-    padding-bottom: 1em;
+    padding-bottom: 15px;
 }
 
 .breadcrumbs {
@@ -49,9 +53,16 @@
 .message-box {
     margin-top: 90px;
     margin-bottom: 0;
+    .box-description {
+        a {
+            display: block;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    }
 }
 
-.button.final {
+.privacy-policy-text {
     margin-top: 40px;
 }
 
@@ -66,4 +77,23 @@ form {
         margin-top: 40px;
         display: block;
     }
+}
+
+#id_problem-details-product_service-container {
+    .form-label {
+        padding-bottom: 4px;
+    }
+}
+
+.form-hint {
+    padding-bottom: 15px;
+}
+
+.error-message-box {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+dt, dd {
+    margin: 15px 0;
 }

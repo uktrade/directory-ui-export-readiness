@@ -519,6 +519,11 @@ marketaccess_urls = [
         name='market-access'
     ),
     url(
+        r'^marketaccess/report-barrier/emergency-details/$',
+        marketaccess.views.ReportBarrierEmergencyView.as_view(),
+        name='market-access-emergency'
+    ),
+    url(
         r'^marketaccess/report-barrier/success/$',
         marketaccess.views.ReportMarketAccessBarrierSuccessView.as_view(),
         name='report-barrier-form-success'
@@ -527,7 +532,7 @@ marketaccess_urls = [
         r'^marketaccess/report-barrier/(?P<step>.+)/$',
         marketaccess.views.ReportMarketAccessBarrierFormView.as_view(
             url_name='report-ma-barrier',
-            done_step_name='finish'
+            done_step_name='finished',
         ),
         name='report-ma-barrier'
     ),
