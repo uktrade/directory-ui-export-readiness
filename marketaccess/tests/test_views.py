@@ -1,7 +1,6 @@
 from unittest import mock
 
 from django.conf import settings
-
 from django.urls import reverse
 
 import pytest
@@ -45,6 +44,21 @@ def test_form_submission_redirects_if_not_option_4_in_current_status(
         assert response._headers['location'][1] == emergency_details_url
     else:
         assert response._headers['location'][1] == about_url
+
+
+def test_error_box_at_top_of_page_shows(client):
+    url_name = 'report-ma-barrier'
+    view_name = 'report_market_access_barrier_form_view'
+
+    response = client.post(
+        reverse(url_name, kwargs={'step': 'current-status'}),
+        {
+            view_name + '-current_step': 'current-status',
+            'current-status-status': '',
+        }
+    )
+    assert response.status_code == 200
+    assert 'error-message-box' in str(response.content)
 
 
 @mock.patch('directory_forms_api_client.actions.ZendeskAction')
