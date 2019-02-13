@@ -7,7 +7,7 @@ import pytest
 
 
 def test_form_feature_flag_off(client, settings):
-    settings.FEATURE_FLAGS['MARKET_ACCESS_FORM_ON'] = False
+    settings.FEATURE_FLAGS['MARKET_ACCESS_ON'] = False
 
     response = client.get(reverse('market-access'))
 
@@ -15,7 +15,7 @@ def test_form_feature_flag_off(client, settings):
 
 
 def test_form_feature_flag_on(client, settings):
-    settings.FEATURE_FLAGS['MARKET_ACCESS_FORM_ON'] = True
+    settings.FEATURE_FLAGS['MARKET_ACCESS_ON'] = True
 
     response = client.get(reverse('market-access'))
 

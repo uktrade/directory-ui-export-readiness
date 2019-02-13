@@ -67,7 +67,7 @@ class ReportMarketAccessBarrierFormView(
 
     @property
     def flag(self):
-        return settings.FEATURE_FLAGS['MARKET_ACCESS_FORM_ON']
+        return settings.FEATURE_FLAGS['MARKET_ACCESS_ON']
 
     def get_template_names(self):
         return [self.templates[self.steps.current]]
