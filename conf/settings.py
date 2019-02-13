@@ -409,6 +409,9 @@ FEATURE_FLAGS = {
     'MARKET_ACCESS_FORM_ON': env.bool(
         'FEATURE_MARKET_ACCESS_FORM_ENABLED', False
     ),
+    'MARKET_ACCESS_ON': env.bool(
+        'FEATURE_MARKET_ACCESS_ENABLED', False
+    ),
     'NEW_REGISTRATION_JOURNEY_ON': env.bool(
         'FEATURE_NEW_REGISTRATION_ENABLED', False
     ),
