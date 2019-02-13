@@ -109,7 +109,7 @@ def test_form_submission(mock_zendesk_action, client):
         reverse(url_name, kwargs={'step': 'other-details'}),
         {
             view_name + '-current_step': 'other-details',
-            'other-details-other_details': 'additional details'
+            'other-details-other_details': 'Additional details'
         }
     )
     assert response.status_code == 302
@@ -154,7 +154,7 @@ def test_form_submission(mock_zendesk_action, client):
         'impact': 'problem impact',
         'resolve_summary': 'steps in resolving',
         'eu_exit_related': 'No',
-        'other_details': 'additional details'
+        'other_details': 'Additional details'
     })
 
 
