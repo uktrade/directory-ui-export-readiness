@@ -30,7 +30,8 @@ class ReportBarrierEmergencyView(
 
 class ReportMarketAccessBarrierSuccessView(
     mixins.MarketAccessFeatureFlagMixin,
-    TemplateView):
+    TemplateView
+):
     template_name = "marketaccess/report_barrier_form/success.html"
 
 
