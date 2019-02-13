@@ -52,6 +52,6 @@
         <dd class="font-small">{{all_cleaned_data.other_details|default:"No information added" }}</dd>
     </dl>
     <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='other-details' %}?from=summary">Change answers</a>
-    <p class="privacy-policy-text">By submitting this form you agree to our <a href="">privacy policy</a>.</p>
+    <p class="privacy-policy-text">By submitting this form you agree to our <a class='link' href='{% url 'privacy-and-cookies' %}'>privacy policy</a>.</p>
 {% endblock %}
 {% block submit_button_label %}Send report{% endblock %}
