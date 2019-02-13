@@ -10,34 +10,32 @@ from django.views.generic import TemplateView
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
 
-
 from core import mixins
 from marketaccess import forms
 
 
 class MarketAccessView(
-    mixins.NotFoundOnDisabledFeature,
+    mixins.MarketAccessFeatureFlagMixin,
     TemplateView
 ):
     template_name = "marketaccess/report_a_barrier.html"
 
-    @property
-    def flag(self):
-        return settings.FEATURE_FLAGS['MARKET_ACCESS_FORM_ON']
-
 
 class ReportBarrierEmergencyView(
+    mixins.MarketAccessFeatureFlagMixin,
     TemplateView
 ):
     template_name = "marketaccess/report_barrier_emergency_details.html"
 
 
-class ReportMarketAccessBarrierSuccessView(TemplateView):
+class ReportMarketAccessBarrierSuccessView(
+    mixins.MarketAccessFeatureFlagMixin,
+    TemplateView):
     template_name = "marketaccess/report_barrier_form/success.html"
 
 
 class ReportMarketAccessBarrierFormView(
-    mixins.NotFoundOnDisabledFeature,
+    mixins.MarketAccessFeatureFlagMixin,
     NamedUrlSessionWizardView
 ):
     CURRENT_STATUS = 'current-status'
@@ -64,10 +62,6 @@ class ReportMarketAccessBarrierFormView(
         SUMMARY: f'{form_template_directory}step-summary.html',
         FINISHED: f'{form_template_directory}success.html',
     }
-
-    @property
-    def flag(self):
-        return settings.FEATURE_FLAGS['MARKET_ACCESS_ON']
 
     def get_template_names(self):
         return [self.templates[self.steps.current]]
