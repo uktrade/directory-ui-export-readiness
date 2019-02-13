@@ -9,7 +9,6 @@
 <link href="{% static 'styles/marketaccess.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
-
 {% block content %}
 <div class="container">
     <div class="breadcrumbs">
@@ -23,9 +22,10 @@
 <section class="background-stone-30">
     <div class="container">
         <div class="grid-row">
-        {{ email }}
             <div class="column-two-thirds">
-                {% message_box heading="We’ve received your report" description="Thank you. We’ve sent a confirmation message to yourname@email.com." %}
+                {% with 'Thank you. We’ve sent a confirmation message to '|add:all_cleaned_data.email as success_message %}
+                    {% message_box heading="We’ve received your report" description=success_message %}
+                {% endwith %}
             </div>
         </div>
     </div>

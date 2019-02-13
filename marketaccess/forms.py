@@ -11,15 +11,15 @@ class CurrentStatusForm(forms.Form):
         (
             1,
             'My perishable goods or livestock are blocked in transit'
-        ), 
+        ),
         (
             2,
             'I’m at immediate risk of missing a commercial opportunity'
-        ), 
+        ),
         (
             3,
             'I’m at immediate risk of not fulfilling a contract'
-        ), 
+        ),
         (
             4,
             'I need resolution quickly, but I’m not at immediate risk of loss'
@@ -97,7 +97,7 @@ class AboutForm(forms.Form):
             'required': 'Enter your email address'
         }
     )
-    
+
     phone = fields.CharField(
         label='Telephone number',
         error_messages={

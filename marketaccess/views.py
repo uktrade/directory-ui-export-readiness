@@ -8,6 +8,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
 from django.template.loader import render_to_string
+from django.template.response import TemplateResponse
 
 
 from core import mixins
@@ -44,6 +45,7 @@ class ReportMarketAccessBarrierFormView(
     PROBLEM_DETAILS = 'problem-details'
     OTHER_DETAILS = 'other-details'
     SUMMARY = 'summary'
+    FINISHED = 'finished'
 
     form_list = (
         (CURRENT_STATUS, forms.CurrentStatusForm),
@@ -53,12 +55,14 @@ class ReportMarketAccessBarrierFormView(
         (SUMMARY, forms.SummaryForm),
     )
 
+    form_template_directory = 'marketaccess/report_barrier_form/'
     templates = {
-        CURRENT_STATUS: 'marketaccess/report_barrier_form/step-current-status.html',
-        ABOUT: 'marketaccess/report_barrier_form/step-about.html',
-        PROBLEM_DETAILS: 'marketaccess/report_barrier_form/step-problem.html',
-        OTHER_DETAILS: 'marketaccess/report_barrier_form/step-others.html',
-        SUMMARY: 'marketaccess/report_barrier_form/step-summary.html',
+        CURRENT_STATUS: f'{form_template_directory}step-current-status.html',
+        ABOUT: f'{form_template_directory}step-about.html',
+        PROBLEM_DETAILS: f'{form_template_directory}step-problem.html',
+        OTHER_DETAILS: f'{form_template_directory}step-others.html',
+        SUMMARY: f'{form_template_directory}step-summary.html',
+        FINISHED: f'{form_template_directory}success.html',
     }
 
     @property
@@ -90,9 +94,7 @@ class ReportMarketAccessBarrierFormView(
         if self.steps.current == self.CURRENT_STATUS and status != "4":
             return redirect('market-access-emergency')
         else:
-            next_step = self.get_next_step()
-            self.storage.current_step = next_step
-            return redirect(self.get_step_url(next_step))
+            return super().render_next_step(form=form, **kwargs)
 
     def serialize_form_list(self, form_list):
         data = {}
@@ -100,7 +102,7 @@ class ReportMarketAccessBarrierFormView(
             data.update(form.cleaned_data)
         return data
 
-    def done(self, form_list, **kwargs):
+    def done(self, form_list, form_dict, **kwargs):
         data = self.serialize_form_list(form_list)
         subject = (
             f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: "
@@ -120,4 +122,10 @@ class ReportMarketAccessBarrierFormView(
         )
         response = action.save(data)
         response.raise_for_status()
-        return redirect('report-barrier-form-success')
+
+        context = {'all_cleaned_data': self.get_all_cleaned_data()}
+        return TemplateResponse(
+            self.request,
+            self.templates['finished'],
+            context
+        )

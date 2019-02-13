@@ -532,7 +532,7 @@ marketaccess_urls = [
         r'^marketaccess/report-barrier/(?P<step>.+)/$',
         marketaccess.views.ReportMarketAccessBarrierFormView.as_view(
             url_name='report-ma-barrier',
-            done_step_name='finish',
+            done_step_name='finished',
         ),
         name='report-ma-barrier'
     ),
