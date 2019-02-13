@@ -38,7 +38,7 @@ django-redis==4.8.0
 django==1.11.18
 djangorestframework==3.8.2  # via sigauth
 execnet==1.5.0            # via pytest-xdist
-export-elements==1.0.3
+export-elements==1.1.0
 flake8==3.5.0
 freezegun==0.3.10
 geoip2==2.9.0

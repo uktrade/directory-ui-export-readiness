@@ -74,20 +74,21 @@ body.webp-enabled {
 // Sections
 
 .landing-page {
-  *[class$="-section"] {
-    padding-top: 1em;
 
-    .intro {
-      padding-bottom: 2em;
-    }
+  .card-grid > * > .card {
+    flex-grow: 1;
   }
 
   .news-section {
     padding-bottom: 0;
   }
 
-  .hero .heading-xlarge {
-    margin-bottom: .9375em
+  .hero {
+    overflow: auto;
+
+    .heading-xlarge {
+      margin-bottom: .9375em
+    }
   }
 
   .triage-section,
