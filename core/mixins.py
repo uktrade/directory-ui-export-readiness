@@ -49,6 +49,12 @@ class PerformanceDashboardFeatureFlagMixin(NotFoundOnDisabledFeature):
         return settings.FEATURE_FLAGS['PERFORMANCE_DASHBOARD_ON']
 
 
+class MarketAccessFeatureFlagMixin(NotFoundOnDisabledFeature):
+    @property
+    def flag(self):
+        return settings.FEATURE_FLAGS['MARKET_ACCESS_ON']
+
+
 class GetCMSPageMixin:
     @cached_property
     def page(self):

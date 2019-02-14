@@ -7,7 +7,7 @@ import pytest
 
 
 def test_form_feature_flag_off(client, settings):
-    settings.FEATURE_FLAGS['MARKET_ACCESS_FORM_ON'] = False
+    settings.FEATURE_FLAGS['MARKET_ACCESS_ON'] = False
 
     response = client.get(reverse('market-access'))
 
@@ -15,7 +15,7 @@ def test_form_feature_flag_off(client, settings):
 
 
 def test_form_feature_flag_on(client, settings):
-    settings.FEATURE_FLAGS['MARKET_ACCESS_FORM_ON'] = True
+    settings.FEATURE_FLAGS['MARKET_ACCESS_ON'] = True
 
     response = client.get(reverse('market-access'))
 
@@ -28,8 +28,8 @@ def test_form_submission_redirects_if_not_option_4_in_current_status(
 ):
     url_name = 'report-ma-barrier'
     view_name = 'report_market_access_barrier_form_view'
-    emergency_details_url = '/marketaccess/report-barrier/emergency-details/'
-    about_url = '/marketaccess/report-barrier/about/'
+    emergency_details_url = '/market-access/report-barrier/emergency-details/'
+    about_url = '/market-access/report-barrier/about/'
 
     response = client.post(
         reverse(url_name, kwargs={'step': 'current-status'}),
