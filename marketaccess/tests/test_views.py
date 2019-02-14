@@ -28,8 +28,8 @@ def test_form_submission_redirects_if_not_option_4_in_current_status(
 ):
     url_name = 'report-ma-barrier'
     view_name = 'report_market_access_barrier_form_view'
-    emergency_details_url = '/marketaccess/report-barrier/emergency-details/'
-    about_url = '/marketaccess/report-barrier/about/'
+    emergency_details_url = '/market-access/report-barrier/emergency-details/'
+    about_url = '/market-access/report-barrier/about/'
 
     response = client.post(
         reverse(url_name, kwargs={'step': 'current-status'}),
